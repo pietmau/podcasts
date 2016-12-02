@@ -7,7 +7,7 @@ import android.os.Bundle;
 
 import com.pietrantuono.podcasts.main.MainPresenter;
 import com.pietrantuono.podcasts.main.MainView;
-import com.pietrantuono.podcasts.main.ModelService;
+import com.pietrantuono.podcasts.main.model.ModelService;
 import com.pietrantuono.podcasts.main.dagger.DaggerMainComponent;
 import com.pietrantuono.podcasts.main.dagger.MainModule;
 

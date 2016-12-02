@@ -9,7 +9,8 @@ import android.os.IBinder;
 
 import com.pietrantuono.podcasts.main.MainPresenter;
 import com.pietrantuono.podcasts.main.MainPresenterImpl;
-import com.pietrantuono.podcasts.main.ModelService;
+import com.pietrantuono.podcasts.main.model.MainModel;
+import com.pietrantuono.podcasts.main.model.ModelService;
 
 import dagger.Module;
 import dagger.Provides;
@@ -18,14 +19,17 @@ import dagger.Provides;
 public class MainModule {
     private final Intent modelServiceIntent;
     private final ServiceConnection modelServiceConnection;
+    private MainPresenter mainPresenter;
+    private MainModel mainModel;
 
     public MainModule(Activity activity) {
         this.modelServiceIntent = new Intent(activity, ModelService.class);
         activity.startService(modelServiceIntent);
         modelServiceConnection = new ServiceConnection() {
             @Override
-            public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-
+            public void onServiceConnected(ComponentName componentName, IBinder binder) {
+                mainModel = ((ModelService.ModelServiceBinder) binder).getModel();
+                mainPresenter.onModelBound(mainModel);
             }
 
             @Override
@@ -38,7 +42,8 @@ public class MainModule {
 
     @Provides
     MainPresenter provideMainPresenter() {
-        return new MainPresenterImpl();
+        mainPresenter = new MainPresenterImpl();
+        return mainPresenter;
     }
 
     @Provides
