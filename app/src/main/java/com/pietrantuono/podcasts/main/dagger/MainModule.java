@@ -2,7 +2,6 @@ package com.pietrantuono.podcasts.main.dagger;
 
 import android.app.Activity;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
@@ -34,10 +33,9 @@ public class MainModule {
 
             @Override
             public void onServiceDisconnected(ComponentName componentName) {
-
+                mainPresenter.onModelDisconnected(mainModel);
             }
         };
-        activity.bindService(modelServiceIntent, modelServiceConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Provides

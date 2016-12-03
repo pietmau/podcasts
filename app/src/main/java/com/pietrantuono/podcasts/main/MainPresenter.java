@@ -12,10 +12,18 @@ public class MainPresenter {
 
     public void OnCreate(MainView view) {
         this.view = view;
-        
     }
 
     public void onModelBound(MainModel mainModel) {
+
+    }
+
+    public void onDestroy() {
+
+
+    }
+
+    public void onModelDisconnected(MainModel mainModel) {
 
     }
 }
