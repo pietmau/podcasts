@@ -1,4 +1,4 @@
-package com.pietrantuono.podcasts.main.dagger;
+package com.pietrantuono.podcasts.addpodcast.dagger;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -6,21 +6,21 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 
-import com.pietrantuono.podcasts.main.presenter.MainPresenter;
 import com.pietrantuono.podcasts.main.model.MainModel;
 import com.pietrantuono.podcasts.main.model.ModelService;
+import com.pietrantuono.podcasts.main.presenter.MainPresenter;
 
 import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class MainModule {
+public class AddPodcastModule {
     private final Intent modelServiceIntent;
     private final ServiceConnection modelServiceConnection;
     private MainPresenter mainPresenter;
     private MainModel mainModel;
 
-    public MainModule(Activity activity) {
+    public AddPodcastModule(Activity activity) {
         this.modelServiceIntent = new Intent(activity, ModelService.class);
         activity.startService(modelServiceIntent);
         modelServiceConnection = new ServiceConnection() {

@@ -1,4 +1,4 @@
-package com.pietrantuono.podcasts.main;
+package com.pietrantuono.podcasts.main.model;
 
 import com.pietrantuono.podcasts.main.model.MainModel;
 

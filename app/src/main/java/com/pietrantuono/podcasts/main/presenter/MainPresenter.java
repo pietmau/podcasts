@@ -1,5 +1,6 @@
-package com.pietrantuono.podcasts.main;
+package com.pietrantuono.podcasts.main.presenter;
 
+import com.pietrantuono.podcasts.main.view.MainView;
 import com.pietrantuono.podcasts.main.model.MainModel;
 
 /**
@@ -10,20 +11,21 @@ public class MainPresenter {
     private MainView view;
     private MainModel mainModel;
 
-    public void OnCreate(MainView view) {
+    public void onCreate(MainView view) {
         this.view = view;
     }
 
     public void onModelConnected(MainModel mainModel) {
-
+        this.mainModel = mainModel;
     }
 
     public void onDestroy() {
-
-
     }
 
     public void onModelDisconnected() {
+    }
 
+    public void onAddPodcastSelected() {
+        view.navigateToAddPodcast();
     }
 }

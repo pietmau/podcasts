@@ -7,7 +7,6 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
-
 import hugo.weaving.DebugLog;
 
 public class ModelService extends Service implements MainModel {

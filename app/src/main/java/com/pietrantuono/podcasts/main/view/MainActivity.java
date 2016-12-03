@@ -1,18 +1,20 @@
-package com.pietrantuono.podcasts;
+package com.pietrantuono.podcasts.main.view;
 
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.pietrantuono.podcasts.main.MainPresenter;
-import com.pietrantuono.podcasts.main.MainView;
+import com.pietrantuono.podcasts.R;
+import com.pietrantuono.podcasts.addpodcast.view.AddPodcastFragment;
+import com.pietrantuono.podcasts.main.customviews.SimpleNavView;
+import com.pietrantuono.podcasts.main.presenter.MainPresenter;
 import com.pietrantuono.podcasts.main.dagger.DaggerMainComponent;
 import com.pietrantuono.podcasts.main.dagger.MainModule;
-import com.pietrantuono.podcasts.main.model.ModelService;
 
 import javax.inject.Inject;
 
@@ -20,25 +22,21 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements MainView {
-    @Inject
-    MainPresenter presenter;
-    @Inject
-    Intent modelServiceIntent;
-    @Inject
-    ServiceConnection modelServiceConnection;
-
-    @BindView(R.id.drawer)
-    DrawerLayout drawerLayout;
-    @BindView(R.id.maintoolbar)
-    Toolbar mainToolbar;
+    @Inject MainPresenter mainPresenter;
+    @Inject Intent modelServiceIntent;
+    @Inject ServiceConnection modelServiceConnection;
+    @BindView(R.id.drawer) DrawerLayout drawerLayout;
+    @BindView(R.id.maintoolbar) Toolbar mainToolbar;
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        fragmentManager = getSupportFragmentManager();
         initDependencies();
         setUpViews();
-        presenter.OnCreate(MainActivity.this);
+        mainPresenter.onCreate(MainActivity.this);
     }
 
     private void initDependencies() {
@@ -52,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
                 new ActionBarDrawerToggle(MainActivity.this, drawerLayout, mainToolbar, R.string.open, R.string.close);
         actionBarDrawerToggle.syncState();
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        ((SimpleNavView) findViewById(R.id.nav_view)).setMainPresenterListener(mainPresenter);
     }
 
     @Override
@@ -66,12 +65,19 @@ public class MainActivity extends AppCompatActivity implements MainView {
         bindService(modelServiceIntent, modelServiceConnection, BIND_AUTO_CREATE);
     }
 
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        presenter.onDestroy();
+        mainPresenter.onDestroy();
         if (!isChangingConfigurations()) {
             stopService(modelServiceIntent);
         }
     }
+
+    @Override
+    public void navigateToAddPodcast() {
+        AddPodcastFragment.navigateTo(fragmentManager);
+    }
+
 }

@@ -1,6 +1,6 @@
 package com.pietrantuono.podcasts.main.dagger;
 
-import com.pietrantuono.podcasts.MainActivity;
+import com.pietrantuono.podcasts.main.view.MainActivity;
 
 import dagger.Component;
 
