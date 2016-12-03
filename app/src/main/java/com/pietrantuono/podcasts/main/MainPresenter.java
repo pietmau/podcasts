@@ -14,7 +14,7 @@ public class MainPresenter {
         this.view = view;
     }
 
-    public void onModelBound(MainModel mainModel) {
+    public void onModelConnected(MainModel mainModel) {
 
     }
 
@@ -23,7 +23,7 @@ public class MainPresenter {
 
     }
 
-    public void onModelDisconnected(MainModel mainModel) {
+    public void onModelDisconnected() {
 
     }
 }

@@ -17,12 +17,9 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements MainView {
-	@Inject
-	MainPresenter presenter;
-	@Inject
-	Intent modelServiceIntent;
-	@Inject
-	ServiceConnection modelServiceConnection;
+	@Inject	MainPresenter presenter;
+	@Inject	Intent modelServiceIntent;
+	@Inject	ServiceConnection modelServiceConnection;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +27,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
 		modelServiceIntent = new Intent(MainActivity.this, ModelService.class);
 		setContentView(R.layout.activity_main);
 		initDependencies();
+		setUpViews();/**/
 		presenter.OnCreate(MainActivity.this);
-		setUpActionBar();
 	}
 
 	private void initDependencies() {
@@ -39,8 +36,9 @@ public class MainActivity extends AppCompatActivity implements MainView {
 		DaggerMainComponent.builder().mainModule(new MainModule(MainActivity.this)).build().inject(MainActivity.this);
 	}
 
-	private void setUpActionBar() {
+	private void setUpViews() {
 		setSupportActionBar((Toolbar) findViewById(R.id.maintollbar));
+
 	}
 
 	@Override

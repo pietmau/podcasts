@@ -28,12 +28,12 @@ public class MainModule {
             @Override
             public void onServiceConnected(ComponentName componentName, IBinder binder) {
                 mainModel = ((ModelService.ModelServiceBinder) binder).getModel();
-                mainPresenter.onModelBound(mainModel);
+                mainPresenter.onModelConnected(mainModel);
             }
 
             @Override
             public void onServiceDisconnected(ComponentName componentName) {
-                mainPresenter.onModelDisconnected(mainModel);
+                mainPresenter.onModelDisconnected();
             }
         };
     }
