@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastFragment;
 import com.pietrantuono.podcasts.main.customviews.SimpleNavView;
+import com.pietrantuono.podcasts.main.dagger.MainComponent;
 import com.pietrantuono.podcasts.main.presenter.MainPresenter;
 import com.pietrantuono.podcasts.main.dagger.DaggerMainComponent;
 import com.pietrantuono.podcasts.main.dagger.MainModule;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @BindView(R.id.drawer) DrawerLayout drawerLayout;
     @BindView(R.id.maintoolbar) Toolbar mainToolbar;
     private FragmentManager fragmentManager;
+    private MainModule mainModule;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     private void initDependencies() {
         ButterKnife.bind(MainActivity.this);
-        DaggerMainComponent.builder().mainModule(new MainModule(MainActivity.this)).build().inject(MainActivity.this);
+        mainModule = new MainModule(MainActivity.this);
+        DaggerMainComponent.builder().mainModule(mainModule).build().inject(MainActivity.this);
     }
 
     private void setUpViews() {
@@ -56,12 +59,14 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @Override
     protected void onPause() {
         super.onPause();
+        mainPresenter.onPause();
         unbindService(modelServiceConnection);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        mainPresenter.onResume();
         bindService(modelServiceIntent, modelServiceConnection, BIND_AUTO_CREATE);
     }
 

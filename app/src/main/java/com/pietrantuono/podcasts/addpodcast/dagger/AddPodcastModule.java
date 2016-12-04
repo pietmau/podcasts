@@ -1,55 +1,43 @@
 package com.pietrantuono.podcasts.addpodcast.dagger;
 
-import android.app.Activity;
 import android.content.ComponentName;
-import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 
-import com.pietrantuono.podcasts.main.model.MainModel;
+import com.pietrantuono.podcasts.addpodcast.AddPodcastPresenter;
 import com.pietrantuono.podcasts.main.model.ModelService;
-import com.pietrantuono.podcasts.main.presenter.MainPresenter;
+
+import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
 
+@AddPodcastScope
 @Module
 public class AddPodcastModule {
-    private final Intent modelServiceIntent;
-    private final ServiceConnection modelServiceConnection;
-    private MainPresenter mainPresenter;
-    private MainModel mainModel;
+    private AddPodcastPresenter addPodcastPresenter;
 
-    public AddPodcastModule(Activity activity) {
-        this.modelServiceIntent = new Intent(activity, ModelService.class);
-        activity.startService(modelServiceIntent);
-        modelServiceConnection = new ServiceConnection() {
+    @Provides
+    AddPodcastPresenter provideAddPodcastPresenter(ServiceConnection connection) {
+        addPodcastPresenter = new AddPodcastPresenter();
+        return addPodcastPresenter;
+    }
+
+    @Provides
+    @Named("Add")
+    ServiceConnection provideServiceConnection() {
+        return new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName componentName, IBinder binder) {
-                mainModel = ((ModelService.ModelServiceBinder) binder).getModel();
-                mainPresenter.onModelConnected(mainModel);
+                ModelService mainModel = ((ModelService.ModelServiceBinder) binder).getModel();
+                addPodcastPresenter.onModelConnected(mainModel);
             }
 
             @Override
             public void onServiceDisconnected(ComponentName componentName) {
-                mainPresenter.onModelDisconnected();
+                addPodcastPresenter.onModelDisconnected();
             }
         };
     }
 
-    @Provides
-    MainPresenter provideMainPresenter() {
-        mainPresenter = new MainPresenter();
-        return mainPresenter;
-    }
-
-    @Provides
-    ServiceConnection provideServiceConnection() {
-        return modelServiceConnection;
-    }
-
-    @Provides
-    Intent provideServiceIntent() {
-        return modelServiceIntent;
-    }
 }
