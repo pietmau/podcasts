@@ -3,4 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="nav_header_height">100dp</dimen>
+    <dimen name="generic_margin">16dp</dimen>
+    <dimen name="progress_heigth">8dp</dimen>
+    <dimen name="standard_margin">8dp</dimen>
 </resources>

@@ -7,9 +7,15 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
-import hugo.weaving.DebugLog;
+import com.pietrantuono.podcasts.addpodcast.model.AddPodcastsModel;
+import com.pietrantuono.podcasts.addpodcast.model.SearchPodcastItem;
 
-public class ModelService extends Service implements MainModel {
+import java.util.List;
+
+import hugo.weaving.DebugLog;
+import rx.Observer;
+
+public class ModelService extends Service implements MainModel, AddPodcastsModel {
     @DebugLog
     @Nullable
     @Override
@@ -50,6 +56,21 @@ public class ModelService extends Service implements MainModel {
     @Override
     public boolean onUnbind(Intent intent) {
         return super.onUnbind(intent);
+    }
+
+    @Override
+    public void unsubscribeFromSearch() {
+
+    }
+
+    @Override
+    public void subscribeToSearch(Observer<List<SearchPodcastItem>> observer) {
+
+    }
+
+    @Override
+    public void searchPodcasts(String query) {
+
     }
 
     public class ModelServiceBinder extends Binder {

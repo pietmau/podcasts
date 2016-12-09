@@ -4,7 +4,7 @@ import android.content.ComponentName;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 
-import com.pietrantuono.podcasts.addpodcast.AddPodcastPresenter;
+import com.pietrantuono.podcasts.addpodcast.presenter.AddPodcastPresenter;
 import com.pietrantuono.podcasts.main.model.ModelService;
 
 import javax.inject.Named;

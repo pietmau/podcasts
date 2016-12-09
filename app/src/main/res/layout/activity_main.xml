@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/drawer"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorBackground"
-    android:fitsSystemWindows="true">
+<com.pietrantuono.podcasts.main.customviews.DrawerLayoutWithToggle xmlns:android="http://schemas.android.com/apk/res/android"
+                                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                                   android:id="@+id/drawer"
+                                                                   android:layout_width="match_parent"
+                                                                   android:layout_height="match_parent"
+                                                                   android:background="@color/colorBackground"
+                                                                   android:fitsSystemWindows="true">
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -22,13 +22,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
-                app:layout_scrollFlags="scroll|enterAlways" />
+                app:layout_scrollFlags="scroll|enterAlways"/>
         </android.support.design.widget.AppBarLayout>
 
         <FrameLayout
+            android:layout_margin="@dimen/generic_margin"
             android:id="@+id/fragmentContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            >
         </FrameLayout>
 
     </android.support.design.widget.CoordinatorLayout>
@@ -40,6 +43,6 @@
         android:layout_gravity="start"
         android:background="@color/colorBackground"
         app:headerLayout="@layout/header"
-        app:menu="@menu/drawer" />
+        app:menu="@menu/drawer"/>
 
-</android.support.v4.widget.DrawerLayout>
+</com.pietrantuono.podcasts.main.customviews.DrawerLayoutWithToggle>

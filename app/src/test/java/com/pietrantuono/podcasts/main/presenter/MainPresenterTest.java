@@ -1,4 +1,4 @@
-package com.pietrantuono.podcasts;
+package com.pietrantuono.podcasts.main.presenter;
 
 import com.pietrantuono.podcasts.main.presenter.MainPresenter;
 import com.pietrantuono.podcasts.main.view.MainView;
@@ -19,7 +19,7 @@ public class MainPresenterTest {
     @Before
     public void setUp() {
         mainPresenter = new MainPresenter();
-        mainPresenter.onCreate(view);
+        mainPresenter.bindView(view);
     }
 
     @Test

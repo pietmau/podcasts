@@ -1,9 +1,8 @@
-package com.pietrantuono.podcasts.main.presenter;
+package com.pietrantuono.podcasts;
 
 import com.pietrantuono.podcasts.main.model.MainModel;
 
-public interface Presenter {
-    void onModelConnected(MainModel mainModel);
+public interface GenericPresenter {
 
     void onDestroy();
 

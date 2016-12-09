@@ -11,6 +11,7 @@ import com.pietrantuono.podcasts.main.presenter.MainPresenter;
 
 public class SimpleNavView extends NavigationView {
     private MainPresenter listener;
+    private DrawerLayoutWithToggle drawerLayout;
 
     public SimpleNavView(Context context) {
         super(context);
@@ -31,6 +32,7 @@ public class SimpleNavView extends NavigationView {
         setNavigationItemSelectedListener(new OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                drawerLayout.closeDrawers();
                 int id = item.getItemId();
                 switch (id) {
                     case R.id.add_podcast:
@@ -44,5 +46,9 @@ public class SimpleNavView extends NavigationView {
 
     public void setMainPresenterListener(MainPresenter listener) {
         this.listener = listener;
+    }
+
+    public void setDrawer(DrawerLayoutWithToggle drawerLayout) {
+        this.drawerLayout = drawerLayout;
     }
 }

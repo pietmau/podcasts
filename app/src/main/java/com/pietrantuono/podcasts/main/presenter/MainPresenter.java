@@ -1,5 +1,6 @@
 package com.pietrantuono.podcasts.main.presenter;
 
+import com.pietrantuono.podcasts.GenericPresenter;
 import com.pietrantuono.podcasts.main.view.MainView;
 import com.pietrantuono.podcasts.main.model.MainModel;
 
@@ -7,15 +8,14 @@ import com.pietrantuono.podcasts.main.model.MainModel;
  * Created by Maurizio Pietrantuono, maurizio.pietrantuono@gmail.com
  */
 
-public class MainPresenter implements Presenter {
+public class MainPresenter implements GenericPresenter {
     private MainView view;
     private MainModel mainModel;
 
-    public void onCreate(MainView view) {
+    public void bindView(MainView view) {
         this.view = view;
     }
 
-    @Override
     public void onModelConnected(MainModel mainModel) {
         this.mainModel = mainModel;
     }
