@@ -19,22 +19,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt')
             proguardFile 'proguard-files/mockito.pro'
             proguardFile 'proguard-files/rxjava.pro'
+            proguardFile 'proguard-files/retrofit.pro'
         }
         debug {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt')
             proguardFile 'proguard-files/mockito.pro'
             proguardFile 'proguard-files/rxjava.pro'
+            proguardFile 'proguard-files/retrofit.pro'
         }
     }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    // Dagger 2
-    // Rx Java
-    // Butterknife
-    // Tests
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -50,4 +48,7 @@ dependencies {
     apt 'com.google.dagger:dagger-compiler:2.8'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     provided 'javax.annotation:jsr250-api:1.0'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.squareup.retrofit2:retrofit-converters:2.1.0'
 }
