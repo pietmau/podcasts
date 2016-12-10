@@ -1,7 +1,6 @@
 package com.pietrantuono.podcasts.main.model.interactor;
 
 import com.pietrantuono.podcasts.addpodcast.model.SearchPodcastInteractor;
-import com.pietrantuono.podcasts.addpodcast.model.SearchPodcastItem;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +12,6 @@ import java.util.List;
 
 import rx.Observer;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)

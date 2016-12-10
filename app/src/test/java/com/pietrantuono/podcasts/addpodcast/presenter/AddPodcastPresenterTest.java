@@ -1,9 +1,7 @@
 package com.pietrantuono.podcasts.addpodcast.presenter;
 
 import com.pietrantuono.podcasts.addpodcast.model.AddPodcastsModel;
-import com.pietrantuono.podcasts.addpodcast.model.SearchPodcastItem;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastView;
-import com.pietrantuono.podcasts.main.model.MainModel;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +15,6 @@ import java.util.List;
 
 import rx.Observer;
 
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.verify;
 

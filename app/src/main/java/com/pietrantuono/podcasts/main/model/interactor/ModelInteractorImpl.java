@@ -1,11 +1,9 @@
 package com.pietrantuono.podcasts.main.model.interactor;
 
 import com.pietrantuono.podcasts.addpodcast.model.SearchPodcastInteractor;
-import com.pietrantuono.podcasts.addpodcast.model.SearchPodcastItem;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.PodcastSearchResult;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 import rx.Observer;
 
@@ -17,7 +15,7 @@ public class ModelInteractorImpl implements ModelInteractor {
     }
 
     @Override
-    public void subscribeToSearch(Observer<List<SearchPodcastItem>> observer) {
+    public void subscribeToSearch(Observer<List<PodcastSearchResult>> observer) {
         searchPodcastInteractor.subscribeToSearch(observer);
     }
 

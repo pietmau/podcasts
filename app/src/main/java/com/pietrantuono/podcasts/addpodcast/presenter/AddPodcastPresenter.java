@@ -1,9 +1,8 @@
 package com.pietrantuono.podcasts.addpodcast.presenter;
 
 import com.pietrantuono.podcasts.addpodcast.model.AddPodcastsModel;
-import com.pietrantuono.podcasts.addpodcast.model.SearchPodcastItem;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.PodcastSearchResult;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastView;
-import com.pietrantuono.podcasts.main.model.MainModel;
 import com.pietrantuono.podcasts.GenericPresenter;
 
 import java.util.List;
@@ -11,12 +10,12 @@ import java.util.List;
 import rx.Observer;
 
 public class AddPodcastPresenter implements GenericPresenter {
-    private AddPodcastsModel mainModel;
-    private Observer<List<SearchPodcastItem>> observer;
+    private AddPodcastsModel addPodcastsModel;
+    private Observer<List<PodcastSearchResult>> observer;
     private AddPodcastView addPodcastView;
 
     public AddPodcastPresenter() {
-        observer = new Observer<List<SearchPodcastItem>>() {
+        observer = new Observer<List<PodcastSearchResult>>() {
             @Override
             public void onCompleted() { }
 
@@ -26,7 +25,7 @@ public class AddPodcastPresenter implements GenericPresenter {
             }
 
             @Override
-            public void onNext(List<SearchPodcastItem> items) {
+            public void onNext(List<PodcastSearchResult> items) {
                 addPodcastView.updateSearchResults(items);
             }
         };
@@ -37,21 +36,23 @@ public class AddPodcastPresenter implements GenericPresenter {
     }
 
     public void onModelConnected(AddPodcastsModel mainModel) {
-        this.mainModel = mainModel;
+        this.addPodcastsModel = mainModel;
         mainModel.subscribeToSearch(observer);
     }
 
     @Override
-    public void onDestroy() { }
+    public void onDestroy() {
+        addPodcastView = null;
+    }
 
     @Override
     public void onModelDisconnected() {
-        mainModel = null;
+        addPodcastsModel = null;
     }
 
     @Override
     public void onPause() {
-        mainModel.unsubscribeFromSearch();
+        addPodcastsModel.unsubscribeFromSearch();
     }
 
     @Override
@@ -63,7 +64,7 @@ public class AddPodcastPresenter implements GenericPresenter {
     }
 
     private void launchQuery(String query) {
-        mainModel.searchPodcasts(query);
+        addPodcastsModel.searchPodcasts(query);
     }
 
     public boolean onQueryTextChange(String newText) {

@@ -1,11 +1,11 @@
 package com.pietrantuono.podcasts.addpodcast.view;
 
-import com.pietrantuono.podcasts.addpodcast.model.SearchPodcastItem;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.PodcastSearchResult;
 
 import java.util.List;
 
 public interface AddPodcastView {
     void onError(Throwable e);
 
-    void updateSearchResults(List<SearchPodcastItem> items);
+    void updateSearchResults(List<PodcastSearchResult> items);
 }

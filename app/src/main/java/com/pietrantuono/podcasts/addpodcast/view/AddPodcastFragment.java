@@ -12,8 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.pietrantuono.podcasts.R;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.PodcastSearchResult;
 import com.pietrantuono.podcasts.addpodcast.presenter.AddPodcastPresenter;
-import com.pietrantuono.podcasts.addpodcast.model.SearchPodcastItem;
 import com.pietrantuono.podcasts.main.dagger.DaggerMainComponent;
 import com.pietrantuono.podcasts.main.dagger.MainModule;
 
@@ -64,7 +64,14 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
         View view = inflater.inflate(R.layout.fragment_add, container, false);
         ButterKnife.bind(this, view);
         initViews();
+        addPodcastPresenter.bindView(AddPodcastFragment.this);
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        addPodcastPresenter.onDestroy();
     }
 
     private void initViews() {
@@ -88,7 +95,7 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     }
 
     @Override
-    public void updateSearchResults(List<SearchPodcastItem> items) {
+    public void updateSearchResults(List<PodcastSearchResult> items) {
 
     }
 }

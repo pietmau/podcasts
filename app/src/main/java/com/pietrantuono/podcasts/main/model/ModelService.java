@@ -8,7 +8,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 import com.pietrantuono.podcasts.addpodcast.model.AddPodcastsModel;
-import com.pietrantuono.podcasts.addpodcast.model.SearchPodcastItem;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.PodcastSearchResult;
 import com.pietrantuono.podcasts.main.dagger.DaggerMainComponent;
 import com.pietrantuono.podcasts.main.dagger.MainModule;
 import com.pietrantuono.podcasts.main.model.interactor.ModelInteractor;
@@ -64,7 +64,7 @@ public class ModelService extends Service implements MainModel, AddPodcastsModel
     }
 
     @Override
-    public void subscribeToSearch(Observer<List<SearchPodcastItem>> observer) {
+    public void subscribeToSearch(Observer<List<PodcastSearchResult>> observer) {
         interactor.subscribeToSearch(observer);
     }
 

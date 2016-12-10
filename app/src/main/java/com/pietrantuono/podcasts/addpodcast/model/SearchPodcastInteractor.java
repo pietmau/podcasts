@@ -1,11 +1,13 @@
 package com.pietrantuono.podcasts.addpodcast.model;
 
+import com.pietrantuono.podcasts.addpodcast.model.pojos.PodcastSearchResult;
+
 import java.util.List;
 
 import rx.Observer;
 
 public interface SearchPodcastInteractor {
-    void subscribeToSearch(Observer<List<SearchPodcastItem>> observer);
+    void subscribeToSearch(Observer<List<PodcastSearchResult>> observer);
 
     void unsubscribeFromSearch();
 
