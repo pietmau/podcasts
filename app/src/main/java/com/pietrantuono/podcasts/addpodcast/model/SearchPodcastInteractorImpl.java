@@ -10,6 +10,7 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -19,6 +20,7 @@ public class SearchPodcastInteractorImpl implements SearchPodcastInteractor {
     private SearchApi searchApi;
     private Subscription subscription;
     private Observer<List<PodcastSearchResult>> observer;
+    private Observable<List<PodcastSearchResult>> observable;
 
     public SearchPodcastInteractorImpl(SearchApi searchApi) {
         this.searchApi = searchApi;
@@ -27,8 +29,10 @@ public class SearchPodcastInteractorImpl implements SearchPodcastInteractor {
     @Override
     public void subscribeToSearch(Observer<List<PodcastSearchResult>> observer) {
         this.observer = observer;
+        if (observable != null) {
+            subscription = observable.subscribe(observer);
+        }
     }
-
 
     @Override
     public void unsubscribeFromSearch() {
@@ -39,6 +43,7 @@ public class SearchPodcastInteractorImpl implements SearchPodcastInteractor {
 
     @Override
     public void searchPodcasts(String query) {
-        subscription = searchApi.search(query).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(observer);
+        observable = searchApi.search(query);
+        subscription = observable.subscribe(observer);
     }
 }

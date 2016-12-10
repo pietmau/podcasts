@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts.main.model.interactor;
 
 import com.pietrantuono.podcasts.addpodcast.model.SearchPodcastInteractor;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.PodcastSearchResult;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +22,7 @@ public class ModelInteractorImplTest {
     private ModelInteractorImpl modelInteractor;
 
     @Mock SearchPodcastInteractor searchInteractor;
-    @Mock Observer<List<SearchPodcastItem>> observer;
+    @Mock Observer<List<PodcastSearchResult>> observer;
 
     @Before
     public void setUp() {

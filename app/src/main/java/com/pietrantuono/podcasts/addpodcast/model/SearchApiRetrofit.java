@@ -14,6 +14,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.QueryMap;
 import rx.Observable;
 import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class SearchApiRetrofit implements SearchApi {
     public static final String ITUNES = "https://itunes.apple.com";
@@ -30,16 +32,21 @@ public class SearchApiRetrofit implements SearchApi {
     }
 
     @Override
-    public Observable<List<PodcastSearchResult>> search(@QueryMap Map<String, String> query) {
+    public Observable<List<PodcastSearchResult>> search(@retrofit2.http.QueryMap Map<String, String> query) {
         throw new UnsupportedOperationException("Not implemented");
     }
 
     @Override
     public Observable<List<PodcastSearchResult>> search(String query) {
-        Map<String, String> map = new HashMap<>();
-        map.put("media","podcast");
-        map.put("limit","100");
-        map.put("term",query);
-        return api.search(map);
+        QueryMap map = new QueryMap(query);
+        return api.search(map).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).cache();
+    }
+
+    private static class QueryMap extends HashMap<String, String> {
+        public QueryMap(String query) {
+            put("media", "podcast");
+            put("limit", "100");
+            put("term", query);
+        }
     }
 }
