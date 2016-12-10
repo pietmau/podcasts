@@ -9,50 +9,50 @@ import android.support.annotation.Nullable;
 
 import com.pietrantuono.podcasts.addpodcast.model.AddPodcastsModel;
 import com.pietrantuono.podcasts.addpodcast.model.SearchPodcastItem;
+import com.pietrantuono.podcasts.main.dagger.DaggerMainComponent;
+import com.pietrantuono.podcasts.main.dagger.MainModule;
+import com.pietrantuono.podcasts.main.model.interactor.ModelInteractor;
 
 import java.util.List;
 
-import hugo.weaving.DebugLog;
+import javax.inject.Inject;
+
 import rx.Observer;
 
 public class ModelService extends Service implements MainModel, AddPodcastsModel {
-    @DebugLog
+    @Inject ModelInteractor interactor;
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return new ModelServiceBinder();
     }
 
-    @DebugLog
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
     }
 
-    @DebugLog
     @Override
     public void onCreate() {
+        DaggerMainComponent.builder().mainModule(new MainModule()).build().inject(ModelService.this);
     }
 
-    @DebugLog
     @Override
     public void onDestroy() {
         super.onDestroy();
     }
 
-    @DebugLog
     @Override
     public void onRebind(Intent intent) {
         super.onRebind(intent);
     }
 
-    @DebugLog
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    @DebugLog
     @Override
     public boolean onUnbind(Intent intent) {
         return super.onUnbind(intent);
@@ -60,17 +60,17 @@ public class ModelService extends Service implements MainModel, AddPodcastsModel
 
     @Override
     public void unsubscribeFromSearch() {
-
+        interactor.unsubscribeFromSearch();
     }
 
     @Override
     public void subscribeToSearch(Observer<List<SearchPodcastItem>> observer) {
-
+        interactor.subscribeToSearch(observer);
     }
 
     @Override
     public void searchPodcasts(String query) {
-
+        interactor.searchPodcasts(query);
     }
 
     public class ModelServiceBinder extends Binder {

@@ -6,9 +6,10 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 
-import com.pietrantuono.podcasts.addpodcast.dagger.AddPodcastComponent;
+import com.pietrantuono.podcasts.addpodcast.model.SearchPodcastInteractor;
+import com.pietrantuono.podcasts.main.model.interactor.ModelInteractor;
+import com.pietrantuono.podcasts.main.model.interactor.ModelInteractorImpl;
 import com.pietrantuono.podcasts.main.presenter.MainPresenter;
-import com.pietrantuono.podcasts.main.model.MainModel;
 import com.pietrantuono.podcasts.main.model.ModelService;
 
 import dagger.Module;
@@ -22,6 +23,10 @@ public class MainModule {
     public MainModule(Activity activity) {
         this.modelServiceIntent = new Intent(activity, ModelService.class);
         activity.startService(modelServiceIntent);
+    }
+
+    public MainModule() {
+        modelServiceIntent = null;
     }
 
     @Provides
@@ -49,6 +54,11 @@ public class MainModule {
     @Provides
     Intent provideServiceIntent() {
         return modelServiceIntent;
+    }
+
+    @Provides
+    ModelInteractor provideModelInteractor(SearchPodcastInteractor searchPodcastInteractor) {
+        return new ModelInteractorImpl(searchPodcastInteractor);
     }
 
 }
