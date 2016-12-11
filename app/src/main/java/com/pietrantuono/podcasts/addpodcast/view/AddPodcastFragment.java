@@ -6,11 +6,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler;
@@ -36,6 +36,7 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     @Inject @Named("Add") ServiceConnection modelServiceConnection;
     @BindView(R.id.search_view) SearchView searchView;
     @BindView(R.id.search_results) PodcastsRecycler podcastsRecycler;
+    @BindView(R.id.progress) ProgressBar progressBar;
 
     public static AddPodcastFragment newInstance() {
         return new AddPodcastFragment();
@@ -67,7 +68,7 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
         View view = inflater.inflate(R.layout.fragment_add, container, false);
         ButterKnife.bind(this, view);
         initViews();
-        addPodcastPresenter.bindView(AddPodcastFragment.this);
+        addPodcastPresenter.bindView(AddPodcastFragment.this, new AddPodcastFragmentMemento(savedInstanceState));
         return view;
     }
 
@@ -75,6 +76,11 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     public void onDestroy() {
         super.onDestroy();
         addPodcastPresenter.onDestroy();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        addPodcastPresenter.onSaveInstanceState(new AddPodcastFragmentMemento(outState));
     }
 
     private void initViews() {
@@ -94,11 +100,25 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
 
     @Override
     public void onError(Throwable e) {
-
     }
 
     @Override
     public void updateSearchResults(List<PodcastSearchResult> items) {
         podcastsRecycler.setItems(items);
     }
+
+    @Override
+    public void showProgressBar(boolean show) {
+        if (show) {
+            progressBar.setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public boolean isProgressShowing() {
+        return progressBar.getVisibility() == View.VISIBLE;
+    }
+
 }

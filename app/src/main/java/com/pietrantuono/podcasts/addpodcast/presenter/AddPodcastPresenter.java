@@ -1,7 +1,10 @@
 package com.pietrantuono.podcasts.addpodcast.presenter;
 
+import android.support.annotation.Nullable;
+
 import com.pietrantuono.podcasts.addpodcast.model.AddPodcastsModel;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.PodcastSearchResult;
+import com.pietrantuono.podcasts.addpodcast.view.AddPodcastFragmentMemento;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastView;
 import com.pietrantuono.podcasts.GenericPresenter;
 
@@ -12,27 +15,35 @@ import rx.Observer;
 public class AddPodcastPresenter implements GenericPresenter {
     private AddPodcastsModel addPodcastsModel;
     private Observer<List<PodcastSearchResult>> observer;
-    private AddPodcastView addPodcastView;
+    @Nullable private AddPodcastView addPodcastView;
 
     public AddPodcastPresenter() {
         observer = new Observer<List<PodcastSearchResult>>() {
             @Override
-            public void onCompleted() { }
+            public void onCompleted() {
+                showProgressBar(false);
+            }
 
             @Override
             public void onError(Throwable e) {
-                addPodcastView.onError(e);
+                if (addPodcastView != null) {
+                    addPodcastView.onError(e);
+                }
+                showProgressBar(false);
             }
 
             @Override
             public void onNext(List<PodcastSearchResult> items) {
-                addPodcastView.updateSearchResults(items);
+                if (addPodcastView != null) {
+                    addPodcastView.updateSearchResults(items);
+                }
             }
         };
     }
 
-    public void bindView(AddPodcastView addPodcastView){
+    public void bindView(AddPodcastView addPodcastView, AddPodcastFragmentMemento memento) {
         this.addPodcastView = addPodcastView;
+        addPodcastView.showProgressBar(memento.isProgressShowing());
     }
 
     public void onModelConnected(AddPodcastsModel mainModel) {
@@ -56,7 +67,8 @@ public class AddPodcastPresenter implements GenericPresenter {
     }
 
     @Override
-    public void onResume() { }
+    public void onResume() {
+    }
 
     public boolean onQueryTextSubmit(String query) {
         launchQuery(query);
@@ -64,10 +76,25 @@ public class AddPodcastPresenter implements GenericPresenter {
     }
 
     private void launchQuery(String query) {
-        addPodcastsModel.searchPodcasts(query);
+        if (addPodcastsModel != null) {
+            addPodcastsModel.searchPodcasts(query);
+        }
+        showProgressBar(true);
     }
 
     public boolean onQueryTextChange(String newText) {
         return true;
+    }
+
+    public void onSaveInstanceState(AddPodcastFragmentMemento memento) {
+        if(addPodcastView!=null){
+            memento.setProgressShowing(addPodcastView.isProgressShowing());
+        }
+    }
+
+    private void showProgressBar(boolean show){
+        if (addPodcastView != null) {
+            addPodcastView.showProgressBar(show);
+        }
     }
 }

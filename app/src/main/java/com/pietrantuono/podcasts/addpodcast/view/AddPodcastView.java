@@ -8,4 +8,8 @@ public interface AddPodcastView {
     void onError(Throwable e);
 
     void updateSearchResults(List<PodcastSearchResult> items);
+
+    void showProgressBar(boolean show);
+
+    boolean isProgressShowing();
 }

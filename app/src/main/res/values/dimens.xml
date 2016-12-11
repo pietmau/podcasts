@@ -8,4 +8,6 @@
     <dimen name="standard_margin">8dp</dimen>
     <dimen name="item_margin">4dp</dimen>
     <dimen name="half_item_margin">2dp</dimen>
+    <dimen name="card_elevation">2dp</dimen>
+    <dimen name="card_corner_radius">3dp</dimen>
 </resources>

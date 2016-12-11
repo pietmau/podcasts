@@ -2,6 +2,7 @@ package com.pietrantuono.podcasts.addpodcast.presenter;
 
 import com.pietrantuono.podcasts.addpodcast.model.AddPodcastsModel;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.PodcastSearchResult;
+import com.pietrantuono.podcasts.addpodcast.view.AddPodcastFragmentMemento;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastView;
 
 import org.junit.Before;
@@ -29,13 +30,14 @@ public class AddPodcastPresenterTest {
     @Mock AddPodcastsModel model;
     @Mock Throwable error;
     @Mock List<PodcastSearchResult> list;
+    @Mock AddPodcastFragmentMemento memento;
 
     @Captor ArgumentCaptor<Observer<List<PodcastSearchResult>>> observerCaptor;
 
     @Before
     public void setUp() {
         addPodcastPresenter = new AddPodcastPresenter();
-        addPodcastPresenter.bindView(view);
+        addPodcastPresenter.bindView(view, memento);
         addPodcastPresenter.onModelConnected(model);
     }
 
