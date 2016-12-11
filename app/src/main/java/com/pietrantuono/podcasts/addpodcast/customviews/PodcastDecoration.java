@@ -25,7 +25,7 @@ public class PodcastDecoration extends RecyclerView.ItemDecoration {
     }
 
     private void setUpperAndLowerMargins(Rect outRect, View view) {
-        outRect.top = normalMargin;
+        outRect.top = halfMargin;
     }
 
     private void setLeftAndRightMargins(Rect outRect, View view) {
