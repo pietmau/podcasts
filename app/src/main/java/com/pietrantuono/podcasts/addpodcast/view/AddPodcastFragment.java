@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.pietrantuono.podcasts.R;
+import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.PodcastSearchResult;
 import com.pietrantuono.podcasts.addpodcast.presenter.AddPodcastPresenter;
 import com.pietrantuono.podcasts.main.dagger.DaggerMainComponent;
@@ -33,6 +35,7 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     @Inject Intent modelServiceIntent;
     @Inject @Named("Add") ServiceConnection modelServiceConnection;
     @BindView(R.id.search_view) SearchView searchView;
+    @BindView(R.id.search_results) PodcastsRecycler podcastsRecycler;
 
     public static AddPodcastFragment newInstance() {
         return new AddPodcastFragment();
@@ -96,6 +99,6 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
 
     @Override
     public void updateSearchResults(List<PodcastSearchResult> items) {
-
+        podcastsRecycler.setItems(items);
     }
 }

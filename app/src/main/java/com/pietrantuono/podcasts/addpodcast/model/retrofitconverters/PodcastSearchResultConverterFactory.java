@@ -60,9 +60,8 @@ public class PodcastSearchResultConverterFactory extends Converter.Factory {
 
         @Override
         public List<PodcastSearchResult> convert(ResponseBody value) throws IOException {
-            PodcastSearchResultEnvelope ff = gsonConverter.convert(value);
-
-            return ff.getResults();
+            PodcastSearchResultEnvelope envelope = gsonConverter.convert(value);
+            return envelope.getResults();
         }
     }
 }
