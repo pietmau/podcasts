@@ -4,8 +4,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.PodcastSearchResult;
@@ -13,13 +14,15 @@ import com.pietrantuono.podcasts.addpodcast.model.pojos.PodcastSearchResult;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> {
+public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> implements Filterable {
     private List<PodcastSearchResult> items;
+    private List<PodcastSearchResult> publishedItems;
     private ImageLoader imageLoader;
 
     public PodcastsAdapter(ImageLoader imageLoader) {
         this.imageLoader = imageLoader;
         items = new ArrayList<>();
+        publishedItems = new ArrayList<>();
     }
 
     @Override
@@ -30,18 +33,24 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> {
 
     @Override
     public void onBindViewHolder(PodcastHolder holder, int position) {
-        holder.onBindViewHolder(items.get(position));
+        holder.onBindViewHolder(publishedItems.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return publishedItems.size();
     }
 
     public void setItems(List<PodcastSearchResult> items) {
         prefetch(items);
         this.items.clear();
         this.items.addAll(items);
+        setPublishedItems(items);
+    }
+
+    public void setPublishedItems(List<PodcastSearchResult> items){
+        publishedItems.clear();
+        publishedItems.addAll(items);
         notifyDataSetChanged();
     }
 
@@ -51,4 +60,14 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> {
 
         }
     }
+
+    public void onQueryTextChange(String newText) {
+        getFilter().filter(newText);
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new PodcastsFilter(this, items);
+    }
+
 }

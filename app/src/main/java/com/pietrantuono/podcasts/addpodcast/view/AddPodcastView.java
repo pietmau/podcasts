@@ -12,4 +12,6 @@ public interface AddPodcastView {
     void showProgressBar(boolean show);
 
     boolean isProgressShowing();
+
+    void onQueryTextChange(String newText);
 }

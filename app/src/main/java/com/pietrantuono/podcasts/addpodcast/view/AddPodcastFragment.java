@@ -127,4 +127,9 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
         return progressBar.getVisibility() == View.VISIBLE;
     }
 
+    @Override
+    public void onQueryTextChange(String newText) {
+        podcastsRecycler.onQueryTextChange(newText);
+    }
+
 }

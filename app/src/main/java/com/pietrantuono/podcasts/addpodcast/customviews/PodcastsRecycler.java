@@ -54,4 +54,8 @@ public class PodcastsRecycler extends RecyclerView {
     public void setItems(List<PodcastSearchResult> items) {
         adapter.setItems(items);
     }
+
+    public void onQueryTextChange(String newText) {
+        adapter.onQueryTextChange(newText);
+    }
 }

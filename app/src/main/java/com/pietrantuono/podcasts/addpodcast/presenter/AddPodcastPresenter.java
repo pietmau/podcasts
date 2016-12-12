@@ -83,6 +83,9 @@ public class AddPodcastPresenter implements GenericPresenter {
     }
 
     public boolean onQueryTextChange(String newText) {
+        if(addPodcastView!=null){
+            addPodcastView.onQueryTextChange(newText);
+        }
         return true;
     }
 
