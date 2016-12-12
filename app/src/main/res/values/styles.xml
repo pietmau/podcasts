@@ -10,4 +10,16 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="Title">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/TitleTextSize</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Author">
+        <item name="android:textColor">@color/authorTextColor</item>
+        <item name="android:textSize">@dimen/AuthorTextSize</item>
+    </style>
+
+
 </resources>

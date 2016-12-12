@@ -5,4 +5,5 @@
     <color name="colorAccent">#C82D20</color>
     <color name="colorBackground">#FFbf00</color>
     <color name="orange">#FFF77538</color>
+    <color name="authorTextColor">#FFF2EDA7</color>
 </resources>

@@ -4,6 +4,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -19,9 +20,14 @@ import butterknife.ButterKnife;
 
 public class PodcastHolder extends RecyclerView.ViewHolder {
     private final ImageLoader imageLoader;
+
+    @Inject DisplayImageOptions displayImageOptions;
+
     @BindView(R.id.card) CardView cardView;
     @BindView(R.id.image) ImageView imageView;
-    @Inject DisplayImageOptions displayImageOptions;
+    @BindView(R.id.title) TextView title;
+    @BindView(R.id.author) TextView author;
+    private PodcastSearchResult podcastSearchResult;
 
     public PodcastHolder(View itemView, ImageLoader imageLoader) {
         super(itemView);
@@ -31,6 +37,9 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
     }
 
     public void onBindViewHolder(PodcastSearchResult podcastSearchResult) {
+        this.podcastSearchResult = podcastSearchResult;
         imageLoader.displayImage(podcastSearchResult.getArtworkUrl600(), imageView, displayImageOptions);
+        title.setText(podcastSearchResult.getCollectionName());
+        author.setText(podcastSearchResult.getArtistName());
     }
 }
