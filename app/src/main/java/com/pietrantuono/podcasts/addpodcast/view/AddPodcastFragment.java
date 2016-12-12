@@ -62,6 +62,12 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
         getActivity().bindService(modelServiceIntent, modelServiceConnection, BIND_AUTO_CREATE);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().unbindService(modelServiceConnection);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
