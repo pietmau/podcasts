@@ -59,15 +59,17 @@
                 android:paddingLeft="8dp"
                 android:src="@drawable/ic_more_vert_black_12dp"/>
 
-            <com.pietrantuono.podcasts.addpodcast.customviews.GenderRecycler
-                android:id="@+id/genres_recycler"
+            <TextView
+                android:id="@+id/genres"
+                style="@style/Genre"
+                android:maxLines="3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/author"
                 android:layout_marginLeft="@dimen/standard_margin"
                 android:layout_marginRight="@dimen/standard_margin"
                 android:layout_toRightOf="@+id/image">
-            </com.pietrantuono.podcasts.addpodcast.customviews.GenderRecycler>
+            </TextView>
 
         </RelativeLayout>
 

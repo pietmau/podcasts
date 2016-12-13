@@ -3,6 +3,7 @@ package com.pietrantuono.podcasts.addpodcast.customviews;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.util.StringBuilderPrinter;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -29,7 +30,7 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.title) TextView title;
     @BindView(R.id.author) TextView author;
     @BindView(R.id.overflow) ImageView overfow;
-    @BindView(R.id.genres_recycler) GenderRecycler genres;
+    @BindView(R.id.genres) TextView genres;
     private PodcastSearchResult podcastSearchResult;
     private PopupMenu popupMenu;
 
@@ -42,15 +43,34 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
 
     public void onBindViewHolder(PodcastSearchResult podcastSearchResult) {
         this.podcastSearchResult = podcastSearchResult;
+        removePodcastString(podcastSearchResult);
         imageLoader.displayImage(podcastSearchResult.getArtworkUrl600(), imageView, displayImageOptions);
         title.setText(podcastSearchResult.getCollectionName());
         author.setText(podcastSearchResult.getArtistName());
-        genres.setItems(podcastSearchResult.getGenres());
         setUpMenu();
+        populateGenres();
+    }
+
+    private void removePodcastString(PodcastSearchResult podcastSearchResult) {
+        podcastSearchResult.getGenres().remove("Podcasts");
+    }
+
+    private void populateGenres() {
+        StringBuilder stringBuilder = new StringBuilder();
+        int l = podcastSearchResult.getGenres().size();
+        for (int i = 0; i < l; i++) {
+            {
+                stringBuilder.append(podcastSearchResult.getGenres().get(i));
+            }
+            if (i < l - 1) {
+                stringBuilder.append(", ");
+            }
+        }
+        genres.setText(stringBuilder.toString());
     }
 
     @OnClick(R.id.overflow)
-    public void showMenu(){
+    public void showMenu() {
         popupMenu.show();
     }
 
