@@ -1,7 +1,9 @@
 package com.pietrantuono.podcasts.addpodcast.customviews;
 
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class PodcastHolder extends RecyclerView.ViewHolder {
     private final ImageLoader imageLoader;
@@ -27,7 +30,9 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.image) ImageView imageView;
     @BindView(R.id.title) TextView title;
     @BindView(R.id.author) TextView author;
+    @BindView(R.id.overflow) ImageView overfow;
     private PodcastSearchResult podcastSearchResult;
+    private PopupMenu popupMenu;
 
     public PodcastHolder(View itemView, ImageLoader imageLoader) {
         super(itemView);
@@ -41,5 +46,22 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
         imageLoader.displayImage(podcastSearchResult.getArtworkUrl600(), imageView, displayImageOptions);
         title.setText(podcastSearchResult.getCollectionName());
         author.setText(podcastSearchResult.getArtistName());
+        setUpMenu();
+    }
+
+    @OnClick(R.id.overflow)
+    public void showMenu(){
+        popupMenu.show();
+    }
+
+    private void setUpMenu() {
+        popupMenu = new PopupMenu(overfow.getContext(), overfow);
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                return false;
+            }
+        });
+        popupMenu.inflate(R.menu.overflow);
     }
 }
