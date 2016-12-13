@@ -12,5 +12,6 @@
     <dimen name="card_corner_radius">3dp</dimen>
     <dimen name="TitleTextSize">15sp</dimen>
     <dimen name="AuthorTextSize">14sp</dimen>
+    <dimen name="GenreTextSize">12dp</dimen>
     <dimen name="very_small_margin">4dp</dimen>
 </resources>

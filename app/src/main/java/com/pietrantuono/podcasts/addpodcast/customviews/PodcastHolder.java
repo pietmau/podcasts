@@ -23,14 +23,13 @@ import butterknife.OnClick;
 
 public class PodcastHolder extends RecyclerView.ViewHolder {
     private final ImageLoader imageLoader;
-
     @Inject DisplayImageOptions displayImageOptions;
-
     @BindView(R.id.card) CardView cardView;
     @BindView(R.id.image) ImageView imageView;
     @BindView(R.id.title) TextView title;
     @BindView(R.id.author) TextView author;
     @BindView(R.id.overflow) ImageView overfow;
+    @BindView(R.id.genres_recycler) GenderRecycler genres;
     private PodcastSearchResult podcastSearchResult;
     private PopupMenu popupMenu;
 
@@ -46,6 +45,7 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
         imageLoader.displayImage(podcastSearchResult.getArtworkUrl600(), imageView, displayImageOptions);
         title.setText(podcastSearchResult.getCollectionName());
         author.setText(podcastSearchResult.getArtistName());
+        genres.setItems(podcastSearchResult.getGenres());
         setUpMenu();
     }
 

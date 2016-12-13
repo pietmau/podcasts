@@ -21,5 +21,10 @@
         <item name="android:textSize">@dimen/AuthorTextSize</item>
     </style>
 
+    <style name="Genre">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/GenreTextSize</item>
+    </style>
+
 
 </resources>

@@ -28,25 +28,25 @@
                 android:scaleType="fitCenter"/>
 
             <TextView
-                android:layout_marginLeft="@dimen/standard_margin"
-                android:layout_toRightOf="@+id/image"
-                android:layout_toLeftOf="@+id/overflow"
                 android:id="@+id/title"
                 style="@style/Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/standard_margin"
+                android:layout_toLeftOf="@+id/overflow"
+                android:layout_toRightOf="@+id/image"
                 android:ellipsize="end"
                 android:maxLines="2"/>
 
             <TextView
-                android:layout_marginLeft="@dimen/standard_margin"
-                android:layout_marginRight="@dimen/standard_margin"
-                android:layout_toRightOf="@+id/image"
-                android:layout_below="@+id/title"
                 android:id="@+id/author"
                 style="@style/Author"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/title"
+                android:layout_marginLeft="@dimen/standard_margin"
+                android:layout_marginRight="@dimen/standard_margin"
+                android:layout_toRightOf="@+id/image"
                 android:ellipsize="end"
                 android:maxLines="1"/>
 
@@ -58,6 +58,16 @@
                 android:layout_alignParentRight="true"
                 android:paddingLeft="8dp"
                 android:src="@drawable/ic_more_vert_black_12dp"/>
+
+            <com.pietrantuono.podcasts.addpodcast.customviews.GenderRecycler
+                android:id="@+id/genres_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/author"
+                android:layout_marginLeft="@dimen/standard_margin"
+                android:layout_marginRight="@dimen/standard_margin"
+                android:layout_toRightOf="@+id/image">
+            </com.pietrantuono.podcasts.addpodcast.customviews.GenderRecycler>
 
         </RelativeLayout>
 
