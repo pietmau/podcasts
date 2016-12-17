@@ -59,9 +59,7 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
         StringBuilder stringBuilder = new StringBuilder();
         int l = podcastSearchResult.getGenres().size();
         for (int i = 0; i < l; i++) {
-            {
-                stringBuilder.append(podcastSearchResult.getGenres().get(i));
-            }
+            stringBuilder.append(podcastSearchResult.getGenres().get(i));
             if (i < l - 1) {
                 stringBuilder.append(", ");
             }
