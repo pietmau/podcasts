@@ -17,6 +17,8 @@ import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker;
 
 public class TransitionsFrameworkImpl implements TransitionsFramework {
     private final ApiLevelChecker apiLevelChecker;
+    private static final long SHORT = 400;
+    private static final long LONG = 800;
 
     public TransitionsFrameworkImpl(ApiLevelChecker apiLevelChecker) {
         this.apiLevelChecker = apiLevelChecker;
@@ -28,17 +30,14 @@ public class TransitionsFrameworkImpl implements TransitionsFramework {
         if (!apiLevelChecker.isLollipopOrHigher()) {
             return;
         }
-        Slide slide = new Slide();
-        slide.setDuration(500);
-        slide.setSlideEdge(Gravity.LEFT);
-        slide.excludeTarget(android.R.id.statusBarBackground, true);
-        slide.excludeTarget(android.R.id.navigationBarBackground, true);
+        Slide shortSlide = createSlide(SHORT, Gravity.LEFT);
+        Slide longSlide = createSlide(LONG, Gravity.LEFT);
         Window window = activity.getWindow();
-        window.setEnterTransition(slide);
-        window.setExitTransition(slide);
+        window.setEnterTransition(shortSlide);
+        window.setExitTransition(longSlide);
+        window.setReenterTransition(shortSlide);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
-
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -46,15 +45,21 @@ public class TransitionsFrameworkImpl implements TransitionsFramework {
         if (!apiLevelChecker.isLollipopOrHigher()) {
             return;
         }
-        Slide slide = new Slide();
-        slide.setDuration(100);
-        slide.setSlideEdge(Gravity.RIGHT);
-        slide.excludeTarget(android.R.id.statusBarBackground, true);
-        slide.excludeTarget(android.R.id.navigationBarBackground, true);
+        Slide shortSlide = createSlide(SHORT, Gravity.RIGHT);
+        Slide longSlide = createSlide(LONG, Gravity.RIGHT);
         Window window = activity.getWindow();
-        window.setEnterTransition(slide);
-        window.setExitTransition(slide);
+        window.setEnterTransition(shortSlide);
+        window.setExitTransition(shortSlide);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private Slide createSlide(long duration, int edge){
+        Slide slide = new Slide();
+        slide.setDuration(duration);
+        slide.setSlideEdge(edge);
+        slide.excludeTarget(android.R.id.statusBarBackground, true);
+        slide.excludeTarget(android.R.id.navigationBarBackground, true);
+        return slide;
+    }
 }

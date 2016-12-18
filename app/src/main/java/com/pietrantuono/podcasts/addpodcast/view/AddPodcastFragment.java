@@ -31,6 +31,7 @@ import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import hugo.weaving.DebugLog;
 
 import static android.content.Context.BIND_AUTO_CREATE;
 
@@ -56,24 +57,28 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
         fragmentManager.beginTransaction().replace(R.id.fragmentContainer, frag, AddPodcastFragment.TAG).commit();
     }
 
+    @DebugLog
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DaggerMainComponent.builder().mainModule(new MainModule(getActivity())).build().newAddPodcastComponent().inject(AddPodcastFragment.this);
     }
 
+    @DebugLog
     @Override
     public void onResume() {
         super.onResume();
         getActivity().bindService(modelServiceIntent, modelServiceConnection, BIND_AUTO_CREATE);
     }
 
+    @DebugLog
     @Override
     public void onPause() {
         super.onPause();
         getActivity().unbindService(modelServiceConnection);
     }
 
+    @DebugLog
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -86,17 +91,20 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
         return view;
     }
 
+    @DebugLog
     @Override
     public void onDestroy() {
         super.onDestroy();
         addPodcastPresenter.onDestroy();
     }
 
+    @DebugLog
     @Override
     public void onSaveInstanceState(Bundle outState) {
         addPodcastPresenter.onSaveInstanceState(new AddPodcastFragmentMemento(outState));
     }
 
+    @DebugLog
     private void initViews() {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -111,15 +119,18 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
         });
     }
 
+    @DebugLog
     @Override
     public void onError(Throwable e) {
     }
 
+    @DebugLog
     @Override
     public void updateSearchResults(List<PodcastSearchResult> items) {
         podcastsRecycler.setItems(items);
     }
 
+    @DebugLog
     @Override
     public void showProgressBar(boolean show) {
         if (show) {
@@ -129,11 +140,13 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
         }
     }
 
+    @DebugLog
     @Override
     public boolean isProgressShowing() {
         return progressBar.getVisibility() == View.VISIBLE;
     }
 
+    @DebugLog
     @Override
     public void onQueryTextChange(String newText) {
         podcastsRecycler.onQueryTextChange(newText);
