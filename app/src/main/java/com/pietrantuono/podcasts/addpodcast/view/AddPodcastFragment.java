@@ -33,6 +33,7 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     public static final String TAG = "AddPodcastFragment";
     @Inject AddPodcastPresenter addPodcastPresenter;
     @Inject Intent modelServiceIntent;
+    @Inject ApiLevelChecker apiLevelChecker;
     @Inject @Named("Add") ServiceConnection modelServiceConnection;
     @BindView(R.id.search_view) SearchView searchView;
     @BindView(R.id.search_results) PodcastsRecycler podcastsRecycler;
@@ -131,6 +132,16 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     @Override
     public void onQueryTextChange(String newText) {
         podcastsRecycler.onQueryTextChange(newText);
+    }
+
+    @Override
+    public void startDetailActivity(PodcastSearchResult podcastSearchResult) {
+
+    }
+
+    @Override
+    public boolean isLollipop() {
+        return false;
     }
 
 }

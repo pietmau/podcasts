@@ -84,19 +84,15 @@ public class AddPodcastPresenter implements GenericPresenter, PodcastsAdapter.On
     }
 
     public boolean onQueryTextChange(String newText) {
-        if(addPodcastView!=null){
-            addPodcastView.onQueryTextChange(newText);
-        }
+        addPodcastView.onQueryTextChange(newText);
         return true;
     }
 
     public void onSaveInstanceState(AddPodcastFragmentMemento memento) {
-        if(addPodcastView!=null){
-            memento.setProgressShowing(addPodcastView.isProgressShowing());
-        }
+        memento.setProgressShowing(addPodcastView.isProgressShowing());
     }
 
-    private void showProgressBar(boolean show){
+    private void showProgressBar(boolean show) {
         if (addPodcastView != null) {
             addPodcastView.showProgressBar(show);
         }
@@ -109,6 +105,8 @@ public class AddPodcastPresenter implements GenericPresenter, PodcastsAdapter.On
 
     @Override
     public void onItemClicked(PodcastSearchResult podcastSearchResult) {
-
+        if(addPodcastView.isLollipop()){
+            addPodcastView.startDetailActivity(podcastSearchResult);
+        }
     }
 }

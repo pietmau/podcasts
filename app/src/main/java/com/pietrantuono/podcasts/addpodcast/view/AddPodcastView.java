@@ -14,4 +14,8 @@ public interface AddPodcastView {
     boolean isProgressShowing();
 
     void onQueryTextChange(String newText);
+
+    void startDetailActivity(PodcastSearchResult podcastSearchResult);
+
+    boolean isLollipop();
 }
