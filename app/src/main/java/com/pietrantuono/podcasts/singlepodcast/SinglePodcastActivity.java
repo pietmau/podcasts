@@ -21,7 +21,6 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.image) ImageView imageView;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

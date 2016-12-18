@@ -5,8 +5,6 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
-
-
 import android.transition.Fade;
 import android.transition.Slide;
 import android.transition.Transition;
@@ -46,7 +44,6 @@ public class TransitionsFrameworkImpl implements TransitionsFramework {
             return;
         }
         Slide shortSlide = createSlide(SHORT, Gravity.RIGHT);
-        Slide longSlide = createSlide(LONG, Gravity.RIGHT);
         Window window = activity.getWindow();
         window.setEnterTransition(shortSlide);
         window.setExitTransition(shortSlide);

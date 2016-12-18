@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/original_doge_meme"
                 app:layout_collapseMode="parallax"
-                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"/>
+                app:layout_scrollFlags="scroll|enterAlways"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
