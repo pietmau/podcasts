@@ -21,7 +21,7 @@
 
         <activity
             android:name=".singlepodcast.SinglePodcastActivity"
-            android:theme="@style/BaseTheme">
+            android:theme="@style/TransparentToolbarTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
