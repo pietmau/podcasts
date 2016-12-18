@@ -106,7 +106,8 @@ public class AddPodcastPresenter implements GenericPresenter, PodcastsAdapter.On
     @Override
     public void onItemClicked(PodcastSearchResult podcastSearchResult) {
         if(addPodcastView.isLollipop()){
-            addPodcastView.startDetailActivity(podcastSearchResult);
+            addPodcastView.startDetailActivityWithTransition(podcastSearchResult);
         }
+        else{addPodcastView.startDetailActivityWithOutTransition(podcastSearchResult);}
     }
 }

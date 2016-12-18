@@ -15,7 +15,9 @@ public interface AddPodcastView {
 
     void onQueryTextChange(String newText);
 
-    void startDetailActivity(PodcastSearchResult podcastSearchResult);
+    void startDetailActivityWithTransition(PodcastSearchResult podcastSearchResult);
 
     boolean isLollipop();
+
+    void startDetailActivityWithOutTransition(PodcastSearchResult podcastSearchResult);
 }

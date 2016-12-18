@@ -1,9 +1,13 @@
 package com.pietrantuono.podcasts.addpodcast.view;
 
+import android.annotation.TargetApi;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.SearchView;
@@ -18,6 +22,7 @@ import com.pietrantuono.podcasts.addpodcast.model.pojos.PodcastSearchResult;
 import com.pietrantuono.podcasts.addpodcast.presenter.AddPodcastPresenter;
 import com.pietrantuono.podcasts.main.dagger.DaggerMainComponent;
 import com.pietrantuono.podcasts.main.dagger.MainModule;
+import com.pietrantuono.podcasts.singlepodcast.SinglePodcastActivity;
 
 import java.util.List;
 
@@ -134,14 +139,21 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
         podcastsRecycler.onQueryTextChange(newText);
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void startDetailActivity(PodcastSearchResult podcastSearchResult) {
-
+    public void startDetailActivityWithTransition(PodcastSearchResult podcastSearchResult) {
+        Intent intent = new Intent(getActivity(), SinglePodcastActivity.class);
+        getActivity().startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity()).toBundle());
     }
 
     @Override
     public boolean isLollipop() {
-        return false;
+        return apiLevelChecker.isLollipopOrHigher();
+    }
+
+    @Override
+    public void startDetailActivityWithOutTransition(PodcastSearchResult podcastSearchResult) {
+
     }
 
 }

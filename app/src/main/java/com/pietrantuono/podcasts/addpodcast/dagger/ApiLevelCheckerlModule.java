@@ -9,11 +9,11 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class ApiModule {
+public class ApiLevelCheckerlModule {
 
     @Provides
-    ApiLevelChecker providesApiLevelChecker(Context context){
-        return new ApiLevelCheckerImpl(context);
+    ApiLevelChecker providesApiLevelChecker(){
+        return new ApiLevelCheckerImpl();
     }
 
 }

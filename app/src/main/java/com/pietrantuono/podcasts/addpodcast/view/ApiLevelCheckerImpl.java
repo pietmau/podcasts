@@ -1,11 +1,12 @@
 package com.pietrantuono.podcasts.addpodcast.view;
 
 import android.content.Context;
+import android.os.Build;
 
 public class ApiLevelCheckerImpl implements ApiLevelChecker {
-    private Context context;
 
-    public ApiLevelCheckerImpl(Context context) {
-        this.context = context;
+    @Override
+    public boolean isLollipopOrHigher() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
 }

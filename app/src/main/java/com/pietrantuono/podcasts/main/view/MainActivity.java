@@ -11,6 +11,7 @@ import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastFragment;
 import com.pietrantuono.podcasts.main.customviews.DrawerLayoutWithToggle;
 import com.pietrantuono.podcasts.main.customviews.SimpleNavView;
+import com.pietrantuono.podcasts.main.model.MainModel;
 import com.pietrantuono.podcasts.main.presenter.MainPresenter;
 import com.pietrantuono.podcasts.main.dagger.DaggerMainComponent;
 import com.pietrantuono.podcasts.main.dagger.MainModule;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @Inject MainPresenter mainPresenter;
     @Inject Intent modelServiceIntent;
     @Inject ServiceConnection modelServiceConnection;
+    @Inject TransitionsFramework transitionsFramework;
     @BindView(R.id.drawer) DrawerLayoutWithToggle drawerLayoutWithToggle;
     @BindView(R.id.maintoolbar) Toolbar mainToolbar;
     @BindView(R.id.nav_view) SimpleNavView simpleNavView;
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         initDependencies();
         setUpViews();
         mainPresenter.bindView(MainActivity.this);
+        transitionsFramework.initMainActivityTransitions(MainActivity.this);
     }
 
     private void initDependencies() {

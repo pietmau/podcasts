@@ -19,12 +19,10 @@ import dagger.Provides;
 @Module
 public class MainModule {
     private final Intent modelServiceIntent;
-    private Activity activity;
     private MainPresenter mainPresenter;
 
     public MainModule(Activity activity) {
         this.modelServiceIntent = new Intent(activity, ModelService.class);
-        this.activity = activity;
         activity.startService(modelServiceIntent);
     }
 
@@ -62,10 +60,5 @@ public class MainModule {
     @Provides
     ModelInteractor provideModelInteractor(SearchPodcastInteractor searchPodcastInteractor) {
         return new ModelInteractorImpl(searchPodcastInteractor);
-    }
-
-    @Provides
-    Context provideContext(){
-        return activity.getApplicationContext();
     }
 }
