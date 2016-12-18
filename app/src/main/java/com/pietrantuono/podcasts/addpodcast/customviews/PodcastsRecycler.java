@@ -7,10 +7,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.PodcastSearchResult;
+import com.pietrantuono.podcasts.addpodcast.presenter.AddPodcastPresenter;
 import com.pietrantuono.podcasts.main.dagger.DaggerImageLoaderComponent;
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule;
 
@@ -57,5 +57,13 @@ public class PodcastsRecycler extends RecyclerView {
 
     public void onQueryTextChange(String newText) {
         adapter.onQueryTextChange(newText);
+    }
+
+    public void setOnSubscribeListener(PodcastsAdapter.OnSunscribeClickedListener listner) {
+        adapter.setOnSubscribeListener(listner);
+    }
+
+    public void setOnItemClickListener(PodcastsAdapter.OnItemClickedClickedListener onItemClickedClickedListener) {
+        adapter.setOnItemClickListener(onItemClickedClickedListener);
     }
 }

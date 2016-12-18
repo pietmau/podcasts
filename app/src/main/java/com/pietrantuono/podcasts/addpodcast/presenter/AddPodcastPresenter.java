@@ -2,6 +2,7 @@ package com.pietrantuono.podcasts.addpodcast.presenter;
 
 import android.support.annotation.Nullable;
 
+import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsAdapter;
 import com.pietrantuono.podcasts.addpodcast.model.AddPodcastsModel;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.PodcastSearchResult;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastFragmentMemento;
@@ -12,7 +13,7 @@ import java.util.List;
 
 import rx.Observer;
 
-public class AddPodcastPresenter implements GenericPresenter {
+public class AddPodcastPresenter implements GenericPresenter, PodcastsAdapter.OnSunscribeClickedListener, PodcastsAdapter.OnItemClickedClickedListener {
     private AddPodcastsModel addPodcastsModel;
     private final Observer<List<PodcastSearchResult>> observer;
     @Nullable private AddPodcastView addPodcastView;
@@ -99,5 +100,15 @@ public class AddPodcastPresenter implements GenericPresenter {
         if (addPodcastView != null) {
             addPodcastView.showProgressBar(show);
         }
+    }
+
+    @Override
+    public void onSunscribeClicked(PodcastSearchResult podcastSearchResult) {
+
+    }
+
+    @Override
+    public void onItemClicked(PodcastSearchResult podcastSearchResult) {
+
     }
 }

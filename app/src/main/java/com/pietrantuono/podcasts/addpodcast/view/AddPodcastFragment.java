@@ -75,6 +75,8 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
         ButterKnife.bind(this, view);
         initViews();
         addPodcastPresenter.bindView(AddPodcastFragment.this, new AddPodcastFragmentMemento(savedInstanceState));
+        podcastsRecycler.setOnSubscribeListener(addPodcastPresenter);
+        podcastsRecycler.setOnItemClickListener(addPodcastPresenter);
         return view;
     }
 
@@ -101,7 +103,6 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
                 return addPodcastPresenter.onQueryTextChange(newText);
             }
         });
-
     }
 
     @Override

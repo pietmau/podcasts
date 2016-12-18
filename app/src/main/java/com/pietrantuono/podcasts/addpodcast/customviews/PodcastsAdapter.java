@@ -18,6 +18,8 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
     private List<PodcastSearchResult> items;
     private List<PodcastSearchResult> publishedItems;
     private ImageLoader imageLoader;
+    private OnSunscribeClickedListener onSunscribeClickedListener;
+    private OnItemClickedClickedListener onItemClickedClickedListener;
 
     public PodcastsAdapter(ImageLoader imageLoader) {
         this.imageLoader = imageLoader;
@@ -33,7 +35,7 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
 
     @Override
     public void onBindViewHolder(PodcastHolder holder, int position) {
-        holder.onBindViewHolder(publishedItems.get(position));
+        holder.onBindViewHolder(publishedItems.get(position), onSunscribeClickedListener, onItemClickedClickedListener);
     }
 
     @Override
@@ -57,7 +59,6 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
     private void prefetch(List<PodcastSearchResult> items) {
         for (PodcastSearchResult item : items) {
             imageLoader.loadImage(item.getArtworkUrl600(), null);
-
         }
     }
 
@@ -70,4 +71,19 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
         return new PodcastsFilter(this, items);
     }
 
+    public void setOnSubscribeListener(OnSunscribeClickedListener onSunscribeClickedListener) {
+        this.onSunscribeClickedListener = onSunscribeClickedListener;
+    }
+
+    public void setOnItemClickListener(OnItemClickedClickedListener onItemClickedClickedListener) {
+        this.onItemClickedClickedListener = onItemClickedClickedListener;
+    }
+
+    public interface OnSunscribeClickedListener {
+        void onSunscribeClicked(PodcastSearchResult podcastSearchResult);
+    }
+
+    public interface OnItemClickedClickedListener {
+        void onItemClicked(PodcastSearchResult podcastSearchResult);
+    }
 }

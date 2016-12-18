@@ -20,6 +20,8 @@ import butterknife.OnClick;
 
 public class PodcastHolder extends RecyclerView.ViewHolder {
     private final ImageLoader imageLoader;
+    private PodcastsAdapter.OnSunscribeClickedListener onSunscribeClickedListener;
+    private PodcastsAdapter.OnItemClickedClickedListener onItemClickedClickedListener;
     @Inject DisplayImageOptions displayImageOptions;
     @BindView(R.id.image) ImageView imageView;
     @BindView(R.id.title) TextView title;
@@ -36,23 +38,26 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
         DaggerImageLoaderComponent.builder().imageLoaderModule(new ImageLoaderModule(itemView.getContext())).build().inject(PodcastHolder.this);
     }
 
-    public void onBindViewHolder(PodcastSearchResult podcastSearchResult) {
+    public void onBindViewHolder(final PodcastSearchResult podcastSearchResult, PodcastsAdapter.OnSunscribeClickedListener onSunscribeClickedListener, final PodcastsAdapter.OnItemClickedClickedListener onItemClickedClickedListener) {
+        this.onSunscribeClickedListener = onSunscribeClickedListener;
+        this.onItemClickedClickedListener = onItemClickedClickedListener;
         this.podcastSearchResult = podcastSearchResult;
         podcastSearchResult.getGenres().remove("Podcasts");
-
         imageLoader.displayImage(podcastSearchResult.getArtworkUrl600(), imageView, displayImageOptions);
         title.setText(podcastSearchResult.getCollectionName());
         author.setText(podcastSearchResult.getArtistName());
 
         setUpMenu();
-
         populateGenres();
+        setUpOnClickListener();
     }
 
+
     private void setUpMenu() {
-        popupMenu = new SimplePopUpMenu(overfow, podcastSearchResult, new SimplePopUpMenu.Listener() {
+        popupMenu = new SimplePopUpMenu(overfow, podcastSearchResult, new PodcastsAdapter.OnSunscribeClickedListener() {
             @Override
             public void onSunscribeClicked(PodcastSearchResult podcastSearchResult) {
+                onSunscribeClickedListener.onSunscribeClicked(podcastSearchResult);
             }
         });
     }
@@ -60,6 +65,16 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
     private void populateGenres() {
         genres.setText(podcastSearchResult.getGenresAsString());
     }
+
+    private void setUpOnClickListener() {
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemClickedClickedListener.onItemClicked(podcastSearchResult);
+            }
+        });
+    }
+
 
     @OnClick(R.id.overflow)
     public void showMenu() {
