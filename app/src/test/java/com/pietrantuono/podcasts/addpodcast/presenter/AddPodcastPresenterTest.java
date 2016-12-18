@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.List;
@@ -18,12 +19,15 @@ import java.util.List;
 import rx.Observer;
 
 import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.timeout;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AddPodcastPresenterTest {
     private static final String QUERY = "query";
-
     private AddPodcastPresenter addPodcastPresenter;
 
     @Mock AddPodcastView view;
@@ -74,10 +78,6 @@ public class AddPodcastPresenterTest {
     @Test
     public void given_Presenter_when_onError_then_viewIsNotified() {
         /*
-        * GIVEN
-        */
-        addPodcastPresenter.onResume();
-        /*
         * WHEN
         */
         verify(model).subscribeToSearch(observerCaptor.capture());
@@ -92,10 +92,6 @@ public class AddPodcastPresenterTest {
     @Test
     public void given_Presenter_when_onItemsAvailable_then_viewIsUpdated() {
         /*
-        * GIVEN
-        */
-        addPodcastPresenter.onResume();
-        /*
         * WHEN
         */
         verify(model).subscribeToSearch(observerCaptor.capture());
@@ -105,5 +101,44 @@ public class AddPodcastPresenterTest {
         */
         verify(view).updateSearchResults(list);
     }
+
+    @Test
+    public void given_Presenter_when_onQueryTextChange_then_viewIsUpdated() {
+        /*
+        * WHEN
+        */
+        addPodcastPresenter.onQueryTextChange(QUERY);
+        /*
+        * THEN
+        */
+        verify(view).onQueryTextChange(QUERY);
+    }
+
+    @Test
+    public void given_Presenter_when_onCompleted_then_viewIsUpdated() {
+        /*
+        * WHEN
+        */
+        verify(model).subscribeToSearch(observerCaptor.capture());
+        observerCaptor.getValue().onCompleted();
+        /*
+        * THEN
+        */
+        verify(view, times(2)).showProgressBar(false);
+    }
+
+    @Test
+    public void given_Presenter_when_onSaveInstanceState_then_mementoIsUpdated() {
+        /*
+        * WHEN
+        */
+        when(view.isProgressShowing()).thenReturn(true);
+        addPodcastPresenter.onSaveInstanceState(memento);
+        /*
+        * THEN
+        */
+        verify(memento).setProgressShowing(true);
+    }
+
 
 }

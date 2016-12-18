@@ -14,7 +14,7 @@ import rx.Observer;
 
 public class AddPodcastPresenter implements GenericPresenter {
     private AddPodcastsModel addPodcastsModel;
-    private Observer<List<PodcastSearchResult>> observer;
+    private final Observer<List<PodcastSearchResult>> observer;
     @Nullable private AddPodcastView addPodcastView;
 
     public AddPodcastPresenter() {

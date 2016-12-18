@@ -17,10 +17,10 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class SearchPodcastInteractorImpl implements SearchPodcastInteractor {
-    private SearchApi searchApi;
-    private Subscription subscription;
+    private final SearchApi searchApi;
+    Subscription subscription;
     private Observer<List<PodcastSearchResult>> observer;
-    private Observable<List<PodcastSearchResult>> observable;
+    Observable<List<PodcastSearchResult>> observable;
 
     public SearchPodcastInteractorImpl(SearchApi searchApi) {
         this.searchApi = searchApi;

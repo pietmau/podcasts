@@ -11,6 +11,5 @@ public interface SearchPodcastInteractor {
 
     void unsubscribeFromSearch();
 
-
     void searchPodcasts(String query);
 }

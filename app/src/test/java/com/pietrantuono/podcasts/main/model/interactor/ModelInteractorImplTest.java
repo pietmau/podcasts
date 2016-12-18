@@ -65,4 +65,6 @@ public class ModelInteractorImplTest {
         verify(searchInteractor).searchPodcasts(QUERY);
     }
 
+
+
 }
