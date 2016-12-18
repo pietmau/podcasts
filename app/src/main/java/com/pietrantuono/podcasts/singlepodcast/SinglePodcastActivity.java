@@ -10,6 +10,9 @@ import android.widget.ImageView;
 
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelCheckerImpl;
+import com.pietrantuono.podcasts.main.dagger.DaggerMainComponent;
+import com.pietrantuono.podcasts.main.dagger.MainModule;
+import com.pietrantuono.podcasts.main.view.TransitionsFramework;
 import com.pietrantuono.podcasts.main.view.TransitionsFrameworkImpl;
 
 import javax.inject.Inject;
@@ -20,6 +23,7 @@ import butterknife.ButterKnife;
 public class SinglePodcastActivity extends AppCompatActivity implements SinglePodcastView {
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.image) ImageView imageView;
+    @Inject TransitionsFramework transitionsFramework;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,7 +31,8 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
         setContentView(R.layout.activity_podcast);
         ButterKnife.bind(SinglePodcastActivity.this);
         setUpActionBar();
-        new TransitionsFrameworkImpl(new ApiLevelCheckerImpl()).initDetailTransitions(SinglePodcastActivity.this);
+        DaggerSinglePodcastComponent.builder().build().inject(SinglePodcastActivity.this);
+        transitionsFramework.initDetailTransitions(SinglePodcastActivity.this);
     }
 
     private void setUpActionBar() {

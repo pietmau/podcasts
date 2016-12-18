@@ -5,6 +5,7 @@ import com.pietrantuono.podcasts.addpodcast.dagger.ApiLevelCheckerlModule;
 import com.pietrantuono.podcasts.addpodcast.dagger.SearchModelsModule;
 import com.pietrantuono.podcasts.main.model.ModelService;
 import com.pietrantuono.podcasts.main.view.MainActivity;
+import com.pietrantuono.podcasts.singlepodcast.SinglePodcastActivity;
 
 import javax.inject.Singleton;
 
