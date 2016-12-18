@@ -33,5 +33,6 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
     private void setUpActionBar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(null);
     }
 }
