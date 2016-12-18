@@ -680,4 +680,15 @@ public class PodcastSearchResult {
         this.genres = genres;
     }
 
+    public String getGenresAsString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        int l = getGenres().size();
+        for (int i = 0; i < l; i++) {
+            stringBuilder.append(getGenres().get(i));
+            if (i < l - 1) {
+                stringBuilder.append(", ");
+            }
+        }
+        return stringBuilder.toString();
+    }
 }

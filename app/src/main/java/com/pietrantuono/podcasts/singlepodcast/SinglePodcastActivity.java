@@ -15,16 +15,18 @@ import butterknife.ButterKnife;
 
 public class SinglePodcastActivity extends AppCompatActivity implements SinglePodcastView {
     @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingToolbarLayout;
-    //@BindView(R.id.image) ImageView imageView;
+    @BindView(R.id.image) ImageView imageView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_podcast);
         ButterKnife.bind(SinglePodcastActivity.this);
+        setUpActionBar();
+    }
+
+    private void setUpActionBar() {
         setSupportActionBar(toolbar);
-        collapsingToolbarLayout.setTitle("Ffff");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }
