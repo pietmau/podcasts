@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts.addpodcast.presenter;
 
 import android.support.annotation.Nullable;
+import android.widget.ImageView;
 
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsAdapter;
 import com.pietrantuono.podcasts.addpodcast.model.AddPodcastsModel;
@@ -104,9 +105,9 @@ public class AddPodcastPresenter implements GenericPresenter, PodcastsAdapter.On
     }
 
     @Override
-    public void onItemClicked(PodcastSearchResult podcastSearchResult) {
+    public void onItemClicked(PodcastSearchResult podcastSearchResult, ImageView imageView) {
         if(addPodcastView.isLollipop()){
-            addPodcastView.startDetailActivityWithTransition(podcastSearchResult);
+            addPodcastView.startDetailActivityWithTransition(podcastSearchResult, imageView);
         }
         else{addPodcastView.startDetailActivityWithOutTransition(podcastSearchResult);}
     }

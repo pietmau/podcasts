@@ -70,7 +70,7 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onItemClickedClickedListener.onItemClicked(podcastSearchResult);
+                onItemClickedClickedListener.onItemClicked(podcastSearchResult, imageView);
             }
         });
     }

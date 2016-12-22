@@ -24,6 +24,7 @@
             app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
 
             <ImageView
+                android:transitionName="@string/detail_transition"
                 android:fitsSystemWindows="true"
                 android:id="@+id/image"
                 android:scaleType="centerCrop"

@@ -1,5 +1,7 @@
 package com.pietrantuono.podcasts.addpodcast.view;
 
+import android.widget.ImageView;
+
 import com.pietrantuono.podcasts.addpodcast.model.pojos.PodcastSearchResult;
 
 import java.util.List;
@@ -15,7 +17,7 @@ public interface AddPodcastView {
 
     void onQueryTextChange(String newText);
 
-    void startDetailActivityWithTransition(PodcastSearchResult podcastSearchResult);
+    void startDetailActivityWithTransition(PodcastSearchResult podcastSearchResult, ImageView imageView);
 
     boolean isLollipop();
 

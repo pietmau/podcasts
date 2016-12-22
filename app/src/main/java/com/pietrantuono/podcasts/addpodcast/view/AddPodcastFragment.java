@@ -13,6 +13,7 @@ import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.pietrantuono.podcasts.R;
@@ -151,9 +152,12 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void startDetailActivityWithTransition(PodcastSearchResult podcastSearchResult) {
+    public void startDetailActivityWithTransition(PodcastSearchResult podcastSearchResult, ImageView imageView) {
         Intent intent = new Intent(getActivity(), SinglePodcastActivity.class);
-        getActivity().startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity()).toBundle());
+        String transitionName = getString(R.string.detail_transition);
+        ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), imageView, transitionName);
+        Bundle bundle = activityOptionsCompat.toBundle();
+        getActivity().startActivity(intent, bundle);
     }
 
     @Override

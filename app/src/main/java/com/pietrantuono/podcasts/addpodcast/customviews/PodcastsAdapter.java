@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pietrantuono.podcasts.R;
@@ -84,6 +85,6 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
     }
 
     public interface OnItemClickedClickedListener {
-        void onItemClicked(PodcastSearchResult podcastSearchResult);
+        void onItemClicked(PodcastSearchResult podcastSearchResult, ImageView imageView);
     }
 }
