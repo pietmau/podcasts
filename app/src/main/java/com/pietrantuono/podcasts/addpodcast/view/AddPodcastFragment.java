@@ -1,7 +1,6 @@
 package com.pietrantuono.podcasts.addpodcast.view;
 
 import android.annotation.TargetApi;
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Build;
@@ -68,14 +67,13 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().bindService(modelServiceIntent, modelServiceConnection, BIND_AUTO_CREATE);
+        initSearchView();
     }
 
     @DebugLog
     @Override
     public void onPause() {
         super.onPause();
-        getActivity().unbindService(modelServiceConnection);
     }
 
     @DebugLog
@@ -84,10 +82,10 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add, container, false);
         ButterKnife.bind(this, view);
-        initViews();
         addPodcastPresenter.bindView(AddPodcastFragment.this, new AddPodcastFragmentMemento(savedInstanceState));
         podcastsRecycler.setOnSubscribeListener(addPodcastPresenter);
         podcastsRecycler.setOnItemClickListener(addPodcastPresenter);
+        getActivity().bindService(modelServiceIntent, modelServiceConnection, BIND_AUTO_CREATE);
         return view;
     }
 
@@ -96,6 +94,7 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     public void onDestroy() {
         super.onDestroy();
         addPodcastPresenter.onDestroy();
+        getActivity().unbindService(modelServiceConnection);
     }
 
     @DebugLog
@@ -105,9 +104,9 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     }
 
     @DebugLog
-    private void initViews() {
+    private void initSearchView() {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
+            @Override // TODO use butterknife
             public boolean onQueryTextSubmit(String query) {
                 return addPodcastPresenter.onQueryTextSubmit(query);
             }
@@ -124,13 +123,13 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     public void onError(Throwable e) {
     }
 
+
     @DebugLog
     @Override
     public void updateSearchResults(List<PodcastSearchResult> items) {
         podcastsRecycler.setItems(items);
     }
 
-    @DebugLog
     @Override
     public void showProgressBar(boolean show) {
         if (show) {
@@ -140,13 +139,11 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
         }
     }
 
-    @DebugLog
     @Override
     public boolean isProgressShowing() {
         return progressBar.getVisibility() == View.VISIBLE;
     }
 
-    @DebugLog
     @Override
     public void onQueryTextChange(String newText) {
         podcastsRecycler.onQueryTextChange(newText);
@@ -168,5 +165,4 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     public void startDetailActivityWithOutTransition(PodcastSearchResult podcastSearchResult) {
 
     }
-
 }
