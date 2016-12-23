@@ -12,15 +12,15 @@ import dagger.Provides;
 
 @Module
 public class SearchModelsModule {
-    private static SearchPodcastInteractorImpl foo;
+    private static SearchPodcastInteractorImpl searchPodcastInteractor;
 
     @Singleton
     @Provides
     SearchPodcastInteractor provideSearchPodcastInteractor(SearchApi searchApi) {
-        if (foo == null) {
-            foo = new SearchPodcastInteractorImpl(searchApi);
+        if (searchPodcastInteractor == null) {
+            searchPodcastInteractor = new SearchPodcastInteractorImpl(searchApi);
         }
-        return foo;
+        return searchPodcastInteractor;
     }
 
     @Singleton

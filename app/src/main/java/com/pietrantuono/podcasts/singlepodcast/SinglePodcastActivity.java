@@ -60,7 +60,7 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
         if (podcastSearchResult.getArtworkUrl600() == null) {
             return;
         }
-        imageLoader.displayImage(podcastSearchResult.getArtworkUrl600(), imageView, displayImageOptions, new SimpleImageLoadingListener(){
+        imageLoader.displayImage(podcastSearchResult.getArtworkUrl600(), imageView, displayImageOptions, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
 
