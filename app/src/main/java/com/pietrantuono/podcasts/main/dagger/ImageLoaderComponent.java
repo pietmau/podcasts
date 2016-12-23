@@ -3,6 +3,7 @@ package com.pietrantuono.podcasts.main.dagger;
 
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastHolder;
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler;
+import com.pietrantuono.podcasts.singlepodcast.SinglePodcastActivity;
 
 import javax.inject.Singleton;
 

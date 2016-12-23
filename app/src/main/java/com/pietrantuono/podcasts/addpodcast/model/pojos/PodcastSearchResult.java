@@ -1,11 +1,14 @@
 
 package com.pietrantuono.podcasts.addpodcast.model.pojos;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-public class PodcastSearchResult {
+public class PodcastSearchResult implements Parcelable {
 
     @SerializedName("wrapperType")
     @Expose
@@ -105,7 +108,7 @@ public class PodcastSearchResult {
     private List<String> genres = null;
 
     /**
-     * 
+     *
      * @return
      *     The wrapperType
      */
@@ -114,7 +117,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param wrapperType
      *     The wrapperType
      */
@@ -123,7 +126,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @return
      *     The kind
      */
@@ -132,7 +135,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param kind
      *     The kind
      */
@@ -141,7 +144,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @return
      *     The collectionId
      */
@@ -150,7 +153,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param collectionId
      *     The collectionId
      */
@@ -159,7 +162,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @return
      *     The trackId
      */
@@ -168,7 +171,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param trackId
      *     The trackId
      */
@@ -177,7 +180,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @return
      *     The artistName
      */
@@ -186,7 +189,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param artistName
      *     The artistName
      */
@@ -195,7 +198,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @return
      *     The collectionName
      */
@@ -204,7 +207,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param collectionName
      *     The collectionName
      */
@@ -213,7 +216,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @return
      *     The trackName
      */
@@ -222,7 +225,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param trackName
      *     The trackName
      */
@@ -231,7 +234,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @return
      *     The collectionCensoredName
      */
@@ -240,7 +243,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param collectionCensoredName
      *     The collectionCensoredName
      */
@@ -249,7 +252,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @return
      *     The trackCensoredName
      */
@@ -258,7 +261,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param trackCensoredName
      *     The trackCensoredName
      */
@@ -267,7 +270,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @return
      *     The collectionViewUrl
      */
@@ -276,7 +279,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param collectionViewUrl
      *     The collectionViewUrl
      */
@@ -285,7 +288,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @return
      *     The feedUrl
      */
@@ -294,7 +297,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param feedUrl
      *     The feedUrl
      */
@@ -303,7 +306,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @return
      *     The trackViewUrl
      */
@@ -312,7 +315,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param trackViewUrl
      *     The trackViewUrl
      */
@@ -321,7 +324,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @return
      *     The artworkUrl30
      */
@@ -330,7 +333,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param artworkUrl30
      *     The artworkUrl30
      */
@@ -339,7 +342,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @return
      *     The artworkUrl60
      */
@@ -348,7 +351,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param artworkUrl60
      *     The artworkUrl60
      */
@@ -357,7 +360,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @return
      *     The artworkUrl100
      */
@@ -366,7 +369,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param artworkUrl100
      *     The artworkUrl100
      */
@@ -375,7 +378,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @return
      *     The collectionPrice
      */
@@ -384,7 +387,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param collectionPrice
      *     The collectionPrice
      */
@@ -393,7 +396,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @return
      *     The trackPrice
      */
@@ -402,7 +405,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param trackPrice
      *     The trackPrice
      */
@@ -411,7 +414,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @return
      *     The trackRentalPrice
      */
@@ -420,7 +423,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param trackRentalPrice
      *     The trackRentalPrice
      */
@@ -429,7 +432,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @return
      *     The collectionHdPrice
      */
@@ -438,7 +441,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param collectionHdPrice
      *     The collectionHdPrice
      */
@@ -447,7 +450,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @return
      *     The trackHdPrice
      */
@@ -456,7 +459,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param trackHdPrice
      *     The trackHdPrice
      */
@@ -465,7 +468,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @return
      *     The trackHdRentalPrice
      */
@@ -474,7 +477,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param trackHdRentalPrice
      *     The trackHdRentalPrice
      */
@@ -483,7 +486,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @return
      *     The releaseDate
      */
@@ -492,7 +495,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param releaseDate
      *     The releaseDate
      */
@@ -501,7 +504,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @return
      *     The collectionExplicitness
      */
@@ -510,7 +513,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param collectionExplicitness
      *     The collectionExplicitness
      */
@@ -519,7 +522,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @return
      *     The trackExplicitness
      */
@@ -528,7 +531,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param trackExplicitness
      *     The trackExplicitness
      */
@@ -537,7 +540,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @return
      *     The trackCount
      */
@@ -546,7 +549,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param trackCount
      *     The trackCount
      */
@@ -555,7 +558,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @return
      *     The country
      */
@@ -564,7 +567,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param country
      *     The country
      */
@@ -573,7 +576,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @return
      *     The currency
      */
@@ -582,7 +585,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param currency
      *     The currency
      */
@@ -591,7 +594,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @return
      *     The primaryGenreName
      */
@@ -600,7 +603,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param primaryGenreName
      *     The primaryGenreName
      */
@@ -609,7 +612,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @return
      *     The contentAdvisoryRating
      */
@@ -618,7 +621,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param contentAdvisoryRating
      *     The contentAdvisoryRating
      */
@@ -627,7 +630,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @return
      *     The artworkUrl600
      */
@@ -636,7 +639,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param artworkUrl600
      *     The artworkUrl600
      */
@@ -645,7 +648,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @return
      *     The genreIds
      */
@@ -654,7 +657,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param genreIds
      *     The genreIds
      */
@@ -663,7 +666,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @return
      *     The genres
      */
@@ -672,7 +675,7 @@ public class PodcastSearchResult {
     }
 
     /**
-     * 
+     *
      * @param genres
      *     The genres
      */
@@ -691,4 +694,158 @@ public class PodcastSearchResult {
         }
         return stringBuilder.toString();
     }
+
+    protected PodcastSearchResult(Parcel in) {
+        wrapperType = in.readString();
+        kind = in.readString();
+        collectionId = in.readByte() == 0x00 ? null : in.readInt();
+        trackId = in.readByte() == 0x00 ? null : in.readInt();
+        artistName = in.readString();
+        collectionName = in.readString();
+        trackName = in.readString();
+        collectionCensoredName = in.readString();
+        trackCensoredName = in.readString();
+        collectionViewUrl = in.readString();
+        feedUrl = in.readString();
+        trackViewUrl = in.readString();
+        artworkUrl30 = in.readString();
+        artworkUrl60 = in.readString();
+        artworkUrl100 = in.readString();
+        collectionPrice = in.readByte() == 0x00 ? null : in.readDouble();
+        trackPrice = in.readByte() == 0x00 ? null : in.readDouble();
+        trackRentalPrice = in.readByte() == 0x00 ? null : in.readInt();
+        collectionHdPrice = in.readByte() == 0x00 ? null : in.readInt();
+        trackHdPrice = in.readByte() == 0x00 ? null : in.readInt();
+        trackHdRentalPrice = in.readByte() == 0x00 ? null : in.readInt();
+        releaseDate = in.readString();
+        collectionExplicitness = in.readString();
+        trackExplicitness = in.readString();
+        trackCount = in.readByte() == 0x00 ? null : in.readInt();
+        country = in.readString();
+        currency = in.readString();
+        primaryGenreName = in.readString();
+        contentAdvisoryRating = in.readString();
+        artworkUrl600 = in.readString();
+        if (in.readByte() == 0x01) {
+            genreIds = new ArrayList<String>();
+            in.readList(genreIds, String.class.getClassLoader());
+        } else {
+            genreIds = null;
+        }
+        if (in.readByte() == 0x01) {
+            genres = new ArrayList<String>();
+            in.readList(genres, String.class.getClassLoader());
+        } else {
+            genres = null;
+        }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(wrapperType);
+        dest.writeString(kind);
+        if (collectionId == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(collectionId);
+        }
+        if (trackId == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(trackId);
+        }
+        dest.writeString(artistName);
+        dest.writeString(collectionName);
+        dest.writeString(trackName);
+        dest.writeString(collectionCensoredName);
+        dest.writeString(trackCensoredName);
+        dest.writeString(collectionViewUrl);
+        dest.writeString(feedUrl);
+        dest.writeString(trackViewUrl);
+        dest.writeString(artworkUrl30);
+        dest.writeString(artworkUrl60);
+        dest.writeString(artworkUrl100);
+        if (collectionPrice == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(collectionPrice);
+        }
+        if (trackPrice == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(trackPrice);
+        }
+        if (trackRentalPrice == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(trackRentalPrice);
+        }
+        if (collectionHdPrice == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(collectionHdPrice);
+        }
+        if (trackHdPrice == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(trackHdPrice);
+        }
+        if (trackHdRentalPrice == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(trackHdRentalPrice);
+        }
+        dest.writeString(releaseDate);
+        dest.writeString(collectionExplicitness);
+        dest.writeString(trackExplicitness);
+        if (trackCount == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(trackCount);
+        }
+        dest.writeString(country);
+        dest.writeString(currency);
+        dest.writeString(primaryGenreName);
+        dest.writeString(contentAdvisoryRating);
+        dest.writeString(artworkUrl600);
+        if (genreIds == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(genreIds);
+        }
+        if (genres == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(genres);
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<PodcastSearchResult> CREATOR = new Parcelable.Creator<PodcastSearchResult>() {
+        @Override
+        public PodcastSearchResult createFromParcel(Parcel in) {
+            return new PodcastSearchResult(in);
+        }
+
+        @Override
+        public PodcastSearchResult[] newArray(int size) {
+            return new PodcastSearchResult[size];
+        }
+    };
 }

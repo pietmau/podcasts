@@ -157,6 +157,7 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
         String transitionName = getString(R.string.detail_transition);
         ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), imageView, transitionName);
         Bundle bundle = activityOptionsCompat.toBundle();
+        //bundle.putParcelable(SinglePodcastActivity.SINGLE_PODCAST, podcastSearchResult);
         getActivity().startActivity(intent, bundle);
     }
 
