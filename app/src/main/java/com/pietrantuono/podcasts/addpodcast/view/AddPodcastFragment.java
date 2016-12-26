@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,7 +60,7 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DaggerMainComponent.builder().mainModule(new MainModule(getActivity())).build().newAddPodcastComponent().inject(AddPodcastFragment.this);
+        DaggerMainComponent.builder().mainModule(new MainModule((AppCompatActivity) getActivity())).build().newAddPodcastComponent().inject(AddPodcastFragment.this);
     }
 
     @DebugLog

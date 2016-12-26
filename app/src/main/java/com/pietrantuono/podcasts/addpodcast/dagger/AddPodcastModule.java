@@ -1,5 +1,6 @@
 package com.pietrantuono.podcasts.addpodcast.dagger;
 
+import com.pietrantuono.podcasts.PresenterManager;
 import com.pietrantuono.podcasts.addpodcast.model.AddPodcastsModel;
 import com.pietrantuono.podcasts.addpodcast.model.SearchApi;
 import com.pietrantuono.podcasts.addpodcast.presenter.AddPodcastPresenter;
@@ -11,16 +12,19 @@ import dagger.Provides;
 @AddPodcastScope
 @Module
 public class AddPodcastModule {
-    private AddPodcastPresenter addPodcastPresenter;
 
     @Provides
-    AddPodcastPresenter provideAddPodcastPresenter(AddPodcastsModel addPodcastsModel) {
-        addPodcastPresenter = new AddPodcastPresenter(addPodcastsModel);
+    AddPodcastPresenter provideAddPodcastPresenter(AddPodcastsModel addPodcastsModel, PresenterManager presenterManager) {
+        AddPodcastPresenter addPodcastPresenter = (AddPodcastPresenter) presenterManager.getPresenter(AddPodcastPresenter.TAG);
+        if (addPodcastPresenter == null) {
+            addPodcastPresenter = new AddPodcastPresenter(addPodcastsModel);
+            presenterManager.put(AddPodcastPresenter.TAG, addPodcastPresenter);
+        }
         return addPodcastPresenter;
     }
 
     @Provides
-    AddPodcastsModel provideAddPodcastsModel(SearchApi api){
+    AddPodcastsModel provideAddPodcastsModel(SearchApi api) {
         return new AddPodcastsModelImpl(api);
     }
 }

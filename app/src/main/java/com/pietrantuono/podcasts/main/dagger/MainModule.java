@@ -1,7 +1,9 @@
 package com.pietrantuono.podcasts.main.dagger;
 
 import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 
+import com.pietrantuono.podcasts.PresenterManager;
 import com.pietrantuono.podcasts.main.model.interactor.AddPodcastsModelImpl;
 import com.pietrantuono.podcasts.main.presenter.MainPresenter;
 
@@ -10,9 +12,16 @@ import dagger.Provides;
 
 @Module
 public class MainModule {
+    private final PresenterManager presenterManager;
     private MainPresenter mainPresenter;
+    private AppCompatActivity activity;
 
-    public MainModule(Activity activity) {
+    public MainModule(AppCompatActivity activity) {
+        PresenterManager manager = (PresenterManager) activity.getLastCustomNonConfigurationInstance();
+        if (manager == null) {
+            manager = new PresenterManager();
+        }
+        presenterManager = manager;
     }
 
     @Provides
@@ -21,4 +30,8 @@ public class MainModule {
         return mainPresenter;
     }
 
+    @Provides
+    PresenterManager providePresenterManager() {
+        return presenterManager;
+    }
 }

@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.crashlytics.android.Crashlytics;
+import com.pietrantuono.podcasts.PresenterManager;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastFragment;
 import com.pietrantuono.podcasts.main.customviews.DrawerLayoutWithToggle;
@@ -25,6 +26,7 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements MainView {
     @Inject MainPresenter mainPresenter;
+    @Inject PresenterManager presenterManager;
     @Inject TransitionsFramework transitionsFramework;
     @BindView(R.id.drawer) DrawerLayoutWithToggle drawerLayoutWithToggle;
     @BindView(R.id.maintoolbar) Toolbar mainToolbar;
@@ -78,4 +80,9 @@ public class MainActivity extends AppCompatActivity implements MainView {
         AddPodcastFragment.navigateTo(fragmentManager);
     }
 
+
+    @Override
+    public Object onRetainCustomNonConfigurationInstance() {
+        return presenterManager;
+    }
 }

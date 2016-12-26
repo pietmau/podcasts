@@ -15,6 +15,7 @@ import java.util.List;
 import rx.Observer;
 
 public class AddPodcastPresenter implements GenericPresenter, PodcastsAdapter.OnSunscribeClickedListener, PodcastsAdapter.OnItemClickedClickedListener {
+    public static final String TAG = (AddPodcastPresenter.class).getSimpleName();
     private AddPodcastsModel addPodcastsModel;
     private final Observer<List<PodcastSearchResult>> observer;
     @Nullable private AddPodcastView addPodcastView;
@@ -98,9 +99,10 @@ public class AddPodcastPresenter implements GenericPresenter, PodcastsAdapter.On
 
     @Override
     public void onItemClicked(PodcastSearchResult podcastSearchResult, ImageView imageView) {
-        if(addPodcastView.isLollipop()){
+        if (addPodcastView.isLollipop()) {
             addPodcastView.startDetailActivityWithTransition(podcastSearchResult, imageView);
+        } else {
+            addPodcastView.startDetailActivityWithOutTransition(podcastSearchResult);
         }
-        else{addPodcastView.startDetailActivityWithOutTransition(podcastSearchResult);}
     }
 }
