@@ -67,14 +67,14 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     public void onResume() {
         super.onResume();
         initSearchView();
-        addPodcastPresenter.onResume();
+
     }
 
     @DebugLog
     @Override
     public void onPause() {
         super.onPause();
-        addPodcastPresenter.onPause();
+
     }
 
     @DebugLog
@@ -86,6 +86,7 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
         addPodcastPresenter.bindView(AddPodcastFragment.this, new AddPodcastFragmentMemento(savedInstanceState));
         podcastsRecycler.setOnSubscribeListener(addPodcastPresenter);
         podcastsRecycler.setOnItemClickListener(addPodcastPresenter);
+        addPodcastPresenter.onResume();
         return view;
     }
 
@@ -93,6 +94,7 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        addPodcastPresenter.onPause();
         addPodcastPresenter.onDestroy();
     }
 
@@ -121,7 +123,6 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     @Override
     public void onError(Throwable e) {
     }
-
 
     @DebugLog
     @Override
