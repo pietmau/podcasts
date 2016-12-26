@@ -9,13 +9,16 @@ import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.pietrantuono.podcasts.PresenterManager;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker;
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader;
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule;
 import com.pietrantuono.podcasts.main.view.TransitionsFramework;
-import com.pietrantuono.podcasts.singlepodcast.DaggerSinglePodcastComponent;
+import com.pietrantuono.podcasts.singlepodcast.dagger.DaggerSinglePodcastComponent;
+import com.pietrantuono.podcasts.singlepodcast.dagger.SinglePodcastModule;
+import com.pietrantuono.podcasts.singlepodcast.presenter.SinglePodcastPresenter;
 
 import javax.inject.Inject;
 
@@ -28,6 +31,8 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
     @BindView(R.id.image) ImageView imageView;
     @Inject TransitionsFramework transitionsFramework;
     @Inject SimpleImageLoader imageLoader;
+    @Inject SinglePodcastPresenter singlePodcastPresenter;
+    @Inject PresenterManager presenterManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,7 +40,7 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
         setContentView(R.layout.activity_podcast);
         ButterKnife.bind(SinglePodcastActivity.this);
         setUpActionBar();
-        DaggerSinglePodcastComponent.builder().imageLoaderModule(new ImageLoaderModule(SinglePodcastActivity.this)).build().inject(SinglePodcastActivity.this);
+        DaggerSinglePodcastComponent.builder().singlePodcastModule(new SinglePodcastModule(SinglePodcastActivity.this)).imageLoaderModule(new ImageLoaderModule(SinglePodcastActivity.this)).build().inject(SinglePodcastActivity.this);
         transitionsFramework.initDetailTransitionAndPostponeEnterTransition(SinglePodcastActivity.this);
         loadImage();
     }
@@ -52,6 +57,10 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
             imageLoader.displayImage(url, imageView, new PodcastImageLoadingListener(SinglePodcastActivity.this, transitionsFramework));
         } catch (NullPointerException e) {
         }
+    }
 
+    @Override
+    public Object onRetainCustomNonConfigurationInstance() {
+        return presenterManager;
     }
 }

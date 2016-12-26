@@ -1,4 +1,4 @@
-package com.pietrantuono.podcasts.singlepodcast;
+package com.pietrantuono.podcasts.singlepodcast.dagger;
 
 import com.pietrantuono.podcasts.addpodcast.dagger.ApiLevelCheckerlModule;
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule;
@@ -14,7 +14,8 @@ import dagger.Component;
 @Component(modules = {
         ApiLevelCheckerlModule.class,
         TransitionsModule.class,
-        ImageLoaderModule.class
+        ImageLoaderModule.class,
+        SinglePodcastModule.class
 })
 public interface SinglePodcastComponent {
 

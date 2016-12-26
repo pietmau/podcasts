@@ -46,12 +46,10 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
         imageLoader.displayImage(singlePodcast.getArtworkUrl600(), imageView);
         title.setText(singlePodcast.getCollectionName());
         author.setText(singlePodcast.getArtistName());
-
         setUpMenu();
         populateGenres();
         setUpOnClickListener();
     }
-
 
     private void setUpMenu() {
         popupMenu = new SimplePopUpMenu(overfow, singlePodcast, new PodcastsAdapter.OnSunscribeClickedListener() {
@@ -74,7 +72,6 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
             }
         });
     }
-
 
     @OnClick(R.id.overflow)
     public void showMenu() {
