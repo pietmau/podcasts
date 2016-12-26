@@ -62,7 +62,6 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     public void onResume() {
         super.onResume();
         addPodcastPresenter.onResume();
-        initSearchView();
     }
 
     @DebugLog
@@ -88,6 +87,7 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
         addPodcastPresenter.bindView(AddPodcastFragment.this, new AddPodcastFragmentMemento(savedInstanceState));
         podcastsRecycler.setOnSubscribeListener(addPodcastPresenter);
         podcastsRecycler.setOnItemClickListener(addPodcastPresenter);
+        initSearchView();
         return view;
     }
 
@@ -101,7 +101,7 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     @DebugLog
     private void initSearchView() {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override // TODO use butterknife
+            @Override
             public boolean onQueryTextSubmit(String query) {
                 return addPodcastPresenter.onQueryTextSubmit(query);
             }
