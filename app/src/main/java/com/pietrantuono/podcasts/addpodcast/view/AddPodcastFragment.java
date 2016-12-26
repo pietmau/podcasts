@@ -62,33 +62,29 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
         ((MainActivity)getActivity()).getComponent().newAddPodcastComponent().inject(AddPodcastFragment.this);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
     }
 
     @DebugLog
     @Override
     public void onResume() {
         super.onResume();
+        addPodcastPresenter.onResume();
         initSearchView();
-
     }
 
     @DebugLog
     @Override
     public void onPause() {
         super.onPause();
+        addPodcastPresenter.onPause();
+    }
 
+    @DebugLog
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        addPodcastPresenter.onDestroy();
     }
 
     @DebugLog
@@ -100,17 +96,9 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
         addPodcastPresenter.bindView(AddPodcastFragment.this, new AddPodcastFragmentMemento(savedInstanceState));
         podcastsRecycler.setOnSubscribeListener(addPodcastPresenter);
         podcastsRecycler.setOnItemClickListener(addPodcastPresenter);
-        addPodcastPresenter.onResume();
         return view;
     }
 
-    @DebugLog
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        addPodcastPresenter.onPause();
-        addPodcastPresenter.onDestroy();
-    }
 
     @DebugLog
     @Override

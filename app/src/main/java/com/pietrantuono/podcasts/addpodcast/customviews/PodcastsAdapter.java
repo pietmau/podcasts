@@ -81,7 +81,7 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
     }
 
     public interface OnSunscribeClickedListener {
-        void onSunscribeClicked(PodcastSearchResult podcastSearchResult);
+        void onSubscribeClicked(PodcastSearchResult podcastSearchResult);
     }
 
     public interface OnItemClickedClickedListener {

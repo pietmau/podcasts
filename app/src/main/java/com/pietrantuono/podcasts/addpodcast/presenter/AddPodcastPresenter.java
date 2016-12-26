@@ -19,10 +19,12 @@ public class AddPodcastPresenter implements GenericPresenter, PodcastsAdapter.On
     private AddPodcastsModel addPodcastsModel;
     private final Observer<List<PodcastSearchResult>> observer;
     @Nullable private AddPodcastView addPodcastView;
+    private List<PodcastSearchResult> cachedResult;
 
-    public AddPodcastPresenter(AddPodcastsModel addPodcastsModel) {
+    public AddPodcastPresenter(final AddPodcastsModel addPodcastsModel) {
         this.addPodcastsModel = addPodcastsModel;
         observer = new Observer<List<PodcastSearchResult>>() {
+
             @Override
             public void onCompleted() {
                 showProgressBar(false);
@@ -38,8 +40,9 @@ public class AddPodcastPresenter implements GenericPresenter, PodcastsAdapter.On
 
             @Override
             public void onNext(List<PodcastSearchResult> items) {
-                if (addPodcastView != null) {
-                    addPodcastView.updateSearchResults(items);
+                if (addPodcastView != null && cachedResult == null) {
+                    cachedResult = items;
+                    addPodcastView.updateSearchResults(cachedResult);
                 }
             }
         };
@@ -48,6 +51,9 @@ public class AddPodcastPresenter implements GenericPresenter, PodcastsAdapter.On
     public void bindView(AddPodcastView addPodcastView, AddPodcastFragmentMemento memento) {
         this.addPodcastView = addPodcastView;
         addPodcastView.showProgressBar(memento.isProgressShowing());
+        if (cachedResult != null) {
+            addPodcastView.updateSearchResults(cachedResult);
+        }
     }
 
     @Override
@@ -93,8 +99,7 @@ public class AddPodcastPresenter implements GenericPresenter, PodcastsAdapter.On
     }
 
     @Override
-    public void onSunscribeClicked(PodcastSearchResult podcastSearchResult) {
-
+    public void onSubscribeClicked(PodcastSearchResult podcastSearchResult) {
     }
 
     @Override

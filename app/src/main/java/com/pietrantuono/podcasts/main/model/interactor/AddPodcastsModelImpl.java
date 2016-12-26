@@ -14,7 +14,7 @@ public class AddPodcastsModelImpl implements AddPodcastsModel {
     private final SearchApi searchApi;
     Subscription subscription;
     private Observer<List<PodcastSearchResult>> observer;
-    Observable<List<PodcastSearchResult>> observable;
+    Observable<List<PodcastSearchResult>> cachedRequest;
 
     public AddPodcastsModelImpl(SearchApi searchApi) {
         this.searchApi = searchApi;
@@ -23,8 +23,8 @@ public class AddPodcastsModelImpl implements AddPodcastsModel {
     @Override
     public void subscribeToSearch(Observer<List<PodcastSearchResult>> observer) {
         this.observer = observer;
-        if (observable != null) {
-            subscription = observable.subscribe(observer);
+        if (cachedRequest != null) {
+            subscription = cachedRequest.subscribe(observer);
         }
     }
 
@@ -37,7 +37,8 @@ public class AddPodcastsModelImpl implements AddPodcastsModel {
 
     @Override
     public void searchPodcasts(String query) {
-        observable = searchApi.search(query);
-        subscription = observable.subscribe(observer);
+        cachedRequest = searchApi.search(query);
+        subscription = cachedRequest.subscribe(observer);
     }
+
 }

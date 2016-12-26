@@ -16,7 +16,7 @@ class SimplePopUpMenu extends PopupMenu {
         setOnMenuItemClickListener(new OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                onSunscribeClickedListener.onSunscribeClicked(podcastSearchResult);
+                onSunscribeClickedListener.onSubscribeClicked(podcastSearchResult);
                 return false;
             }
         });

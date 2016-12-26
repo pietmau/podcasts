@@ -56,8 +56,8 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
     private void setUpMenu() {
         popupMenu = new SimplePopUpMenu(overfow, podcastSearchResult, new PodcastsAdapter.OnSunscribeClickedListener() {
             @Override
-            public void onSunscribeClicked(PodcastSearchResult podcastSearchResult) {
-                onSunscribeClickedListener.onSunscribeClicked(podcastSearchResult);
+            public void onSubscribeClicked(PodcastSearchResult podcastSearchResult) {
+                onSunscribeClickedListener.onSubscribeClicked(podcastSearchResult);
             }
         });
     }

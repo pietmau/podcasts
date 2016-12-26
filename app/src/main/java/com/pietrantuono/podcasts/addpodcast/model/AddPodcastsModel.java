@@ -13,4 +13,5 @@ public interface AddPodcastsModel {
     void unsubscribeFromSearch();
 
     void searchPodcasts(String query);
+
 }
