@@ -14,5 +14,5 @@ public interface SearchApi {
     @GET("search")
     Observable<List<SinglePodcast>> search(@QueryMap Map<String, String> query);
 
-    Observable<List<SinglePodcast>> search(String query);
+    Observable<SearchResult> search(String query);
 }

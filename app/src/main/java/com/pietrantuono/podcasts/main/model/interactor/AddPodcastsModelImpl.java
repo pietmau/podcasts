@@ -1,10 +1,8 @@
 package com.pietrantuono.podcasts.main.model.interactor;
 
 import com.pietrantuono.podcasts.addpodcast.model.AddPodcastsModel;
+import com.pietrantuono.podcasts.addpodcast.model.SearchResult;
 import com.pietrantuono.podcasts.addpodcast.model.SearchApi;
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
-
-import java.util.List;
 
 import rx.Observable;
 import rx.Observer;
@@ -12,16 +10,16 @@ import rx.Subscription;
 
 public class AddPodcastsModelImpl implements AddPodcastsModel {
     private final SearchApi searchApi;
-    Subscription subscription;
-    private Observer<List<SinglePodcast>> observer;
-    Observable<List<SinglePodcast>> cachedRequest;
+    private Subscription subscription;
+    private Observer<SearchResult> observer;
+    private Observable<SearchResult> cachedRequest;
 
     public AddPodcastsModelImpl(SearchApi searchApi) {
         this.searchApi = searchApi;
     }
 
     @Override
-    public void subscribeToSearch(Observer<List<SinglePodcast>> observer) {
+    public void subscribeToSearch(Observer<SearchResult> observer) {
         this.observer = observer;
         if (cachedRequest != null) {
             subscription = cachedRequest.subscribe(observer);

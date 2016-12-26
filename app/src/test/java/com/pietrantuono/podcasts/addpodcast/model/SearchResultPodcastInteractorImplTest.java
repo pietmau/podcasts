@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SearchPodcastInteractorImplTest {
+public class SearchResultPodcastInteractorImplTest {
     private static final String STRING = "string";
     private SearchPodcastInteractorImpl interactor;
     private Observable<List<SinglePodcast>> observable;

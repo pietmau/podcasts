@@ -34,9 +34,9 @@ public class SearchApiRetrofit implements SearchApi {
     }
 
     @Override
-    public Observable<List<SinglePodcast>> search(String query) {
+    public Observable<SearchResult> search(String query) {
         QueryMap map = new QueryMap(query);
-        return api.search(map).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).cache();
+        return api.search(map).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).map(list->new SearchResult(list, query)).cache();
     }
 
     private static class QueryMap extends HashMap<String, String> {
