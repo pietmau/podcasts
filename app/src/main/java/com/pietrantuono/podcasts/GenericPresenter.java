@@ -6,8 +6,6 @@ public interface GenericPresenter {
 
     void onDestroy();
 
-    void onModelDisconnected();
-
     void onPause();
 
     void onResume();

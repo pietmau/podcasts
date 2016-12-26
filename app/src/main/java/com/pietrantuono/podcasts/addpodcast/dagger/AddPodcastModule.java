@@ -1,13 +1,9 @@
 package com.pietrantuono.podcasts.addpodcast.dagger;
 
-import android.content.ComponentName;
-import android.content.ServiceConnection;
-import android.os.IBinder;
-
+import com.pietrantuono.podcasts.addpodcast.model.AddPodcastsModel;
+import com.pietrantuono.podcasts.addpodcast.model.SearchApi;
 import com.pietrantuono.podcasts.addpodcast.presenter.AddPodcastPresenter;
-import com.pietrantuono.podcasts.main.model.ModelService;
-
-import javax.inject.Named;
+import com.pietrantuono.podcasts.main.model.interactor.AddPodcastsModelImpl;
 
 import dagger.Module;
 import dagger.Provides;
@@ -18,26 +14,13 @@ public class AddPodcastModule {
     private AddPodcastPresenter addPodcastPresenter;
 
     @Provides
-    AddPodcastPresenter provideAddPodcastPresenter(ServiceConnection connection) {
-        addPodcastPresenter = new AddPodcastPresenter();
+    AddPodcastPresenter provideAddPodcastPresenter(AddPodcastsModel addPodcastsModel) {
+        addPodcastPresenter = new AddPodcastPresenter(addPodcastsModel);
         return addPodcastPresenter;
     }
 
     @Provides
-    @Named("Add")
-    ServiceConnection provideServiceConnection() {
-        return new ServiceConnection() {
-            @Override
-            public void onServiceConnected(ComponentName componentName, IBinder binder) {
-                ModelService mainModel = ((ModelService.ModelServiceBinder) binder).getModel();
-                addPodcastPresenter.onModelConnected(mainModel);
-            }
-
-            @Override
-            public void onServiceDisconnected(ComponentName componentName) {
-                addPodcastPresenter.onModelDisconnected();
-            }
-        };
+    AddPodcastsModel provideAddPodcastsModel(SearchApi api){
+        return new AddPodcastsModelImpl(api);
     }
-
 }

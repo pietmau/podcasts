@@ -25,8 +25,6 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements MainView {
     @Inject MainPresenter mainPresenter;
-    @Inject Intent modelServiceIntent;
-    @Inject ServiceConnection modelServiceConnection;
     @Inject TransitionsFramework transitionsFramework;
     @BindView(R.id.drawer) DrawerLayoutWithToggle drawerLayoutWithToggle;
     @BindView(R.id.maintoolbar) Toolbar mainToolbar;
@@ -61,24 +59,18 @@ public class MainActivity extends AppCompatActivity implements MainView {
     protected void onPause() {
         super.onPause();
         mainPresenter.onPause();
-        unbindService(modelServiceConnection);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         mainPresenter.onResume();
-        bindService(modelServiceIntent, modelServiceConnection, BIND_AUTO_CREATE);
     }
-
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mainPresenter.onDestroy();
-        if (!isChangingConfigurations()) {
-            stopService(modelServiceIntent);
-        }
     }
 
     @Override

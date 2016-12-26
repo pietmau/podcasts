@@ -19,7 +19,8 @@ public class AddPodcastPresenter implements GenericPresenter, PodcastsAdapter.On
     private final Observer<List<PodcastSearchResult>> observer;
     @Nullable private AddPodcastView addPodcastView;
 
-    public AddPodcastPresenter() {
+    public AddPodcastPresenter(AddPodcastsModel addPodcastsModel) {
+        this.addPodcastsModel = addPodcastsModel;
         observer = new Observer<List<PodcastSearchResult>>() {
             @Override
             public void onCompleted() {
@@ -48,19 +49,9 @@ public class AddPodcastPresenter implements GenericPresenter, PodcastsAdapter.On
         addPodcastView.showProgressBar(memento.isProgressShowing());
     }
 
-    public void onModelConnected(AddPodcastsModel mainModel) {
-        this.addPodcastsModel = mainModel;
-        mainModel.subscribeToSearch(observer);
-    }
-
     @Override
     public void onDestroy() {
         addPodcastView = null;
-    }
-
-    @Override
-    public void onModelDisconnected() {
-        addPodcastsModel = null;
     }
 
     @Override
@@ -70,6 +61,7 @@ public class AddPodcastPresenter implements GenericPresenter, PodcastsAdapter.On
 
     @Override
     public void onResume() {
+        addPodcastsModel.subscribeToSearch(observer);
     }
 
     public boolean onQueryTextSubmit(String query) {

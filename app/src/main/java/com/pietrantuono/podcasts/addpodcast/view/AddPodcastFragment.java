@@ -38,9 +38,7 @@ import static android.content.Context.BIND_AUTO_CREATE;
 public class AddPodcastFragment extends Fragment implements AddPodcastView {
     public static final String TAG = "AddPodcastFragment";
     @Inject AddPodcastPresenter addPodcastPresenter;
-    @Inject Intent modelServiceIntent;
     @Inject ApiLevelChecker apiLevelChecker;
-    @Inject @Named("Add") ServiceConnection modelServiceConnection;
     @BindView(R.id.search_view) SearchView searchView;
     @BindView(R.id.search_results) PodcastsRecycler podcastsRecycler;
     @BindView(R.id.progress) ProgressBar progressBar;
@@ -69,12 +67,14 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     public void onResume() {
         super.onResume();
         initSearchView();
+        addPodcastPresenter.onResume();
     }
 
     @DebugLog
     @Override
     public void onPause() {
         super.onPause();
+        addPodcastPresenter.onPause();
     }
 
     @DebugLog
@@ -86,7 +86,6 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
         addPodcastPresenter.bindView(AddPodcastFragment.this, new AddPodcastFragmentMemento(savedInstanceState));
         podcastsRecycler.setOnSubscribeListener(addPodcastPresenter);
         podcastsRecycler.setOnItemClickListener(addPodcastPresenter);
-        getActivity().bindService(modelServiceIntent, modelServiceConnection, BIND_AUTO_CREATE);
         return view;
     }
 
@@ -95,7 +94,6 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     public void onDestroy() {
         super.onDestroy();
         addPodcastPresenter.onDestroy();
-        getActivity().unbindService(modelServiceConnection);
     }
 
     @DebugLog

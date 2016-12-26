@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.List;
@@ -19,8 +18,6 @@ import java.util.List;
 import rx.Observer;
 
 import static org.mockito.ArgumentMatchers.isA;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -40,7 +37,7 @@ public class AddPodcastPresenterTest {
 
     @Before
     public void setUp() {
-        addPodcastPresenter = new AddPodcastPresenter();
+        addPodcastPresenter = new AddPodcastPresenter(addPodcastsModel);
         addPodcastPresenter.bindView(view, memento);
         addPodcastPresenter.onModelConnected(model);
     }

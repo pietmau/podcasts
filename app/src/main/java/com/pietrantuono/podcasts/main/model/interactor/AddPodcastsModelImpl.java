@@ -1,28 +1,22 @@
-package com.pietrantuono.podcasts.addpodcast.model;
+package com.pietrantuono.podcasts.main.model.interactor;
 
+import com.pietrantuono.podcasts.addpodcast.model.AddPodcastsModel;
+import com.pietrantuono.podcasts.addpodcast.model.SearchApi;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.PodcastSearchResult;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
-public class SearchPodcastInteractorImpl implements SearchPodcastInteractor {
+public class AddPodcastsModelImpl implements AddPodcastsModel {
     private final SearchApi searchApi;
     Subscription subscription;
     private Observer<List<PodcastSearchResult>> observer;
     Observable<List<PodcastSearchResult>> observable;
 
-    public SearchPodcastInteractorImpl(SearchApi searchApi) {
+    public AddPodcastsModelImpl(SearchApi searchApi) {
         this.searchApi = searchApi;
     }
 

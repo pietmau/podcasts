@@ -1,6 +1,5 @@
 package com.pietrantuono.podcasts.main.model.interactor;
 
-import com.pietrantuono.podcasts.addpodcast.model.SearchPodcastInteractor;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.PodcastSearchResult;
 
 import org.junit.Before;
@@ -16,17 +15,17 @@ import rx.Observer;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ModelInteractorImplTest {
+public class AddPodcastsModelImplTest {
     private static final String QUERY = "query";
 
-    private ModelInteractorImpl modelInteractor;
+    private AddPodcastsModelImpl modelInteractor;
 
     @Mock SearchPodcastInteractor searchInteractor;
     @Mock Observer<List<PodcastSearchResult>> observer;
 
     @Before
     public void setUp() {
-        modelInteractor = new ModelInteractorImpl(searchInteractor);
+        modelInteractor = new AddPodcastsModelImpl(searchInteractor);
     }
 
     @Test

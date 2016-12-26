@@ -24,10 +24,6 @@ public class MainPresenter implements GenericPresenter {
     public void onDestroy() {
     }
 
-    @Override
-    public void onModelDisconnected() {
-    }
-
     public void onAddPodcastSelected() {
         view.navigateToAddPodcast();
     }
