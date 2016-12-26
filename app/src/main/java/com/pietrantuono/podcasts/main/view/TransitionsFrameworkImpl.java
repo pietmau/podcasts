@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.support.v7.app.AppCompatActivity;
 import android.transition.Fade;
 import android.transition.Slide;
 import android.transition.Transition;
@@ -12,6 +13,8 @@ import android.view.Gravity;
 import android.view.Window;
 
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker;
+
+import static android.R.attr.duration;
 
 public class TransitionsFrameworkImpl implements TransitionsFramework {
     private final ApiLevelChecker apiLevelChecker;
@@ -24,7 +27,7 @@ public class TransitionsFrameworkImpl implements TransitionsFramework {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void initMainActivityTransitions(Activity activity) {
+    public void initMainActivityTransitions(AppCompatActivity activity) {
         if (!apiLevelChecker.isLollipopOrHigher()) {
             return;
         }
@@ -39,7 +42,7 @@ public class TransitionsFrameworkImpl implements TransitionsFramework {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void initDetailTransitions(Activity activity) {
+    public void initDetailTransitionAndPostponeEnterTransition(AppCompatActivity activity) {
         if (!apiLevelChecker.isLollipopOrHigher()) {
             return;
         }
@@ -48,6 +51,16 @@ public class TransitionsFrameworkImpl implements TransitionsFramework {
         window.setEnterTransition(shortSlide);
         window.setExitTransition(shortSlide);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        activity.postponeEnterTransition();
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void startPostponedEnterTransition(AppCompatActivity activity) {
+        if (!apiLevelChecker.isLollipopOrHigher()) {
+            return;
+        }
+        activity.startPostponedEnterTransition();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

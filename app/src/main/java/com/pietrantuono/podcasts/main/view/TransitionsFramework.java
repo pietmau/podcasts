@@ -3,10 +3,17 @@ package com.pietrantuono.podcasts.main.view;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Build;
+import android.support.v7.app.AppCompatActivity;
+import android.transition.Slide;
 
 public interface TransitionsFramework {
-    void initMainActivityTransitions(Activity activity);
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    void initDetailTransitions(Activity activity);
+    void initMainActivityTransitions(AppCompatActivity activity);
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    void initDetailTransitionAndPostponeEnterTransition(AppCompatActivity activity);
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    void startPostponedEnterTransition(AppCompatActivity activity);
 }

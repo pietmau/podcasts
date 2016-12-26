@@ -5,6 +5,7 @@ import android.content.Context;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsAdapter;
 
 import javax.inject.Singleton;
@@ -40,6 +41,8 @@ public class ImageLoaderModule {
 
     private void initOptions() {
         options = new DisplayImageOptions.Builder()
+                .showImageForEmptyUri(R.drawable.podcast_grey_icon_very_big)
+                .showImageOnFail(R.drawable.podcast_grey_icon_very_big)
                 .cacheOnDisk(true)
                 .build();
     }
