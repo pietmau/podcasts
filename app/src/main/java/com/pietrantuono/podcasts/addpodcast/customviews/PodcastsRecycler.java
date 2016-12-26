@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
+import com.pietrantuono.podcasts.addpodcast.presenter.AddPodcastPresenter;
 import com.pietrantuono.podcasts.main.dagger.DaggerImageLoaderComponent;
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule;
 
@@ -58,11 +59,16 @@ public class PodcastsRecycler extends RecyclerView {
         adapter.onQueryTextChange(newText);
     }
 
-    public void setOnSubscribeListener(PodcastsAdapter.OnSunscribeClickedListener listner) {
+    private void setOnSubscribeListener(PodcastsAdapter.OnSunscribeClickedListener listner) {
         adapter.setOnSubscribeListener(listner);
     }
 
-    public void setOnItemClickListener(PodcastsAdapter.OnItemClickedClickedListener onItemClickedClickedListener) {
+    private void setOnItemClickListener(PodcastsAdapter.OnItemClickedClickedListener onItemClickedClickedListener) {
         adapter.setOnItemClickListener(onItemClickedClickedListener);
+    }
+
+    public void setListeners(AddPodcastPresenter addPodcastPresenter) {
+        setOnSubscribeListener(addPodcastPresenter);
+        setOnItemClickListener(addPodcastPresenter);
     }
 }

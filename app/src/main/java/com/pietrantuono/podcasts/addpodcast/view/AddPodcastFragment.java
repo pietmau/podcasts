@@ -13,9 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 
 import com.pietrantuono.podcasts.R;
+import com.pietrantuono.podcasts.addpodcast.customviews.CustomProgressBar;
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.addpodcast.presenter.AddPodcastPresenter;
@@ -31,12 +31,12 @@ import butterknife.ButterKnife;
 import hugo.weaving.DebugLog;
 
 public class AddPodcastFragment extends Fragment implements AddPodcastView {
-    public static final String TAG = "AddPodcastFragment";
+    public static final String TAG = (AddPodcastFragment.class).getSimpleName();
     @Inject AddPodcastPresenter addPodcastPresenter;
     @Inject ApiLevelChecker apiLevelChecker;
     @BindView(R.id.search_view) SearchView searchView;
     @BindView(R.id.search_results) PodcastsRecycler podcastsRecycler;
-    @BindView(R.id.progress) ProgressBar progressBar;
+    @BindView(R.id.progress) CustomProgressBar progressBar;
 
     public static AddPodcastFragment newInstance() {
         return new AddPodcastFragment();
@@ -54,7 +54,7 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((MainActivity)getActivity()).getComponent().newAddPodcastComponent().inject(AddPodcastFragment.this);
+        ((MainActivity) getActivity()).getComponent().newAddPodcastComponent().inject(AddPodcastFragment.this);
     }
 
     @DebugLog
@@ -85,12 +85,10 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
         View view = inflater.inflate(R.layout.fragment_add, container, false);
         ButterKnife.bind(this, view);
         addPodcastPresenter.bindView(AddPodcastFragment.this, new AddPodcastFragmentMemento(savedInstanceState));
-        podcastsRecycler.setOnSubscribeListener(addPodcastPresenter);
-        podcastsRecycler.setOnItemClickListener(addPodcastPresenter);
+        podcastsRecycler.setListeners(addPodcastPresenter);
         initSearchView();
         return view;
     }
-
 
     @DebugLog
     @Override
@@ -100,17 +98,7 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
 
     @DebugLog
     private void initSearchView() {
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return addPodcastPresenter.onQueryTextSubmit(query);
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return addPodcastPresenter.onQueryTextChange(newText);
-            }
-        });
+        searchView.setOnQueryTextListener(new PodcastOnQueryTextListener(addPodcastPresenter));
     }
 
     @DebugLog
@@ -126,11 +114,7 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
 
     @Override
     public void showProgressBar(boolean show) {
-        if (show) {
-            progressBar.setVisibility(View.VISIBLE);
-        } else {
-            progressBar.setVisibility(View.INVISIBLE);
-        }
+        progressBar.showProgressBar(show);
     }
 
     @Override
@@ -147,11 +131,8 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     @Override
     public void startDetailActivityWithTransition(SinglePodcast singlePodcast, ImageView imageView) {
         Intent intent = new Intent(getActivity(), SinglePodcastActivity.class);
-        String transitionName = getString(R.string.detail_transition);
-        ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), imageView, transitionName);
-        Bundle bundle = activityOptionsCompat.toBundle();
         intent.putExtra(SinglePodcastActivity.SINGLE_PODCAST, singlePodcast);
-        getActivity().startActivity(intent, bundle);
+        getActivity().startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), imageView, getString(R.string.detail_transition)).toBundle());
     }
 
     @Override
