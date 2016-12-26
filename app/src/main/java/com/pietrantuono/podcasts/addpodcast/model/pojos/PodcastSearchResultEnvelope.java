@@ -12,7 +12,7 @@ public class PodcastSearchResultEnvelope {
     private Integer resultCount;
     @SerializedName("results")
     @Expose
-    private List<PodcastSearchResult> results = null;
+    private List<SinglePodcast> results = null;
 
     /**
      * 
@@ -37,7 +37,7 @@ public class PodcastSearchResultEnvelope {
      * @return
      *     The results
      */
-    public List<PodcastSearchResult> getResults() {
+    public List<SinglePodcast> getResults() {
         return results;
     }
 
@@ -46,7 +46,7 @@ public class PodcastSearchResultEnvelope {
      * @param results
      *     The results
      */
-    public void setResults(List<PodcastSearchResult> results) {
+    public void setResults(List<SinglePodcast> results) {
         this.results = results;
     }
 

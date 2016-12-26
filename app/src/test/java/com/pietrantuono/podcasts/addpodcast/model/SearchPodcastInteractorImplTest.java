@@ -1,8 +1,7 @@
 package com.pietrantuono.podcasts.addpodcast.model;
 
-import com.pietrantuono.podcasts.addpodcast.model.pojos.PodcastSearchResult;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,12 +25,12 @@ import static org.mockito.Mockito.when;
 public class SearchPodcastInteractorImplTest {
     private static final String STRING = "string";
     private SearchPodcastInteractorImpl interactor;
-    private Observable<List<PodcastSearchResult>> observable;
+    private Observable<List<SinglePodcast>> observable;
     private TestSubscriber testSubscriber;
 
     @Mock SearchApi api;
-    @Mock Observer<List<PodcastSearchResult>> observer;
-    @Mock List<PodcastSearchResult> list;
+    @Mock Observer<List<SinglePodcast>> observer;
+    @Mock List<SinglePodcast> list;
 
     @Before
     public void setUp() {
@@ -72,7 +71,7 @@ public class SearchPodcastInteractorImplTest {
         /*
         * GIVEN
         */
-        List<List<PodcastSearchResult>> result = new ArrayList();
+        List<List<SinglePodcast>> result = new ArrayList();
         result.add(list);
         /*
         * WHEN

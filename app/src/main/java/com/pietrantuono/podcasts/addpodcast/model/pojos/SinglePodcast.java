@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-public class PodcastSearchResult implements Parcelable {
+public class SinglePodcast implements Parcelable {
 
     @SerializedName("wrapperType")
     @Expose
@@ -695,7 +695,7 @@ public class PodcastSearchResult implements Parcelable {
         return stringBuilder.toString();
     }
 
-    protected PodcastSearchResult(Parcel in) {
+    protected SinglePodcast(Parcel in) {
         wrapperType = in.readString();
         kind = in.readString();
         collectionId = in.readByte() == 0x00 ? null : in.readInt();
@@ -837,15 +837,15 @@ public class PodcastSearchResult implements Parcelable {
     }
 
     @SuppressWarnings("unused")
-    public static final Parcelable.Creator<PodcastSearchResult> CREATOR = new Parcelable.Creator<PodcastSearchResult>() {
+    public static final Parcelable.Creator<SinglePodcast> CREATOR = new Parcelable.Creator<SinglePodcast>() {
         @Override
-        public PodcastSearchResult createFromParcel(Parcel in) {
-            return new PodcastSearchResult(in);
+        public SinglePodcast createFromParcel(Parcel in) {
+            return new SinglePodcast(in);
         }
 
         @Override
-        public PodcastSearchResult[] newArray(int size) {
-            return new PodcastSearchResult[size];
+        public SinglePodcast[] newArray(int size) {
+            return new SinglePodcast[size];
         }
     };
 }

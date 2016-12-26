@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pietrantuono.podcasts.R;
-import com.pietrantuono.podcasts.addpodcast.model.pojos.PodcastSearchResult;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.main.dagger.DaggerImageLoaderComponent;
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule;
 
@@ -28,7 +28,7 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.author) TextView author;
     @BindView(R.id.overflow) ImageView overfow;
     @BindView(R.id.genres) TextView genres;
-    private PodcastSearchResult podcastSearchResult;
+    private SinglePodcast singlePodcast;
     private SimplePopUpMenu popupMenu;
 
     public PodcastHolder(View itemView, ImageLoader imageLoader) {
@@ -38,14 +38,14 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
         DaggerImageLoaderComponent.builder().imageLoaderModule(new ImageLoaderModule(itemView.getContext())).build().inject(PodcastHolder.this);
     }
 
-    public void onBindViewHolder(final PodcastSearchResult podcastSearchResult, PodcastsAdapter.OnSunscribeClickedListener onSunscribeClickedListener, final PodcastsAdapter.OnItemClickedClickedListener onItemClickedClickedListener) {
+    public void onBindViewHolder(final SinglePodcast singlePodcast, PodcastsAdapter.OnSunscribeClickedListener onSunscribeClickedListener, final PodcastsAdapter.OnItemClickedClickedListener onItemClickedClickedListener) {
         this.onSunscribeClickedListener = onSunscribeClickedListener;
         this.onItemClickedClickedListener = onItemClickedClickedListener;
-        this.podcastSearchResult = podcastSearchResult;
-        podcastSearchResult.getGenres().remove("Podcasts");
-        imageLoader.displayImage(podcastSearchResult.getArtworkUrl600(), imageView, displayImageOptions);
-        title.setText(podcastSearchResult.getCollectionName());
-        author.setText(podcastSearchResult.getArtistName());
+        this.singlePodcast = singlePodcast;
+        singlePodcast.getGenres().remove("Podcasts");
+        imageLoader.displayImage(singlePodcast.getArtworkUrl600(), imageView, displayImageOptions);
+        title.setText(singlePodcast.getCollectionName());
+        author.setText(singlePodcast.getArtistName());
 
         setUpMenu();
         populateGenres();
@@ -54,23 +54,23 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
 
 
     private void setUpMenu() {
-        popupMenu = new SimplePopUpMenu(overfow, podcastSearchResult, new PodcastsAdapter.OnSunscribeClickedListener() {
+        popupMenu = new SimplePopUpMenu(overfow, singlePodcast, new PodcastsAdapter.OnSunscribeClickedListener() {
             @Override
-            public void onSubscribeClicked(PodcastSearchResult podcastSearchResult) {
-                onSunscribeClickedListener.onSubscribeClicked(podcastSearchResult);
+            public void onSubscribeClicked(SinglePodcast singlePodcast) {
+                onSunscribeClickedListener.onSubscribeClicked(singlePodcast);
             }
         });
     }
 
     private void populateGenres() {
-        genres.setText(podcastSearchResult.getGenresAsString());
+        genres.setText(singlePodcast.getGenresAsString());
     }
 
     private void setUpOnClickListener() {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onItemClickedClickedListener.onItemClicked(podcastSearchResult, imageView);
+                onItemClickedClickedListener.onItemClicked(singlePodcast, imageView);
             }
         });
     }

@@ -5,7 +5,7 @@ import android.widget.ImageView;
 
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsAdapter;
 import com.pietrantuono.podcasts.addpodcast.model.AddPodcastsModel;
-import com.pietrantuono.podcasts.addpodcast.model.pojos.PodcastSearchResult;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastFragmentMemento;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastView;
 import com.pietrantuono.podcasts.GenericPresenter;
@@ -17,13 +17,13 @@ import rx.Observer;
 public class AddPodcastPresenter implements GenericPresenter, PodcastsAdapter.OnSunscribeClickedListener, PodcastsAdapter.OnItemClickedClickedListener {
     public static final String TAG = (AddPodcastPresenter.class).getSimpleName();
     private AddPodcastsModel addPodcastsModel;
-    private final Observer<List<PodcastSearchResult>> observer;
+    private final Observer<List<SinglePodcast>> observer;
     @Nullable private AddPodcastView addPodcastView;
-    private List<PodcastSearchResult> cachedResult;
+    private List<SinglePodcast> cachedResult;
 
     public AddPodcastPresenter(final AddPodcastsModel addPodcastsModel) {
         this.addPodcastsModel = addPodcastsModel;
-        observer = new Observer<List<PodcastSearchResult>>() {
+        observer = new Observer<List<SinglePodcast>>() {
 
             @Override
             public void onCompleted() {
@@ -39,7 +39,7 @@ public class AddPodcastPresenter implements GenericPresenter, PodcastsAdapter.On
             }
 
             @Override
-            public void onNext(List<PodcastSearchResult> items) {
+            public void onNext(List<SinglePodcast> items) {
                 if (addPodcastView != null && cachedResult == null) {
                     cachedResult = items;
                     addPodcastView.updateSearchResults(cachedResult);
@@ -77,9 +77,7 @@ public class AddPodcastPresenter implements GenericPresenter, PodcastsAdapter.On
     }
 
     private void launchQuery(String query) {
-        if (addPodcastsModel != null) {
-            addPodcastsModel.searchPodcasts(query);
-        }
+        addPodcastsModel.searchPodcasts(query);
         showProgressBar(true);
     }
 
@@ -99,15 +97,15 @@ public class AddPodcastPresenter implements GenericPresenter, PodcastsAdapter.On
     }
 
     @Override
-    public void onSubscribeClicked(PodcastSearchResult podcastSearchResult) {
+    public void onSubscribeClicked(SinglePodcast singlePodcast) {
     }
 
     @Override
-    public void onItemClicked(PodcastSearchResult podcastSearchResult, ImageView imageView) {
+    public void onItemClicked(SinglePodcast singlePodcast, ImageView imageView) {
         if (addPodcastView.isLollipop()) {
-            addPodcastView.startDetailActivityWithTransition(podcastSearchResult, imageView);
+            addPodcastView.startDetailActivityWithTransition(singlePodcast, imageView);
         } else {
-            addPodcastView.startDetailActivityWithOutTransition(podcastSearchResult);
+            addPodcastView.startDetailActivityWithOutTransition(singlePodcast);
         }
     }
 }

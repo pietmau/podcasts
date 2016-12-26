@@ -1,16 +1,13 @@
 package com.pietrantuono.podcasts.addpodcast.view;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,23 +17,18 @@ import android.widget.ProgressBar;
 
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler;
-import com.pietrantuono.podcasts.addpodcast.model.pojos.PodcastSearchResult;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.addpodcast.presenter.AddPodcastPresenter;
-import com.pietrantuono.podcasts.main.dagger.DaggerMainComponent;
-import com.pietrantuono.podcasts.main.dagger.MainModule;
 import com.pietrantuono.podcasts.main.view.MainActivity;
 import com.pietrantuono.podcasts.singlepodcast.SinglePodcastActivity;
 
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import hugo.weaving.DebugLog;
-
-import static android.content.Context.BIND_AUTO_CREATE;
 
 public class AddPodcastFragment extends Fragment implements AddPodcastView {
     public static final String TAG = "AddPodcastFragment";
@@ -128,7 +120,7 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
 
     @DebugLog
     @Override
-    public void updateSearchResults(List<PodcastSearchResult> items) {
+    public void updateSearchResults(List<SinglePodcast> items) {
         podcastsRecycler.setItems(items);
     }
 
@@ -153,12 +145,12 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void startDetailActivityWithTransition(PodcastSearchResult podcastSearchResult, ImageView imageView) {
+    public void startDetailActivityWithTransition(SinglePodcast singlePodcast, ImageView imageView) {
         Intent intent = new Intent(getActivity(), SinglePodcastActivity.class);
         String transitionName = getString(R.string.detail_transition);
         ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), imageView, transitionName);
         Bundle bundle = activityOptionsCompat.toBundle();
-        intent.putExtra(SinglePodcastActivity.SINGLE_PODCAST, podcastSearchResult);
+        intent.putExtra(SinglePodcastActivity.SINGLE_PODCAST, singlePodcast);
         getActivity().startActivity(intent, bundle);
     }
 
@@ -168,7 +160,7 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     }
 
     @Override
-    public void startDetailActivityWithOutTransition(PodcastSearchResult podcastSearchResult) {
+    public void startDetailActivityWithOutTransition(SinglePodcast singlePodcast) {
 
     }
 }

@@ -2,14 +2,14 @@ package com.pietrantuono.podcasts.addpodcast.view;
 
 import android.widget.ImageView;
 
-import com.pietrantuono.podcasts.addpodcast.model.pojos.PodcastSearchResult;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 
 import java.util.List;
 
 public interface AddPodcastView {
     void onError(Throwable e);
 
-    void updateSearchResults(List<PodcastSearchResult> items);
+    void updateSearchResults(List<SinglePodcast> items);
 
     void showProgressBar(boolean show);
 
@@ -17,9 +17,9 @@ public interface AddPodcastView {
 
     void onQueryTextChange(String newText);
 
-    void startDetailActivityWithTransition(PodcastSearchResult podcastSearchResult, ImageView imageView);
+    void startDetailActivityWithTransition(SinglePodcast singlePodcast, ImageView imageView);
 
     boolean isLollipop();
 
-    void startDetailActivityWithOutTransition(PodcastSearchResult podcastSearchResult);
+    void startDetailActivityWithOutTransition(SinglePodcast singlePodcast);
 }

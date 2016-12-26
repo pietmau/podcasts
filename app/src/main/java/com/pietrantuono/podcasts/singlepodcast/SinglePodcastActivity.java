@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pietrantuono.podcasts.R;
-import com.pietrantuono.podcasts.addpodcast.model.pojos.PodcastSearchResult;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker;
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule;
 import com.pietrantuono.podcasts.main.view.TransitionsFramework;
@@ -48,7 +48,7 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
 
     private void loadImage() {
         try {
-            String url = ((PodcastSearchResult) getIntent().getParcelableExtra(SINGLE_PODCAST)).getArtworkUrl600();
+            String url = ((SinglePodcast) getIntent().getParcelableExtra(SINGLE_PODCAST)).getArtworkUrl600();
             imageLoader.displayImage(url, imageView, displayImageOptions, new PodcastImageLoadingListener(SinglePodcastActivity.this, transitionsFramework));
         } catch (NullPointerException e) {
         }

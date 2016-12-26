@@ -10,14 +10,14 @@ import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pietrantuono.podcasts.R;
-import com.pietrantuono.podcasts.addpodcast.model.pojos.PodcastSearchResult;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> implements Filterable {
-    private List<PodcastSearchResult> items;
-    private List<PodcastSearchResult> publishedItems;
+    private List<SinglePodcast> items;
+    private List<SinglePodcast> publishedItems;
     private ImageLoader imageLoader;
     private OnSunscribeClickedListener onSunscribeClickedListener;
     private OnItemClickedClickedListener onItemClickedClickedListener;
@@ -44,21 +44,21 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
         return publishedItems.size();
     }
 
-    public void setItems(List<PodcastSearchResult> items) {
+    public void setItems(List<SinglePodcast> items) {
         prefetch(items);
         this.items.clear();
         this.items.addAll(items);
         setPublishedItems(items);
     }
 
-    public void setPublishedItems(List<PodcastSearchResult> items){
+    public void setPublishedItems(List<SinglePodcast> items){
         publishedItems.clear();
         publishedItems.addAll(items);
         notifyDataSetChanged();
     }
 
-    private void prefetch(List<PodcastSearchResult> items) {
-        for (PodcastSearchResult item : items) {
+    private void prefetch(List<SinglePodcast> items) {
+        for (SinglePodcast item : items) {
             imageLoader.loadImage(item.getArtworkUrl600(), null);
         }
     }
@@ -81,10 +81,10 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
     }
 
     public interface OnSunscribeClickedListener {
-        void onSubscribeClicked(PodcastSearchResult podcastSearchResult);
+        void onSubscribeClicked(SinglePodcast singlePodcast);
     }
 
     public interface OnItemClickedClickedListener {
-        void onItemClicked(PodcastSearchResult podcastSearchResult, ImageView imageView);
+        void onItemClicked(SinglePodcast singlePodcast, ImageView imageView);
     }
 }

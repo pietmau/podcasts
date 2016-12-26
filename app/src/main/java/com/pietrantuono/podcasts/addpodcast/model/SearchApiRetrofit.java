@@ -1,19 +1,16 @@
 package com.pietrantuono.podcasts.addpodcast.model;
 
-import com.pietrantuono.podcasts.addpodcast.model.pojos.PodcastSearchResult;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.addpodcast.model.retrofitconverters.PodcastSearchResultConverterFactory;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.QueryMap;
 import rx.Observable;
-import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -32,12 +29,12 @@ public class SearchApiRetrofit implements SearchApi {
     }
 
     @Override
-    public Observable<List<PodcastSearchResult>> search(@retrofit2.http.QueryMap Map<String, String> query) {
+    public Observable<List<SinglePodcast>> search(@retrofit2.http.QueryMap Map<String, String> query) {
         throw new UnsupportedOperationException("Not implemented");
     }
 
     @Override
-    public Observable<List<PodcastSearchResult>> search(String query) {
+    public Observable<List<SinglePodcast>> search(String query) {
         QueryMap map = new QueryMap(query);
         return api.search(map).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).cache();
     }
