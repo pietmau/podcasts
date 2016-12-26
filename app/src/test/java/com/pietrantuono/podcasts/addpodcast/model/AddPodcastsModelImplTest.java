@@ -24,21 +24,24 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class AddPodcastsModelImplTest {
     private static final String STRING = "string";
-    private AddPodcastsModelImpl interactor;
+    private AddPodcastsModelImpl addPodcastsModel;
     private Observable<SearchResult> observable;
     private TestSubscriber testSubscriber;
+    private List<SearchResult> list = new ArrayList<>();
+    private Observable<SearchResult> cachedRequest;
 
     @Mock SearchApi api;
     @Mock Observer<SearchResult> observer;
-    @Mock List<SinglePodcast> list;
     @Mock SearchResult searchResult;
 
     @Before
     public void setUp() {
         observable = Observable.just(searchResult);
-        interactor = new AddPodcastsModelImpl(api);
+        addPodcastsModel = new AddPodcastsModelImpl(api);
         when(api.search(anyString())).thenReturn(observable);
         testSubscriber = new TestSubscriber();
+        list.add(searchResult);
+        cachedRequest = Observable.just(searchResult);
     }
 
     @Test
@@ -46,8 +49,8 @@ public class AddPodcastsModelImplTest {
         /*
         * WHEN
         */
-        interactor.subscribeToSearch(observer);
-        interactor.searchPodcasts(STRING);
+        addPodcastsModel.subscribeToSearch(observer);
+        addPodcastsModel.searchPodcasts(STRING);
         /*
         * THEN
         */
@@ -59,12 +62,12 @@ public class AddPodcastsModelImplTest {
         /*
         * WHEN
         */
-        interactor.subscription = new TestSubscription();
-        interactor.unsubscribeFromSearch();
+        addPodcastsModel.subscription = new TestSubscription();
+        addPodcastsModel.unsubscribeFromSearch();
         /*
         * THEN
         */
-        assertTrue(((TestSubscription) interactor.subscription).unsunbscribeRequested);
+        assertTrue(((TestSubscription) addPodcastsModel.subscription).unsunbscribeRequested);
     }
 
     @Test
@@ -77,14 +80,55 @@ public class AddPodcastsModelImplTest {
         /*
         * WHEN
         */
-        interactor.cachedRequest = Observable.just(searchResult);
-        interactor.subscribeToSearch(testSubscriber);
+        addPodcastsModel.cachedRequest = Observable.just(searchResult);
+        addPodcastsModel.subscribeToSearch(testSubscriber);
         /*
         * THEN
         */
         testSubscriber.assertReceivedOnNext(result);
     }
 
+    @Test
+    public void given_Model_when_search_then_search() {
+        /*
+        * WHEN
+        */
+        TestSubscriber testSubscriber = new TestSubscriber();
+        addPodcastsModel.subscribeToSearch(testSubscriber);
+        addPodcastsModel.searchPodcasts(STRING);
+        /*
+        * THEN
+        */
+        testSubscriber.assertReceivedOnNext(list);
+    }
+
+    @Test
+    public void given_Model_when_unSubscribe_then_searchIsUnSubscribed() {
+        /*
+        * WHEN
+        */
+        TestSubscriber<Object> testSubscriber = new TestSubscriber<>();
+        addPodcastsModel.subscription = testSubscriber;
+        addPodcastsModel.unsubscribeFromSearch();
+        /*
+        * THEN
+        */
+        testSubscriber.assertUnsubscribed();
+    }
+
+    @Test
+    public void given_Model_when_subscribe_then_searchIsSubscribed() {
+        /*
+        * WHEN
+        */
+        addPodcastsModel.cachedRequest = cachedRequest;
+        TestSubscriber testSubscriber = new TestSubscriber();
+        addPodcastsModel.subscribeToSearch(testSubscriber);
+        /*
+        * THEN
+        */
+        testSubscriber.assertReceivedOnNext(list);
+    }
 
     private class TestSubscription implements Subscription {
         boolean unsunbscribeRequested;
