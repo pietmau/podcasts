@@ -9,6 +9,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
+import com.pietrantuono.podcasts.imageloader.SimpleImageLoader;
 import com.pietrantuono.podcasts.main.dagger.DaggerImageLoaderComponent;
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule;
 
@@ -19,10 +20,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class PodcastHolder extends RecyclerView.ViewHolder {
-    private final ImageLoader imageLoader;
+    private final SimpleImageLoader imageLoader;
     private PodcastsAdapter.OnSunscribeClickedListener onSunscribeClickedListener;
     private PodcastsAdapter.OnItemClickedClickedListener onItemClickedClickedListener;
-    @Inject DisplayImageOptions displayImageOptions;
     @BindView(R.id.image) ImageView imageView;
     @BindView(R.id.title) TextView title;
     @BindView(R.id.author) TextView author;
@@ -31,7 +31,7 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
     private SinglePodcast singlePodcast;
     private SimplePopUpMenu popupMenu;
 
-    public PodcastHolder(View itemView, ImageLoader imageLoader) {
+    public PodcastHolder(View itemView, SimpleImageLoader imageLoader) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         this.imageLoader = imageLoader;
@@ -43,7 +43,7 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
         this.onItemClickedClickedListener = onItemClickedClickedListener;
         this.singlePodcast = singlePodcast;
         singlePodcast.getGenres().remove("Podcasts");
-        imageLoader.displayImage(singlePodcast.getArtworkUrl600(), imageView, displayImageOptions);
+        imageLoader.displayImage(singlePodcast.getArtworkUrl600(), imageView);
         title.setText(singlePodcast.getCollectionName());
         author.setText(singlePodcast.getArtistName());
 

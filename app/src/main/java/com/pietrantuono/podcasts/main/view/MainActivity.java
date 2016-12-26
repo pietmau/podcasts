@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
         setUpViews();
         mainPresenter.bindView(MainActivity.this);
         transitionsFramework.initMainActivityTransitions(MainActivity.this);
-        throw new RuntimeException("foo");
     }
 
     private void initDependencies() {

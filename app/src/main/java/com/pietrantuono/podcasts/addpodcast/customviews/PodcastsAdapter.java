@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
+import com.pietrantuono.podcasts.imageloader.SimpleImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +19,11 @@ import java.util.List;
 public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> implements Filterable {
     private List<SinglePodcast> items;
     private List<SinglePodcast> publishedItems;
-    private ImageLoader imageLoader;
+    private SimpleImageLoader imageLoader;
     private OnSunscribeClickedListener onSunscribeClickedListener;
     private OnItemClickedClickedListener onItemClickedClickedListener;
 
-    public PodcastsAdapter(ImageLoader imageLoader) {
+    public PodcastsAdapter(SimpleImageLoader imageLoader) {
         this.imageLoader = imageLoader;
         items = new ArrayList<>();
         publishedItems = new ArrayList<>();
@@ -59,7 +60,7 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
 
     private void prefetch(List<SinglePodcast> items) {
         for (SinglePodcast item : items) {
-            imageLoader.loadImage(item.getArtworkUrl600(), null);
+            imageLoader.loadImage(item.getArtworkUrl600());
         }
     }
 

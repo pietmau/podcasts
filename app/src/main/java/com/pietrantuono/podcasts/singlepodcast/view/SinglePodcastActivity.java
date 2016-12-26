@@ -12,6 +12,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker;
+import com.pietrantuono.podcasts.imageloader.SimpleImageLoader;
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule;
 import com.pietrantuono.podcasts.main.view.TransitionsFramework;
 import com.pietrantuono.podcasts.singlepodcast.DaggerSinglePodcastComponent;
@@ -26,9 +27,7 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.image) ImageView imageView;
     @Inject TransitionsFramework transitionsFramework;
-    @Inject ImageLoader imageLoader;
-    @Inject DisplayImageOptions displayImageOptions;
-    @Inject ApiLevelChecker apiLevelChecker;
+    @Inject SimpleImageLoader imageLoader;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,7 +49,7 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
     private void loadImage() {
         try {
             String url = ((SinglePodcast) getIntent().getParcelableExtra(SINGLE_PODCAST)).getArtworkUrl600();
-            imageLoader.displayImage(url, imageView, displayImageOptions, new PodcastImageLoadingListener(SinglePodcastActivity.this, transitionsFramework));
+            imageLoader.displayImage(url, imageView, new PodcastImageLoadingListener(SinglePodcastActivity.this, transitionsFramework));
         } catch (NullPointerException e) {
         }
 

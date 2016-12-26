@@ -7,6 +7,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsAdapter;
+import com.pietrantuono.podcasts.imageloader.SimpleImageLoader;
 
 import javax.inject.Singleton;
 
@@ -15,12 +16,10 @@ import dagger.Provides;
 
 @Module
 public class ImageLoaderModule {
-    private DisplayImageOptions options;
 
     public ImageLoaderModule(Context context) {
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context).build();
         ImageLoader.getInstance().init(config);
-        initOptions();
     }
 
     @Provides
@@ -30,20 +29,12 @@ public class ImageLoaderModule {
     }
 
     @Provides
-    PodcastsAdapter providePodcastsAdapter(ImageLoader imageLoader) {
+    PodcastsAdapter providePodcastsAdapter(SimpleImageLoader imageLoader) {
         return new PodcastsAdapter(imageLoader);
     }
 
     @Provides
-    DisplayImageOptions provideDisplayImageOptions() {
-        return options;
-    }
-
-    private void initOptions() {
-        options = new DisplayImageOptions.Builder()
-                .showImageForEmptyUri(R.drawable.podcast_grey_icon_very_big)
-                .showImageOnFail(R.drawable.podcast_grey_icon_very_big)
-                .cacheOnDisk(true)
-                .build();
+    SimpleImageLoader provideSimpleImageLoader() {
+        return new SimpleImageLoader();
     }
 }
