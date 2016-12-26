@@ -1,4 +1,4 @@
-package com.pietrantuono.podcasts.singlepodcast;
+package com.pietrantuono.podcasts.singlepodcast.view;
 
 
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker;
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule;
 import com.pietrantuono.podcasts.main.view.TransitionsFramework;
+import com.pietrantuono.podcasts.singlepodcast.DaggerSinglePodcastComponent;
 
 import javax.inject.Inject;
 

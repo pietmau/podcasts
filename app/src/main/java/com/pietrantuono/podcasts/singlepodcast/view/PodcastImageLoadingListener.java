@@ -1,4 +1,4 @@
-package com.pietrantuono.podcasts.singlepodcast;
+package com.pietrantuono.podcasts.singlepodcast.view;
 
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;

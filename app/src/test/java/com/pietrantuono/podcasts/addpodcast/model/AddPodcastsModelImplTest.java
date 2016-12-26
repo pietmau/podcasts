@@ -22,20 +22,21 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SearchResultPodcastInteractorImplTest {
+public class AddPodcastsModelImplTest {
     private static final String STRING = "string";
-    private SearchPodcastInteractorImpl interactor;
-    private Observable<List<SinglePodcast>> observable;
+    private AddPodcastsModelImpl interactor;
+    private Observable<SearchResult> observable;
     private TestSubscriber testSubscriber;
 
     @Mock SearchApi api;
-    @Mock Observer<List<SinglePodcast>> observer;
+    @Mock Observer<SearchResult> observer;
     @Mock List<SinglePodcast> list;
+    @Mock SearchResult searchResult;
 
     @Before
     public void setUp() {
-        observable = Observable.just(list);
-        interactor = new SearchPodcastInteractorImpl(api);
+        observable = Observable.just(searchResult);
+        interactor = new AddPodcastsModelImpl(api);
         when(api.search(anyString())).thenReturn(observable);
         testSubscriber = new TestSubscriber();
     }
@@ -71,12 +72,12 @@ public class SearchResultPodcastInteractorImplTest {
         /*
         * GIVEN
         */
-        List<List<SinglePodcast>> result = new ArrayList();
-        result.add(list);
+        List<SearchResult> result = new ArrayList();
+        result.add(searchResult);
         /*
         * WHEN
         */
-        interactor.observable = Observable.just(list);
+        interactor.cachedRequest = Observable.just(searchResult);
         interactor.subscribeToSearch(testSubscriber);
         /*
         * THEN

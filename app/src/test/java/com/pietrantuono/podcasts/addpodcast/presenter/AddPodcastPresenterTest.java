@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts.addpodcast.presenter;
 
 import com.pietrantuono.podcasts.addpodcast.model.AddPodcastsModel;
+import com.pietrantuono.podcasts.addpodcast.model.SearchResult;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastFragmentMemento;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastView;
@@ -28,18 +29,19 @@ public class AddPodcastPresenterTest {
     private AddPodcastPresenter addPodcastPresenter;
 
     @Mock AddPodcastView view;
-    @Mock AddPodcastsModel model;
     @Mock Throwable error;
     @Mock List<SinglePodcast> list;
     @Mock AddPodcastFragmentMemento memento;
+    @Mock AddPodcastsModel addPodcastsModel;
+    @Mock SearchResult result;
 
-    @Captor ArgumentCaptor<Observer<List<SinglePodcast>>> observerCaptor;
+    @Captor ArgumentCaptor<Observer<SearchResult>> observerCaptor;
 
     @Before
     public void setUp() {
+        when(result.getList()).thenReturn(list);
         addPodcastPresenter = new AddPodcastPresenter(addPodcastsModel);
         addPodcastPresenter.bindView(view, memento);
-        addPodcastPresenter.onModelConnected(model);
     }
 
     @Test
@@ -51,12 +53,13 @@ public class AddPodcastPresenterTest {
         /*
         * THEN
         */
-        verify(model).unsubscribeFromSearch();
+        verify(addPodcastsModel).unsubscribeFromSearch();
     }
 
     @Test
     public void given_Presenter_when_bound_then_Subscribes() {
-        verify(model).subscribeToSearch(isA(Observer.class));
+        addPodcastPresenter.onResume();
+        verify(addPodcastsModel).subscribeToSearch(isA(Observer.class));
     }
 
     @Test
@@ -68,7 +71,7 @@ public class AddPodcastPresenterTest {
         /*
         * THEN
         */
-        verify(model).searchPodcasts(QUERY);
+        verify(addPodcastsModel).searchPodcasts(QUERY);
     }
 
 
@@ -77,7 +80,8 @@ public class AddPodcastPresenterTest {
         /*
         * WHEN
         */
-        verify(model).subscribeToSearch(observerCaptor.capture());
+        addPodcastPresenter.onResume();
+        verify(addPodcastsModel).subscribeToSearch(observerCaptor.capture());
         observerCaptor.getValue().onError(error);
         /*
         * THEN
@@ -91,8 +95,9 @@ public class AddPodcastPresenterTest {
         /*
         * WHEN
         */
-        verify(model).subscribeToSearch(observerCaptor.capture());
-        observerCaptor.getValue().onNext(list);
+        addPodcastPresenter.onResume();
+        verify(addPodcastsModel).subscribeToSearch(observerCaptor.capture());
+        observerCaptor.getValue().onNext(result);
         /*
         * THEN
         */
@@ -116,7 +121,8 @@ public class AddPodcastPresenterTest {
         /*
         * WHEN
         */
-        verify(model).subscribeToSearch(observerCaptor.capture());
+        addPodcastPresenter.onResume();
+        verify(addPodcastsModel).subscribeToSearch(observerCaptor.capture());
         observerCaptor.getValue().onCompleted();
         /*
         * THEN

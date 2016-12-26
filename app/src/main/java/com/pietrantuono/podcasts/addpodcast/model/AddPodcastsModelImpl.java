@@ -1,4 +1,4 @@
-package com.pietrantuono.podcasts.main.model.interactor;
+package com.pietrantuono.podcasts.addpodcast.model;
 
 import com.pietrantuono.podcasts.addpodcast.model.AddPodcastsModel;
 import com.pietrantuono.podcasts.addpodcast.model.SearchResult;
@@ -10,9 +10,9 @@ import rx.Subscription;
 
 public class AddPodcastsModelImpl implements AddPodcastsModel {
     private final SearchApi searchApi;
-    private Subscription subscription;
+    Subscription subscription;
     private Observer<SearchResult> observer;
-    private Observable<SearchResult> cachedRequest;
+    Observable<SearchResult> cachedRequest;
 
     public AddPodcastsModelImpl(SearchApi searchApi) {
         this.searchApi = searchApi;

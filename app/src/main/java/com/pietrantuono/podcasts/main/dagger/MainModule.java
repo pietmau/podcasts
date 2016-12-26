@@ -1,10 +1,8 @@
 package com.pietrantuono.podcasts.main.dagger;
 
-import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 
 import com.pietrantuono.podcasts.PresenterManager;
-import com.pietrantuono.podcasts.main.model.interactor.AddPodcastsModelImpl;
 import com.pietrantuono.podcasts.main.presenter.MainPresenter;
 
 import dagger.Module;

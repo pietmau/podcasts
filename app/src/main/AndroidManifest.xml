@@ -20,7 +20,7 @@
         </activity>
 
         <activity
-            android:name=".singlepodcast.SinglePodcastActivity"
+            android:name=".singlepodcast.view.SinglePodcastActivity"
             android:theme="@style/TransparentToolbarTheme">
         </activity>
 

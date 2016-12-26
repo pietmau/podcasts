@@ -85,7 +85,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
         AddPodcastFragment.navigateTo(fragmentManager);
     }
 
-
     @Override
     public Object onRetainCustomNonConfigurationInstance() {
         return presenterManager;

@@ -4,7 +4,7 @@ import com.pietrantuono.podcasts.PresenterManager;
 import com.pietrantuono.podcasts.addpodcast.model.AddPodcastsModel;
 import com.pietrantuono.podcasts.addpodcast.model.SearchApi;
 import com.pietrantuono.podcasts.addpodcast.presenter.AddPodcastPresenter;
-import com.pietrantuono.podcasts.main.model.interactor.AddPodcastsModelImpl;
+import com.pietrantuono.podcasts.addpodcast.model.AddPodcastsModelImpl;
 
 import dagger.Module;
 import dagger.Provides;

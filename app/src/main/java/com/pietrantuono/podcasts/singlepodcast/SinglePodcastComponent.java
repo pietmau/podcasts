@@ -3,6 +3,7 @@ package com.pietrantuono.podcasts.singlepodcast;
 import com.pietrantuono.podcasts.addpodcast.dagger.ApiLevelCheckerlModule;
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule;
 import com.pietrantuono.podcasts.main.dagger.TransitionsModule;
+import com.pietrantuono.podcasts.singlepodcast.view.SinglePodcastActivity;
 
 import javax.inject.Singleton;
 

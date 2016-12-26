@@ -20,7 +20,7 @@ import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.addpodcast.presenter.AddPodcastPresenter;
 import com.pietrantuono.podcasts.main.view.MainActivity;
-import com.pietrantuono.podcasts.singlepodcast.SinglePodcastActivity;
+import com.pietrantuono.podcasts.singlepodcast.view.SinglePodcastActivity;
 
 import java.util.List;
 
