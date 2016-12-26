@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.crashlytics.android.Crashlytics;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastFragment;
 import com.pietrantuono.podcasts.main.customviews.DrawerLayoutWithToggle;
@@ -16,6 +17,7 @@ import com.pietrantuono.podcasts.main.presenter.MainPresenter;
 import com.pietrantuono.podcasts.main.dagger.DaggerMainComponent;
 import com.pietrantuono.podcasts.main.dagger.MainModule;
 
+import io.fabric.sdk.android.Fabric;
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
         fragmentManager = getSupportFragmentManager();
         initDependencies();

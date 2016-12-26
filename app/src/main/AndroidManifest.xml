@@ -25,6 +25,9 @@
         </activity>
 
         <service android:name=".main.model.ModelService"></service>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="149dc5c633a9120f622c8468fd3423b84f7932c5" />
     </application>
 
 </manifest>
