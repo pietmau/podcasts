@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts.addpodcast.view;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Build;
@@ -23,6 +24,7 @@ import com.pietrantuono.podcasts.addpodcast.model.pojos.PodcastSearchResult;
 import com.pietrantuono.podcasts.addpodcast.presenter.AddPodcastPresenter;
 import com.pietrantuono.podcasts.main.dagger.DaggerMainComponent;
 import com.pietrantuono.podcasts.main.dagger.MainModule;
+import com.pietrantuono.podcasts.main.view.MainActivity;
 import com.pietrantuono.podcasts.singlepodcast.SinglePodcastActivity;
 
 import java.util.List;
@@ -60,7 +62,18 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DaggerMainComponent.builder().mainModule(new MainModule((AppCompatActivity) getActivity())).build().newAddPodcastComponent().inject(AddPodcastFragment.this);
+
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        ((MainActivity)getActivity()).getComponent().newAddPodcastComponent().inject(AddPodcastFragment.this);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
     }
 
     @DebugLog

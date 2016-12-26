@@ -13,12 +13,14 @@ import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastFragment;
 import com.pietrantuono.podcasts.main.customviews.DrawerLayoutWithToggle;
 import com.pietrantuono.podcasts.main.customviews.SimpleNavView;
+import com.pietrantuono.podcasts.main.dagger.MainComponent;
 import com.pietrantuono.podcasts.main.model.MainModel;
 import com.pietrantuono.podcasts.main.presenter.MainPresenter;
 import com.pietrantuono.podcasts.main.dagger.DaggerMainComponent;
 import com.pietrantuono.podcasts.main.dagger.MainModule;
 
 import io.fabric.sdk.android.Fabric;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -32,22 +34,24 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @BindView(R.id.maintoolbar) Toolbar mainToolbar;
     @BindView(R.id.nav_view) SimpleNavView simpleNavView;
     private FragmentManager fragmentManager;
+    private MainComponent component;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        initDependencies();
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(MainActivity.this);
         fragmentManager = getSupportFragmentManager();
-        initDependencies();
         setUpViews();
         mainPresenter.bindView(MainActivity.this);
         transitionsFramework.initMainActivityTransitions(MainActivity.this);
     }
 
     private void initDependencies() {
-        ButterKnife.bind(MainActivity.this);
-        DaggerMainComponent.builder().mainModule(new MainModule(MainActivity.this)).build().inject(MainActivity.this);
+        component = DaggerMainComponent.builder().mainModule(new MainModule(MainActivity.this)).build();
+        component.inject(MainActivity.this);
     }
 
     private void setUpViews() {
@@ -84,5 +88,9 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @Override
     public Object onRetainCustomNonConfigurationInstance() {
         return presenterManager;
+    }
+
+    public MainComponent getComponent() {
+        return component;
     }
 }
