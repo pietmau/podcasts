@@ -11,12 +11,15 @@ import android.widget.ImageView;
 import com.pietrantuono.podcasts.PresenterManager;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
+import com.pietrantuono.podcasts.apis.PodcastEpisode;
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader;
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule;
 import com.pietrantuono.podcasts.main.view.TransitionsFramework;
 import com.pietrantuono.podcasts.singlepodcast.dagger.DaggerSinglePodcastComponent;
 import com.pietrantuono.podcasts.singlepodcast.dagger.SinglePodcastModule;
 import com.pietrantuono.podcasts.singlepodcast.presenter.SinglePodcastPresenter;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -78,5 +81,10 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
     @Override
     public Object onRetainCustomNonConfigurationInstance() {
         return presenterManager;
+    }
+
+    @Override
+    public void setEpisodes(List<PodcastEpisode> episodes) {
+
     }
 }
