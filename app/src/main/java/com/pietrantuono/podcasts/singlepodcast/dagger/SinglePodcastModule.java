@@ -3,12 +3,8 @@ package com.pietrantuono.podcasts.singlepodcast.dagger;
 import android.support.v7.app.AppCompatActivity;
 
 import com.pietrantuono.podcasts.PresenterManager;
-import com.pietrantuono.podcasts.addpodcast.model.AddPodcastsModel;
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
-import com.pietrantuono.podcasts.addpodcast.presenter.AddPodcastPresenter;
-import com.pietrantuono.podcasts.main.presenter.MainPresenter;
 import com.pietrantuono.podcasts.singlepodcast.presenter.SinglePodcastApi;
-import com.pietrantuono.podcasts.singlepodcast.presenter.SinglePodcastApiImpl;
+import com.pietrantuono.podcasts.singlepodcast.presenter.SinglePodcastApiRetrofit;
 import com.pietrantuono.podcasts.singlepodcast.presenter.SinglePodcastPresenter;
 
 import dagger.Module;
@@ -43,6 +39,6 @@ public class SinglePodcastModule {
 
     @Provides
     SinglePodcastApi provideSinglePodcastApi(){
-        return new SinglePodcastApiImpl();
+        return new SinglePodcastApiRetrofit();
     }
 }

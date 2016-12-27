@@ -1,4 +1,5 @@
 package com.pietrantuono.podcasts;
 
-public class Entities {
+
+public interface PodcastFeed {
 }
