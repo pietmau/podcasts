@@ -2,6 +2,7 @@ package com.pietrantuono.podcasts.singlepodcast.presenter;
 
 
 import com.crashlytics.android.Crashlytics;
+import com.pietrantuono.CrashlyticsWrapper;
 import com.pietrantuono.podcasts.GenericPresenter;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.apis.PodcastFeed;
@@ -15,9 +16,11 @@ public class SinglePodcastPresenter implements GenericPresenter {
     private SinglePodcastView singlePodcastView;
     private final SinglePodcastModel model;
     private PodcastFeed podcastFeed;
+    private final CrashlyticsWrapper crashlyticsWrapper;
 
-    public SinglePodcastPresenter(SinglePodcastModel model) {
+    public SinglePodcastPresenter(SinglePodcastModel model, CrashlyticsWrapper crashlyticsWrapper) {
         this.model = model;
+        this.crashlyticsWrapper = crashlyticsWrapper;
     }
 
     @Override

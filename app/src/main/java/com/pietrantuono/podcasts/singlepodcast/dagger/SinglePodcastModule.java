@@ -2,6 +2,7 @@ package com.pietrantuono.podcasts.singlepodcast.dagger;
 
 import android.support.v7.app.AppCompatActivity;
 
+import com.pietrantuono.CrashlyticsWrapper;
 import com.pietrantuono.podcasts.PresenterManager;
 import com.pietrantuono.podcasts.apis.SinglePodcastApi;
 import com.pietrantuono.podcasts.apis.SinglePodcastApiRetrofit;
@@ -25,10 +26,10 @@ public class SinglePodcastModule {
     }
 
     @Provides
-    SinglePodcastPresenter provideSinglePodcastPresenter(SinglePodcastModel model) {
+    SinglePodcastPresenter provideSinglePodcastPresenter(SinglePodcastModel model, CrashlyticsWrapper crashlyticsWrapper) {
         SinglePodcastPresenter addPodcastPresenter = (SinglePodcastPresenter) presenterManager.getPresenter(SinglePodcastPresenter.TAG);
         if (addPodcastPresenter == null) {
-            addPodcastPresenter = new SinglePodcastPresenter(model);
+            addPodcastPresenter = new SinglePodcastPresenter(model, crashlyticsWrapper);
             presenterManager.put(SinglePodcastPresenter.TAG, addPodcastPresenter);
         }
         return addPodcastPresenter;
