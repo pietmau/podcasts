@@ -42,7 +42,7 @@ public class SinglePodcastPresenter implements GenericPresenter {
 
             @Override
             public void onError(Throwable e) {
-                Crashlytics.logException(e);
+                crashlyticsWrapper.logException(e);
             }
 
             @Override
