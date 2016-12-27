@@ -3,8 +3,10 @@ package com.pietrantuono.podcasts.singlepodcast.dagger;
 import android.support.v7.app.AppCompatActivity;
 
 import com.pietrantuono.podcasts.PresenterManager;
-import com.pietrantuono.podcasts.singlepodcast.presenter.SinglePodcastApi;
-import com.pietrantuono.podcasts.singlepodcast.presenter.SinglePodcastApiRetrofit;
+import com.pietrantuono.podcasts.apis.SinglePodcastApi;
+import com.pietrantuono.podcasts.apis.SinglePodcastApiRetrofit;
+import com.pietrantuono.podcasts.singlepodcast.model.SinglePodcastModel;
+import com.pietrantuono.podcasts.singlepodcast.model.SinglePodcastModelImpl;
 import com.pietrantuono.podcasts.singlepodcast.presenter.SinglePodcastPresenter;
 
 import dagger.Module;
@@ -23,10 +25,10 @@ public class SinglePodcastModule {
     }
 
     @Provides
-    SinglePodcastPresenter provideSinglePodcastPresenter(SinglePodcastApi api) {
+    SinglePodcastPresenter provideSinglePodcastPresenter(SinglePodcastModel model) {
         SinglePodcastPresenter addPodcastPresenter = (SinglePodcastPresenter) presenterManager.getPresenter(SinglePodcastPresenter.TAG);
         if (addPodcastPresenter == null) {
-            addPodcastPresenter = new SinglePodcastPresenter(api);
+            addPodcastPresenter = new SinglePodcastPresenter(model);
             presenterManager.put(SinglePodcastPresenter.TAG, addPodcastPresenter);
         }
         return addPodcastPresenter;
@@ -40,5 +42,10 @@ public class SinglePodcastModule {
     @Provides
     SinglePodcastApi provideSinglePodcastApi(){
         return new SinglePodcastApiRetrofit();
+    }
+
+    @Provides
+    SinglePodcastModel provideSinglePodcastModel(SinglePodcastApi api){
+        return new SinglePodcastModelImpl(api);
     }
 }

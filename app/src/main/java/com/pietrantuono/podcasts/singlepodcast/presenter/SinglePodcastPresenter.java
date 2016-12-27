@@ -3,15 +3,17 @@ package com.pietrantuono.podcasts.singlepodcast.presenter;
 
 import com.pietrantuono.podcasts.GenericPresenter;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
+import com.pietrantuono.podcasts.apis.SinglePodcastApi;
+import com.pietrantuono.podcasts.singlepodcast.model.SinglePodcastModel;
 import com.pietrantuono.podcasts.singlepodcast.view.SinglePodcastView;
 
 public class SinglePodcastPresenter implements GenericPresenter {
     public static final String TAG = (SinglePodcastPresenter.class).getSimpleName();
     private SinglePodcastView singlePodcastView;
-    private SinglePodcastApi api;
+    private SinglePodcastModel model;
 
-    public SinglePodcastPresenter(SinglePodcastApi api) {
-        this.api = api;
+    public SinglePodcastPresenter(SinglePodcastModel model) {
+        this.model = model;
     }
 
     @Override
@@ -21,12 +23,12 @@ public class SinglePodcastPresenter implements GenericPresenter {
 
     @Override
     public void onPause() {
-        api.unsubscribe();
+        model.unsubscribe();
     }
 
     @Override
     public void onResume() {
-
+        model.subscribe(null);
     }
 
     public void bindView(SinglePodcastView view) {
