@@ -4,15 +4,13 @@ package com.pietrantuono.podcasts.singlepodcast.view;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pietrantuono.podcasts.PresenterManager;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
-import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker;
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader;
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule;
 import com.pietrantuono.podcasts.main.view.TransitionsFramework;
@@ -29,9 +27,10 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
     public static final String SINGLE_PODCAST = "single_podcast";
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.image) ImageView imageView;
+    @BindView(R.id.recycler) RecyclerView recyclerView;
     @Inject TransitionsFramework transitionsFramework;
     @Inject SimpleImageLoader imageLoader;
-    @Inject SinglePodcastPresenter singlePodcastPresenter;
+    @Inject SinglePodcastPresenter presenter;
     @Inject PresenterManager presenterManager;
 
     @Override
@@ -42,7 +41,10 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
         setUpActionBar();
         DaggerSinglePodcastComponent.builder().singlePodcastModule(new SinglePodcastModule(SinglePodcastActivity.this)).imageLoaderModule(new ImageLoaderModule(SinglePodcastActivity.this)).build().inject(SinglePodcastActivity.this);
         transitionsFramework.initDetailTransitionAndPostponeEnterTransition(SinglePodcastActivity.this);
-        loadImage();
+        SinglePodcast podcast = getIntent().getParcelableExtra(SINGLE_PODCAST);
+        loadImage(podcast);
+        presenter.bindView(SinglePodcastActivity.this);
+        presenter.setPodcast(podcast);
     }
 
     private void setUpActionBar() {
@@ -51,12 +53,26 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
         getSupportActionBar().setTitle(null);
     }
 
-    private void loadImage() {
-        try {
-            String url = ((SinglePodcast) getIntent().getParcelableExtra(SINGLE_PODCAST)).getArtworkUrl600();
-            imageLoader.displayImage(url, imageView, new PodcastImageLoadingListener(SinglePodcastActivity.this, transitionsFramework));
-        } catch (NullPointerException e) {
-        }
+    private void loadImage(SinglePodcast podcast) {
+        imageLoader.displayImage(podcast, imageView, new PodcastImageLoadingListener(SinglePodcastActivity.this, transitionsFramework));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        presenter.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.onDestroy();
     }
 
     @Override
