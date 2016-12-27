@@ -10,4 +10,6 @@ public interface SinglePodcastModel {
     void subscribe(Observer<PodcastFeed> observer);
 
     void unsubscribe();
+
+    void getFeed(String url);
 }

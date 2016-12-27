@@ -21,8 +21,8 @@ public class SearchApiRetrofit implements SearchApi {
     public SearchApiRetrofit() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(ITUNES)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(new PodcastSearchResultConverterFactory(GsonConverterFactory.create()))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
 
         api = retrofit.create(SearchApi.class);

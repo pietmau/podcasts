@@ -2,6 +2,7 @@ package com.pietrantuono.podcasts.apis;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import rx.Observable;
 import rx.Observer;
 
 public class SinglePodcastApiRetrofit implements SinglePodcastApi {
@@ -18,9 +19,7 @@ public class SinglePodcastApiRetrofit implements SinglePodcastApi {
     }
 
     @Override
-    public Observer<PodcastFeed> getFeed(String url) {
+    public Observable<PodcastFeed> getFeed(String url) {
         return api.getFeed(url);
     }
-
-
 }
