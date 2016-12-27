@@ -1,6 +1,9 @@
 package com.pietrantuono.podcasts.singlepodcast;
 
+import android.support.annotation.NonNull;
+
 import com.rometools.rome.feed.synd.SyndFeed;
+import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
 
@@ -10,6 +13,8 @@ import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 
 import static org.junit.Assert.*;
@@ -23,21 +28,30 @@ public class RomeTest {
 
     @Test
     public void given_foo_when_bar_then_fobar() {
-        URL url = this.getClass().getResource("/assets/AAA_podcast");
-        File testWsdl = new File(url.getFile());
+        File file = getPodcastFile();
+        SyndFeed feed = getFeed(file);
+        assertEquals(15, feed.getEntries().size());
+    }
 
+    private SyndFeed getFeed(File file) {
         SyndFeedInput input = new SyndFeedInput();
-        //SyndFeed feed = input.build(new XmlReader(feedUrl));
-        /*
-        * GIVEN
-        */
+        SyndFeed feed = null;
+        try {
+            feed = input.build(new XmlReader(file));
+        } catch (Exception e) {
+            fail();
+        }
+        return feed;
+    }
 
-        /*
-        * WHEN
-        */
+    @NonNull
+    private File getPodcastFile() {
+        ClassLoader classLoader = getClass().getClassLoader();
+        URL resource = classLoader.getResource("AAA_podcast");
+        return new File(resource.getPath());
+    }
 
-        /*
-        * THEN
-        */
+    private void foo() {
+
     }
 }
