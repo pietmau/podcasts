@@ -1,6 +1,8 @@
 package com.pietrantuono.podcasts;
 
 
+import com.rometools.modules.itunes.FeedInformation;
+import com.rometools.rome.feed.module.Module;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
@@ -28,6 +30,8 @@ public class RomeTest {
     public void given_foo_when_bar_then_fobar() {
         File file = getPodcastFile();
         SyndFeed feed = getFeed(file);
+        Module module = feed.getModule("http://www.itunes.com/dtds/podcast 1.0.dtd");
+        FeedInformation feedInfo = (FeedInformation) module;
         assertEquals(15, feed.getEntries().size());
     }
 
