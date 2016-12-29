@@ -2,6 +2,9 @@ package com.pietrantuono;
 
 
 public final class Constants {
+    public static final String AUDIO = "audio";
+    public static final String VIDEO = "video";
+
     private Constants() {
     }
 

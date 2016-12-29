@@ -10,8 +10,9 @@
     <dimen name="half_item_margin">2dp</dimen>
     <dimen name="card_elevation">2dp</dimen>
     <dimen name="card_corner_radius">3dp</dimen>
-    <dimen name="TitleTextSize">15sp</dimen>
-    <dimen name="AuthorTextSize">14sp</dimen>
-    <dimen name="GenreTextSize">12dp</dimen>
+    <dimen name="BiggerTextSize">15sp</dimen>
+    <dimen name="BigTextSize">14sp</dimen>
+    <dimen name="NormalTextSize">12dp</dimen>
     <dimen name="very_small_margin">4dp</dimen>
+    <dimen name="item_image_size">100dp</dimen>
 </resources>

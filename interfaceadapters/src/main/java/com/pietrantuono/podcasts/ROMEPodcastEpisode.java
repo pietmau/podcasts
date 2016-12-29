@@ -1,7 +1,12 @@
 package com.pietrantuono.podcasts;
 
 
+import android.support.annotation.DrawableRes;
+import android.support.annotation.StringRes;
+
 import com.pietrantuono.Constants;
+import com.pietrantuono.CrashlyticsWrapper;
+import com.pietrantuono.interfaceadapters.R;
 import com.pietrantuono.podcasts.apis.PodcastEpisode;
 import com.rometools.modules.itunes.EntryInformation;
 import com.rometools.modules.mediarss.MediaModule;
@@ -12,10 +17,13 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class ROMEPodcastEpisode implements PodcastEpisode {
     private final SyndEntry entry;
     private final EntryInformation itunes;
     private final EntryInformation mediaRSS;
+    @Inject CrashlyticsWrapper crashlyticsWrapper;
 
     public ROMEPodcastEpisode(SyndEntry entry) {
         this.entry = entry;
@@ -97,7 +105,7 @@ public class ROMEPodcastEpisode implements PodcastEpisode {
 
     @Override
     public String getDescription() {
-        if (entry == null || entry.getDescription()==null) {
+        if (entry == null || entry.getDescription() == null) {
             return null;
         }
         return entry.getDescription().getValue();
@@ -106,5 +114,49 @@ public class ROMEPodcastEpisode implements PodcastEpisode {
     private String formatDate(Date publishedDate) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d MMM yyyy");
         return simpleDateFormat.format(publishedDate);
+    }
+
+    @Override
+    @DrawableRes
+    public int getMediaTypeImage() {
+        try {
+            String type = entry.getEnclosures().get(0).getType().toLowerCase();
+            return getImageResouce(type);
+        } catch (NullPointerException | IndexOutOfBoundsException e) {
+            crashlyticsWrapper.logException(e);
+            return -1;
+        }
+    }
+
+    @Override
+    @StringRes
+    public int getMediaTypeText() {
+        try {
+            String type = entry.getEnclosures().get(0).getType().toLowerCase();
+            return getStrinResource(type);
+        } catch (NullPointerException | IndexOutOfBoundsException e) {
+            crashlyticsWrapper.logException(e);
+            return -1;
+        }
+    }
+
+    private int getStrinResource(String type) {
+        if (type.contains(Constants.AUDIO)) {
+            return R.string.audio;
+        }
+        if (type.contains(Constants.VIDEO)) {
+            return R.string.video;
+        }
+        return -1;
+    }
+
+    private int getImageResouce(String type) {
+        if (type.contains(Constants.AUDIO)) {
+            return R.drawable.ic_audio_icon;
+        }
+        if (type.contains(Constants.VIDEO)) {
+            return R.drawable.ic_video_icon;
+        }
+        return -1;
     }
 }

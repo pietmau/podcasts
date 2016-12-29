@@ -8,18 +8,28 @@
 
     <style name="Title">
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">@dimen/TitleTextSize</item>
+        <item name="android:textSize">@dimen/BiggerTextSize</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Author">
         <item name="android:textColor">@color/authorTextColor</item>
-        <item name="android:textSize">@dimen/AuthorTextSize</item>
+        <item name="android:textSize">@dimen/BigTextSize</item>
     </style>
 
     <style name="Genre">
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">@dimen/GenreTextSize</item>
+        <item name="android:textSize">@dimen/NormalTextSize</item>
+    </style>
+
+    <style name="Normal">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/NormalTextSize</item>
+    </style>
+
+    <style name="Big">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/BigTextSize</item>
     </style>
 
 
