@@ -22,7 +22,6 @@ public class ROMEPodcastFeed implements PodcastFeed {
         return episodes;
     }
 
-
     private List<PodcastEpisode> parseEpisodes(SyndFeed feed) {
         List<PodcastEpisode> podcastEpisodes = new ArrayList<>();
         for (SyndEntry entry : feed.getEntries()) {
