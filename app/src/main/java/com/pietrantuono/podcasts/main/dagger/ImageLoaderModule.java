@@ -8,6 +8,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsAdapter;
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader;
+import com.pietrantuono.podcasts.singlepodcast.customviews.EpisodesAdapter;
 
 import javax.inject.Singleton;
 
@@ -36,5 +37,10 @@ public class ImageLoaderModule {
     @Provides
     SimpleImageLoader provideSimpleImageLoader() {
         return new SimpleImageLoader();
+    }
+
+    @Provides
+    EpisodesAdapter provideEpisodesAdapter(SimpleImageLoader imageLoader) {
+        return new EpisodesAdapter(imageLoader);
     }
 }

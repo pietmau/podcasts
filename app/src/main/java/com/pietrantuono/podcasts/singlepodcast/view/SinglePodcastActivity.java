@@ -15,6 +15,7 @@ import com.pietrantuono.podcasts.apis.PodcastEpisode;
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader;
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule;
 import com.pietrantuono.podcasts.main.view.TransitionsFramework;
+import com.pietrantuono.podcasts.singlepodcast.customviews.EpisodesRecycler;
 import com.pietrantuono.podcasts.singlepodcast.dagger.DaggerSinglePodcastComponent;
 import com.pietrantuono.podcasts.singlepodcast.dagger.SinglePodcastModule;
 import com.pietrantuono.podcasts.singlepodcast.presenter.SinglePodcastPresenter;
@@ -30,7 +31,7 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
     public static final String SINGLE_PODCAST = "single_podcast";
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.image) ImageView imageView;
-    @BindView(R.id.recycler) RecyclerView recyclerView;
+    @BindView(R.id.recycler) EpisodesRecycler recyclerView;
     @Inject TransitionsFramework transitionsFramework;
     @Inject SimpleImageLoader imageLoader;
     @Inject SinglePodcastPresenter presenter;
