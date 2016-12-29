@@ -1,305 +1,110 @@
 package com.pietrantuono.podcasts;
 
 
+import com.pietrantuono.Constants;
 import com.pietrantuono.podcasts.apis.PodcastEpisode;
-import com.rometools.rome.feed.WireFeed;
-import com.rometools.rome.feed.module.Module;
-import com.rometools.rome.feed.synd.SyndCategory;
-import com.rometools.rome.feed.synd.SyndContent;
+import com.rometools.modules.itunes.EntryInformation;
+import com.rometools.modules.mediarss.MediaModule;
 import com.rometools.rome.feed.synd.SyndEntry;
-import com.rometools.rome.feed.synd.SyndImage;
-import com.rometools.rome.feed.synd.SyndLink;
-import com.rometools.rome.feed.synd.SyndPerson;
 
-import org.jdom2.Element;
-
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 public class ROMEPodcastEpisode implements PodcastEpisode {
     private final SyndEntry entry;
+    private final EntryInformation itunes;
+    private final EntryInformation mediaRSS;
 
     public ROMEPodcastEpisode(SyndEntry entry) {
         this.entry = entry;
+        itunes = (EntryInformation) entry.getModule(Constants.ITUNES_URI);
+        mediaRSS = (EntryInformation) entry.getModule(MediaModule.URI);
     }
 
     @Override
-    public List<String> getSupportedFeedTypes() {
-        return null;
-    }
-
-    @Override
-    public WireFeed createWireFeed() {
-        return null;
-    }
-
-    @Override
-    public WireFeed createWireFeed(String feedType) {
-        return null;
-    }
-
-    @Override
-    public WireFeed originalWireFeed() {
-        return null;
-    }
-
-    @Override
-    public boolean isPreservingWireFeed() {
-        return false;
-    }
-
-    @Override
-    public String getFeedType() {
-        return null;
-    }
-
-    @Override
-    public void setFeedType(String feedType) {
-
-    }
-
-    @Override
-    public String getEncoding() {
-        return null;
-    }
-
-    @Override
-    public void setEncoding(String encoding) {
-
-    }
-
-    @Override
-    public String getUri() {
-        return null;
-    }
-
-    @Override
-    public void setUri(String uri) {
-
-    }
-
-    @Override
-    public String getTitle() {
-        return null;
-    }
-
-    @Override
-    public void setTitle(String title) {
-
-    }
-
-    @Override
-    public SyndContent getTitleEx() {
-        return null;
-    }
-
-    @Override
-    public void setTitleEx(SyndContent title) {
-
-    }
-
-    @Override
-    public String getLink() {
-        return null;
-    }
-
-    @Override
-    public void setLink(String link) {
-
-    }
-
-    @Override
-    public List<SyndLink> getLinks() {
-        return null;
-    }
-
-    @Override
-    public void setLinks(List<SyndLink> links) {
-
-    }
-
-    @Override
-    public String getDescription() {
-        return null;
-    }
-
-    @Override
-    public void setDescription(String description) {
-
-    }
-
-    @Override
-    public SyndContent getDescriptionEx() {
-        return null;
-    }
-
-    @Override
-    public void setDescriptionEx(SyndContent description) {
-
-    }
-
-    @Override
-    public Date getPublishedDate() {
-        return null;
-    }
-
-    @Override
-    public void setPublishedDate(Date publishedDate) {
-
-    }
-
-    @Override
-    public List<SyndPerson> getAuthors() {
-        return null;
-    }
-
-    @Override
-    public void setAuthors(List<SyndPerson> authors) {
-
+    public String getDuration() {
+        if (itunes == null || itunes.getDuration() == null) {
+            return null;
+        }
+        return itunes.getDuration().toString();
     }
 
     @Override
     public String getAuthor() {
-        return null;
+        if (itunes == null) {
+            return null;
+        }
+        return itunes.getAuthor();
     }
 
     @Override
-    public void setAuthor(String author) {
-
+    public boolean explicit() {
+        if (itunes == null) {
+            return false;
+        }
+        return itunes.getExplicit();
     }
 
     @Override
-    public List<SyndPerson> getContributors() {
-        return null;
+    public String getImage() {
+        if (itunes == null || itunes.getImage() == null) {
+            return null;
+        }
+        return itunes.getImage().toString();
     }
 
     @Override
-    public void setContributors(List<SyndPerson> contributors) {
-
+    public List<String> getKeywords() {
+        if (itunes == null || itunes.getKeywords() == null) {
+            return null;
+        }
+        return Arrays.asList(itunes.getKeywords());
     }
 
     @Override
-    public String getCopyright() {
-        return null;
+    public String getSubtitle() {
+        if (itunes == null) {
+            return null;
+        }
+        return itunes.getSubtitle();
     }
 
     @Override
-    public void setCopyright(String copyright) {
-
+    public String getSummary() {
+        if (itunes == null) {
+            return null;
+        }
+        return itunes.getSubtitle();
     }
 
     @Override
-    public SyndImage getImage() {
-        return null;
+    public String getPubDate() {
+        if (entry == null || entry.getPublishedDate() == null) {
+            return null;
+        }
+        return formatDate(entry.getPublishedDate());
     }
 
     @Override
-    public void setImage(SyndImage image) {
-
+    public String getTitle() {
+        if (entry == null) {
+            return null;
+        }
+        return entry.getTitle();
     }
 
     @Override
-    public List<SyndCategory> getCategories() {
-        return null;
+    public String getDescription() {
+        if (entry == null || entry.getDescription()==null) {
+            return null;
+        }
+        return entry.getDescription().getValue();
     }
 
-    @Override
-    public void setCategories(List<SyndCategory> categories) {
-
-    }
-
-    @Override
-    public List<SyndEntry> getEntries() {
-        return null;
-    }
-
-    @Override
-    public void setEntries(List<SyndEntry> entries) {
-
-    }
-
-    @Override
-    public String getLanguage() {
-        return null;
-    }
-
-    @Override
-    public void setLanguage(String language) {
-
-    }
-
-    @Override
-    public Module getModule(String uri) {
-        return null;
-    }
-
-    @Override
-    public List<Module> getModules() {
-        return null;
-    }
-
-    @Override
-    public void setModules(List<Module> modules) {
-
-    }
-
-    @Override
-    public List<Element> getForeignMarkup() {
-        return null;
-    }
-
-    @Override
-    public void setForeignMarkup(List<Element> foreignMarkup) {
-
-    }
-
-    @Override
-    public String getDocs() {
-        return null;
-    }
-
-    @Override
-    public void setDocs(String docs) {
-
-    }
-
-    @Override
-    public String getGenerator() {
-        return null;
-    }
-
-    @Override
-    public void setGenerator(String generator) {
-
-    }
-
-    @Override
-    public String getManagingEditor() {
-        return null;
-    }
-
-    @Override
-    public void setManagingEditor(String managingEditor) {
-
-    }
-
-    @Override
-    public String getWebMaster() {
-        return null;
-    }
-
-    @Override
-    public void setWebMaster(String webMaster) {
-
-    }
-
-    @Override
-    public String getStyleSheet() {
-        return null;
-    }
-
-    @Override
-    public void setStyleSheet(String styleSheet) {
-
+    private String formatDate(Date publishedDate) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d MMM yyyy");
+        return simpleDateFormat.format(publishedDate);
     }
 }
