@@ -17,8 +17,10 @@ import dagger.Provides;
 @Module
 public class SinglePodcastModule {
     private final PresenterManager presenterManager;
+    private final AppCompatActivity activity;
 
     public SinglePodcastModule(AppCompatActivity activity) {
+        this.activity = activity;
         PresenterManager manager = (PresenterManager) activity.getLastCustomNonConfigurationInstance();
         if (manager == null) {
             manager = new PresenterManager();
@@ -43,7 +45,7 @@ public class SinglePodcastModule {
 
     @Provides
     SinglePodcastApi provideSinglePodcastApi(CrashlyticsWrapper crashlyticsWrapper){
-        return new SinglePodcastApiRetrofit(crashlyticsWrapper);
+        return new SinglePodcastApiRetrofit(crashlyticsWrapper, activity);
     }
 
     @Provides

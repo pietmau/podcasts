@@ -1,5 +1,7 @@
 package com.pietrantuono.podcasts.apis;
 
+import android.content.Context;
+
 import com.pietrantuono.CrashlyticsWrapper;
 import com.pietrantuono.podcasts.ROMEPodcastFeed;
 import com.rometools.rome.io.FeedException;
@@ -17,9 +19,11 @@ import retrofit2.Retrofit;
 public class PodcastFeedConverterFactory extends Converter.Factory {
     private final SyndFeedInput input = new SyndFeedInput();
     private final CrashlyticsWrapper crashlyticsWrapper;
+    private final Context context;
 
-    public PodcastFeedConverterFactory(CrashlyticsWrapper crashlyticsWrapper) {
+    public PodcastFeedConverterFactory(CrashlyticsWrapper crashlyticsWrapper, Context context) {
         this.crashlyticsWrapper = crashlyticsWrapper;
+        this.context = context;
     }
 
     @Override
@@ -29,7 +33,7 @@ public class PodcastFeedConverterFactory extends Converter.Factory {
             @Override
             public PodcastFeed convert(ResponseBody value) throws IOException {
                 try {
-                    return new ROMEPodcastFeed(input.build(new XmlReader(value.byteStream())), crashlyticsWrapper);
+                    return new ROMEPodcastFeed(input.build(new XmlReader(value.byteStream())), crashlyticsWrapper, context);
                 } catch (FeedException e) {
                     throw new IOException(e);
                 }
