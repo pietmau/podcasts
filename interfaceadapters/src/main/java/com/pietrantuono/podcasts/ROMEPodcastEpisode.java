@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts;
 
 
+import android.databinding.BaseObservable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 
@@ -19,7 +20,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class ROMEPodcastEpisode implements PodcastEpisode {
+public class ROMEPodcastEpisode extends BaseObservable implements PodcastEpisode  {
     private final SyndEntry entry;
     private final EntryInformation itunes;
     private final EntryInformation mediaRSS;

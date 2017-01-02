@@ -1,103 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:bind="http://schemas.android.com/apk/res-auto"
+        xmlns:lib="http://schemas.android.com/apk/res-auto">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/card"
+    <data>
+
+        <variable
+            name="episode"
+            type="com.pietrantuono.podcasts.ROMEPodcastEpisode"/>
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        card_view:cardBackgroundColor="@color/orange"
-        card_view:cardCornerRadius="@dimen/card_corner_radius"
-        card_view:cardElevation="@dimen/card_elevation"
-        card_view:cardUseCompatPadding="true">
+        android:gravity="center">
 
-        <RelativeLayout
+        <android.support.v7.widget.CardView
+            android:id="@+id/card"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            lib:cardBackgroundColor="@color/orange"
+            lib:cardCornerRadius="@dimen/card_corner_radius"
+            lib:cardElevation="@dimen/card_elevation"
+            lib:cardUseCompatPadding="true">
 
-            <ImageView
-                android:id="@+id/image"
-                android:layout_width="@dimen/item_image_size"
-                android:layout_height="@dimen/item_image_size"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:scaleType="fitCenter"/>
-
-            <TextView
-                android:id="@+id/pub_date"
-                style="@style/Big"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/standard_margin"
-                android:layout_toLeftOf="@+id/overflow"
-                android:layout_toRightOf="@+id/image"
-                android:ellipsize="end"
-                android:maxLines="2"/>
-
-            <TextView
-                android:id="@+id/title"
-                style="@style/Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/pub_date"
-                android:layout_marginLeft="@dimen/standard_margin"
-                android:layout_toLeftOf="@+id/overflow"
-                android:layout_toRightOf="@+id/image"
-                android:ellipsize="end"
-                android:maxLines="2"/>
-
-            <TextView
-                android:id="@+id/author"
-                style="@style/Author"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/title"
-                android:layout_marginLeft="@dimen/standard_margin"
-                android:layout_marginRight="@dimen/standard_margin"
-                android:layout_toRightOf="@+id/image"
-                android:ellipsize="end"
-                android:maxLines="1"/>
-
-            <ImageView
-                android:id="@+id/overflow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:paddingLeft="8dp"
-                android:src="@drawable/ic_more_vert_black_12dp"/>
-
-            <TextView
-                android:id="@+id/subtitle"
-                style="@style/Big"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/author"
-                android:layout_marginLeft="@dimen/standard_margin"
-                android:layout_marginRight="@dimen/standard_margin"
-                android:layout_toRightOf="@+id/image"
-                android:maxLines="2">
-            </TextView>
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/description"
-                style="@style/Normal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/subtitle"
-                android:layout_marginLeft="@dimen/standard_margin"
-                android:layout_marginRight="@dimen/standard_margin"
-                android:layout_toRightOf="@+id/image"
-                android:maxLines="3">
-            </TextView>
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="@dimen/item_image_size"
+                    android:layout_height="@dimen/item_image_size"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:scaleType="fitCenter"/>
 
-            <include layout="@layout/episode_item_footer"/>
+                <TextView
+                    android:id="@+id/pub_date"
+                    style="@style/Big"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/standard_margin"
+                    android:layout_toLeftOf="@+id/overflow"
+                    android:layout_toRightOf="@+id/image"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="@{episode.pubDate}"/>
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/title"
+                    style="@style/Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/pub_date"
+                    android:layout_marginLeft="@dimen/standard_margin"
+                    android:layout_toLeftOf="@+id/overflow"
+                    android:layout_toRightOf="@+id/image"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="@{episode.title}"/>
 
-    </android.support.v7.widget.CardView>
-</LinearLayout>
+                <TextView
+                    android:id="@+id/author"
+                    style="@style/Author"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/title"
+                    android:layout_marginLeft="@dimen/standard_margin"
+                    android:layout_marginRight="@dimen/standard_margin"
+                    android:layout_toRightOf="@+id/image"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@{episode.author}"/>
+
+                <ImageView
+                    android:id="@+id/overflow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:paddingLeft="8dp"
+                    android:src="@drawable/ic_more_vert_black_12dp"/>
+
+                <TextView
+                    android:id="@+id/subtitle"
+                    style="@style/Big"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/author"
+                    android:layout_marginLeft="@dimen/standard_margin"
+                    android:layout_marginRight="@dimen/standard_margin"
+                    android:layout_toRightOf="@+id/image"
+                    android:maxLines="2"
+                    android:text="@{episode.subtitle}">
+                </TextView>
+
+                <TextView
+                    android:id="@+id/description"
+                    style="@style/Normal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/subtitle"
+                    android:layout_marginLeft="@dimen/standard_margin"
+                    android:layout_marginRight="@dimen/standard_margin"
+                    android:layout_toRightOf="@+id/image"
+                    android:maxLines="3"
+                    android:text="@{episode.description}">
+                </TextView>
+
+                <include
+                    layout="@layout/episode_item_footer"
+                    bind:episode="@{episode}"
+                    />
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+</layout>

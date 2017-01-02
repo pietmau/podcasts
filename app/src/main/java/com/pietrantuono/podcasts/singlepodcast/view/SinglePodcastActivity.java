@@ -86,6 +86,6 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
 
     @Override
     public void setEpisodes(List<PodcastEpisode> episodes) {
-
+        recyclerView.setItems(episodes);
     }
 }

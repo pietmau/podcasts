@@ -57,6 +57,10 @@ android {
     packagingOptions {
         exclude 'rome-utils-1.7.0.jar'
     }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
