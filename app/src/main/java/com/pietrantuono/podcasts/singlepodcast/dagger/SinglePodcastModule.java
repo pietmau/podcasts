@@ -1,11 +1,12 @@
 package com.pietrantuono.podcasts.singlepodcast.dagger;
 
+
 import android.support.v7.app.AppCompatActivity;
 
 import com.pietrantuono.CrashlyticsWrapper;
+import com.pietrantuono.interfaceadapters.apis.SinglePodcastApi;
+import com.pietrantuono.interfaceadapters.apis.SinglePodcastApiRetrofit;
 import com.pietrantuono.podcasts.PresenterManager;
-import com.pietrantuono.podcasts.apis.SinglePodcastApi;
-import com.pietrantuono.podcasts.apis.SinglePodcastApiRetrofit;
 import com.pietrantuono.podcasts.singlepodcast.model.SinglePodcastModel;
 import com.pietrantuono.podcasts.singlepodcast.model.SinglePodcastModelImpl;
 import com.pietrantuono.podcasts.singlepodcast.presenter.SinglePodcastPresenter;
@@ -41,8 +42,8 @@ public class SinglePodcastModule {
     }
 
     @Provides
-    SinglePodcastApi provideSinglePodcastApi(){
-        return new SinglePodcastApiRetrofit();
+    SinglePodcastApi provideSinglePodcastApi(CrashlyticsWrapper crashlyticsWrapper){
+        return new SinglePodcastApiRetrofit(crashlyticsWrapper);
     }
 
     @Provides

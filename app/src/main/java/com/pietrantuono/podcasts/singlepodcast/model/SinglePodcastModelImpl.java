@@ -1,7 +1,8 @@
 package com.pietrantuono.podcasts.singlepodcast.model;
 
+import com.pietrantuono.interfaceadapters.apis.SinglePodcastApi;
 import com.pietrantuono.podcasts.apis.PodcastFeed;
-import com.pietrantuono.podcasts.apis.SinglePodcastApi;
+
 
 import rx.Observable;
 import rx.Observer;

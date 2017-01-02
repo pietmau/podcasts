@@ -25,7 +25,4 @@ public interface PodcastEpisode {
 
     String getDescription();
 
-    int getMediaTypeImage();
-
-    int getMediaTypeText();
 }

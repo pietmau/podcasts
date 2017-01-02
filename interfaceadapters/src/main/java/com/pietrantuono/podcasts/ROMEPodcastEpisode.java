@@ -1,15 +1,20 @@
 package com.pietrantuono.podcasts;
 
 
+import android.content.Context;
 import android.databinding.BaseObservable;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
+import android.support.v4.content.ContextCompat;
+import android.text.Html;
 
 import com.pietrantuono.Constants;
 import com.pietrantuono.CrashlyticsWrapper;
 import com.pietrantuono.interfaceadapters.R;
 import com.pietrantuono.podcasts.apis.PodcastEpisode;
 import com.rometools.modules.itunes.EntryInformation;
+import com.rometools.modules.mediarss.MediaEntryModule;
 import com.rometools.modules.mediarss.MediaModule;
 import com.rometools.rome.feed.synd.SyndEntry;
 
@@ -23,13 +28,16 @@ import javax.inject.Inject;
 public class ROMEPodcastEpisode extends BaseObservable implements PodcastEpisode  {
     private final SyndEntry entry;
     private final EntryInformation itunes;
-    private final EntryInformation mediaRSS;
-    @Inject CrashlyticsWrapper crashlyticsWrapper;
+    private final MediaEntryModule mediaRSS;
+    private final CrashlyticsWrapper crashlyticsWrapper;
+    private final Context context;
 
-    public ROMEPodcastEpisode(SyndEntry entry) {
+    public ROMEPodcastEpisode(SyndEntry entry, CrashlyticsWrapper crashlyticsWrapper, Context context) {
         this.entry = entry;
+        this.crashlyticsWrapper = crashlyticsWrapper;
         itunes = (EntryInformation) entry.getModule(Constants.ITUNES_URI);
-        mediaRSS = (EntryInformation) entry.getModule(MediaModule.URI);
+        mediaRSS = (MediaEntryModule) entry.getModule(MediaModule.URI);
+        this.context = context;
     }
 
     @Override
@@ -109,7 +117,7 @@ public class ROMEPodcastEpisode extends BaseObservable implements PodcastEpisode
         if (entry == null || entry.getDescription() == null) {
             return null;
         }
-        return entry.getDescription().getValue();
+        return Html.fromHtml(entry.getDescription().getValue()).toString();
     }
 
     private String formatDate(Date publishedDate) {
@@ -117,47 +125,43 @@ public class ROMEPodcastEpisode extends BaseObservable implements PodcastEpisode
         return simpleDateFormat.format(publishedDate);
     }
 
-    @Override
-    @DrawableRes
-    public int getMediaTypeImage() {
+    public Drawable getMediaTypeImage() {
         try {
             String type = entry.getEnclosures().get(0).getType().toLowerCase();
             return getImageResouce(type);
         } catch (NullPointerException | IndexOutOfBoundsException e) {
             crashlyticsWrapper.logException(e);
-            return -1;
+            return null;
         }
     }
 
-    @Override
-    @StringRes
-    public int getMediaTypeText() {
+    public String getMediaTypeText() {
         try {
             String type = entry.getEnclosures().get(0).getType().toLowerCase();
             return getStrinResource(type);
         } catch (NullPointerException | IndexOutOfBoundsException e) {
             crashlyticsWrapper.logException(e);
-            return -1;
+            return null;
         }
     }
 
-    private int getStrinResource(String type) {
+    private String getStrinResource(String type) {
         if (type.contains(Constants.AUDIO)) {
-            return R.string.audio;
+            return context.getString(R.string.audio);
         }
         if (type.contains(Constants.VIDEO)) {
-            return R.string.video;
+            return context.getString(R.string.video);
         }
-        return -1;
+        return null;
     }
 
-    private int getImageResouce(String type) {
+    private Drawable getImageResouce(String type) {
         if (type.contains(Constants.AUDIO)) {
-            return R.drawable.ic_audio_icon;
+            return ContextCompat.getDrawable(context, R.drawable.ic_audio_icon);
         }
         if (type.contains(Constants.VIDEO)) {
-            return R.drawable.ic_video_icon;
+            return ContextCompat.getDrawable(context, R.drawable.ic_video_icon);
         }
-        return -1;
+        return null;
     }
 }

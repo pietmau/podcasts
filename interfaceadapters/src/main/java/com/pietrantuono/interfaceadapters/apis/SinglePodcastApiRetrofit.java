@@ -1,19 +1,23 @@
-package com.pietrantuono.podcasts.apis;
+package com.pietrantuono.interfaceadapters.apis;
+
+import com.pietrantuono.CrashlyticsWrapper;
+import com.pietrantuono.interfaceadapters.apis.SinglePodcastApi;
+import com.pietrantuono.podcasts.apis.PodcastFeed;
+import com.pietrantuono.podcasts.apis.PodcastFeedConverterFactory;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import rx.Observable;
-import rx.Observer;
 
 public class SinglePodcastApiRetrofit implements SinglePodcastApi {
     private static final String GOOGLE = "http://www.google.com";
     private final SinglePodcastApi api;
 
-    public SinglePodcastApiRetrofit() {
+    public SinglePodcastApiRetrofit(CrashlyticsWrapper crashlyticsWrapper) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GOOGLE)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(new PodcastFeedConverterFactory())
+                .addConverterFactory(new PodcastFeedConverterFactory(crashlyticsWrapper))
                 .build();
         api = retrofit.create(SinglePodcastApi.class);
     }
