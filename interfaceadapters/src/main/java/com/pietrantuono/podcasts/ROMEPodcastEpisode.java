@@ -25,143 +25,127 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class ROMEPodcastEpisode extends BaseObservable implements PodcastEpisode  {
+public class ROMEPodcastEpisode implements PodcastEpisode {
     private final SyndEntry entry;
     private final EntryInformation itunes;
     private final MediaEntryModule mediaRSS;
     private final CrashlyticsWrapper crashlyticsWrapper;
-    private final Context context;
+    private final String duration;
+    private final String author;
+    private final boolean isExplicit;
+    private final String image;
+    private final List<String> keywords;
+    private final String subtitle;
+    private final String summary;
+    private final Date pubDate;
+    private final String title;
+    private final String description;
 
     public ROMEPodcastEpisode(SyndEntry entry, CrashlyticsWrapper crashlyticsWrapper, Context context) {
         this.entry = entry;
         this.crashlyticsWrapper = crashlyticsWrapper;
         itunes = (EntryInformation) entry.getModule(Constants.ITUNES_URI);
         mediaRSS = (MediaEntryModule) entry.getModule(MediaModule.URI);
-        this.context = context;
+
+        if (itunes != null && itunes.getDuration() != null) {
+            duration = itunes.getDuration().toString();
+        } else {
+            duration = null;
+        }
+        if (itunes != null) {
+            author = itunes.getAuthor();
+        } else {
+            author = null;
+        }
+        if (itunes != null) {
+            isExplicit = itunes.getExplicit();
+        } else {
+            isExplicit = false;
+        }
+        if (itunes != null || itunes.getImage() != null) {
+            image = itunes.getImage().toString();
+        } else {
+            image = null;
+        }
+        if (itunes == null || itunes.getKeywords() == null) {
+            keywords = null;
+        } else {
+            keywords = Arrays.asList(itunes.getKeywords());
+        }
+        if (itunes == null) {
+            subtitle = null;
+        } else {
+            subtitle = itunes.getSubtitle();
+        }
+        if (itunes == null) {
+            summary = null;
+        } else {
+            summary = itunes.getSubtitle();
+        }
+        if (entry == null) {
+            pubDate = null;
+        } else {
+            pubDate = entry.getPublishedDate();
+        }
+        if (entry == null) {
+            title = null;
+        } else {
+            title = entry.getTitle();
+        }
+        if (entry == null || entry.getDescription() == null) {
+            description = null;
+        } else {
+            description = entry.getDescription().getValue();
+        }
     }
 
     @Override
     public String getDuration() {
-        if (itunes == null || itunes.getDuration() == null) {
-            return null;
-        }
-        return itunes.getDuration().toString();
+        return duration;
     }
 
     @Override
     public String getAuthor() {
-        if (itunes == null) {
-            return null;
-        }
-        return itunes.getAuthor();
+        return author;
     }
 
     @Override
     public boolean explicit() {
-        if (itunes == null) {
-            return false;
-        }
-        return itunes.getExplicit();
+        return isExplicit;
     }
 
     @Override
     public String getImage() {
-        if (itunes == null || itunes.getImage() == null) {
-            return null;
-        }
-        return itunes.getImage().toString();
+        return image;
     }
 
     @Override
     public List<String> getKeywords() {
-        if (itunes == null || itunes.getKeywords() == null) {
-            return null;
-        }
-        return Arrays.asList(itunes.getKeywords());
+        return keywords;
     }
 
     @Override
     public String getSubtitle() {
-        if (itunes == null) {
-            return null;
-        }
-        return itunes.getSubtitle();
+        return subtitle;
     }
 
     @Override
     public String getSummary() {
-        if (itunes == null) {
-            return null;
-        }
-        return itunes.getSubtitle();
+        return summary;
     }
 
     @Override
-    public String getPubDate() {
-        if (entry == null || entry.getPublishedDate() == null) {
-            return null;
-        }
-        return formatDate(entry.getPublishedDate());
+    public Date getPubDate() {
+        return pubDate;
     }
 
     @Override
     public String getTitle() {
-        if (entry == null) {
-            return null;
-        }
-        return entry.getTitle();
+        return title;
     }
 
     @Override
     public String getDescription() {
-        if (entry == null || entry.getDescription() == null) {
-            return null;
-        }
-        return Html.fromHtml(entry.getDescription().getValue()).toString();
-    }
-
-    private String formatDate(Date publishedDate) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d MMM yyyy");
-        return simpleDateFormat.format(publishedDate);
-    }
-
-    public Drawable getMediaTypeImage() {
-        try {
-            String type = entry.getEnclosures().get(0).getType().toLowerCase();
-            return getImageResouce(type);
-        } catch (NullPointerException | IndexOutOfBoundsException e) {
-            crashlyticsWrapper.logException(e);
-            return null;
-        }
-    }
-
-    public String getMediaTypeText() {
-        try {
-            String type = entry.getEnclosures().get(0).getType().toLowerCase();
-            return getStrinResource(type);
-        } catch (NullPointerException | IndexOutOfBoundsException e) {
-            crashlyticsWrapper.logException(e);
-            return null;
-        }
-    }
-
-    private String getStrinResource(String type) {
-        if (type.contains(Constants.AUDIO)) {
-            return context.getString(R.string.audio);
-        }
-        if (type.contains(Constants.VIDEO)) {
-            return context.getString(R.string.video);
-        }
-        return null;
-    }
-
-    private Drawable getImageResouce(String type) {
-        if (type.contains(Constants.AUDIO)) {
-            return ContextCompat.getDrawable(context, R.drawable.ic_audio_icon);
-        }
-        if (type.contains(Constants.VIDEO)) {
-            return ContextCompat.getDrawable(context, R.drawable.ic_video_icon);
-        }
-        return null;
+        return description;
     }
 }

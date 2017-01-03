@@ -19,7 +19,7 @@ public interface PodcastEpisode {
 
     String getSummary();
 
-    String getPubDate();
+    Date getPubDate();
 
     String getTitle();
 
