@@ -4,14 +4,13 @@ package com.pietrantuono.podcasts.singlepodcast.view;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 
 import com.pietrantuono.podcasts.PresenterManager;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
-import com.pietrantuono.podcasts.apis.PodcastEpisode;
+import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader;
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule;
 import com.pietrantuono.podcasts.main.view.TransitionsFramework;
@@ -85,7 +84,7 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
     }
 
     @Override
-    public void setEpisodes(List<PodcastEpisode> episodes) {
+    public void setEpisodes(List<PodcastEpisodeModel> episodes) {
         recyclerView.setItems(episodes);
     }
 }

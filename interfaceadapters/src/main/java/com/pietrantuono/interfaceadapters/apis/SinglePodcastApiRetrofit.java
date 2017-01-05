@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.pietrantuono.CrashlyticsWrapper;
 import com.pietrantuono.podcasts.apis.PodcastFeed;
-import com.pietrantuono.podcasts.apis.PodcastFeedConverterFactory;
+
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;

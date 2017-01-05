@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="episode"
-            type="com.pietrantuono.podcasts.ROMEPodcastEpisode"/>
+            name="viewModel"
+            type="com.pietrantuono.podcasts.singlepodcast.viewmodel.PodcastEpisodeViewModel"/>
     </data>
 
     <LinearLayout
@@ -45,7 +45,7 @@
                     android:layout_toRightOf="@+id/image"
                     android:ellipsize="end"
                     android:maxLines="2"
-                    android:text="@{episode.pubDate}"/>
+                    android:text="@{viewModel.date}"/>
 
                 <TextView
                     android:id="@+id/title"
@@ -58,7 +58,7 @@
                     android:layout_toRightOf="@+id/image"
                     android:ellipsize="end"
                     android:maxLines="2"
-                    android:text="@{episode.title}"/>
+                    android:text="@{viewModel.title}"/>
 
                 <ImageView
                     android:id="@+id/overflow"
@@ -80,12 +80,12 @@
                     android:layout_marginRight="@dimen/standard_margin"
                     android:layout_toRightOf="@+id/image"
                     android:maxLines="2"
-                    android:text="@{episode.subtitle}">
+                    android:text="@{viewModel.subtitle}">
                 </TextView>
 
                 <include
                     layout="@layout/episode_item_footer"
-                    bind:episode="@{episode}"
+                    bind:viewModel="@{viewModel}"
                     />
 
             </RelativeLayout>

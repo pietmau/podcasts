@@ -5,6 +5,6 @@ import java.util.List;
 
 public interface PodcastFeed {
 
-    List<PodcastEpisode> getEpisodes();
+    List<PodcastEpisodeModel> getEpisodes();
 
 }

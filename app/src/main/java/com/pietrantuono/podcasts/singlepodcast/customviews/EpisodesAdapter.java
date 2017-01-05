@@ -6,14 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.pietrantuono.podcasts.R;
-import com.pietrantuono.podcasts.apis.PodcastEpisode;
+import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class EpisodesAdapter extends RecyclerView.Adapter<EpisodeHolder> {
-    private final List<PodcastEpisode> items;
+    private final List<PodcastEpisodeModel> items;
     private final SimpleImageLoader simpleImageLoader;
 
     public EpisodesAdapter(SimpleImageLoader simpleImageLoader) {
@@ -39,7 +39,7 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodeHolder> {
         return items.size();
     }
 
-    public void setItems(List<PodcastEpisode> items) {
+    public void setItems(List<PodcastEpisodeModel> items) {
         this.items.clear();
         this.items.addAll(items);
         notifyDataSetChanged();

@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="episode"
-            type="com.pietrantuono.podcasts.ROMEPodcastEpisode"/>
+            name="viewModel"
+            type="com.pietrantuono.podcasts.singlepodcast.viewmodel.PodcastEpisodeViewModel"/>
     </data>
 
     <RelativeLayout
@@ -32,14 +32,14 @@
                 android:id="@+id/episode_item_media_type_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@{episode.mediaTypeImage}"/>
+                android:src="@{viewModel.mediaTypeImage}"/>
 
             <TextView
                 android:id="@+id/episode_item_media_type_text"
                 style="@style/Normal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{episode.mediaTypeText}"/>
+                android:text="@{viewModel.mediaTypeText}"/>
         </LinearLayout>
 
 
@@ -62,7 +62,7 @@
                 style="@style/Normal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{episode.duration}"
+                android:text="@{viewModel.duration}"
                 />
         </LinearLayout>
     </RelativeLayout>
