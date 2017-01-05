@@ -18,12 +18,15 @@ import com.rometools.modules.mediarss.MediaEntryModule;
 import com.rometools.modules.mediarss.MediaModule;
 import com.rometools.rome.feed.synd.SyndEntry;
 
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import retrofit2.http.Url;
 
 public class ROMEPodcastEpisode implements PodcastEpisode {
     private final SyndEntry entry;
@@ -33,7 +36,7 @@ public class ROMEPodcastEpisode implements PodcastEpisode {
     private final String duration;
     private final String author;
     private final boolean isExplicit;
-    private final String image;
+    private final URL image;
     private final List<String> keywords;
     private final String subtitle;
     private final String summary;
@@ -47,55 +50,95 @@ public class ROMEPodcastEpisode implements PodcastEpisode {
         itunes = (EntryInformation) entry.getModule(Constants.ITUNES_URI);
         mediaRSS = (MediaEntryModule) entry.getModule(MediaModule.URI);
 
-        if (itunes != null && itunes.getDuration() != null) {
-            duration = itunes.getDuration().toString();
-        } else {
-            duration = null;
-        }
-        if (itunes != null) {
-            author = itunes.getAuthor();
-        } else {
-            author = null;
-        }
-        if (itunes != null) {
-            isExplicit = itunes.getExplicit();
-        } else {
-            isExplicit = false;
-        }
-        if (itunes != null || itunes.getImage() != null) {
-            image = itunes.getImage().toString();
-        } else {
-            image = null;
-        }
-        if (itunes == null || itunes.getKeywords() == null) {
-            keywords = null;
-        } else {
-            keywords = Arrays.asList(itunes.getKeywords());
-        }
-        if (itunes == null) {
-            subtitle = null;
-        } else {
-            subtitle = itunes.getSubtitle();
-        }
-        if (itunes == null) {
-            summary = null;
-        } else {
-            summary = itunes.getSubtitle();
-        }
-        if (entry == null) {
-            pubDate = null;
-        } else {
-            pubDate = entry.getPublishedDate();
-        }
-        if (entry == null) {
-            title = null;
-        } else {
-            title = entry.getTitle();
-        }
+        duration = parseDuration();
+        author = parseAuthor();
+        isExplicit = parseExplicit();
+        image = parseImage();
+        keywords = parseKeywords();
+        subtitle = parseSubtitle();
+        summary = parseSummary();
+        pubDate = parsePubDate(entry);
+        title = parseTitle(entry);
+        description = parseDescription(entry);
+    }
+
+    private String parseDescription(SyndEntry entry) {
         if (entry == null || entry.getDescription() == null) {
-            description = null;
+            return null;
         } else {
-            description = entry.getDescription().getValue();
+            return entry.getDescription().getValue();
+        }
+    }
+
+    private String parseTitle(SyndEntry entry) {
+        if (entry == null) {
+            return null;
+        } else {
+            return entry.getTitle();
+        }
+    }
+
+    private Date parsePubDate(SyndEntry entry) {
+        if (entry == null) {
+            return null;
+        } else {
+            return entry.getPublishedDate();
+        }
+    }
+
+    private String parseSummary() {
+        if (itunes == null) {
+            return null;
+        } else {
+            return itunes.getSummary();
+        }
+    }
+
+    private String parseSubtitle() {
+        if (itunes == null) {
+            return null;
+        } else {
+            return itunes.getSubtitle();
+        }
+    }
+
+    private List<String> parseKeywords() {
+        if (itunes == null || itunes.getKeywords() == null) {
+            return null;
+        } else {
+            return Arrays.asList(itunes.getKeywords());
+        }
+    }
+
+    private URL parseImage() {
+        if (itunes != null || itunes.getImage() != null) {
+            return itunes.getImage();
+        } else {
+            return null;
+        }
+    }
+
+    private boolean parseExplicit() {
+        if (itunes != null) {
+            return itunes.getExplicit();
+        } else {
+            return false;
+        }
+    }
+
+    private String parseAuthor() {
+        if (itunes != null) {
+            return itunes.getAuthor();
+        } else {
+            return null;
+        }
+    }
+
+    private String parseDuration() {
+        if (itunes != null && itunes.getDuration() != null) {
+            return itunes.getDuration().toString();
+        } else {
+            return null;
         }
     }
 
