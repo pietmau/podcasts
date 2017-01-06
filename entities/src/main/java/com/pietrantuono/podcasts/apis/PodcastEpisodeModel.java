@@ -14,7 +14,7 @@ public interface PodcastEpisodeModel {
 
     boolean isExplicit();
 
-    URL getImage();
+    String getImageUrl();
 
     List<String> getKeywords();
 

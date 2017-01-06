@@ -53,7 +53,7 @@ Psalms 27:1 The LORD is my light and my salvation; whom shall I fear? the LORD i
         <itunes:subtitle>Pastor A.C. Williams II Authority Apostolic Assemblies (AAA™) Headquarters of Kingdom Architects International Spring Valley, California, USA</itunes:subtitle>
         <itunes:explicit>no</itunes:explicit>
         <itunes:block>no</itunes:block>
-        <itunes:image href="http://a1.twimg.com/profile_background_images/54491230/AUTHORITYLOGO-1.jpg" />
+        <itunes:imageUrl href="http://a1.twimg.com/profile_background_images/54491230/AUTHORITYLOGO-1.jpg" />
         <itunes:author>Pastor A.C. Williams II</itunes:author>
         <itunes:summary>Pastor Anthony Charles Williams II (PKA Tonex™) is an enigma to many but no one can deny his five fold ministry. He is a prolific teacher, preacher, evangelist and prophet of God. He specializes in deliverance, re-establishment of order, and flat-footed preaching of the unadulterated Word of God.
 
@@ -90,11 +90,11 @@ Having preached over 500 sermons to date , this young man shows no sign of stopp
         </itunes:owner>
         <itunes:category text="Religion & Spirituality">
             <itunes:category text="Christianity" /></itunes:category>
-        <image>
+        <imageUrl>
             <link>www.aaa2040.com</link>
             <url>http://4.bp.blogspot.com/_0ek0xwjTyXk/S9kb71AV4KI/AAAAAAAAAD0/O3mLXLs56Zc/S1600-R/AUTHORITYLOGO-1.jpg</url>
             <title>AAA™</title>
-        </image>
+        </imageUrl>
         <feedburner:emailServiceId>AAA/podcast</feedburner:emailServiceId>
         <feedburner:feedburnerHostname>https://feedburner.google.com</feedburner:feedburnerHostname>
         <item>
@@ -112,7 +112,7 @@ www.aaa2040.com<div class="feedflare">
             <dc:creator>aaapodcast@gmail.com (Pastor A.C. Williams II)</dc:creator>
             <itunes:keywords>apostolic,assembly,authority,prophetic,inclusive,jesus,bible,sermon</itunes:keywords>
             <itunes:duration>2561</itunes:duration>
-            <itunes:image href="http://assets.podomatic.net/ts/aa/3e/62/aaapodcast/1400x1400_5734576.jpg" />
+            <itunes:imageUrl href="http://assets.podomatic.net/ts/aa/3e/62/aaapodcast/1400x1400_5734576.jpg" />
             <itunes:explicit>no</itunes:explicit>
             <itunes:summary>Pastor A.C. Williams II
 www.aaa2040.com</itunes:summary>
@@ -140,7 +140,7 @@ www.aaa2040.com<div class="feedflare">
             <dc:creator>aaapodcast@gmail.com (Pastor A.C. Williams II)</dc:creator>
             <itunes:keywords>aaa™,apostolic,assembly,audio,audio/mpeg,authority,bible,christian,christianity,faith,hope,inclusion,inclusive,jesus,love,nureau,sermon,sermons,ton3x,tonex</itunes:keywords>
             <itunes:duration>3620</itunes:duration>
-            <itunes:image href="http://assets.podomatic.net/ts/aa/3e/62/aaapodcast/1400x1400_2917246.jpg" />
+            <itunes:imageUrl href="http://assets.podomatic.net/ts/aa/3e/62/aaapodcast/1400x1400_2917246.jpg" />
             <itunes:explicit>clean</itunes:explicit>
             <itunes:summary>JOHN 11:39
 @ Lily Of The Valley COGIC
@@ -171,7 +171,7 @@ www.aaa2040.com</itunes:subtitle>
             <dc:creator>aaapodcast@gmail.com (Pastor A.C. Williams II)</dc:creator>
             <itunes:keywords>aaa™,apostolic,assembly,audio,audio/mpeg,authority,bible,christian,christianity,faith,hope,inclusion,inclusive,jesus,love,nureau,sermon,sermons,ton3x,tonex</itunes:keywords>
             <itunes:duration>3264</itunes:duration>
-            <itunes:image href="http://assets.podomatic.net/ts/aa/3e/62/aaapodcast/1400x1400_2892278.jpeg" />
+            <itunes:imageUrl href="http://assets.podomatic.net/ts/aa/3e/62/aaapodcast/1400x1400_2892278.jpeg" />
             <itunes:explicit>clean</itunes:explicit>
             <itunes:summary>8/1/09
 John 10
@@ -204,7 +204,7 @@ www.aaa2040.com</itunes:subtitle>
             <dc:creator>aaapodcast@gmail.com (Pastor A.C. Williams II)</dc:creator>
             <itunes:keywords>aaa™,apostolic,assembly,audio,audio/mpeg,authority,bible,christian,christianity,faith,hope,inclusion,inclusive,jesus,love,nureau,sermon,sermons,ton3x,tonex</itunes:keywords>
             <itunes:duration>4332</itunes:duration>
-            <itunes:image href="http://assets.podomatic.net/ts/aa/3e/62/aaapodcast/1400x1400_2892278.jpeg" />
+            <itunes:imageUrl href="http://assets.podomatic.net/ts/aa/3e/62/aaapodcast/1400x1400_2892278.jpeg" />
             <itunes:explicit>clean</itunes:explicit>
             <itunes:summary>9/9/09
 Joel 1:13
@@ -234,7 +234,7 @@ www.aaa2040.com</itunes:subtitle>
             <dc:creator>aaapodcast@gmail.com (Pastor A.C. Williams II)</dc:creator>
             <itunes:keywords>aaa2040,aaa™,apostolic,assembly,authority,christianity,bible,christian,faith,hope,inclusion,inclusive,jesus,love,nureau,sermon,sermons,ton3x,tonex</itunes:keywords>
             <itunes:duration>2985</itunes:duration>
-            <itunes:image href="http://assets.podomatic.net/ts/aa/3e/62/aaapodcast/1400x1400_2917246.jpg" />
+            <itunes:imageUrl href="http://assets.podomatic.net/ts/aa/3e/62/aaapodcast/1400x1400_2917246.jpg" />
             <itunes:explicit>clean</itunes:explicit>
             <itunes:summary>Proverbs 18:21 // www.aaa2040.com</itunes:summary>
             <itunes:subtitle>Proverbs 18:21 // www.aaa2040.com</itunes:subtitle>
@@ -258,7 +258,7 @@ www.aaa2040.com</itunes:subtitle>
             <dc:creator>aaapodcast@gmail.com (Pastor A.C. Williams II)</dc:creator>
             <itunes:keywords>aaa™,apostolic,assembly,audio,audio/mpeg,authority,bible,christian,christianity,faith,hope,inclusion,inclusive,jesus,love,nureau,sermon,sermons,ton3x,tonex,aaa2040</itunes:keywords>
             <itunes:duration>2540</itunes:duration>
-            <itunes:image href="http://assets.podomatic.net/ts/aa/3e/62/aaapodcast/1400x1400_2917246.jpg" />
+            <itunes:imageUrl href="http://assets.podomatic.net/ts/aa/3e/62/aaapodcast/1400x1400_2917246.jpg" />
             <itunes:explicit>clean</itunes:explicit>
             <itunes:summary>John 1:14 // www.aaa2020.com</itunes:summary>
             <itunes:subtitle>John 1:14 // www.aaa2020.com</itunes:subtitle>
@@ -282,7 +282,7 @@ www.aaa2040.com</itunes:subtitle>
             <dc:creator>aaapodcast@gmail.com (Pastor A.C. Williams II)</dc:creator>
             <itunes:keywords />
             <itunes:duration>3304</itunes:duration>
-            <itunes:image href="http://assets.podomatic.net/ts/aa/3e/62/aaapodcast/1400x1400_2917246.jpg" />
+            <itunes:imageUrl href="http://assets.podomatic.net/ts/aa/3e/62/aaapodcast/1400x1400_2917246.jpg" />
             <itunes:explicit>clean</itunes:explicit>
             <itunes:summary>Ephesians 5:6 // www.aaa2040.com</itunes:summary>
             <itunes:subtitle>Ephesians 5:6 // www.aaa2040.com</itunes:subtitle>
@@ -306,7 +306,7 @@ www.aaa2040.com</itunes:subtitle>
             <dc:creator>aaapodcast@gmail.com (Pastor A.C. Williams II)</dc:creator>
             <itunes:keywords>aaa™,apostolic,assembly,audio,audio/mpeg,authority,bible,christian,christianity,faith,hope,inclusion,inclusive,jesus,love,nureau,ton3x,tonex,young,fited,black,sermon,sermons</itunes:keywords>
             <itunes:duration>3071</itunes:duration>
-            <itunes:image href="http://assets.podomatic.net/ts/aa/3e/62/aaapodcast/1400x1400_2892278.jpeg" />
+            <itunes:imageUrl href="http://assets.podomatic.net/ts/aa/3e/62/aaapodcast/1400x1400_2892278.jpeg" />
             <itunes:explicit>clean</itunes:explicit>
             <itunes:summary>Pastor A.C. Williams II // www.AAA2040.com</itunes:summary>
             <itunes:subtitle>Pastor A.C. Williams II // www.AAA2040.com</itunes:subtitle>
@@ -330,7 +330,7 @@ www.aaa2040.com</itunes:subtitle>
             <dc:creator>aaapodcast@gmail.com (Pastor A.C. Williams II)</dc:creator>
             <itunes:keywords>aaa™,apostolic,assembly,audio,audio/mpeg,authority,bible,christian,christianity,faith,hope,inclusion,inclusive,jesus,love,nureau,ton3x,tonex,aaa,15,more,years,sermon</itunes:keywords>
             <itunes:duration>3438</itunes:duration>
-            <itunes:image href="http://assets.podomatic.net/ts/aa/3e/62/aaapodcast/1400x1400_2892278.jpeg" />
+            <itunes:imageUrl href="http://assets.podomatic.net/ts/aa/3e/62/aaapodcast/1400x1400_2892278.jpeg" />
             <itunes:explicit>clean</itunes:explicit>
             <itunes:summary>Pastor A.C. Williams II // wwww.AAA2040.com</itunes:summary>
             <itunes:subtitle>Pastor A.C. Williams II // wwww.AAA2040.com</itunes:subtitle>
@@ -354,7 +354,7 @@ www.aaa2040.com</itunes:subtitle>
             <dc:creator>aaapodcast@gmail.com (Pastor A.C. Williams II)</dc:creator>
             <itunes:keywords>aaa™,apostolic,assembly,audio,audio/mpeg,authority,bible,christian,christianity,faith,hope,inclusion,inclusive,jesus,love,nureau,ton3x,tonex,jezebel,rebuke,discord</itunes:keywords>
             <itunes:duration>4212</itunes:duration>
-            <itunes:image href="http://assets.podomatic.net/ts/aa/3e/62/aaapodcast/1400x1400_2892278.jpeg" />
+            <itunes:imageUrl href="http://assets.podomatic.net/ts/aa/3e/62/aaapodcast/1400x1400_2892278.jpeg" />
             <itunes:explicit>clean</itunes:explicit>
             <itunes:summary>Revelation 2:20 // www.aaa2040.com</itunes:summary>
             <itunes:subtitle>Revelation 2:20 // www.aaa2040.com</itunes:subtitle>
@@ -378,7 +378,7 @@ www.aaa2040.com</itunes:subtitle>
             <dc:creator>aaapodcast@gmail.com (Pastor A.C. Williams II)</dc:creator>
             <itunes:keywords>aaa™,apostolic,assembly,audio,audio/mpeg,authority,bible,christian,christianity,faith,hope,inclusion,inclusive,jesus,love,nureau,ton3x,tonex</itunes:keywords>
             <itunes:duration>2641</itunes:duration>
-            <itunes:image href="http://assets.podomatic.net/ts/aa/3e/62/aaapodcast/1400x1400_2892278.jpeg" />
+            <itunes:imageUrl href="http://assets.podomatic.net/ts/aa/3e/62/aaapodcast/1400x1400_2892278.jpeg" />
             <itunes:explicit>clean</itunes:explicit>
             <itunes:summary>4.25.10. // Reference: John 20</itunes:summary>
             <itunes:subtitle>4.25.10. // Reference: John 20</itunes:subtitle>
@@ -402,7 +402,7 @@ www.aaa2040.com</itunes:subtitle>
             <dc:creator>aaapodcast@gmail.com (Pastor A.C. Williams II)</dc:creator>
             <itunes:keywords>aaa™,apostolic,assembly,audio,audio/mpeg,authority,bible,christian,christianity,faith,hope,inclusion,inclusive,jesus,love,nureau,ton3x,tonex</itunes:keywords>
             <itunes:duration>3462</itunes:duration>
-            <itunes:image href="http://assets.podomatic.net/ts/aa/3e/62/aaapodcast/1400x1400_2892278.jpeg" />
+            <itunes:imageUrl href="http://assets.podomatic.net/ts/aa/3e/62/aaapodcast/1400x1400_2892278.jpeg" />
             <itunes:explicit>clean</itunes:explicit>
             <itunes:summary>Bible Study; Proverbs 10:19</itunes:summary>
             <itunes:subtitle>Bible Study; Proverbs 10:19</itunes:subtitle>
@@ -429,7 +429,7 @@ Pastor Williams speaks on discrimination and hypocrisy in the Body of Christ, as
             <dc:creator>aaapodcast@gmail.com (Pastor A.C. Williams II)</dc:creator>
             <itunes:keywords>aaa™,apostolic,assembly,audio,audio/mpeg,authority,bible,christian,christianity,faith,hope,inclusion,inclusive,jesus,love,nureau,ton3x,tonex</itunes:keywords>
             <itunes:duration>3180</itunes:duration>
-            <itunes:image href="http://assets.podomatic.net/ts/aa/3e/62/aaapodcast/1400x1400_2892278.jpeg" />
+            <itunes:imageUrl href="http://assets.podomatic.net/ts/aa/3e/62/aaapodcast/1400x1400_2892278.jpeg" />
             <itunes:explicit>clean</itunes:explicit>
             <itunes:summary>4.18.2010
 John 3:1-8
@@ -459,7 +459,7 @@ Pastor Williams speaks on discrimination and hypocrisy in the Body of Ch...</itu
             <dc:creator>aaapodcast@gmail.com (Pastor A.C. Williams II)</dc:creator>
             <itunes:keywords>aaa™,apostolic,assembly,audio,audio/mpeg,authority,bible,christian,christianity,faith,hope,inclusion,inclusive,jesus,love,nureau,ton3x,tonex</itunes:keywords>
             <itunes:duration>2917</itunes:duration>
-            <itunes:image href="http://assets.podomatic.net/ts/aa/3e/62/aaapodcast/1400x1400_2892278.jpeg" />
+            <itunes:imageUrl href="http://assets.podomatic.net/ts/aa/3e/62/aaapodcast/1400x1400_2892278.jpeg" />
             <itunes:explicit>clean</itunes:explicit>
             <itunes:summary>Pastor Williams speaks on peace in the midst of suffering</itunes:summary>
             <itunes:subtitle>Pastor Williams speaks on peace in the midst of suffering</itunes:subtitle>
@@ -484,7 +484,7 @@ Pastor A.C. Williams II speaks on clairvoyance, clairaudience, ESP, and those wh
             <dc:creator>aaapodcast@gmail.com (Pastor A.C. Williams II)</dc:creator>
             <itunes:keywords>aaa™,apostolic,assembly,audio,audio/mpeg,authority,bible,christian,christianity,faith,hope,inclusion,inclusive,jesus,love,nureau,ton3x,tonex</itunes:keywords>
             <itunes:duration>4201</itunes:duration>
-            <itunes:image href="http://assets.podomatic.net/ts/aa/3e/62/aaapodcast/1400x1400_2892278.jpeg" />
+            <itunes:imageUrl href="http://assets.podomatic.net/ts/aa/3e/62/aaapodcast/1400x1400_2892278.jpeg" />
             <itunes:explicit>clean</itunes:explicit>
             <itunes:summary>April 10th, 2010.
 Pastor A.C. Williams II speaks on clairvoyance, clairaudience, ESP, and those who possess the gifts to see things "things which are not as though they were." </itunes:summary>

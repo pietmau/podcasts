@@ -1,14 +1,15 @@
 package com.pietrantuono.podcasts.singlepodcast.viewmodel;
 
 import android.content.Context;
+import android.databinding.BindingAdapter;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
+import android.widget.ImageView;
 
 import com.pietrantuono.Constants;
-import com.pietrantuono.CrashlyticsWrapper;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
+import com.pietrantuono.podcasts.imageloader.SimpleImageLoader;
 import com.rometools.rome.feed.synd.SyndEnclosure;
 
 import java.net.URL;
@@ -19,10 +20,12 @@ import java.util.List;
 public class PodcastEpisodeViewModel implements PodcastEpisodeModel {
     private final PodcastEpisodeModel podcastEpisodeModel;
     private final Context context;
+    private static SimpleImageLoader simpleImageLoader;
 
-    public PodcastEpisodeViewModel(PodcastEpisodeModel podcastEpisodeModel, Context context) {
+    public PodcastEpisodeViewModel(PodcastEpisodeModel podcastEpisodeModel, Context context, SimpleImageLoader simpleImageLoader) {
         this.podcastEpisodeModel = podcastEpisodeModel;
         this.context = context;
+        this.simpleImageLoader = simpleImageLoader;
     }
 
     @Override
@@ -41,8 +44,16 @@ public class PodcastEpisodeViewModel implements PodcastEpisodeModel {
     }
 
     @Override
-    public URL getImage() {
-        return podcastEpisodeModel.getImage();
+    public String getImageUrl() {
+        return podcastEpisodeModel.getImageUrl();
+    }
+
+    public String getImageUrlAsString() {
+        if (getImageUrl() != null) {
+            return getImageUrl().toString();
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -88,7 +99,7 @@ public class PodcastEpisodeViewModel implements PodcastEpisodeModel {
         return null;
     }
 
-    public Drawable getMediaTypeImage(){
+    public Drawable getMediaTypeImage() {
         try {
             String type = getEnclosures().get(0).getType().toLowerCase();
             return getImageResouce(type);
@@ -124,5 +135,10 @@ public class PodcastEpisodeViewModel implements PodcastEpisodeModel {
             return context.getString(R.string.video);
         }
         return null;
+    }
+
+    @BindingAdapter({"bind:image"})
+    public static void loadImage(ImageView view, String url) {
+        simpleImageLoader.displayImage(url, view);
     }
 }

@@ -23,7 +23,7 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
     private final SimpleImageLoader imageLoader;
     private PodcastsAdapter.OnSunscribeClickedListener onSunscribeClickedListener;
     private PodcastsAdapter.OnItemClickedClickedListener onItemClickedClickedListener;
-    @BindView(R.id.image) ImageView imageView;
+    @BindView(R.id.podcast_image) ImageView imageView;
     @BindView(R.id.title) TextView title;
     @BindView(R.id.author) TextView author;
     @BindView(R.id.overflow) ImageView overfow;

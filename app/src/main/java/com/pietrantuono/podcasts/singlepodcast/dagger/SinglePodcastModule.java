@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import com.pietrantuono.CrashlyticsWrapper;
 import com.pietrantuono.interfaceadapters.apis.SinglePodcastApi;
 import com.pietrantuono.interfaceadapters.apis.SinglePodcastApiRetrofit;
+import com.pietrantuono.podcasts.ImageParser;
+import com.pietrantuono.podcasts.PodcastEpisodeParser;
 import com.pietrantuono.podcasts.PresenterManager;
 import com.pietrantuono.podcasts.singlepodcast.model.SinglePodcastModel;
 import com.pietrantuono.podcasts.singlepodcast.model.SinglePodcastModelImpl;
@@ -44,12 +46,18 @@ public class SinglePodcastModule {
     }
 
     @Provides
-    SinglePodcastApi provideSinglePodcastApi(CrashlyticsWrapper crashlyticsWrapper){
-        return new SinglePodcastApiRetrofit(crashlyticsWrapper, activity);
+    SinglePodcastApi provideSinglePodcastApi(CrashlyticsWrapper crashlyticsWrapper, PodcastEpisodeParser episodeparser){
+        return new SinglePodcastApiRetrofit(crashlyticsWrapper, activity, episodeparser);
     }
 
     @Provides
     SinglePodcastModel provideSinglePodcastModel(SinglePodcastApi api){
         return new SinglePodcastModelImpl(api);
     }
+
+    @Provides
+    PodcastEpisodeParser providePodcastEpisodeParser(ImageParser imageParser){
+        return new PodcastEpisodeParser(imageParser);
+    }
+
 }

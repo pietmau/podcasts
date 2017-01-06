@@ -4,7 +4,6 @@ package com.pietrantuono.podcasts;
 import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
 import com.rometools.rome.feed.synd.SyndEnclosure;
 
-import java.net.URL;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +11,7 @@ public class ROMEPodcastEpisodeModel implements PodcastEpisodeModel {
     private final String duration;
     private final String author;
     private final boolean isExplicit;
-    private final URL image;
+    private final String imageUrl;
     private final List<String> keywords;
     private final String subtitle;
     private final String summary;
@@ -21,11 +20,11 @@ public class ROMEPodcastEpisodeModel implements PodcastEpisodeModel {
     private final String description;
     private List<SyndEnclosure> syndEnclosures;
 
-    public ROMEPodcastEpisodeModel(String duration, String author, boolean isExplicit, URL image, List<String> keywords, String subtitle, String summary, Date pubDate, String title, String description, List<SyndEnclosure> syndEnclosures) {
+    public ROMEPodcastEpisodeModel(String duration, String author, boolean isExplicit, String imageUrl, List<String> keywords, String subtitle, String summary, Date pubDate, String title, String description, List<SyndEnclosure> syndEnclosures) {
         this.duration = duration;
         this.author = author;
         this.isExplicit = isExplicit;
-        this.image = image;
+        this.imageUrl = imageUrl;
         this.keywords = keywords;
         this.subtitle = subtitle;
         this.summary = summary;
@@ -58,8 +57,8 @@ public class ROMEPodcastEpisodeModel implements PodcastEpisodeModel {
     }
 
     @Override
-    public URL getImage() {
-        return image;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
     @Override

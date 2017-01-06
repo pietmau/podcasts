@@ -23,10 +23,11 @@ import retrofit2.Retrofit;
 public class PodcastFeedConverterFactory extends Converter.Factory {
     private final SyndFeedInput input = new SyndFeedInput();
     private final CrashlyticsWrapper crashlyticsWrapper;
-    private final PodcastEpisodeParser episodeparser = new PodcastEpisodeParser();
+    private final PodcastEpisodeParser episodeparser;
 
-    public PodcastFeedConverterFactory(CrashlyticsWrapper crashlyticsWrapper, Context context) {
+    public PodcastFeedConverterFactory(CrashlyticsWrapper crashlyticsWrapper, Context context, PodcastEpisodeParser episodeparser) {
         this.crashlyticsWrapper = crashlyticsWrapper;
+        this.episodeparser = episodeparser;
     }
 
     @Override

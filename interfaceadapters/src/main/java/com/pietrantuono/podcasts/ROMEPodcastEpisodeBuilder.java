@@ -10,7 +10,7 @@ public class ROMEPodcastEpisodeBuilder {
     private String duration;
     private String author;
     private boolean isExplicit;
-    private URL image;
+    private String imageUrl;
     private List<String> keywords;
     private String subtitle;
     private String summary;
@@ -34,8 +34,8 @@ public class ROMEPodcastEpisodeBuilder {
         return this;
     }
 
-    public ROMEPodcastEpisodeBuilder setImage(URL image) {
-        this.image = image;
+    public ROMEPodcastEpisodeBuilder setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
         return this;
     }
 
@@ -75,7 +75,7 @@ public class ROMEPodcastEpisodeBuilder {
     }
 
     public ROMEPodcastEpisodeModel createROMEPodcastEpisode() {
-        return new ROMEPodcastEpisodeModel(duration, author, isExplicit, image, keywords, subtitle, summary, pubDate, title, description, syndEnclosures);
+        return new ROMEPodcastEpisodeModel(duration, author, isExplicit, imageUrl, keywords, subtitle, summary, pubDate, title, description, syndEnclosures);
     }
 
 }

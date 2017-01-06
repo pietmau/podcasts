@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
 public class SinglePodcastActivity extends AppCompatActivity implements SinglePodcastView {
     public static final String SINGLE_PODCAST = "single_podcast";
     @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.image) ImageView imageView;
+    @BindView(R.id.main_image) ImageView imageView;
     @BindView(R.id.recycler) EpisodesRecycler recyclerView;
     @Inject TransitionsFramework transitionsFramework;
     @Inject SimpleImageLoader imageLoader;
@@ -44,10 +44,9 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
         setUpActionBar();
         DaggerSinglePodcastComponent.builder().singlePodcastModule(new SinglePodcastModule(SinglePodcastActivity.this)).imageLoaderModule(new ImageLoaderModule(SinglePodcastActivity.this)).build().inject(SinglePodcastActivity.this);
         transitionsFramework.initDetailTransitionAndPostponeEnterTransition(SinglePodcastActivity.this);
-        SinglePodcast podcast = getIntent().getParcelableExtra(SINGLE_PODCAST);
-        loadImage(podcast);
+        loadImage();
         presenter.bindView(SinglePodcastActivity.this);
-        presenter.setPodcast(podcast);
+        presenter.setPodcast(getIntent().getParcelableExtra(SINGLE_PODCAST));
     }
 
     private void setUpActionBar() {
@@ -56,7 +55,8 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
         getSupportActionBar().setTitle(null);
     }
 
-    private void loadImage(SinglePodcast podcast) {
+    private void loadImage() {
+        SinglePodcast podcast = getIntent().getParcelableExtra(SINGLE_PODCAST);
         imageLoader.displayImage(podcast, imageView, new PodcastImageLoadingListener(SinglePodcastActivity.this, transitionsFramework));
     }
 

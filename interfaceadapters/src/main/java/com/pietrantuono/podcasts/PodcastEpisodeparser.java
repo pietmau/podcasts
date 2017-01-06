@@ -3,6 +3,8 @@ package com.pietrantuono.podcasts;
 import com.pietrantuono.Constants;
 import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
 import com.rometools.modules.itunes.EntryInformation;
+import com.rometools.modules.mediarss.MediaEntryModule;
+import com.rometools.modules.mediarss.MediaModule;
 import com.rometools.rome.feed.synd.SyndEnclosure;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
@@ -15,16 +17,21 @@ import java.util.List;
 
 public class PodcastEpisodeParser {
     private EntryInformation itunes;
-    //private MediaEntryModule mediaRSS;
+    private MediaEntryModule mediaRSS;
+    private ImageParser imageParser;
+
+    public PodcastEpisodeParser(ImageParser imageParser) {
+        this.imageParser = imageParser;
+    }
 
     private PodcastEpisodeModel parse(SyndEntry entry) {
         this.itunes = (EntryInformation) entry.getModule(Constants.ITUNES_URI);
-        //this.mediaRSS = (MediaEntryModule) entry.getModule(MediaModule.URI);
+        this.mediaRSS = (MediaEntryModule) entry.getModule(MediaModule.URI);
         ROMEPodcastEpisodeBuilder romePodcastEpisodeBuilder = new ROMEPodcastEpisodeBuilder();
         romePodcastEpisodeBuilder.setAuthor(parseAuthor());
         romePodcastEpisodeBuilder.setDescription(parseDescription(entry));
         romePodcastEpisodeBuilder.setDuration(parseDuration());
-        romePodcastEpisodeBuilder.setImage(parseImage());
+        romePodcastEpisodeBuilder.setImageUrl(parseImage(itunes, mediaRSS));
         romePodcastEpisodeBuilder.setIsExplicit(parseExplicit());
         romePodcastEpisodeBuilder.setKeywords(parseKeywords());
         romePodcastEpisodeBuilder.setPubDate(parsePubDate(entry));
@@ -99,12 +106,8 @@ public class PodcastEpisodeParser {
         }
     }
 
-    private URL parseImage() {
-        if (itunes != null || itunes.getImage() != null) {
-            return itunes.getImage();
-        } else {
-            return null;
-        }
+    private String parseImage(EntryInformation itunes, MediaEntryModule mediaRSS) {
+        return imageParser.parseImage(itunes, mediaRSS);
     }
 
     private boolean parseExplicit() {

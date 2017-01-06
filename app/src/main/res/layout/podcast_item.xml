@@ -21,7 +21,7 @@
 
             <ImageView
                 android:transitionName="@string/detail_transition"
-                android:id="@+id/image"
+                android:id="@+id/podcast_image"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_alignParentLeft="true"
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/standard_margin"
                 android:layout_toLeftOf="@+id/overflow"
-                android:layout_toRightOf="@+id/image"
+                android:layout_toRightOf="@+id/podcast_image"
                 android:ellipsize="end"
                 android:maxLines="2"/>
 
@@ -47,7 +47,7 @@
                 android:layout_below="@+id/title"
                 android:layout_marginLeft="@dimen/standard_margin"
                 android:layout_marginRight="@dimen/standard_margin"
-                android:layout_toRightOf="@+id/image"
+                android:layout_toRightOf="@+id/podcast_image"
                 android:ellipsize="end"
                 android:maxLines="1"/>
 
@@ -69,7 +69,7 @@
                 android:layout_below="@+id/author"
                 android:layout_marginLeft="@dimen/standard_margin"
                 android:layout_marginRight="@dimen/standard_margin"
-                android:layout_toRightOf="@+id/image">
+                android:layout_toRightOf="@+id/podcast_image">
             </TextView>
 
         </RelativeLayout>
