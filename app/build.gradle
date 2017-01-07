@@ -75,6 +75,8 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.4.0'
     compile 'org.mockito:mockito-core:2.2.28'
     compile 'com.android.support:support-v4:25.0.1'
+    compile 'com.bartoszlipinski:recyclerviewheader2:2.0.1'
+
     testCompile 'junit:junit:4.12'
     apt 'com.google.dagger:dagger-compiler:2.8'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'

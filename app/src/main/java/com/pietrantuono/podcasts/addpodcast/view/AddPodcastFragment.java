@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bartoszlipinski.recyclerviewheader2.RecyclerViewHeader;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.customviews.CustomProgressBar;
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler;
@@ -38,6 +39,7 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     @BindView(R.id.search_view) SearchView searchView;
     @BindView(R.id.search_results) PodcastsRecycler podcastsRecycler;
     @BindView(R.id.progress) CustomProgressBar progressBar;
+    @BindView(R.id.header) RecyclerViewHeader recyclerViewHeader;
 
     public static AddPodcastFragment newInstance() {
         return new AddPodcastFragment();
@@ -87,6 +89,7 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
         ButterKnife.bind(this, view);
         addPodcastPresenter.bindView(AddPodcastFragment.this, new AddPodcastFragmentMemento(savedInstanceState));
         podcastsRecycler.setListeners(addPodcastPresenter);
+        recyclerViewHeader.attachTo(podcastsRecycler);
         initSearchView();
         return view;
     }
@@ -133,9 +136,8 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     public void startDetailActivityWithTransition(SinglePodcast singlePodcast, ImageView imageView) {
         Intent intent = new Intent(getActivity(), SinglePodcastActivity.class);
         intent.putExtra(SinglePodcastActivity.SINGLE_PODCAST, singlePodcast);
-        Pair[] pairs = new Pair[2];
-        pairs[0] = new Pair(imageView, getString(R.string.detail_transition));
-        pairs[1] = new Pair(searchView, );
+        Pair[] pairs = new Pair[1];
+        pairs[0] = new Pair(imageView, getString(R.string.detail_transition));;
         getActivity().startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), pairs).toBundle());
     }
 
