@@ -18,7 +18,7 @@ public class ROMEPodcastEpisodeModel implements PodcastEpisodeModel {
     private final Date pubDate;
     private final String title;
     private final String description;
-    private List<SyndEnclosure> syndEnclosures;
+    private final List<SyndEnclosure> syndEnclosures;
 
     public ROMEPodcastEpisodeModel(String duration, String author, boolean isExplicit, String imageUrl, List<String> keywords, String subtitle, String summary, Date pubDate, String title, String description, List<SyndEnclosure> syndEnclosures) {
         this.duration = duration;
@@ -28,18 +28,11 @@ public class ROMEPodcastEpisodeModel implements PodcastEpisodeModel {
         this.keywords = keywords;
         this.subtitle = subtitle;
         this.summary = summary;
-//        this.entry = entry;
-//        this.crashlyticsWrapper = crashlyticsWrapper;
-//        itunes = (EntryInformation) entry.getModule(Constants.ITUNES_URI);
-//        mediaRSS = (MediaEntryModule) entry.getModule(MediaModule.URI);
-
-
         this.pubDate = pubDate;
         this.title = title;
         this.description = description;
         this.syndEnclosures = syndEnclosures;
     }
-
 
     @Override
     public String getDuration() {

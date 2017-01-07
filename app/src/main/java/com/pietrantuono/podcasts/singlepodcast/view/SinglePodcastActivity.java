@@ -39,12 +39,28 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initViews();
+        inject();
+        startTransition();
+        loadImage();
+        initPresenter();
+    }
+
+    private void inject() {
+        DaggerSinglePodcastComponent.builder().singlePodcastModule(new SinglePodcastModule(SinglePodcastActivity.this)).imageLoaderModule(new ImageLoaderModule(SinglePodcastActivity.this)).build().inject(SinglePodcastActivity.this);
+    }
+
+    private void startTransition() {
+        transitionsFramework.initDetailTransitionAndPostponeEnterTransition(SinglePodcastActivity.this);
+    }
+
+    private void initViews() {
         setContentView(R.layout.activity_podcast);
         ButterKnife.bind(SinglePodcastActivity.this);
         setUpActionBar();
-        DaggerSinglePodcastComponent.builder().singlePodcastModule(new SinglePodcastModule(SinglePodcastActivity.this)).imageLoaderModule(new ImageLoaderModule(SinglePodcastActivity.this)).build().inject(SinglePodcastActivity.this);
-        transitionsFramework.initDetailTransitionAndPostponeEnterTransition(SinglePodcastActivity.this);
-        loadImage();
+    }
+
+    private void initPresenter() {
         presenter.bindView(SinglePodcastActivity.this);
         presenter.setPodcast(getIntent().getParcelableExtra(SINGLE_PODCAST));
     }
