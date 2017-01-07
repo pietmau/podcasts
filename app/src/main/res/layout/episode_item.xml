@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:bind="http://schemas.android.com/apk/res-auto"
-        xmlns:custom="http://schemas.android.com/apk/res-auto"
-        xmlns:lib="http://schemas.android.com/apk/res-auto">
+        xmlns:lib="http://schemas.android.com/apk/res-auto"
+        xmlns:bind="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="com.pietrantuono.podcasts.singlepodcast.viewmodel.PodcastEpisodeViewModel"/>
@@ -29,93 +27,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <FrameLayout
-                    android:id="@+id/image_container"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                <include layout="@layout/episode_item_image"
+                         bind:viewModel="@{viewModel}"/>
 
-                    <ProgressBar
-                        android:padding="@dimen/generic_margin"
-                        style="@style/Base.Widget.AppCompat.ProgressBar"
-                        android:indeterminate="true"
-                        android:layout_width="@dimen/item_image_size"
-                        android:layout_height="@dimen/item_image_size"
-                        />
+                <include layout="@layout/episode_item_content"
+                         bind:viewModel="@{viewModel}"/>
 
-                    <ImageView
-                        android:id="@+id/single_podcast_image"
-                        android:layout_width="@dimen/item_image_size"
-                        android:layout_height="@dimen/item_image_size"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:scaleType="fitCenter"
-                        custom:image="@{viewModel.getImageUrl}"/>
-
-                </FrameLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/item_image_size"
-                    android:layout_toRightOf="@+id/image_container">
-
-                    <TextView
-                        android:id="@+id/pub_date"
-                        style="@style/Big"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/standard_margin"
-                        android:layout_toLeftOf="@+id/overflow"
-                        android:layout_toRightOf="@+id/podcast_image"
-                        android:ellipsize="end"
-                        android:maxLines="2"
-                        android:text="@{viewModel.date}"/>
-
-                    <TextView
-                        android:id="@+id/title"
-                        style="@style/Title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_below="@+id/pub_date"
-                        android:layout_marginLeft="@dimen/standard_margin"
-                        android:layout_toLeftOf="@+id/overflow"
-                        android:ellipsize="end"
-                        android:maxLines="2"
-                        android:text="@{viewModel.title}"/>
-
-                    <ImageView
-                        android:id="@+id/overflow"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:paddingLeft="8dp"
-                        android:src="@drawable/ic_more_vert_black_12dp"/>
-
-                    <TextView
-                        android:id="@+id/subtitle"
-                        style="@style/Big"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_above="@+id/footer"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_below="@+id/title"
-                        android:layout_marginLeft="@dimen/standard_margin"
-                        android:layout_marginRight="@dimen/standard_margin"
-                        android:layout_toRightOf="@+id/podcast_image"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="@{viewModel.subtitle}">
-                    </TextView>
-
-                    <include
-                        layout="@layout/episode_item_footer"
-                        bind:viewModel="@{viewModel}"
-                        />
-
-                </RelativeLayout>
             </RelativeLayout>
 
         </android.support.v7.widget.CardView>

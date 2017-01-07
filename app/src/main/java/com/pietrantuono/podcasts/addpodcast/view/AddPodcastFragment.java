@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -132,7 +133,10 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     public void startDetailActivityWithTransition(SinglePodcast singlePodcast, ImageView imageView) {
         Intent intent = new Intent(getActivity(), SinglePodcastActivity.class);
         intent.putExtra(SinglePodcastActivity.SINGLE_PODCAST, singlePodcast);
-        getActivity().startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), imageView, getString(R.string.detail_transition)).toBundle());
+        Pair[] pairs = new Pair[2];
+        pairs[0] = new Pair(imageView, getString(R.string.detail_transition));
+        pairs[1] = new Pair(searchView, );
+        getActivity().startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), pairs).toBundle());
     }
 
     @Override
