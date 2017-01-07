@@ -1,18 +1,14 @@
 package com.pietrantuono.podcasts.singlepodcast.viewmodel;
 
-import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.widget.ImageView;
 
 import com.pietrantuono.Constants;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader;
-
-import java.text.SimpleDateFormat;
 
 public class PodcastEpisodeViewModel extends BasePodcastEpisodeViewModel {
     private static SimpleImageLoader simpleImageLoader;
@@ -30,6 +26,30 @@ public class PodcastEpisodeViewModel extends BasePodcastEpisodeViewModel {
     @BindingAdapter({"bind:image"})
     public static void loadImage(ImageView view, String url) {
         simpleImageLoader.displayImage(url, view);
+    }
+
+    public VisibilityWrapper getVisibilityOfFooter() {
+        if (getVisibilityOfType().isVisible() || getVisibilityOfDuration().isVisible()) {
+            return VisibilityWrapper.VISIBLE;
+        } else {
+            return VisibilityWrapper.GONE;
+        }
+    }
+
+    public VisibilityWrapper getVisibilityOfType() {
+        if (getMediaTypeText() == null) {
+            return VisibilityWrapper.GONE;
+        } else {
+            return VisibilityWrapper.VISIBLE;
+        }
+    }
+
+    public VisibilityWrapper getVisibilityOfDuration() {
+        if (getDuration() == null || getDuration().isEmpty()) {
+            return VisibilityWrapper.GONE;
+        } else {
+            return VisibilityWrapper.VISIBLE;
+        }
     }
 
     @Nullable
@@ -73,4 +93,5 @@ public class PodcastEpisodeViewModel extends BasePodcastEpisodeViewModel {
         }
         return null;
     }
+
 }
