@@ -2,13 +2,12 @@ package com.pietrantuono.podcasts.main.dagger;
 
 import android.content.Context;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsAdapter;
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader;
 import com.pietrantuono.podcasts.singlepodcast.customviews.EpisodesAdapter;
+import com.pietrantuono.podcasts.singlepodcast.viewmodel.ResourcesProvider;
 
 import javax.inject.Singleton;
 
@@ -17,8 +16,10 @@ import dagger.Provides;
 
 @Module
 public class ImageLoaderModule {
+    private final Context context;
 
     public ImageLoaderModule(Context context) {
+        this.context = context;
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context).build();
         ImageLoader.getInstance().init(config);
     }
@@ -40,7 +41,12 @@ public class ImageLoaderModule {
     }
 
     @Provides
-    EpisodesAdapter provideEpisodesAdapter(SimpleImageLoader imageLoader) {
-        return new EpisodesAdapter(imageLoader);
+    EpisodesAdapter provideEpisodesAdapter(SimpleImageLoader imageLoader, ResourcesProvider resourcesProvider) {
+        return new EpisodesAdapter(imageLoader, resourcesProvider);
+    }
+
+    @Provides
+    Context provideContext(){
+        return context;
     }
 }
