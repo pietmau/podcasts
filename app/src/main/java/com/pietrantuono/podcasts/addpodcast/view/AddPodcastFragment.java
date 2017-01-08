@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
@@ -136,9 +137,19 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     public void startDetailActivityWithTransition(SinglePodcast singlePodcast, ImageView imageView) {
         Intent intent = new Intent(getActivity(), SinglePodcastActivity.class);
         intent.putExtra(SinglePodcastActivity.SINGLE_PODCAST, singlePodcast);
-        Pair[] pairs = new Pair[1];
-        pairs[0] = new Pair(imageView, getString(R.string.detail_transition));;
+        Pair[] pairs = getPairs(imageView);
         getActivity().startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), pairs).toBundle());
+    }
+
+    @NonNull
+    private Pair[] getPairs(ImageView imageView) {
+        View decor = getActivity().getWindow().getDecorView();
+        View statusBar = decor.findViewById(android.R.id.statusBarBackground);
+        View navBar = decor.findViewById(android.R.id.navigationBarBackground);
+        Pair[] pairs = new Pair[2];
+        pairs[0] = new Pair(imageView, getString(R.string.detail_transition));
+        pairs[1] = new Pair(navBar, "zz");
+        return pairs;
     }
 
     @Override
