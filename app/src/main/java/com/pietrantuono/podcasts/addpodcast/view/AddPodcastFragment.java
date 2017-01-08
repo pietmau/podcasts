@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -36,7 +35,7 @@ import butterknife.ButterKnife;
 import hugo.weaving.DebugLog;
 
 public class AddPodcastFragment extends Fragment implements AddPodcastView {
-    public static final String TAG = (AddPodcastFragment.class).getSimpleName();
+    private static final String TAG = (AddPodcastFragment.class).getSimpleName();
     @Inject AddPodcastPresenter addPodcastPresenter;
     @Inject TransitionsFramework transitionsFramework;
     @BindView(R.id.search_view) SearchView searchView;
@@ -44,14 +43,10 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     @BindView(R.id.progress) CustomProgressBar progressBar;
     @BindView(R.id.header) RecyclerViewHeader recyclerViewHeader;
 
-    public static AddPodcastFragment newInstance() {
-        return new AddPodcastFragment();
-    }
-
     public static void navigateTo(FragmentManager fragmentManager) {
         AddPodcastFragment frag = (AddPodcastFragment) fragmentManager.findFragmentByTag(AddPodcastFragment.TAG);
         if (frag == null) {
-            frag = AddPodcastFragment.newInstance();
+            frag = new AddPodcastFragment();
         }
         fragmentManager.beginTransaction().replace(R.id.fragmentContainer, frag, AddPodcastFragment.TAG).commit();
     }

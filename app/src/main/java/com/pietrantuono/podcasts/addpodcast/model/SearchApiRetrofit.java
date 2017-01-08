@@ -15,7 +15,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class SearchApiRetrofit implements SearchApi {
-    public static final String ITUNES = "https://itunes.apple.com";
+    private static final String ITUNES = "https://itunes.apple.com";
     private final SearchApi api;
 
     public SearchApiRetrofit() {

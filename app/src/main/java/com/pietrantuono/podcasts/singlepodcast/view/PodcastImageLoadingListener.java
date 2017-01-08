@@ -9,8 +9,8 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.pietrantuono.podcasts.main.view.TransitionsFramework;
 
 public class PodcastImageLoadingListener implements ImageLoadingListener {
-    private AppCompatActivity activity;
-    private TransitionsFramework transitionsFramework;
+    private final AppCompatActivity activity;
+    private final TransitionsFramework transitionsFramework;
 
     public PodcastImageLoadingListener(AppCompatActivity activity, TransitionsFramework transitionsFramework) {
         this.activity = activity;

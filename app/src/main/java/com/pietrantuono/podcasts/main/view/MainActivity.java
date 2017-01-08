@@ -14,7 +14,6 @@ import com.pietrantuono.podcasts.addpodcast.view.AddPodcastFragment;
 import com.pietrantuono.podcasts.main.customviews.DrawerLayoutWithToggle;
 import com.pietrantuono.podcasts.main.customviews.SimpleNavView;
 import com.pietrantuono.podcasts.main.dagger.MainComponent;
-import com.pietrantuono.podcasts.main.model.MainModel;
 import com.pietrantuono.podcasts.main.presenter.MainPresenter;
 import com.pietrantuono.podcasts.main.dagger.DaggerMainComponent;
 import com.pietrantuono.podcasts.main.dagger.MainModule;

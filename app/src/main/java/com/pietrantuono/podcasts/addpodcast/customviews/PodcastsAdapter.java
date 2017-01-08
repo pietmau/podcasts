@@ -17,9 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> implements Filterable {
-    private List<SinglePodcast> items;
-    private List<SinglePodcast> publishedItems;
-    private SimpleImageLoader imageLoader;
+    private final List<SinglePodcast> items;
+    private final List<SinglePodcast> publishedItems;
+    private final SimpleImageLoader imageLoader;
     private OnSunscribeClickedListener onSunscribeClickedListener;
     private OnItemClickedClickedListener onItemClickedClickedListener;
 

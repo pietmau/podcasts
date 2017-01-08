@@ -10,7 +10,7 @@ import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.singlepodcast.view.PodcastImageLoadingListener;
 
 public class SimpleImageLoader {
-    private static DisplayImageOptions options = new DisplayImageOptions.Builder()
+    private static final DisplayImageOptions options = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.drawable.podcast_grey_icon_very_big)
             .showImageOnFail(R.drawable.podcast_grey_icon_very_big)
             .cacheOnDisk(true)

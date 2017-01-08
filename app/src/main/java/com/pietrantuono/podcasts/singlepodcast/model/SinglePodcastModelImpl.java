@@ -11,7 +11,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class SinglePodcastModelImpl implements SinglePodcastModel {
-    private SinglePodcastApi singlePodcastApi;
+    private final SinglePodcastApi singlePodcastApi;
     private Observer<PodcastFeed> observer;
     private Observable<PodcastFeed> observable;
     private Subscription subscription;

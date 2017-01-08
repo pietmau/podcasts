@@ -13,7 +13,7 @@ import java.util.List;
 public class BasePodcastEpisodeViewModel implements PodcastEpisodeModel {
     private final PodcastEpisodeModel podcastEpisodeModel;
 
-    public BasePodcastEpisodeViewModel(PodcastEpisodeModel podcastEpisodeModel) {
+    BasePodcastEpisodeViewModel(PodcastEpisodeModel podcastEpisodeModel) {
         this.podcastEpisodeModel = podcastEpisodeModel;
     }
     @Nullable
@@ -28,7 +28,7 @@ public class BasePodcastEpisodeViewModel implements PodcastEpisodeModel {
         return podcastEpisodeModel.getAuthor();
     }
 
-    @Nullable
+
     @Override
     public boolean isExplicit() {
         return podcastEpisodeModel.isExplicit();

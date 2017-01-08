@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PodcastSearchResultConverterFactory extends Converter.Factory {
 
-    private GsonConverterFactory factory;
+    private final GsonConverterFactory factory;
 
     public PodcastSearchResultConverterFactory(GsonConverterFactory factory) {
         this.factory = factory;
@@ -52,7 +52,7 @@ public class PodcastSearchResultConverterFactory extends Converter.Factory {
 
     private class PodcastSearchResultConverter<T> implements Converter<ResponseBody, List<SinglePodcast>> {
 
-        private Converter<ResponseBody, PodcastSearchResultEnvelope> gsonConverter;
+        private final Converter<ResponseBody, PodcastSearchResultEnvelope> gsonConverter;
 
         public PodcastSearchResultConverter(Converter<ResponseBody, PodcastSearchResultEnvelope> gsonConverter) {
             this.gsonConverter = gsonConverter;

@@ -29,7 +29,6 @@ public class ImageParser {
         try {
             return mediaEntryModule.getMetadata().getThumbnail()[0].getUrl().toString();
         } catch (NullPointerException | IndexOutOfBoundsException e) {
-            crashlyticsWrapper.logException(e);
         }
         return null;
     }

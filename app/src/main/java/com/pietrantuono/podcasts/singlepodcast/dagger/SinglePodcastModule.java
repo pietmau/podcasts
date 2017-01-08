@@ -47,7 +47,7 @@ public class SinglePodcastModule {
 
     @Provides
     SinglePodcastApi provideSinglePodcastApi(CrashlyticsWrapper crashlyticsWrapper, PodcastEpisodeParser episodeparser){
-        return new SinglePodcastApiRetrofit(crashlyticsWrapper, activity, episodeparser);
+        return new SinglePodcastApiRetrofit(crashlyticsWrapper, episodeparser);
     }
 
     @Provides

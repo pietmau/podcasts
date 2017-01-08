@@ -695,7 +695,7 @@ public class SinglePodcast implements Parcelable {
         return stringBuilder.toString();
     }
 
-    protected SinglePodcast(Parcel in) {
+    private SinglePodcast(Parcel in) {
         wrapperType = in.readString();
         kind = in.readString();
         collectionId = in.readByte() == 0x00 ? null : in.readInt();

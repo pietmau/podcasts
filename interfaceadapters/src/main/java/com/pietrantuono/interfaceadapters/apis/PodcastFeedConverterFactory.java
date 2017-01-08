@@ -20,12 +20,12 @@ import okhttp3.ResponseBody;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 
-public class PodcastFeedConverterFactory extends Converter.Factory {
+class PodcastFeedConverterFactory extends Converter.Factory {
     private final SyndFeedInput input = new SyndFeedInput();
     private final CrashlyticsWrapper crashlyticsWrapper;
     private final PodcastEpisodeParser episodeparser;
 
-    public PodcastFeedConverterFactory(CrashlyticsWrapper crashlyticsWrapper, Context context, PodcastEpisodeParser episodeparser) {
+    public PodcastFeedConverterFactory(CrashlyticsWrapper crashlyticsWrapper, PodcastEpisodeParser episodeparser) {
         this.crashlyticsWrapper = crashlyticsWrapper;
         this.episodeparser = episodeparser;
     }

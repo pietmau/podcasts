@@ -7,7 +7,7 @@ public enum VisibilityWrapper {
     VISIBLE(View.VISIBLE),
     GONE(View.GONE);
 
-    private int visibility;
+    private final int visibility;
 
     VisibilityWrapper(int visibility) {
         this.visibility = visibility;

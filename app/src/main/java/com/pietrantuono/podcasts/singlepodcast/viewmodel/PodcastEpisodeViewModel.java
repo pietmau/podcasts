@@ -16,7 +16,7 @@ public class PodcastEpisodeViewModel extends BasePodcastEpisodeViewModel {
 
     public PodcastEpisodeViewModel(PodcastEpisodeModel podcastEpisodeModel, SimpleImageLoader simpleImageLoader, ResourcesProvider resourcesProvider) {
         super(podcastEpisodeModel);
-        this.simpleImageLoader = simpleImageLoader;
+        PodcastEpisodeViewModel.simpleImageLoader = simpleImageLoader;
         this.resourcesProvider = resourcesProvider;
     }
 

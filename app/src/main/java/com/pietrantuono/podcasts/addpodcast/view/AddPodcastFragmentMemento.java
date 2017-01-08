@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 public class AddPodcastFragmentMemento {
     private static final java.lang.String IS_PROGRESS_SHOWING = "progress_showing";
-    private Bundle bundle;
+    private final Bundle bundle;
     private boolean isProgressShowing;
 
     public AddPodcastFragmentMemento(Bundle bundle) {

@@ -9,7 +9,7 @@ import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import java.util.List;
 
 public interface AddPodcastView {
-    void onError(Throwable e);
+    void onError(Throwable €e);
 
     void updateSearchResults(List<SinglePodcast> items);
 

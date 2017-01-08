@@ -5,7 +5,7 @@ import android.support.v7.widget.SearchView;
 import com.pietrantuono.podcasts.addpodcast.presenter.AddPodcastPresenter;
 
 class PodcastOnQueryTextListener implements SearchView.OnQueryTextListener{
-    private AddPodcastPresenter addPodcastPresenter;
+    private final AddPodcastPresenter addPodcastPresenter;
 
     PodcastOnQueryTextListener(AddPodcastPresenter addPodcastPresenter) {
         this.addPodcastPresenter = addPodcastPresenter;

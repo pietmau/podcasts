@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 class PodcastsFilter extends Filter {
-    private PodcastsAdapter podcastsAdapter;
-    private List<SinglePodcast> items;
+    private final PodcastsAdapter podcastsAdapter;
+    private final List<SinglePodcast> items;
 
     public PodcastsFilter(PodcastsAdapter podcastsAdapter, List<SinglePodcast> items) {
         this.podcastsAdapter = podcastsAdapter;

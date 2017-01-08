@@ -15,11 +15,11 @@ public class SinglePodcastApiRetrofit implements SinglePodcastApi {
     private static final String GOOGLE = "http://www.google.com";
     private final SinglePodcastApi api;
 
-    public SinglePodcastApiRetrofit(CrashlyticsWrapper crashlyticsWrapper, Context context, PodcastEpisodeParser episodeparser) {
+    public SinglePodcastApiRetrofit(CrashlyticsWrapper crashlyticsWrapper, PodcastEpisodeParser episodeparser) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GOOGLE)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(new PodcastFeedConverterFactory(crashlyticsWrapper, context, episodeparser))
+                .addConverterFactory(new PodcastFeedConverterFactory(crashlyticsWrapper, episodeparser))
                 .build();
         api = retrofit.create(SinglePodcastApi.class);
     }
