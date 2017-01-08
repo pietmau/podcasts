@@ -14,7 +14,6 @@ import com.pietrantuono.podcasts.singlepodcast.viewmodel.ResourcesProvider;
 
 public class EpisodeHolder extends RecyclerView.ViewHolder {
     private final ViewDataBinding dataBinding;
-    private PodcastEpisodeViewModel podcastEpisodeViewModel;
     private final SimpleImageLoader simpleImageLoader;
     private final ResourcesProvider resourcesProvider;
 
@@ -26,7 +25,7 @@ public class EpisodeHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(PodcastEpisodeModel podcastEpisodeModel) {
-        this.podcastEpisodeViewModel = new PodcastEpisodeViewModel(podcastEpisodeModel, simpleImageLoader, resourcesProvider);
+        PodcastEpisodeViewModel podcastEpisodeViewModel = new PodcastEpisodeViewModel(podcastEpisodeModel, simpleImageLoader, resourcesProvider);
         dataBinding.setVariable(BR.viewModel, podcastEpisodeViewModel);
         dataBinding.executePendingBindings();
     }

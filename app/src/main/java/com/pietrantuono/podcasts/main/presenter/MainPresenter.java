@@ -10,14 +10,13 @@ import com.pietrantuono.podcasts.main.model.MainModel;
 
 public class MainPresenter implements GenericPresenter {
     private MainView view;
-    private MainModel mainModel;
 
     public void bindView(MainView view) {
         this.view = view;
     }
 
     public void onModelConnected(MainModel mainModel) {
-        this.mainModel = mainModel;
+        MainModel mainModel1 = mainModel;
     }
 
     @Override

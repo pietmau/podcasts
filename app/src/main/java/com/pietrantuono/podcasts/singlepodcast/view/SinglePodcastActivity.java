@@ -28,6 +28,7 @@ import butterknife.ButterKnife;
 
 public class SinglePodcastActivity extends AppCompatActivity implements SinglePodcastView {
     public static final String SINGLE_PODCAST = "single_podcast";
+    public static final String STARTED_WITH_TRANSITION = "with_transition";
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.main_image) ImageView imageView;
     @BindView(R.id.recycler) EpisodesRecycler recyclerView;
@@ -41,17 +42,22 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
         super.onCreate(savedInstanceState);
         initViews();
         inject();
-        startTransition();
-        loadImage();
         initPresenter();
+        loadImage();
     }
 
     private void inject() {
         DaggerSinglePodcastComponent.builder().singlePodcastModule(new SinglePodcastModule(SinglePodcastActivity.this)).imageLoaderModule(new ImageLoaderModule(SinglePodcastActivity.this)).build().inject(SinglePodcastActivity.this);
     }
 
-    private void startTransition() {
-        transitionsFramework.initDetailTransitionAndPostponeEnterTransition(SinglePodcastActivity.this);
+    @Override
+    public void enterWithTransition() {
+        transitionsFramework.initDetailTransitions(SinglePodcastActivity.this);
+    }
+
+    @Override
+    public void enterWithoutTransition() {
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
     }
 
     private void initViews() {
@@ -62,7 +68,7 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
 
     private void initPresenter() {
         presenter.bindView(SinglePodcastActivity.this);
-        presenter.setPodcast(getIntent().getParcelableExtra(SINGLE_PODCAST));
+        presenter.init(getIntent().getParcelableExtra(SINGLE_PODCAST), getIntent().getBooleanExtra(STARTED_WITH_TRANSITION, false));
     }
 
     private void setUpActionBar() {
@@ -103,4 +109,21 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
     public void setEpisodes(List<PodcastEpisodeModel> episodes) {
         recyclerView.setItems(episodes);
     }
+
+    @Override
+    public void onBackPressed() {
+        presenter.onBackPressed();
+    }
+
+    @Override
+    public void exitWithSharedTrsnsition() {
+        super.onBackPressed();
+    }
+
+    @Override
+    public void exitWithoutSharedTransition() {
+        finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+    }
+
 }

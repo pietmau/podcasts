@@ -14,7 +14,7 @@ public interface TransitionsFramework {
     void initMainActivityTransitions(AppCompatActivity activity);
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    void initDetailTransitionAndPostponeEnterTransition(AppCompatActivity activity);
+    void initDetailTransitions(AppCompatActivity activity);
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     void startPostponedEnterTransition(AppCompatActivity activity);

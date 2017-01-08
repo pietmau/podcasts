@@ -8,11 +8,11 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:supportsRtl="true">
+        android:supportsRtl="true"
+        android:theme="@style/TransparentToolbarTheme">
 
         <activity
-            android:name=".main.view.MainActivity"
-            android:theme="@style/TransparentToolbarTheme">
+            android:name=".main.view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -20,13 +20,12 @@
         </activity>
 
         <activity
-            android:name=".singlepodcast.view.SinglePodcastActivity"
-            android:theme="@style/TransparentToolbarTheme">
+            android:name=".singlepodcast.view.SinglePodcastActivity">
         </activity>
 
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="149dc5c633a9120f622c8468fd3423b84f7932c5" />
+            android:value="149dc5c633a9120f622c8468fd3423b84f7932c5"/>
     </application>
 
 </manifest>

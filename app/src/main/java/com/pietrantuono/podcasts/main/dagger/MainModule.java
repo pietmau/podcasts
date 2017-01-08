@@ -11,7 +11,6 @@ import dagger.Provides;
 @Module
 public class MainModule {
     private final PresenterManager presenterManager;
-    private MainPresenter mainPresenter;
 
     public MainModule(AppCompatActivity activity) {
         PresenterManager manager = (PresenterManager) activity.getLastCustomNonConfigurationInstance();
@@ -23,7 +22,7 @@ public class MainModule {
 
     @Provides
     MainPresenter provideMainPresenter() {
-        mainPresenter = new MainPresenter();
+        MainPresenter mainPresenter = new MainPresenter();
         return mainPresenter;
     }
 

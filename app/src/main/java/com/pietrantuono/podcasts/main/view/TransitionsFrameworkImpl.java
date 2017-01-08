@@ -42,7 +42,7 @@ public class TransitionsFrameworkImpl implements TransitionsFramework {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void initDetailTransitionAndPostponeEnterTransition(AppCompatActivity activity) {
+    public void initDetailTransitions(AppCompatActivity activity) {
         if (!apiLevelChecker.isLollipopOrHigher()) {
             return;
         }
@@ -63,8 +63,12 @@ public class TransitionsFrameworkImpl implements TransitionsFramework {
         activity.startPostponedEnterTransition();
     }
 
+
     @Override
     public Pair[] getPairs(ImageView imageView, Activity activity) {
+        if (!apiLevelChecker.isLollipopOrHigher()) {
+            return new Pair[0];
+        }
         View decor = activity.getWindow().getDecorView();
         View navBar = decor.findViewById(android.R.id.navigationBarBackground);
         Pair[] pairs;

@@ -1,7 +1,6 @@
 package com.pietrantuono.podcasts.singlepodcast.presenter;
 
 
-import com.crashlytics.android.Crashlytics;
 import com.pietrantuono.CrashlyticsWrapper;
 import com.pietrantuono.podcasts.GenericPresenter;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
@@ -17,6 +16,7 @@ public class SinglePodcastPresenter implements GenericPresenter {
     private final SinglePodcastModel model;
     private PodcastFeed podcastFeed;
     private final CrashlyticsWrapper crashlyticsWrapper;
+    private boolean startedWithTransition;
 
     public SinglePodcastPresenter(SinglePodcastModel model, CrashlyticsWrapper crashlyticsWrapper) {
         this.model = model;
@@ -60,9 +60,15 @@ public class SinglePodcastPresenter implements GenericPresenter {
         setEpisodes();
     }
 
-    public void setPodcast(SinglePodcast podcast) {
+    public void init(SinglePodcast podcast, boolean startedWithTransition) {
+        this.startedWithTransition = startedWithTransition;
         if (podcast != null) {
             model.getFeed(podcast.getFeedUrl());
+        }
+        if (startedWithTransition) {
+            singlePodcastView.enterWithTransition();
+        } else {
+            singlePodcastView.enterWithoutTransition();
         }
     }
 
@@ -71,5 +77,14 @@ public class SinglePodcastPresenter implements GenericPresenter {
             return;
         }
         singlePodcastView.setEpisodes(podcastFeed.getEpisodes());
+    }
+
+    public void onBackPressed() {
+        if(startedWithTransition){
+            singlePodcastView.exitWithSharedTrsnsition();
+        }
+        else {
+            singlePodcastView.exitWithoutSharedTransition();
+        }
     }
 }
