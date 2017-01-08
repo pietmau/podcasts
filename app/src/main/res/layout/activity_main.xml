@@ -25,14 +25,16 @@
                 app:layout_scrollFlags="scroll|enterAlways"/>
         </android.support.design.widget.AppBarLayout>
 
-        <FrameLayout
-            android:layout_margin="@dimen/generic_margin"
+        <android.support.v4.widget.NestedScrollView
             android:id="@+id/fragmentContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/generic_margin"
+            android:layout_marginLeft="@dimen/generic_margin"
+            android:layout_marginRight="@dimen/generic_margin"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             >
-        </FrameLayout>
+        </android.support.v4.widget.NestedScrollView>
 
     </android.support.design.widget.CoordinatorLayout>
 
