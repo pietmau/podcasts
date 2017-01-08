@@ -37,7 +37,7 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
 
     @Override
     public void onBindViewHolder(PodcastHolder holder, int position) {
-        holder.onBindViewHolder(publishedItems.get(position), onSunscribeClickedListener, onItemClickedClickedListener);
+        holder.onBindViewHolder(publishedItems.get(position), onSunscribeClickedListener, onItemClickedClickedListener, position);
     }
 
     @Override
@@ -86,6 +86,6 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
     }
 
     public interface OnItemClickedClickedListener {
-        void onItemClicked(SinglePodcast singlePodcast, ImageView imageView);
+        void onItemClicked(SinglePodcast singlePodcast, ImageView imageView, int position);
     }
 }

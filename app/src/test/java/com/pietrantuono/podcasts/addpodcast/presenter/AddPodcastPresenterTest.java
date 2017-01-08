@@ -40,7 +40,7 @@ public class AddPodcastPresenterTest {
     @Before
     public void setUp() {
         when(result.getList()).thenReturn(list);
-        addPodcastPresenter = new AddPodcastPresenter(addPodcastsModel);
+        addPodcastPresenter = new AddPodcastPresenter(addPodcastsModel, apiLevelChecker);
         addPodcastPresenter.bindView(view, memento);
     }
 

@@ -23,6 +23,7 @@ import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.addpodcast.presenter.AddPodcastPresenter;
 import com.pietrantuono.podcasts.main.view.MainActivity;
+import com.pietrantuono.podcasts.main.view.TransitionsFramework;
 import com.pietrantuono.podcasts.singlepodcast.view.SinglePodcastActivity;
 
 import java.util.List;
@@ -36,7 +37,7 @@ import hugo.weaving.DebugLog;
 public class AddPodcastFragment extends Fragment implements AddPodcastView {
     public static final String TAG = (AddPodcastFragment.class).getSimpleName();
     @Inject AddPodcastPresenter addPodcastPresenter;
-    @Inject ApiLevelChecker apiLevelChecker;
+    @Inject TransitionsFramework transitionsFramework;
     @BindView(R.id.search_view) SearchView searchView;
     @BindView(R.id.search_results) PodcastsRecycler podcastsRecycler;
     @BindView(R.id.progress) CustomProgressBar progressBar;
@@ -137,27 +138,24 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     public void startDetailActivityWithTransition(SinglePodcast singlePodcast, ImageView imageView) {
         Intent intent = new Intent(getActivity(), SinglePodcastActivity.class);
         intent.putExtra(SinglePodcastActivity.SINGLE_PODCAST, singlePodcast);
-        Pair[] pairs = getPairs(imageView);
-        getActivity().startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), pairs).toBundle());
+        getActivity().startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), getPairs(imageView)).toBundle());
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void startDetailActivityWithoutTransition(SinglePodcast singlePodcast) {
+        Intent intent = new Intent(getActivity(), SinglePodcastActivity.class);
+        intent.putExtra(SinglePodcastActivity.SINGLE_PODCAST, singlePodcast);
+        getActivity().startActivity(intent);
     }
 
     @NonNull
     private Pair[] getPairs(ImageView imageView) {
-        View decor = getActivity().getWindow().getDecorView();
-        View navBar = decor.findViewById(android.R.id.navigationBarBackground);
-        Pair[] pairs = new Pair[2];
-        pairs[0] = new Pair(imageView, getString(R.string.detail_transition));
-        pairs[1] = new Pair(navBar, "fobar");
-        return pairs;
+        return transitionsFramework.getPairs(imageView, getActivity());
     }
 
     @Override
-    public boolean isLollipop() {
-        return apiLevelChecker.isLollipopOrHigher();
-    }
-
-    @Override
-    public void startDetailActivityWithOutTransition(SinglePodcast singlePodcast) {
-
+    public boolean isPartiallyHidden(int position) {
+        return podcastsRecycler.isPartiallyHidden(position);
     }
 }

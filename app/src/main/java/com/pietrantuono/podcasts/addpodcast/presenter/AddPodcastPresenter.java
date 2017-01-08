@@ -10,8 +10,7 @@ import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastFragmentMemento;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastView;
 import com.pietrantuono.podcasts.GenericPresenter;
-
-import java.util.List;
+import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker;
 
 import rx.Observer;
 
@@ -19,11 +18,14 @@ public class AddPodcastPresenter implements GenericPresenter, PodcastsAdapter.On
     public static final String TAG = (AddPodcastPresenter.class).getSimpleName();
     private final AddPodcastsModel addPodcastsModel;
     private final Observer<SearchResult> observer;
+    private final ApiLevelChecker apiLevelChecker;
     @Nullable private AddPodcastView addPodcastView;
     private SearchResult cachedResult;
 
-    public AddPodcastPresenter(final AddPodcastsModel addPodcastsModel) {
+
+    public AddPodcastPresenter(final AddPodcastsModel addPodcastsModel, ApiLevelChecker apiLevelChecker) {
         this.addPodcastsModel = addPodcastsModel;
+        this.apiLevelChecker = apiLevelChecker;
         observer = new Observer<SearchResult>() {
 
             @Override
@@ -102,11 +104,11 @@ public class AddPodcastPresenter implements GenericPresenter, PodcastsAdapter.On
     }
 
     @Override
-    public void onItemClicked(SinglePodcast singlePodcast, ImageView imageView) {
-        if (addPodcastView.isLollipop()) {
+    public void onItemClicked(SinglePodcast singlePodcast, ImageView imageView, int position) {
+        if (apiLevelChecker.isLollipopOrHigher() && !addPodcastView.isPartiallyHidden(position)) {
             addPodcastView.startDetailActivityWithTransition(singlePodcast, imageView);
         } else {
-            addPodcastView.startDetailActivityWithOutTransition(singlePodcast);
+            addPodcastView.startDetailActivityWithoutTransition(singlePodcast);
         }
     }
 }

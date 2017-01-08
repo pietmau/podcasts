@@ -5,6 +5,7 @@ import com.pietrantuono.podcasts.addpodcast.model.AddPodcastsModel;
 import com.pietrantuono.podcasts.addpodcast.model.SearchApi;
 import com.pietrantuono.podcasts.addpodcast.presenter.AddPodcastPresenter;
 import com.pietrantuono.podcasts.addpodcast.model.AddPodcastsModelImpl;
+import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker;
 
 import dagger.Module;
 import dagger.Provides;
@@ -14,10 +15,10 @@ import dagger.Provides;
 public class AddPodcastModule {
 
     @Provides
-    AddPodcastPresenter provideAddPodcastPresenter(AddPodcastsModel addPodcastsModel, PresenterManager presenterManager) {
+    AddPodcastPresenter provideAddPodcastPresenter(AddPodcastsModel addPodcastsModel, PresenterManager presenterManager, ApiLevelChecker apiLevelChecker) {
         AddPodcastPresenter addPodcastPresenter = (AddPodcastPresenter) presenterManager.getPresenter(AddPodcastPresenter.TAG);
         if (addPodcastPresenter == null) {
-            addPodcastPresenter = new AddPodcastPresenter(addPodcastsModel);
+            addPodcastPresenter = new AddPodcastPresenter(addPodcastsModel, apiLevelChecker);
             presenterManager.put(AddPodcastPresenter.TAG, addPodcastPresenter);
         }
         return addPodcastPresenter;

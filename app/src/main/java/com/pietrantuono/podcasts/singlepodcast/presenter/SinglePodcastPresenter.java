@@ -61,7 +61,9 @@ public class SinglePodcastPresenter implements GenericPresenter {
     }
 
     public void setPodcast(SinglePodcast podcast) {
-        model.getFeed(podcast.getFeedUrl());
+        if (podcast != null) {
+            model.getFeed(podcast.getFeedUrl());
+        }
     }
 
     private void setEpisodes() {

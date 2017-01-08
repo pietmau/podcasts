@@ -5,16 +5,16 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
-import android.transition.Fade;
 import android.transition.Slide;
-import android.transition.Transition;
 import android.view.Gravity;
+import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 
+import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker;
-
-import static android.R.attr.duration;
 
 public class TransitionsFrameworkImpl implements TransitionsFramework {
     private final ApiLevelChecker apiLevelChecker;
@@ -61,6 +61,21 @@ public class TransitionsFrameworkImpl implements TransitionsFramework {
             return;
         }
         activity.startPostponedEnterTransition();
+    }
+
+    @Override
+    public Pair[] getPairs(ImageView imageView, Activity activity) {
+        View decor = activity.getWindow().getDecorView();
+        View navBar = decor.findViewById(android.R.id.navigationBarBackground);
+        Pair[] pairs;
+        if (navBar != null) {
+            pairs = new Pair[2];
+            pairs[1] = new Pair(navBar, "transition");
+        } else {
+            pairs = new Pair[1];
+        }
+        pairs[0] = new Pair(imageView, activity.getString(R.string.detail_transition));
+        return pairs;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

@@ -1,5 +1,7 @@
 package com.pietrantuono.podcasts.addpodcast.view;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.widget.ImageView;
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
@@ -19,7 +21,9 @@ public interface AddPodcastView {
 
     void startDetailActivityWithTransition(SinglePodcast singlePodcast, ImageView imageView);
 
-    boolean isLollipop();
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    void startDetailActivityWithoutTransition(SinglePodcast singlePodcast);
 
-    void startDetailActivityWithOutTransition(SinglePodcast singlePodcast);
+
+    boolean isPartiallyHidden(int imageView);
 }

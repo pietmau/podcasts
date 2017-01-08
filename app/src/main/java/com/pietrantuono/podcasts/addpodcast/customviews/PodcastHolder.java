@@ -29,6 +29,7 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.overflow) ImageView overfow;
     @BindView(R.id.genres) TextView genres;
     private SinglePodcast singlePodcast;
+    private int position;
     private SimplePopUpMenu popupMenu;
 
     public PodcastHolder(View itemView, SimpleImageLoader imageLoader) {
@@ -38,10 +39,11 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
         DaggerImageLoaderComponent.builder().imageLoaderModule(new ImageLoaderModule(itemView.getContext())).build().inject(PodcastHolder.this);
     }
 
-    public void onBindViewHolder(final SinglePodcast singlePodcast, PodcastsAdapter.OnSunscribeClickedListener onSunscribeClickedListener, final PodcastsAdapter.OnItemClickedClickedListener onItemClickedClickedListener) {
+    public void onBindViewHolder(final SinglePodcast singlePodcast, PodcastsAdapter.OnSunscribeClickedListener onSunscribeClickedListener, final PodcastsAdapter.OnItemClickedClickedListener onItemClickedClickedListener, int position) {
         this.onSunscribeClickedListener = onSunscribeClickedListener;
         this.onItemClickedClickedListener = onItemClickedClickedListener;
         this.singlePodcast = singlePodcast;
+        this.position = position;
         singlePodcast.getGenres().remove("Podcasts");
         imageLoader.displayImage(singlePodcast.getArtworkUrl600(), imageView);
         title.setText(singlePodcast.getCollectionName());
@@ -68,7 +70,7 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onItemClickedClickedListener.onItemClicked(singlePodcast, imageView);
+                onItemClickedClickedListener.onItemClicked(singlePodcast, imageView, position);
             }
         });
     }

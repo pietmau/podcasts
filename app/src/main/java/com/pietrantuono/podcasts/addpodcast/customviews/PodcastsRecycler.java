@@ -71,4 +71,8 @@ public class PodcastsRecycler extends RecyclerView {
         setOnSubscribeListener(addPodcastPresenter);
         setOnItemClickListener(addPodcastPresenter);
     }
+
+    public boolean isPartiallyHidden(int position) {
+        return ((LinearLayoutManager) getLayoutManager()).findLastCompletelyVisibleItemPosition() < position;
+    }
 }
