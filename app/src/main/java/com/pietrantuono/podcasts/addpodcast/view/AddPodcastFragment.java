@@ -144,11 +144,10 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     @NonNull
     private Pair[] getPairs(ImageView imageView) {
         View decor = getActivity().getWindow().getDecorView();
-        View statusBar = decor.findViewById(android.R.id.statusBarBackground);
         View navBar = decor.findViewById(android.R.id.navigationBarBackground);
         Pair[] pairs = new Pair[2];
         pairs[0] = new Pair(imageView, getString(R.string.detail_transition));
-        pairs[1] = new Pair(navBar, "zz");
+        pairs[1] = new Pair(navBar, "fobar");
         return pairs;
     }
 

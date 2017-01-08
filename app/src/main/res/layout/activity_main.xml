@@ -22,10 +22,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
-                app:layout_scrollFlags="scroll|enterAlways"/>
+                app:layout_scrollFlags="scroll"/>
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.v4.widget.NestedScrollView
+        <FrameLayout
             android:id="@+id/fragmentContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
             android:layout_marginRight="@dimen/generic_margin"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             >
-        </android.support.v4.widget.NestedScrollView>
+        </FrameLayout>
 
     </android.support.design.widget.CoordinatorLayout>
 
