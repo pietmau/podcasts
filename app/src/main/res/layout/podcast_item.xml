@@ -17,16 +17,16 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="100dp">
 
             <ImageView
-                android:transitionName="@string/detail_transition"
                 android:id="@+id/podcast_image"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:scaleType="fitCenter"/>
+                android:scaleType="fitCenter"
+                android:transitionName="@string/detail_transition"/>
 
             <TextView
                 android:id="@+id/title"
@@ -61,16 +61,36 @@
                 android:src="@drawable/ic_more_vert_black_12dp"/>
 
             <TextView
-                android:id="@+id/genres"
+                android:id="@+id/genre"
                 style="@style/Genre"
-                android:maxLines="3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/author"
                 android:layout_marginLeft="@dimen/standard_margin"
                 android:layout_marginRight="@dimen/standard_margin"
-                android:layout_toRightOf="@+id/podcast_image">
+                android:layout_toRightOf="@+id/podcast_image"
+                android:maxLines="3">
             </TextView>
+
+            <TextView
+                style="@style/Normal"
+                android:layout_marginLeft="@dimen/standard_margin"
+                android:layout_marginRight="@dimen/standard_margin"
+                android:id="@+id/episodes_number"
+                android:layout_below="@+id/genre"
+                android:layout_toRightOf="@+id/podcast_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                style="@style/Normal"
+                android:layout_marginLeft="@dimen/standard_margin"
+                android:layout_marginRight="@dimen/standard_margin"
+                android:id="@+id/release_date"
+                android:layout_below="@+id/episodes_number"
+                android:layout_toRightOf="@+id/podcast_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
         </RelativeLayout>
 

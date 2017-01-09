@@ -5,6 +5,7 @@ import com.pietrantuono.podcasts.addpodcast.model.SearchResult;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastFragmentMemento;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastView;
+import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +17,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.List;
 
+import dagger.Module;
 import rx.Observer;
 
 import static org.mockito.ArgumentMatchers.isA;
@@ -34,6 +36,7 @@ public class AddPodcastPresenterTest {
     @Mock AddPodcastFragmentMemento memento;
     @Mock AddPodcastsModel addPodcastsModel;
     @Mock SearchResult result;
+    @Mock ApiLevelChecker apiLevelChecker;
 
     @Captor ArgumentCaptor<Observer<SearchResult>> observerCaptor;
 
