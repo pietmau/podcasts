@@ -65,7 +65,7 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
         } catch (Exception e) {
             return null;
         }
-        SimpleDateFormat out = new SimpleDateFormat("MM yyyy");
+        SimpleDateFormat out = new SimpleDateFormat("MMMM yyyy");
         return out.format(date);
     }
 
