@@ -8,7 +8,6 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader;
@@ -32,7 +31,7 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
     @Override
     public PodcastHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.podcast_item, parent, false);
-        return new PodcastHolder(v, imageLoader);
+        return new PodcastHolder(v);
     }
 
     @Override

@@ -28,7 +28,7 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodeHolder> {
     public EpisodeHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.episode_item, parent, false);
-        return new EpisodeHolder(view, simpleImageLoader, resourcesProvider);
+        return new EpisodeHolder(view, resourcesProvider);
     }
 
     @Override
