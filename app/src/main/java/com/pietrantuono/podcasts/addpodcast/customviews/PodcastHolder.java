@@ -57,7 +57,6 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
     }
 
     private String getReleaseDate() {
-        //2012-04-12T16:59:00Z
         SimpleDateFormat in = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");
         Date date = null;
         try {
@@ -65,7 +64,7 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
         } catch (Exception e) {
             return null;
         }
-        SimpleDateFormat out = new SimpleDateFormat("MM yyyy");
+        SimpleDateFormat out = new SimpleDateFormat("MMMM yyyy");
         return out.format(date);
     }
 
