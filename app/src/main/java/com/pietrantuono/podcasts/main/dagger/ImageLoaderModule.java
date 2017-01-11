@@ -31,8 +31,8 @@ public class ImageLoaderModule {
     }
 
     @Provides
-    PodcastsAdapter providePodcastsAdapter(SimpleImageLoader imageLoader) {
-        return new PodcastsAdapter(imageLoader);
+    PodcastsAdapter providePodcastsAdapter(SimpleImageLoader imageLoader, ResourcesProvider provider) {
+        return new PodcastsAdapter(imageLoader, provider);
     }
 
     @Provides

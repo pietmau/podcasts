@@ -35,11 +35,11 @@ public class SinlglePodcastViewModel {
         return singlePodcast.getPrimaryGenreName();
     }
 
-    private String getTrackCount(SinglePodcast singlePodcast) {
+    public String getTrackCount() {
         return singlePodcast.getTrackCount() + " " + resourcesProvider.getString(R.string.episodes);
     }
 
-    private String getReleaseDate() {
+    public String getReleaseDate() {
         SimpleDateFormat in = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");
         Date date = null;
         try {
@@ -51,7 +51,7 @@ public class SinlglePodcastViewModel {
         return out.format(date);
     }
 
-    private void onItemClicked() {
-        onItemClickedClickedListener.onItemClicked(singlePodcast, imageView, position);
+    public String getImageUrl(){
+        return singlePodcast.getArtworkUrl600();
     }
 }

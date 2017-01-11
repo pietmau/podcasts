@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:bind="http://schemas.android.com/tools"
-        xmlns:lib="http://schemas.android.com/apk/res-auto">
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:bind="http://schemas.android.com/apk/res-auto">
     <data>
 
         <variable
@@ -29,6 +29,7 @@
                 android:layout_height="100dp">
 
                 <ImageView
+                    bind:image="@{sinlglePodcastViewModel.imageUrl}"
                     android:id="@+id/podcast_image"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
@@ -44,6 +45,7 @@
                     android:layout_toRightOf="@+id/podcast_image">
 
                     <TextView
+                        android:text="@{sinlglePodcastViewModel.title}"
                         android:id="@+id/title"
                         style="@style/Title"
                         android:layout_width="wrap_content"
@@ -57,6 +59,7 @@
                         android:maxLines="2"/>
 
                     <TextView
+                        android:text="@{sinlglePodcastViewModel.author}"
                         android:id="@+id/author"
                         style="@style/Author"
                         android:layout_width="wrap_content"
@@ -79,6 +82,7 @@
                         android:src="@drawable/ic_more_vert_black_12dp"/>
 
                     <TextView
+                        android:text="@{sinlglePodcastViewModel.genre}"
                         android:id="@+id/genre"
                         style="@style/Genre"
                         android:layout_width="match_parent"
@@ -95,6 +99,7 @@
                         android:layout_below="@+id/genre">
 
                         <TextView
+                            android:text="@{sinlglePodcastViewModel.trackCount}"
                             android:id="@+id/episodes_number"
                             style="@style/Normal"
                             android:layout_width="wrap_content"
@@ -106,6 +111,7 @@
                             />
 
                         <TextView
+                            android:text="@{sinlglePodcastViewModel.releaseDate}"
                             android:id="@+id/release_date"
                             style="@style/Normal"
                             android:layout_width="wrap_content"
