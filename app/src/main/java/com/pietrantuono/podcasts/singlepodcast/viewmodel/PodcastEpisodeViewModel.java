@@ -11,21 +11,11 @@ import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader;
 
 public class PodcastEpisodeViewModel extends BasePodcastEpisodeViewModel {
-    private static SimpleImageLoader simpleImageLoader;
     private final ResourcesProvider resourcesProvider;
 
-    public PodcastEpisodeViewModel(PodcastEpisodeModel podcastEpisodeModel, SimpleImageLoader simpleImageLoader, ResourcesProvider resourcesProvider) {
+    public PodcastEpisodeViewModel(PodcastEpisodeModel podcastEpisodeModel, ResourcesProvider resourcesProvider) {
         super(podcastEpisodeModel);
-        PodcastEpisodeViewModel.simpleImageLoader = simpleImageLoader;
         this.resourcesProvider = resourcesProvider;
-    }
-
-    /**
-     * This needs to be static https://developer.android.com/reference/android/databinding/BindingAdapter.html
-     */
-    @BindingAdapter({"bind:image"})
-    public static void loadImage(ImageView view, String url) {
-        simpleImageLoader.displayImage(url, view);
     }
 
     public VisibilityWrapper getVisibilityOfFooter() {
