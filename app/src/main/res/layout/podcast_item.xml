@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp">
 
-                <ImageView
+                <com.pietrantuono.podcasts.addpodcast.customviews.SquareImageView
                     bind:image="@{sinlglePodcastViewModel.imageUrl}"
                     android:id="@+id/podcast_image"
                     android:layout_width="100dp"
