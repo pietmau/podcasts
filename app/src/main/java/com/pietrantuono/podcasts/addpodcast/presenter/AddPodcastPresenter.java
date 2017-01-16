@@ -7,6 +7,7 @@ import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsAdapter;
 import com.pietrantuono.podcasts.addpodcast.model.AddPodcastsModel;
 import com.pietrantuono.podcasts.addpodcast.model.SearchResult;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcastImpl;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastFragmentMemento;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastView;
 import com.pietrantuono.podcasts.GenericPresenter;
@@ -104,7 +105,7 @@ public class AddPodcastPresenter implements GenericPresenter, PodcastsAdapter.On
     }
 
     @Override
-    public void onItemClicked(SinglePodcast singlePodcast, ImageView imageView, int position) {
+    public void onItemClicked(SinglePodcastImpl singlePodcast, ImageView imageView, int position) {
         if (apiLevelChecker.isLollipopOrHigher() && !addPodcastView.isPartiallyHidden(position)) {
             addPodcastView.startDetailActivityWithTransition(singlePodcast, imageView);
         } else {

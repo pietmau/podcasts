@@ -9,7 +9,7 @@ import android.widget.ImageView;
 
 import com.pietrantuono.podcasts.PresenterManager;
 import com.pietrantuono.podcasts.R;
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcastImpl;
 import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader;
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule;
@@ -78,7 +78,7 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
     }
 
     private void loadImage() {
-        SinglePodcast podcast = getIntent().getParcelableExtra(SINGLE_PODCAST);
+        SinglePodcastImpl podcast = getIntent().getParcelableExtra(SINGLE_PODCAST);
         imageLoader.displayImage(podcast, imageView, new PodcastImageLoadingListener(SinglePodcastActivity.this, transitionsFramework));
     }
 

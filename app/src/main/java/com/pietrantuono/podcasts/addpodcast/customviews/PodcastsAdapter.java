@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcastImpl;
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader;
 import com.pietrantuono.podcasts.singlepodcast.viewmodel.ResourcesProvider;
 
@@ -61,7 +62,7 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
     }
 
     private void prefetch(List<SinglePodcast> items) {
-        for (SinglePodcast item : items) {
+        for (SinglePodcastImpl item : items) {
             imageLoader.loadImage(item.getArtworkUrl600());
         }
     }
@@ -88,6 +89,6 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
     }
 
     public interface OnItemClickedClickedListener {
-        void onItemClicked(SinglePodcast singlePodcast, ImageView imageView, int position);
+        void onItemClicked(SinglePodcastImpl singlePodcast, ImageView imageView, int position);
     }
 }

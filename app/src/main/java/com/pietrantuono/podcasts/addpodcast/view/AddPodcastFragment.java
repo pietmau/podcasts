@@ -21,6 +21,7 @@ import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.customviews.CustomProgressBar;
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcastImpl;
 import com.pietrantuono.podcasts.addpodcast.presenter.AddPodcastPresenter;
 import com.pietrantuono.podcasts.main.view.MainActivity;
 import com.pietrantuono.podcasts.main.view.TransitionsFramework;
@@ -131,7 +132,7 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void startDetailActivityWithTransition(SinglePodcast singlePodcast, ImageView imageView) {
+    public void startDetailActivityWithTransition(SinglePodcastImpl singlePodcast, ImageView imageView) {
         Intent intent = new Intent(getActivity(), SinglePodcastActivity.class);
         intent.putExtra(SinglePodcastActivity.SINGLE_PODCAST, singlePodcast);
         intent.putExtra(SinglePodcastActivity.STARTED_WITH_TRANSITION, true);
@@ -140,7 +141,7 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void startDetailActivityWithoutTransition(SinglePodcast singlePodcast) {
+    public void startDetailActivityWithoutTransition(SinglePodcastImpl singlePodcast) {
         Intent intent = new Intent(getActivity(), SinglePodcastActivity.class);
         intent.putExtra(SinglePodcastActivity.SINGLE_PODCAST, singlePodcast);
         getActivity().startActivity(intent);

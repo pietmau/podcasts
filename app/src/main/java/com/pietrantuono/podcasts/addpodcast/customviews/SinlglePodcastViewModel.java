@@ -2,7 +2,7 @@ package com.pietrantuono.podcasts.addpodcast.customviews;
 
 
 import com.pietrantuono.podcasts.R;
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcastImpl;
 import com.pietrantuono.podcasts.singlepodcast.viewmodel.ResourcesProvider;
 
 import java.text.SimpleDateFormat;
@@ -12,10 +12,10 @@ public class SinlglePodcastViewModel {
     private ResourcesProvider resourcesProvider;
     private final PodcastsAdapter.OnSunscribeClickedListener onSunscribeClickedListener;
     private final PodcastsAdapter.OnItemClickedClickedListener onItemClickedClickedListener;
-    private final SinglePodcast singlePodcast;
+    private final SinglePodcastImpl singlePodcast;
     private final int position;
 
-    public SinlglePodcastViewModel(SinglePodcast singlePodcast, ResourcesProvider resourcesProvider, PodcastsAdapter.OnItemClickedClickedListener onItemClickedClickedListener, PodcastsAdapter.OnSunscribeClickedListener onSunscribeClickedListener, int position) {
+    public SinlglePodcastViewModel(SinglePodcastImpl singlePodcast, ResourcesProvider resourcesProvider, PodcastsAdapter.OnItemClickedClickedListener onItemClickedClickedListener, PodcastsAdapter.OnSunscribeClickedListener onSunscribeClickedListener, int position) {
         this.resourcesProvider = resourcesProvider;
         this.onSunscribeClickedListener = onSunscribeClickedListener;
         this.onItemClickedClickedListener = onItemClickedClickedListener;

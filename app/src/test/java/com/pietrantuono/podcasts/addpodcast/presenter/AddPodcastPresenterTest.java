@@ -17,7 +17,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.List;
 
-import dagger.Module;
 import rx.Observer;
 
 import static org.mockito.ArgumentMatchers.isA;

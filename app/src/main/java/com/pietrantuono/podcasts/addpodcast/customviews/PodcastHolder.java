@@ -4,15 +4,14 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.pietrantuono.podcasts.BR;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcastImpl;
 import com.pietrantuono.podcasts.databinding.PodcastItemBinding;
 import com.pietrantuono.podcasts.singlepodcast.viewmodel.ResourcesProvider;
 
-import butterknife.BindView;
 import butterknife.OnClick;
 
 public class PodcastHolder extends RecyclerView.ViewHolder {
@@ -26,7 +25,7 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
         this.resourcesProvider = resourcesProvider;
     }
 
-    public void onBindViewHolder(final SinglePodcast singlePodcast, PodcastsAdapter.OnSunscribeClickedListener onSunscribeClickedListener, final PodcastsAdapter.OnItemClickedClickedListener onItemClickedClickedListener, int position) {
+    public void onBindViewHolder(final SinglePodcastImpl singlePodcast, PodcastsAdapter.OnSunscribeClickedListener onSunscribeClickedListener, final PodcastsAdapter.OnItemClickedClickedListener onItemClickedClickedListener, int position) {
         SinlglePodcastViewModel podcastEpisodeViewModel = new SinlglePodcastViewModel(singlePodcast, resourcesProvider, onItemClickedClickedListener, onSunscribeClickedListener, position);
         dataBinding.setVariable(BR.sinlglePodcastViewModel, podcastEpisodeViewModel);
         dataBinding.executePendingBindings();
@@ -43,7 +42,7 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
         popupMenu = new SimplePopUpMenu(((PodcastItemBinding) dataBinding).overflow, singlePodcast, singlePodcast1 -> onSunscribeClickedListener.onSubscribeClicked(singlePodcast1));
     }
 
-    private void setUpOnClickListener(SinglePodcast singlePodcast, int position, PodcastsAdapter.OnItemClickedClickedListener onItemClickedClickedListener) {
+    private void setUpOnClickListener(SinglePodcastImpl singlePodcast, int position, PodcastsAdapter.OnItemClickedClickedListener onItemClickedClickedListener) {
         ((PodcastItemBinding) dataBinding).podcastImage.setOnClickListener(view -> onItemClickedClickedListener.onItemClicked(singlePodcast, ((PodcastItemBinding) dataBinding).podcastImage, position));
     }
 

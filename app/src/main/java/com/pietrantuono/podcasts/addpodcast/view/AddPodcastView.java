@@ -5,6 +5,7 @@ import android.os.Build;
 import android.widget.ImageView;
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcastImpl;
 
 import java.util.List;
 
@@ -19,10 +20,10 @@ public interface AddPodcastView {
 
     void onQueryTextChange(String newText);
 
-    void startDetailActivityWithTransition(SinglePodcast singlePodcast, ImageView imageView);
+    void startDetailActivityWithTransition(SinglePodcastImpl singlePodcast, ImageView imageView);
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    void startDetailActivityWithoutTransition(SinglePodcast singlePodcast);
+    void startDetailActivityWithoutTransition(SinglePodcastImpl singlePodcast);
 
 
     boolean isPartiallyHidden(int imageView);
