@@ -13,6 +13,7 @@ public class SimpleImageLoader {
     private static final DisplayImageOptions options = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.drawable.podcast_grey_icon_very_big)
             .showImageOnFail(R.drawable.podcast_grey_icon_very_big)
+            .cacheInMemory(false)
             .cacheOnDisk(true)
             .build();
 

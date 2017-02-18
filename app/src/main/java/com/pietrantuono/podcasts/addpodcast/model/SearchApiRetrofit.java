@@ -3,7 +3,6 @@ package com.pietrantuono.podcasts.addpodcast.model;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.addpodcast.model.retrofitconverters.PodcastSearchResultConverterFactory;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,11 +38,4 @@ public class SearchApiRetrofit implements SearchApi {
         return api.search(map).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).map(list->new SearchResult(list, query)).cache();
     }
 
-    private static class QueryMap extends HashMap<String, String> {
-        public QueryMap(String query) {
-            put("media", "podcast");
-            put("limit", "100");
-            put("term", query);
-        }
-    }
 }

@@ -45,9 +45,9 @@ public class PodcastsRecycler extends RecyclerView {
     private LayoutManager createLayoutManager() {
         int orientation = getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            return new GridLayoutManager(getContext(), 2);
+            return new GridLayoutManager(getContext(), 4);
         } else {
-            return new LinearLayoutManager(getContext());
+            return new GridLayoutManager(getContext(), 3);
         }
     }
 

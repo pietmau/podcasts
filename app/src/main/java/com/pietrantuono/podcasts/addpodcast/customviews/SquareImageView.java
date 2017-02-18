@@ -28,6 +28,8 @@ public class SquareImageView extends ImageView {
         int height = MeasureSpec.getSize(heightMeasureSpec);
         if (height > width) {
             height = width;
+        } else {
+            width = height;
         }
         setMeasuredDimension(width, height);
     }
