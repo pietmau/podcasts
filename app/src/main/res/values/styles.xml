@@ -7,35 +7,38 @@
     </style>
 
 
-    <style name="BaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="BaseTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="colorControlNormal">?android:attr/textColorSecondary</item>
+        <item name="colorControlActivated">?attr/colorAccent</item>
+        <item name="colorControlHighlight">@color/ripple_material_dark</item>
+        <item name="colorButtonNormal">@color/button_material_dark</item>
+        <item name="colorSwitchThumbNormal">@color/switch_thumb_material_dark</item>
+        <item name="controlBackground">?attr/selectableItemBackgroundBorderless</item>
     </style>
 
     <style name="Title">
-        <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">@dimen/BiggerTextSize</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Author">
-        <item name="android:textColor">@color/authorTextColor</item>
         <item name="android:textSize">@dimen/BigTextSize</item>
     </style>
 
     <style name="Genre">
-        <item name="android:textColor">@android:color/white</item>
+
         <item name="android:textSize">@dimen/NormalTextSize</item>
     </style>
 
     <style name="Normal">
-        <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">@dimen/NormalTextSize</item>
     </style>
 
     <style name="Big">
-        <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">@dimen/BigTextSize</item>
     </style>
 

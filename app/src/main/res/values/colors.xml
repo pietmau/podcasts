@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#AA5223</color>
-    <color name="colorPrimaryDark">#903031</color>
-    <color name="colorAccent">#C82D20</color>
-    <color name="colorBackground">#FFbf00</color>
-    <color name="orange">#FFF77538</color>
-    <color name="authorTextColor">#FFF2EDA7</color>
+    <color name="colorPrimary">#607D8B</color>
+    <color name="colorPrimaryDark">#455A64</color>
+    <color name="colorAccent">#40C4FF</color>
+
+    <color name="activityBackgroundColor">@color/background_material_dark</color>
+
 </resources>
