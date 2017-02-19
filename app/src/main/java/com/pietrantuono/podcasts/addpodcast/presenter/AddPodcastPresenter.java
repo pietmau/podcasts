@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts.addpodcast.presenter;
 
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsAdapter;
@@ -105,7 +106,7 @@ public class AddPodcastPresenter implements GenericPresenter, PodcastsAdapter.On
     }
 
     @Override
-    public void onItemClicked(SinglePodcastImpl singlePodcast, ImageView imageView, int position) {
+    public void onItemClicked(SinglePodcast singlePodcast, ImageView imageView, int position) {
         if (apiLevelChecker.isLollipopOrHigher() && !addPodcastView.isPartiallyHidden(position)) {
             addPodcastView.startDetailActivityWithTransition(singlePodcast, imageView);
         } else {

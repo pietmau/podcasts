@@ -132,7 +132,7 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void startDetailActivityWithTransition(SinglePodcastImpl singlePodcast, ImageView imageView) {
+    public void startDetailActivityWithTransition(SinglePodcast singlePodcast, ImageView imageView) {
         Intent intent = new Intent(getActivity(), SinglePodcastActivity.class);
         intent.putExtra(SinglePodcastActivity.SINGLE_PODCAST, singlePodcast);
         intent.putExtra(SinglePodcastActivity.STARTED_WITH_TRANSITION, true);
@@ -141,7 +141,7 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void startDetailActivityWithoutTransition(SinglePodcastImpl singlePodcast) {
+    public void startDetailActivityWithoutTransition(SinglePodcast singlePodcast) {
         Intent intent = new Intent(getActivity(), SinglePodcastActivity.class);
         intent.putExtra(SinglePodcastActivity.SINGLE_PODCAST, singlePodcast);
         getActivity().startActivity(intent);

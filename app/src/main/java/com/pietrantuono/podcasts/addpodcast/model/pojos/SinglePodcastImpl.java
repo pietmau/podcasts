@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-public class SinglePodcastImpl implements Parcelable, SinglePodcast {
+public class SinglePodcastImpl implements SinglePodcast {
 
     @SerializedName("wrapperType")
     @Expose
@@ -650,6 +650,7 @@ public class SinglePodcastImpl implements Parcelable, SinglePodcast {
      * @return
      *     The primaryGenreName
      */
+    @Override
     public String getPrimaryGenreName() {
         return primaryGenreName;
     }
@@ -686,6 +687,7 @@ public class SinglePodcastImpl implements Parcelable, SinglePodcast {
      * @return
      *     The artworkUrl600
      */
+    @Override
     public String getArtworkUrl600() {
         return artworkUrl600;
     }

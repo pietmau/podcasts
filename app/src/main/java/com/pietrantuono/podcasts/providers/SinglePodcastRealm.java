@@ -679,11 +679,165 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
 
-    public RealmList<PodcastEpisodeModel> getEpisodes() {
+    public RealmList<RealmPodcastEpisodeModel> getEpisodes() {
         return episodes;
     }
 
     public void setEpisodes(RealmList<RealmPodcastEpisodeModel> episodes) {
         this.episodes = episodes;
     }
+
+    private SinglePodcastRealm(Parcel in) {
+        wrapperType = in.readString();
+        kind = in.readString();
+        collectionId = in.readByte() == 0x00 ? null : in.readInt();
+        trackId = in.readByte() == 0x00 ? null : in.readInt();
+        artistName = in.readString();
+        collectionName = in.readString();
+        trackName = in.readString();
+        collectionCensoredName = in.readString();
+        trackCensoredName = in.readString();
+        collectionViewUrl = in.readString();
+        feedUrl = in.readString();
+        trackViewUrl = in.readString();
+        artworkUrl30 = in.readString();
+        artworkUrl60 = in.readString();
+        artworkUrl100 = in.readString();
+        collectionPrice = in.readByte() == 0x00 ? null : in.readDouble();
+        trackPrice = in.readByte() == 0x00 ? null : in.readDouble();
+        trackRentalPrice = in.readByte() == 0x00 ? null : in.readInt();
+        collectionHdPrice = in.readByte() == 0x00 ? null : in.readInt();
+        trackHdPrice = in.readByte() == 0x00 ? null : in.readInt();
+        trackHdRentalPrice = in.readByte() == 0x00 ? null : in.readInt();
+        releaseDate = in.readString();
+        collectionExplicitness = in.readString();
+        trackExplicitness = in.readString();
+        trackCount = in.readByte() == 0x00 ? null : in.readInt();
+        country = in.readString();
+        currency = in.readString();
+        primaryGenreName = in.readString();
+        contentAdvisoryRating = in.readString();
+        artworkUrl600 = in.readString();
+        if (in.readByte() == 0x01) {
+            genreIds = new ArrayList<String>();
+            in.readList(genreIds, String.class.getClassLoader());
+        } else {
+            genreIds = null;
+        }
+        if (in.readByte() == 0x01) {
+            genres = new ArrayList<String>();
+            in.readList(genres, String.class.getClassLoader());
+        } else {
+            genres = null;
+        }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(wrapperType);
+        dest.writeString(kind);
+        if (collectionId == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(collectionId);
+        }
+        if (trackId == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(trackId);
+        }
+        dest.writeString(artistName);
+        dest.writeString(collectionName);
+        dest.writeString(trackName);
+        dest.writeString(collectionCensoredName);
+        dest.writeString(trackCensoredName);
+        dest.writeString(collectionViewUrl);
+        dest.writeString(feedUrl);
+        dest.writeString(trackViewUrl);
+        dest.writeString(artworkUrl30);
+        dest.writeString(artworkUrl60);
+        dest.writeString(artworkUrl100);
+        if (collectionPrice == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(collectionPrice);
+        }
+        if (trackPrice == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(trackPrice);
+        }
+        if (trackRentalPrice == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(trackRentalPrice);
+        }
+        if (collectionHdPrice == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(collectionHdPrice);
+        }
+        if (trackHdPrice == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(trackHdPrice);
+        }
+        if (trackHdRentalPrice == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(trackHdRentalPrice);
+        }
+        dest.writeString(releaseDate);
+        dest.writeString(collectionExplicitness);
+        dest.writeString(trackExplicitness);
+        if (trackCount == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(trackCount);
+        }
+        dest.writeString(country);
+        dest.writeString(currency);
+        dest.writeString(primaryGenreName);
+        dest.writeString(contentAdvisoryRating);
+        dest.writeString(artworkUrl600);
+        if (genreIds == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(genreIds);
+        }
+        if (genres == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(genres);
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<SinglePodcast> CREATOR = new Parcelable.Creator<SinglePodcast>() {
+        @Override
+        public SinglePodcast createFromParcel(Parcel in) {
+            return new SinglePodcastRealm(in);
+        }
+
+        @Override
+        public SinglePodcast[] newArray(int size) {
+            return new SinglePodcast[size];
+        }
+    };
 }

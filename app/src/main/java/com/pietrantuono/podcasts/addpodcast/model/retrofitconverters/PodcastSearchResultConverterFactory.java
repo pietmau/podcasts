@@ -2,6 +2,7 @@ package com.pietrantuono.podcasts.addpodcast.model.retrofitconverters;
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.PodcastSearchResultEnvelope;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcastImpl;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -50,7 +51,7 @@ public class PodcastSearchResultConverterFactory extends Converter.Factory {
     }
 
 
-    private class PodcastSearchResultConverter<T> implements Converter<ResponseBody, List<SinglePodcast>> {
+    private class PodcastSearchResultConverter<T> implements Converter<ResponseBody, List<SinglePodcastImpl>> {
 
         private final Converter<ResponseBody, PodcastSearchResultEnvelope> gsonConverter;
 
@@ -59,7 +60,7 @@ public class PodcastSearchResultConverterFactory extends Converter.Factory {
         }
 
         @Override
-        public List<SinglePodcast> convert(ResponseBody value) throws IOException {
+        public List<SinglePodcastImpl> convert(ResponseBody value) throws IOException {
             PodcastSearchResultEnvelope envelope = gsonConverter.convert(value);
             return envelope.getResults();
         }

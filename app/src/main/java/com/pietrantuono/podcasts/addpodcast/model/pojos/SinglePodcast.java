@@ -1,6 +1,8 @@
 package com.pietrantuono.podcasts.addpodcast.model.pojos;
 
-public interface SinglePodcast {
+import android.os.Parcelable;
+
+public interface SinglePodcast extends Parcelable {
     String getWrapperType();
 
     void setWrapperType(String wrapperType);
@@ -102,4 +104,8 @@ public interface SinglePodcast {
     void setTrackCount(Integer trackCount);
 
     String getCountry();
+
+    String getPrimaryGenreName();
+
+    String getArtworkUrl600();
 }

@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts.addpodcast.model;
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcastImpl;
 
 import java.util.List;
 import java.util.Map;

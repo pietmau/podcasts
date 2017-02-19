@@ -20,10 +20,10 @@ public interface AddPodcastView {
 
     void onQueryTextChange(String newText);
 
-    void startDetailActivityWithTransition(SinglePodcastImpl singlePodcast, ImageView imageView);
+    void startDetailActivityWithTransition(SinglePodcast singlePodcast, ImageView imageView);
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    void startDetailActivityWithoutTransition(SinglePodcastImpl singlePodcast);
+    void startDetailActivityWithoutTransition(SinglePodcast singlePodcast);
 
 
     boolean isPartiallyHidden(int imageView);

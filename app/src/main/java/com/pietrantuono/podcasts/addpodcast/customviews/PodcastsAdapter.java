@@ -62,7 +62,7 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
     }
 
     private void prefetch(List<SinglePodcast> items) {
-        for (SinglePodcastImpl item : items) {
+        for (SinglePodcast item : items) {
             imageLoader.loadImage(item.getArtworkUrl600());
         }
     }
@@ -89,6 +89,6 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
     }
 
     public interface OnItemClickedClickedListener {
-        void onItemClicked(SinglePodcastImpl singlePodcast, ImageView imageView, int position);
+        void onItemClicked(SinglePodcast singlePodcast, ImageView imageView, int position);
     }
 }

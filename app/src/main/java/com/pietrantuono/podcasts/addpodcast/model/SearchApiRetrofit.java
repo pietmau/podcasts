@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts.addpodcast.model;
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcastImpl;
 import com.pietrantuono.podcasts.addpodcast.model.retrofitconverters.PodcastSearchResultConverterFactory;
 
 import java.util.List;
