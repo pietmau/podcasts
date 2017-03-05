@@ -15,13 +15,17 @@
         >
 
         <android.support.design.widget.CollapsingToolbarLayout
+            xmlns:tools="http://schemas.android.com/tools"
+            app:contentScrim="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
-            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
+            tools:showIn="@layout/activity_podcast"
+            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed|exitUntilCollapsed">
 
             <ImageView
                 android:id="@+id/main_image"
