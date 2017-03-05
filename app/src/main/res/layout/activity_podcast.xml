@@ -21,7 +21,7 @@
             android:fitsSystemWindows="true"
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
-            app:layout_scrollFlags="scroll|enterAlways">
+            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
 
             <ImageView
                 android:id="@+id/main_image"
@@ -42,7 +42,6 @@
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
-
 
         <com.pietrantuono.podcasts.singlepodcast.customviews.EpisodesRecycler
             android:id="@+id/recycler"
