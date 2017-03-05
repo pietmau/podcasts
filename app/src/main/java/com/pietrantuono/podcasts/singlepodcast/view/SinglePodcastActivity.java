@@ -5,12 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.pietrantuono.podcasts.PresenterManager;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcastImpl;
 import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader;
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule;
@@ -33,6 +34,7 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.main_image) ImageView imageView;
     @BindView(R.id.recycler) EpisodesRecycler recyclerView;
+    @BindView(R.id.progress) ProgressBar progressBar;
     @Inject TransitionsFramework transitionsFramework;
     @Inject SimpleImageLoader imageLoader;
     @Inject SinglePodcastPresenter presenter;
@@ -100,6 +102,16 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
         super.onDestroy();
         presenter.onDestroy();
     }
+
+    @Override
+    public void showProgress(boolean show) {
+        if (show) {
+            progressBar.setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.GONE);
+        }
+    }
+
 
     @Override
     public Object onRetainCustomNonConfigurationInstance() {

@@ -10,6 +10,8 @@ public interface SinglePodcastView {
 
     void enterWithoutTransition();
 
+    void showProgress(boolean show);
+
     void setEpisodes(List<PodcastEpisodeModel> episodes);
 
     void exitWithSharedTrsnsition();

@@ -12,7 +12,7 @@ import rx.Observer;
 
 public class SinglePodcastPresenter implements GenericPresenter {
     public static final String TAG = (SinglePodcastPresenter.class).getSimpleName();
-    private SinglePodcastView singlePodcastView;
+    private SinglePodcastView view;
     private final SinglePodcastModel model;
     private PodcastFeed podcastFeed;
     private final CrashlyticsWrapper crashlyticsWrapper;
@@ -25,7 +25,7 @@ public class SinglePodcastPresenter implements GenericPresenter {
 
     @Override
     public void onDestroy() {
-        singlePodcastView = null;
+        view = null;
     }
 
     @Override
@@ -38,11 +38,13 @@ public class SinglePodcastPresenter implements GenericPresenter {
         model.subscribe(new Observer<PodcastFeed>() {
             @Override
             public void onCompleted() {
+                view.showProgress(false);
             }
 
             @Override
             public void onError(Throwable e) {
                 crashlyticsWrapper.logException(e);
+                view.showProgress(false);
             }
 
             @Override
@@ -56,7 +58,7 @@ public class SinglePodcastPresenter implements GenericPresenter {
     }
 
     public void bindView(SinglePodcastView view) {
-        singlePodcastView = view;
+        this.view = view;
         setEpisodes();
     }
 
@@ -66,25 +68,24 @@ public class SinglePodcastPresenter implements GenericPresenter {
             model.getFeed(podcast.getFeedUrl());
         }
         if (startedWithTransition) {
-            singlePodcastView.enterWithTransition();
+            view.enterWithTransition();
         } else {
-            singlePodcastView.enterWithoutTransition();
+            view.enterWithoutTransition();
         }
     }
 
     private void setEpisodes() {
-        if (singlePodcastView == null || podcastFeed == null) {
+        if (view == null || podcastFeed == null) {
             return;
         }
-        singlePodcastView.setEpisodes(podcastFeed.getEpisodes());
+        view.setEpisodes(podcastFeed.getEpisodes());
     }
 
     public void onBackPressed() {
-        if(startedWithTransition){
-            singlePodcastView.exitWithSharedTrsnsition();
-        }
-        else {
-            singlePodcastView.exitWithoutSharedTransition();
+        if (startedWithTransition) {
+            view.exitWithSharedTrsnsition();
+        } else {
+            view.exitWithoutSharedTransition();
         }
     }
 }
