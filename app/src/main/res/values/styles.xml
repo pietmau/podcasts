@@ -42,5 +42,14 @@
         <item name="android:textSize">@dimen/BigTextSize</item>
     </style>
 
+    <style name="actionbar_textview">
+        <item name="android:paddingRight">@dimen/actionbar_textview_padding_right</item>
+        <item name="android:drawablePadding">@dimen/actionbar_textview_drawable_padding</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
 
 </resources>

@@ -4,6 +4,7 @@
 
     <item android:id="@+id/ff"
           android:title="Subscribe"
+          android:icon="@drawable/add_circle"
           app:showAsAction="always|withText"/>
 
 </menu>
