@@ -12,6 +12,7 @@
         android:theme="@style/TransparentToolbarTheme">
 
         <activity
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="sensor"
             android:name=".main.view.MainActivity">
             <intent-filter>
