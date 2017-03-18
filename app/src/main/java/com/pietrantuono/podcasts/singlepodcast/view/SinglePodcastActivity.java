@@ -37,7 +37,7 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
     @BindView(R.id.main_image) ImageView imageView;
     @BindView(R.id.recycler) EpisodesRecycler recyclerView;
     @BindView(R.id.progress) ProgressBar progressBar;
-    @BindView(R.id.subscribeunsubscribe) TextView subscribe;
+    @BindView(R.id.subscribeunsubscribe) TextView subscribeUnsubscribeText;
     @Inject TransitionsFramework transitionsFramework;
     @Inject SimpleImageLoader imageLoader;
     @Inject SinglePodcastPresenter presenter;
@@ -115,8 +115,8 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
     }
 
     @OnClick(R.id.subscribeunsubscribe)
-    public void onSubscribeUnsubscribeClicked(){
-        presenter.onSubscribeUnsubscribeClicked();
+    public void onSubscribeUnsubscribeClicked() {
+        presenter.onSubscribeUnsubscribeToPodcastClicked();
     }
 
     @Override
@@ -155,7 +155,13 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
     }
 
     @Override
-    public void setSubscribed(Boolean isSubscribed) {
-
+    public void setSubscribedToPodcast(Boolean isSubscribed) {
+        if (isSubscribed) {
+            subscribeUnsubscribeText.setText(R.string.unsubscribe);
+            subscribeUnsubscribeText.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_cancel_, 0, 0, 0);
+        } else {
+            subscribeUnsubscribeText.setText(R.string.subscribe);
+            subscribeUnsubscribeText.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.add_circle, 0, 0, 0);
+        }
     }
 }

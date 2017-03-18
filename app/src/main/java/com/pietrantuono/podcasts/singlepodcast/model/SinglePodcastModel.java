@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts.singlepodcast.model;
 
 
+import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.apis.PodcastFeed;
 
 import rx.Observer;
@@ -13,7 +14,13 @@ public interface SinglePodcastModel {
 
     void getFeed(String url);
 
-    void getIsSubscribed(Integer trackId);
+    void getIsSubscribedToPodcast(Integer trackId);
 
-    void subscribeToIsSubscribed(Observer<Boolean> observer);
+    void subscribeToIsSubscribedToPodcast(Observer<Boolean> observer);
+
+    void setSubscribedToPodcast(boolean isSubscribed);
+
+    boolean isSubscribedToPodcasat();
+
+    void actuallySubscribesToPodcast(SinglePodcast singlePodcast);
 }

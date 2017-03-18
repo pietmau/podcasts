@@ -18,5 +18,5 @@ public interface SinglePodcastView {
 
     void exitWithoutSharedTransition();
 
-    void setSubscribed(Boolean isSubscribed);
+    void setSubscribedToPodcast(Boolean isSubscribed);
 }

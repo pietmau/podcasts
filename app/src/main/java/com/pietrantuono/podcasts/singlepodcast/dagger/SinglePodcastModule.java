@@ -9,7 +9,6 @@ import com.pietrantuono.interfaceadapters.apis.SinglePodcastApiRetrofit;
 import com.pietrantuono.podcasts.ImageParser;
 import com.pietrantuono.podcasts.PodcastEpisodeParser;
 import com.pietrantuono.podcasts.PresenterManager;
-import com.pietrantuono.podcasts.singlepodcast.model.PodcastSchedulers;
 import com.pietrantuono.podcasts.singlepodcast.model.RealmRepository;
 import com.pietrantuono.podcasts.singlepodcast.model.Repository;
 import com.pietrantuono.podcasts.singlepodcast.model.SinglePodcastModel;
@@ -55,7 +54,7 @@ public class SinglePodcastModule {
 
     @Provides
     SinglePodcastModel provideSinglePodcastModel(SinglePodcastApi api, Repository repository){
-        return new SinglePodcastModelImpl(api, repository, new PodcastSchedulers());
+        return new SinglePodcastModelImpl(api, repository);
     }
 
     @Provides

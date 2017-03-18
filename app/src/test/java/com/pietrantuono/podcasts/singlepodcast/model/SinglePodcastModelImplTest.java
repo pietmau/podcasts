@@ -26,13 +26,13 @@ public class SinglePodcastModelImplTest {
 
     @Before
     public void setUp() throws Exception {
-        model = new SinglePodcastModelImpl(api, repository, new TestPodcastScheduler());
+        model = new SinglePodcastModelImpl(api, repository);
     }
 
     @Test
     public void when_getIsSubscribed_then_getsIfSubscribed() {
         //WHEN
-        model.getIsSubscribed(TRACK_ID);
+        model.getIsSubscribedToPodcast(TRACK_ID);
         //THEN
         verify(repository).getIfSubscribed(TRACK_ID);
     }
@@ -41,10 +41,10 @@ public class SinglePodcastModelImplTest {
     public void when_subscribesToIsSubscribed_then_subscribes() {
         //GIVEN
         when(repository.getIfSubscribed(TRACK_ID)).thenReturn(Observable.just(true));
-        model.getIsSubscribed(TRACK_ID);
+        model.getIsSubscribedToPodcast(TRACK_ID);
         //WHEN
         TestObserver<Boolean> ifSubscribedObserver = new TestObserver<>();
-        model.subscribeToIsSubscribed(ifSubscribedObserver);
+        model.subscribeToIsSubscribedToPodcast(ifSubscribedObserver);
         //THEN
         List<Boolean> result = new ArrayList<>();
         result.add(true);

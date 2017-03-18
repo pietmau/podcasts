@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts.singlepodcast.model;
 
 import com.pietrantuono.interfaceadapters.apis.SinglePodcastApi;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.apis.PodcastFeed;
 
 import rx.Observable;
@@ -17,13 +18,11 @@ public class SinglePodcastModelImpl implements SinglePodcastModel {
     private Observable<PodcastFeed> podcastFeedObservable;
     private final CompositeSubscription compositeSubscription = new CompositeSubscription();
     private Observable<Boolean> isSubscribedObservable;
-    private final PodcastSchedulers podcastSchedulers;
+    private boolean isSubscribed;
 
-    public SinglePodcastModelImpl(SinglePodcastApi singlePodcastApi, Repository repository,
-                                  PodcastSchedulers podcastSchedulers) {
+    public SinglePodcastModelImpl(SinglePodcastApi singlePodcastApi, Repository repository) {
         this.singlePodcastApi = singlePodcastApi;
         this.repository = repository;
-        this.podcastSchedulers = podcastSchedulers;
     }
 
     @Override
@@ -34,9 +33,14 @@ public class SinglePodcastModelImpl implements SinglePodcastModel {
     }
 
     @Override
-    public void subscribeToIsSubscribed(Observer<Boolean> isSubscribedObserver) {
+    public void subscribeToIsSubscribedToPodcast(Observer<Boolean> isSubscribedObserver) {
         Subscription subscription = isSubscribedObservable.cache().subscribe(isSubscribedObserver);
         compositeSubscription.add(subscription);
+    }
+
+    @Override
+    public void setSubscribedToPodcast(boolean isSubscribed) {
+        this.isSubscribed=isSubscribed;
     }
 
     @Override
@@ -50,8 +54,17 @@ public class SinglePodcastModelImpl implements SinglePodcastModel {
     }
 
     @Override
-    public void getIsSubscribed(Integer trackId) {
+    public void getIsSubscribedToPodcast(Integer trackId) {
         isSubscribedObservable = repository.getIfSubscribed(trackId);
     }
 
+    @Override
+    public boolean isSubscribedToPodcasat() {
+        return isSubscribed;
+    }
+
+    @Override
+    public void actuallySubscribesToPodcast(SinglePodcast singlePodcast) {
+
+    }
 }

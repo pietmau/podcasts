@@ -55,10 +55,11 @@ public class SinglePodcastPresenter implements GenericPresenter {
                 }
             }
         });
-        model.subscribeToIsSubscribed(new SimpleObserver<Boolean>() {
+        model.subscribeToIsSubscribedToPodcast(new SimpleObserver<Boolean>() {
             @Override
-            public void onNext(Boolean isSubscribed) {
-                view.setSubscribed(isSubscribed);
+            public void onNext(Boolean isSubscribedToPodcast) {
+                view.setSubscribedToPodcast(isSubscribedToPodcast);
+                model.setSubscribedToPodcast(true);
             }
         });
     }
@@ -72,8 +73,8 @@ public class SinglePodcastPresenter implements GenericPresenter {
         this.startedWithTransition = startedWithTransition;
         if (podcast != null) {
             model.getFeed(podcast.getFeedUrl());
-            model.getIsSubscribed(podcast.getTrackId());
         }
+        model.getIsSubscribedToPodcast(podcast.getTrackId());
         if (startedWithTransition) {
             view.enterWithTransition();
         } else {
@@ -96,7 +97,9 @@ public class SinglePodcastPresenter implements GenericPresenter {
         }
     }
 
-    public void onSubscribeUnsubscribeClicked() {
-
+    public void onSubscribeUnsubscribeToPodcastClicked() {
+        if (model.isSubscribedToPodcasat()) {
+        } else {
+        }
     }
 }
