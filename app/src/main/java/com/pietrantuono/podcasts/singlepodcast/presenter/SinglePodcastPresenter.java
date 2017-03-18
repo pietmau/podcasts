@@ -55,23 +55,12 @@ public class SinglePodcastPresenter implements GenericPresenter {
                 }
             }
         });
-        model.subscribeToIsSubscribed(new Observer<Boolean>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
+        model.subscribeToIsSubscribed(new SimpleObserver<Boolean>() {
             @Override
             public void onNext(Boolean isSubscribed) {
                 view.setSubscribed(isSubscribed);
             }
         });
-
     }
 
     public void bindView(SinglePodcastView view) {

@@ -2,7 +2,6 @@ package com.pietrantuono.podcasts.apis;
 
 import com.rometools.rome.feed.synd.SyndEnclosure;
 
-import java.net.URL;
 import java.util.Date;
 import java.util.List;
 
@@ -28,5 +27,5 @@ public interface PodcastEpisodeModel {
 
     String getDescription();
 
-    List<SyndEnclosure> getEnclosures();
+    List<? extends SyndEnclosure> getEnclosures();
 }

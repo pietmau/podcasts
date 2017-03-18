@@ -35,8 +35,7 @@ public class SinglePodcastModelImpl implements SinglePodcastModel {
 
     @Override
     public void subscribeToIsSubscribed(Observer<Boolean> isSubscribedObserver) {
-        Subscription subscription = isSubscribedObservable.subscribeOn(podcastSchedulers.newThread())
-                .observeOn(podcastSchedulers.mainThread()).cache().subscribe(isSubscribedObserver);
+        Subscription subscription = isSubscribedObservable.cache().subscribe(isSubscribedObserver);
         compositeSubscription.add(subscription);
     }
 

@@ -46,6 +46,9 @@ public class SinglePodcastRealm extends RealmObject implements SinglePodcast {
     private RealmList<RealmString> genres = null;
     private RealmList<RealmPodcastEpisodeModel> episodes;
 
+    public SinglePodcastRealm() {
+    }
+
     /**
      * @return The wrapperType
      */

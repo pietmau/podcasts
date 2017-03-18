@@ -5,6 +5,7 @@ import com.pietrantuono.podcasts.providers.SinglePodcastRealm;
 
 import io.realm.Realm;
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class RealmRepository implements Repository {
 
@@ -16,8 +17,8 @@ public class RealmRepository implements Repository {
                 .equalTo("trackId", trackId)
                 .findFirstAsync()
                 .asObservable()
-                .map(x -> x != null);
-        realm.close();
+                .map(x -> x.isValid())
+                .observeOn(AndroidSchedulers.mainThread());
         return observable;
     }
 }

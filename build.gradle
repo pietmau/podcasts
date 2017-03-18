@@ -6,15 +6,12 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.3'
-        // Dagger
+        // Apt
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         // Hugo
         classpath 'com.jakewharton.hugo:hugo-plugin:1.2.1'
-
         // Realm
-        classpath "io.realm:realm-gradle-plugin:2.2.2"
-
-
+        classpath "io.realm:realm-gradle-plugin:3.0.0"
     }
 }
 

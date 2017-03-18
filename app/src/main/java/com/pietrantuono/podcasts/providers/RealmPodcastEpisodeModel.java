@@ -1,25 +1,30 @@
 package com.pietrantuono.podcasts.providers;
 
 import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
+import com.pietrantuono.podcasts.singlepodcast.model.SimpleEnclosure;
 import com.rometools.rome.feed.synd.SyndEnclosure;
 
 import java.util.Date;
 import java.util.List;
 
-import io.realm.RealmModel;
+import io.realm.RealmList;
+import io.realm.RealmObject;
 
-public class RealmPodcastEpisodeModel implements PodcastEpisodeModel, RealmModel {
+public class RealmPodcastEpisodeModel extends RealmObject implements PodcastEpisodeModel {
     private String duration;
     private String author;
     private boolean isExplicit;
     private String imageUrl;
-    private List<String> keywords;
+    private RealmList<RealmString> keywords;
     private String subtitle;
     private String summary;
     private Date pubDate;
     private String title;
     private String description;
-    private List<SyndEnclosure> syndEnclosures;
+    private RealmList<SimpleEnclosure> syndEnclosures;
+
+    public RealmPodcastEpisodeModel() {
+    }
 
     @Override
     public String getDuration() {
@@ -43,7 +48,7 @@ public class RealmPodcastEpisodeModel implements PodcastEpisodeModel, RealmModel
 
     @Override
     public List<String> getKeywords() {
-        return keywords;
+        return RealmUtlis.toStringList(keywords);
     }
 
     @Override
@@ -72,7 +77,7 @@ public class RealmPodcastEpisodeModel implements PodcastEpisodeModel, RealmModel
     }
 
     @Override
-    public List<SyndEnclosure> getEnclosures() {
+    public List<? extends SyndEnclosure> getEnclosures() {
         return syndEnclosures;
     }
 }

@@ -1,6 +1,9 @@
 package com.pietrantuono.podcasts.providers;
 
 
+import com.pietrantuono.podcasts.singlepodcast.model.SimpleEnclosure;
+import com.rometools.rome.feed.synd.SyndEnclosure;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,5 +25,9 @@ public class RealmUtlis {
             realmStrings.add(new RealmString(s));
         }
         return realmStrings;
+    }
+
+    public static List<SyndEnclosure> toEnclosureList(List<SimpleEnclosure> syndEnclosures) {
+        return null;
     }
 }

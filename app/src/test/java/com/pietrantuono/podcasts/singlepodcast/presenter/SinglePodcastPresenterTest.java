@@ -8,6 +8,8 @@ import com.pietrantuono.podcasts.singlepodcast.view.SinglePodcastView;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -23,11 +25,11 @@ public class SinglePodcastPresenterTest {
     @Mock SinglePodcastModel model;
     @Mock CrashlyticsWrapper crashlyticsWrapper;
     @InjectMocks SinglePodcastPresenter presenter;
+    @Captor ArgumentCaptor<Observer<Boolean>> captor;
 
     @Before
     public void setUp() throws Exception {
-
-
+        presenter.bindView(view);
     }
 
     @Test
@@ -44,5 +46,15 @@ public class SinglePodcastPresenterTest {
         presenter.onPause();
         // THEN
         verify(model).unsubscribe();
+    }
+
+    @Test
+    public void when_subscribed_then_setsSubscribed() {
+        //WHEN
+        presenter.onResume();
+        verify(model).subscribeToIsSubscribed(captor.capture());
+        captor.getValue().onNext(true);
+        //THEN
+        verify(view).setSubscribed(true);
     }
 }

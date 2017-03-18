@@ -1,12 +1,18 @@
-package com.pietrantuono.podcasts.apis;
+package com.pietrantuono.podcasts.singlepodcast.model;
 
 import com.rometools.rome.feed.CopyFrom;
 import com.rometools.rome.feed.synd.SyndEnclosure;
 
-public class SimpleEnclosure implements SyndEnclosure {
+import io.realm.RealmObject;
+
+public class SimpleEnclosure extends RealmObject implements SyndEnclosure  {
+    private int unused;
 
     public SimpleEnclosure(SyndEnclosure syndEnclosure) {
 
+    }
+
+    public SimpleEnclosure() {
     }
 
     @Override

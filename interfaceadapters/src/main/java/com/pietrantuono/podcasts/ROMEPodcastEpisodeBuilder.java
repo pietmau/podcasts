@@ -1,9 +1,7 @@
 package com.pietrantuono.podcasts;
 
-import com.pietrantuono.podcasts.apis.SimpleEnclosure;
 import com.rometools.rome.feed.synd.SyndEnclosure;
 
-import java.net.URL;
 import java.util.Date;
 import java.util.List;
 

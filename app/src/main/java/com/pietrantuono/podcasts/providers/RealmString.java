@@ -6,7 +6,11 @@ import android.os.Parcelable;
 import io.realm.RealmObject;
 
 public class RealmString extends RealmObject implements Parcelable {
-    private final String string;
+    private String string;
+
+    public RealmString() {
+
+    }
 
     public RealmString(String string) {
         this.string = string;

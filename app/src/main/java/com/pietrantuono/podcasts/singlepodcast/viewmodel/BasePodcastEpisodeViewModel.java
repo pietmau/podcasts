@@ -1,6 +1,5 @@
 package com.pietrantuono.podcasts.singlepodcast.viewmodel;
 
-import android.content.Context;
 import android.support.annotation.Nullable;
 
 import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
@@ -78,7 +77,7 @@ public class BasePodcastEpisodeViewModel implements PodcastEpisodeModel {
 
     @Nullable
     @Override
-    public List<SyndEnclosure> getEnclosures() {
+    public List<? extends SyndEnclosure> getEnclosures() {
         return podcastEpisodeModel.getEnclosures();
     }
 
