@@ -11,6 +11,7 @@ import rx.android.schedulers.AndroidSchedulers;
 
 public class RealmRepository implements Repository {
     Realm realm = Realm.getDefaultInstance();
+    int count;
 
     @Override
     public Observable<Boolean> getIfSubscribed(Integer trackId) {
@@ -22,11 +23,6 @@ public class RealmRepository implements Repository {
                 .asObservable()
                 .map(x -> x.isValid())
                 .observeOn(AndroidSchedulers.mainThread());
-
-        SinglePodcastRealm zz = realm.where(SinglePodcastRealm.class)
-                .equalTo("trackId", trackId)
-                .findFirst();
-
         return observable;
     }
 
