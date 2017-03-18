@@ -538,7 +538,7 @@ public class SinglePodcastRealm extends RealmObject implements SinglePodcast {
      * @return The genres
      */
     public List<String> getGenres() {
-        return RealmUtlis.toStringList(genreIds);
+        return RealmUtlis.toStringList(genres);
     }
 
     /**
@@ -583,7 +583,6 @@ public class SinglePodcastRealm extends RealmObject implements SinglePodcast {
             throw new UnsupportedOperationException("Not supported");
         }
     };
-
 
 
 }

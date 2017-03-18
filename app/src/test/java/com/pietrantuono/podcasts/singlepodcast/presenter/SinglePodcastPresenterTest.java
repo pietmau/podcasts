@@ -7,7 +7,6 @@ import com.pietrantuono.podcasts.singlepodcast.model.SinglePodcastModel;
 import com.pietrantuono.podcasts.singlepodcast.view.SinglePodcastView;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -82,7 +81,6 @@ public class SinglePodcastPresenterTest {
         verify(model).setSubscribedToPodcast(true);
     }
 
-    @Ignore
     @Test
     public void when_subscribeToPodcastIspressed_andIsNotSubascibedToPodcast_then_subscribesToPodcast() {
         //GIVEN
@@ -90,7 +88,7 @@ public class SinglePodcastPresenterTest {
         //WHEN
         presenter.onSubscribeUnsubscribeToPodcastClicked();
         //THEN
-        verify(model).actuallySubscribesToPodcast(isA(SinglePodcast.class));
+        verify(model).actuallySubscribesToPodcast();
     }
 
     @Test

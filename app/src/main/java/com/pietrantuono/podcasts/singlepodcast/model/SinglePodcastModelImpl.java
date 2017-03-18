@@ -19,10 +19,20 @@ public class SinglePodcastModelImpl implements SinglePodcastModel {
     private final CompositeSubscription compositeSubscription = new CompositeSubscription();
     private Observable<Boolean> isSubscribedToPodcastObservable;
     private boolean isSubscribed;
+    private SinglePodcast podcast;
 
     public SinglePodcastModelImpl(SinglePodcastApi singlePodcastApi, Repository repository) {
         this.singlePodcastApi = singlePodcastApi;
         this.repository = repository;
+    }
+
+    @Override
+    public void init(SinglePodcast podcast) {
+        this.podcast=podcast;
+        if (podcast != null) {
+            getFeed(podcast.getFeedUrl());
+            getIsSubscribedToPodcast(podcast.getTrackId());
+        }
     }
 
     @Override
@@ -34,7 +44,7 @@ public class SinglePodcastModelImpl implements SinglePodcastModel {
 
     @Override
     public void subscribeToIsSubscribedToPodcast(Observer<Boolean> isSubscribedObserver) {
-        Subscription subscription = isSubscribedToPodcastObservable.cache().subscribe(isSubscribedObserver);
+        Subscription subscription = isSubscribedToPodcastObservable.subscribe(isSubscribedObserver);
         compositeSubscription.add(subscription);
     }
 
@@ -63,15 +73,9 @@ public class SinglePodcastModelImpl implements SinglePodcastModel {
     }
 
     @Override
-    public void actuallySubscribesToPodcast(SinglePodcast singlePodcast) {
-
+    public void actuallySubscribesToPodcast() {
+        repository.actuallySubscribesToPodcast(podcast);
     }
 
-    @Override
-    public void init(SinglePodcast podcast) {
-        if (podcast != null) {
-            getFeed(podcast.getFeedUrl());
-            getIsSubscribedToPodcast(podcast.getTrackId());
-        }
-    }
+
 }

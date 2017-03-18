@@ -65,4 +65,11 @@ public class SinglePodcastModelImplTest {
         verify(repository).getIfSubscribed(TRACK_ID);
     }
 
+    @Test
+    public void when_actuallySubscribes_then_repositorySubscribes() {
+        //WHEN
+        model.actuallySubscribesToPodcast();
+        //THEN
+        verify(repository).actuallySubscribesToPodcast(singlePodcast);
+    }
 }

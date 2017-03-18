@@ -59,7 +59,7 @@ public class SinglePodcastPresenter implements GenericPresenter {
             @Override
             public void onNext(Boolean isSubscribedToPodcast) {
                 view.setSubscribedToPodcast(isSubscribedToPodcast);
-                model.setSubscribedToPodcast(true);
+                model.setSubscribedToPodcast(isSubscribedToPodcast);
             }
         });
     }
@@ -96,7 +96,9 @@ public class SinglePodcastPresenter implements GenericPresenter {
 
     public void onSubscribeUnsubscribeToPodcastClicked() {
         if (model.isSubscribedToPodcasat()) {
+
         } else {
+            model.actuallySubscribesToPodcast();
         }
     }
 }

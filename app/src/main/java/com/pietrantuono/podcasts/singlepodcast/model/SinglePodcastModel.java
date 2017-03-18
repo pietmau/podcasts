@@ -18,7 +18,7 @@ public interface SinglePodcastModel {
 
     boolean isSubscribedToPodcasat();
 
-    void actuallySubscribesToPodcast(SinglePodcast singlePodcast);
+    void actuallySubscribesToPodcast();
 
     void init(SinglePodcast podcast);
 }

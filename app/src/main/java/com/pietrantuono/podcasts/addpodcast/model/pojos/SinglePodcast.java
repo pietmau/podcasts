@@ -2,6 +2,8 @@ package com.pietrantuono.podcasts.addpodcast.model.pojos;
 
 import android.os.Parcelable;
 
+import java.util.List;
+
 public interface SinglePodcast extends Parcelable {
     String getWrapperType();
 
@@ -105,7 +107,15 @@ public interface SinglePodcast extends Parcelable {
 
     String getCountry();
 
+    String getCurrency();
+
     String getPrimaryGenreName();
 
+    String getContentAdvisoryRating();
+
     String getArtworkUrl600();
+
+    List<String> getGenreIds();
+
+    List<String> getGenres();
 }

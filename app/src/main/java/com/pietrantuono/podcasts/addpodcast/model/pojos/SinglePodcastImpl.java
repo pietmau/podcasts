@@ -4,10 +4,11 @@ package com.pietrantuono.podcasts.addpodcast.model.pojos;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
+import java.util.List;
 public class SinglePodcastImpl implements SinglePodcast {
 
     @SerializedName("wrapperType")
@@ -632,6 +633,7 @@ public class SinglePodcastImpl implements SinglePodcast {
      * @return
      *     The currency
      */
+    @Override
     public String getCurrency() {
         return currency;
     }
@@ -669,6 +671,7 @@ public class SinglePodcastImpl implements SinglePodcast {
      * @return
      *     The contentAdvisoryRating
      */
+    @Override
     public String getContentAdvisoryRating() {
         return contentAdvisoryRating;
     }
@@ -706,6 +709,7 @@ public class SinglePodcastImpl implements SinglePodcast {
      * @return
      *     The genreIds
      */
+    @Override
     public List<String> getGenreIds() {
         return genreIds;
     }
@@ -724,6 +728,7 @@ public class SinglePodcastImpl implements SinglePodcast {
      * @return
      *     The genres
      */
+    @Override
     public List<String> getGenres() {
         return genres;
     }
@@ -736,6 +741,8 @@ public class SinglePodcastImpl implements SinglePodcast {
     public void setGenres(List<String> genres) {
         this.genres = genres;
     }
+
+
 
     public String getGenresAsString() {
         StringBuilder stringBuilder = new StringBuilder();
