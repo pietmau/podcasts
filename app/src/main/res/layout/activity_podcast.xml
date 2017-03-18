@@ -22,7 +22,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/subscribe"
+                android:id="@+id/subscribeunsubscribe"
                 style="@style/actionbar_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -77,7 +77,7 @@
             android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/subscribe"
+            android:layout_below="@+id/subscribeunsubscribe"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             >
         </com.pietrantuono.podcasts.singlepodcast.customviews.EpisodesRecycler>

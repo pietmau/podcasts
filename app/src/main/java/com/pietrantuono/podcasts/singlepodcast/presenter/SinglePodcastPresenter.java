@@ -35,7 +35,7 @@ public class SinglePodcastPresenter implements GenericPresenter {
 
     @Override
     public void onResume() {
-        model.subscribe(new Observer<PodcastFeed>() {
+        model.subscribeToFeed(new Observer<PodcastFeed>() {
             @Override
             public void onCompleted() {
                 view.showProgress(false);
@@ -55,6 +55,23 @@ public class SinglePodcastPresenter implements GenericPresenter {
                 }
             }
         });
+        model.subscribeToIsSubscribed(new Observer<Boolean>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Boolean isSubscribed) {
+                view.setSubscribed(isSubscribed);
+            }
+        });
+
     }
 
     public void bindView(SinglePodcastView view) {
@@ -66,6 +83,7 @@ public class SinglePodcastPresenter implements GenericPresenter {
         this.startedWithTransition = startedWithTransition;
         if (podcast != null) {
             model.getFeed(podcast.getFeedUrl());
+            model.getIsSubscribed(podcast.getTrackId());
         }
         if (startedWithTransition) {
             view.enterWithTransition();
@@ -87,5 +105,9 @@ public class SinglePodcastPresenter implements GenericPresenter {
         } else {
             view.exitWithoutSharedTransition();
         }
+    }
+
+    public void onSubscribeUnsubscribeClicked() {
+
     }
 }

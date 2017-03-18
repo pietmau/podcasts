@@ -35,7 +35,7 @@ public class SinglePodcastPresenterTest {
         // WHEN
         presenter.onResume();
         // THEN
-        verify(model).subscribe(isA(Observer.class));
+        verify(model).subscribeToFeed(isA(Observer.class));
     }
 
     @Test

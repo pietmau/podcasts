@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.pietrantuono.podcasts.PresenterManager;
 import com.pietrantuono.podcasts.R;
@@ -27,6 +28,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class SinglePodcastActivity extends AppCompatActivity implements SinglePodcastView {
     public static final String SINGLE_PODCAST = "single_podcast";
@@ -35,6 +37,7 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
     @BindView(R.id.main_image) ImageView imageView;
     @BindView(R.id.recycler) EpisodesRecycler recyclerView;
     @BindView(R.id.progress) ProgressBar progressBar;
+    @BindView(R.id.subscribeunsubscribe) TextView subscribe;
     @Inject TransitionsFramework transitionsFramework;
     @Inject SimpleImageLoader imageLoader;
     @Inject SinglePodcastPresenter presenter;
@@ -50,7 +53,12 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
     }
 
     private void inject() {
-        DaggerSinglePodcastComponent.builder().singlePodcastModule(new SinglePodcastModule(SinglePodcastActivity.this)).imageLoaderModule(new ImageLoaderModule(SinglePodcastActivity.this)).build().inject(SinglePodcastActivity.this);
+        DaggerSinglePodcastComponent
+                .builder()
+                .singlePodcastModule(new SinglePodcastModule(SinglePodcastActivity.this))
+                .imageLoaderModule(new ImageLoaderModule(SinglePodcastActivity.this))
+                .build()
+                .inject(SinglePodcastActivity.this);
     }
 
     @Override
@@ -71,7 +79,9 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
 
     private void initPresenter() {
         presenter.bindView(SinglePodcastActivity.this);
-        presenter.init(getIntent().getParcelableExtra(SINGLE_PODCAST), getIntent().getBooleanExtra(STARTED_WITH_TRANSITION, false));
+        presenter.init(getIntent()
+                .getParcelableExtra(SINGLE_PODCAST), getIntent()
+                .getBooleanExtra(STARTED_WITH_TRANSITION, false));
     }
 
     private void setUpActionBar() {
@@ -82,7 +92,8 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
 
     private void loadImage() {
         SinglePodcast podcast = getIntent().getParcelableExtra(SINGLE_PODCAST);
-        imageLoader.displayImage(podcast, imageView, new PodcastImageLoadingListener(SinglePodcastActivity.this, transitionsFramework));
+        imageLoader.displayImage(podcast, imageView,
+                new PodcastImageLoadingListener(SinglePodcastActivity.this, transitionsFramework));
     }
 
     @Override
@@ -103,12 +114,10 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
         presenter.onDestroy();
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.single_podcast, menu);
-//        return true;
-//    }
+    @OnClick(R.id.subscribeunsubscribe)
+    public void onSubscribeUnsubscribeClicked(){
+        presenter.onSubscribeUnsubscribeClicked();
+    }
 
     @Override
     public void showProgress(boolean show) {
@@ -118,7 +127,6 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
             progressBar.setVisibility(View.GONE);
         }
     }
-
 
     @Override
     public Object onRetainCustomNonConfigurationInstance() {
@@ -146,4 +154,8 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
     }
 
+    @Override
+    public void setSubscribed(Boolean isSubscribed) {
+
+    }
 }

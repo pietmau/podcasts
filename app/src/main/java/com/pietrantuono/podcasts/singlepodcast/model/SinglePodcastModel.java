@@ -7,9 +7,13 @@ import rx.Observer;
 
 public interface SinglePodcastModel {
 
-    void subscribe(Observer<PodcastFeed> observer);
+    void subscribeToFeed(Observer<PodcastFeed> observer);
 
     void unsubscribe();
 
     void getFeed(String url);
+
+    void getIsSubscribed(Integer trackId);
+
+    void subscribeToIsSubscribed(Observer<Boolean> observer);
 }
