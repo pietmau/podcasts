@@ -4,19 +4,14 @@ package com.pietrantuono.podcasts.providers;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcastImpl;
-import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
 
-public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
+public class SinglePodcastRealm extends RealmObject implements SinglePodcast {
     private String wrapperType;
     private String kind;
     private Integer collectionId;
@@ -47,14 +42,12 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     private String primaryGenreName;
     private String contentAdvisoryRating;
     private String artworkUrl600;
-    private List<String> genreIds = null;
-    private List<String> genres = null;
+    private RealmList<RealmString> genreIds = null;
+    private RealmList<RealmString> genres = null;
     private RealmList<RealmPodcastEpisodeModel> episodes;
 
     /**
-     *
-     * @return
-     *     The wrapperType
+     * @return The wrapperType
      */
     @Override
     public String getWrapperType() {
@@ -62,9 +55,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @param wrapperType
-     *     The wrapperType
+     * @param wrapperType The wrapperType
      */
     @Override
     public void setWrapperType(String wrapperType) {
@@ -72,9 +63,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @return
-     *     The kind
+     * @return The kind
      */
     @Override
     public String getKind() {
@@ -82,9 +71,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @param kind
-     *     The kind
+     * @param kind The kind
      */
     @Override
     public void setKind(String kind) {
@@ -92,9 +79,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @return
-     *     The collectionId
+     * @return The collectionId
      */
     @Override
     public Integer getCollectionId() {
@@ -102,9 +87,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @param collectionId
-     *     The collectionId
+     * @param collectionId The collectionId
      */
     @Override
     public void setCollectionId(Integer collectionId) {
@@ -112,9 +95,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @return
-     *     The trackId
+     * @return The trackId
      */
     @Override
     public Integer getTrackId() {
@@ -122,9 +103,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @param trackId
-     *     The trackId
+     * @param trackId The trackId
      */
     @Override
     public void setTrackId(Integer trackId) {
@@ -132,9 +111,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @return
-     *     The artistName
+     * @return The artistName
      */
     @Override
     public String getArtistName() {
@@ -142,9 +119,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @param artistName
-     *     The artistName
+     * @param artistName The artistName
      */
     @Override
     public void setArtistName(String artistName) {
@@ -152,9 +127,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @return
-     *     The collectionName
+     * @return The collectionName
      */
     @Override
     public String getCollectionName() {
@@ -162,9 +135,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @param collectionName
-     *     The collectionName
+     * @param collectionName The collectionName
      */
     @Override
     public void setCollectionName(String collectionName) {
@@ -172,9 +143,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @return
-     *     The trackName
+     * @return The trackName
      */
     @Override
     public String getTrackName() {
@@ -182,9 +151,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @param trackName
-     *     The trackName
+     * @param trackName The trackName
      */
     @Override
     public void setTrackName(String trackName) {
@@ -192,9 +159,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @return
-     *     The collectionCensoredName
+     * @return The collectionCensoredName
      */
     @Override
     public String getCollectionCensoredName() {
@@ -202,9 +167,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @param collectionCensoredName
-     *     The collectionCensoredName
+     * @param collectionCensoredName The collectionCensoredName
      */
     @Override
     public void setCollectionCensoredName(String collectionCensoredName) {
@@ -212,9 +175,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @return
-     *     The trackCensoredName
+     * @return The trackCensoredName
      */
     @Override
     public String getTrackCensoredName() {
@@ -222,9 +183,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @param trackCensoredName
-     *     The trackCensoredName
+     * @param trackCensoredName The trackCensoredName
      */
     @Override
     public void setTrackCensoredName(String trackCensoredName) {
@@ -232,9 +191,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @return
-     *     The collectionViewUrl
+     * @return The collectionViewUrl
      */
     @Override
     public String getCollectionViewUrl() {
@@ -242,9 +199,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @param collectionViewUrl
-     *     The collectionViewUrl
+     * @param collectionViewUrl The collectionViewUrl
      */
     @Override
     public void setCollectionViewUrl(String collectionViewUrl) {
@@ -252,9 +207,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @return
-     *     The feedUrl
+     * @return The feedUrl
      */
     @Override
     public String getFeedUrl() {
@@ -262,9 +215,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @param feedUrl
-     *     The feedUrl
+     * @param feedUrl The feedUrl
      */
     @Override
     public void setFeedUrl(String feedUrl) {
@@ -272,9 +223,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @return
-     *     The trackViewUrl
+     * @return The trackViewUrl
      */
     @Override
     public String getTrackViewUrl() {
@@ -282,9 +231,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @param trackViewUrl
-     *     The trackViewUrl
+     * @param trackViewUrl The trackViewUrl
      */
     @Override
     public void setTrackViewUrl(String trackViewUrl) {
@@ -292,9 +239,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @return
-     *     The artworkUrl30
+     * @return The artworkUrl30
      */
     @Override
     public String getArtworkUrl30() {
@@ -302,9 +247,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @param artworkUrl30
-     *     The artworkUrl30
+     * @param artworkUrl30 The artworkUrl30
      */
     @Override
     public void setArtworkUrl30(String artworkUrl30) {
@@ -312,9 +255,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @return
-     *     The artworkUrl60
+     * @return The artworkUrl60
      */
     @Override
     public String getArtworkUrl60() {
@@ -322,9 +263,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @param artworkUrl60
-     *     The artworkUrl60
+     * @param artworkUrl60 The artworkUrl60
      */
     @Override
     public void setArtworkUrl60(String artworkUrl60) {
@@ -332,9 +271,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @return
-     *     The artworkUrl100
+     * @return The artworkUrl100
      */
     @Override
     public String getArtworkUrl100() {
@@ -342,9 +279,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @param artworkUrl100
-     *     The artworkUrl100
+     * @param artworkUrl100 The artworkUrl100
      */
     @Override
     public void setArtworkUrl100(String artworkUrl100) {
@@ -352,9 +287,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @return
-     *     The collectionPrice
+     * @return The collectionPrice
      */
     @Override
     public Double getCollectionPrice() {
@@ -362,9 +295,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @param collectionPrice
-     *     The collectionPrice
+     * @param collectionPrice The collectionPrice
      */
     @Override
     public void setCollectionPrice(Double collectionPrice) {
@@ -372,9 +303,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @return
-     *     The trackPrice
+     * @return The trackPrice
      */
     @Override
     public Double getTrackPrice() {
@@ -382,9 +311,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @param trackPrice
-     *     The trackPrice
+     * @param trackPrice The trackPrice
      */
     @Override
     public void setTrackPrice(Double trackPrice) {
@@ -392,9 +319,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @return
-     *     The trackRentalPrice
+     * @return The trackRentalPrice
      */
     @Override
     public Integer getTrackRentalPrice() {
@@ -402,9 +327,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @param trackRentalPrice
-     *     The trackRentalPrice
+     * @param trackRentalPrice The trackRentalPrice
      */
     @Override
     public void setTrackRentalPrice(Integer trackRentalPrice) {
@@ -412,9 +335,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @return
-     *     The collectionHdPrice
+     * @return The collectionHdPrice
      */
     @Override
     public Integer getCollectionHdPrice() {
@@ -422,9 +343,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @param collectionHdPrice
-     *     The collectionHdPrice
+     * @param collectionHdPrice The collectionHdPrice
      */
     @Override
     public void setCollectionHdPrice(Integer collectionHdPrice) {
@@ -432,9 +351,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @return
-     *     The trackHdPrice
+     * @return The trackHdPrice
      */
     @Override
     public Integer getTrackHdPrice() {
@@ -442,9 +359,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @param trackHdPrice
-     *     The trackHdPrice
+     * @param trackHdPrice The trackHdPrice
      */
     @Override
     public void setTrackHdPrice(Integer trackHdPrice) {
@@ -452,9 +367,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @return
-     *     The trackHdRentalPrice
+     * @return The trackHdRentalPrice
      */
     @Override
     public Integer getTrackHdRentalPrice() {
@@ -462,9 +375,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @param trackHdRentalPrice
-     *     The trackHdRentalPrice
+     * @param trackHdRentalPrice The trackHdRentalPrice
      */
     @Override
     public void setTrackHdRentalPrice(Integer trackHdRentalPrice) {
@@ -472,9 +383,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @return
-     *     The releaseDate
+     * @return The releaseDate
      */
     @Override
     public String getReleaseDate() {
@@ -482,9 +391,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @param releaseDate
-     *     The releaseDate
+     * @param releaseDate The releaseDate
      */
     @Override
     public void setReleaseDate(String releaseDate) {
@@ -492,9 +399,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @return
-     *     The collectionExplicitness
+     * @return The collectionExplicitness
      */
     @Override
     public String getCollectionExplicitness() {
@@ -502,9 +407,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @param collectionExplicitness
-     *     The collectionExplicitness
+     * @param collectionExplicitness The collectionExplicitness
      */
     @Override
     public void setCollectionExplicitness(String collectionExplicitness) {
@@ -512,9 +415,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @return
-     *     The trackExplicitness
+     * @return The trackExplicitness
      */
     @Override
     public String getTrackExplicitness() {
@@ -522,9 +423,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @param trackExplicitness
-     *     The trackExplicitness
+     * @param trackExplicitness The trackExplicitness
      */
     @Override
     public void setTrackExplicitness(String trackExplicitness) {
@@ -532,9 +431,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @return
-     *     The trackCount
+     * @return The trackCount
      */
     @Override
     public Integer getTrackCount() {
@@ -542,9 +439,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @param trackCount
-     *     The trackCount
+     * @param trackCount The trackCount
      */
     @Override
     public void setTrackCount(Integer trackCount) {
@@ -552,9 +447,7 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @return
-     *     The country
+     * @return The country
      */
     @Override
     public String getCountry() {
@@ -562,120 +455,94 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     /**
-     *
-     * @param country
-     *     The country
+     * @param country The country
      */
     public void setCountry(String country) {
         this.country = country;
     }
 
     /**
-     *
-     * @return
-     *     The currency
+     * @return The currency
      */
     public String getCurrency() {
         return currency;
     }
 
     /**
-     *
-     * @param currency
-     *     The currency
+     * @param currency The currency
      */
     public void setCurrency(String currency) {
         this.currency = currency;
     }
 
     /**
-     *
-     * @return
-     *     The primaryGenreName
+     * @return The primaryGenreName
      */
     public String getPrimaryGenreName() {
         return primaryGenreName;
     }
 
     /**
-     *
-     * @param primaryGenreName
-     *     The primaryGenreName
+     * @param primaryGenreName The primaryGenreName
      */
     public void setPrimaryGenreName(String primaryGenreName) {
         this.primaryGenreName = primaryGenreName;
     }
 
     /**
-     *
-     * @return
-     *     The contentAdvisoryRating
+     * @return The contentAdvisoryRating
      */
     public String getContentAdvisoryRating() {
         return contentAdvisoryRating;
     }
 
     /**
-     *
-     * @param contentAdvisoryRating
-     *     The contentAdvisoryRating
+     * @param contentAdvisoryRating The contentAdvisoryRating
      */
     public void setContentAdvisoryRating(String contentAdvisoryRating) {
         this.contentAdvisoryRating = contentAdvisoryRating;
     }
 
     /**
-     *
-     * @return
-     *     The artworkUrl600
+     * @return The artworkUrl600
      */
     public String getArtworkUrl600() {
         return artworkUrl600;
     }
 
     /**
-     *
-     * @param artworkUrl600
-     *     The artworkUrl600
+     * @param artworkUrl600 The artworkUrl600
      */
     public void setArtworkUrl600(String artworkUrl600) {
         this.artworkUrl600 = artworkUrl600;
     }
 
     /**
-     *
-     * @return
-     *     The genreIds
+     * @return The genreIds
      */
     public List<String> getGenreIds() {
-        return genreIds;
+        return RealmUtlis.toStringList(genreIds);
     }
 
     /**
-     *
-     * @param genreIds
-     *     The genreIds
+     * @param genreIds The genreIds
      */
     public void setGenreIds(List<String> genreIds) {
-        this.genreIds = genreIds;
+        this.genreIds = RealmUtlis.toRealmStringList(genreIds);
     }
 
     /**
-     *
-     * @return
-     *     The genres
+     * @return The genres
      */
     public List<String> getGenres() {
-        return genres;
+        return RealmUtlis.toStringList(genreIds);
     }
 
     /**
-     *
-     * @param genres
-     *     The genres
+     * @param genres The genres
      */
     public void setGenres(List<String> genres) {
-        this.genres = genres;
+        this.genres = RealmUtlis.toRealmStringList(genres);
     }
 
 
@@ -688,156 +555,32 @@ public class SinglePodcastRealm  extends RealmObject implements SinglePodcast {
     }
 
     private SinglePodcastRealm(Parcel in) {
-        wrapperType = in.readString();
-        kind = in.readString();
-        collectionId = in.readByte() == 0x00 ? null : in.readInt();
-        trackId = in.readByte() == 0x00 ? null : in.readInt();
-        artistName = in.readString();
-        collectionName = in.readString();
-        trackName = in.readString();
-        collectionCensoredName = in.readString();
-        trackCensoredName = in.readString();
-        collectionViewUrl = in.readString();
-        feedUrl = in.readString();
-        trackViewUrl = in.readString();
-        artworkUrl30 = in.readString();
-        artworkUrl60 = in.readString();
-        artworkUrl100 = in.readString();
-        collectionPrice = in.readByte() == 0x00 ? null : in.readDouble();
-        trackPrice = in.readByte() == 0x00 ? null : in.readDouble();
-        trackRentalPrice = in.readByte() == 0x00 ? null : in.readInt();
-        collectionHdPrice = in.readByte() == 0x00 ? null : in.readInt();
-        trackHdPrice = in.readByte() == 0x00 ? null : in.readInt();
-        trackHdRentalPrice = in.readByte() == 0x00 ? null : in.readInt();
-        releaseDate = in.readString();
-        collectionExplicitness = in.readString();
-        trackExplicitness = in.readString();
-        trackCount = in.readByte() == 0x00 ? null : in.readInt();
-        country = in.readString();
-        currency = in.readString();
-        primaryGenreName = in.readString();
-        contentAdvisoryRating = in.readString();
-        artworkUrl600 = in.readString();
-        if (in.readByte() == 0x01) {
-            genreIds = new ArrayList<String>();
-            in.readList(genreIds, String.class.getClassLoader());
-        } else {
-            genreIds = null;
-        }
-        if (in.readByte() == 0x01) {
-            genres = new ArrayList<String>();
-            in.readList(genres, String.class.getClassLoader());
-        } else {
-            genres = null;
-        }
+        throw new UnsupportedOperationException("Not supported");
     }
 
     @Override
     public int describeContents() {
-        return 0;
+        throw new UnsupportedOperationException("Not supported");
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(wrapperType);
-        dest.writeString(kind);
-        if (collectionId == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeInt(collectionId);
-        }
-        if (trackId == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeInt(trackId);
-        }
-        dest.writeString(artistName);
-        dest.writeString(collectionName);
-        dest.writeString(trackName);
-        dest.writeString(collectionCensoredName);
-        dest.writeString(trackCensoredName);
-        dest.writeString(collectionViewUrl);
-        dest.writeString(feedUrl);
-        dest.writeString(trackViewUrl);
-        dest.writeString(artworkUrl30);
-        dest.writeString(artworkUrl60);
-        dest.writeString(artworkUrl100);
-        if (collectionPrice == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeDouble(collectionPrice);
-        }
-        if (trackPrice == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeDouble(trackPrice);
-        }
-        if (trackRentalPrice == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeInt(trackRentalPrice);
-        }
-        if (collectionHdPrice == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeInt(collectionHdPrice);
-        }
-        if (trackHdPrice == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeInt(trackHdPrice);
-        }
-        if (trackHdRentalPrice == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeInt(trackHdRentalPrice);
-        }
-        dest.writeString(releaseDate);
-        dest.writeString(collectionExplicitness);
-        dest.writeString(trackExplicitness);
-        if (trackCount == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeInt(trackCount);
-        }
-        dest.writeString(country);
-        dest.writeString(currency);
-        dest.writeString(primaryGenreName);
-        dest.writeString(contentAdvisoryRating);
-        dest.writeString(artworkUrl600);
-        if (genreIds == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeList(genreIds);
-        }
-        if (genres == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeList(genres);
-        }
+        throw new UnsupportedOperationException("Not supported");
     }
 
     @SuppressWarnings("unused")
     public static final Parcelable.Creator<SinglePodcast> CREATOR = new Parcelable.Creator<SinglePodcast>() {
         @Override
         public SinglePodcast createFromParcel(Parcel in) {
-            return new SinglePodcastRealm(in);
+            throw new UnsupportedOperationException("Not supported");
         }
 
         @Override
         public SinglePodcast[] newArray(int size) {
-            return new SinglePodcast[size];
+            throw new UnsupportedOperationException("Not supported");
         }
     };
+
+
+
 }
