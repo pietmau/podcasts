@@ -12,10 +12,6 @@ public interface SinglePodcastModel {
 
     void unsubscribe();
 
-    void getFeed(String url);
-
-    void getIsSubscribedToPodcast(Integer trackId);
-
     void subscribeToIsSubscribedToPodcast(Observer<Boolean> observer);
 
     void setSubscribedToPodcast(boolean isSubscribed);
@@ -23,4 +19,6 @@ public interface SinglePodcastModel {
     boolean isSubscribedToPodcasat();
 
     void actuallySubscribesToPodcast(SinglePodcast singlePodcast);
+
+    void init(SinglePodcast podcast);
 }

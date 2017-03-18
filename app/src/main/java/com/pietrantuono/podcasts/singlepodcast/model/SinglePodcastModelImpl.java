@@ -17,7 +17,7 @@ public class SinglePodcastModelImpl implements SinglePodcastModel {
     private final Repository repository;
     private Observable<PodcastFeed> podcastFeedObservable;
     private final CompositeSubscription compositeSubscription = new CompositeSubscription();
-    private Observable<Boolean> isSubscribedObservable;
+    private Observable<Boolean> isSubscribedToPodcastObservable;
     private boolean isSubscribed;
 
     public SinglePodcastModelImpl(SinglePodcastApi singlePodcastApi, Repository repository) {
@@ -34,13 +34,13 @@ public class SinglePodcastModelImpl implements SinglePodcastModel {
 
     @Override
     public void subscribeToIsSubscribedToPodcast(Observer<Boolean> isSubscribedObserver) {
-        Subscription subscription = isSubscribedObservable.cache().subscribe(isSubscribedObserver);
+        Subscription subscription = isSubscribedToPodcastObservable.cache().subscribe(isSubscribedObserver);
         compositeSubscription.add(subscription);
     }
 
     @Override
     public void setSubscribedToPodcast(boolean isSubscribed) {
-        this.isSubscribed=isSubscribed;
+        this.isSubscribed = isSubscribed;
     }
 
     @Override
@@ -48,14 +48,13 @@ public class SinglePodcastModelImpl implements SinglePodcastModel {
         compositeSubscription.unsubscribe();
     }
 
-    @Override
-    public void getFeed(String url) {
+    private void getFeed(String url) {
         podcastFeedObservable = singlePodcastApi.getFeed(url);
     }
 
-    @Override
-    public void getIsSubscribedToPodcast(Integer trackId) {
-        isSubscribedObservable = repository.getIfSubscribed(trackId);
+
+    private void getIsSubscribedToPodcast(Integer trackId) {
+        isSubscribedToPodcastObservable = repository.getIfSubscribed(trackId);
     }
 
     @Override
@@ -66,5 +65,13 @@ public class SinglePodcastModelImpl implements SinglePodcastModel {
     @Override
     public void actuallySubscribesToPodcast(SinglePodcast singlePodcast) {
 
+    }
+
+    @Override
+    public void init(SinglePodcast podcast) {
+        if (podcast != null) {
+            getFeed(podcast.getFeedUrl());
+            getIsSubscribedToPodcast(podcast.getTrackId());
+        }
     }
 }

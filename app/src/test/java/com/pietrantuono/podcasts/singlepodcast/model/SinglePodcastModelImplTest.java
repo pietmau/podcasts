@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts.singlepodcast.model;
 
 import com.pietrantuono.interfaceadapters.apis.SinglePodcastApi;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,29 +20,30 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SinglePodcastModelImplTest {
-    private static final Integer TRACK_ID = 1;
+    private static final String TEXT = "text";
+    private static final int TRACK_ID = 1;
     @Mock SinglePodcastApi api;
     @Mock Repository repository;
+    @Mock SinglePodcast singlePodcast;
     private SinglePodcastModelImpl model;
 
     @Before
     public void setUp() throws Exception {
         model = new SinglePodcastModelImpl(api, repository);
+        when(singlePodcast.getTrackId()).thenReturn(TRACK_ID);
+        when(singlePodcast.getFeedUrl()).thenReturn(TEXT);
+        when(repository.getIfSubscribed(TRACK_ID)).thenReturn(Observable.just(true));
+        model.init(singlePodcast);
     }
 
     @Test
     public void when_getIsSubscribed_then_getsIfSubscribed() {
-        //WHEN
-        model.getIsSubscribedToPodcast(TRACK_ID);
         //THEN
         verify(repository).getIfSubscribed(TRACK_ID);
     }
 
     @Test
     public void when_subscribesToIsSubscribed_then_subscribes() {
-        //GIVEN
-        when(repository.getIfSubscribed(TRACK_ID)).thenReturn(Observable.just(true));
-        model.getIsSubscribedToPodcast(TRACK_ID);
         //WHEN
         TestObserver<Boolean> ifSubscribedObserver = new TestObserver<>();
         model.subscribeToIsSubscribedToPodcast(ifSubscribedObserver);
@@ -50,4 +52,17 @@ public class SinglePodcastModelImplTest {
         result.add(true);
         ifSubscribedObserver.assertReceivedOnNext(result);
     }
+
+    @Test
+    public void when_init_then_getsFeed() {
+        //THEN
+        verify(api).getFeed(TEXT);
+    }
+
+    @Test
+    public void when_init_then_getsIsSubscribedToPodcast() {
+        //THEN
+        verify(repository).getIfSubscribed(TRACK_ID);
+    }
+
 }

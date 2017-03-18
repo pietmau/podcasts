@@ -39,24 +39,6 @@ public class SinglePodcastPresenterTest {
     }
 
     @Test
-    public void when_init_then_getsFeed() {
-        when(podcast.getFeedUrl()).thenReturn(TEXT);
-        //WHEN
-        presenter.init(podcast,true);
-        //THEN
-        verify(model).getFeed(TEXT);
-    }
-
-    @Test
-    public void when_init_then_getisSubscribedToPodcasts() {
-        when(podcast.getTrackId()).thenReturn(TRACK_ID);
-        //WHEN
-        presenter.init(podcast,true);
-        //THEN
-        verify(model).getIsSubscribedToPodcast(TRACK_ID);
-    }
-
-    @Test
     public void when_resume_subscribesToFeed() {
         // WHEN
         presenter.onResume();
@@ -109,5 +91,13 @@ public class SinglePodcastPresenterTest {
         presenter.onSubscribeUnsubscribeToPodcastClicked();
         //THEN
         verify(model).actuallySubscribesToPodcast(isA(SinglePodcast.class));
+    }
+
+    @Test
+    public void when_init_then_initModel() {
+        //WHEN
+        presenter.init(podcast, true);
+        //THEN
+        verify(model).init(podcast);
     }
 }

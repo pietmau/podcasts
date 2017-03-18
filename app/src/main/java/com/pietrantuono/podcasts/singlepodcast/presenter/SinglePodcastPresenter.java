@@ -71,10 +71,7 @@ public class SinglePodcastPresenter implements GenericPresenter {
 
     public void init(SinglePodcast podcast, boolean startedWithTransition) {
         this.startedWithTransition = startedWithTransition;
-        if (podcast != null) {
-            model.getFeed(podcast.getFeedUrl());
-        }
-        model.getIsSubscribedToPodcast(podcast.getTrackId());
+        model.init(podcast);
         if (startedWithTransition) {
             view.enterWithTransition();
         } else {
