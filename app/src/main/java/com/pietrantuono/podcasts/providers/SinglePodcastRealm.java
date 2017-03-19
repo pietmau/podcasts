@@ -45,6 +45,7 @@ public class SinglePodcastRealm extends RealmObject implements SinglePodcast {
     private RealmList<RealmString> genreIds = null;
     private RealmList<RealmString> genres = null;
     private RealmList<RealmPodcastEpisodeModel> episodes;
+    private boolean podcastSubscribed;
 
     public SinglePodcastRealm() {
     }
@@ -584,5 +585,11 @@ public class SinglePodcastRealm extends RealmObject implements SinglePodcast {
         }
     };
 
+    public boolean isPodcastSubscribed() {
+        return podcastSubscribed;
+    }
 
+    public void setPodcastSubscribed(boolean podcastSubscribed) {
+        this.podcastSubscribed = podcastSubscribed;
+    }
 }

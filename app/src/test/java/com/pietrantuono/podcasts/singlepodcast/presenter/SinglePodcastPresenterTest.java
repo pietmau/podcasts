@@ -92,6 +92,16 @@ public class SinglePodcastPresenterTest {
     }
 
     @Test
+    public void when_subscribeToPodcastIspressed_andIsSubascibedToPodcast_then_unSubscribesToPodcast() {
+        //GIVEN
+        when(model.isSubscribedToPodcasat()).thenReturn(true);
+        //WHEN
+        presenter.onSubscribeUnsubscribeToPodcastClicked();
+        //THEN
+        verify(model).actuallyUnSubscribesToPodcast();
+    }
+
+    @Test
     public void when_init_then_initModel() {
         //WHEN
         presenter.init(podcast, true);

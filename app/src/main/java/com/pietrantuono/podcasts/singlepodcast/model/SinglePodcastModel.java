@@ -21,4 +21,6 @@ public interface SinglePodcastModel {
     void actuallySubscribesToPodcast();
 
     void init(SinglePodcast podcast);
+
+    void actuallyUnSubscribesToPodcast();
 }

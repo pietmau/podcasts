@@ -96,7 +96,7 @@ public class SinglePodcastPresenter implements GenericPresenter {
 
     public void onSubscribeUnsubscribeToPodcastClicked() {
         if (model.isSubscribedToPodcasat()) {
-
+            model.actuallyUnSubscribesToPodcast();
         } else {
             model.actuallySubscribesToPodcast();
         }

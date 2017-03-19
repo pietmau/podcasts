@@ -36,6 +36,11 @@ public class SinglePodcastModelImpl implements SinglePodcastModel {
     }
 
     @Override
+    public void actuallyUnSubscribesToPodcast() {
+
+    }
+
+    @Override
     public void subscribeToFeed(Observer<PodcastFeed> obspodcastFeedObserverrver) {
         Subscription subscription = podcastFeedObservable.subscribeOn(Schedulers.newThread())
                 .observeOn(mainThread()).cache().subscribe(obspodcastFeedObserverrver);
