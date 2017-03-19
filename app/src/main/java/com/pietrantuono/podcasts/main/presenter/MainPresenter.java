@@ -8,6 +8,7 @@ public class MainPresenter implements GenericPresenter {
 
     public void bindView(MainView view) {
         this.view = view;
+        view.navigateToSubscribedPodcasts();
     }
 
     @Override

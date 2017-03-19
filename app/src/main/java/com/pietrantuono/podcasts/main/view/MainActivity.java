@@ -1,7 +1,5 @@
 package com.pietrantuono.podcasts.main.view;
 
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -13,17 +11,17 @@ import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastFragment;
 import com.pietrantuono.podcasts.main.customviews.DrawerLayoutWithToggle;
 import com.pietrantuono.podcasts.main.customviews.SimpleNavView;
-import com.pietrantuono.podcasts.main.dagger.MainComponent;
-import com.pietrantuono.podcasts.main.presenter.MainPresenter;
 import com.pietrantuono.podcasts.main.dagger.DaggerMainComponent;
+import com.pietrantuono.podcasts.main.dagger.MainComponent;
 import com.pietrantuono.podcasts.main.dagger.MainModule;
-
-import io.fabric.sdk.android.Fabric;
+import com.pietrantuono.podcasts.main.presenter.MainPresenter;
+import com.pietrantuono.podcasts.subscribedpodcasts.view.SubscribedPodcastFragment;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity implements MainView {
     @Inject MainPresenter mainPresenter;
@@ -81,6 +79,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @Override
     public void navigateToAddPodcast() {
         AddPodcastFragment.navigateTo(fragmentManager);
+    }
+
+    @Override
+    public void navigateToSubscribedPodcasts() {
+        SubscribedPodcastFragment.navigateTo(fragmentManager);
     }
 
     @Override

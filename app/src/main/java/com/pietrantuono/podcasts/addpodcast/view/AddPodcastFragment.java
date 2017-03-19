@@ -21,7 +21,6 @@ import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.customviews.CustomProgressBar;
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcastImpl;
 import com.pietrantuono.podcasts.addpodcast.presenter.AddPodcastPresenter;
 import com.pietrantuono.podcasts.main.view.MainActivity;
 import com.pietrantuono.podcasts.main.view.TransitionsFramework;
@@ -52,14 +51,13 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
         fragmentManager.beginTransaction().replace(R.id.fragmentContainer, frag, AddPodcastFragment.TAG).commit();
     }
 
-    @DebugLog
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((MainActivity) getActivity()).getComponent().newAddPodcastComponent().inject(AddPodcastFragment.this);
+        ((MainActivity) getActivity()).getComponent().addPodcastComponent().inject(AddPodcastFragment.this);
     }
 
-    @DebugLog
+
     @Override
     public void onResume() {
         super.onResume();

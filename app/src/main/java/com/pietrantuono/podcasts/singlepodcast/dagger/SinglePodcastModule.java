@@ -21,10 +21,8 @@ import dagger.Provides;
 @Module
 public class SinglePodcastModule {
     private final PresenterManager presenterManager;
-    private final AppCompatActivity activity;
 
     public SinglePodcastModule(AppCompatActivity activity) {
-        this.activity = activity;
         PresenterManager manager = (PresenterManager) activity.getLastCustomNonConfigurationInstance();
         if (manager == null) {
             manager = new PresenterManager();

@@ -1,6 +1,5 @@
 package com.pietrantuono.podcasts.main.presenter;
 
-import com.pietrantuono.podcasts.main.presenter.MainPresenter;
 import com.pietrantuono.podcasts.main.view.MainView;
 
 import org.junit.Before;
@@ -24,14 +23,14 @@ public class MainPresenterTest {
 
     @Test
     public void given_MainPresenter_when_navigateToAddPodcast_then_navigateToAddPodcast() {
-        /*
-		 * WHEN
-		 */
+        // WHEN
         mainPresenter.onAddPodcastSelected();
-		/*
-		 * THEN
-		 */
+		// THEN
         verify(view).navigateToAddPodcast();
     }
 
+    @Test
+    public void when_bound_then_showsSubscribed() {
+        verify(view).navigateToSubscribedPodcasts();
+    }
 }

@@ -5,6 +5,7 @@ import com.pietrantuono.podcasts.addpodcast.dagger.ApiLevelCheckerlModule;
 import com.pietrantuono.podcasts.addpodcast.dagger.SearchModelsModule;
 
 import com.pietrantuono.podcasts.main.view.MainActivity;
+import com.pietrantuono.podcasts.subscribedpodcasts.di.SubscribedPodcastComponent;
 
 import javax.inject.Singleton;
 
@@ -20,5 +21,7 @@ public interface MainComponent {
 
     void inject(MainActivity mainActivity);
 
-    AddPodcastComponent newAddPodcastComponent();
+    AddPodcastComponent addPodcastComponent();
+
+    SubscribedPodcastComponent subscribedPodcastComponent();
 }
