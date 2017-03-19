@@ -72,4 +72,12 @@ public class SinglePodcastModelImplTest {
         //THEN
         verify(repository).actuallySubscribesToPodcast(singlePodcast);
     }
+
+    @Test
+    public void when_actuallyUnSubscribes_then_repositoryUnSubscribes() {
+        //WHEN
+        model.actuallyUnSubscribesToPodcast();
+        //THEN
+        verify(repository).actuallyUnSubscribesToPodcast(singlePodcast);
+    }
 }

@@ -19,7 +19,6 @@ import rx.Observer;
 
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SinglePodcastPresenterTest {
@@ -65,40 +64,9 @@ public class SinglePodcastPresenterTest {
     public void when_subscribedToPodcast_then_setsSubscribedToPodcastInTheView() {
         //WHEN
         presenter.onResume();
-        verify(model).subscribeToIsSubscribedToPodcast(captor.capture());
-        captor.getValue().onNext(true);
+        subscribeToSubscribedToPodcast();
         //THEN
         verify(view).setSubscribedToPodcast(true);
-    }
-
-    @Test
-    public void when_subscribedToPodcast_then_setsSubscribedInTheModel() {
-        //WHEN
-        presenter.onResume();
-        verify(model).subscribeToIsSubscribedToPodcast(captor.capture());
-        captor.getValue().onNext(true);
-        //THEN
-        verify(model).setSubscribedToPodcast(true);
-    }
-
-    @Test
-    public void when_subscribeToPodcastIspressed_andIsNotSubascibedToPodcast_then_subscribesToPodcast() {
-        //GIVEN
-        when(model.isSubscribedToPodcasat()).thenReturn(false);
-        //WHEN
-        presenter.onSubscribeUnsubscribeToPodcastClicked();
-        //THEN
-        verify(model).actuallySubscribesToPodcast();
-    }
-
-    @Test
-    public void when_subscribeToPodcastIspressed_andIsSubascibedToPodcast_then_unSubscribesToPodcast() {
-        //GIVEN
-        when(model.isSubscribedToPodcasat()).thenReturn(true);
-        //WHEN
-        presenter.onSubscribeUnsubscribeToPodcastClicked();
-        //THEN
-        verify(model).actuallyUnSubscribesToPodcast();
     }
 
     @Test
@@ -107,5 +75,33 @@ public class SinglePodcastPresenterTest {
         presenter.init(podcast, true);
         //THEN
         verify(model).init(podcast);
+    }
+
+    @Test
+    public void when_onSubscribeUnsubscribeToPodcastClicked_And_IsSubscribedToPodcast_then_actuallyUnsubscribes() {
+        //WHEN
+        isSubscribedToPodcast(true);
+        //THEN
+        verify(model).actuallyUnSubscribesToPodcast();
+    }
+
+    private void isSubscribedToPodcast(boolean t) {
+        presenter.onSubscribeUnsubscribeToPodcastClicked();
+        verify(model).isSubscribedToPodcast(captor.capture());
+        captor.getValue().onNext(t);
+    }
+
+    @Test
+    public void when_onSubscribeUnsubscribeToPodcastClicked_And_IsNoSubscribedToPodcast_then_actuallySubscribes() {
+        //WHEN
+        isSubscribedToPodcast(false);
+        //THEN
+        verify(model).actuallySubscribesToPodcast();
+    }
+
+
+    private void subscribeToSubscribedToPodcast() {
+        verify(model).subscribeToIsSubscribedToPodcast(captor.capture());
+        captor.getValue().onNext(true);
     }
 }

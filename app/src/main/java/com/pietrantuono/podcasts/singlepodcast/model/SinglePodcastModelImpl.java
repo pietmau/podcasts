@@ -18,7 +18,6 @@ public class SinglePodcastModelImpl implements SinglePodcastModel {
     private Observable<PodcastFeed> podcastFeedObservable;
     private final CompositeSubscription compositeSubscription = new CompositeSubscription();
     private Observable<Boolean> isSubscribedToPodcastObservable;
-    private boolean isSubscribed;
     private SinglePodcast podcast;
 
     public SinglePodcastModelImpl(SinglePodcastApi singlePodcastApi, Repository repository) {
@@ -37,7 +36,7 @@ public class SinglePodcastModelImpl implements SinglePodcastModel {
 
     @Override
     public void actuallyUnSubscribesToPodcast() {
-
+        repository.actuallyUnSubscribesToPodcast(podcast);
     }
 
     @Override
@@ -54,8 +53,9 @@ public class SinglePodcastModelImpl implements SinglePodcastModel {
     }
 
     @Override
-    public void setSubscribedToPodcast(boolean isSubscribed) {
-        this.isSubscribed = isSubscribed;
+    public void isSubscribedToPodcast(Observer<Boolean> isSubscribedObserver) {
+        Subscription subscription = isSubscribedToPodcastObservable.take(1).subscribe(isSubscribedObserver);
+        compositeSubscription.add(subscription);
     }
 
     @Override
@@ -70,11 +70,6 @@ public class SinglePodcastModelImpl implements SinglePodcastModel {
 
     private void getIsSubscribedToPodcast(Integer trackId) {
         isSubscribedToPodcastObservable = repository.getIfSubscribed(trackId);
-    }
-
-    @Override
-    public boolean isSubscribedToPodcasat() {
-        return isSubscribed;
     }
 
     @Override

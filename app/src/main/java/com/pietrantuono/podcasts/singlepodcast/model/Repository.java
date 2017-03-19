@@ -8,4 +8,6 @@ public interface Repository {
     Observable<Boolean> getIfSubscribed(Integer trackId);
 
     void actuallySubscribesToPodcast(SinglePodcast singlePodcast);
+
+    void actuallyUnSubscribesToPodcast(SinglePodcast singlePodcast);
 }

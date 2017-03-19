@@ -12,7 +12,6 @@ import rx.android.schedulers.AndroidSchedulers;
 
 public class RealmRepository implements Repository {
     Realm realm = Realm.getDefaultInstance();
-    int count;
 
     @Override
     public Observable<Boolean> getIfSubscribed(Integer trackId) {
@@ -34,15 +33,37 @@ public class RealmRepository implements Repository {
         if (!x.isValid()) {
             return false;
         }
-        return ((SinglePodcastRealm)x).isPodcastSubscribed();
+        return ((SinglePodcastRealm) x).isPodcastSubscribed();
     }
 
     @Override
-    public void actuallySubscribesToPodcast(SinglePodcast singlePodcast) {
-        realm.beginTransaction();
-        SinglePodcastRealm singlePodcastRealm = new SinglePodcastRealmFactory().singlePodcastRealm(singlePodcast);
-        singlePodcastRealm.setPodcastSubscribed(true);
-        realm.copyToRealm(singlePodcastRealm);
-        realm.commitTransaction();
+    public void actuallySubscribesToPodcast(SinglePodcast singlePodcast) {//TODO async
+        realm.executeTransactionAsync(realm1 -> {
+            SinglePodcastRealm singlePodcastRealm = getSinglePodcastRealm(singlePodcast, realm1);
+            if (singlePodcastRealm != null) {
+                singlePodcastRealm.setPodcastSubscribed(true);
+            } else {
+                singlePodcastRealm = new SinglePodcastRealmFactory().singlePodcastRealm(singlePodcast);
+                singlePodcastRealm.setPodcastSubscribed(true);
+                realm1.copyToRealm(singlePodcastRealm);
+            }
+        });
+    }
+
+
+    @Override
+    public void actuallyUnSubscribesToPodcast(SinglePodcast singlePodcast) { //TODO async
+        realm.executeTransactionAsync(realm1 -> {
+            SinglePodcastRealm singlePodcastRealm = getSinglePodcastRealm(singlePodcast, realm1);
+            if (singlePodcastRealm != null) {
+                singlePodcastRealm.setPodcastSubscribed(false);
+            }
+        });
+    }
+
+    private SinglePodcastRealm getSinglePodcastRealm(SinglePodcast singlePodcast, Realm realm1) {
+        return realm1.where(SinglePodcastRealm.class)
+                .equalTo("trackId", singlePodcast.getTrackId())
+                .findFirst();
     }
 }

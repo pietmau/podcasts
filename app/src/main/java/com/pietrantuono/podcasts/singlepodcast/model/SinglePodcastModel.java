@@ -10,13 +10,11 @@ public interface SinglePodcastModel {
 
     void subscribeToFeed(Observer<PodcastFeed> observer);
 
+    void isSubscribedToPodcast(Observer<Boolean> isSubscribedObserver);
+
     void unsubscribe();
 
     void subscribeToIsSubscribedToPodcast(Observer<Boolean> observer);
-
-    void setSubscribedToPodcast(boolean isSubscribed);
-
-    boolean isSubscribedToPodcasat();
 
     void actuallySubscribesToPodcast();
 

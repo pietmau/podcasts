@@ -59,7 +59,6 @@ public class SinglePodcastPresenter implements GenericPresenter {
             @Override
             public void onNext(Boolean isSubscribedToPodcast) {
                 view.setSubscribedToPodcast(isSubscribedToPodcast);
-                model.setSubscribedToPodcast(isSubscribedToPodcast);
             }
         });
     }
@@ -95,10 +94,16 @@ public class SinglePodcastPresenter implements GenericPresenter {
     }
 
     public void onSubscribeUnsubscribeToPodcastClicked() {
-        if (model.isSubscribedToPodcasat()) {
-            model.actuallyUnSubscribesToPodcast();
-        } else {
-            model.actuallySubscribesToPodcast();
-        }
+        model.isSubscribedToPodcast(new SimpleObserver<Boolean>() {
+            @Override
+            public void onNext(Boolean isSubscribed) {
+                if (isSubscribed) {
+                    model.actuallyUnSubscribesToPodcast();
+                } else {
+                    model.actuallySubscribesToPodcast();
+                }
+            }
+        });
+
     }
 }
