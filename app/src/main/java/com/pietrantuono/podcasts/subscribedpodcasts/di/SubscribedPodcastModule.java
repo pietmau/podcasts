@@ -1,5 +1,7 @@
 package com.pietrantuono.podcasts.subscribedpodcasts.di;
 
+import com.pietrantuono.podcasts.singlepodcast.model.RealmRepository;
+import com.pietrantuono.podcasts.singlepodcast.model.Repository;
 import com.pietrantuono.podcasts.subscribedpodcasts.model.SubscribedPodcastModel;
 import com.pietrantuono.podcasts.subscribedpodcasts.model.SubscribedPodcastModelImpl;
 import com.pietrantuono.podcasts.subscribedpodcasts.presenter.SubscribedPodcastPresenter;
@@ -16,8 +18,13 @@ public class SubscribedPodcastModule {
     }
 
     @Provides
-    SubscribedPodcastModel provideSubscribedPodcastModel(){
-        return new SubscribedPodcastModelImpl();
+    SubscribedPodcastModel provideSubscribedPodcastModel(Repository repository){
+        return new SubscribedPodcastModelImpl(repository);
+    }
+
+    @Provides
+    Repository provideRepository(){
+        return new RealmRepository();
     }
 
 }

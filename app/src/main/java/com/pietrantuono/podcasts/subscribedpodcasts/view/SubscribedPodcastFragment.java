@@ -10,9 +10,12 @@ import android.view.ViewGroup;
 
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastFragment;
 import com.pietrantuono.podcasts.main.view.MainActivity;
 import com.pietrantuono.podcasts.subscribedpodcasts.presenter.SubscribedPodcastPresenter;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -51,4 +54,13 @@ public class SubscribedPodcastFragment extends Fragment implements SubscribedPod
     }
 
 
+    @Override
+    public void onError(Throwable throwable) {
+
+    }
+
+    @Override
+    public void setPodcasts(List<SinglePodcast> list) {
+
+    }
 }

@@ -2,12 +2,17 @@ package com.pietrantuono.podcasts.singlepodcast.model;
 
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
+import com.pietrantuono.podcasts.providers.RealmUtlis;
 import com.pietrantuono.podcasts.providers.SinglePodcastRealm;
-import com.pietrantuono.podcasts.providers.SinglePodcastRealmFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmObject;
+import io.realm.RealmResults;
 import rx.Observable;
+import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 
 public class RealmRepository implements Repository {
@@ -15,15 +20,13 @@ public class RealmRepository implements Repository {
 
     @Override
     public Observable<Boolean> getIfSubscribed(Integer trackId) {
-
-        Observable<Boolean> observable = realm
+        return realm
                 .where(SinglePodcastRealm.class)
                 .equalTo("trackId", trackId)
                 .findFirstAsync()
                 .asObservable()
                 .map(x -> isSubscribed(x))
                 .observeOn(AndroidSchedulers.mainThread());
-        return observable;
     }
 
     private boolean isSubscribed(RealmObject x) {
@@ -37,22 +40,21 @@ public class RealmRepository implements Repository {
     }
 
     @Override
-    public void actuallySubscribesToPodcast(SinglePodcast singlePodcast) {//TODO async
+    public void actuallySubscribesToPodcast(SinglePodcast singlePodcast) {
         realm.executeTransactionAsync(realm1 -> {
             SinglePodcastRealm singlePodcastRealm = getSinglePodcastRealm(singlePodcast, realm1);
             if (singlePodcastRealm != null) {
                 singlePodcastRealm.setPodcastSubscribed(true);
             } else {
-                singlePodcastRealm = new SinglePodcastRealmFactory().singlePodcastRealm(singlePodcast);
+                singlePodcastRealm = RealmUtlis.singlePodcastRealm(singlePodcast);
                 singlePodcastRealm.setPodcastSubscribed(true);
                 realm1.copyToRealm(singlePodcastRealm);
             }
         });
     }
 
-
     @Override
-    public void actuallyUnSubscribesToPodcast(SinglePodcast singlePodcast) { //TODO async
+    public void actuallyUnSubscribesToPodcast(SinglePodcast singlePodcast) {
         realm.executeTransactionAsync(realm1 -> {
             SinglePodcastRealm singlePodcastRealm = getSinglePodcastRealm(singlePodcast, realm1);
             if (singlePodcastRealm != null) {
@@ -60,6 +62,26 @@ public class RealmRepository implements Repository {
             }
         });
     }
+
+    @Override
+    public Observable<List<SinglePodcast>> subscribeToSubscribedPodcasts(Observer<List<SinglePodcast>> observer) {
+        return realm
+                .where(SinglePodcastRealm.class)
+                .findAllAsync()
+                .asObservable()
+                .filter(x -> x.size() > 0)
+                .map(x -> toRinglePodcast(x))
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    private List<SinglePodcast> toRinglePodcast(RealmResults<SinglePodcastRealm> results) {
+        List<SinglePodcast> list = new ArrayList<>(results.size());
+        for (SinglePodcastRealm single : results) {
+            list.add(RealmUtlis.singlePodcast(single));
+        }
+        return list;
+    }
+
 
     private SinglePodcastRealm getSinglePodcastRealm(SinglePodcast singlePodcast, Realm realm1) {
         return realm1.where(SinglePodcastRealm.class)

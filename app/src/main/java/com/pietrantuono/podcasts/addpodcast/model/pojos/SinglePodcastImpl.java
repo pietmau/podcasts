@@ -108,6 +108,8 @@ public class SinglePodcastImpl implements SinglePodcast {
     @Expose
     private List<String> genres = null;
 
+    public SinglePodcastImpl() {
+    }
 
     /**
      *
