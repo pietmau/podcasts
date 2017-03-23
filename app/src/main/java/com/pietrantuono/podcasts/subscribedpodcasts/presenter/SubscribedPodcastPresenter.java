@@ -38,4 +38,8 @@ public class SubscribedPodcastPresenter {
            }
        });
     }
+
+    public void onPause() {
+        model.unsubscribe();
+    }
 }

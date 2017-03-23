@@ -66,4 +66,12 @@ public class SubscribedPodcastPresenterTest {
         presenter.onResume();
         verify(model).subscribeToSubscribedPodcasts(captor.capture());
     }
+
+    @Test
+    public void when_onPause_then_unsubscribes() {
+        //WHEN
+        presenter.onPause();
+        //THEN
+        verify(model).unsubscribe();
+    }
 }

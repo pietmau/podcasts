@@ -8,4 +8,6 @@ import rx.Observer;
 
 public interface SubscribedPodcastModel {
     void subscribeToSubscribedPodcasts(Observer<List<SinglePodcast>> observer);
+
+    void unsubscribe();
 }

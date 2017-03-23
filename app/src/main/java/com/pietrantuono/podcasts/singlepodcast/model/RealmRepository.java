@@ -69,7 +69,6 @@ public class RealmRepository implements Repository {
                 .where(SinglePodcastRealm.class)
                 .findAllAsync()
                 .asObservable()
-                .filter(x -> x.size() > 0)
                 .map(x -> toRinglePodcast(x))
                 .observeOn(AndroidSchedulers.mainThread());
     }

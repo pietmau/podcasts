@@ -21,21 +21,13 @@ public class SubscribedPodcastModelImpl implements SubscribedPodcastModel {
     @Override
     public void subscribeToSubscribedPodcasts(Observer<List<SinglePodcast>> observer) {
         Observable<List<SinglePodcast>> observable = repository.subscribeToSubscribedPodcasts(observer);
-        subscription = observable.subscribe(new Observer<List<SinglePodcast>>() {
-            @Override
-            public void onCompleted() {
+        subscription = observable.subscribe(observer);
+    }
 
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(List<SinglePodcast> singlePodcasts) {
-
-            }
-        });
+    @Override
+    public void unsubscribe() {
+        if(subscription!=null && !subscription.isUnsubscribed()){
+            subscription.unsubscribe();
+        }
     }
 }
