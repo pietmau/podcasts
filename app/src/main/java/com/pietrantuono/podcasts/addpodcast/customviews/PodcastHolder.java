@@ -8,7 +8,7 @@ import android.view.View;
 import com.pietrantuono.podcasts.BR;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcastImpl;
+import com.pietrantuono.podcasts.databinding.FindPodcastItemBinding;
 import com.pietrantuono.podcasts.databinding.PodcastItemBinding;
 import com.pietrantuono.podcasts.singlepodcast.viewmodel.ResourcesProvider;
 
@@ -35,15 +35,15 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
     }
 
     private void setOverflowClickListener() {
-        ((PodcastItemBinding) dataBinding).overflow.setOnClickListener(view -> showMenu());
+        //((FindPodcastItemBinding) dataBinding).overflow.setOnClickListener(view -> showMenu());
     }
 
     private void setUpMenu(SinglePodcast singlePodcast, PodcastsAdapter.OnSunscribeClickedListener onSunscribeClickedListener) {
-        popupMenu = new SimplePopUpMenu(((PodcastItemBinding) dataBinding).overflow, singlePodcast, singlePodcast1 -> onSunscribeClickedListener.onSubscribeClicked(singlePodcast1));
+        //popupMenu = new SimplePopUpMenu(((FindPodcastItemBinding) dataBinding).overflow, singlePodcast, singlePodcast1 -> onSunscribeClickedListener.onSubscribeClicked(singlePodcast1));
     }
 
     private void setUpOnClickListener(SinglePodcast singlePodcast, int position, PodcastsAdapter.OnItemClickedClickedListener onItemClickedClickedListener) {
-        ((PodcastItemBinding) dataBinding).podcastImage.setOnClickListener(view -> onItemClickedClickedListener.onItemClicked(singlePodcast, ((PodcastItemBinding) dataBinding).podcastImage, position));
+        ((FindPodcastItemBinding) dataBinding).podcastImage.setOnClickListener(view -> onItemClickedClickedListener.onItemClicked(singlePodcast, ((PodcastItemBinding) dataBinding).podcastImage, position));
     }
 
     @OnClick(R.id.overflow)
