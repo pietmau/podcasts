@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
-import com.pietrantuono.podcasts.addpodcast.view.AddPodcastFragment;
 import com.pietrantuono.podcasts.main.view.MainActivity;
 import com.pietrantuono.podcasts.subscribedpodcasts.presenter.SubscribedPodcastPresenter;
 
@@ -23,7 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SubscribedPodcastFragment extends Fragment implements SubscribedPodcastView {
-    private static final String TAG = (AddPodcastFragment.class).getSimpleName();
+    private static final String TAG = (SubscribedPodcastFragment.class).getSimpleName();
     @Inject SubscribedPodcastPresenter presenter;
     @BindView(R.id.recycler) PodcastsRecycler recycler;
 
@@ -61,6 +60,18 @@ public class SubscribedPodcastFragment extends Fragment implements SubscribedPod
 
     @Override
     public void setPodcasts(List<SinglePodcast> list) {
+        recycler.setItems(list);
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        presenter.onPause();
     }
 }

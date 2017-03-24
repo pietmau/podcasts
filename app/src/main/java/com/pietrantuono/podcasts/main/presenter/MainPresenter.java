@@ -8,8 +8,8 @@ public class MainPresenter implements GenericPresenter {
 
     public void bindView(MainView view) {
         this.view = view;
-        view.navigateToSubscribedPodcasts();
     }
+
 
     @Override
     public void onDestroy() {
@@ -26,5 +26,11 @@ public class MainPresenter implements GenericPresenter {
     @Override
     public void onResume() {
 
+    }
+
+    public void onCreate(boolean activityRecreated) {
+        if (!activityRecreated) {
+            view.navigateToSubscribedPodcasts();
+        }
     }
 }

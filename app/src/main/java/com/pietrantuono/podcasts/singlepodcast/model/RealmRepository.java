@@ -18,6 +18,7 @@ import rx.android.schedulers.AndroidSchedulers;
 public class RealmRepository implements Repository {
     Realm realm = Realm.getDefaultInstance();
 
+
     @Override
     public Observable<Boolean> getIfSubscribed(Integer trackId) {
         return realm

@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         fragmentManager = getSupportFragmentManager();
         setUpViews();
         mainPresenter.bindView(MainActivity.this);
+        mainPresenter.onCreate(savedInstanceState != null);
         transitionsFramework.initMainActivityTransitions(MainActivity.this);
     }
 
