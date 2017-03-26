@@ -33,7 +33,7 @@
                 android:transitionName="@string/detail_transition"
                 android:padding="@dimen/podcast_title_bar_padding"
                 android:gravity="center"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/podcast_title_bar_height"
                 android:ellipsize="marquee"
                 android:lines="1"
