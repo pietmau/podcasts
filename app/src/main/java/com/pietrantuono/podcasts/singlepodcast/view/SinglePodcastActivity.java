@@ -1,10 +1,13 @@
 package com.pietrantuono.podcasts.singlepodcast.view;
 
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Transition;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -39,6 +42,7 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
     @BindView(R.id.recycler) EpisodesRecycler recyclerView;
     @BindView(R.id.progress) ProgressBar progressBar;
     @BindView(R.id.subscribeunsubscribe) TextView subscribeUnsubscribeText;
+    @BindView(R.id.coordiantor) View coordinatorlayout;
     @Inject TransitionsFramework transitionsFramework;
     @Inject SimpleImageLoader imageLoader;
     @Inject SinglePodcastPresenter presenter;
@@ -62,9 +66,36 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
                 .inject(SinglePodcastActivity.this);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void enterWithTransition() {
         transitionsFramework.initDetailTransitions(SinglePodcastActivity.this);
+        getWindow().getSharedElementEnterTransition().addListener(new Transition.TransitionListener() {
+            @Override
+            public void onTransitionStart(Transition transition) {
+
+            }
+
+            @Override
+            public void onTransitionEnd(Transition transition) {
+
+            }
+
+            @Override
+            public void onTransitionCancel(Transition transition) {
+
+            }
+
+            @Override
+            public void onTransitionPause(Transition transition) {
+
+            }
+
+            @Override
+            public void onTransitionResume(Transition transition) {
+
+            }
+        });
     }
 
     @Override
@@ -75,6 +106,14 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
     private void initViews() {
         setContentView(R.layout.activity_podcast);
         ButterKnife.bind(SinglePodcastActivity.this);
+        getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+            if (SinglePodcastActivity.this.isDestroyed() || SinglePodcastActivity.this.isFinishing()) {
+                return;
+            }
+            int bottom = getWindow().getDecorView().getBottom();
+            coordinatorlayout.setY(bottom);
+        });
+
         setUpActionBar();
     }
 

@@ -34,9 +34,9 @@ public class TransitionsFrameworkImpl implements TransitionsFramework {
         Slide shortSlide = createSlide(SHORT, Gravity.LEFT);
         Slide longSlide = createSlide(LONG, Gravity.LEFT);
         Window window = activity.getWindow();
-        window.setEnterTransition(shortSlide);
-        window.setExitTransition(longSlide);
-        window.setReenterTransition(shortSlide);
+//        window.setEnterTransition(shortSlide);
+//        window.setExitTransition(longSlide);
+//        window.setReenterTransition(shortSlide);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
@@ -48,8 +48,8 @@ public class TransitionsFrameworkImpl implements TransitionsFramework {
         }
         Slide shortSlide = createSlide(SHORT, Gravity.RIGHT);
         Window window = activity.getWindow();
-        window.setEnterTransition(shortSlide);
-        window.setExitTransition(shortSlide);
+//        window.setEnterTransition(shortSlide);
+//        window.setExitTransition(shortSlide);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         activity.postponeEnterTransition();
     }
