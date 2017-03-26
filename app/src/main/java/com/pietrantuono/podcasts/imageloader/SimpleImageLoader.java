@@ -5,9 +5,9 @@ import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcastImpl;
 import com.pietrantuono.podcasts.singlepodcast.view.PodcastImageLoadingListener;
 
 public class SimpleImageLoader {
@@ -18,7 +18,7 @@ public class SimpleImageLoader {
             .cacheOnDisk(true)
             .build();
 
-    public void displayImage(String url, ImageView imageView, PodcastImageLoadingListener podcastImageLoadingListener) {
+    public void displayImage(String url, ImageView imageView, ImageLoadingListener podcastImageLoadingListener) {
         ImageLoader.getInstance().displayImage(url, imageView, options, podcastImageLoadingListener);
     }
 

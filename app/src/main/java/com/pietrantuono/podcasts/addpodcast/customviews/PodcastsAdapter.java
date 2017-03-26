@@ -35,7 +35,7 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
     @Override
     public PodcastHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.find_podcast_item, parent, false);
-        return new PodcastHolder(v, resolver);
+        return new PodcastHolder(v, resolver, imageLoader);
     }
 
     @Override

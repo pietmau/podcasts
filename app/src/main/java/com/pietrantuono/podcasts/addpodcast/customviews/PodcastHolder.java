@@ -1,26 +1,31 @@
 package com.pietrantuono.podcasts.addpodcast.customviews;
 
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
+import android.graphics.Bitmap;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.pietrantuono.podcasts.BR;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
+import com.pietrantuono.podcasts.imageloader.SimpleImageLoader;
 import com.pietrantuono.podcasts.singlepodcast.viewmodel.ResourcesProvider;
 
 import butterknife.OnClick;
 
 public class PodcastHolder extends RecyclerView.ViewHolder {
-    private final ViewDataBinding dataBinding;
+    private final com.pietrantuono.podcasts.databinding.FindPodcastItemBinding dataBinding;
     private final ResourcesProvider resourcesProvider;
     private SimplePopUpMenu popupMenu;
+    private SimpleImageLoader loader;
 
-    public PodcastHolder(View itemView, ResourcesProvider resourcesProvider) {
+    public PodcastHolder(View itemView, ResourcesProvider resourcesProvider, SimpleImageLoader loader) {
         super(itemView);
         dataBinding = DataBindingUtil.bind(itemView);
         this.resourcesProvider = resourcesProvider;
+        this.loader = loader;
     }
 
     public void onBindViewHolder(final SinglePodcast singlePodcast, PodcastsAdapter.OnSunscribeClickedListener onSunscribeClickedListener, final PodcastsAdapter.OnItemClickedClickedListener onItemClickedClickedListener, int position) {
@@ -30,6 +35,25 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
         setUpOnClickListener(singlePodcast, position, onItemClickedClickedListener);
         setUpMenu(singlePodcast, onSunscribeClickedListener);
         setOverflowClickListener();
+        loadImage();
+    }
+
+    private void loadImage() {
+        loader.displayImage(dataBinding.getSinlglePodcastViewModel().getImageUrl(), dataBinding.podcastImage, new SimpleImageLoadingListener() {
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                Palette.generateAsync(loadedImage, new Palette.PaletteAsyncListener() {
+                    @Override
+                    public void onGenerated(Palette palette) {
+                        Palette.Swatch vibrant = palette.getDarkVibrantSwatch();
+                        if (vibrant != null) {
+                            dataBinding.titleContainer.setBackgroundColor(vibrant.getRgb());
+                            dataBinding.title.setTextColor(vibrant.getBodyTextColor());
+                        }
+                    }
+                });
+            }
+        });
     }
 
     private void setOverflowClickListener() {
@@ -41,7 +65,7 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
     }
 
     private void setUpOnClickListener(SinglePodcast singlePodcast, int position, PodcastsAdapter.OnItemClickedClickedListener onItemClickedClickedListener) {
-       ((com.pietrantuono.podcasts.databinding.FindPodcastItemBinding) dataBinding).podcastImage.setOnClickListener(view -> onItemClickedClickedListener.onItemClicked(singlePodcast, ((com.pietrantuono.podcasts.databinding.FindPodcastItemBinding) dataBinding).podcastImage, position, ((com.pietrantuono.podcasts.databinding.FindPodcastItemBinding) dataBinding).titleContainer));
+        dataBinding.podcastImage.setOnClickListener(view -> onItemClickedClickedListener.onItemClicked(singlePodcast, dataBinding.podcastImage, position, dataBinding.titleContainer));
     }
 
     @OnClick(R.id.overflow)

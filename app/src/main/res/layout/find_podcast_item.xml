@@ -19,7 +19,7 @@
             android:layout_height="500dp"
             android:scaleType="centerCrop"
             android:transitionName="@string/detail_transition_image"
-            bind:image="@{sinlglePodcastViewModel.imageUrl}"/>
+            />
 
         <LinearLayout
             android:transitionName="@string/detail_transition_toolbar"
@@ -31,11 +31,12 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/title"
                 android:padding="@dimen/podcast_title_bar_padding"
                 android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/podcast_title_bar_height"
-                android:ellipsize="marquee"
+                android:ellipsize="end"
                 android:lines="1"
                 android:text="@{sinlglePodcastViewModel.title}"
                 android:textAppearance="?android:textAppearanceSmall"
