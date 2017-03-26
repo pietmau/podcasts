@@ -25,7 +25,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:scaleType="centerCrop"
-                android:transitionName="@string/detail_transition"
+                android:transitionName="@string/detail_transition_image"
                 bind:image="@{sinlglePodcastViewModel.imageUrl}"/>
 
             <RelativeLayout

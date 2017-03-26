@@ -8,7 +8,6 @@ import android.os.Build;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.transition.Slide;
-import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -32,12 +31,12 @@ public class TransitionsFrameworkImpl implements TransitionsFramework {
         if (!apiLevelChecker.isLollipopOrHigher()) {
             return;
         }
-        Slide shortSlide = createSlide(SHORT, Gravity.LEFT);
-        Slide longSlide = createSlide(LONG, Gravity.LEFT);
+//        Slide shortSlide = createSlide(SHORT, Gravity.LEFT);
+//        Slide longSlide = createSlide(LONG, Gravity.LEFT);
         Window window = activity.getWindow();
-        window.setEnterTransition(shortSlide);
-        window.setExitTransition(longSlide);
-        window.setReenterTransition(shortSlide);
+//        window.setEnterTransition(shortSlide);
+//        window.setExitTransition(longSlide);
+//        window.setReenterTransition(shortSlide);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
@@ -47,10 +46,10 @@ public class TransitionsFrameworkImpl implements TransitionsFramework {
         if (!apiLevelChecker.isLollipopOrHigher()) {
             return;
         }
-        Slide shortSlide = createSlide(SHORT, Gravity.RIGHT);
+        //Slide shortSlide = createSlide(SHORT, Gravity.RIGHT);
         Window window = activity.getWindow();
-        window.setEnterTransition(shortSlide);
-        window.setExitTransition(shortSlide);
+//        window.setEnterTransition(shortSlide);
+//        window.setExitTransition(shortSlide);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         activity.postponeEnterTransition();
     }
@@ -79,8 +78,8 @@ public class TransitionsFrameworkImpl implements TransitionsFramework {
         } else {
             pairs = new Pair[2];
         }
-        pairs[0] = new Pair(imageView, activity.getString(R.string.detail_transition));
-        pairs[1] = new Pair(titleContainer, "foo");
+        pairs[0] = new Pair(imageView, activity.getString(R.string.detail_transition_image));
+        pairs[1] = new Pair(titleContainer, activity.getString(R.string.detail_transition_toolbar));
         return pairs;
     }
 

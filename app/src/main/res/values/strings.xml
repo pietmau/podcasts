@@ -9,7 +9,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="subscribe">Subscribe</string>
-    <string name="detail_transition">detail_transition</string>
+    <string name="detail_transition_image">detail_transition_image</string>
     <string name="episodes">episodes</string>
     <string name="unsubscribe">Unsubscribe</string>
+    <string name="detail_transition_toolbar">detail_transition_toolbar</string>
 </resources>
