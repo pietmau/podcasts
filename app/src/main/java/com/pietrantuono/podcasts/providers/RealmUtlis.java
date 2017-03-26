@@ -63,7 +63,7 @@ public class RealmUtlis {
         singlePodcastRealm.setTrackHdRentalPrice(podcast.getTrackHdRentalPrice());
         singlePodcastRealm.setTrackId(podcast.getTrackId());
         singlePodcastRealm.setTrackPrice(podcast.getTrackPrice());
-        singlePodcastRealm.setTrackName(singlePodcastRealm.getTrackName());
+        singlePodcastRealm.setTrackName(podcast.getTrackName());
         singlePodcastRealm.setTrackHdPrice(podcast.getTrackHdPrice());
         singlePodcastRealm.setTrackViewUrl(podcast.getTrackViewUrl());
         singlePodcastRealm.setTrackRentalPrice(podcast.getTrackRentalPrice());

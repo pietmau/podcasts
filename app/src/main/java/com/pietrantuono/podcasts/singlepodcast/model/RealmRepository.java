@@ -70,11 +70,11 @@ public class RealmRepository implements Repository {
                 .where(SinglePodcastRealm.class)
                 .findAllAsync()
                 .asObservable()
-                .map(x -> toRinglePodcast(x))
+                .map(x -> toSinglePodcast(x))
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    private List<SinglePodcast> toRinglePodcast(RealmResults<SinglePodcastRealm> results) {
+    private List<SinglePodcast> toSinglePodcast(RealmResults<SinglePodcastRealm> results) {
         List<SinglePodcast> list = new ArrayList<>(results.size());
         for (SinglePodcastRealm single : results) {
             list.add(RealmUtlis.singlePodcast(single));

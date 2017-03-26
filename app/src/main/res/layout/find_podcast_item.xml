@@ -4,21 +4,14 @@
     >
 
     <data>
-
         <variable
             name="sinlglePodcastViewModel"
             type="com.pietrantuono.podcasts.addpodcast.customviews.SinlglePodcastViewModel"/>
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        android:layout_height="wrap_content">
 
         <com.pietrantuono.podcasts.addpodcast.customviews.SquareImageView
             android:id="@+id/podcast_image"
@@ -29,25 +22,25 @@
             bind:image="@{sinlglePodcastViewModel.imageUrl}"/>
 
         <LinearLayout
-            android:layout_below="@+id/podcast_image"
             android:id="@+id/title_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/podcast_image"
             android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
-                android:lines="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="marquee"
+                android:lines="1"
                 android:text="@{sinlglePodcastViewModel.title}"
                 android:textAppearance="?android:textAppearanceSmall"
                 android:textColor="@android:color/white"/>
 
         </LinearLayout>
 
-        </RelativeLayout>
-    </LinearLayout>
+    </RelativeLayout>
+
 
 </layout>
