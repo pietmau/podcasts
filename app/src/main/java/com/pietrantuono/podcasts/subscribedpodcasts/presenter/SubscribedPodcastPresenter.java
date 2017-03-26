@@ -37,7 +37,7 @@ public class SubscribedPodcastPresenter implements GenericPresenter {
 
             @Override
             public void onNext(List<SinglePodcast> singlePodcasts) {
-                if (SubscribedPodcastPresenter.this.singlePodcasts == null) {
+                if (SubscribedPodcastPresenter.this.singlePodcasts == null || SubscribedPodcastPresenter.this.singlePodcasts.isEmpty()) {
                     SubscribedPodcastPresenter.this.singlePodcasts = singlePodcasts;
                     view.setPodcasts(singlePodcasts);
                 }

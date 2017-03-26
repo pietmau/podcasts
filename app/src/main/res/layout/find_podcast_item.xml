@@ -16,15 +16,20 @@
         android:orientation="vertical"
         >
 
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
         <com.pietrantuono.podcasts.addpodcast.customviews.SquareImageView
             android:id="@+id/podcast_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="500dp"
+            android:layout_height="500dp"
             android:scaleType="centerCrop"
             android:transitionName="@string/detail_transition"
             bind:image="@{sinlglePodcastViewModel.imageUrl}"/>
 
         <LinearLayout
+            android:layout_below="@+id/podcast_image"
             android:id="@+id/title_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,15 +37,17 @@
             android:orientation="horizontal">
 
             <TextView
+                android:lines="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="marquee"
                 android:text="@{sinlglePodcastViewModel.title}"
-                android:textAppearance="?android:textAppearanceMedium"
+                android:textAppearance="?android:textAppearanceSmall"
                 android:textColor="@android:color/white"/>
 
         </LinearLayout>
 
+        </RelativeLayout>
     </LinearLayout>
 
 </layout>
