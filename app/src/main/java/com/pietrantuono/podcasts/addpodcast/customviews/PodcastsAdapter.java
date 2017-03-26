@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
@@ -33,7 +34,7 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
 
     @Override
     public PodcastHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.podcast_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.find_podcast_item, parent, false);
         return new PodcastHolder(v, resolver);
     }
 
@@ -88,6 +89,6 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
     }
 
     public interface OnItemClickedClickedListener {
-        void onItemClicked(SinglePodcast singlePodcast, ImageView imageView, int position);
+        void onItemClicked(SinglePodcast singlePodcast, ImageView imageView, int position, LinearLayout titleContainer);
     }
 }

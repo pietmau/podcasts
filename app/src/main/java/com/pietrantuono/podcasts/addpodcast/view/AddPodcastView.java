@@ -3,9 +3,9 @@ package com.pietrantuono.podcasts.addpodcast.view;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcastImpl;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public interface AddPodcastView {
 
     void onQueryTextChange(String newText);
 
-    void startDetailActivityWithTransition(SinglePodcast singlePodcast, ImageView imageView);
+    void startDetailActivityWithTransition(SinglePodcast singlePodcast, ImageView imageView, LinearLayout titleContainer);
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     void startDetailActivityWithoutTransition(SinglePodcast singlePodcast);

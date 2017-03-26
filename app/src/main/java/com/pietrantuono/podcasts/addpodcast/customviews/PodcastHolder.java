@@ -8,7 +8,7 @@ import android.view.View;
 import com.pietrantuono.podcasts.BR;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
-import com.pietrantuono.podcasts.databinding.PodcastItemBinding;
+import com.pietrantuono.podcasts.databinding.FindPodcastItemBinding;
 import com.pietrantuono.podcasts.singlepodcast.viewmodel.ResourcesProvider;
 
 import butterknife.OnClick;
@@ -42,7 +42,7 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
     }
 
     private void setUpOnClickListener(SinglePodcast singlePodcast, int position, PodcastsAdapter.OnItemClickedClickedListener onItemClickedClickedListener) {
-       ((PodcastItemBinding) dataBinding).podcastImage.setOnClickListener(view -> onItemClickedClickedListener.onItemClicked(singlePodcast, ((PodcastItemBinding) dataBinding).podcastImage, position));
+       ((FindPodcastItemBinding) dataBinding).podcastImage.setOnClickListener(view -> onItemClickedClickedListener.onItemClicked(singlePodcast, ((FindPodcastItemBinding) dataBinding).podcastImage, position, ((FindPodcastItemBinding) dataBinding).titleContainer));
     }
 
     @OnClick(R.id.overflow)

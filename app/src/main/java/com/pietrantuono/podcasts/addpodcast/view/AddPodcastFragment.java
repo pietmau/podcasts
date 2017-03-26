@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.bartoszlipinski.recyclerviewheader2.RecyclerViewHeader;
 import com.pietrantuono.podcasts.R;
@@ -130,11 +131,11 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void startDetailActivityWithTransition(SinglePodcast singlePodcast, ImageView imageView) {
+    public void startDetailActivityWithTransition(SinglePodcast singlePodcast, ImageView imageView, LinearLayout titleContainer) {
         Intent intent = new Intent(getActivity(), SinglePodcastActivity.class);
         intent.putExtra(SinglePodcastActivity.SINGLE_PODCAST, singlePodcast);
         intent.putExtra(SinglePodcastActivity.STARTED_WITH_TRANSITION, true);
-        getActivity().startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), getPairs(imageView)).toBundle());
+        getActivity().startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), getPairs(imageView, titleContainer)).toBundle());
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -146,8 +147,8 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     }
 
     @NonNull
-    private Pair[] getPairs(ImageView imageView) {
-        return transitionsFramework.getPairs(imageView, getActivity());
+    private Pair[] getPairs(ImageView imageView, LinearLayout titleContainer) {
+        return transitionsFramework.getPairs(imageView, getActivity(),titleContainer);
     }
 
     @Override

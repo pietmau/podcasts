@@ -12,8 +12,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
-import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker;
 
 public class TransitionsFrameworkImpl implements TransitionsFramework {
@@ -65,7 +65,7 @@ public class TransitionsFrameworkImpl implements TransitionsFramework {
 
 
     @Override
-    public Pair[] getPairs(ImageView imageView, Activity activity) {
+    public Pair[] getPairs(ImageView imageView, Activity activity, LinearLayout titleContainer) {
         if (!apiLevelChecker.isLollipopOrHigher()) {
             return new Pair[0];
         }
@@ -78,7 +78,8 @@ public class TransitionsFrameworkImpl implements TransitionsFramework {
         } else {
             pairs = new Pair[1];
         }
-        pairs[0] = new Pair(imageView, activity.getString(R.string.detail_transition));
+        //pairs[0] = new Pair(imageView, activity.getString(R.string.detail_transition));
+        pairs[0] = new Pair(titleContainer, "foo");
         return pairs;
     }
 

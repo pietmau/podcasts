@@ -18,4 +18,6 @@
     <dimen name="actionbar_textview_padding_right">8dp</dimen>
     <dimen name="actionbar_textview_drawable_padding">4dp</dimen>
     <dimen name="podcast_item_image_size">500dp</dimen>
+    <dimen name="podcast_title_bar_height">40dp</dimen>
+    <dimen name="podcast_title_bar_padding">4dp</dimen>
 </resources>
