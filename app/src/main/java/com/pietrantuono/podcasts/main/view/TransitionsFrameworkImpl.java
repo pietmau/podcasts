@@ -14,6 +14,7 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker;
 
 public class TransitionsFrameworkImpl implements TransitionsFramework {
@@ -73,13 +74,13 @@ public class TransitionsFrameworkImpl implements TransitionsFramework {
         View navBar = decor.findViewById(android.R.id.navigationBarBackground);
         Pair[] pairs;
         if (navBar != null) {
-            pairs = new Pair[2];
-            pairs[1] = new Pair(navBar, "transition");
+            pairs = new Pair[3];
+            pairs[2] = new Pair(navBar, "transition");
         } else {
-            pairs = new Pair[1];
+            pairs = new Pair[2];
         }
-        //pairs[0] = new Pair(imageView, activity.getString(R.string.detail_transition));
-        pairs[0] = new Pair(titleContainer, "foo");
+        pairs[0] = new Pair(imageView, activity.getString(R.string.detail_transition));
+        pairs[1] = new Pair(titleContainer, "foo");
         return pairs;
     }
 
