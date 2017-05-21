@@ -1,12 +1,9 @@
 package com.pietrantuono.podcasts.addpodcast.customviews;
 
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.pietrantuono.podcasts.BR;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
@@ -39,21 +36,8 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
     }
 
     private void loadImage() {
-        loader.displayImage(dataBinding.getSinlglePodcastViewModel().getImageUrl(), dataBinding.podcastImage, new SimpleImageLoadingListener() {
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                Palette.generateAsync(loadedImage, new Palette.PaletteAsyncListener() {
-                    @Override
-                    public void onGenerated(Palette palette) {
-                        Palette.Swatch vibrant = palette.getDarkVibrantSwatch();
-                        if (vibrant != null) {
-                            dataBinding.titleContainer.setBackgroundColor(vibrant.getRgb());
-                            dataBinding.title.setTextColor(vibrant.getBodyTextColor());
-                        }
-                    }
-                });
-            }
-        });
+        loader.displayImage(dataBinding.getSinlglePodcastViewModel().getImageUrl(), dataBinding.podcastImage);
+        dataBinding.titleContainer.loadPalette(loader, dataBinding.getSinlglePodcastViewModel().getImageUrl());
     }
 
     private void setOverflowClickListener() {

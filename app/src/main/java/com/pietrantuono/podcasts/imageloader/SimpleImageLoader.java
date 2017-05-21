@@ -26,15 +26,19 @@ public class SimpleImageLoader {
         ImageLoader.getInstance().displayImage(url, imageView, options);
     }
 
-    public void loadImage(String url) {
-        ImageLoader.getInstance().loadImage(url, null);
-    }
-
     public void displayImage(SinglePodcast singlePodcast, ImageView imageView, PodcastImageLoadingListener podcastImageLoadingListener) {
         if (singlePodcast == null) {
             return;
         }
         String url = singlePodcast.getArtworkUrl600();
         ImageLoader.getInstance().displayImage(url, imageView, options, podcastImageLoadingListener);
+    }
+
+    public void loadImage(String url) {
+        ImageLoader.getInstance().loadImage(url, null);
+    }
+
+    public void loadImage(String url, ImageLoadingListener listener) {
+        ImageLoader.getInstance().loadImage(url, listener);
     }
 }

@@ -21,7 +21,7 @@
             android:transitionName="@string/detail_transition_image"
             />
 
-        <LinearLayout
+        <com.pietrantuono.podcasts.addpodcast.customviews.ColorableLinearLayout
             android:transitionName="@string/detail_transition_toolbar"
             android:id="@+id/title_container"
             android:layout_width="match_parent"
@@ -31,6 +31,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:textStyle="bold"
                 android:id="@+id/title"
                 android:padding="@dimen/podcast_title_bar_padding"
                 android:gravity="center"
@@ -42,7 +43,7 @@
                 android:textAppearance="?android:textAppearanceSmall"
                 android:textColor="@android:color/white"/>
 
-        </LinearLayout>
+        </com.pietrantuono.podcasts.addpodcast.customviews.ColorableLinearLayout>
 
     </RelativeLayout>
 

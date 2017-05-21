@@ -20,7 +20,7 @@ public class ImageLoaderModule {
 
     public ImageLoaderModule(Context context) {
         this.context = context;
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context).build();
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context).writeDebugLogs().build();
         ImageLoader.getInstance().init(config);
     }
 
