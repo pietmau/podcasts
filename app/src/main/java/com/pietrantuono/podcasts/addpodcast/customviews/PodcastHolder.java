@@ -1,9 +1,15 @@
 package com.pietrantuono.podcasts.addpodcast.customviews;
 
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.pietrantuono.podcasts.BR;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
@@ -36,8 +42,24 @@ public class PodcastHolder extends RecyclerView.ViewHolder {
     }
 
     private void loadImage() {
-        loader.displayImage(dataBinding.getSinlglePodcastViewModel().getImageUrl(), dataBinding.podcastImage);
-        dataBinding.titleContainer.loadPalette(loader, dataBinding.getSinlglePodcastViewModel().getImageUrl());
+        loader.displayImage(dataBinding.getSinlglePodcastViewModel().getImageUrl(), dataBinding.podcastImage, new SimpleImageLoadingListener() {
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                BitmapDrawable drawable = ((BitmapDrawable) ((ImageView) view).getDrawable());
+                Palette.from(drawable.getBitmap()).generate(new Palette.PaletteAsyncListener() {
+                    @Override
+                    public void onGenerated(Palette palette) {
+                        Palette.Swatch vibrant = palette.getVibrantSwatch();
+                        if (vibrant != null) {
+                            dataBinding.titleContainer.setBackgroundColor(vibrant.getRgb());
+                        } else {
+                            dataBinding.titleContainer.setBackgroundColor(Color.BLACK);
+                        }
+                    }
+                });
+            }
+        });
+        //dataBinding.titleContainer.loadPalette(loader, dataBinding.getSinlglePodcastViewModel().getImageUrl());
     }
 
     private void setOverflowClickListener() {

@@ -63,7 +63,7 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
 
     private void prefetch(List<SinglePodcast> items) {
         for (SinglePodcast item : items) {
-            imageLoader.loadImage(item.getArtworkUrl600());
+            //imageLoader.loadImage(item.getArtworkUrl600());
         }
     }
 

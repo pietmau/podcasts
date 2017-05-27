@@ -5,6 +5,7 @@ import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
@@ -24,6 +25,10 @@ public class SimpleImageLoader {
 
     public void displayImage(String url, ImageView imageView) {
         ImageLoader.getInstance().displayImage(url, imageView, options);
+    }
+
+    public void displayImage(String url, ImageAware imageViewAware) {
+        ImageLoader.getInstance().displayImage(url, imageViewAware, options);
     }
 
     public void displayImage(SinglePodcast singlePodcast, ImageView imageView, PodcastImageLoadingListener podcastImageLoadingListener) {
