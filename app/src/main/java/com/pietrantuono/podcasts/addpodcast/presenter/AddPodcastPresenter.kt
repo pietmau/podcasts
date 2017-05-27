@@ -87,9 +87,9 @@ class AddPodcastPresenter(private val addPodcastsModel: AddPodcastsModel, privat
 
     override fun onSubscribeClicked(singlePodcast: SinglePodcast) {}
 
-    override fun onItemClicked(singlePodcast: SinglePodcast, imageView: ImageView, position: Int, titleContainer: LinearLayout) {
+    override fun onItemClicked(singlePodcast: SinglePodcast, imageView: ImageView, position: Int, titleContainer: LinearLayout, barcolor: Int) {
         if (apiLevelChecker.isLollipopOrHigher && !addPodcastView!!.isPartiallyHidden(position)) {
-            addPodcastView!!.startDetailActivityWithTransition(singlePodcast, imageView, titleContainer)
+            addPodcastView!!.startDetailActivityWithTransition(singlePodcast, imageView, titleContainer, barcolor)
         } else {
             addPodcastView!!.startDetailActivityWithoutTransition(singlePodcast)
         }

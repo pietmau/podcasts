@@ -26,12 +26,12 @@ class PodcastHolder(itemView: View, private val resourcesProvider: ResourcesProv
         dataBinding = DataBindingUtil.bind<FindPodcastItemBinding>(itemView)
     }
 
-    fun onBindViewHolder(singlePodcast: SinglePodcast, onSunscribeClickedListener: PodcastsAdapter.OnSunscribeClickedListener?, onItemClickedClickedListener: PodcastsAdapter.OnItemClickedClickedListener?, position: Int) {
-        val podcastEpisodeViewModel = SinlglePodcastViewModel(singlePodcast, resourcesProvider, onItemClickedClickedListener, onSunscribeClickedListener, position)
+    fun onBindViewHolder(podcast: SinglePodcast, sunscribeClickedListener: PodcastsAdapter.OnSunscribeClickedListener?, onItemClickedClickedListener: PodcastsAdapter.OnItemClickedClickedListener?, position: Int) {
+        val podcastEpisodeViewModel = SinlglePodcastViewModel(podcast, resourcesProvider, onItemClickedClickedListener, sunscribeClickedListener, position)
         dataBinding.setVariable(BR.sinlglePodcastViewModel, podcastEpisodeViewModel)
         dataBinding.executePendingBindings()
-        setUpOnClickListener(singlePodcast, position, onItemClickedClickedListener)
-        setUpMenu(singlePodcast, onSunscribeClickedListener)
+        setUpOnClickListener(podcast, position, onItemClickedClickedListener)
+        setUpMenu(podcast, sunscribeClickedListener)
         setOverflowClickListener()
         loadImage()
     }
@@ -58,7 +58,7 @@ class PodcastHolder(itemView: View, private val resourcesProvider: ResourcesProv
     }
 
     private fun setUpOnClickListener(singlePodcast: SinglePodcast, position: Int, onItemClickedClickedListener: PodcastsAdapter.OnItemClickedClickedListener?) {
-        dataBinding.podcastImage.setOnClickListener { view: View -> onItemClickedClickedListener?.onItemClicked(singlePodcast, dataBinding.podcastImage, position, dataBinding.titleContainer) }
+        dataBinding.podcastImage.setOnClickListener { view: View -> onItemClickedClickedListener?.onItemClicked(singlePodcast, dataBinding.podcastImage, position, dataBinding.titleContainer, barColor) }
     }
 
     @OnClick(R.id.overflow)

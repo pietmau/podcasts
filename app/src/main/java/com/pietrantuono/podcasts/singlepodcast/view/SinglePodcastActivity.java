@@ -1,8 +1,11 @@
 package com.pietrantuono.podcasts.singlepodcast.view;
 
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -34,6 +37,7 @@ import butterknife.OnClick;
 public class SinglePodcastActivity extends AppCompatActivity implements SinglePodcastView {
     public static final String SINGLE_PODCAST = "single_podcast";
     public static final String STARTED_WITH_TRANSITION = "with_transition";
+    public static final String BARCOLOR = "bar_color";
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.main_image) ImageView imageView;
     @BindView(R.id.recycler) EpisodesRecycler recyclerView;
@@ -87,9 +91,14 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
 
     private void setUpActionBar() {
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle(null);
+        ActionBar supportActionBar = getSupportActionBar();
+        supportActionBar.setDisplayHomeAsUpEnabled(true);
+        supportActionBar.setDisplayShowHomeEnabled(true);
+        supportActionBar.setTitle(null);
+        if (getIntent() != null) {
+            int barColor = getIntent().getIntExtra(BARCOLOR, ContextCompat.getColor(this, R.color.colorPrimary));
+            supportActionBar.setBackgroundDrawable(new ColorDrawable(barColor));
+        }
     }
 
     private void loadImage() {
