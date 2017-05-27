@@ -2,7 +2,6 @@ package com.pietrantuono.podcasts.addpodcast.customviews
 
 import android.databinding.DataBindingUtil
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.support.v7.graphics.Palette
 import android.support.v7.widget.RecyclerView
@@ -19,9 +18,10 @@ import com.pietrantuono.podcasts.singlepodcast.viewmodel.ResourcesProvider
 
 class PodcastHolder(itemView: View, private val resourcesProvider: ResourcesProvider, private val loader: SimpleImageLoader) : RecyclerView.ViewHolder(itemView) {
     private val dataBinding: FindPodcastItemBinding
-    private val popupMenu: SimplePopUpMenu? = null
-
+    private var popupMenu: SimplePopUpMenu? = null
+    private var barColor: Int
     init {
+        barColor = resourcesProvider.getColor(R.color.colorPrimary)
         dataBinding = DataBindingUtil.bind<FindPodcastItemBinding>(itemView)
     }
 
@@ -38,14 +38,11 @@ class PodcastHolder(itemView: View, private val resourcesProvider: ResourcesProv
     private fun loadImage() {
         loader.displayImage(dataBinding.sinlglePodcastViewModel.imageUrl, dataBinding.podcastImage, object : SimpleImageLoadingListener() {
             override fun onLoadingComplete(imageUri: String?, view: View?, loadedImage: Bitmap?) {
-                val drawable = (view as ImageView).drawable as BitmapDrawable
-                Palette.from(drawable.bitmap).generate { palette ->
-                    val vibrant = palette.vibrantSwatch
-                    if (vibrant != null) {
-                        dataBinding.titleContainer.setBackgroundColor(vibrant.rgb)
-                    } else {
-                        dataBinding.titleContainer.setBackgroundColor(Color.BLACK)
+                Palette.from(((view as ImageView).drawable as BitmapDrawable).bitmap).generate { palette ->
+                    if (palette.vibrantSwatch != null) {
+                        barColor = palette.vibrantSwatch!!.rgb
                     }
+                    dataBinding.titleContainer.setBackgroundColor(barColor)
                 }
             }
         })
@@ -65,8 +62,6 @@ class PodcastHolder(itemView: View, private val resourcesProvider: ResourcesProv
 
     @OnClick(R.id.overflow)
     fun showMenu() {
-        popupMenu!!.show()
+        popupMenu?.show()
     }
-
-
 }

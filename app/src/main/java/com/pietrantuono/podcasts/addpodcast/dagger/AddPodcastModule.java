@@ -16,10 +16,10 @@ public class AddPodcastModule {
 
     @Provides
     AddPodcastPresenter provideAddPodcastPresenter(AddPodcastsModel addPodcastsModel, PresenterManager presenterManager, ApiLevelChecker apiLevelChecker) {
-        AddPodcastPresenter addPodcastPresenter = (AddPodcastPresenter) presenterManager.getPresenter(AddPodcastPresenter.TAG);
+        AddPodcastPresenter addPodcastPresenter = (AddPodcastPresenter) presenterManager.getPresenter(AddPodcastPresenter.Companion.getTAG());
         if (addPodcastPresenter == null) {
             addPodcastPresenter = new AddPodcastPresenter(addPodcastsModel, apiLevelChecker);
-            presenterManager.put(AddPodcastPresenter.TAG, addPodcastPresenter);
+            presenterManager.put(AddPodcastPresenter.Companion.getTAG(), addPodcastPresenter);
         }
         return addPodcastPresenter;
     }
