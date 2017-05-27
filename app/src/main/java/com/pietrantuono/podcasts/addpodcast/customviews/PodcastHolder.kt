@@ -40,8 +40,9 @@ class PodcastHolder(itemView: View, private val resourcesProvider: ResourcesProv
         loader.displayImage(dataBinding.sinlglePodcastViewModel.imageUrl, dataBinding.podcastImage, object : SimpleImageLoadingListener() {
             override fun onLoadingComplete(imageUri: String?, view: View?, loadedImage: Bitmap?) {
                 Palette.from(((view as ImageView).drawable as BitmapDrawable).bitmap).generate { palette ->
-                    if (palette.vibrantSwatch != null) {
-                        barColor = palette.vibrantSwatch!!.rgb
+                    val vibrantSwatch = palette.vibrantSwatch
+                    if (vibrantSwatch != null) {
+                        barColor = vibrantSwatch.rgb
                     }
                     dataBinding.titleContainer.setBackgroundColor(barColor)
                 }
