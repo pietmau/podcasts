@@ -18,7 +18,7 @@ import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
 import com.pietrantuono.podcasts.singlepodcast.viewmodel.ResourcesProvider
 
 class PodcastHolder(itemView: View, private val resourcesProvider: ResourcesProvider, private val loader: SimpleImageLoader) : RecyclerView.ViewHolder(itemView) {
-    private val dataBinding: com.pietrantuono.podcasts.databinding.FindPodcastItemBinding
+    private val dataBinding: FindPodcastItemBinding
     private val popupMenu: SimplePopUpMenu? = null
 
     init {
@@ -49,7 +49,6 @@ class PodcastHolder(itemView: View, private val resourcesProvider: ResourcesProv
                 }
             }
         })
-        //dataBinding.titleContainer.loadPalette(loader, dataBinding.getSinlglePodcastViewModel().getImageUrl());
     }
 
     private fun setOverflowClickListener() {
