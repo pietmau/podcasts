@@ -20,12 +20,13 @@ class PodcastHolder(itemView: View, private val resourcesProvider: ResourcesProv
     private val dataBinding: FindPodcastItemBinding
     private var popupMenu: SimplePopUpMenu? = null
     private var barColor: Int
+
     init {
         barColor = resourcesProvider.getColor(R.color.colorPrimary)
         dataBinding = DataBindingUtil.bind<FindPodcastItemBinding>(itemView)
     }
 
-    fun onBindViewHolder(singlePodcast: SinglePodcast, onSunscribeClickedListener: PodcastsAdapter.OnSunscribeClickedListener, onItemClickedClickedListener: PodcastsAdapter.OnItemClickedClickedListener, position: Int) {
+    fun onBindViewHolder(singlePodcast: SinglePodcast, onSunscribeClickedListener: PodcastsAdapter.OnSunscribeClickedListener?, onItemClickedClickedListener: PodcastsAdapter.OnItemClickedClickedListener?, position: Int) {
         val podcastEpisodeViewModel = SinlglePodcastViewModel(singlePodcast, resourcesProvider, onItemClickedClickedListener, onSunscribeClickedListener, position)
         dataBinding.setVariable(BR.sinlglePodcastViewModel, podcastEpisodeViewModel)
         dataBinding.executePendingBindings()
@@ -52,12 +53,12 @@ class PodcastHolder(itemView: View, private val resourcesProvider: ResourcesProv
         //((com.pietrantuono.podcasts.databinding.FindPodcastItemBinding) dataBinding).overflow.setOnClickListener(view -> showMenu());
     }
 
-    private fun setUpMenu(singlePodcast: SinglePodcast, onSunscribeClickedListener: PodcastsAdapter.OnSunscribeClickedListener) {
+    private fun setUpMenu(singlePodcast: SinglePodcast, onSunscribeClickedListener: PodcastsAdapter.OnSunscribeClickedListener?) {
         //popupMenu = new SimplePopUpMenu(((FindPodcastItemBinding) dataBinding).overflow, singlePodcast, singlePodcast1 -> onSunscribeClickedListener.onSubscribeClicked(singlePodcast1));
     }
 
-    private fun setUpOnClickListener(singlePodcast: SinglePodcast, position: Int, onItemClickedClickedListener: PodcastsAdapter.OnItemClickedClickedListener) {
-        dataBinding.podcastImage.setOnClickListener { view: View -> onItemClickedClickedListener.onItemClicked(singlePodcast, dataBinding.podcastImage, position, dataBinding.titleContainer) }
+    private fun setUpOnClickListener(singlePodcast: SinglePodcast, position: Int, onItemClickedClickedListener: PodcastsAdapter.OnItemClickedClickedListener?) {
+        dataBinding.podcastImage.setOnClickListener { view: View -> onItemClickedClickedListener?.onItemClicked(singlePodcast, dataBinding.podcastImage, position, dataBinding.titleContainer) }
     }
 
     @OnClick(R.id.overflow)
