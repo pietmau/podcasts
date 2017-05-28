@@ -148,7 +148,7 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
 
     @NonNull
     private Pair[] getPairs(ImageView imageView, LinearLayout titleContainer) {
-        return transitionsFramework.getPairs(imageView, getActivity(),titleContainer);
+        return transitionsFramework.getPairs(imageView, getActivity(), titleContainer);
     }
 
     @Override

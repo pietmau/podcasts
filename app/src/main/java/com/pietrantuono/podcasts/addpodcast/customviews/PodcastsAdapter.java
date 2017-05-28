@@ -21,7 +21,6 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
     private final List<SinglePodcast> items;
     private final List<SinglePodcast> publishedItems;
     private final SimpleImageLoader imageLoader;
-    private OnSunscribeClickedListener onSunscribeClickedListener;
     private OnItemClickedClickedListener onItemClickedClickedListener;
     private ResourcesProvider resolver;
 
@@ -68,10 +67,6 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
     @Override
     public Filter getFilter() {
         return new PodcastsFilter(this, items);
-    }
-
-    public void setOnSubscribeListener(OnSunscribeClickedListener onSunscribeClickedListener) {
-        this.onSunscribeClickedListener = onSunscribeClickedListener;
     }
 
     public void setOnItemClickListener(OnItemClickedClickedListener onItemClickedClickedListener) {
