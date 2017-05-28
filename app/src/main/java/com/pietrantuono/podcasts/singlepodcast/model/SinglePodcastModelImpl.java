@@ -8,7 +8,6 @@ import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.schedulers.Schedulers;
-import rx.subscriptions.CompositeSubscription;
 
 import static rx.android.schedulers.AndroidSchedulers.mainThread;
 
@@ -16,8 +15,9 @@ public class SinglePodcastModelImpl implements SinglePodcastModel {
     private final SinglePodcastApi singlePodcastApi;
     private final Repository repository;
     private Observable<PodcastFeed> podcastFeedObservable;
-    private final CompositeSubscription compositeSubscription = new CompositeSubscription();
     private SinglePodcast podcast;
+    private Subscription feed;
+    private Subscription isSubscribedToPodcast;
 
     public SinglePodcastModelImpl(SinglePodcastApi singlePodcastApi, Repository repository) {
         this.singlePodcastApi = singlePodcastApi;
@@ -39,20 +39,23 @@ public class SinglePodcastModelImpl implements SinglePodcastModel {
 
     @Override
     public void subscribeToFeed(Observer<PodcastFeed> obspodcastFeedObserverrver) {
-        Subscription subscription = podcastFeedObservable.subscribeOn(Schedulers.newThread())
+        feed = podcastFeedObservable.subscribeOn(Schedulers.newThread())
                 .observeOn(mainThread()).cache().subscribe(obspodcastFeedObserverrver);
-        compositeSubscription.add(subscription);
     }
 
     @Override
     public void subscribeToIsSubscribedToPodcast(Observer<Boolean> isSubscribedObserver) {
-        Subscription subscription = getIsSubscribedToPodcast().subscribe(isSubscribedObserver);
-        compositeSubscription.add(subscription);
+        isSubscribedToPodcast = getIsSubscribedToPodcast().subscribe(isSubscribedObserver);
     }
 
     @Override
     public void unsubscribe() {
-        compositeSubscription.unsubscribe();
+        if (feed != null) {
+            feed.unsubscribe();
+        }
+        if(isSubscribedToPodcast!=null){
+            isSubscribedToPodcast.unsubscribe();
+        }
     }
 
     private void getFeed(String url) {
