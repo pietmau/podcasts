@@ -131,10 +131,11 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void startDetailActivityWithTransition(SinglePodcast singlePodcast, ImageView imageView, LinearLayout titleContainer) {
+    public void startDetailActivityWithTransition(SinglePodcast singlePodcast, ImageView imageView, LinearLayout titleContainer, int barColor) {
         Intent intent = new Intent(getActivity(), SinglePodcastActivity.class);
         intent.putExtra(SinglePodcastActivity.SINGLE_PODCAST, singlePodcast);
         intent.putExtra(SinglePodcastActivity.STARTED_WITH_TRANSITION, true);
+        intent.putExtra(SinglePodcastActivity.BAR_COLOR, barColor);
         getActivity().startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), getPairs(imageView, titleContainer)).toBundle());
     }
 

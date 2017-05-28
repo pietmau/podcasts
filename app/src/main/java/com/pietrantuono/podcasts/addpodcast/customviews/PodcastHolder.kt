@@ -19,8 +19,10 @@ import com.pietrantuono.podcasts.singlepodcast.viewmodel.ResourcesProvider
 class PodcastHolder(itemView: View, private val resourcesProvider: ResourcesProvider, private val loader: SimpleImageLoader) : RecyclerView.ViewHolder(itemView) {
     private val dataBinding: FindPodcastItemBinding
     private val popupMenu: SimplePopUpMenu? = null
+    private var barColor: Int
 
     init {
+        barColor = resourcesProvider.getColor(R.color.colorPrimary)
         dataBinding = DataBindingUtil.bind<FindPodcastItemBinding>(itemView)
     }
 
@@ -43,6 +45,7 @@ class PodcastHolder(itemView: View, private val resourcesProvider: ResourcesProv
                     val vibrant = palette.vibrantSwatch
                     if (vibrant != null) {
                         dataBinding.titleContainer.setBackgroundColor(vibrant.rgb)
+                        barColor = vibrant.rgb
                     } else {
                         dataBinding.titleContainer.setBackgroundColor(resourcesProvider.getColor(R.color.colorPrimary))
                     }
@@ -60,7 +63,7 @@ class PodcastHolder(itemView: View, private val resourcesProvider: ResourcesProv
     }
 
     private fun setUpOnClickListener(singlePodcast: SinglePodcast, position: Int, onItemClickedClickedListener: PodcastsAdapter.OnItemClickedClickedListener) {
-        dataBinding.podcastImage.setOnClickListener { view: View -> onItemClickedClickedListener.onItemClicked(singlePodcast, dataBinding.podcastImage, position, dataBinding.titleContainer) }
+        dataBinding.podcastImage.setOnClickListener { view: View -> onItemClickedClickedListener.onItemClicked(singlePodcast, dataBinding.podcastImage, position, dataBinding.titleContainer, barColor) }
     }
 
     @OnClick(R.id.overflow)
