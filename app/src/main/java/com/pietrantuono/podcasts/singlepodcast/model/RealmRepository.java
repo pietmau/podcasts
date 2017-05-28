@@ -27,11 +27,10 @@ public class RealmRepository implements Repository {
                 .equalTo("trackId", podcast.getTrackId())
                 .findFirstAsync()
                 .asObservable()
-                .map(x -> isSubscribed(x))
-                .observeOn(AndroidSchedulers.mainThread());
+                .map(x -> isSubscribed(x));
         subject = BehaviorSubject.create();
         observable.subscribe(subject);
-        return subject.asObservable();
+        return subject.asObservable().observeOn(AndroidSchedulers.mainThread());
     }
 
     private boolean isSubscribed(RealmObject x) {
@@ -43,7 +42,6 @@ public class RealmRepository implements Repository {
         }
         return ((SinglePodcastRealm) x).isPodcastSubscribed();
     }
-
 
     @Override
     public Observable<List<SinglePodcast>> subscribeToSubscribedPodcasts(Observer<List<SinglePodcast>> observer) {
@@ -65,8 +63,8 @@ public class RealmRepository implements Repository {
                 singlePodcastRealm = RealmUtlis.singlePodcastRealm(podcast);
                 singlePodcastRealm.setPodcastSubscribed(!singlePodcastRealm.isPodcastSubscribed());
                 realm.copyToRealm(singlePodcastRealm);
-                subject.onNext(singlePodcastRealm.isPodcastSubscribed());
             }
+            subject.onNext(singlePodcastRealm.isPodcastSubscribed());
         });
     }
 
@@ -77,7 +75,6 @@ public class RealmRepository implements Repository {
         }
         return list;
     }
-
 
     private SinglePodcastRealm getSinglePodcastRealm(SinglePodcast singlePodcast, Realm realm) {
         return realm.where(SinglePodcastRealm.class)
