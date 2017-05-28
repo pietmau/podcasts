@@ -1,10 +1,8 @@
 package com.pietrantuono.podcasts.main.customviews;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.util.AttributeSet;
-import android.view.MenuItem;
 
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.main.presenter.MainPresenter;
@@ -29,21 +27,18 @@ public class SimpleNavView extends NavigationView {
     }
 
     private void init() {
-        setNavigationItemSelectedListener(new OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                drawerLayout.closeDrawers();
-                int id = item.getItemId();
-                switch (id) {
-                    case R.id.add_podcast:
-                        listener.onAddPodcastSelected();
-                        break;
-                    case R.id.subscribed:
-                        listener.onSubscribeSelected();
-                        break;
-                }
-                return true;
+        setNavigationItemSelectedListener(item -> {
+            drawerLayout.closeDrawers();
+            int id = item.getItemId();
+            switch (id) {
+                case R.id.add_podcast:
+                    listener.onAddPodcastSelected();
+                    break;
+                case R.id.subscribed:
+                    listener.onSubscribeSelected();
+                    break;
             }
+            return true;
         });
     }
 

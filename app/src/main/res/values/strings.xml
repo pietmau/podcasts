@@ -14,4 +14,6 @@
     <string name="unsubscribe">Unsubscribe</string>
     <string name="detail_transition_toolbar">detail_transition_toolbar</string>
     <string name="subscribed">Subscribed</string>
+    <string name="download_all">Download all</string>
+    <string name="listen_to_all">Listen to all</string>
 </resources>
