@@ -14,20 +14,24 @@ import io.realm.RealmResults;
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.subjects.BehaviorSubject;
 
 public class RealmRepository implements Repository {
     Realm realm = Realm.getDefaultInstance();
-
+    private BehaviorSubject<Boolean> subject;
 
     @Override
-    public Observable<Boolean> getIfSubscribed(Integer trackId) {
-        return realm
+    public Observable<Boolean> getIfSubscribed(SinglePodcast podcast) {
+        Observable<Boolean> observable = realm
                 .where(SinglePodcastRealm.class)
-                .equalTo("trackId", trackId)
+                .equalTo("trackId", podcast.getTrackId())
                 .findFirstAsync()
                 .asObservable()
                 .map(x -> isSubscribed(x))
                 .observeOn(AndroidSchedulers.mainThread());
+        subject = BehaviorSubject.create();
+        observable.subscribe(subject);
+        return subject.asObservable();
     }
 
     private boolean isSubscribed(RealmObject x) {
@@ -40,29 +44,6 @@ public class RealmRepository implements Repository {
         return ((SinglePodcastRealm) x).isPodcastSubscribed();
     }
 
-    @Override
-    public void actuallySubscribesToPodcast(SinglePodcast singlePodcast) {
-        realm.executeTransactionAsync(realm1 -> {
-            SinglePodcastRealm singlePodcastRealm = getSinglePodcastRealm(singlePodcast, realm1);
-            if (singlePodcastRealm != null) {
-                singlePodcastRealm.setPodcastSubscribed(true);
-            } else {
-                singlePodcastRealm = RealmUtlis.singlePodcastRealm(singlePodcast);
-                singlePodcastRealm.setPodcastSubscribed(true);
-                realm1.copyToRealm(singlePodcastRealm);
-            }
-        });
-    }
-
-    @Override
-    public void actuallyUnSubscribesToPodcast(SinglePodcast singlePodcast) {
-        realm.executeTransactionAsync(realm1 -> {
-            SinglePodcastRealm singlePodcastRealm = getSinglePodcastRealm(singlePodcast, realm1);
-            if (singlePodcastRealm != null) {
-                singlePodcastRealm.setPodcastSubscribed(false);
-            }
-        });
-    }
 
     @Override
     public Observable<List<SinglePodcast>> subscribeToSubscribedPodcasts(Observer<List<SinglePodcast>> observer) {
@@ -74,6 +55,21 @@ public class RealmRepository implements Repository {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
+    public void onSubscribeUnsubscribeToPodcastClicked(SinglePodcast podcast) {
+        realm.executeTransactionAsync(realm -> {
+            SinglePodcastRealm singlePodcastRealm = getSinglePodcastRealm(podcast, realm);
+            if (singlePodcastRealm != null) {
+                singlePodcastRealm.setPodcastSubscribed(!singlePodcastRealm.isPodcastSubscribed());
+            } else {
+                singlePodcastRealm = RealmUtlis.singlePodcastRealm(podcast);
+                singlePodcastRealm.setPodcastSubscribed(!singlePodcastRealm.isPodcastSubscribed());
+                realm.copyToRealm(singlePodcastRealm);
+                subject.onNext(singlePodcastRealm.isPodcastSubscribed());
+            }
+        });
+    }
+
     private List<SinglePodcast> toSinglePodcast(RealmResults<SinglePodcastRealm> results) {
         List<SinglePodcast> list = new ArrayList<>(results.size());
         for (SinglePodcastRealm single : results) {
@@ -83,8 +79,8 @@ public class RealmRepository implements Repository {
     }
 
 
-    private SinglePodcastRealm getSinglePodcastRealm(SinglePodcast singlePodcast, Realm realm1) {
-        return realm1.where(SinglePodcastRealm.class)
+    private SinglePodcastRealm getSinglePodcastRealm(SinglePodcast singlePodcast, Realm realm) {
+        return realm.where(SinglePodcastRealm.class)
                 .equalTo("trackId", singlePodcast.getTrackId())
                 .findFirst();
     }

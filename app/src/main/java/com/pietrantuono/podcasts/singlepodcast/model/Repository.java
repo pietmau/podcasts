@@ -8,11 +8,9 @@ import rx.Observable;
 import rx.Observer;
 
 public interface Repository {
-    Observable<Boolean> getIfSubscribed(Integer trackId);
-
-    void actuallySubscribesToPodcast(SinglePodcast singlePodcast);
-
-    void actuallyUnSubscribesToPodcast(SinglePodcast singlePodcast);
+    Observable<Boolean> getIfSubscribed(SinglePodcast trackId);
 
     Observable<List<SinglePodcast>> subscribeToSubscribedPodcasts(Observer<List<SinglePodcast>> observer);
+
+    void onSubscribeUnsubscribeToPodcastClicked(SinglePodcast podcast);
 }

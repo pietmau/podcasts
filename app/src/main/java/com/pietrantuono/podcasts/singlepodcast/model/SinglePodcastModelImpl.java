@@ -17,7 +17,6 @@ public class SinglePodcastModelImpl implements SinglePodcastModel {
     private final Repository repository;
     private Observable<PodcastFeed> podcastFeedObservable;
     private final CompositeSubscription compositeSubscription = new CompositeSubscription();
-    private Observable<Boolean> isSubscribedToPodcastObservable;
     private SinglePodcast podcast;
 
     public SinglePodcastModelImpl(SinglePodcastApi singlePodcastApi, Repository repository) {
@@ -27,16 +26,15 @@ public class SinglePodcastModelImpl implements SinglePodcastModel {
 
     @Override
     public void init(SinglePodcast podcast) {
-        this.podcast=podcast;
+        this.podcast = podcast;
         if (podcast != null) {
             getFeed(podcast.getFeedUrl());
-            getIsSubscribedToPodcast(podcast.getTrackId());
         }
     }
 
     @Override
-    public void actuallyUnSubscribesToPodcast() {
-        repository.actuallyUnSubscribesToPodcast(podcast);
+    public void onSubscribeUnsubscribeToPodcastClicked() {
+        repository.onSubscribeUnsubscribeToPodcastClicked(podcast);
     }
 
     @Override
@@ -48,13 +46,7 @@ public class SinglePodcastModelImpl implements SinglePodcastModel {
 
     @Override
     public void subscribeToIsSubscribedToPodcast(Observer<Boolean> isSubscribedObserver) {
-        Subscription subscription = isSubscribedToPodcastObservable.subscribe(isSubscribedObserver);
-        compositeSubscription.add(subscription);
-    }
-
-    @Override
-    public void isSubscribedToPodcast(Observer<Boolean> isSubscribedObserver) {
-        Subscription subscription = isSubscribedToPodcastObservable.take(1).subscribe(isSubscribedObserver);
+        Subscription subscription = getIsSubscribedToPodcast().subscribe(isSubscribedObserver);
         compositeSubscription.add(subscription);
     }
 
@@ -67,15 +59,7 @@ public class SinglePodcastModelImpl implements SinglePodcastModel {
         podcastFeedObservable = singlePodcastApi.getFeed(url);
     }
 
-
-    private void getIsSubscribedToPodcast(Integer trackId) {
-        isSubscribedToPodcastObservable = repository.getIfSubscribed(trackId);
+    private Observable<Boolean> getIsSubscribedToPodcast() {
+        return repository.getIfSubscribed(podcast);
     }
-
-    @Override
-    public void actuallySubscribesToPodcast() {
-        repository.actuallySubscribesToPodcast(podcast);
-    }
-
-
 }

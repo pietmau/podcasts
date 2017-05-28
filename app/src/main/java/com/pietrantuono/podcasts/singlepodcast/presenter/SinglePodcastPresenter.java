@@ -17,10 +17,17 @@ public class SinglePodcastPresenter implements GenericPresenter {
     private PodcastFeed podcastFeed;
     private final CrashlyticsWrapper crashlyticsWrapper;
     private boolean startedWithTransition;
+    private SimpleObserver<Boolean> observer;
 
     public SinglePodcastPresenter(SinglePodcastModel model, CrashlyticsWrapper crashlyticsWrapper) {
         this.model = model;
         this.crashlyticsWrapper = crashlyticsWrapper;
+        observer = new SimpleObserver<Boolean>() {
+            @Override
+            public void onNext(Boolean isSubscribedToPodcast) {
+                view.setSubscribedToPodcast(isSubscribedToPodcast);
+            }
+        };
     }
 
     @Override
@@ -55,12 +62,7 @@ public class SinglePodcastPresenter implements GenericPresenter {
                 }
             }
         });
-        model.subscribeToIsSubscribedToPodcast(new SimpleObserver<Boolean>() {
-            @Override
-            public void onNext(Boolean isSubscribedToPodcast) {
-                view.setSubscribedToPodcast(isSubscribedToPodcast);
-            }
-        });
+        model.subscribeToIsSubscribedToPodcast(observer);
     }
 
     public void bindView(SinglePodcastView view) {
@@ -94,16 +96,6 @@ public class SinglePodcastPresenter implements GenericPresenter {
     }
 
     public void onSubscribeUnsubscribeToPodcastClicked() {
-        model.isSubscribedToPodcast(new SimpleObserver<Boolean>() {
-            @Override
-            public void onNext(Boolean isSubscribed) {
-                if (isSubscribed) {
-                    model.actuallyUnSubscribesToPodcast();
-                } else {
-                    model.actuallySubscribesToPodcast();
-                }
-            }
-        });
-
+        model.onSubscribeUnsubscribeToPodcastClicked();
     }
 }
