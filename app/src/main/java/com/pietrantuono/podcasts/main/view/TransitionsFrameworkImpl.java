@@ -31,12 +31,7 @@ public class TransitionsFrameworkImpl implements TransitionsFramework {
         if (!apiLevelChecker.isLollipopOrHigher()) {
             return;
         }
-//        Slide shortSlide = createSlide(SHORT, Gravity.LEFT);
-//        Slide longSlide = createSlide(LONG, Gravity.LEFT);
         Window window = activity.getWindow();
-//        window.setEnterTransition(shortSlide);
-//        window.setExitTransition(longSlide);
-//        window.setReenterTransition(shortSlide);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
@@ -46,10 +41,7 @@ public class TransitionsFrameworkImpl implements TransitionsFramework {
         if (!apiLevelChecker.isLollipopOrHigher()) {
             return;
         }
-        //Slide shortSlide = createSlide(SHORT, Gravity.RIGHT);
         Window window = activity.getWindow();
-//        window.setEnterTransition(shortSlide);
-//        window.setExitTransition(shortSlide);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         activity.postponeEnterTransition();
     }
@@ -84,7 +76,7 @@ public class TransitionsFrameworkImpl implements TransitionsFramework {
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private Slide createSlide(long duration, int edge){
+    private Slide createSlide(long duration, int edge) {
         Slide slide = new Slide();
         slide.setDuration(duration);
         slide.setSlideEdge(edge);

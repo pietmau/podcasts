@@ -20,7 +20,7 @@ public interface AddPodcastView {
 
     void onQueryTextChange(String newText);
 
-    void startDetailActivityWithTransition(SinglePodcast singlePodcast, ImageView imageView, LinearLayout titleContainer, int barColor);
+    void startDetailActivityWithTransition(SinglePodcast singlePodcast, ImageView imageView, LinearLayout titleContainer);
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     void startDetailActivityWithoutTransition(SinglePodcast singlePodcast);

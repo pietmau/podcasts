@@ -1,7 +1,6 @@
 package com.pietrantuono.podcasts.singlepodcast.view;
 
 
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -36,7 +35,6 @@ import butterknife.OnClick;
 public class SinglePodcastActivity extends AppCompatActivity implements SinglePodcastView {
     public static final String SINGLE_PODCAST = "single_podcast";
     public static final String STARTED_WITH_TRANSITION = "with_transition";
-    public static final String BAR_COLOR = "bar_color";
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.main_image) ImageView imageView;
     @BindView(R.id.recycler) EpisodesRecycler recyclerView;
@@ -46,6 +44,7 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
     @Inject SimpleImageLoader imageLoader;
     @Inject SinglePodcastPresenter presenter;
     @Inject PresenterManager presenterManager;
+    @Inject TransitionImageLoadingListener podcastImageLoadingListener;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,28 +93,26 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setTitle(null);
-        if(getIntent()!=null){
-            int color = getIntent().getIntExtra(BAR_COLOR, R.color.colorPrimary);
-            actionBar.setBackgroundDrawable(new ColorDrawable(color));
-        }
     }
 
     private void loadImage() {
         SinglePodcast podcast = getIntent().getParcelableExtra(SINGLE_PODCAST);
-        imageLoader.displayImage(podcast, imageView,
-                new PodcastImageLoadingListener(SinglePodcastActivity.this, transitionsFramework));
+        imageLoader.displayImage(podcast, imageView, podcastImageLoadingListener);
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         presenter.onPause();
+        podcastImageLoadingListener.setActivity(null);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         presenter.onResume();
+        podcastImageLoadingListener.setActivity(this);
     }
 
     @Override

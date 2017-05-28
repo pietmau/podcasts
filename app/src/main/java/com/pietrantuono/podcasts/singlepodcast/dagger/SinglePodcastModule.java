@@ -9,11 +9,13 @@ import com.pietrantuono.interfaceadapters.apis.SinglePodcastApiRetrofit;
 import com.pietrantuono.podcasts.ImageParser;
 import com.pietrantuono.podcasts.PodcastEpisodeParser;
 import com.pietrantuono.podcasts.PresenterManager;
+import com.pietrantuono.podcasts.main.view.TransitionsFramework;
 import com.pietrantuono.podcasts.singlepodcast.model.RealmRepository;
 import com.pietrantuono.podcasts.singlepodcast.model.Repository;
 import com.pietrantuono.podcasts.singlepodcast.model.SinglePodcastModel;
 import com.pietrantuono.podcasts.singlepodcast.model.SinglePodcastModelImpl;
 import com.pietrantuono.podcasts.singlepodcast.presenter.SinglePodcastPresenter;
+import com.pietrantuono.podcasts.singlepodcast.view.TransitionImageLoadingListener;
 
 import dagger.Module;
 import dagger.Provides;
@@ -21,8 +23,10 @@ import dagger.Provides;
 @Module
 public class SinglePodcastModule {
     private final PresenterManager presenterManager;
+    private final AppCompatActivity activity;
 
     public SinglePodcastModule(AppCompatActivity activity) {
+        this.activity = activity;
         PresenterManager manager = (PresenterManager) activity.getLastCustomNonConfigurationInstance();
         if (manager == null) {
             manager = new PresenterManager();
@@ -60,9 +64,13 @@ public class SinglePodcastModule {
         return new PodcastEpisodeParser(imageParser);
     }
 
-
     @Provides
     Repository provideRepository(){
         return new RealmRepository();
+    }
+
+    @Provides
+    TransitionImageLoadingListener provideTransitionImageLoadingListener(TransitionsFramework framework){
+        return new TransitionImageLoadingListener(activity, framework);
     }
 }

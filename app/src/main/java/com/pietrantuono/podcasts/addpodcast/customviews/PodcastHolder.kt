@@ -19,10 +19,8 @@ import com.pietrantuono.podcasts.singlepodcast.viewmodel.ResourcesProvider
 class PodcastHolder(itemView: View, private val resourcesProvider: ResourcesProvider, private val loader: SimpleImageLoader) : RecyclerView.ViewHolder(itemView) {
     private val dataBinding: FindPodcastItemBinding
     private val popupMenu: SimplePopUpMenu? = null
-    private var barColor: Int
 
     init {
-        barColor = resourcesProvider.getColor(R.color.colorPrimary)
         dataBinding = DataBindingUtil.bind<FindPodcastItemBinding>(itemView)
     }
 
@@ -32,8 +30,6 @@ class PodcastHolder(itemView: View, private val resourcesProvider: ResourcesProv
         dataBinding.executePendingBindings()
         dataBinding.titleContainer.setBackgroundColor(resourcesProvider.getColor(R.color.colorPrimary))
         setUpOnClickListener(singlePodcast, position, onItemClickedClickedListener)
-        setUpMenu(singlePodcast, onSunscribeClickedListener)
-        setOverflowClickListener()
         loadImage()
     }
 
@@ -45,7 +41,6 @@ class PodcastHolder(itemView: View, private val resourcesProvider: ResourcesProv
                     val vibrant = palette.vibrantSwatch
                     if (vibrant != null) {
                         dataBinding.titleContainer.setBackgroundColor(vibrant.rgb)
-                        barColor = vibrant.rgb
                     } else {
                         dataBinding.titleContainer.setBackgroundColor(resourcesProvider.getColor(R.color.colorPrimary))
                     }
@@ -54,16 +49,8 @@ class PodcastHolder(itemView: View, private val resourcesProvider: ResourcesProv
         })
     }
 
-    private fun setOverflowClickListener() {
-        //((com.pietrantuono.podcasts.databinding.FindPodcastItemBinding) dataBinding).overflow.setOnClickListener(view -> showMenu());
-    }
-
-    private fun setUpMenu(singlePodcast: SinglePodcast, onSunscribeClickedListener: PodcastsAdapter.OnSunscribeClickedListener) {
-        //popupMenu = new SimplePopUpMenu(((FindPodcastItemBinding) dataBinding).overflow, singlePodcast, singlePodcast1 -> onSunscribeClickedListener.onSubscribeClicked(singlePodcast1));
-    }
-
     private fun setUpOnClickListener(singlePodcast: SinglePodcast, position: Int, onItemClickedClickedListener: PodcastsAdapter.OnItemClickedClickedListener) {
-        dataBinding.podcastImage.setOnClickListener { view: View -> onItemClickedClickedListener.onItemClicked(singlePodcast, dataBinding.podcastImage, position, dataBinding.titleContainer, barColor) }
+        dataBinding.podcastImage.setOnClickListener { view: View -> onItemClickedClickedListener.onItemClicked(singlePodcast, dataBinding.podcastImage, position, dataBinding.titleContainer) }
     }
 
     @OnClick(R.id.overflow)

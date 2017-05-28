@@ -9,7 +9,6 @@ import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
-import com.pietrantuono.podcasts.singlepodcast.view.PodcastImageLoadingListener;
 
 public class SimpleImageLoader {
     private static final DisplayImageOptions options = new DisplayImageOptions.Builder()
@@ -31,7 +30,7 @@ public class SimpleImageLoader {
         ImageLoader.getInstance().displayImage(url, imageViewAware, options);
     }
 
-    public void displayImage(SinglePodcast singlePodcast, ImageView imageView, PodcastImageLoadingListener podcastImageLoadingListener) {
+    public void displayImage(SinglePodcast singlePodcast, ImageView imageView, ImageLoadingListener podcastImageLoadingListener) {
         if (singlePodcast == null) {
             return;
         }
