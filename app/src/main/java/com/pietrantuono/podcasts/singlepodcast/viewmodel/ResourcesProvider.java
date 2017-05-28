@@ -23,4 +23,8 @@ public class ResourcesProvider {
     public String getString(@StringRes int stringRes) {
         return context.getString(stringRes);
     }
+
+    public int getColor(int color) {
+        return ContextCompat.getColor(context, color);
+    }
 }

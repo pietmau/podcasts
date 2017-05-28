@@ -2,7 +2,6 @@ package com.pietrantuono.podcasts.addpodcast.customviews
 
 import android.databinding.DataBindingUtil
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.support.v7.graphics.Palette
 import android.support.v7.widget.RecyclerView
@@ -29,6 +28,7 @@ class PodcastHolder(itemView: View, private val resourcesProvider: ResourcesProv
         val podcastEpisodeViewModel = SinlglePodcastViewModel(singlePodcast, resourcesProvider, onItemClickedClickedListener, onSunscribeClickedListener, position)
         dataBinding.setVariable(BR.sinlglePodcastViewModel, podcastEpisodeViewModel)
         dataBinding.executePendingBindings()
+        dataBinding.titleContainer.setBackgroundColor(resourcesProvider.getColor(R.color.colorPrimary))
         setUpOnClickListener(singlePodcast, position, onItemClickedClickedListener)
         setUpMenu(singlePodcast, onSunscribeClickedListener)
         setOverflowClickListener()
@@ -44,7 +44,7 @@ class PodcastHolder(itemView: View, private val resourcesProvider: ResourcesProv
                     if (vibrant != null) {
                         dataBinding.titleContainer.setBackgroundColor(vibrant.rgb)
                     } else {
-                        dataBinding.titleContainer.setBackgroundColor(Color.BLACK)
+                        dataBinding.titleContainer.setBackgroundColor(resourcesProvider.getColor(R.color.colorPrimary))
                     }
                 }
             }
