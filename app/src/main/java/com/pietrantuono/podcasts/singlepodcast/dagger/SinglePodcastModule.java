@@ -36,10 +36,10 @@ public class SinglePodcastModule {
 
     @Provides
     SinglePodcastPresenter provideSinglePodcastPresenter(SinglePodcastModel model, CrashlyticsWrapper crashlyticsWrapper) {
-        SinglePodcastPresenter addPodcastPresenter = (SinglePodcastPresenter) presenterManager.getPresenter(SinglePodcastPresenter.TAG);
+        SinglePodcastPresenter addPodcastPresenter = (SinglePodcastPresenter) presenterManager.getPresenter(SinglePodcastPresenter.Companion.getTAG());
         if (addPodcastPresenter == null) {
             addPodcastPresenter = new SinglePodcastPresenter(model, crashlyticsWrapper);
-            presenterManager.put(SinglePodcastPresenter.TAG, addPodcastPresenter);
+            presenterManager.put(SinglePodcastPresenter.Companion.getTAG(), addPodcastPresenter);
         }
         return addPodcastPresenter;
     }

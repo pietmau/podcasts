@@ -18,6 +18,7 @@ import com.pietrantuono.podcasts.PresenterManager;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
+import com.pietrantuono.podcasts.apis.PodcastFeed;
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader;
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule;
 import com.pietrantuono.podcasts.main.view.TransitionsFramework;
@@ -92,9 +93,11 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
     private void setUpActionBar() {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setTitle(null);
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setTitle(null);
+        }
     }
 
     private void loadImage() {
@@ -132,10 +135,20 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            presenter.onBackPressed();
-            return true;
+        int id = item.getItemId();
+
+        switch (id) {
+            case android.R.id.home:
+                presenter.onBackPressed();
+                return true;
+            case R.id.download_all:
+                presenter.onDownloadAllPressed();
+                return true;
+            case R.id.listen_to_all:
+                presenter.onListenToAllPressed();
+                return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -188,5 +201,10 @@ public class SinglePodcastActivity extends AppCompatActivity implements SinglePo
             subscribeUnsubscribeText.setText(R.string.subscribe);
             subscribeUnsubscribeText.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.add_circle, 0, 0, 0);
         }
+    }
+
+    @Override
+    public void listenToAll(@Nullable PodcastFeed podcastFeed) {
+
     }
 }

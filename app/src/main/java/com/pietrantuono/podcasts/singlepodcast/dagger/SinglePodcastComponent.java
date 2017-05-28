@@ -20,4 +20,5 @@ import dagger.Component;
 public interface SinglePodcastComponent {
 
     void inject(SinglePodcastActivity singlePodcastActivity);
+
 }
