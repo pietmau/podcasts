@@ -107,7 +107,7 @@ public class AddPodcastPresenter implements GenericPresenter, PodcastsAdapter.On
     @Override
     public void onItemClicked(SinglePodcast singlePodcast, ImageView imageView, int position, LinearLayout titleContainer) {
         if (apiLevelChecker.isLollipopOrHigher() && !addPodcastView.isPartiallyHidden(position)) {
-            addPodcastView.startDetailActivityWithTransition(singlePodcast, imageView,titleContainer);
+            addPodcastView.startDetailActivityWithTransition(singlePodcast, imageView, titleContainer);
         } else {
             addPodcastView.startDetailActivityWithoutTransition(singlePodcast);
         }

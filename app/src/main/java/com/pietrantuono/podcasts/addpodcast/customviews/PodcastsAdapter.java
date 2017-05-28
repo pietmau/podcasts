@@ -40,7 +40,7 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
 
     @Override
     public void onBindViewHolder(PodcastHolder holder, int position) {
-        holder.onBindViewHolder(publishedItems.get(position), onSunscribeClickedListener, onItemClickedClickedListener, position);
+        holder.onBindViewHolder(publishedItems.get(position), onItemClickedClickedListener, position);
     }
 
     @Override
@@ -49,7 +49,6 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
     }
 
     public void setItems(List<SinglePodcast> items) {
-        prefetch(items);
         this.items.clear();
         this.items.addAll(items);
         setPublishedItems(items);
@@ -61,11 +60,6 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
         notifyDataSetChanged();
     }
 
-    private void prefetch(List<SinglePodcast> items) {
-        for (SinglePodcast item : items) {
-            //imageLoader.loadImage(item.getArtworkUrl600());
-        }
-    }
 
     public void onQueryTextChange(String newText) {
         getFilter().filter(newText);

@@ -3,7 +3,6 @@ package com.pietrantuono.podcasts.addpodcast.customviews;
 
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcastImpl;
 import com.pietrantuono.podcasts.singlepodcast.viewmodel.ResourcesProvider;
 
 import java.text.SimpleDateFormat;
@@ -11,17 +10,11 @@ import java.util.Date;
 
 public class SinlglePodcastViewModel {
     private ResourcesProvider resourcesProvider;
-    private final PodcastsAdapter.OnSunscribeClickedListener onSunscribeClickedListener;
-    private final PodcastsAdapter.OnItemClickedClickedListener onItemClickedClickedListener;
     private final SinglePodcast singlePodcast;
-    private final int position;
 
-    public SinlglePodcastViewModel(SinglePodcast singlePodcast, ResourcesProvider resourcesProvider, PodcastsAdapter.OnItemClickedClickedListener onItemClickedClickedListener, PodcastsAdapter.OnSunscribeClickedListener onSunscribeClickedListener, int position) {
+    public SinlglePodcastViewModel(SinglePodcast singlePodcast, ResourcesProvider resourcesProvider) {
         this.resourcesProvider = resourcesProvider;
-        this.onSunscribeClickedListener = onSunscribeClickedListener;
-        this.onItemClickedClickedListener = onItemClickedClickedListener;
         this.singlePodcast = singlePodcast;
-        this.position = position;
     }
 
     public String getTitle() {
