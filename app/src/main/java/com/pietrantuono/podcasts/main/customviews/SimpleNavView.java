@@ -38,6 +38,9 @@ public class SimpleNavView extends NavigationView {
                     case R.id.add_podcast:
                         listener.onAddPodcastSelected();
                         break;
+                    case R.id.subscribed:
+                        listener.onSubscribeSelected();
+                        break;
                 }
                 return true;
             }

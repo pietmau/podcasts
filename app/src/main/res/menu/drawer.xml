@@ -2,12 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/add_podcast"
-            android:icon="@drawable/ic_add_black_24dp"
-            android:title="@string/search" />
+            android:id="@+id/subscribed"
+            android:icon="@android:drawable/star_off"
+            android:title="@string/subscribed" />
         <item
-            android:id="@+id/navigation_item_2"
-            android:icon="@mipmap/ic_launcher"
-            android:title="@string/navigation_item_2" />
+            android:id="@+id/add_podcast"
+            android:icon="@android:drawable/ic_menu_search"
+            android:title="@string/search" />
     </group>
 </menu>

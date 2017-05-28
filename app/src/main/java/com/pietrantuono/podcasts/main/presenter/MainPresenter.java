@@ -33,4 +33,8 @@ public class MainPresenter implements GenericPresenter {
             view.navigateToSubscribedPodcasts();
         }
     }
+
+    public void onSubscribeSelected() {
+        view.navigateToSubscribedPodcasts();
+    }
 }
