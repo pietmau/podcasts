@@ -13,7 +13,6 @@ public class SubscribedPodcastPresenter implements GenericPresenter {
     public static final String TAG = SubscribedPodcastPresenter.class.getSimpleName();
     private SubscribedPodcastView view;
     private final SubscribedPodcastModel model;
-    private List<SinglePodcast> singlePodcasts;
 
     public SubscribedPodcastPresenter(SubscribedPodcastModel model) {
         this.model = model;
@@ -37,8 +36,7 @@ public class SubscribedPodcastPresenter implements GenericPresenter {
 
             @Override
             public void onNext(List<SinglePodcast> singlePodcasts) {
-                if (SubscribedPodcastPresenter.this.singlePodcasts == null || SubscribedPodcastPresenter.this.singlePodcasts.isEmpty()) {
-                    SubscribedPodcastPresenter.this.singlePodcasts = singlePodcasts;
+                if (singlePodcasts != null || !singlePodcasts.isEmpty()) {
                     view.setPodcasts(singlePodcasts);
                 }
             }
