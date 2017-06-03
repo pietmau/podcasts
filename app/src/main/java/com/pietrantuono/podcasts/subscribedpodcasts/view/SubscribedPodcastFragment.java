@@ -94,8 +94,8 @@ public class SubscribedPodcastFragment extends Fragment implements SubscribedPod
     public void startDetailActivityWithTransition(SinglePodcast singlePodcast, ImageView
             imageView, LinearLayout titleContainer) {
         Intent intent = new Intent(getActivity(), SinglePodcastActivity.class);
-        intent.putExtra(SinglePodcastActivity.SINGLE_PODCAST, singlePodcast);
-        intent.putExtra(SinglePodcastActivity.STARTED_WITH_TRANSITION, true);
+        intent.putExtra(SinglePodcastActivity.Companion.getSINGLE_PODCAST(), singlePodcast);
+        intent.putExtra(SinglePodcastActivity.Companion.getSTARTED_WITH_TRANSITION(), true);
         getActivity().startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), getPairs(imageView, titleContainer)).toBundle());
     }
 
@@ -103,7 +103,7 @@ public class SubscribedPodcastFragment extends Fragment implements SubscribedPod
     @Override
     public void startDetailActivityWithoutTransition(SinglePodcast singlePodcast) {
         Intent intent = new Intent(getActivity(), SinglePodcastActivity.class);
-        intent.putExtra(SinglePodcastActivity.SINGLE_PODCAST, singlePodcast);
+        intent.putExtra(SinglePodcastActivity.Companion.getSINGLE_PODCAST(), singlePodcast);
         getActivity().startActivity(intent);
     }
 
