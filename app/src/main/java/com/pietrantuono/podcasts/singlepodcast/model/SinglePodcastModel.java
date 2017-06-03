@@ -15,7 +15,7 @@ public interface SinglePodcastModel {
 
     void subscribeToIsSubscribedToPodcast(Observer<Boolean> observer);
 
-    void init(SinglePodcast podcast);
+    void startModel(SinglePodcast podcast);
 
     void onSubscribeUnsubscribeToPodcastClicked();
 }

@@ -33,7 +33,7 @@ public class SinglePodcastModelImplTest {
         when(singlePodcast.getTrackId()).thenReturn(TRACK_ID);
         when(singlePodcast.getFeedUrl()).thenReturn(TEXT);
         when(repository.getIfSubscribed(TRACK_ID)).thenReturn(Observable.just(true));
-        model.init(singlePodcast);
+        model.startModel(singlePodcast);
     }
 
     @Test

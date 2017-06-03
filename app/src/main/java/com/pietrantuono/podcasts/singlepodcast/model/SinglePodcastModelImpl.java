@@ -25,7 +25,7 @@ public class SinglePodcastModelImpl implements SinglePodcastModel {
     }
 
     @Override
-    public void init(SinglePodcast podcast) {
+    public void startModel(SinglePodcast podcast) {
         this.podcast = podcast;
         if (podcast != null) {
             getFeed(podcast.getFeedUrl());

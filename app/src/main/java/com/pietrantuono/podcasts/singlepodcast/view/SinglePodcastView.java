@@ -15,7 +15,7 @@ public interface SinglePodcastView {
 
     void showProgress(boolean show);
 
-    void setEpisodes(List<PodcastEpisodeModel> episodes);
+    void setEpisodes(@Nullable List<PodcastEpisodeModel> episodes);
 
     void exitWithSharedTrsnsition();
 

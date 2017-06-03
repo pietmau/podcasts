@@ -1,55 +1,32 @@
 package com.pietrantuono.podcasts.singlepodcast.presenter
 
 
-import android.content.ComponentName
 import android.content.Context
-import android.support.v4.media.MediaBrowserCompat
-import android.support.v4.media.session.MediaControllerCompat
 import com.pietrantuono.CrashlyticsWrapper
 import com.pietrantuono.podcasts.GenericPresenter
-import com.pietrantuono.podcasts.player.MediaPlaybackService
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast
 import com.pietrantuono.podcasts.apis.PodcastFeed
+import com.pietrantuono.podcasts.player.PlayerManager
 import com.pietrantuono.podcasts.singlepodcast.model.SinglePodcastModel
 import com.pietrantuono.podcasts.singlepodcast.view.SinglePodcastView
 import rx.Observer
 
 
 class SinglePodcastPresenter(private val model: SinglePodcastModel, private val crashlyticsWrapper:
-CrashlyticsWrapper, val context: Context) : GenericPresenter {
+CrashlyticsWrapper, val context: Context, private val playerManager: PlayerManager) : GenericPresenter {
+    companion object {
+        val TAG = SinglePodcastPresenter::class.java.simpleName
+    }
+
     private var view: SinglePodcastView? = null
     private var podcastFeed: PodcastFeed? = null
     private var startedWithTransition: Boolean = false
     private val observer: SimpleObserver<Boolean>
-    private var mediaBrowser: MediaBrowserCompat? = null
-    private val mConnectionCallbacks: MediaBrowserCompat.ConnectionCallback
-    private var mediaController: MediaControllerCompat? = null
 
     init {
         observer = object : SimpleObserver<Boolean>() {
             override fun onNext(isSubscribedToPodcast: Boolean?) {
-                view!!.setSubscribedToPodcast(isSubscribedToPodcast)
-            }
-        }
-        mConnectionCallbacks = object : MediaBrowserCompat.ConnectionCallback() {
-            override fun onConnectionFailed() {
-
-            }
-
-            override fun onConnectionSuspended() {
-
-            }
-
-            override fun onConnected() {
-                // Get the token for the MediaSession
-                val token = mediaBrowser?.getSessionToken()
-
-                // Create a MediaControllerCompat
-                mediaController = MediaControllerCompat(context, // Context
-                        token)
-
-                // Save the controller
-                // MediaControllerCompat.setMediaController(context, mediaController)
+                view?.setSubscribedToPodcast(isSubscribedToPodcast)
             }
         }
     }
@@ -60,22 +37,18 @@ CrashlyticsWrapper, val context: Context) : GenericPresenter {
 
     override fun onStop() {
         model.unsubscribe()
-        // (see "stay in sync with the MediaSession")
-//        if (MediaControllerCompat.getMediaController(MediaPlayerActivity.this) != null) {
-//            MediaControllerCompat.getMediaController(MediaPlayerActivity.this).unregisterCallback(controllerCallback);
-//        }
-        mediaBrowser?.disconnect();
+        playerManager.onStop()
     }
 
     override fun onStart() {
         model.subscribeToFeed(object : Observer<PodcastFeed> {
             override fun onCompleted() {
-                view!!.showProgress(false)
+                view?.showProgress(false)
             }
 
-            override fun onError(e: Throwable) {
-                crashlyticsWrapper.logException(e)
-                view!!.showProgress(false)
+            override fun onError(throwable: Throwable) {
+                crashlyticsWrapper.logException(throwable)
+                view?.showProgress(false)
             }
 
             override fun onNext(podcastFeed: PodcastFeed) {
@@ -86,7 +59,7 @@ CrashlyticsWrapper, val context: Context) : GenericPresenter {
             }
         })
         model.subscribeToIsSubscribedToPodcast(observer)
-        mediaBrowser?.connect();
+        playerManager.onStart()
     }
 
     fun bindView(view: SinglePodcastView) {
@@ -96,30 +69,25 @@ CrashlyticsWrapper, val context: Context) : GenericPresenter {
 
     fun startPresenter(podcast: SinglePodcast, startedWithTransition: Boolean) {
         this.startedWithTransition = startedWithTransition
-        model.init(podcast)
+        model.startModel(podcast)
         if (startedWithTransition) {
-            view!!.enterWithTransition()
+            view?.enterWithTransition()
         } else {
-            view!!.enterWithoutTransition()
+            view?.enterWithoutTransition()
         }
-        mediaBrowser = MediaBrowserCompat(context,
-                ComponentName(context, MediaPlaybackService::class.java),
-                mConnectionCallbacks,
-                null) // optional Bundle
     }
 
     private fun setEpisodes() {
-        if (view == null || podcastFeed == null) {
-            return
+        if (podcastFeed != null) {
+            view?.setEpisodes(podcastFeed?.episodes)
         }
-        view!!.setEpisodes(podcastFeed!!.episodes)
     }
 
     fun onBackPressed() {
         if (startedWithTransition) {
-            view!!.exitWithSharedTrsnsition()
+            view?.exitWithSharedTrsnsition()
         } else {
-            view!!.exitWithoutSharedTransition()
+            view?.exitWithoutSharedTransition()
         }
     }
 
@@ -130,13 +98,10 @@ CrashlyticsWrapper, val context: Context) : GenericPresenter {
     fun onDownloadAllPressed() {
 
     }
-
+    
     fun onListenToAllPressed() {
-        //view?.listenToAll(podcastFeed);
-        mediaController?.getTransportControls()?.play();
+        playerManager.listenToAll(podcastFeed)
     }
 
-    companion object {
-        val TAG = SinglePodcastPresenter::class.java.simpleName
-    }
+
 }

@@ -35,9 +35,9 @@ public class AddPodcastPresenter implements GenericPresenter, PodcastsAdapter.On
             }
 
             @Override
-            public void onError(Throwable e) {
+            public void onError(Throwable throwable) {
                 if (addPodcastView != null) {
-                    addPodcastView.onError(e);
+                    addPodcastView.onError(throwable);
                 }
                 showProgressBar(false);
             }

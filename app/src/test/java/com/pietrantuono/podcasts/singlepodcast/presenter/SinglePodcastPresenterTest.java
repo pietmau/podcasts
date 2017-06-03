@@ -74,7 +74,7 @@ public class SinglePodcastPresenterTest {
         //WHEN
         presenter.startPresenter(podcast, true);
         //THEN
-        verify(model).init(podcast);
+        verify(model).startModel(podcast);
     }
 
     @Test

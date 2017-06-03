@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.pietrantuono.podcasts.player
+package com.pietrantuono.podcasts.player.player
 
 import android.content.Context
 import android.content.IntentFilter

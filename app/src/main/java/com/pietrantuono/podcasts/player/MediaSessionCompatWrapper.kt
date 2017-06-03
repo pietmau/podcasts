@@ -3,6 +3,7 @@ package com.pietrantuono.podcasts.player
 import android.content.Context
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import com.pietrantuono.podcasts.player.player.MediaSessionCompatCallbackImpl
 
 
 class MediaSessionCompatWrapper(context: Context) {
@@ -16,7 +17,7 @@ class MediaSessionCompatWrapper(context: Context) {
                 .setActions(
                         PlaybackStateCompat.ACTION_PLAY or PlaybackStateCompat.ACTION_PLAY_PAUSE)
         mediaSession!!.setPlaybackState(stateBuilder!!.build())
-        mediaSession!!.setCallback(PlayerManager(context))
+        mediaSession!!.setCallback(MediaSessionCompatCallbackImpl(context))
     }
 
     val sessionToken: MediaSessionCompat.Token?

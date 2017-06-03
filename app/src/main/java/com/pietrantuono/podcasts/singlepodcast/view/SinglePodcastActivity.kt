@@ -74,8 +74,8 @@ class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView {
     }
 
     private fun startPresenter() {
-        presenter!!.bindView(this@SinglePodcastActivity)
-        presenter!!.startPresenter(intent
+        presenter?.bindView(this@SinglePodcastActivity)
+        presenter?.startPresenter(intent
                 .getParcelableExtra<SinglePodcast>(SINGLE_PODCAST), intent
                 .getBooleanExtra(STARTED_WITH_TRANSITION, false))
     }
@@ -161,12 +161,12 @@ class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView {
         return presenterManager
     }
 
-    override fun setEpisodes(episodes: List<PodcastEpisodeModel>) {
-        recyclerView!!.setItems(episodes)
+    override fun setEpisodes(episodes: List<PodcastEpisodeModel>?) {
+        recyclerView?.setItems(episodes)
     }
 
     override fun onBackPressed() {
-        presenter!!.onBackPressed()
+        presenter?.onBackPressed()
     }
 
     override fun exitWithSharedTrsnsition() {
