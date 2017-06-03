@@ -62,13 +62,13 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @Override
     protected void onPause() {
         super.onPause();
-        mainPresenter.onPause();
+        mainPresenter.onStop();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mainPresenter.onResume();
+        mainPresenter.onStart();
     }
 
     @Override

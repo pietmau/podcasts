@@ -37,7 +37,7 @@ public class SubscribedPodcastPresenterTest {
     @Test
     public void when_resumes_then_subscribesToModel() {
         //WHEN
-        presenter.onResume();
+        presenter.onStart();
         //THEN
         verify(model).subscribeToSubscribedPodcasts(isA(Observer.class));
     }
@@ -63,14 +63,14 @@ public class SubscribedPodcastPresenterTest {
     }
 
     private void subscribesToPodcasts() {
-        presenter.onResume();
+        presenter.onStart();
         verify(model).subscribeToSubscribedPodcasts(captor.capture());
     }
 
     @Test
     public void when_onPause_then_unsubscribes() {
         //WHEN
-        presenter.onPause();
+        presenter.onStop();
         //THEN
         verify(model).unsubscribe();
     }

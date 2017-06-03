@@ -7,10 +7,11 @@ import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast
 import com.pietrantuono.podcasts.apis.PodcastFeed
 import com.pietrantuono.podcasts.singlepodcast.model.SinglePodcastModel
 import com.pietrantuono.podcasts.singlepodcast.view.SinglePodcastView
-
 import rx.Observer
 
-class SinglePodcastPresenter(private val model: SinglePodcastModel, private val crashlyticsWrapper: CrashlyticsWrapper) : GenericPresenter {
+
+class SinglePodcastPresenter(private val model: SinglePodcastModel, private val crashlyticsWrapper:
+CrashlyticsWrapper) : GenericPresenter {
     private var view: SinglePodcastView? = null
     private var podcastFeed: PodcastFeed? = null
     private var startedWithTransition: Boolean = false
@@ -28,11 +29,11 @@ class SinglePodcastPresenter(private val model: SinglePodcastModel, private val 
         view = null
     }
 
-    override fun onPause() {
+    override fun onStop() {
         model.unsubscribe()
     }
 
-    override fun onResume() {
+    override fun onStart() {
         model.subscribeToFeed(object : Observer<PodcastFeed> {
             override fun onCompleted() {
                 view!!.showProgress(false)
@@ -92,7 +93,8 @@ class SinglePodcastPresenter(private val model: SinglePodcastModel, private val 
     }
 
     fun onListenToAllPressed() {
-        view?.listenToAll(podcastFeed);
+        //view?.listenToAll(podcastFeed);
+
     }
 
     companion object {

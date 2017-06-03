@@ -39,7 +39,7 @@ public class SinglePodcastPresenterTest {
     @Test
     public void when_resume_subscribesToFeed() {
         // WHEN
-        presenter.onResume();
+        presenter.onStart();
         // THEN
         verify(model).subscribeToFeed(isA(Observer.class));
     }
@@ -47,7 +47,7 @@ public class SinglePodcastPresenterTest {
     @Test
     public void when_resume_subscribesToIsSubscribedToPodcast() {
         // WHEN
-        presenter.onResume();
+        presenter.onStart();
         // THEN
         verify(model).subscribeToIsSubscribedToPodcast(isA(Observer.class));
     }
@@ -55,7 +55,7 @@ public class SinglePodcastPresenterTest {
     @Test
     public void when_pause_then_unsubscribes() {
         // WHEN
-        presenter.onPause();
+        presenter.onStop();
         // THEN
         verify(model).unsubscribe();
     }
@@ -63,7 +63,7 @@ public class SinglePodcastPresenterTest {
     @Test
     public void when_subscribedToPodcast_then_setsSubscribedToPodcastInTheView() {
         //WHEN
-        presenter.onResume();
+        presenter.onStart();
         subscribeToSubscribedToPodcast();
         //THEN
         verify(view).setSubscribedToPodcast(true);

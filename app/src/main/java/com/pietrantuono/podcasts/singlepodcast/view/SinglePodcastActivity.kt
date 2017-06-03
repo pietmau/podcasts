@@ -2,11 +2,9 @@ package com.pietrantuono.podcasts.singlepodcast.view
 
 
 import android.os.Bundle
-import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
@@ -98,22 +96,26 @@ class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView {
 
     }
 
-    override fun onPause() {
-        super.onPause()
-        presenter!!.onPause()
+    override fun onStop() {
+        super.onStop()
+        presenter!!.onStop()
         podcastImageLoadingListener!!.setActivity(null)
     }
 
-    override fun onResume() {
-        super.onResume()
-        presenter!!.onResume()
+    override fun onStart() {
+        super.onStart()
+        presenter!!.onStart()
         podcastImageLoadingListener!!.setActivity(this)
     }
+
+
 
     override fun onDestroy() {
         super.onDestroy()
         presenter!!.onDestroy()
     }
+
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater

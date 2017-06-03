@@ -80,13 +80,13 @@ public class SubscribedPodcastFragment extends Fragment implements SubscribedPod
     @Override
     public void onResume() {
         super.onResume();
-        presenter.onResume();
+        presenter.onStart();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        presenter.onPause();
+        presenter.onStop();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

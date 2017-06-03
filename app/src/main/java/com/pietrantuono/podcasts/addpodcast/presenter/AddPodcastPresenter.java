@@ -66,12 +66,12 @@ public class AddPodcastPresenter implements GenericPresenter, PodcastsAdapter.On
     }
 
     @Override
-    public void onPause() {
+    public void onStop() {
         addPodcastsModel.unsubscribeFromSearch();
     }
 
     @Override
-    public void onResume() {
+    public void onStart() {
         addPodcastsModel.subscribeToSearch(observer);
     }
 

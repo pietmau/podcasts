@@ -62,14 +62,14 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     @Override
     public void onResume() {
         super.onResume();
-        addPodcastPresenter.onResume();
+        addPodcastPresenter.onStart();
     }
 
     @DebugLog
     @Override
     public void onPause() {
         super.onPause();
-        addPodcastPresenter.onPause();
+        addPodcastPresenter.onStop();
     }
 
     @DebugLog

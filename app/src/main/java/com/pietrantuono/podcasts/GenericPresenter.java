@@ -5,7 +5,7 @@ public interface GenericPresenter {
 
     void onDestroy();
 
-    void onPause();
+    void onStop();
 
-    void onResume();
+    void onStart();
 }

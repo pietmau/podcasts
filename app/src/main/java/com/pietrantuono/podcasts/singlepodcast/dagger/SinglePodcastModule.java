@@ -50,27 +50,28 @@ public class SinglePodcastModule {
     }
 
     @Provides
-    SinglePodcastApi provideSinglePodcastApi(CrashlyticsWrapper crashlyticsWrapper, PodcastEpisodeParser episodeparser){
+    SinglePodcastApi provideSinglePodcastApi(CrashlyticsWrapper crashlyticsWrapper, PodcastEpisodeParser episodeparser) {
         return new SinglePodcastApiRetrofit(crashlyticsWrapper, episodeparser);
     }
 
     @Provides
-    SinglePodcastModel provideSinglePodcastModel(SinglePodcastApi api, Repository repository){
+    SinglePodcastModel provideSinglePodcastModel(SinglePodcastApi api, Repository repository) {
         return new SinglePodcastModelImpl(api, repository);
     }
 
     @Provides
-    PodcastEpisodeParser providePodcastEpisodeParser(ImageParser imageParser){
+    PodcastEpisodeParser providePodcastEpisodeParser(ImageParser imageParser) {
         return new PodcastEpisodeParser(imageParser);
     }
 
     @Provides
-    Repository provideRepository(){
+    Repository provideRepository() {
         return new RealmRepository();
     }
 
     @Provides
-    TransitionImageLoadingListener provideTransitionImageLoadingListener(TransitionsFramework framework){
+    TransitionImageLoadingListener provideTransitionImageLoadingListener(TransitionsFramework framework) {
         return new TransitionImageLoadingListener(activity, framework);
     }
+
 }

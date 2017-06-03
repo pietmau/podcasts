@@ -51,7 +51,7 @@ public class AddPodcastPresenterTest {
         /*
         * WHEN
         */
-        addPodcastPresenter.onPause();
+        addPodcastPresenter.onStop();
         /*
         * THEN
         */
@@ -60,7 +60,7 @@ public class AddPodcastPresenterTest {
 
     @Test
     public void given_Presenter_when_bound_then_Subscribes() {
-        addPodcastPresenter.onResume();
+        addPodcastPresenter.onStart();
         verify(addPodcastsModel).subscribeToSearch(isA(Observer.class));
     }
 
@@ -82,7 +82,7 @@ public class AddPodcastPresenterTest {
         /*
         * WHEN
         */
-        addPodcastPresenter.onResume();
+        addPodcastPresenter.onStart();
         verify(addPodcastsModel).subscribeToSearch(observerCaptor.capture());
         observerCaptor.getValue().onError(error);
         /*
@@ -97,7 +97,7 @@ public class AddPodcastPresenterTest {
         /*
         * WHEN
         */
-        addPodcastPresenter.onResume();
+        addPodcastPresenter.onStart();
         verify(addPodcastsModel).subscribeToSearch(observerCaptor.capture());
         observerCaptor.getValue().onNext(result);
         /*
@@ -123,7 +123,7 @@ public class AddPodcastPresenterTest {
         /*
         * WHEN
         */
-        addPodcastPresenter.onResume();
+        addPodcastPresenter.onStart();
         verify(addPodcastsModel).subscribeToSearch(observerCaptor.capture());
         observerCaptor.getValue().onCompleted();
         /*

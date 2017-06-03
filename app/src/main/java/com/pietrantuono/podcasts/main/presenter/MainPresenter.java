@@ -20,11 +20,11 @@ public class MainPresenter implements GenericPresenter {
     }
 
     @Override
-    public void onPause() {
+    public void onStop() {
     }
 
     @Override
-    public void onResume() {
+    public void onStart() {
 
     }
 

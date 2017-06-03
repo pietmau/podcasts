@@ -19,7 +19,7 @@ class SubscribedPodcastPresenter(private val model: SubscribedPodcastModel, priv
         this.view = view
     }
 
-    override fun onResume() {
+    override fun onStart() {
 
         model.subscribeToSubscribedPodcasts(object : Observer<List<SinglePodcast>> {
             override fun onCompleted() {
@@ -39,7 +39,7 @@ class SubscribedPodcastPresenter(private val model: SubscribedPodcastModel, priv
 
     override fun onDestroy() {}
 
-    override fun onPause() {
+    override fun onStop() {
         model.unsubscribe()
     }
 
