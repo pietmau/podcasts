@@ -72,7 +72,7 @@ public class SinglePodcastPresenterTest {
     @Test
     public void when_init_then_initModel() {
         //WHEN
-        presenter.init(podcast, true);
+        presenter.startPresenter(podcast, true);
         //THEN
         verify(model).init(podcast);
     }

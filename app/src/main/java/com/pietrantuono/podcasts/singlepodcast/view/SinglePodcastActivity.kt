@@ -46,7 +46,7 @@ class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView {
         super.onCreate(savedInstanceState)
         initViews()
         inject()
-        initPresenter()
+        startPresenter()
         loadImage()
     }
 
@@ -73,9 +73,9 @@ class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView {
         setUpActionBar()
     }
 
-    private fun initPresenter() {
+    private fun startPresenter() {
         presenter!!.bindView(this@SinglePodcastActivity)
-        presenter!!.init(intent
+        presenter!!.startPresenter(intent
                 .getParcelableExtra<SinglePodcast>(SINGLE_PODCAST), intent
                 .getBooleanExtra(STARTED_WITH_TRANSITION, false))
     }
