@@ -85,13 +85,13 @@ interface Playback {
         /**
          * @param error to be added to the PlaybackState
          */
-        fun onError(error: String)
+        fun onError(error: String?)
 
         /**
          * @param mediaId being currently played
          */
-        fun setCurrentMediaId(mediaId: String)
+        fun setCurrentMediaId(mediaId: String?)
     }
 
-    fun setCallback(callback: Callback)
+    fun setCallback(callback: Callback?)
 }

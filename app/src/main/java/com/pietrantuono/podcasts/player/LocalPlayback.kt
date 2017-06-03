@@ -39,7 +39,7 @@ class LocalPlayback(context: Context) : Playback {
     private val mContext: Context
     private val mWifiLock: WifiManager.WifiLock
     private var mPlayOnFocusGain: Boolean = false
-    private var mCallback: Playback.Callback? = null
+    var mCallback: Playback.Callback? = null
     private val mAudioNoisyReceiverRegistered: Boolean = false
     override var currentMediaId: String? = null
 
@@ -175,7 +175,7 @@ class LocalPlayback(context: Context) : Playback {
         }
     }
 
-    override fun setCallback(callback: Playback.Callback) {
+    override fun setCallback(callback: Playback.Callback?) {
         this.mCallback = callback
     }
 
@@ -271,12 +271,12 @@ class LocalPlayback(context: Context) : Playback {
     }
 
     private inner class ExoPlayerEventListener : ExoPlayer.EventListener {
-        override fun onTimelineChanged(timeline: Timeline, manifest: Any) {
+        override fun onTimelineChanged(timeline: Timeline?, manifest: Any?) {
             // Nothing to do.
         }
 
         override fun onTracksChanged(
-                trackGroups: TrackGroupArray, trackSelections: TrackSelectionArray) {
+                trackGroups: TrackGroupArray?, trackSelections: TrackSelectionArray?) {
             // Nothing to do.
         }
 
@@ -297,13 +297,15 @@ class LocalPlayback(context: Context) : Playback {
             }
         }
 
-        override fun onPlayerError(error: ExoPlaybackException) {
-            val what: String?
-            when (error.type) {
-                ExoPlaybackException.TYPE_SOURCE -> what = error.sourceException.message
-                ExoPlaybackException.TYPE_RENDERER -> what = error.rendererException.message
-                ExoPlaybackException.TYPE_UNEXPECTED -> what = error.unexpectedException.message
-                else -> what = "Unknown: " + error
+        override fun onPlayerError(error: ExoPlaybackException?) {
+            var what: String? = null
+            if (error != null) {
+                when (error.type) {
+                    ExoPlaybackException.TYPE_SOURCE -> what = error.sourceException.message
+                    ExoPlaybackException.TYPE_RENDERER -> what = error.rendererException.message
+                    ExoPlaybackException.TYPE_UNEXPECTED -> what = error.unexpectedException.message
+                    else -> what = "Unknown: " + error
+                }
             }
 
             if (mCallback != null) {

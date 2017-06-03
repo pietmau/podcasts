@@ -7,7 +7,7 @@ import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.session.MediaControllerCompat
 import com.pietrantuono.CrashlyticsWrapper
 import com.pietrantuono.podcasts.GenericPresenter
-import com.pietrantuono.podcasts.MediaPlaybackService
+import com.pietrantuono.podcasts.player.MediaPlaybackService
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast
 import com.pietrantuono.podcasts.apis.PodcastFeed
 import com.pietrantuono.podcasts.singlepodcast.model.SinglePodcastModel

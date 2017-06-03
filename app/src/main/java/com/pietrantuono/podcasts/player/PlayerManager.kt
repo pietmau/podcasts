@@ -1,4 +1,4 @@
-package com.pietrantuono.podcasts
+package com.pietrantuono.podcasts.player
 
 import android.content.Context
 import android.content.Intent
@@ -7,9 +7,8 @@ import android.os.Bundle
 import android.os.ResultReceiver
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
-import com.pietrantuono.podcasts.player.LocalPlayback
 
-class MySessionCallback(context: Context) : MediaSessionCompat.Callback() {
+class PlayerManager(context: Context) : MediaSessionCompat.Callback() {
     private val localPlayback: LocalPlayback
 
     init{
