@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
+            <com.pietrantuono.podcasts.singlepodcast.view.custom.SubscribedTextView
                 android:id="@+id/subscribeunsubscribe"
                 style="@style/actionbar_textview"
                 android:layout_width="wrap_content"
@@ -65,7 +65,7 @@
 
             </android.support.design.widget.CollapsingToolbarLayout>
 
-            <ProgressBar
+            <com.pietrantuono.podcasts.singlepodcast.view.custom.SimpleProgressBar
                 android:id="@+id/progress"
                 style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
                 android:layout_width="match_parent"

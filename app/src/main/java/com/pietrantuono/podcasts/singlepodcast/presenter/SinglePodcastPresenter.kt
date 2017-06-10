@@ -1,16 +1,15 @@
 package com.pietrantuono.podcasts.singlepodcast.presenter
 
-
 import com.google.android.exoplayer2.source.MediaSource
 import com.pietrantuono.CrashlyticsWrapper
 import com.pietrantuono.podcasts.GenericPresenter
+import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast
 import com.pietrantuono.podcasts.apis.PodcastFeed
 import com.pietrantuono.podcasts.player.player.Playback
 import com.pietrantuono.podcasts.singlepodcast.model.SinglePodcastModel
 import com.pietrantuono.podcasts.singlepodcast.view.SinglePodcastView
 import rx.Observer
-
 
 class SinglePodcastPresenter(private val model: SinglePodcastModel, private val crashlyticsWrapper:
 CrashlyticsWrapper, private val playBack: Playback, private val mediaSourceCreator: MediaSourceCreator) : GenericPresenter {
@@ -81,30 +80,49 @@ CrashlyticsWrapper, private val playBack: Playback, private val mediaSourceCreat
         }
     }
 
-    fun onBackPressed() {
+    fun onBackPressed(): Boolean {
         if (startedWithTransition) {
             view?.exitWithSharedTrsnsition()
         } else {
             view?.exitWithoutSharedTransition()
         }
+        return true;
     }
 
     fun onSubscribeUnsubscribeToPodcastClicked() {
         model.onSubscribeUnsubscribeToPodcastClicked()
     }
 
-    fun onDownloadAllPressed() {
-
+    fun onDownloadAllPressed(): Boolean {
+        return true
     }
 
-    fun onListenToAllPressed() {
+    fun onListenToAllPressed(): Boolean {
         if (podcastFeed != null) {
             playBack.playAll(createConcatenateMediaSource(podcastFeed!!))
+            return true
+        } else {
+            return false
         }
     }
 
     private fun createConcatenateMediaSource(podcastFeed: PodcastFeed): MediaSource {
         return mediaSourceCreator.createConcatenateMediaSource(podcastFeed)
+    }
+
+    fun onOptionsItemSelected(itemId: Int): Boolean {
+        when (itemId) {
+            android.R.id.home -> {
+                return onBackPressed()
+            }
+            R.id.download_all -> {
+                return onDownloadAllPressed()
+            }
+            R.id.listen_to_all -> {
+                return onListenToAllPressed()
+            }
+        }
+        return false
     }
 }
 
