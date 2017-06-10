@@ -46,12 +46,12 @@ CrashlyticsWrapper, val context: Context, private val playerManager: PlayerManag
                 view?.showProgress(false)
             }
 
-            override fun onError(throwable: Throwable) {
+            override fun onError(throwable: Throwable?) {
                 crashlyticsWrapper.logException(throwable)
                 view?.showProgress(false)
             }
 
-            override fun onNext(podcastFeed: PodcastFeed) {
+            override fun onNext(podcastFeed: PodcastFeed?) {
                 if (this@SinglePodcastPresenter.podcastFeed == null) {
                     this@SinglePodcastPresenter.podcastFeed = podcastFeed
                     setEpisodes()
@@ -67,7 +67,7 @@ CrashlyticsWrapper, val context: Context, private val playerManager: PlayerManag
         setEpisodes()
     }
 
-    fun startPresenter(podcast: SinglePodcast, startedWithTransition: Boolean) {
+    fun startPresenter(podcast: SinglePodcast?, startedWithTransition: Boolean) {
         this.startedWithTransition = startedWithTransition
         model.startModel(podcast)
         if (startedWithTransition) {
@@ -98,7 +98,7 @@ CrashlyticsWrapper, val context: Context, private val playerManager: PlayerManag
     fun onDownloadAllPressed() {
 
     }
-    
+
     fun onListenToAllPressed() {
         playerManager.listenToAll(podcastFeed)
     }

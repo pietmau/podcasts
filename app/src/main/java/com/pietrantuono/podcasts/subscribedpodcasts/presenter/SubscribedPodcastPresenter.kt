@@ -12,7 +12,8 @@ import com.pietrantuono.podcasts.subscribedpodcasts.view.SubscribedPodcastView
 
 import rx.Observer
 
-class SubscribedPodcastPresenter(private val model: SubscribedPodcastModel, private val apiLevelChecker: ApiLevelChecker) : GenericPresenter, PodcastsAdapter.OnItemClickedClickedListener {
+class SubscribedPodcastPresenter(private val model: SubscribedPodcastModel, private val apiLevelChecker:
+ApiLevelChecker) : GenericPresenter, PodcastsAdapter.OnItemClickedClickedListener {
     private var view: SubscribedPodcastView? = null
 
     fun bindView(view: SubscribedPodcastView) {
@@ -43,7 +44,8 @@ class SubscribedPodcastPresenter(private val model: SubscribedPodcastModel, priv
         model.unsubscribe()
     }
 
-    override fun onItemClicked(singlePodcast: SinglePodcast, imageView: ImageView, position: Int, titleContainer: LinearLayout) {
+    override fun onItemClicked(singlePodcast: SinglePodcast?, imageView: ImageView?, position: Int,
+                               titleContainer: LinearLayout?) {
         if (apiLevelChecker.isLollipopOrHigher && !view!!.isPartiallyHidden(position)) {
             view!!.startDetailActivityWithTransition(singlePodcast, imageView, titleContainer)
         } else {

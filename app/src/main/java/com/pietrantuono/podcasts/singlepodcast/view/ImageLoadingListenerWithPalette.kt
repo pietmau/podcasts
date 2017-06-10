@@ -10,7 +10,8 @@ import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.databinding.FindPodcastItemBinding
 import com.pietrantuono.podcasts.singlepodcast.viewmodel.ResourcesProvider
 
-class ImageLoadingListenerWithPalette(private val dataBinding: FindPodcastItemBinding, private val resourcesProvider: ResourcesProvider) : SimpleImageLoadingListener() {
+class ImageLoadingListenerWithPalette(private val dataBinding: FindPodcastItemBinding,
+                                      private val resourcesProvider: ResourcesProvider) : SimpleImageLoadingListener() {
 
     override fun onLoadingComplete(imageUri: String?, view: View?, loadedImage: Bitmap?) {
         val drawable = (view as ImageView).drawable as BitmapDrawable

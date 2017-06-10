@@ -7,7 +7,7 @@ import android.support.v4.media.session.MediaControllerCompat
 import com.pietrantuono.podcasts.apis.PodcastFeed
 
 
-class PlayerManagerImpl(context: Context) : PlayerManager {
+class PlayerManagerImpl(context: Context?) : PlayerManager {
     private val mConnectionCallbacks: MediaBrowserCompat.ConnectionCallback
     private var mediaBrowser: MediaBrowserCompat? = null
     private var mediaController: MediaControllerCompat? = null

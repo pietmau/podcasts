@@ -115,9 +115,7 @@ class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView {
         presenter!!.onDestroy()
     }
 
-
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.other_actions, menu)
         return true

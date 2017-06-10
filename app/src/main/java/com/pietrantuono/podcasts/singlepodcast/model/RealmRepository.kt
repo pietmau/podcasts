@@ -17,38 +17,36 @@ class RealmRepository : Repository {
     private val realm = Realm.getDefaultInstance()
     private var subject: BehaviorSubject<Boolean>? = null
 
-    override fun getIfSubscribed(podcast: SinglePodcast): Observable<Boolean> {
+    override fun getIfSubscribed(podcast: SinglePodcast?): Observable<Boolean> {
         val observable = realm
                 .where(SinglePodcastRealm::class.java)
-                .equalTo("trackId", podcast.trackId)
+                .equalTo("trackId", podcast?.trackId)
                 .findFirstAsync()
                 .asObservable<RealmObject>()
-                .map { x -> isSubscribed(x) }
+                .map { realmObject -> isSubscribed(realmObject) }
         subject = BehaviorSubject.create<Boolean>()
         observable.subscribe(subject)
         return subject!!.asObservable().observeOn(AndroidSchedulers.mainThread())
     }
 
-    private fun isSubscribed(x: RealmObject): Boolean {
-        if (!x.isLoaded) {
+    private fun isSubscribed(realmObject: RealmObject): Boolean {
+        if (!realmObject.isLoaded || !realmObject.isValid) {
             return false
         }
-        if (!x.isValid) {
-            return false
-        }
-        return (x as SinglePodcastRealm).isPodcastSubscribed
+
+        return (realmObject as SinglePodcastRealm).isPodcastSubscribed
     }
 
-    override fun subscribeToSubscribedPodcasts(observer: Observer<List<SinglePodcast>>): Observable<List<SinglePodcast>> {
+    override fun subscribeToSubscribedPodcasts(observer: Observer<List<SinglePodcast>>?): Observable<List<SinglePodcast>> {
         return realm
                 .where(SinglePodcastRealm::class.java)
                 .findAllAsync()
                 .asObservable()
-                .map { x -> toSinglePodcast(x) }
+                .map { realmResults -> toSinglePodcast(realmResults) }
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
-    override fun onSubscribeUnsubscribeToPodcastClicked(podcast: SinglePodcast) {
+    override fun onSubscribeUnsubscribeToPodcastClicked(podcast: SinglePodcast?) {
         realm.executeTransactionAsync { realm ->
             var singlePodcastRealm: SinglePodcastRealm? = getSinglePodcastRealm(podcast, realm)
             if (singlePodcastRealm != null) {
@@ -64,15 +62,18 @@ class RealmRepository : Repository {
 
     private fun toSinglePodcast(results: RealmResults<SinglePodcastRealm>): List<SinglePodcast> {
         val list = ArrayList<SinglePodcast>(results.size)
+        if (!results.isLoaded || !results.isValid) {
+            return list
+        }
         for (single in results) {
             list.add(RealmUtlis.singlePodcast(single))
         }
         return list
     }
 
-    private fun getSinglePodcastRealm(singlePodcast: SinglePodcast, realm: Realm): SinglePodcastRealm? {
+    private fun getSinglePodcastRealm(singlePodcast: SinglePodcast?, realm: Realm): SinglePodcastRealm {
         return realm.where(SinglePodcastRealm::class.java)
-                .equalTo("trackId", singlePodcast.trackId)
+                .equalTo("trackId", singlePodcast?.trackId)
                 .findFirst()
     }
 }

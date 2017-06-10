@@ -1,5 +1,6 @@
 package com.pietrantuono.podcasts.addpodcast.customviews;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,10 +22,10 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
     private final List<SinglePodcast> items;
     private final List<SinglePodcast> publishedItems;
     private final SimpleImageLoader imageLoader;
-    private OnItemClickedClickedListener onItemClickedClickedListener;
-    private ResourcesProvider resolver;
+    @NonNull private OnItemClickedClickedListener onItemClickedClickedListener;
+    @NonNull private ResourcesProvider resolver;
 
-    public PodcastsAdapter(SimpleImageLoader imageLoader, ResourcesProvider resolver) {
+    public PodcastsAdapter(@NonNull SimpleImageLoader imageLoader, @NonNull ResourcesProvider resolver) {
         this.imageLoader = imageLoader;
         this.resolver = resolver;
         items = new ArrayList<>();
@@ -32,13 +33,13 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
     }
 
     @Override
-    public PodcastHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.find_podcast_item, parent, false);
-        return new PodcastHolder(v, resolver, imageLoader);
+    public PodcastHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.find_podcast_item, parent, false);
+        return new PodcastHolder(view, resolver, imageLoader);
     }
 
     @Override
-    public void onBindViewHolder(PodcastHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PodcastHolder holder, int position) {
         holder.onBindViewHolder(publishedItems.get(position), onItemClickedClickedListener, position);
     }
 
@@ -53,7 +54,7 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
         setPublishedItems(items);
     }
 
-    public void setPublishedItems(List<SinglePodcast> items){
+    public void setPublishedItems(List<SinglePodcast> items) {
         publishedItems.clear();
         publishedItems.addAll(items);
         notifyDataSetChanged();
@@ -69,7 +70,7 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
         return new PodcastsFilter(this, items);
     }
 
-    public void setOnItemClickListener(OnItemClickedClickedListener onItemClickedClickedListener) {
+    public void setOnItemClickListener(@NonNull OnItemClickedClickedListener onItemClickedClickedListener) {
         this.onItemClickedClickedListener = onItemClickedClickedListener;
     }
 
