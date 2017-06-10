@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 
+import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
@@ -86,8 +87,8 @@ public class SinglePodcastModule {
     }
 
     @Provides
-    Playback providesPlayback(Context context) {
-        return new LocalPlayback(context);
+    Playback providesPlayback(Context context, SimpleExoPlayer exoplayer) {
+        return new LocalPlayback(context, exoplayer);
     }
 
     @Provides

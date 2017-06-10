@@ -20,16 +20,15 @@ import android.media.AudioManager
 import android.net.wifi.WifiManager
 import android.support.v4.media.session.MediaSessionCompat.QueueItem
 import android.support.v4.media.session.PlaybackStateCompat
-import com.google.android.exoplayer2.*
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
+import com.google.android.exoplayer2.ExoPlaybackException
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.Timeline
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.TrackGroupArray
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import com.google.android.exoplayer2.util.Util
 
-class LocalPlayback(context: Context) : Playback {
+class LocalPlayback(context: Context, var exoPlayer: SimpleExoPlayer?) : Playback {
     private val context: Context
     private val wifiLock: WifiManager.WifiLock
     private var playOnFocusGain: Boolean = false
@@ -38,7 +37,6 @@ class LocalPlayback(context: Context) : Playback {
 
     private var currentAudioFocusState = AUDIO_NO_FOCUS_NO_DUCK
     private val audioManager: AudioManager
-    private var exoPlayer: SimpleExoPlayer? = null
     private val eventListener = ExoPlayerEventListener()
     private var exoPlayerNullIsStopped = false
 
@@ -100,22 +98,10 @@ class LocalPlayback(context: Context) : Playback {
         playOnFocusGain = true
         tryToGetAudioFocus()
 
-        if (exoPlayer == null) {
-            exoPlayer = ExoPlayerFactory.newSimpleInstance(
-                    context, DefaultTrackSelector(), DefaultLoadControl())
-            exoPlayer!!.addListener(eventListener)
-        }
+        exoPlayer?.addListener(eventListener)
 
-        exoPlayer!!.audioStreamType = AudioManager.STREAM_MUSIC
-
-        val dataSourceFactory = DefaultDataSourceFactory(
-                context, Util.getUserAgent(context, "uamp"), null)
-        val extractorsFactory = DefaultExtractorsFactory()
-//        val mediaSource = ExtractorMediaSource(
-//                Uri.parse("http://content.blubrry.com/aa_beyond_belief/Episode_58_The_" + "12_Step_Philosophy_of_Alcoholics_Anonymous.mp3"),
-//                dataSourceFactory, extractorsFactory, null, null)
-
-        exoPlayer!!.prepare(mediaSource)
+        exoPlayer?.audioStreamType = AudioManager.STREAM_MUSIC
+        exoPlayer?.prepare(mediaSource)
 
         wifiLock.acquire()
         configurePlayerState()
@@ -222,7 +208,6 @@ class LocalPlayback(context: Context) : Playback {
                     mCallback!!.onPlaybackStatusChanged(state)
                 }
                 ExoPlayer.STATE_ENDED ->
-                    // The media player finished playing the current song.
                     if (mCallback != null) {
                         mCallback!!.onCompletion()
                     }

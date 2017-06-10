@@ -2,6 +2,10 @@ package com.pietrantuono.podcasts.application;
 
 import android.content.Context;
 
+import com.google.android.exoplayer2.DefaultLoadControl;
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.pietrantuono.podcasts.singlepodcast.model.RealmRepository;
 import com.pietrantuono.podcasts.singlepodcast.model.Repository;
 
@@ -20,13 +24,19 @@ public class AppModule {
     }
 
     @Provides
-    Context providesContext(){
+    Context providesContext() {
         return context;
     }
 
     @Provides
-    Repository provideRepository(){
+    Repository provideRepository() {
         return new RealmRepository();
+    }
+
+    @Provides
+    SimpleExoPlayer provideExoPlayer() {
+        return ExoPlayerFactory.newSimpleInstance(
+                context, new DefaultTrackSelector(), new DefaultLoadControl());
     }
 
 }
