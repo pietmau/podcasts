@@ -11,15 +11,15 @@ class MediaSessionCompatWrapper(context: Context) {
 
     init {
         mediaSession = MediaSessionCompat(context, MediaSessionCompatWrapper::class.java.simpleName)
-        mediaSession!!.setFlags(
+        mediaSession.setFlags(
                 MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
         val stateBuilder = PlaybackStateCompat.Builder()
                 .setActions(
                         PlaybackStateCompat.ACTION_PLAY or PlaybackStateCompat.ACTION_PLAY_PAUSE)
-        mediaSession!!.setPlaybackState(stateBuilder!!.build())
-        mediaSession!!.setCallback(MediaSessionCompatCallbackImpl(context))
+        mediaSession.setPlaybackState(stateBuilder!!.build())
+        mediaSession.setCallback(MediaSessionCompatCallbackImpl(context))
     }
 
     val sessionToken: MediaSessionCompat.Token?
-        get() = mediaSession?.sessionToken
+        get() = mediaSession.sessionToken
 }

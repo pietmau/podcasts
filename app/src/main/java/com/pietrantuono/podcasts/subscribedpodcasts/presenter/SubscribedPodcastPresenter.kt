@@ -21,7 +21,6 @@ ApiLevelChecker) : GenericPresenter, PodcastsAdapter.OnItemClickedClickedListene
     }
 
     override fun onStart() {
-
         model.subscribeToSubscribedPodcasts(object : Observer<List<SinglePodcast>> {
             override fun onCompleted() {
             }

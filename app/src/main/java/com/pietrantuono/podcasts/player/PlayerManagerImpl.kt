@@ -7,41 +7,29 @@ import android.support.v4.media.session.MediaControllerCompat
 import com.pietrantuono.podcasts.apis.PodcastFeed
 
 
-class PlayerManagerImpl(context: Context?) : PlayerManager {
+class PlayerManagerImpl(context: Context) : PlayerManager {
     private val mConnectionCallbacks: MediaBrowserCompat.ConnectionCallback
     private var mediaBrowser: MediaBrowserCompat? = null
     private var mediaController: MediaControllerCompat? = null
-
+    private val controllerCallback: MediaControllerCompat.Callback
     init {
         mConnectionCallbacks = object : MediaBrowserCompat.ConnectionCallback() {
-            override fun onConnectionFailed() {
-
-            }
-
-            override fun onConnectionSuspended() {
-
-            }
-
+            override fun onConnectionFailed() {}
+            override fun onConnectionSuspended() {}
             override fun onConnected() {
                 val token = mediaBrowser?.getSessionToken()
-                mediaController = MediaControllerCompat(context,
-                        token)
-                // Save the controller
-                // MediaControllerCompat.setMediaController(context, mediaController)
+                if (token != null) {
+                    mediaController = MediaControllerCompat(context, token)
+                }
             }
         }
-
-        mediaBrowser = MediaBrowserCompat(context,
-                ComponentName(context, MediaPlaybackService::class.java),
-                mConnectionCallbacks,
+        controllerCallback = object : MediaControllerCompat.Callback() { }
+        mediaBrowser = MediaBrowserCompat(context, ComponentName(context, MediaPlaybackService::class.java), mConnectionCallbacks,
                 null)
     }
 
     override fun onStop() {
-        // (see "stay in sync with the MediaSession")
-//        if (MediaControllerCompat.getMediaController(MediaPlayerActivity.this) != null) {
-//            MediaControllerCompat.getMediaController(MediaPlayerActivity.this).unregisterCallback(controllerCallback);
-//        }
+        mediaController?.unregisterCallback(controllerCallback)
         mediaBrowser?.disconnect()
     }
 

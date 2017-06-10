@@ -13,7 +13,7 @@ class MediaPlaybackService : MediaBrowserServiceCompat() {
     override fun onCreate() {
         super.onCreate()
         (application as App).applicationComponent.inject(this)
-        sessionToken = mediaSession!!.sessionToken
+        sessionToken = mediaSession.sessionToken
     }
 
     override fun onGetRoot(clientPackageName: String, clientUid: Int,
