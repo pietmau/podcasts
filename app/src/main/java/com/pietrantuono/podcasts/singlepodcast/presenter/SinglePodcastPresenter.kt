@@ -1,18 +1,19 @@
 package com.pietrantuono.podcasts.singlepodcast.presenter
 
 
-import android.content.Context
+import com.google.android.exoplayer2.source.MediaSource
 import com.pietrantuono.CrashlyticsWrapper
 import com.pietrantuono.podcasts.GenericPresenter
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast
 import com.pietrantuono.podcasts.apis.PodcastFeed
+import com.pietrantuono.podcasts.player.player.Playback
 import com.pietrantuono.podcasts.singlepodcast.model.SinglePodcastModel
 import com.pietrantuono.podcasts.singlepodcast.view.SinglePodcastView
 import rx.Observer
 
 
 class SinglePodcastPresenter(private val model: SinglePodcastModel, private val crashlyticsWrapper:
-CrashlyticsWrapper, val context: Context) : GenericPresenter {
+CrashlyticsWrapper, private val playBack: Playback, private val mediaSourceCreator: MediaSourceCreator) : GenericPresenter {
     companion object {
         val TAG = SinglePodcastPresenter::class.java.simpleName
     }
@@ -57,7 +58,7 @@ CrashlyticsWrapper, val context: Context) : GenericPresenter {
             }
         })
         model.subscribeToIsSubscribedToPodcast(observer)
-            }
+    }
 
     fun bindView(view: SinglePodcastView) {
         this.view = view
@@ -97,8 +98,14 @@ CrashlyticsWrapper, val context: Context) : GenericPresenter {
     }
 
     fun onListenToAllPressed() {
-
+        if (podcastFeed != null) {
+            playBack.playAll(createConcatenateMediaSource(podcastFeed!!))
+        }
     }
 
-
+    private fun createConcatenateMediaSource(podcastFeed: PodcastFeed): MediaSource {
+        return mediaSourceCreator.createConcatenateMediaSource(podcastFeed)
+    }
 }
+
+

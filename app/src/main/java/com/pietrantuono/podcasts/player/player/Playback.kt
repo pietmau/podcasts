@@ -16,6 +16,7 @@
 package com.pietrantuono.podcasts.player.player
 
 import android.support.v4.media.session.MediaSessionCompat.QueueItem
+import com.google.android.exoplayer2.source.MediaSource
 
 interface Playback {
     /**
@@ -94,4 +95,6 @@ interface Playback {
     }
 
     fun setCallback(callback: Callback?)
+
+    fun playAll(mediaSource: MediaSource)
 }
