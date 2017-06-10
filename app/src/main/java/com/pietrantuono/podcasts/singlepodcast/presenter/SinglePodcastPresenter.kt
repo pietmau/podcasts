@@ -6,14 +6,13 @@ import com.pietrantuono.CrashlyticsWrapper
 import com.pietrantuono.podcasts.GenericPresenter
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast
 import com.pietrantuono.podcasts.apis.PodcastFeed
-import com.pietrantuono.podcasts.player.PlayerManager
 import com.pietrantuono.podcasts.singlepodcast.model.SinglePodcastModel
 import com.pietrantuono.podcasts.singlepodcast.view.SinglePodcastView
 import rx.Observer
 
 
 class SinglePodcastPresenter(private val model: SinglePodcastModel, private val crashlyticsWrapper:
-CrashlyticsWrapper, val context: Context, private val playerManager: PlayerManager) : GenericPresenter {
+CrashlyticsWrapper, val context: Context) : GenericPresenter {
     companion object {
         val TAG = SinglePodcastPresenter::class.java.simpleName
     }
@@ -37,7 +36,6 @@ CrashlyticsWrapper, val context: Context, private val playerManager: PlayerManag
 
     override fun onStop() {
         model.unsubscribe()
-        playerManager.onStop()
     }
 
     override fun onStart() {
@@ -59,8 +57,7 @@ CrashlyticsWrapper, val context: Context, private val playerManager: PlayerManag
             }
         })
         model.subscribeToIsSubscribedToPodcast(observer)
-        playerManager.onStart()
-    }
+            }
 
     fun bindView(view: SinglePodcastView) {
         this.view = view
@@ -100,7 +97,7 @@ CrashlyticsWrapper, val context: Context, private val playerManager: PlayerManag
     }
 
     fun onListenToAllPressed() {
-        playerManager.listenToAll(podcastFeed)
+
     }
 
 

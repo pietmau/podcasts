@@ -11,8 +11,6 @@ import com.pietrantuono.podcasts.ImageParser;
 import com.pietrantuono.podcasts.PodcastEpisodeParser;
 import com.pietrantuono.podcasts.PresenterManager;
 import com.pietrantuono.podcasts.main.view.TransitionsFramework;
-import com.pietrantuono.podcasts.player.PlayerManager;
-import com.pietrantuono.podcasts.player.PlayerManagerImpl;
 import com.pietrantuono.podcasts.singlepodcast.model.Repository;
 import com.pietrantuono.podcasts.singlepodcast.model.SinglePodcastModel;
 import com.pietrantuono.podcasts.singlepodcast.model.SinglePodcastModelImpl;
@@ -37,10 +35,10 @@ public class SinglePodcastModule {
     }
 
     @Provides
-    SinglePodcastPresenter provideSinglePodcastPresenter(SinglePodcastModel model, CrashlyticsWrapper crashlyticsWrapper, Context context, PlayerManager playerManager) {
+    SinglePodcastPresenter provideSinglePodcastPresenter(SinglePodcastModel model, CrashlyticsWrapper crashlyticsWrapper, Context context) {
         SinglePodcastPresenter addPodcastPresenter = (SinglePodcastPresenter) presenterManager.getPresenter(SinglePodcastPresenter.Companion.getTAG());
         if (addPodcastPresenter == null) {
-            addPodcastPresenter = new SinglePodcastPresenter(model, crashlyticsWrapper, context, playerManager);
+            addPodcastPresenter = new SinglePodcastPresenter(model, crashlyticsWrapper, context);
             presenterManager.put(SinglePodcastPresenter.Companion.getTAG(), addPodcastPresenter);
         }
         return addPodcastPresenter;
@@ -69,11 +67,6 @@ public class SinglePodcastModule {
     @Provides
     TransitionImageLoadingListener provideTransitionImageLoadingListener(TransitionsFramework framework) {
         return new TransitionImageLoadingListener(activity, framework);
-    }
-
-    @Provides
-    PlayerManager providesPlayerManager(Context context){
-        return new PlayerManagerImpl(context);
     }
 
 }

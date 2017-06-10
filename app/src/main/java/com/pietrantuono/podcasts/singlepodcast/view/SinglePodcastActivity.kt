@@ -1,6 +1,8 @@
 package com.pietrantuono.podcasts.singlepodcast.view
 
 
+import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -60,7 +62,7 @@ class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView {
     }
 
     override fun enterWithTransition() {
-        transitionsFramework!!.initDetailTransitions(this@SinglePodcastActivity)
+        transitionsFramework.initDetailTransitions(this@SinglePodcastActivity)
     }
 
     override fun enterWithoutTransition() {
@@ -74,8 +76,8 @@ class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView {
     }
 
     private fun startPresenter() {
-        presenter?.bindView(this@SinglePodcastActivity)
-        presenter?.startPresenter(intent
+        presenter.bindView(this@SinglePodcastActivity)
+        presenter.startPresenter(intent
                 .getParcelableExtra<SinglePodcast>(SINGLE_PODCAST), intent
                 .getBooleanExtra(STARTED_WITH_TRANSITION, false))
     }
@@ -92,26 +94,26 @@ class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView {
 
     private fun loadImage() {
         val podcast = intent.getParcelableExtra<SinglePodcast>(SINGLE_PODCAST)
-        imageLoader!!.displayImage(podcast, imageView, podcastImageLoadingListener)
+        imageLoader.displayImage(podcast, imageView, podcastImageLoadingListener)
 
     }
 
     override fun onStop() {
         super.onStop()
-        presenter!!.onStop()
-        podcastImageLoadingListener!!.setActivity(null)
+        presenter.onStop()
+        podcastImageLoadingListener.setActivity(null)
     }
 
     override fun onStart() {
         super.onStart()
-        presenter!!.onStart()
-        podcastImageLoadingListener!!.setActivity(this)
+        presenter.onStart()
+        podcastImageLoadingListener.setActivity(this)
     }
 
 
     override fun onDestroy() {
         super.onDestroy()
-        presenter!!.onDestroy()
+        presenter.onDestroy()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -125,15 +127,15 @@ class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView {
 
         when (id) {
             android.R.id.home -> {
-                presenter!!.onBackPressed()
+                presenter.onBackPressed()
                 return true
             }
             R.id.download_all -> {
-                presenter!!.onDownloadAllPressed()
+                presenter.onDownloadAllPressed()
                 return true
             }
             R.id.listen_to_all -> {
-                presenter!!.onListenToAllPressed()
+                presenter.onListenToAllPressed()
                 return true
             }
         }
@@ -143,14 +145,14 @@ class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView {
 
     @OnClick(R.id.subscribeunsubscribe)
     fun onSubscribeUnsubscribeClicked() {
-        presenter!!.onSubscribeUnsubscribeToPodcastClicked()
+        presenter.onSubscribeUnsubscribeToPodcastClicked()
     }
 
     override fun showProgress(show: Boolean) {
         if (show) {
-            progressBar!!.visibility = View.VISIBLE
+            progressBar.visibility = View.VISIBLE
         } else {
-            progressBar!!.visibility = View.GONE
+            progressBar.visibility = View.GONE
         }
     }
 
@@ -163,7 +165,7 @@ class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView {
     }
 
     override fun onBackPressed() {
-        presenter?.onBackPressed()
+        presenter.onBackPressed()
     }
 
     override fun exitWithSharedTrsnsition() {
@@ -177,11 +179,11 @@ class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView {
 
     override fun setSubscribedToPodcast(isSubscribed: Boolean?) {
         if (isSubscribed!!) {
-            subscribeUnsubscribeText!!.setText(R.string.unsubscribe)
-            subscribeUnsubscribeText!!.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_cancel_, 0, 0, 0)
+            subscribeUnsubscribeText.setText(R.string.unsubscribe)
+            subscribeUnsubscribeText.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_cancel_, 0, 0, 0)
         } else {
-            subscribeUnsubscribeText!!.setText(R.string.subscribe)
-            subscribeUnsubscribeText!!.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.add_circle, 0, 0, 0)
+            subscribeUnsubscribeText.setText(R.string.subscribe)
+            subscribeUnsubscribeText.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.add_circle, 0, 0, 0)
         }
     }
 
@@ -192,5 +194,9 @@ class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView {
     companion object {
         val SINGLE_PODCAST = "single_podcast"
         val STARTED_WITH_TRANSITION = "with_transition"
+    }
+
+    override fun bindService(service: Intent?, conn: ServiceConnection?, flags: Int): Boolean {
+        return super.bindService(service, conn, flags)
     }
 }
