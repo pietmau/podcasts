@@ -71,7 +71,7 @@ class RealmRepository : Repository {
         return list
     }
 
-    private fun getSinglePodcastRealm(singlePodcast: SinglePodcast?, realm: Realm): SinglePodcastRealm {
+    private fun getSinglePodcastRealm(singlePodcast: SinglePodcast?, realm: Realm): SinglePodcastRealm? {
         return realm.where(SinglePodcastRealm::class.java)
                 .equalTo("trackId", singlePodcast?.trackId)
                 .findFirst()
