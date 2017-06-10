@@ -10,25 +10,21 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
-
+import butterknife.BindView
+import butterknife.ButterKnife
+import butterknife.OnClick
 import com.pietrantuono.podcasts.PresenterManager
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast
 import com.pietrantuono.podcasts.apis.PodcastEpisodeModel
 import com.pietrantuono.podcasts.apis.PodcastFeed
+import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
-import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule
 import com.pietrantuono.podcasts.main.view.TransitionsFramework
 import com.pietrantuono.podcasts.singlepodcast.customviews.EpisodesRecycler
-import com.pietrantuono.podcasts.singlepodcast.dagger.DaggerSinglePodcastComponent
 import com.pietrantuono.podcasts.singlepodcast.dagger.SinglePodcastModule
 import com.pietrantuono.podcasts.singlepodcast.presenter.SinglePodcastPresenter
-
 import javax.inject.Inject
-
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 
 class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView {
     @BindView(R.id.toolbar) lateinit var toolbar: Toolbar
@@ -51,12 +47,16 @@ class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView {
     }
 
     private fun inject() {
-        DaggerSinglePodcastComponent
-                .builder()
-                .singlePodcastModule(SinglePodcastModule(this@SinglePodcastActivity))
-                .imageLoaderModule(ImageLoaderModule(this@SinglePodcastActivity))
-                .build()
-                .inject(this@SinglePodcastActivity)
+        val singlePodcastComponent = (applicationContext as App).applicationComponent
+                .with(SinglePodcastModule(this@SinglePodcastActivity))
+        singlePodcastComponent.inject(this)
+
+//        DaggerSinglePodcastComponent
+//                .builder()
+//                .singlePodcastModule(SinglePodcastModule(this@SinglePodcastActivity))
+//                .imageLoaderModule(ImageLoaderModule(this@SinglePodcastActivity))
+//                .build()
+//                .inject(this@SinglePodcastActivity)
     }
 
     override fun enterWithTransition() {
@@ -107,7 +107,6 @@ class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView {
         presenter!!.onStart()
         podcastImageLoadingListener!!.setActivity(this)
     }
-
 
 
     override fun onDestroy() {

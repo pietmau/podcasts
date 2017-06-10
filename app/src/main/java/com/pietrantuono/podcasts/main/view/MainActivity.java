@@ -9,10 +9,10 @@ import com.crashlytics.android.Crashlytics;
 import com.pietrantuono.podcasts.PresenterManager;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastFragment;
+import com.pietrantuono.podcasts.application.App;
+import com.pietrantuono.podcasts.application.MainComponent;
 import com.pietrantuono.podcasts.main.customviews.DrawerLayoutWithToggle;
 import com.pietrantuono.podcasts.main.customviews.SimpleNavView;
-import com.pietrantuono.podcasts.main.dagger.DaggerMainComponent;
-import com.pietrantuono.podcasts.main.dagger.MainComponent;
 import com.pietrantuono.podcasts.main.dagger.MainModule;
 import com.pietrantuono.podcasts.main.presenter.MainPresenter;
 import com.pietrantuono.podcasts.subscribedpodcasts.view.SubscribedPodcastFragment;
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @BindView(R.id.maintoolbar) Toolbar mainToolbar;
     @BindView(R.id.nav_view) SimpleNavView simpleNavView;
     private FragmentManager fragmentManager;
-    private MainComponent component;
+    private MainComponent mainComponent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +48,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     private void initDependencies() {
-        component = DaggerMainComponent.builder().mainModule(new MainModule(MainActivity.this)).build();
-        component.inject(MainActivity.this);
+        mainComponent = ((App) getApplicationContext()).getApplicationComponent().with(new MainModule(this));
+        mainComponent.inject(this);
     }
 
     private void setUpViews() {
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         return presenterManager;
     }
 
-    public MainComponent getComponent() {
-        return component;
+    public MainComponent getMainComponent() {
+        return mainComponent;
     }
 }

@@ -22,6 +22,7 @@ import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.main.view.MainActivity;
 import com.pietrantuono.podcasts.main.view.TransitionsFramework;
 import com.pietrantuono.podcasts.singlepodcast.view.SinglePodcastActivity;
+import com.pietrantuono.podcasts.subscribedpodcasts.di.SubscribedPodcastModule;
 import com.pietrantuono.podcasts.subscribedpodcasts.presenter.SubscribedPodcastPresenter;
 
 import java.util.List;
@@ -51,7 +52,7 @@ public class SubscribedPodcastFragment extends Fragment implements SubscribedPod
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((MainActivity) getActivity()).getComponent().subscribedPodcastComponent().inject(SubscribedPodcastFragment.this);
+        ((MainActivity)getActivity()).getMainComponent().with(new SubscribedPodcastModule()).inject(this);
     }
 
     @Nullable

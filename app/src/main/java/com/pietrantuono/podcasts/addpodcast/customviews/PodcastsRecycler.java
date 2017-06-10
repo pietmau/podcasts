@@ -10,8 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
-import com.pietrantuono.podcasts.main.dagger.DaggerImageLoaderComponent;
-import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule;
+import com.pietrantuono.podcasts.application.App;
 
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class PodcastsRecycler extends RecyclerView {
     }
 
     private void init() {
-        DaggerImageLoaderComponent.builder().imageLoaderModule(new ImageLoaderModule(getContext())).build().inject(PodcastsRecycler.this);
+        ((App)getContext().getApplicationContext()).getApplicationComponent().inject(this);
         setLayoutManager(createLayoutManager());
         setAdapter(adapter);
     }

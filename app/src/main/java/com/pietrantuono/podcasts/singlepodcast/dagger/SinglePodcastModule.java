@@ -13,7 +13,6 @@ import com.pietrantuono.podcasts.PresenterManager;
 import com.pietrantuono.podcasts.main.view.TransitionsFramework;
 import com.pietrantuono.podcasts.player.PlayerManager;
 import com.pietrantuono.podcasts.player.PlayerManagerImpl;
-import com.pietrantuono.podcasts.singlepodcast.model.RealmRepository;
 import com.pietrantuono.podcasts.singlepodcast.model.Repository;
 import com.pietrantuono.podcasts.singlepodcast.model.SinglePodcastModel;
 import com.pietrantuono.podcasts.singlepodcast.model.SinglePodcastModelImpl;
@@ -65,11 +64,6 @@ public class SinglePodcastModule {
     @Provides
     PodcastEpisodeParser providePodcastEpisodeParser(ImageParser imageParser) {
         return new PodcastEpisodeParser(imageParser);
-    }
-
-    @Provides
-    Repository provideRepository() {
-        return new RealmRepository();
     }
 
     @Provides

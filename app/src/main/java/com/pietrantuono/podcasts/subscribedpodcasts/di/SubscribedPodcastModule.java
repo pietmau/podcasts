@@ -2,7 +2,6 @@ package com.pietrantuono.podcasts.subscribedpodcasts.di;
 
 import com.pietrantuono.podcasts.PresenterManager;
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker;
-import com.pietrantuono.podcasts.singlepodcast.model.RealmRepository;
 import com.pietrantuono.podcasts.singlepodcast.model.Repository;
 import com.pietrantuono.podcasts.subscribedpodcasts.model.SubscribedPodcastModel;
 import com.pietrantuono.podcasts.subscribedpodcasts.model.SubscribedPodcastModelImpl;
@@ -27,11 +26,6 @@ public class SubscribedPodcastModule {
     @Provides
     SubscribedPodcastModel provideSubscribedPodcastModel(Repository repository){
         return new SubscribedPodcastModelImpl(repository);
-    }
-
-    @Provides
-    Repository provideRepository(){
-        return new RealmRepository();
     }
 
 }

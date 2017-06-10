@@ -5,7 +5,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import com.pietrantuono.podcasts.application.App
-import com.pietrantuono.podcasts.application.PlayerViewModule
 import javax.inject.Inject
 
 class BottomPlayerView(context: Context, attrs: AttributeSet) : View(context, attrs) {
@@ -13,7 +12,7 @@ class BottomPlayerView(context: Context, attrs: AttributeSet) : View(context, at
 
     init {
         visibility = GONE
-        (context.applicationContext as App).applicationComponent.with(PlayerViewModule()).inject(this)
+        (context.applicationContext as App).applicationComponent.inject(this@BottomPlayerView)
     }
 
     private fun ffff() {

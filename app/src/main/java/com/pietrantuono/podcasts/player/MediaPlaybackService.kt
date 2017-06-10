@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaBrowserServiceCompat
 import com.pietrantuono.podcasts.application.App
-import com.pietrantuono.podcasts.application.PlayerViewModule
 import java.util.*
 import javax.inject.Inject
 
@@ -13,7 +12,7 @@ class MediaPlaybackService : MediaBrowserServiceCompat() {
 
     override fun onCreate() {
         super.onCreate()
-        (application as App).applicationComponent.with(PlayerViewModule()).inject(this)
+        (application as App).applicationComponent.inject(this)
         sessionToken = mediaSession!!.sessionToken
     }
 

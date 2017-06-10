@@ -21,6 +21,7 @@ import com.bartoszlipinski.recyclerviewheader2.RecyclerViewHeader;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.customviews.CustomProgressBar;
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler;
+import com.pietrantuono.podcasts.addpodcast.dagger.AddPodcastModule;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.addpodcast.presenter.AddPodcastPresenter;
 import com.pietrantuono.podcasts.main.view.MainActivity;
@@ -55,7 +56,7 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((MainActivity) getActivity()).getComponent().addPodcastComponent().inject(AddPodcastFragment.this);
+        ((MainActivity) getActivity()).getMainComponent().with(new AddPodcastModule()).inject(this);
     }
 
 

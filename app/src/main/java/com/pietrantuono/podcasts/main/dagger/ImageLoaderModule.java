@@ -16,10 +16,8 @@ import dagger.Provides;
 
 @Module
 public class ImageLoaderModule {
-    private final Context context;
 
     public ImageLoaderModule(Context context) {
-        this.context = context;
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)/*.writeDebugLogs()*/.build();
         ImageLoader.getInstance().init(config);
     }
@@ -45,8 +43,4 @@ public class ImageLoaderModule {
         return new EpisodesAdapter(imageLoader, resourcesProvider);
     }
 
-    @Provides
-    Context provideContext(){
-        return context;
-    }
 }
