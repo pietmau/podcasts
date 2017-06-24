@@ -21,6 +21,7 @@ import com.pietrantuono.podcasts.PresenterManager;
 import com.pietrantuono.podcasts.main.view.TransitionsFramework;
 import com.pietrantuono.podcasts.player.player.LocalPlayback;
 import com.pietrantuono.podcasts.player.player.Playback;
+import com.pietrantuono.podcasts.player.player.service.Player;
 import com.pietrantuono.podcasts.singlepodcast.model.Repository;
 import com.pietrantuono.podcasts.singlepodcast.model.SinglePodcastModel;
 import com.pietrantuono.podcasts.singlepodcast.model.SinglePodcastModelImpl;
@@ -49,18 +50,16 @@ public class SinglePodcastModule {
         presenterManager = manager;
     }
 
-
     public SinglePodcastModule() {
-
     }
 
     @Provides
     SinglePodcastPresenter provideSinglePodcastPresenter(SinglePodcastModel model, CrashlyticsWrapper
-            crashlyticsWrapper, Playback playback, MediaSourceCreator creator) {
+            crashlyticsWrapper, Playback playback, MediaSourceCreator creator, Player player) {
         SinglePodcastPresenter addPodcastPresenter = (SinglePodcastPresenter)
                 presenterManager.getPresenter(SinglePodcastPresenter.Companion.getTAG());
         if (addPodcastPresenter == null) {
-            addPodcastPresenter = new SinglePodcastPresenter(model, crashlyticsWrapper);
+            addPodcastPresenter = new SinglePodcastPresenter(model, crashlyticsWrapper, player);
             presenterManager.put(SinglePodcastPresenter.Companion.getTAG(), addPodcastPresenter);
         }
         return addPodcastPresenter;

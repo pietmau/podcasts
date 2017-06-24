@@ -5,12 +5,13 @@ import com.pietrantuono.podcasts.GenericPresenter
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast
 import com.pietrantuono.podcasts.apis.PodcastFeed
+import com.pietrantuono.podcasts.player.player.service.Player
 import com.pietrantuono.podcasts.singlepodcast.model.SinglePodcastModel
 import com.pietrantuono.podcasts.singlepodcast.view.SinglePodcastView
 import rx.Observer
 
 class SinglePodcastPresenter(private val model: SinglePodcastModel, private val crashlyticsWrapper:
-CrashlyticsWrapper) : GenericPresenter {
+CrashlyticsWrapper, private val player: Player) : GenericPresenter {
     companion object {
         val TAG = SinglePodcastPresenter::class.java.simpleName
     }
@@ -96,12 +97,12 @@ CrashlyticsWrapper) : GenericPresenter {
     }
 
     fun onListenToAllPressed(): Boolean {
-//        if (podcastFeed != null) {
-//            playBack.playAll(createConcatenateMediaSource(podcastFeed!!))
-//            return true
-//        } else {
-//            return false
-//        }
+        if (podcastFeed != null) {
+            playBack.playAll(createConcatenateMediaSource(podcastFeed!!))
+            return true
+        } else {
+            return false
+        }
         return true
     }
 
