@@ -4,13 +4,20 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import com.pietrantuono.podcasts.application.App
+import com.pietrantuono.podcasts.player.player.MediaSourceCreator
 import com.pietrantuono.podcasts.player.player.Playback
+import com.pietrantuono.podcasts.player.player.PodcastFeedSource
 import com.pietrantuono.podcasts.singlepodcast.dagger.SinglePodcastModule
 import javax.inject.Inject
 
 
 class PlayerService : Service(), Player {
     @Inject lateinit var playback: Playback
+    @Inject lateinit var creator: MediaSourceCreator
+
+    override fun playFeed(source: PodcastFeedSource) {
+            playback.play()
+    }
 
     override fun onCreate() {
         super.onCreate()

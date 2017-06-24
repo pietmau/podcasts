@@ -5,13 +5,14 @@ import com.pietrantuono.podcasts.GenericPresenter
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast
 import com.pietrantuono.podcasts.apis.PodcastFeed
+import com.pietrantuono.podcasts.player.player.MediaSourceCreator
 import com.pietrantuono.podcasts.player.player.service.Player
 import com.pietrantuono.podcasts.singlepodcast.model.SinglePodcastModel
 import com.pietrantuono.podcasts.singlepodcast.view.SinglePodcastView
 import rx.Observer
 
 class SinglePodcastPresenter(private val model: SinglePodcastModel, private val crashlyticsWrapper:
-CrashlyticsWrapper, private val player: Player?) : GenericPresenter {
+CrashlyticsWrapper, val creator: MediaSourceCreator, private val player: Player?) : GenericPresenter {
     companion object {
         val TAG = SinglePodcastPresenter::class.java.simpleName
     }
@@ -96,27 +97,24 @@ CrashlyticsWrapper, private val player: Player?) : GenericPresenter {
         return true
     }
 
-    fun onListenToAllPressed(): Boolean {
-        if (podcastFeed != null) {
-            //playBack.playAll(createConcatenateMediaSource(podcastFeed!!))
-            return true
-        } else {
-            return false
-        }
-        return true
+    fun onListenToAllPressed() {
+        player?.playFeed(creator.createSourceFromFeed(podcastFeed))
     }
 
 
     fun onOptionsItemSelected(itemId: Int): Boolean {
         when (itemId) {
             android.R.id.home -> {
-                return onBackPressed()
+                onBackPressed()
+                return true
             }
             R.id.download_all -> {
-                return onDownloadAllPressed()
+                onDownloadAllPressed()
+                return true
             }
             R.id.listen_to_all -> {
-                return onListenToAllPressed()
+                onListenToAllPressed()
+                return true
             }
         }
         return false
