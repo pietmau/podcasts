@@ -43,8 +43,9 @@ class MediaSourceCreator(val mediaDataSourceFactory: DataSource.Factory, val mai
         val uris = mutableListOf<Uri>()
         if (feed != null) {
             for (episode in feed.episodes) {
-                if (episode.imageUrl != null) {
-                    uris.add(Uri.parse(episode.imageUrl))
+                val enclosures = episode.enclosures
+                if (enclosures != null && enclosures.size > 0) {
+                    uris.add(Uri.parse(enclosures[0].url))
                 }
             }
         }
