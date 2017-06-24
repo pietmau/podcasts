@@ -52,8 +52,7 @@ class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView {
     }
 
     private fun inject() {
-        (applicationContext as App).applicationComponent
-                .with(SinglePodcastModule(this@SinglePodcastActivity)).inject(this)
+        (applicationContext as App).applicationComponent?.with(SinglePodcastModule(this@SinglePodcastActivity))?.inject(this)
     }
 
     override fun enterWithTransition() {

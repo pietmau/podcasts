@@ -28,11 +28,8 @@
         </activity>
 
         <service
-            android:name=".player.MediaPlaybackService"
+            android:name=".player.player.service.PlayerService"
             android:exported="false">
-            <intent-filter>
-                <action android:name="android.media.browse.MediaBrowserService"/>
-            </intent-filter>
         </service>
 
         <meta-data

@@ -4,6 +4,7 @@ package com.pietrantuono.podcasts.singlepodcast.dagger;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -55,7 +56,7 @@ public class SinglePodcastModule {
 
     @Provides
     SinglePodcastPresenter provideSinglePodcastPresenter(SinglePodcastModel model, CrashlyticsWrapper
-            crashlyticsWrapper, Playback playback, MediaSourceCreator creator, Player player) {
+            crashlyticsWrapper,@Nullable Player player) {
         SinglePodcastPresenter addPodcastPresenter = (SinglePodcastPresenter)
                 presenterManager.getPresenter(SinglePodcastPresenter.Companion.getTAG());
         if (addPodcastPresenter == null) {

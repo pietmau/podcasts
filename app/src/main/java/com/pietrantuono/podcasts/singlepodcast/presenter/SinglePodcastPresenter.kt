@@ -11,7 +11,7 @@ import com.pietrantuono.podcasts.singlepodcast.view.SinglePodcastView
 import rx.Observer
 
 class SinglePodcastPresenter(private val model: SinglePodcastModel, private val crashlyticsWrapper:
-CrashlyticsWrapper, private val player: Player) : GenericPresenter {
+CrashlyticsWrapper, private val player: Player?) : GenericPresenter {
     companion object {
         val TAG = SinglePodcastPresenter::class.java.simpleName
     }
@@ -98,7 +98,7 @@ CrashlyticsWrapper, private val player: Player) : GenericPresenter {
 
     fun onListenToAllPressed(): Boolean {
         if (podcastFeed != null) {
-            playBack.playAll(createConcatenateMediaSource(podcastFeed!!))
+            //playBack.playAll(createConcatenateMediaSource(podcastFeed!!))
             return true
         } else {
             return false
