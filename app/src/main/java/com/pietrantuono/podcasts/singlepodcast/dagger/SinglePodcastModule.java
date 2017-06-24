@@ -37,8 +37,8 @@ import static com.google.common.net.HttpHeaders.USER_AGENT;
 
 @Module
 public class SinglePodcastModule {
-    private final PresenterManager presenterManager;
-    private final AppCompatActivity activity;
+    private PresenterManager presenterManager;
+    private AppCompatActivity activity;
 
     public SinglePodcastModule(AppCompatActivity activity) {
         this.activity = activity;
@@ -49,13 +49,18 @@ public class SinglePodcastModule {
         presenterManager = manager;
     }
 
+
+    public SinglePodcastModule() {
+
+    }
+
     @Provides
     SinglePodcastPresenter provideSinglePodcastPresenter(SinglePodcastModel model, CrashlyticsWrapper
             crashlyticsWrapper, Playback playback, MediaSourceCreator creator) {
         SinglePodcastPresenter addPodcastPresenter = (SinglePodcastPresenter)
                 presenterManager.getPresenter(SinglePodcastPresenter.Companion.getTAG());
         if (addPodcastPresenter == null) {
-            addPodcastPresenter = new SinglePodcastPresenter(model, crashlyticsWrapper, playback, creator);
+            addPodcastPresenter = new SinglePodcastPresenter(model, crashlyticsWrapper);
             presenterManager.put(SinglePodcastPresenter.Companion.getTAG(), addPodcastPresenter);
         }
         return addPodcastPresenter;
@@ -112,7 +117,8 @@ public class SinglePodcastModule {
 
     @Provides
     ExtractorMediaSource.EventListener provideExtractorMediaSourceEventListener() {
-        return error -> { };
+        return error -> {
+        };
     }
 
 
