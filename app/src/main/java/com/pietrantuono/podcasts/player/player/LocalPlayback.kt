@@ -28,7 +28,7 @@ import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.TrackGroupArray
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 
-class LocalPlayback(context: Context, var exoPlayer: SimpleExoPlayer?) : Playback {
+class LocalPlayback(context: Context, override var exoPlayer: SimpleExoPlayer?) : Playback {
     private val context: Context
     private val wifiLock: WifiManager.WifiLock
     private var playOnFocusGain: Boolean = false
