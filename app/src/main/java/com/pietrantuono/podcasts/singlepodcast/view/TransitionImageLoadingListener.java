@@ -38,8 +38,11 @@ public class TransitionImageLoadingListener implements ImageLoadingListener {
     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
         Bitmap bitmap = ((BitmapDrawable) ((ImageView) view).getDrawable()).getBitmap();
         Palette.from(bitmap).generate(palette -> {
+            if (!isActivityInValidState(activity)) {
+                return;
+            }
             Palette.Swatch vibrant = palette.getVibrantSwatch();
-            if (vibrant != null && isActivityInValidState(activity)) {
+            if (vibrant != null) {
                 activity.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(vibrant.getRgb()));
             }
             transitionsFramework.startPostponedEnterTransition(activity);

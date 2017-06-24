@@ -22,7 +22,6 @@ class PlayerService : Service(), Player {
     override fun onCreate() {
         super.onCreate()
         (applicationContext as App).applicationComponent?.with(SinglePodcastModule())?.inject(this)
-
     }
 
     override fun onBind(intent: Intent?): IBinder? {
