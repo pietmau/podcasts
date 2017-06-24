@@ -16,7 +16,6 @@ CrashlyticsWrapper, val creator: MediaSourceCreator, private val player: Player?
     companion object {
         val TAG = SinglePodcastPresenter::class.java.simpleName
     }
-
     private var view: SinglePodcastView? = null
     private var podcastFeed: PodcastFeed? = null
     private var startedWithTransition: Boolean = false

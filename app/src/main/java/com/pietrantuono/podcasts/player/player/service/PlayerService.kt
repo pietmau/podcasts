@@ -16,7 +16,7 @@ class PlayerService : Service(), Player {
     @Inject lateinit var creator: MediaSourceCreator
 
     override fun playFeed(source: PodcastFeedSource) {
-            playback.play()
+        playback.playAll(creator.createConcatenateMediaSource(source))
     }
 
     override fun onCreate() {
