@@ -8,7 +8,6 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewTreeObserver
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import butterknife.BindView
@@ -17,6 +16,8 @@ import butterknife.OnClick
 import com.google.android.exoplayer2.ui.PlaybackControlView
 import com.pietrantuono.podcasts.PresenterManager
 import com.pietrantuono.podcasts.R
+import com.pietrantuono.podcasts.R.id.coordinator
+import com.pietrantuono.podcasts.R.id.toolbar
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast
 import com.pietrantuono.podcasts.apis.PodcastEpisodeModel
 import com.pietrantuono.podcasts.application.App
@@ -26,14 +27,14 @@ import com.pietrantuono.podcasts.singlepodcast.customviews.EpisodesRecycler
 import com.pietrantuono.podcasts.singlepodcast.customviews.SimpleContolView
 import com.pietrantuono.podcasts.singlepodcast.dagger.SinglePodcastModule
 import com.pietrantuono.podcasts.singlepodcast.presenter.SinglePodcastPresenter
+import com.pietrantuono.podcasts.singlepodcast.view.SinglePodcastActivity.Companion.SINGLE_PODCAST
+import com.pietrantuono.podcasts.singlepodcast.view.SinglePodcastActivity.Companion.STARTED_WITH_TRANSITION
 import com.pietrantuono.podcasts.singlepodcast.view.custom.SimpleProgressBar
 import com.pietrantuono.podcasts.singlepodcast.view.custom.SubscribedTextView
+import org.antlr.v4.runtime.misc.MurmurHash.finish
 import javax.inject.Inject
 
-class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView,
-        PlaybackControlView.VisibilityListener {
-    private var cachedHeight: Int = 0
-
+class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView {
     companion object {
         val SINGLE_PODCAST = "single_podcast"
         val STARTED_WITH_TRANSITION = "with_transition"
@@ -76,20 +77,23 @@ class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView,
         setContentView(R.layout.activity_podcast)
         ButterKnife.bind(this@SinglePodcastActivity)
         setUpActionBar()
-        playbackControls.setVisibilityListener(this)
+        playbackControls.setVisibilityListener(object : PlaybackControlView.VisibilityListener {
+            override fun onVisibilityChange(visibility: Int) {
+                setBottomMargin()
+            }
+        })
+        setBottomMargin()
     }
 
-    override fun onVisibilityChange(visibility: Int) {
+    private fun setBottomMargin() {
+        val visibility = playbackControls.visibility
         if (visibility == View.VISIBLE) {
-            setBottomMargin(cachedHeight)
+            val params = coordinator.layoutParams as RelativeLayout.LayoutParams
+            params.setMargins(params.leftMargin, params.topMargin, params.rightMargin, playbackControls.cachedHeight)
         } else {
-            setBottomMargin(0)
+            val params = coordinator.layoutParams as RelativeLayout.LayoutParams
+            params.setMargins(params.leftMargin, params.topMargin, params.rightMargin, 0)
         }
-    }
-
-    fun setBottomMargin(height: Int) {
-        val params = coordinator.layoutParams as RelativeLayout.LayoutParams
-        params.setMargins(params.leftMargin, params.topMargin, params.rightMargin, height)
     }
 
     private fun startPresenter() {
