@@ -35,6 +35,7 @@ public class AppModule {
         return new RealmRepository();
     }
 
+    @Singleton
     @Provides
     SimpleExoPlayer provideExoPlayer() {
         return ExoPlayerFactory.newSimpleInstance(

@@ -3,13 +3,13 @@ package com.pietrantuono.podcasts.application;
 
 import android.support.annotation.Nullable;
 
+import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler;
 import com.pietrantuono.podcasts.addpodcast.dagger.ApiLevelCheckerlModule;
 import com.pietrantuono.podcasts.addpodcast.dagger.SearchModelsModule;
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule;
 import com.pietrantuono.podcasts.main.dagger.MainModule;
 import com.pietrantuono.podcasts.main.dagger.TransitionsModule;
-import com.pietrantuono.podcasts.player.player.service.Player;
 import com.pietrantuono.podcasts.singlepodcast.customviews.EpisodesRecycler;
 import com.pietrantuono.podcasts.singlepodcast.dagger.SinglePodcastModule;
 
@@ -35,6 +35,7 @@ public interface ApplicationComponent {
 
     @NotNull SinglePodcastComponent with(SinglePodcastModule singlePodcastModule);
 
-    @Nullable public Player player();
+    @Nullable
+    SimpleExoPlayer simpleExoPlayer();
 
 }

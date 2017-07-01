@@ -51,7 +51,7 @@ interface Playback {
     val isConnected: Boolean
 
     /**
-     * @return boolean indicating whether the player is playing or is supposed to be
+     * @return boolean indicating whether the simpleExoPlayer is playing or is supposed to be
      * * playing when we gain audio focus.
      */
     val isPlaying: Boolean

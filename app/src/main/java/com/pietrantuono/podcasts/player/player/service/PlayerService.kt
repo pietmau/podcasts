@@ -3,7 +3,6 @@ package com.pietrantuono.podcasts.player.player.service
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import com.google.android.exoplayer2.SimpleExoPlayer
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.player.player.MediaSourceCreator
 import com.pietrantuono.podcasts.player.player.Playback
@@ -13,8 +12,6 @@ import javax.inject.Inject
 
 
 class PlayerService : Service(), Player {
-    override var exoPlayer: SimpleExoPlayer? = null
-        get() = playback?.exoPlayer
     @Inject lateinit var playback: Playback
     @Inject lateinit var creator: MediaSourceCreator
 

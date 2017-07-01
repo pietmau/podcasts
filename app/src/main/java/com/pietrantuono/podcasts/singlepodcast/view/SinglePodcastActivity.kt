@@ -61,7 +61,6 @@ class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView, ViewTreeOb
     private fun inject() {
         val applicationComponent = (applicationContext as App).applicationComponent
         applicationComponent?.with(SinglePodcastModule(this@SinglePodcastActivity))?.inject(this)
-        playbackControls.player = applicationComponent?.player()?.exoPlayer
     }
 
     override fun enterWithTransition() {
