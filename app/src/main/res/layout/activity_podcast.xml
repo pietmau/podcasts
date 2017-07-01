@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -11,12 +11,12 @@
     >
 
     <android.support.v7.widget.Toolbar
-        android:elevation="1dp"
-        android:transitionName="@string/detail_transition_toolbar"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
+        android:elevation="1dp"
+        android:transitionName="@string/detail_transition_toolbar"
         >
 
         <RelativeLayout
@@ -36,6 +36,7 @@
     </android.support.v7.widget.Toolbar>
 
     <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/activityBackgroundColor"
@@ -81,9 +82,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/subscribeunsubscribe"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            >
-        </com.pietrantuono.podcasts.singlepodcast.customviews.EpisodesRecycler>
-
+            />
     </android.support.design.widget.CoordinatorLayout>
 
-</LinearLayout>
+    <com.pietrantuono.podcasts.singlepodcast.customviews.SimpleContolView
+        android:id="@+id/playbackcontrols"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        />
+
+</RelativeLayout>

@@ -16,7 +16,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 public class EpisodesRecycler extends RecyclerView {
-    @Inject  EpisodesAdapter adapter;
+    @Inject EpisodesAdapter adapter;
 
     public EpisodesRecycler(Context context) {
         super(context);
@@ -33,12 +33,12 @@ public class EpisodesRecycler extends RecyclerView {
         init();
     }
 
-    public void setItems(List<PodcastEpisodeModel> episodes){
+    public void setItems(List<PodcastEpisodeModel> episodes) {
         adapter.setItems(episodes);
     }
 
     private void init() {
-        ((App)getContext().getApplicationContext()).getApplicationComponent().inject(this);
+        ((App) getContext().getApplicationContext()).getApplicationComponent().inject(this);
         setLayoutManager(createLayoutManager());
         setAdapter(adapter);
     }
@@ -51,5 +51,4 @@ public class EpisodesRecycler extends RecyclerView {
             return new LinearLayoutManager(getContext());
         }
     }
-
 }
