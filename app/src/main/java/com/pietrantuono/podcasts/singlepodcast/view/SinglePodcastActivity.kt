@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
@@ -29,7 +30,8 @@ import com.pietrantuono.podcasts.singlepodcast.view.custom.SimpleProgressBar
 import com.pietrantuono.podcasts.singlepodcast.view.custom.SubscribedTextView
 import javax.inject.Inject
 
-class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView, ViewTreeObserver.OnGlobalLayoutListener, PlaybackControlView.VisibilityListener {
+class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView,
+        PlaybackControlView.VisibilityListener {
     private var cachedHeight: Int = 0
 
     companion object {
@@ -59,8 +61,7 @@ class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView, ViewTreeOb
     }
 
     private fun inject() {
-        val applicationComponent = (applicationContext as App).applicationComponent
-        applicationComponent?.with(SinglePodcastModule(this@SinglePodcastActivity))?.inject(this)
+        (applicationContext as App).applicationComponent?.with(SinglePodcastModule(this@SinglePodcastActivity))?.inject(this)
     }
 
     override fun enterWithTransition() {
@@ -75,13 +76,6 @@ class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView, ViewTreeOb
         setContentView(R.layout.activity_podcast)
         ButterKnife.bind(this@SinglePodcastActivity)
         setUpActionBar()
-        playbackControls.viewTreeObserver.addOnGlobalLayoutListener(this)
-        playbackControls.makeSureisShowing()
-    }
-
-    override fun onGlobalLayout() {
-        cachedHeight = playbackControls.height
-        playbackControls.viewTreeObserver.removeOnGlobalLayoutListener(this)
         playbackControls.setVisibilityListener(this)
     }
 
@@ -94,7 +88,7 @@ class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView, ViewTreeOb
     }
 
     fun setBottomMargin(height: Int) {
-        val params = coordinator.layoutParams as CoordinatorLayout.LayoutParams
+        val params = coordinator.layoutParams as RelativeLayout.LayoutParams
         params.setMargins(params.leftMargin, params.topMargin, params.rightMargin, height)
     }
 
