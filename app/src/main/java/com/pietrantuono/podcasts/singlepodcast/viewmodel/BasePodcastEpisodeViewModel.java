@@ -2,7 +2,7 @@ package com.pietrantuono.podcasts.singlepodcast.viewmodel;
 
 import android.support.annotation.Nullable;
 
-import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
+import com.pietrantuono.interfaceadapters.apis.PodcastEpisodeModel;
 import com.rometools.rome.feed.synd.SyndEnclosure;
 
 import java.text.SimpleDateFormat;

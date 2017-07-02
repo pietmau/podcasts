@@ -1,1 +1,1 @@
-include ':app', ':entities', ':interfaceadapters'
+include ':app',  ':interfaceadapters'

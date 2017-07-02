@@ -1,7 +1,7 @@
 package com.pietrantuono.podcasts;
 
-import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
-import com.pietrantuono.podcasts.apis.PodcastFeed;
+import com.pietrantuono.interfaceadapters.apis.PodcastEpisodeModel;
+import com.pietrantuono.interfaceadapters.apis.PodcastFeed;
 
 import java.util.List;
 

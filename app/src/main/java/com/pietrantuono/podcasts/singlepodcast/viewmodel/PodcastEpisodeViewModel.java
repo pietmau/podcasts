@@ -1,14 +1,11 @@
 package com.pietrantuono.podcasts.singlepodcast.viewmodel;
 
-import android.databinding.BindingAdapter;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
-import android.widget.ImageView;
 
 import com.pietrantuono.Constants;
 import com.pietrantuono.podcasts.R;
-import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
-import com.pietrantuono.podcasts.imageloader.SimpleImageLoader;
+import com.pietrantuono.interfaceadapters.apis.PodcastEpisodeModel;
 
 public class PodcastEpisodeViewModel extends BasePodcastEpisodeViewModel {
     private final ResourcesProvider resourcesProvider;

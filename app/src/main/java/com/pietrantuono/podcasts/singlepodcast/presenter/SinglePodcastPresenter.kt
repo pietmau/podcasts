@@ -4,7 +4,7 @@ import com.pietrantuono.CrashlyticsWrapper
 import com.pietrantuono.podcasts.GenericPresenter
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast
-import com.pietrantuono.podcasts.apis.PodcastFeed
+import com.pietrantuono.interfaceadapters.apis.PodcastFeed
 import com.pietrantuono.podcasts.player.player.MediaSourceCreator
 import com.pietrantuono.podcasts.player.player.service.Player
 import com.pietrantuono.podcasts.singlepodcast.model.SinglePodcastModel

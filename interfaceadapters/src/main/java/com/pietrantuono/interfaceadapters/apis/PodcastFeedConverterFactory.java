@@ -1,12 +1,8 @@
 package com.pietrantuono.interfaceadapters.apis;
 
-import android.content.Context;
-
 import com.pietrantuono.CrashlyticsWrapper;
 import com.pietrantuono.podcasts.PodcastEpisodeParser;
 import com.pietrantuono.podcasts.ROMEPodcastFeed;
-import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
-import com.pietrantuono.podcasts.apis.PodcastFeed;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;

@@ -19,7 +19,7 @@ import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.R.id.coordinator
 import com.pietrantuono.podcasts.R.id.toolbar
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast
-import com.pietrantuono.podcasts.apis.PodcastEpisodeModel
+import com.pietrantuono.interfaceadapters.apis.PodcastEpisodeModel
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
 import com.pietrantuono.podcasts.main.view.TransitionsFramework
@@ -27,8 +27,6 @@ import com.pietrantuono.podcasts.singlepodcast.customviews.EpisodesRecycler
 import com.pietrantuono.podcasts.singlepodcast.customviews.SimpleContolView
 import com.pietrantuono.podcasts.singlepodcast.dagger.SinglePodcastModule
 import com.pietrantuono.podcasts.singlepodcast.presenter.SinglePodcastPresenter
-import com.pietrantuono.podcasts.singlepodcast.view.SinglePodcastActivity.Companion.SINGLE_PODCAST
-import com.pietrantuono.podcasts.singlepodcast.view.SinglePodcastActivity.Companion.STARTED_WITH_TRANSITION
 import com.pietrantuono.podcasts.singlepodcast.view.custom.SimpleProgressBar
 import com.pietrantuono.podcasts.singlepodcast.view.custom.SubscribedTextView
 import org.antlr.v4.runtime.misc.MurmurHash.finish

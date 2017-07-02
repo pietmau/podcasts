@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.pietrantuono.Constants;
-import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
+import com.pietrantuono.interfaceadapters.apis.PodcastEpisodeModel;
 import com.rometools.modules.itunes.EntryInformation;
 import com.rometools.modules.mediarss.MediaEntryModule;
 import com.rometools.modules.mediarss.MediaModule;

@@ -1,10 +1,7 @@
 package com.pietrantuono.interfaceadapters.apis;
 
-import android.content.Context;
-
 import com.pietrantuono.CrashlyticsWrapper;
 import com.pietrantuono.podcasts.PodcastEpisodeParser;
-import com.pietrantuono.podcasts.apis.PodcastFeed;
 
 
 import retrofit2.Retrofit;

@@ -1,4 +1,4 @@
-package com.pietrantuono.podcasts.apis;
+package com.pietrantuono.interfaceadapters.apis;
 
 
 import java.util.List;
