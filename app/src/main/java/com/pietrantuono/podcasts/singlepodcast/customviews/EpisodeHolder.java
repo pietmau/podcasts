@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.pietrantuono.podcasts.BR;
-import com.pietrantuono.interfaceadapters.apis.PodcastEpisodeModel;
+import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
 import com.pietrantuono.podcasts.singlepodcast.viewmodel.PodcastEpisodeViewModel;
 import com.pietrantuono.podcasts.singlepodcast.viewmodel.ResourcesProvider;
 

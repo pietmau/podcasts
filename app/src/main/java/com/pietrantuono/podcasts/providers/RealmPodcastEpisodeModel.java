@@ -1,6 +1,6 @@
 package com.pietrantuono.podcasts.providers;
 
-import com.pietrantuono.interfaceadapters.apis.PodcastEpisodeModel;
+import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
 import com.pietrantuono.podcasts.singlepodcast.model.SimpleEnclosure;
 import com.rometools.rome.feed.synd.SyndEnclosure;
 

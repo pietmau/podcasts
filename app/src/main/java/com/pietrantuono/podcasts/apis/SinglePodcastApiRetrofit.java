@@ -1,8 +1,7 @@
-package com.pietrantuono.interfaceadapters.apis;
+package com.pietrantuono.podcasts.apis;
 
-import com.pietrantuono.CrashlyticsWrapper;
-import com.pietrantuono.podcasts.PodcastEpisodeParser;
-
+import com.pietrantuono.podcasts.CrashlyticsWrapper;
+import com.pietrantuono.podcasts.interfaces.PodcastEpisodeParser;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;

@@ -3,9 +3,9 @@ package com.pietrantuono.podcasts.singlepodcast.viewmodel;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 
-import com.pietrantuono.Constants;
+import com.pietrantuono.podcasts.Constants;
 import com.pietrantuono.podcasts.R;
-import com.pietrantuono.interfaceadapters.apis.PodcastEpisodeModel;
+import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
 
 public class PodcastEpisodeViewModel extends BasePodcastEpisodeViewModel {
     private final ResourcesProvider resourcesProvider;

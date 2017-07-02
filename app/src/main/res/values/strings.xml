@@ -16,4 +16,8 @@
     <string name="subscribed">Subscribed</string>
     <string name="download_all">Download all</string>
     <string name="listen_to_all">Listen to all</string>
+
+    <string name="audio">AUDIO</string>
+    <string name="video">VIDEO</string>
+
 </resources>

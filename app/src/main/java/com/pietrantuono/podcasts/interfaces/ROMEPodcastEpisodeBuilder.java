@@ -1,4 +1,4 @@
-package com.pietrantuono.podcasts;
+package com.pietrantuono.podcasts.interfaces;
 
 import com.rometools.rome.feed.synd.SyndEnclosure;
 

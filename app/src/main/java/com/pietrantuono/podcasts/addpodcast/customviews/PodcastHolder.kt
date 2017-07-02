@@ -32,7 +32,7 @@ class PodcastHolder(itemView: View, private val resources: ResourcesProvider,
 
     private fun loadImage() {
         val listener = ImageLoadingListenerWithPalette(binding, resources)
-        loader.displayImage(binding.sinlglePodcastViewModel.imageUrl, binding.podcastImage, listener)
+        loader.displayImage(binding.sinlglePodcastViewModel?.imageUrl, binding.podcastImage, listener)
     }
 
     private fun setUpClickListener(podcast: SinglePodcast?, position: Int, listener: OnItemClickedClickedListener) {

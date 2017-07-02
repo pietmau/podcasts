@@ -1,8 +1,8 @@
-package com.pietrantuono.interfaceadapters.apis;
+package com.pietrantuono.podcasts.apis;
 
-import com.pietrantuono.CrashlyticsWrapper;
-import com.pietrantuono.podcasts.PodcastEpisodeParser;
-import com.pietrantuono.podcasts.ROMEPodcastFeed;
+import com.pietrantuono.podcasts.CrashlyticsWrapper;
+import com.pietrantuono.podcasts.interfaces.PodcastEpisodeParser;
+import com.pietrantuono.podcasts.interfaces.ROMEPodcastFeed;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;

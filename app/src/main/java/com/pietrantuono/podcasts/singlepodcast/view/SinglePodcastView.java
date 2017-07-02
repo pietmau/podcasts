@@ -1,6 +1,6 @@
 package com.pietrantuono.podcasts.singlepodcast.view;
 
-import com.pietrantuono.interfaceadapters.apis.PodcastEpisodeModel;
+import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
 
 import org.jetbrains.annotations.Nullable;
 

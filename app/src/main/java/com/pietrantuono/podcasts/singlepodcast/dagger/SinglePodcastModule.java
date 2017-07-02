@@ -13,11 +13,11 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
-import com.pietrantuono.CrashlyticsWrapper;
-import com.pietrantuono.interfaceadapters.apis.SinglePodcastApi;
-import com.pietrantuono.interfaceadapters.apis.SinglePodcastApiRetrofit;
-import com.pietrantuono.podcasts.ImageParser;
-import com.pietrantuono.podcasts.PodcastEpisodeParser;
+import com.pietrantuono.podcasts.CrashlyticsWrapper;
+import com.pietrantuono.podcasts.apis.SinglePodcastApi;
+import com.pietrantuono.podcasts.apis.SinglePodcastApiRetrofit;
+import com.pietrantuono.podcasts.interfaces.ImageParser;
+import com.pietrantuono.podcasts.interfaces.PodcastEpisodeParser;
 import com.pietrantuono.podcasts.PresenterManager;
 import com.pietrantuono.podcasts.main.view.TransitionsFramework;
 import com.pietrantuono.podcasts.player.player.LocalPlayback;
@@ -35,12 +35,11 @@ import javax.inject.Named;
 import dagger.Module;
 import dagger.Provides;
 
-import static com.google.common.net.HttpHeaders.USER_AGENT;
-
 @Module
 public class SinglePodcastModule {
     private PresenterManager presenterManager;
     private AppCompatActivity activity;
+    private static final String USER_AGENT="user_agent";
 
     public SinglePodcastModule(AppCompatActivity activity) {
         this.activity = activity;

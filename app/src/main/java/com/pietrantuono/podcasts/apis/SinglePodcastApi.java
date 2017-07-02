@@ -1,4 +1,4 @@
-package com.pietrantuono.interfaceadapters.apis;
+package com.pietrantuono.podcasts.apis;
 
 import retrofit2.http.GET;
 import retrofit2.http.Url;

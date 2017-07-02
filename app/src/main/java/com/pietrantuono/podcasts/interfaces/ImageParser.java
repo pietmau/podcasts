@@ -1,12 +1,10 @@
-package com.pietrantuono.podcasts;
+package com.pietrantuono.podcasts.interfaces;
 
 import android.support.annotation.Nullable;
 
-import com.pietrantuono.CrashlyticsWrapper;
+import com.pietrantuono.podcasts.CrashlyticsWrapper;
 import com.rometools.modules.itunes.EntryInformation;
 import com.rometools.modules.mediarss.MediaEntryModule;
-
-import java.net.URL;
 
 import javax.inject.Inject;
 

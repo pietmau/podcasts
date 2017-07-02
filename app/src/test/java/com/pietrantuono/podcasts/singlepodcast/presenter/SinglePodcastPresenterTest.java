@@ -1,7 +1,7 @@
 package com.pietrantuono.podcasts.singlepodcast.presenter;
 
 
-import com.pietrantuono.CrashlyticsWrapper;
+import com.pietrantuono.podcasts.CrashlyticsWrapper;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.singlepodcast.model.SinglePodcastModel;
 import com.pietrantuono.podcasts.singlepodcast.view.SinglePodcastView;

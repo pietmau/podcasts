@@ -1,7 +1,7 @@
-package com.pietrantuono.podcasts;
+package com.pietrantuono.podcasts.interfaces;
 
 
-import com.pietrantuono.interfaceadapters.apis.PodcastEpisodeModel;
+import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
 import com.rometools.rome.feed.synd.SyndEnclosure;
 
 import java.util.Date;

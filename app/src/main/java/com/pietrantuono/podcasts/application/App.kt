@@ -27,6 +27,7 @@ class App : Application(), ServiceConnection {
     }
 
     override fun onCreate() {
+        super.onCreate()
         Realm.init(this)
         applicationComponent = DaggerApplicationComponent.builder().appModule(AppModule(this))
                 .imageLoaderModule(ImageLoaderModule(this)).build()

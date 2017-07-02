@@ -7,7 +7,7 @@ import com.google.android.exoplayer2.source.ConcatenatingMediaSource
 import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.upstream.DataSource
-import com.pietrantuono.interfaceadapters.apis.PodcastFeed
+import com.pietrantuono.podcasts.apis.PodcastFeed
 
 class MediaSourceCreator(val mediaDataSourceFactory: DataSource.Factory, val mainHandler: Handler,
                          val eventLogger: ExtractorMediaSource.EventListener) {

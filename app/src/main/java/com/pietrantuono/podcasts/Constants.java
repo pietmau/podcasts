@@ -1,4 +1,4 @@
-package com.pietrantuono;
+package com.pietrantuono.podcasts;
 
 
 public final class Constants {
