@@ -30,7 +30,7 @@ class SimpleContolView(context: Context?, attrs: AttributeSet?) : PlaybackContro
         }
     }
 
-    fun addOnGlobalLayoutListener(onGlobalLayoutListener: ViewTreeObserver.OnGlobalLayoutListener) {
+    fun addOnGlobalLayoutListener(onGlobalLayoutListener: () -> Unit) {
         viewTreeObserver.addOnGlobalLayoutListener(onGlobalLayoutListener)
     }
 

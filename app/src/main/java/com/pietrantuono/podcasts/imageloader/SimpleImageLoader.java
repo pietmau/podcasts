@@ -35,7 +35,7 @@ public class SimpleImageLoader {
             return;
         }
         String url = singlePodcast.getArtworkUrl600();
-        ImageLoader.getInstance().displayImage(url, imageView, options, podcastImageLoadingListener);
+        displayImage(url, imageView, podcastImageLoadingListener);
     }
 
     public void loadImage(String url) {

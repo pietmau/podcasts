@@ -2,35 +2,25 @@ package com.pietrantuono.podcasts.singlepodcast.view
 
 
 import android.os.Bundle
-import android.support.design.widget.CoordinatorLayout
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewTreeObserver
-import android.widget.ImageView
-import android.widget.RelativeLayout
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
-import com.google.android.exoplayer2.ui.PlaybackControlView
 import com.pietrantuono.podcasts.PresenterManager
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast
 import com.pietrantuono.podcasts.apis.PodcastEpisodeModel
 import com.pietrantuono.podcasts.application.App
-import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
-import com.pietrantuono.podcasts.main.view.TransitionsFramework
 import com.pietrantuono.podcasts.singlepodcast.customviews.EpisodesRecycler
 import com.pietrantuono.podcasts.singlepodcast.customviews.SimpleContolView
 import com.pietrantuono.podcasts.singlepodcast.dagger.SinglePodcastModule
 import com.pietrantuono.podcasts.singlepodcast.presenter.SinglePodcastPresenter
-import com.pietrantuono.podcasts.singlepodcast.view.custom.SimpleProgressBar
+import com.pietrantuono.podcasts.singlepodcast.view.custom.CoordinatorWithBottomMargin
 import com.pietrantuono.podcasts.singlepodcast.view.custom.SubscribedTextView
 import javax.inject.Inject
 
-class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView {
+class SinglePodcastActivity : DetailActivtyBase() {
     private var cachedHeight: Int = 0
 
     companion object {
@@ -38,18 +28,12 @@ class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView {
         val STARTED_WITH_TRANSITION = "with_transition"
     }
 
-    @BindView(R.id.toolbar) lateinit var toolbar: Toolbar
-    @BindView(R.id.main_image) lateinit var imageView: ImageView
     @BindView(R.id.recycler) lateinit var recyclerView: EpisodesRecycler
-    @BindView(R.id.progress) lateinit var progressBar: SimpleProgressBar
     @BindView(R.id.subscribeunsubscribe) lateinit var subscribedTextView: SubscribedTextView
     @BindView(R.id.playbackcontrols) lateinit var playbackControls: SimpleContolView
-    @BindView(R.id.coordinator) lateinit var coordinator: CoordinatorLayout
-    @Inject lateinit var transitionsFramework: TransitionsFramework
-    @Inject lateinit var imageLoader: SimpleImageLoader
+    @BindView(R.id.coordinator) lateinit var coordinator: CoordinatorWithBottomMargin
     @Inject lateinit var presenter: SinglePodcastPresenter
     @Inject lateinit var presenterManager: PresenterManager
-    @Inject lateinit var podcastImageLoadingListener: TransitionImageLoadingListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,15 +47,6 @@ class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView {
         (applicationContext as App).applicationComponent?.with(SinglePodcastModule(this@SinglePodcastActivity))?.inject(this)
     }
 
-    override fun enterWithTransition() {
-        transitionsFramework.initDetailTransitions(this@SinglePodcastActivity)
-    }
-
-    override fun enterWithoutTransition() {
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
-    }
-
-
     private fun initViews() {
         setContentView(R.layout.activity_podcast)
         ButterKnife.bind(this@SinglePodcastActivity)
@@ -80,34 +55,20 @@ class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView {
     }
 
     private fun setUpPlayerControls() {
-        playbackControls.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                cachedHeight = playbackControls.height
-                if (cachedHeight > 0) {
-                    playbackControls.removeOnGlobalLayoutListener(this)
-                    playbackControls.showOrHide()
-                    setBottomMargin()
-                }
-            }
-        })
-        playbackControls.setVisibilityListener(
-                object : PlaybackControlView.VisibilityListener {
-                    override fun onVisibilityChange(visibility: Int) {
-                        setBottomMargin()
-                    }
-                }
-        )
+        playbackControls.addOnGlobalLayoutListener {
+            setBottomMargin()
+        }
+        playbackControls.setVisibilityListener {
+            setBottomMargin()
+        }
         setBottomMargin()
     }
 
     private fun setBottomMargin() {
-        val visibility = playbackControls.visibility
-        if (visibility == View.VISIBLE) {
-            val params = coordinator.layoutParams as RelativeLayout.LayoutParams
-            params.setMargins(params.leftMargin, params.topMargin, params.rightMargin, cachedHeight)
+        if (playbackControls.visibility == View.VISIBLE) {
+            coordinator.setBottomMargin(cachedHeight)
         } else {
-            val params = coordinator.layoutParams as RelativeLayout.LayoutParams
-            params.setMargins(params.leftMargin, params.topMargin, params.rightMargin, 0)
+            coordinator.setBottomMargin(0)
         }
     }
 
@@ -118,40 +79,23 @@ class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView {
                 .getBooleanExtra(STARTED_WITH_TRANSITION, false))
     }
 
-    private fun setUpActionBar() {
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-        supportActionBar?.title = null
-
-    }
-
-    private fun loadImage() {
-        imageLoader.displayImage(intent.getParcelableExtra<SinglePodcast>(SINGLE_PODCAST), imageView,
-                podcastImageLoadingListener)
+    override fun getImageUrl(): String? {
+        return intent.getParcelableExtra<SinglePodcast>(SINGLE_PODCAST)?.getArtworkUrl600()
     }
 
     override fun onStop() {
         super.onStop()
         presenter.onStop()
-        podcastImageLoadingListener.setActivity(null)
     }
 
     override fun onStart() {
         super.onStart()
         presenter.onStart()
-        podcastImageLoadingListener.setActivity(this)
     }
-
 
     override fun onDestroy() {
         super.onDestroy()
         presenter.onDestroy()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.other_actions, menu)
-        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -161,10 +105,6 @@ class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView {
     @OnClick(R.id.subscribeunsubscribe)
     fun onSubscribeUnsubscribeClicked() {
         presenter.onSubscribeUnsubscribeToPodcastClicked()
-    }
-
-    override fun showProgress(show: Boolean) {
-        progressBar.showProgress = show
     }
 
     override fun onRetainCustomNonConfigurationInstance(): Any {
@@ -177,15 +117,6 @@ class SinglePodcastActivity : AppCompatActivity(), SinglePodcastView {
 
     override fun onBackPressed() {
         presenter.onBackPressed()
-    }
-
-    override fun exitWithSharedTrsnsition() {
-        super.onBackPressed()
-    }
-
-    override fun exitWithoutSharedTransition() {
-        finish()
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
     }
 
     override fun setSubscribedToPodcast(isSubscribed: Boolean) {
