@@ -115,6 +115,10 @@ CrashlyticsWrapper, val creator: MediaSourceCreator, private val player: Player?
                 onListenToAllPressed()
                 return true
             }
+            R.id.subscribe_unsubscribe -> {
+                onSubscribeUnsubscribeToPodcastClicked()
+                return true
+            }
         }
         return false
     }
