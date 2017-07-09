@@ -19,20 +19,6 @@
         android:transitionName="@string/detail_transition_toolbar"
         >
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.pietrantuono.podcasts.singlepodcast.view.custom.SubscribedTextView
-                android:id="@+id/subscribeunsubscribe"
-                style="@style/actionbar_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/add_circle"
-                android:text="@string/subscribe"/>
-
-        </RelativeLayout>
-
     </android.support.v7.widget.Toolbar>
 
     <com.pietrantuono.podcasts.singlepodcast.view.custom.CoordinatorWithBottomMargin

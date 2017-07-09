@@ -2,10 +2,10 @@ package com.pietrantuono.podcasts.singlepodcast.view
 
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import butterknife.BindView
 import butterknife.ButterKnife
-import butterknife.OnClick
 import com.pietrantuono.podcasts.PresenterManager
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast
@@ -16,10 +16,10 @@ import com.pietrantuono.podcasts.singlepodcast.customviews.SimpleContolView
 import com.pietrantuono.podcasts.singlepodcast.dagger.SinglePodcastModule
 import com.pietrantuono.podcasts.singlepodcast.presenter.SinglePodcastPresenter
 import com.pietrantuono.podcasts.singlepodcast.view.custom.CoordinatorWithBottomMargin
-import com.pietrantuono.podcasts.singlepodcast.view.custom.SubscribedTextView
 import javax.inject.Inject
 
 class SinglePodcastActivity : DetailActivtyBase() {
+    private var isSubscribed: Boolean = false
 
     companion object {
         val SINGLE_PODCAST = "single_podcast"
@@ -27,7 +27,6 @@ class SinglePodcastActivity : DetailActivtyBase() {
     }
 
     @BindView(R.id.recycler) lateinit var recyclerView: EpisodesRecycler
-    @BindView(R.id.subscribeunsubscribe) lateinit var subscribedTextView: SubscribedTextView
     @BindView(R.id.playbackcontrols) lateinit var playbackControls: SimpleContolView
     @BindView(R.id.coordinator) lateinit var coordinator: CoordinatorWithBottomMargin
     @Inject lateinit var presenter: SinglePodcastPresenter
@@ -54,7 +53,6 @@ class SinglePodcastActivity : DetailActivtyBase() {
 
     private fun setUpPlayerControls() {
         coordinator.setUpPlayerControls(playbackControls)
-
     }
 
     private fun startPresenter() {
@@ -87,11 +85,6 @@ class SinglePodcastActivity : DetailActivtyBase() {
         return presenter.onOptionsItemSelected(item.itemId)
     }
 
-    @OnClick(R.id.subscribeunsubscribe)
-    fun onSubscribeUnsubscribeClicked() {
-        presenter.onSubscribeUnsubscribeToPodcastClicked()
-    }
-
     override fun onRetainCustomNonConfigurationInstance(): Any {
         return presenterManager
     }
@@ -105,6 +98,17 @@ class SinglePodcastActivity : DetailActivtyBase() {
     }
 
     override fun setSubscribedToPodcast(isSubscribed: Boolean) {
-        subscribedTextView.isSubsribed = isSubscribed
+        this.isSubscribed = isSubscribed
+        supportInvalidateOptionsMenu()
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        val item = menu?.findItem(R.id.subscribe_unsubscribe)!!
+        if (isSubscribed) {
+            item.setTitle(R.string.unsubscribe)
+        } else {
+            item.setTitle(R.string.subscribe)
+        }
+        return true
     }
 }
