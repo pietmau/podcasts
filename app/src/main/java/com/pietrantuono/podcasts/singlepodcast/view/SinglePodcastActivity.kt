@@ -55,9 +55,10 @@ class SinglePodcastActivity : DetailActivtyBase() {
     }
 
     private fun setUpPlayerControls() {
-        playbackControls.addOnGlobalLayoutListener {
+        playbackControls.waitForLayout({ height ->
+            cachedHeight = height
             setBottomMargin()
-        }
+        })
         playbackControls.setVisibilityListener {
             setBottomMargin()
         }

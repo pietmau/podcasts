@@ -30,12 +30,21 @@ class SimpleContolView(context: Context?, attrs: AttributeSet?) : PlaybackContro
         }
     }
 
-    fun addOnGlobalLayoutListener(onGlobalLayoutListener: () -> Unit) {
+    fun addOnGlobalLayoutListener(onGlobalLayoutListener: ViewTreeObserver.OnGlobalLayoutListener) {
         viewTreeObserver.addOnGlobalLayoutListener(onGlobalLayoutListener)
     }
 
-    fun removeOnGlobalLayoutListener(onGlobalLayoutListener: ViewTreeObserver.OnGlobalLayoutListener) {
-        viewTreeObserver.removeOnGlobalLayoutListener(onGlobalLayoutListener)
+    fun waitForLayout(function: (Int) -> Unit) {
+        addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val cachedHeight = height
+                if (cachedHeight > 0) {
+                    viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    showOrHide()
+                    function(cachedHeight)
+                }
+            }
+        })
     }
 
 }
