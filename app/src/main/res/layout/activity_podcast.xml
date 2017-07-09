@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 app:expandedTitleMarginEnd="64dp"
                 app:expandedTitleMarginStart="48dp"
-                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
+                app:layout_scrollFlags="scroll|enterAlways">
 
                 <com.pietrantuono.podcasts.singlepodcast.customviews.SquareImageView
                     android:id="@+id/main_image"
