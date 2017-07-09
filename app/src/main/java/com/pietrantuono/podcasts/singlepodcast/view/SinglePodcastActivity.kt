@@ -3,7 +3,6 @@ package com.pietrantuono.podcasts.singlepodcast.view
 
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
@@ -21,7 +20,6 @@ import com.pietrantuono.podcasts.singlepodcast.view.custom.SubscribedTextView
 import javax.inject.Inject
 
 class SinglePodcastActivity : DetailActivtyBase() {
-    private var cachedHeight: Int = 0
 
     companion object {
         val SINGLE_PODCAST = "single_podcast"
@@ -55,22 +53,8 @@ class SinglePodcastActivity : DetailActivtyBase() {
     }
 
     private fun setUpPlayerControls() {
-        playbackControls.waitForLayout({ height ->
-            cachedHeight = height
-            setBottomMargin()
-        })
-        playbackControls.setVisibilityListener {
-            setBottomMargin()
-        }
-        setBottomMargin()
-    }
+        coordinator.setUpPlayerControls(playbackControls)
 
-    private fun setBottomMargin() {
-        if (playbackControls.visibility == View.VISIBLE) {
-            coordinator.setBottomMargin(cachedHeight)
-        } else {
-            coordinator.setBottomMargin(0)
-        }
     }
 
     private fun startPresenter() {
