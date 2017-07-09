@@ -16,6 +16,7 @@ CrashlyticsWrapper, val creator: MediaSourceCreator, private val player: Player?
     companion object {
         val TAG = SinglePodcastPresenter::class.java.simpleName
     }
+
     private var view: SinglePodcastView? = null
     private var podcastFeed: PodcastFeed? = null
     private var startedWithTransition: Boolean = false
@@ -106,10 +107,6 @@ CrashlyticsWrapper, val creator: MediaSourceCreator, private val player: Player?
         when (itemId) {
             android.R.id.home -> {
                 onBackPressed()
-                return true
-            }
-            R.id.download_all -> {
-                onDownloadAllPressed()
                 return true
             }
             R.id.listen_to_all -> {

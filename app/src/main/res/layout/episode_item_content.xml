@@ -48,7 +48,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:paddingLeft="8dp"
-            android:src="@drawable/ic_more_vert_black_12dp"/>
+            bind:srcCompat="@drawable/ic_more_vert_black_12dp"/>
 
         <TextView
             android:id="@+id/subtitle"
