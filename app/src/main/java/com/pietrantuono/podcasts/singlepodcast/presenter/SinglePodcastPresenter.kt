@@ -71,6 +71,7 @@ CrashlyticsWrapper, val creator: MediaSourceCreator, private val player: Player?
         } else {
             view?.enterWithoutTransition()
         }
+        view?.setTitle(podcast?.collectionName)
     }
 
     private fun setEpisodes() {

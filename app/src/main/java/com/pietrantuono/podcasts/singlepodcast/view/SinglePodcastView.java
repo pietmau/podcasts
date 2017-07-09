@@ -21,4 +21,6 @@ public interface SinglePodcastView {
     void exitWithoutSharedTransition();
 
     void setSubscribedToPodcast(Boolean isSubscribed);
+
+    void setTitle(@Nullable String collectionName);
 }
