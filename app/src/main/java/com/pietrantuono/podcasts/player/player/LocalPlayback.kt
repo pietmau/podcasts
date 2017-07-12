@@ -20,10 +20,7 @@ import android.media.AudioManager
 import android.net.wifi.WifiManager
 import android.support.v4.media.session.MediaSessionCompat.QueueItem
 import android.support.v4.media.session.PlaybackStateCompat
-import com.google.android.exoplayer2.ExoPlaybackException
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.exoplayer2.Timeline
+import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.TrackGroupArray
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
@@ -192,6 +189,10 @@ class LocalPlayback(context: Context, override var exoPlayer: SimpleExoPlayer?) 
     }
 
     private inner class ExoPlayerEventListener : ExoPlayer.EventListener {
+        override fun onPlaybackParametersChanged(playbackParameters: PlaybackParameters?) {
+
+        }
+
         override fun onTimelineChanged(timeline: Timeline?, manifest: Any?) {
         }
 
