@@ -13,8 +13,7 @@ import com.pietrantuono.podcasts.singlepodcast.view.SinglePodcastView
 import rx.Observer
 
 class SinglePodcastPresenter(private val model: SinglePodcastModel, private val crashlyticsWrapper:
-CrashlyticsWrapper, val creator: MediaSourceCreator, private val player: Player?,
-                             private val additionalDataProvider: AdditionalDataProvider) : GenericPresenter {
+CrashlyticsWrapper, val creator: MediaSourceCreator, private val player: Player?) : GenericPresenter {
     companion object {
         val TAG = SinglePodcastPresenter::class.java.simpleName
     }
@@ -121,10 +120,6 @@ CrashlyticsWrapper, val creator: MediaSourceCreator, private val player: Player?
             }
         }
         return false
-    }
-
-    fun addAdditionalData(podcastFeed: PodcastFeed) {
-            additionalDataProvider.enrichFeed(podcastFeed)
     }
 
 }
