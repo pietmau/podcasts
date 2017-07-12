@@ -111,4 +111,8 @@ class SinglePodcastActivity : DetailActivtyBase() {
         }
         return true
     }
+
+    override fun setTitle(collectionName: String?) {
+        supportActionBar?.title = collectionName
+    }
 }

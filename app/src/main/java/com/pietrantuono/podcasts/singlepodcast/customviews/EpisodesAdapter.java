@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
-import com.pietrantuono.podcasts.imageloader.SimpleImageLoader;
 import com.pietrantuono.podcasts.singlepodcast.viewmodel.ResourcesProvider;
 
 import java.util.ArrayList;
@@ -15,11 +14,9 @@ import java.util.List;
 
 public class EpisodesAdapter extends RecyclerView.Adapter<EpisodeHolder> {
     private final List<PodcastEpisodeModel> items;
-    private final SimpleImageLoader simpleImageLoader;
     private final ResourcesProvider resourcesProvider;
 
-    public EpisodesAdapter(SimpleImageLoader simpleImageLoader, ResourcesProvider resourcesProvider) {
-        this.simpleImageLoader = simpleImageLoader;
+    public EpisodesAdapter(ResourcesProvider resourcesProvider) {
         this.resourcesProvider = resourcesProvider;
         items = new ArrayList<>();
     }

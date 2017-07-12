@@ -2,6 +2,7 @@ package com.pietrantuono.podcasts.singlepodcast.customviews
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.ViewTreeObserver
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.ui.PlaybackControlView
@@ -23,7 +24,8 @@ class SimpleContolView(context: Context?, attrs: AttributeSet?) : PlaybackContro
 
     fun showOrHide() {
         val playbackState = player.playbackState
-        if (playbackState != ExoPlayer.STATE_READY) {
+        Log.d("foo", "" + playbackState)
+        if (playbackState == ExoPlayer.STATE_IDLE) {
             hide()
         } else {
             show()

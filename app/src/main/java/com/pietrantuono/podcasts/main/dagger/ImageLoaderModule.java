@@ -40,7 +40,7 @@ public class ImageLoaderModule {
 
     @Provides
     EpisodesAdapter provideEpisodesAdapter(SimpleImageLoader imageLoader, ResourcesProvider resourcesProvider) {
-        return new EpisodesAdapter(imageLoader, resourcesProvider);
+        return new EpisodesAdapter(resourcesProvider);
     }
 
 }

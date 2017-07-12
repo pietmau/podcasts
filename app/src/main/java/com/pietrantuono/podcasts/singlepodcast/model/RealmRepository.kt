@@ -47,6 +47,7 @@ class RealmRepository : Repository {
     override fun subscribeToSubscribedPodcasts(observer: Observer<List<SinglePodcast>>?): Observable<List<SinglePodcast>> {
         return realm
                 .where(SinglePodcastRealm::class.java)
+                .equalTo("podcastSubscribed", true)
                 .findAllAsync()
                 .asObservable()
                 .map { realmResults -> toSinglePodcast(realmResults) }
