@@ -23,6 +23,8 @@ import com.pietrantuono.podcasts.main.view.TransitionsFramework;
 import com.pietrantuono.podcasts.player.player.LocalPlayback;
 import com.pietrantuono.podcasts.player.player.Playback;
 import com.pietrantuono.podcasts.player.player.service.Player;
+import com.pietrantuono.podcasts.singlepodcast.model.AdditionalDataProvider;
+import com.pietrantuono.podcasts.singlepodcast.model.AdditionalDataProviderImpl;
 import com.pietrantuono.podcasts.singlepodcast.model.Repository;
 import com.pietrantuono.podcasts.singlepodcast.model.SinglePodcastModel;
 import com.pietrantuono.podcasts.singlepodcast.model.SinglePodcastModelImpl;
@@ -55,11 +57,11 @@ public class SinglePodcastModule {
 
     @Provides
     SinglePodcastPresenter provideSinglePodcastPresenter(SinglePodcastModel model, CrashlyticsWrapper
-            crashlyticsWrapper, @Nullable Player player, MediaSourceCreator creator) {
+            crashlyticsWrapper, @Nullable Player player, MediaSourceCreator creator, AdditionalDataProvider provider) {
         SinglePodcastPresenter addPodcastPresenter = (SinglePodcastPresenter)
                 presenterManager.getPresenter(SinglePodcastPresenter.Companion.getTAG());
         if (addPodcastPresenter == null) {
-            addPodcastPresenter = new SinglePodcastPresenter(model, crashlyticsWrapper, creator, player);
+            addPodcastPresenter = new SinglePodcastPresenter(model, crashlyticsWrapper, creator, player, provider);
             presenterManager.put(SinglePodcastPresenter.Companion.getTAG(), addPodcastPresenter);
         }
         return addPodcastPresenter;
@@ -120,6 +122,10 @@ public class SinglePodcastModule {
         };
     }
 
+    @Provides
+    AdditionalDataProvider provideAdditionalDataProvider( Repository repository){
+        return new AdditionalDataProviderImpl(repository);
+    }
 
 }
 
