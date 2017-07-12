@@ -4,6 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="nav_header_height">100dp</dimen>
     <dimen name="generic_margin">16dp</dimen>
+    <dimen name="generic_margin_double">32dp</dimen>
     <dimen name="progress_heigth">8dp</dimen>
     <dimen name="standard_margin">8dp</dimen>
     <dimen name="item_margin">4dp</dimen>
@@ -15,6 +16,7 @@
     <dimen name="NormalTextSize">12dp</dimen>
     <dimen name="very_small_margin">4dp</dimen>
     <dimen name="item_image_size">100dp</dimen>
+    <dimen name="item_progress_size">80dp</dimen>
     <dimen name="actionbar_textview_padding_right">8dp</dimen>
     <dimen name="actionbar_textview_drawable_padding">4dp</dimen>
     <dimen name="podcast_item_image_size">500dp</dimen>

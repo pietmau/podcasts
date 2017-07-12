@@ -20,7 +20,7 @@
             android:layout_width="@dimen/item_image_size"
             android:layout_height="@dimen/item_image_size"
             android:indeterminate="true"
-            android:padding="@dimen/generic_margin"
+            android:padding="@dimen/generic_margin_double"
             />
 
         <ImageView
