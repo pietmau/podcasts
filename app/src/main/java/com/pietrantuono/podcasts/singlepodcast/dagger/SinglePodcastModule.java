@@ -61,7 +61,7 @@ public class SinglePodcastModule {
         SinglePodcastPresenter addPodcastPresenter = (SinglePodcastPresenter)
                 presenterManager.getPresenter(SinglePodcastPresenter.Companion.getTAG());
         if (addPodcastPresenter == null) {
-            addPodcastPresenter = new SinglePodcastPresenter(model, crashlyticsWrapper, creator, player, provider);
+            addPodcastPresenter = new SinglePodcastPresenter(model, crashlyticsWrapper, creator, player);
             presenterManager.put(SinglePodcastPresenter.Companion.getTAG(), addPodcastPresenter);
         }
         return addPodcastPresenter;
@@ -78,8 +78,8 @@ public class SinglePodcastModule {
     }
 
     @Provides
-    SinglePodcastModel provideSinglePodcastModel(SinglePodcastApi api, Repository repository) {
-        return new SinglePodcastModelImpl(api, repository);
+    SinglePodcastModel provideSinglePodcastModel(SinglePodcastApi api, Repository repository, AdditionalDataProvider provider) {
+        return new SinglePodcastModelImpl(api, repository, provider);
     }
 
     @Provides

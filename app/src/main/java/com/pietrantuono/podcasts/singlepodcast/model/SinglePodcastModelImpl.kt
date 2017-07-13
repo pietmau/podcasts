@@ -6,10 +6,11 @@ import com.pietrantuono.podcasts.apis.SinglePodcastApi
 import rx.Observable
 import rx.Observer
 import rx.Subscription
-import rx.android.schedulers.AndroidSchedulers.mainThread
+import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
-class SinglePodcastModelImpl(private val singlePodcastApi: SinglePodcastApi, private val repository: Repository) : SinglePodcastModel {
+class SinglePodcastModelImpl(private val singlePodcastApi: SinglePodcastApi, private val repository:
+Repository, private val additionalData: AdditionalDataProvider) : SinglePodcastModel {
     private var podcastFeedObservable: Observable<PodcastFeed>? = null
     private var podcast: SinglePodcast? = null
     private var feed: Subscription? = null
@@ -26,13 +27,14 @@ class SinglePodcastModelImpl(private val singlePodcastApi: SinglePodcastApi, pri
         repository.onSubscribeUnsubscribeToPodcastClicked(podcast)
     }
 
-    override fun subscribeToFeed(obspodcastFeedObserverrver: Observer<PodcastFeed>) {
+    override fun subscribeToFeed(observer: Observer<PodcastFeed>) {
         feed = podcastFeedObservable!!.subscribeOn(Schedulers.newThread())
-                .observeOn(mainThread()).cache().map({enrichMedia(it)}).subscribe(obspodcastFeedObserverrver)
+                .cache().map({ enrichMedia(it) })
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(observer)
     }
 
-    private fun enrichMedia(it: PodcastFeed): PodcastFeed {
-        TODO("not implemented")
+    private fun enrichMedia(podcastFeed: PodcastFeed): PodcastFeed {
+        return additionalData.enrichFeed(podcastFeed)
     }
 
     override fun subscribeToIsSubscribedToPodcast(isSubscribedObserver: Observer<Boolean>) {
