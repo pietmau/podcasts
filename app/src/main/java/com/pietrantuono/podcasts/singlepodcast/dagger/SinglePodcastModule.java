@@ -23,8 +23,6 @@ import com.pietrantuono.podcasts.main.view.TransitionsFramework;
 import com.pietrantuono.podcasts.player.player.LocalPlayback;
 import com.pietrantuono.podcasts.player.player.Playback;
 import com.pietrantuono.podcasts.player.player.service.Player;
-import com.pietrantuono.podcasts.singlepodcast.model.AdditionalDataProvider;
-import com.pietrantuono.podcasts.singlepodcast.model.AdditionalDataProviderImpl;
 import com.pietrantuono.podcasts.singlepodcast.model.Repository;
 import com.pietrantuono.podcasts.singlepodcast.model.SinglePodcastModel;
 import com.pietrantuono.podcasts.singlepodcast.model.SinglePodcastModelImpl;
@@ -57,7 +55,7 @@ public class SinglePodcastModule {
 
     @Provides
     SinglePodcastPresenter provideSinglePodcastPresenter(SinglePodcastModel model, CrashlyticsWrapper
-            crashlyticsWrapper, @Nullable Player player, MediaSourceCreator creator, AdditionalDataProvider provider) {
+            crashlyticsWrapper, @Nullable Player player, MediaSourceCreator creator) {
         SinglePodcastPresenter addPodcastPresenter = (SinglePodcastPresenter)
                 presenterManager.getPresenter(SinglePodcastPresenter.Companion.getTAG());
         if (addPodcastPresenter == null) {
@@ -78,8 +76,8 @@ public class SinglePodcastModule {
     }
 
     @Provides
-    SinglePodcastModel provideSinglePodcastModel(SinglePodcastApi api, Repository repository, AdditionalDataProvider provider) {
-        return new SinglePodcastModelImpl(api, repository, provider);
+    SinglePodcastModel provideSinglePodcastModel(SinglePodcastApi api, Repository repository) {
+        return new SinglePodcastModelImpl(api, repository);
     }
 
     @Provides
@@ -120,11 +118,6 @@ public class SinglePodcastModule {
     ExtractorMediaSource.EventListener provideExtractorMediaSourceEventListener() {
         return error -> {
         };
-    }
-
-    @Provides
-    AdditionalDataProvider provideAdditionalDataProvider( Repository repository){
-        return new AdditionalDataProviderImpl(repository);
     }
 
 }

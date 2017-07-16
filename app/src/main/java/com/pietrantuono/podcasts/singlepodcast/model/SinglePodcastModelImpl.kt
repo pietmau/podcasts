@@ -9,8 +9,7 @@ import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
-class SinglePodcastModelImpl(private val singlePodcastApi: SinglePodcastApi, private val repository:
-Repository, private val additionalData: AdditionalDataProvider) : SinglePodcastModel {
+class SinglePodcastModelImpl(private val singlePodcastApi: SinglePodcastApi, private val repository: Repository) : SinglePodcastModel {
     private var podcastFeedObservable: Observable<PodcastFeed>? = null
     private var podcast: SinglePodcast? = null
     private var feed: Subscription? = null
@@ -29,12 +28,8 @@ Repository, private val additionalData: AdditionalDataProvider) : SinglePodcastM
 
     override fun subscribeToFeed(observer: Observer<PodcastFeed>) {
         feed = podcastFeedObservable!!.subscribeOn(Schedulers.newThread())
-                .cache().map({ enrichMedia(it) })
+                .cache()
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(observer)
-    }
-
-    private fun enrichMedia(podcastFeed: PodcastFeed): PodcastFeed {
-        return additionalData.enrichFeed(podcastFeed)
     }
 
     override fun subscribeToIsSubscribedToPodcast(isSubscribedObserver: Observer<Boolean>) {
