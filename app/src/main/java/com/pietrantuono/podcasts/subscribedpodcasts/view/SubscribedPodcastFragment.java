@@ -21,7 +21,7 @@ import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.main.view.MainActivity;
 import com.pietrantuono.podcasts.main.view.TransitionsFramework;
-import com.pietrantuono.podcasts.singlepodcast.view.SinglePodcastActivity;
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.AddSinglePodcastActivity;
 import com.pietrantuono.podcasts.subscribedpodcasts.di.SubscribedPodcastModule;
 import com.pietrantuono.podcasts.subscribedpodcasts.presenter.SubscribedPodcastPresenter;
 
@@ -94,17 +94,17 @@ public class SubscribedPodcastFragment extends Fragment implements SubscribedPod
     @Override
     public void startDetailActivityWithTransition(SinglePodcast singlePodcast, ImageView
             imageView, LinearLayout titleContainer) {
-        Intent intent = new Intent(getActivity(), SinglePodcastActivity.class);
-        intent.putExtra(SinglePodcastActivity.Companion.getSINGLE_PODCAST(), singlePodcast);
-        intent.putExtra(SinglePodcastActivity.Companion.getSTARTED_WITH_TRANSITION(), true);
+        Intent intent = new Intent(getActivity(), AddSinglePodcastActivity.class);
+        intent.putExtra(AddSinglePodcastActivity.Companion.getSINGLE_PODCAST(), singlePodcast);
+        intent.putExtra(AddSinglePodcastActivity.Companion.getSTARTED_WITH_TRANSITION(), true);
         getActivity().startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), getPairs(imageView, titleContainer)).toBundle());
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void startDetailActivityWithoutTransition(SinglePodcast singlePodcast) {
-        Intent intent = new Intent(getActivity(), SinglePodcastActivity.class);
-        intent.putExtra(SinglePodcastActivity.Companion.getSINGLE_PODCAST(), singlePodcast);
+        Intent intent = new Intent(getActivity(), AddSinglePodcastActivity.class);
+        intent.putExtra(AddSinglePodcastActivity.Companion.getSINGLE_PODCAST(), singlePodcast);
         getActivity().startActivity(intent);
     }
 

@@ -21,7 +21,7 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <com.pietrantuono.podcasts.singlepodcast.view.custom.CoordinatorWithBottomMargin
+    <com.pietrantuono.podcasts.addpodcast.singlepodcast.view.custom.CoordinatorWithBottomMargin
         android:id="@+id/coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -41,7 +41,7 @@
                 app:expandedTitleMarginStart="48dp"
                 app:layout_scrollFlags="scroll|enterAlways">
 
-                <com.pietrantuono.podcasts.singlepodcast.customviews.SquareImageView
+                <com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.SquareImageView
                     android:id="@+id/main_image"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
 
             </android.support.design.widget.CollapsingToolbarLayout>
 
-            <com.pietrantuono.podcasts.singlepodcast.view.custom.SimpleProgressBar
+            <com.pietrantuono.podcasts.addpodcast.singlepodcast.view.custom.SimpleProgressBar
                 android:id="@+id/progress"
                 style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
                 android:layout_width="match_parent"
@@ -62,16 +62,16 @@
                 android:visibility="visible"/>
         </android.support.design.widget.AppBarLayout>
 
-        <com.pietrantuono.podcasts.singlepodcast.customviews.EpisodesRecycler
+        <com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.EpisodesRecycler
             android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/subscribeunsubscribe"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             />
-    </com.pietrantuono.podcasts.singlepodcast.view.custom.CoordinatorWithBottomMargin>
+    </com.pietrantuono.podcasts.addpodcast.singlepodcast.view.custom.CoordinatorWithBottomMargin>
 
-    <com.pietrantuono.podcasts.singlepodcast.customviews.SimpleContolView
+    <com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.SimpleContolView
         android:id="@+id/playbackcontrols"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

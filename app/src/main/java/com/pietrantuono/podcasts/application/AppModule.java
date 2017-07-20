@@ -8,8 +8,8 @@ import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.pietrantuono.podcasts.player.player.service.Player;
-import com.pietrantuono.podcasts.singlepodcast.model.RealmRepository;
-import com.pietrantuono.podcasts.singlepodcast.model.Repository;
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.RealmRepository;
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.Repository;
 
 import javax.inject.Singleton;
 

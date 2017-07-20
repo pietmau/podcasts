@@ -2,7 +2,7 @@ package com.pietrantuono.podcasts.subscribedpodcasts.model;
 
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
-import com.pietrantuono.podcasts.singlepodcast.model.Repository;
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.Repository;
 
 import java.util.List;
 

@@ -6,8 +6,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsAdapter;
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader;
-import com.pietrantuono.podcasts.singlepodcast.customviews.EpisodesAdapter;
-import com.pietrantuono.podcasts.singlepodcast.viewmodel.ResourcesProvider;
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.EpisodesAdapter;
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider;
 
 import javax.inject.Singleton;
 

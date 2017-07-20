@@ -1,7 +1,7 @@
 package com.pietrantuono.podcasts.providers;
 
 import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
-import com.pietrantuono.podcasts.singlepodcast.model.SimpleEnclosure;
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SimpleEnclosure;
 import com.rometools.rome.feed.synd.SyndEnclosure;
 
 import java.util.Date;

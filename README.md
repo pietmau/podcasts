@@ -2,4 +2,4 @@
 - Dagger 2
 - RXJava
 - Data Binding
-- MVVM (`com.pietrantuono.podcasts.singlepodcast.viewmodel`)
+- MVVM (`com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel`)

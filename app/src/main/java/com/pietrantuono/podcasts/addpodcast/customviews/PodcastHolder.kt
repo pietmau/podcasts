@@ -9,8 +9,8 @@ import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsAdapter.OnItemCl
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast
 import com.pietrantuono.podcasts.databinding.FindPodcastItemBinding
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
-import com.pietrantuono.podcasts.singlepodcast.view.ImageLoadingListenerWithPalette
-import com.pietrantuono.podcasts.singlepodcast.viewmodel.ResourcesProvider
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.ImageLoadingListenerWithPalette
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
 
 class PodcastHolder(itemView: View, private val resources: ResourcesProvider,
                     private val loader: SimpleImageLoader) : RecyclerView.ViewHolder(itemView) {

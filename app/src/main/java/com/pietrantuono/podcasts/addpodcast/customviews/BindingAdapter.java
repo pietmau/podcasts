@@ -3,7 +3,6 @@ package com.pietrantuono.podcasts.addpodcast.customviews;
 import android.widget.ImageView;
 
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader;
-import com.pietrantuono.podcasts.singlepodcast.viewmodel.PodcastEpisodeViewModel;
 
 public class BindingAdapter {
     private static SimpleImageLoader simpleImageLoader = new SimpleImageLoader();

@@ -3,7 +3,7 @@ package com.pietrantuono.podcasts.addpodcast.customviews;
 
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
-import com.pietrantuono.podcasts.singlepodcast.viewmodel.ResourcesProvider;
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

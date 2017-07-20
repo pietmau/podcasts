@@ -3,7 +3,7 @@ package com.pietrantuono.podcasts.providers;
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcastImpl;
-import com.pietrantuono.podcasts.singlepodcast.model.SimpleEnclosure;
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SimpleEnclosure;
 import com.rometools.rome.feed.synd.SyndEnclosure;
 
 import java.util.ArrayList;
