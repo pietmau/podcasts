@@ -6,17 +6,15 @@ import android.view.Menu
 import android.view.MenuItem
 import butterknife.BindView
 import butterknife.ButterKnife
-import com.pietrantuono.podcasts.PresenterManager
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast
-import com.pietrantuono.podcasts.apis.PodcastEpisodeModel
-import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.EpisodesRecycler
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.SimpleContolView
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.dagger.SinglePodcastModule
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SinglePodcastPresenter
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.custom.CoordinatorWithBottomMargin
-import com.pietrantuono.podcasts.subscribedpodcasts.di.SubscribedPodcastModule
+import com.pietrantuono.podcasts.apis.PodcastEpisodeModel
+import com.pietrantuono.podcasts.application.App
+import com.pietrantuono.podcasts.subscribedpodcasts.detail.di.SingleSubscribedModule
+import com.pietrantuono.podcasts.subscribedpodcasts.detail.presenter.SingleSubscribedPodcastPresenter
 import javax.inject.Inject
 
 class SingleSubscribedPodcastActivity : DetailActivtyBase() {
@@ -30,8 +28,7 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase() {
     @BindView(R.id.recycler) lateinit var recyclerView: EpisodesRecycler
     @BindView(R.id.playbackcontrols) lateinit var playbackControls: SimpleContolView
     @BindView(R.id.coordinator) lateinit var coordinator: CoordinatorWithBottomMargin
-    @Inject lateinit var presenter: SinglePodcastPresenter
-    @Inject lateinit var presenterManager: PresenterManager
+    @Inject lateinit var presenter: SingleSubscribedPodcastPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +39,7 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase() {
     }
 
     private fun inject() {
-        (applicationContext as App).applicationComponent?.with(SubscribedPodcastModule())
+        (application as App).applicationComponent?.with(SingleSubscribedModule(this@SingleSubscribedPodcastActivity))?.inject(this@SingleSubscribedPodcastActivity)
     }
 
     private fun initViews() {
@@ -87,7 +84,7 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase() {
     }
 
     override fun onRetainCustomNonConfigurationInstance(): Any {
-        return presenterManager
+        return presenter
     }
 
     override fun setEpisodes(episodes: List<PodcastEpisodeModel>?) {
@@ -117,3 +114,4 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase() {
         supportActionBar?.title = collectionName
     }
 }
+

@@ -12,6 +12,8 @@ import com.pietrantuono.podcasts.main.dagger.MainModule;
 import com.pietrantuono.podcasts.main.dagger.TransitionsModule;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.EpisodesRecycler;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.dagger.SinglePodcastModule;
+import com.pietrantuono.podcasts.subscribedpodcasts.detail.di.SingleSubscribedComponent;
+import com.pietrantuono.podcasts.subscribedpodcasts.detail.di.SingleSubscribedModule;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -31,9 +33,14 @@ public interface ApplicationComponent {
 
     void inject(@NotNull EpisodesRecycler episodesRecycler);
 
-    @NotNull MainComponent with(MainModule mainModule);
+    @NotNull
+    MainComponent with(MainModule mainModule);
 
-    @NotNull SinglePodcastComponent with(SinglePodcastModule singlePodcastModule);
+    @NotNull
+    SinglePodcastComponent with(SinglePodcastModule singlePodcastModule);
+
+    @NotNull
+    SingleSubscribedComponent with(SingleSubscribedModule mainModule);
 
     @Nullable
     SimpleExoPlayer simpleExoPlayer();
