@@ -1,9 +1,10 @@
-package com.pietrantuono.podcasts.addpodcast.customviews;
+package com.pietrantuono.podcasts.subscribedpodcasts.detail.views;
 
 
 import android.content.Context;
 import android.content.res.Configuration;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,21 +12,32 @@ import android.util.AttributeSet;
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.application.App;
+import com.pietrantuono.podcasts.subscribedpodcasts.detail.di.SingleSubscribedModule;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-public class PodcastsRecycler extends RecyclerView {
-    @Inject PodcastsAdapter adapter;
+public class SingleSubscribedPodcastsRecycler extends RecyclerView {
+    @Inject SingleSubscribedPodcastsAdapter adapter;
 
-    public PodcastsRecycler(Context context, @Nullable AttributeSet attrs) {
+    public SingleSubscribedPodcastsRecycler(Context context) {
+        super(context);
+        init();
+    }
+
+    public SingleSubscribedPodcastsRecycler(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
+    public SingleSubscribedPodcastsRecycler(Context context, @Nullable AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        init();
+    }
+
     private void init() {
-        ((App)getContext().getApplicationContext()).getApplicationComponent().inject(this);
+        ((App)getContext().getApplicationContext()).getApplicationComponent().with(new SingleSubscribedModule((AppCompatActivity) getContext())).inject(this);
         setLayoutManager(createLayoutManager());
         setAdapter(adapter);
     }
@@ -43,16 +55,11 @@ public class PodcastsRecycler extends RecyclerView {
         adapter.setItems(items);
     }
 
-    public void onQueryTextChange(String newText) {
-        adapter.onQueryTextChange(newText);
-    }
-
-
-    private void setOnItemClickListener(PodcastsAdapter.OnItemClickedClickedListener onItemClickedClickedListener) {
+    private void setOnItemClickListener(SingleSubscribedPodcastsAdapter.OnItemClickedClickedListener onItemClickedClickedListener) {
         adapter.setOnItemClickListener(onItemClickedClickedListener);
     }
 
-    public void setListeners(PodcastsAdapter.OnItemClickedClickedListener addPodcastPresenter) {
+    public void setListeners(SingleSubscribedPodcastsAdapter.OnItemClickedClickedListener addPodcastPresenter) {
         setOnItemClickListener(addPodcastPresenter);
     }
 

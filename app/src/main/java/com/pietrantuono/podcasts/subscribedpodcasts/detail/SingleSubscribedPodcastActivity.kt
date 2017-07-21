@@ -28,7 +28,7 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase() {
     @BindView(R.id.recycler) lateinit var recyclerView: EpisodesRecycler
     @BindView(R.id.playbackcontrols) lateinit var playbackControls: SimpleContolView
     @BindView(R.id.coordinator) lateinit var coordinator: CoordinatorWithBottomMargin
-    @Inject lateinit var presenter: SingleSubscribedPodcastPresenter
+    @Inject  lateinit var presenter: SingleSubscribedPodcastPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

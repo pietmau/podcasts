@@ -4,6 +4,7 @@ import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.SingleSubscribedPodcastActivity
 
 class SingleSubscribedPodcastPresenter {
+
     fun bindView(singleSubscribedPodcastActivity: SingleSubscribedPodcastActivity) {
         
     }
@@ -28,7 +29,7 @@ class SingleSubscribedPodcastPresenter {
     }
 
     fun onOptionsItemSelected(itemId: Int): Boolean {
-
+        return false
     }
 
     fun onBackPressed() {
