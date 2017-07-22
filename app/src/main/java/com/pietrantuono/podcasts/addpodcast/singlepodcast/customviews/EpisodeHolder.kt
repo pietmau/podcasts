@@ -1,4 +1,4 @@
-package com.pietrantuono.podcasts.addpodcast.customviews
+package com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews
 
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
@@ -9,7 +9,7 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.PodcastEpiso
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
 import com.pietrantuono.podcasts.apis.PodcastEpisodeModel
 
-class SingleSubscribedPodcastHolder(itemView: View, private val resourcesProvider: ResourcesProvider) : RecyclerView.ViewHolder(itemView) {
+class EpisodeHolder(itemView: View, private val resourcesProvider: ResourcesProvider) : RecyclerView.ViewHolder(itemView) {
     private val dataBinding: ViewDataBinding
 
     init {
@@ -22,5 +22,3 @@ class SingleSubscribedPodcastHolder(itemView: View, private val resourcesProvide
         dataBinding.executePendingBindings()
     }
 }
-
-

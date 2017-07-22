@@ -39,6 +39,6 @@ public class SingleSubscribedModule {
 
     @Provides
     SingleSubscribedPodcastsAdapter provideSingleSubscribedPodcastsAdapter(SimpleImageLoader loader, ResourcesProvider provider) {
-        return new SingleSubscribedPodcastsAdapter(loader, provider);
+        return new SingleSubscribedPodcastsAdapter(provider);
     }
 }

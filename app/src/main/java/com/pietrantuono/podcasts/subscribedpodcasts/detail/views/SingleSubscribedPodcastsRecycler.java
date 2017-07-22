@@ -10,7 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
+import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
 import com.pietrantuono.podcasts.application.App;
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.di.SingleSubscribedModule;
 
@@ -36,8 +36,14 @@ public class SingleSubscribedPodcastsRecycler extends RecyclerView {
         init();
     }
 
+    public void setItems(List<PodcastEpisodeModel> episodes) {
+        adapter.setItems(episodes);
+    }
+
     private void init() {
-        ((App)getContext().getApplicationContext()).getApplicationComponent().with(new SingleSubscribedModule((AppCompatActivity) getContext())).inject(this);
+        ((App) getContext().getApplicationContext()).getApplicationComponent()
+                .with(new SingleSubscribedModule((AppCompatActivity) getContext()))
+                .inject(this);
         setLayoutManager(createLayoutManager());
         setAdapter(adapter);
     }
@@ -45,25 +51,9 @@ public class SingleSubscribedPodcastsRecycler extends RecyclerView {
     private LayoutManager createLayoutManager() {
         int orientation = getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            return new GridLayoutManager(getContext(), 4);
+            return new GridLayoutManager(getContext(), 2);
         } else {
-            return new GridLayoutManager(getContext(), 3);
+            return new LinearLayoutManager(getContext());
         }
-    }
-
-    public void setItems(List<SinglePodcast> items) {
-        adapter.setItems(items);
-    }
-
-    private void setOnItemClickListener(SingleSubscribedPodcastsAdapter.OnItemClickedClickedListener onItemClickedClickedListener) {
-        adapter.setOnItemClickListener(onItemClickedClickedListener);
-    }
-
-    public void setListeners(SingleSubscribedPodcastsAdapter.OnItemClickedClickedListener addPodcastPresenter) {
-        setOnItemClickListener(addPodcastPresenter);
-    }
-
-    public boolean isPartiallyHidden(int position) {
-        return ((LinearLayoutManager) getLayoutManager()).findLastCompletelyVisibleItemPosition() < position;
     }
 }
