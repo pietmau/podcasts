@@ -12,6 +12,7 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.dagger.SinglePodcastMo
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule;
 import com.pietrantuono.podcasts.main.dagger.MainModule;
 import com.pietrantuono.podcasts.main.dagger.TransitionsModule;
+import com.pietrantuono.podcasts.media.MediaModule;
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.di.SingleSubscribedComponent;
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.di.SingleSubscribedModule;
 
@@ -24,7 +25,7 @@ import dagger.Component;
 @Singleton
 @Component(modules = {AppModule.class, ApiLevelCheckerlModule.class,
         SearchModelsModule.class, ImageLoaderModule.class,
-        TransitionsModule.class,})
+        TransitionsModule.class, MediaModule.class})
 public interface ApplicationComponent {
 
     void inject(@NotNull App app);

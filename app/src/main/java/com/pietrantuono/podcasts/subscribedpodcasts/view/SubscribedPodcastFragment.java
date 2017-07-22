@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.SingleSubscribedPodcastActivity;
 import com.pietrantuono.podcasts.main.view.MainActivity;
 import com.pietrantuono.podcasts.main.view.TransitionsFramework;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.AddSinglePodcastActivity;
@@ -94,7 +95,7 @@ public class SubscribedPodcastFragment extends Fragment implements SubscribedPod
     @Override
     public void startDetailActivityWithTransition(SinglePodcast singlePodcast, ImageView
             imageView, LinearLayout titleContainer) {
-        Intent intent = new Intent(getActivity(), AddSinglePodcastActivity.class);
+        Intent intent = new Intent(getActivity(), SingleSubscribedPodcastActivity.class);
         intent.putExtra(AddSinglePodcastActivity.Companion.getSINGLE_PODCAST(), singlePodcast);
         intent.putExtra(AddSinglePodcastActivity.Companion.getSTARTED_WITH_TRANSITION(), true);
         getActivity().startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), getPairs(imageView, titleContainer)).toBundle());

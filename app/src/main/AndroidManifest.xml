@@ -27,6 +27,11 @@
             android:name="com.pietrantuono.podcasts.addpodcast.singlepodcast.view.AddSinglePodcastActivity">
         </activity>
 
+        <activity
+            android:name=".addpodcast.singlepodcast.view.SingleSubscribedPodcastActivity">
+        </activity>
+
+
         <service
             android:name=".player.player.service.PlayerService"
             android:exported="false">

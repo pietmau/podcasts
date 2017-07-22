@@ -45,7 +45,7 @@ class AddSinglePodcastActivity : DetailActivtyBase() {
     }
 
     private fun initViews() {
-        setContentView(R.layout.activity_podcast)
+        setContentView(R.layout.add_single_podcast_activity)
         ButterKnife.bind(this@AddSinglePodcastActivity)
         setUpActionBar()
         setUpPlayerControls()

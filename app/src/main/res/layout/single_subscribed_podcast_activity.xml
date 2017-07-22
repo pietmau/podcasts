@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activityBackgroundColor"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:elevation="1dp"
+        android:transitionName="@string/detail_transition_toolbar"
+        >
+
+    </android.support.v7.widget.Toolbar>
+
+    <com.pietrantuono.podcasts.addpodcast.singlepodcast.view.custom.CoordinatorWithBottomMargin
+        android:id="@+id/coordinator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/activityBackgroundColor"
+        >
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:expandedTitleMarginEnd="64dp"
+                app:expandedTitleMarginStart="48dp"
+                app:layout_scrollFlags="scroll|enterAlways">
+
+                <com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.SquareImageView
+                    android:id="@+id/main_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:transitionName="@string/detail_transition_image"
+                    app:layout_collapseMode="parallax"
+                    app:layout_scrollFlags="scroll|enterAlways"/>
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+            <com.pietrantuono.podcasts.addpodcast.singlepodcast.view.custom.SimpleProgressBar
+                android:id="@+id/progress"
+                style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/progress_heigth"
+                android:background="@color/activityBackgroundColor"
+                android:indeterminate="true"
+                android:visibility="visible"/>
+        </android.support.design.widget.AppBarLayout>
+
+        <com.pietrantuono.podcasts.subscribedpodcasts.detail.views.SingleSubscribedPodcastsRecycler
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/subscribeunsubscribe"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            />
+    </com.pietrantuono.podcasts.addpodcast.singlepodcast.view.custom.CoordinatorWithBottomMargin>
+
+    <com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.SimpleContolView
+        android:id="@+id/playbackcontrols"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        />
+
+</RelativeLayout>

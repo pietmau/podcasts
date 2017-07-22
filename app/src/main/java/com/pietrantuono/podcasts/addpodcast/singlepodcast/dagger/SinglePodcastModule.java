@@ -2,35 +2,26 @@ package com.pietrantuono.podcasts.addpodcast.singlepodcast.dagger;
 
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
-import com.google.android.exoplayer2.upstream.DataSource;
-import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.pietrantuono.podcasts.CrashlyticsWrapper;
+import com.pietrantuono.podcasts.PresenterManager;
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.Repository;
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastModel;
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastModelImpl;
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SinglePodcastPresenter;
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.TransitionImageLoadingListener;
 import com.pietrantuono.podcasts.apis.SinglePodcastApi;
 import com.pietrantuono.podcasts.apis.SinglePodcastApiRetrofit;
 import com.pietrantuono.podcasts.interfaces.ImageParser;
 import com.pietrantuono.podcasts.interfaces.PodcastEpisodeParser;
-import com.pietrantuono.podcasts.PresenterManager;
 import com.pietrantuono.podcasts.main.view.TransitionsFramework;
 import com.pietrantuono.podcasts.player.player.LocalPlayback;
+import com.pietrantuono.podcasts.player.player.MediaSourceCreator;
 import com.pietrantuono.podcasts.player.player.Playback;
 import com.pietrantuono.podcasts.player.player.service.Player;
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.Repository;
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastModel;
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastModelImpl;
-import com.pietrantuono.podcasts.player.player.MediaSourceCreator;
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SinglePodcastPresenter;
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.TransitionImageLoadingListener;
-
-import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
@@ -39,7 +30,7 @@ import dagger.Provides;
 public class SinglePodcastModule {
     private PresenterManager presenterManager;
     private AppCompatActivity activity;
-    private static final String USER_AGENT="user_agent";
+
 
     public SinglePodcastModule(AppCompatActivity activity) {
         this.activity = activity;
@@ -95,30 +86,8 @@ public class SinglePodcastModule {
         return new LocalPlayback(context, exoplayer);
     }
 
-    @Provides
-    MediaSourceCreator provideMediaSourceCreator(DataSource.Factory factory,
-                                                 ExtractorMediaSource.EventListener logger) {
-        return new MediaSourceCreator(factory, new Handler(Looper.myLooper()), logger);
-    }
 
-    @Provides
-    DataSource.Factory provideDataSourceFactory(@Named(USER_AGENT) String userAgent, Context context) {
-        DefaultBandwidthMeter defaultBandwidthMeter = new DefaultBandwidthMeter();
-        return new DefaultDataSourceFactory(context, defaultBandwidthMeter,
-                new DefaultHttpDataSourceFactory(userAgent, defaultBandwidthMeter));
-    }
 
-    @Provides
-    @Named(USER_AGENT)
-    String getAgent() {
-        return USER_AGENT;
-    }
-
-    @Provides
-    ExtractorMediaSource.EventListener provideExtractorMediaSourceEventListener() {
-        return error -> {
-        };
-    }
 
 }
 

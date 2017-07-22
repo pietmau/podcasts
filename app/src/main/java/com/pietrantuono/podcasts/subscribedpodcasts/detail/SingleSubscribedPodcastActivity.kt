@@ -8,13 +8,13 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.EpisodesRecycler
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.SimpleContolView
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.custom.CoordinatorWithBottomMargin
 import com.pietrantuono.podcasts.apis.PodcastEpisodeModel
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.di.SingleSubscribedModule
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.presenter.SingleSubscribedPodcastPresenter
+import com.pietrantuono.podcasts.subscribedpodcasts.detail.views.SingleSubscribedPodcastsRecycler
 import javax.inject.Inject
 
 class SingleSubscribedPodcastActivity : DetailActivtyBase() {
@@ -25,7 +25,7 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase() {
         val STARTED_WITH_TRANSITION = "with_transition"
     }
 
-    @BindView(R.id.recycler) lateinit var recyclerView: EpisodesRecycler
+    @BindView(R.id.recycler) lateinit var recyclerView: SingleSubscribedPodcastsRecycler
     @BindView(R.id.playbackcontrols) lateinit var playbackControls: SimpleContolView
     @BindView(R.id.coordinator) lateinit var coordinator: CoordinatorWithBottomMargin
     @Inject  lateinit var presenter: SingleSubscribedPodcastPresenter
@@ -43,7 +43,7 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase() {
     }
 
     private fun initViews() {
-        setContentView(R.layout.activity_podcast)
+        setContentView(R.layout.single_subscribed_podcast_activity)
         ButterKnife.bind(this@SingleSubscribedPodcastActivity)
         setUpActionBar()
         setUpPlayerControls()

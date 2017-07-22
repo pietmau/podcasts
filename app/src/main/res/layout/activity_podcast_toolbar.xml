@@ -11,7 +11,7 @@
     app:expandedTitleMarginEnd="64dp"
     app:expandedTitleMarginStart="48dp"
     app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
-    tools:showIn="@layout/activity_podcast">
+    tools:showIn="@layout/add_single_podcast_activity">
 
     <ImageView
         android:id="@+id/main_image"
