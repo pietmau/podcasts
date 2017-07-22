@@ -1,5 +1,6 @@
 package com.pietrantuono.podcasts.subscribedpodcasts.detail.presenter
 
+import android.arch.lifecycle.ViewModel
 import com.pietrantuono.podcasts.CrashlyticsWrapper
 import com.pietrantuono.podcasts.GenericPresenter
 import com.pietrantuono.podcasts.R
@@ -13,7 +14,7 @@ import com.pietrantuono.podcasts.subscribedpodcasts.detail.model.SingleSubscribe
 import rx.Observer
 
 class SingleSubscribedPodcastPresenter(private val model: SingleSubscribedModel, private val crashlyticsWrapper:
-CrashlyticsWrapper, val creator: MediaSourceCreator, private val player: Player?) : GenericPresenter {
+CrashlyticsWrapper, val creator: MediaSourceCreator, private val player: Player?) : GenericPresenter, ViewModel() {
     companion object {
         val TAG = SingleSubscribedPodcastPresenter::class.java.simpleName
     }

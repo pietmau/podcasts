@@ -1,12 +1,14 @@
 package com.pietrantuono.podcasts.subscribedpodcasts.detail.model
 
-import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.LiveData
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
+import com.pietrantuono.podcasts.apis.PodcastEpisodeModel
 import com.pietrantuono.podcasts.apis.PodcastFeed
 import rx.Observer
 
-class SingleSubscribedModelViewModel : SingleSubscribedModel, ViewModel() {
+object SingleSubscribedModelViewModel : SingleSubscribedModel,  LiveData<List<PodcastEpisodeModel>>() {
+
     override fun unsubscribe() {
 
     }

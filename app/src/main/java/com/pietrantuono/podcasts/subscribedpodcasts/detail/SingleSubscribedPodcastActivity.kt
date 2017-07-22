@@ -28,7 +28,7 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase() {
     @BindView(R.id.recycler) lateinit var recyclerView: SingleSubscribedPodcastsRecycler
     @BindView(R.id.playbackcontrols) lateinit var playbackControls: SimpleContolView
     @BindView(R.id.coordinator) lateinit var coordinator: CoordinatorWithBottomMargin
-    @Inject  lateinit var presenter: SingleSubscribedPodcastPresenter
+    @Inject lateinit var presenter: SingleSubscribedPodcastPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,27 +64,8 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase() {
         return intent.getParcelableExtra<SinglePodcast>(SINGLE_PODCAST)?.getArtworkUrl600()
     }
 
-    override fun onStop() {
-        super.onStop()
-        presenter.onStop()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        presenter.onStart()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.onDestroy()
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return presenter.onOptionsItemSelected(item.itemId)
-    }
-
-    override fun onRetainCustomNonConfigurationInstance(): Any {
-        return presenter
     }
 
     override fun setEpisodes(episodes: List<PodcastEpisodeModel>?) {
@@ -93,11 +74,6 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase() {
 
     override fun onBackPressed() {
         presenter.onBackPressed()
-    }
-
-    override fun setSubscribedToPodcast(isSubscribed: Boolean) {
-        this.isSubscribed = isSubscribed
-        supportInvalidateOptionsMenu()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
@@ -112,6 +88,10 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase() {
 
     override fun setTitle(collectionName: String?) {
         supportActionBar?.title = collectionName
+    }
+
+    override fun setSubscribedToPodcast(isSubscribed: Boolean?) {
+        throw UnsupportedOperationException("Unsupported")
     }
 }
 
