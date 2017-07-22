@@ -57,7 +57,7 @@ CrashlyticsWrapper, val creator: MediaSourceCreator, private val player: Player?
                     setEpisodes()
                 }
             }
-        })
+        }, )
         model.subscribeToIsSubscribedToPodcast(observer)
     }
 
