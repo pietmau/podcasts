@@ -16,10 +16,10 @@ class SingleSubscribedModelImpl(val realm: Realm) : SingleSubscribedModel() {
                 .equalTo("trackId", podcast?.trackId)
                 .findFirstAsync()
                 .asObservable<SinglePodcastRealm>()
+                .filter(SinglePodcastRealm::isLoaded)
+                .map(realm::copyFromRealm)
                 .cache()
                 .subscribe(observer)
-
-        var bar = realm.where(SinglePodcastRealm::class.java).findAll()
     }
 
     override fun unsubscribe() {

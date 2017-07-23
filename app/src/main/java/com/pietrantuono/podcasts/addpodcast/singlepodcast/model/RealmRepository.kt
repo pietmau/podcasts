@@ -6,7 +6,6 @@ import com.pietrantuono.podcasts.providers.RealmUtlis
 import com.pietrantuono.podcasts.providers.SinglePodcastRealm
 import io.realm.Realm
 import io.realm.RealmObject
-import io.realm.RealmResults
 import rx.Observable
 import rx.Observer
 import rx.android.schedulers.AndroidSchedulers
@@ -42,8 +41,9 @@ class RealmRepository : Repository {
                 .equalTo("podcastSubscribed", true)
                 .findAllAsync()
                 .asObservable()
-                .map { realmResults -> toSinglePodcast(realmResults) }
-                .observeOn(AndroidSchedulers.mainThread())
+                .filter { it.isLoaded && it.isValid }
+                .map { realm.copyFromRealm(it) }
+                .map { x -> x as List<SinglePodcast> }
     }
 
     override fun onSubscribeUnsubscribeToPodcastClicked(podcast: SinglePodcast?) {
@@ -58,17 +58,6 @@ class RealmRepository : Repository {
             }
             subject!!.onNext(singlePodcastRealm.isPodcastSubscribed)
         }
-    }
-
-    private fun toSinglePodcast(results: RealmResults<SinglePodcastRealm>): List<SinglePodcast> {
-        val list = ArrayList<SinglePodcast>(results.size)
-        if (!results.isLoaded || !results.isValid) {
-            return list
-        }
-        for (single in results) {
-            list.add(RealmUtlis.singlePodcast(single))
-        }
-        return list
     }
 
     private fun getSinglePodcastRealm(singlePodcast: SinglePodcast?, realm: Realm): SinglePodcastRealm? {
