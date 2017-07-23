@@ -4,11 +4,11 @@ import com.pietrantuono.podcasts.CrashlyticsWrapper
 import com.pietrantuono.podcasts.GenericPresenter
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastModel
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.SinglePodcastView
 import com.pietrantuono.podcasts.apis.PodcastFeed
 import com.pietrantuono.podcasts.player.player.MediaSourceCreator
 import com.pietrantuono.podcasts.player.player.service.Player
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastModel
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.SinglePodcastView
 import rx.Observer
 
 class SinglePodcastPresenter(private val model: SinglePodcastModel, private val crashlyticsWrapper:
@@ -76,7 +76,7 @@ CrashlyticsWrapper, val creator: MediaSourceCreator, private val player: Player?
     }
 
     private fun setEpisodes() {
-        if (podcastFeed != null) {
+        podcastFeed?.let {
             view?.setEpisodes(podcastFeed?.episodes)
         }
     }

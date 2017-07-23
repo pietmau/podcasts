@@ -10,12 +10,16 @@ import java.util.List;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class SinglePodcastRealm extends RealmObject implements SinglePodcast {
     private String wrapperType;
     private String kind;
     private Integer collectionId;
+
+    @PrimaryKey
     private Integer trackId;
+
     private String artistName;
     private String collectionName;
     private String trackName;

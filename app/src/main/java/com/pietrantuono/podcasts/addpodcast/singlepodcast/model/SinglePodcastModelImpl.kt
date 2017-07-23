@@ -6,18 +6,18 @@ import com.pietrantuono.podcasts.apis.SinglePodcastApi
 import rx.Observable
 import rx.Observer
 import rx.Subscription
-import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
-class SinglePodcastModelImpl(private val singlePodcastApi: SinglePodcastApi, private val repository: Repository) : SinglePodcastModel {
+class SinglePodcastModelImpl(private val singlePodcastApi: SinglePodcastApi, private val repository:
+Repository) : SinglePodcastModel {
     private var podcastFeedObservable: Observable<PodcastFeed>? = null
     private var podcast: SinglePodcast? = null
-    private var feed: Subscription? = null
+    private var subscription: Subscription? = null
     private var isSubscribedToPodcast: Subscription? = null
 
     override fun startModel(podcast: SinglePodcast?) {
         this.podcast = podcast
-        if (podcast != null) {
+        podcast?.let {
             getFeed(podcast.feedUrl)
         }
     }
@@ -27,9 +27,9 @@ class SinglePodcastModelImpl(private val singlePodcastApi: SinglePodcastApi, pri
     }
 
     override fun subscribeToFeed(observer: Observer<PodcastFeed>) {
-        feed = podcastFeedObservable!!.subscribeOn(Schedulers.newThread())
+        subscription = podcastFeedObservable!!.subscribeOn(Schedulers.newThread())
                 .cache()
-                .observeOn(AndroidSchedulers.mainThread()).subscribe(observer)
+                .subscribe(observer)
     }
 
     override fun subscribeToIsSubscribedToPodcast(isSubscribedObserver: Observer<Boolean>) {
@@ -37,8 +37,8 @@ class SinglePodcastModelImpl(private val singlePodcastApi: SinglePodcastApi, pri
     }
 
     override fun unsubscribe() {
-        if (feed != null) {
-            feed!!.unsubscribe()
+        if (subscription != null) {
+            subscription!!.unsubscribe()
         }
         if (isSubscribedToPodcast != null) {
             isSubscribedToPodcast!!.unsubscribe()

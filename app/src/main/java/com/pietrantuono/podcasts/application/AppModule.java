@@ -31,8 +31,8 @@ public class AppModule {
     }
 
     @Provides
-    Repository provideRepository() {
-        return new RealmRepository();
+    Repository provideRepository(Realm realm) {
+        return new RealmRepository(realm);
     }
 
     @Singleton
@@ -41,7 +41,6 @@ public class AppModule {
         return ExoPlayerFactory.newSimpleInstance(
                 context, new DefaultTrackSelector(), new DefaultLoadControl());
     }
-
 
     @Provides
     Player providePlayer() {
