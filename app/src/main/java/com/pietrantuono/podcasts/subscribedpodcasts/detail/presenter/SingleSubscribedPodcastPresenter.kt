@@ -20,8 +20,9 @@ CrashlyticsWrapper, val creator: MediaSourceCreator, private val player: Player?
 
     private var podcast: SinglePodcast? = null
 
-    fun onStart(view: SingleSubscribedPodcastView) {
+    fun onStart(view: SingleSubscribedPodcastView, singlePodcast: SinglePodcast, startedWithTransition: Boolean) {
         this.view = view
+        startPresenter(singlePodcast, startedWithTransition)
         model.subscribe(podcast, object : Observer<SinglePodcastRealm> {
             override fun onError(e: Throwable?) {}
 
@@ -40,7 +41,7 @@ CrashlyticsWrapper, val creator: MediaSourceCreator, private val player: Player?
         this.view = null
     }
 
-    fun startPresenter(podcast: SinglePodcast?, startedWithTransition: Boolean) {
+    private fun startPresenter(podcast: SinglePodcast?, startedWithTransition: Boolean) {
         this.podcast = podcast
         this.startedWithTransition = startedWithTransition
         if (startedWithTransition) {

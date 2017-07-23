@@ -18,7 +18,6 @@ import com.pietrantuono.podcasts.subscribedpodcasts.detail.views.SingleSubscribe
 import javax.inject.Inject
 
 class SingleSubscribedPodcastActivity : DetailActivtyBase(), SingleSubscribedPodcastView {
-    private var isSubscribed: Boolean = false
 
     companion object {
         val SINGLE_PODCAST = "single_podcast"
@@ -52,12 +51,6 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase(), SingleSubscribedPod
         coordinator.setUpPlayerControls(playbackControls)
     }
 
-    private fun startPresenter() {
-        presenter.startPresenter(intent
-                .getParcelableExtra<SinglePodcast>(SINGLE_PODCAST), intent
-                .getBooleanExtra(STARTED_WITH_TRANSITION, false))
-    }
-
     override fun getImageUrl(): String? {
         return intent.getParcelableExtra<SinglePodcast>(SINGLE_PODCAST)?.getArtworkUrl600()
     }
@@ -77,8 +70,9 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase(), SingleSubscribedPod
 
     override fun onStart() {
         super.onStart()
-        presenter.onStart(this)
-        startPresenter()
+        presenter.onStart(this, intent
+                .getParcelableExtra<SinglePodcast>(SINGLE_PODCAST), intent
+                .getBooleanExtra(STARTED_WITH_TRANSITION, false))
     }
 }
 
