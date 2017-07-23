@@ -18,6 +18,8 @@ class SingleSubscribedModelImpl(val realm: Realm) : SingleSubscribedModel() {
                 .asObservable<SinglePodcastRealm>()
                 .cache()
                 .subscribe(observer)
+
+        var bar = realm.where(SinglePodcastRealm::class.java).findAll()
     }
 
     override fun unsubscribe() {
