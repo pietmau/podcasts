@@ -18,7 +18,7 @@ import com.pietrantuono.podcasts.apis.PodcastEpisodeModel
 import com.pietrantuono.podcasts.application.App
 import javax.inject.Inject
 
-class AddSinglePodcastActivity : DetailActivtyBase() {
+class AddSinglePodcastActivity : DetailActivtyBase(), SinglePodcastView {
     private var isSubscribed: Boolean = false
 
     companion object {

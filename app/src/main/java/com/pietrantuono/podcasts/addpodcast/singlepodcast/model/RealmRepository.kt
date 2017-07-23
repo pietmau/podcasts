@@ -26,21 +26,13 @@ class RealmRepository : Repository {
                 .map { realmObject -> isSubscribed(realmObject) }
         subject = BehaviorSubject.create<Boolean>()
         observable.subscribe(subject)
-
-        var rsulut = realm.where(SinglePodcastRealm::class.java)
-                .equalTo("trackId", podcast?.trackId)
-                .findAll()
-
         return subject!!.asObservable().observeOn(AndroidSchedulers.mainThread())
-
-
     }
 
     private fun isSubscribed(realmObject: RealmObject): Boolean {
         if (!realmObject.isLoaded || !realmObject.isValid) {
             return false
         }
-
         return (realmObject as SinglePodcastRealm).isPodcastSubscribed
     }
 

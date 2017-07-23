@@ -12,14 +12,14 @@ import com.pietrantuono.podcasts.main.view.TransitionsFramework
 import javax.inject.Inject
 
 
-open abstract class DetailActivtyBase : AppCompatActivity(), SinglePodcastView{
+open abstract class DetailActivtyBase : AppCompatActivity() {
     @Inject lateinit var imageLoader: SimpleImageLoader
     @BindView(R.id.toolbar) lateinit var toolbar: Toolbar
     @BindView(R.id.progress) lateinit var progressBar: SimpleProgressBar
     @BindView(R.id.main_image) lateinit var imageView: ImageView
     @Inject lateinit var transitionsFramework: TransitionsFramework
     @Inject lateinit var transitionImageLoadingListener: TransitionImageLoadingListener
-    
+
     protected fun setUpActionBar() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -32,24 +32,24 @@ open abstract class DetailActivtyBase : AppCompatActivity(), SinglePodcastView{
         return true
     }
 
-    override fun showProgress(show: Boolean) {
+    fun showProgress(show: Boolean) {
         progressBar.showProgress = show
     }
 
-    override fun enterWithTransition() {
+    fun enterWithTransition() {
         transitionsFramework.initDetailTransitions(this)
     }
 
-    override fun enterWithoutTransition() {
+    fun enterWithoutTransition() {
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
     }
 
-    override fun exitWithoutSharedTransition() {
+    fun exitWithoutSharedTransition() {
         finish()
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
     }
 
-    override fun exitWithSharedTrsnsition() {
+    fun exitWithSharedTrsnsition() {
         super.onBackPressed()
     }
 
@@ -68,6 +68,6 @@ open abstract class DetailActivtyBase : AppCompatActivity(), SinglePodcastView{
         transitionImageLoadingListener.setActivity(null)
     }
 
-    abstract fun  getImageUrl(): String?
+    abstract fun getImageUrl(): String?
 
 }

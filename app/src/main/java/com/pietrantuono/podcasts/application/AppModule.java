@@ -14,6 +14,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import io.realm.Realm;
 
 @Singleton
 @Module
@@ -47,6 +48,10 @@ public class AppModule {
         return ((App) context).getPlayer();
     }
 
-
+    @Singleton
+    @Provides
+    Realm provideRealm() {
+        return Realm.getDefaultInstance();
+    }
 
 }

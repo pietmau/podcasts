@@ -14,12 +14,13 @@ import com.pietrantuono.podcasts.main.view.TransitionsFramework
 import com.pietrantuono.podcasts.player.player.MediaSourceCreator
 import com.pietrantuono.podcasts.player.player.service.Player
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.model.SingleSubscribedModel
-import com.pietrantuono.podcasts.subscribedpodcasts.detail.model.SingleSubscribedModelViewModel
+import com.pietrantuono.podcasts.subscribedpodcasts.detail.model.SingleSubscribedModelImpl
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.presenter.SingleSubscribedPodcastPresenter
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.views.SingleSubscribedPodcastsAdapter
 
 import dagger.Module
 import dagger.Provides
+import io.realm.Realm
 
 @Module
 class SingleSubscribedModule(private val activity: AppCompatActivity) {
@@ -40,8 +41,8 @@ class SingleSubscribedModule(private val activity: AppCompatActivity) {
     }
 
     @Provides
-    internal fun provideSingleSubscribedModel(): SingleSubscribedModel {
-        return SingleSubscribedModelViewModel
+    internal fun provideSingleSubscribedModel(realm: Realm): SingleSubscribedModel {
+        return SingleSubscribedModelImpl(realm)
     }
 
     @Provides
