@@ -13,4 +13,6 @@ public interface Repository {
     Observable<List<SinglePodcast>> subscribeToSubscribedPodcasts(Observer<List<SinglePodcast>> observer);
 
     void onSubscribeUnsubscribeToPodcastClicked(SinglePodcast podcast);
+
+    void unsubscribe();
 }

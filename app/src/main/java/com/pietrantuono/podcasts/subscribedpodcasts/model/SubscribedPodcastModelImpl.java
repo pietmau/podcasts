@@ -29,5 +29,6 @@ public class SubscribedPodcastModelImpl implements SubscribedPodcastModel {
         if(subscription!=null && !subscription.isUnsubscribed()){
             subscription.unsubscribe();
         }
+        repository.unsubscribe();
     }
 }
