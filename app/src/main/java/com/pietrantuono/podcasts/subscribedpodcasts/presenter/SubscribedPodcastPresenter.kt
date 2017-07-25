@@ -14,6 +14,9 @@ import rx.Observer
 
 class SubscribedPodcastPresenter(private val model: SubscribedPodcastModel, private val apiLevelChecker:
 ApiLevelChecker) : GenericPresenter, PodcastsAdapter.OnItemClickedClickedListener {
+
+    override fun onStop() { }
+
     private var view: SubscribedPodcastView? = null
 
     fun bindView(view: SubscribedPodcastView) {
@@ -38,10 +41,6 @@ ApiLevelChecker) : GenericPresenter, PodcastsAdapter.OnItemClickedClickedListene
     }
 
     override fun onDestroy() {}
-
-    override fun onStop() {
-        model.unsubscribe()
-    }
 
     override fun onItemClicked(singlePodcast: SinglePodcast?, imageView: ImageView?, position: Int,
                                titleContainer: LinearLayout?) {
