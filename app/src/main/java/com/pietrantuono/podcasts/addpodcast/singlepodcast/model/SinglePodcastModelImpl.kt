@@ -5,15 +5,13 @@ import com.pietrantuono.podcasts.apis.PodcastFeed
 import com.pietrantuono.podcasts.apis.SinglePodcastApi
 import rx.Observable
 import rx.Observer
-import rx.Subscription
-import rx.schedulers.Schedulers
+import rx.subscriptions.CompositeSubscription
 
 class SinglePodcastModelImpl(private val singlePodcastApi: SinglePodcastApi, private val repository:
 Repository) : SinglePodcastModel {
     private var podcastFeedObservable: Observable<PodcastFeed>? = null
     private var podcast: SinglePodcast? = null
-    private var subscription: Subscription? = null
-    private var isSubscribedToPodcast: Subscription? = null
+    private var compositeSubscription: CompositeSubscription = CompositeSubscription()
 
     override fun startModel(podcast: SinglePodcast?) {
         this.podcast = podcast
@@ -27,26 +25,28 @@ Repository) : SinglePodcastModel {
     }
 
     override fun subscribeToFeed(observer: Observer<PodcastFeed>) {
-        subscription = podcastFeedObservable!!.subscribeOn(Schedulers.newThread())
-                .cache()
-                .subscribe(observer)
+        compositeSubscription.add(podcastFeedObservable?.subscribe(observer))
     }
 
     override fun subscribeToIsSubscribedToPodcast(isSubscribedObserver: Observer<Boolean>) {
-        isSubscribedToPodcast = getIsSubscribedToPodcast().subscribe(isSubscribedObserver)
+        compositeSubscription.add(getIsSubscribedToPodcast().subscribe(isSubscribedObserver))
     }
 
     override fun unsubscribe() {
-        if (subscription != null) {
-            subscription!!.unsubscribe()
-        }
-        if (isSubscribedToPodcast != null) {
-            isSubscribedToPodcast!!.unsubscribe()
-        }
+        compositeSubscription.unsubscribe()
     }
 
     private fun getFeed(url: String) {
-        podcastFeedObservable = singlePodcastApi.getFeed(url)
+        podcastFeedObservable = singlePodcastApi.getFeed(url).cache().share().replay()
+        val subscription = podcastFeedObservable!!.subscribe(object : Observer<PodcastFeed> {
+            override fun onError(e: Throwable?) {}
+
+            override fun onNext(t: PodcastFeed?) {
+            }
+
+            override fun onCompleted() {}
+        })
+        compositeSubscription.add(subscription)
     }
 
     private fun getIsSubscribedToPodcast(): Observable<Boolean> {

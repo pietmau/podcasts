@@ -19,7 +19,8 @@ class RealmRepository(private val realm: Realm) : Repository {
                 .findFirstAsync()
                 .asObservable<SinglePodcastRealm>()
                 .filter { it.isLoaded && it.isValid }
-                .map { it.isPodcastSubscribed }.subscribe(subject)
+                .map { it.isPodcastSubscribed }
+                .subscribe(subject)
         return subject!!.asObservable()
     }
 
@@ -41,7 +42,7 @@ class RealmRepository(private val realm: Realm) : Repository {
         if (singlePodcast == null) {
             singlePodcast = RealmUtlis.singlePodcastRealm(podcast)
         }
-        realm.executeTransaction {
+        realm.executeTransactionAsync {
             singlePodcast.isPodcastSubscribed = !singlePodcast.isPodcastSubscribed
             realm.copyToRealmOrUpdate(singlePodcast)
         }
