@@ -15,7 +15,7 @@ public class SimpleObserver<T> implements Observer<T> {
     }
 
     @Override
-    public void onNext(T singlePodcastRealm) {
+    public void onNext(T feed) {
 
     }
 }

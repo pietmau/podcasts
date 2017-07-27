@@ -1,10 +1,13 @@
 package com.pietrantuono.podcasts.addpodcast.singlepodcast.model
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
 import com.pietrantuono.podcasts.apis.PodcastFeed
 import com.pietrantuono.podcasts.apis.SinglePodcastApi
 import rx.Observable
 import rx.Observer
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription
 
 class SinglePodcastModelImpl(private val singlePodcastApi: SinglePodcastApi, private val repository:
@@ -29,7 +32,7 @@ Repository) : SinglePodcastModel {
     }
 
     override fun subscribeToIsSubscribedToPodcast(isSubscribedObserver: Observer<Boolean>) {
-        compositeSubscription.add(getIsSubscribedToPodcast().subscribe(isSubscribedObserver))
+        compositeSubscription.add(repository.getIfSubscribed(podcast).subscribe(isSubscribedObserver))
     }
 
     override fun unsubscribe() {
@@ -37,19 +40,14 @@ Repository) : SinglePodcastModel {
     }
 
     private fun getFeed(url: String) {
-        podcastFeedObservable = singlePodcastApi.getFeed(url).cache().share().replay()
-        val subscription = podcastFeedObservable!!.subscribe(object : Observer<PodcastFeed> {
-            override fun onError(e: Throwable?) {}
-
-            override fun onNext(t: PodcastFeed?) {
+        podcastFeedObservable = singlePodcastApi.getFeed(url).subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread()).cache()
+        val subscription = podcastFeedObservable!!.subscribe(object : SimpleObserver<PodcastFeed>() {
+            override fun onNext(feed: PodcastFeed?) {
+                podcast
             }
-
-            override fun onCompleted() {}
         })
         compositeSubscription.add(subscription)
     }
 
-    private fun getIsSubscribedToPodcast(): Observable<Boolean> {
-        return repository.getIfSubscribed(podcast)
-    }
 }

@@ -28,9 +28,9 @@ CrashlyticsWrapper, val creator: MediaSourceCreator, private val player: Player?
 
             override fun onCompleted() {}
 
-            override fun onNext(singlePodcastRealm: SinglePodcastRealm?) {
-                if (view != null && singlePodcastRealm != null && singlePodcastRealm.episodes != null) {
-                    view.setEpisodes(singlePodcastRealm.episodes)
+            override fun onNext(feed: SinglePodcastRealm?) {
+                if (view != null && feed != null && feed.episodes != null) {
+                    view.setEpisodes(feed.episodes)
                 }
             }
 
