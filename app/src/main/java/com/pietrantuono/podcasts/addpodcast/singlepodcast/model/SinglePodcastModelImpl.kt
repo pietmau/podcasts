@@ -44,7 +44,7 @@ Repository) : SinglePodcastModel {
                 .observeOn(AndroidSchedulers.mainThread()).cache()
         val subscription = podcastFeedObservable!!.subscribe(object : SimpleObserver<PodcastFeed>() {
             override fun onNext(feed: PodcastFeed?) {
-                podcast?.episoeds = feed?.episodes
+                podcast?.episodes = feed?.episodes
             }
         })
         compositeSubscription.add(subscription)

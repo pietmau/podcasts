@@ -44,7 +44,7 @@ class RealmRepository(private val realm: Realm) : Repository {
         }
         realm.executeTransactionAsync {
             singlePodcast.isPodcastSubscribed = !singlePodcast.isPodcastSubscribed
-            realm.copyToRealmOrUpdate(singlePodcast)
+            it.copyToRealmOrUpdate(singlePodcast)
         }
         subject?.onNext(singlePodcast.isPodcastSubscribed)
     }

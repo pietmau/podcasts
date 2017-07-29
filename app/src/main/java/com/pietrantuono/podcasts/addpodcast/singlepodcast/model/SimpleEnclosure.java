@@ -5,11 +5,15 @@ import com.rometools.rome.feed.synd.SyndEnclosure;
 
 import io.realm.RealmObject;
 
-public class SimpleEnclosure extends RealmObject implements SyndEnclosure  {
-    private int unused;
+public class SimpleEnclosure extends RealmObject implements SyndEnclosure {
+    private String url;
+    private long length;
+    private String type;
 
     public SimpleEnclosure(SyndEnclosure syndEnclosure) {
-
+        setLength(syndEnclosure.getLength());
+        setUrl(syndEnclosure.getUrl());
+        setType(syndEnclosure.getType());
     }
 
     public SimpleEnclosure() {
@@ -17,32 +21,32 @@ public class SimpleEnclosure extends RealmObject implements SyndEnclosure  {
 
     @Override
     public String getUrl() {
-        return null;
+        return url;
     }
 
     @Override
     public void setUrl(String url) {
-
+        this.url = url;
     }
 
     @Override
     public long getLength() {
-        return 0;
+        return length;
     }
 
     @Override
     public void setLength(long length) {
-
+        this.length = length;
     }
 
     @Override
     public String getType() {
-        return null;
+        return type;
     }
 
     @Override
     public void setType(String type) {
-
+        this.type = type;
     }
 
     @Override

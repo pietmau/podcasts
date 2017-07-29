@@ -7,10 +7,10 @@ import com.pietrantuono.podcasts.BR
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsAdapter.OnItemClickedClickedListener
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast
-import com.pietrantuono.podcasts.databinding.FindPodcastItemBinding
-import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.ImageLoadingListenerWithPalette
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
+import com.pietrantuono.podcasts.databinding.FindPodcastItemBinding
+import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
 
 class PodcastHolder(itemView: View, private val resources: ResourcesProvider,
                     private val loader: SimpleImageLoader) : RecyclerView.ViewHolder(itemView) {
@@ -37,8 +37,7 @@ class PodcastHolder(itemView: View, private val resources: ResourcesProvider,
 
     private fun setUpClickListener(podcast: SinglePodcast?, position: Int, listener: OnItemClickedClickedListener) {
         binding.podcastImage.setOnClickListener {
-            view: View ->
-            listener?.onItemClicked(podcast, binding.podcastImage, position, binding.titleContainer)
+            listener.onItemClicked(podcast, binding.podcastImage, position, binding.titleContainer)
         }
     }
 

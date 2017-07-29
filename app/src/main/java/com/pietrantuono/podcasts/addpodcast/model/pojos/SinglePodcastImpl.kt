@@ -8,7 +8,7 @@ import com.pietrantuono.podcasts.apis.PodcastEpisodeModel
 import java.util.*
 
 class SinglePodcastImpl : SinglePodcast {
-    override var episoeds: List<PodcastEpisodeModel>? = null
+    override var episodes: List<PodcastEpisodeModel>? = null
 
     /**
 
@@ -564,8 +564,7 @@ class SinglePodcastImpl : SinglePodcast {
     }
 
     companion object {
-
-        val CREATOR: Parcelable.Creator<SinglePodcast> = object : Parcelable.Creator<SinglePodcast> {
+        @JvmField final val CREATOR: Parcelable.Creator<SinglePodcast> = object : Parcelable.Creator<SinglePodcast> {
             override fun createFromParcel(`in`: Parcel): SinglePodcast {
                 return SinglePodcastImpl(`in`)
             }

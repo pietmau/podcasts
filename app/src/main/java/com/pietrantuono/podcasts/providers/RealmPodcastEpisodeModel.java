@@ -26,6 +26,20 @@ public class RealmPodcastEpisodeModel extends RealmObject implements PodcastEpis
     public RealmPodcastEpisodeModel() {
     }
 
+    RealmPodcastEpisodeModel(Builder builder) {
+        duration = builder.duration;
+        author = builder.author;
+        isExplicit = builder.isExplicit;
+        imageUrl = builder.imageUrl;
+        RealmList<RealmString> keywords = builder.keywords;
+        subtitle = builder.subtitle;
+        summary = builder.summary;
+        pubDate = builder.pubDate;
+        title = builder.title;
+        description = builder.description;
+        RealmList<SimpleEnclosure> syndEnclosures = builder.syndEnclosures;
+    }
+
     @Override
     public String getDuration() {
         return duration;
@@ -81,4 +95,79 @@ public class RealmPodcastEpisodeModel extends RealmObject implements PodcastEpis
         return syndEnclosures;
     }
 
+
+    public static class Builder {
+        String duration;
+        String author;
+        boolean isExplicit;
+        String imageUrl;
+        RealmList<RealmString> keywords;
+        String subtitle;
+        String summary;
+        Date pubDate;
+        String title;
+        String description;
+        RealmList<SimpleEnclosure> syndEnclosures;
+
+        public Builder() {
+        }
+
+        public Builder setDuration(String duration) {
+            this.duration = duration;
+            return this;
+        }
+
+        public Builder setAuthor(String author) {
+            this.author = author;
+            return this;
+        }
+
+        public Builder setExplicit(boolean explicit) {
+            isExplicit = explicit;
+            return this;
+        }
+
+        public Builder setImageUrl(String imageUrl) {
+            this.imageUrl = imageUrl;
+            return this;
+        }
+
+        public Builder setKeywords(List<String> keywords) {
+            this.keywords = new RealmList<>();
+            for (String string : keywords) {
+                this.keywords.add(new RealmString(string));
+            }
+            return this;
+        }
+
+        public Builder setSubtitle(String subtitle) {
+            this.subtitle = subtitle;
+            return this;
+        }
+
+        public Builder setSummary(String summary) {
+            this.summary = summary;
+            return this;
+        }
+
+        public Builder setPubDate(Date pubDate) {
+            this.pubDate = pubDate;
+            return this;
+        }
+
+        public Builder setTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder setDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Builder setSyndEnclosures(RealmList<SimpleEnclosure> syndEnclosures) {
+            this.syndEnclosures = syndEnclosures;
+            return this;
+        }
+    }
 }

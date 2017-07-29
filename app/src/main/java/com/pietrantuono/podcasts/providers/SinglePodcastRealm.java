@@ -5,7 +5,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
+import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
 
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.RealmList;
@@ -16,10 +20,8 @@ public class SinglePodcastRealm extends RealmObject implements SinglePodcast {
     private String wrapperType;
     private String kind;
     private Integer collectionId;
-
     @PrimaryKey
     private Integer trackId;
-
     private String artistName;
     private String collectionName;
     private String trackName;
@@ -553,11 +555,6 @@ public class SinglePodcastRealm extends RealmObject implements SinglePodcast {
         this.genres = RealmUtlis.toRealmStringList(genres);
     }
 
-
-    public RealmList<RealmPodcastEpisodeModel> getEpisodes() {
-        return episodes;
-    }
-
     public void setEpisodes(RealmList<RealmPodcastEpisodeModel> episodes) {
         this.episodes = episodes;
     }
@@ -595,5 +592,16 @@ public class SinglePodcastRealm extends RealmObject implements SinglePodcast {
 
     public void setPodcastSubscribed(boolean podcastSubscribed) {
         this.podcastSubscribed = podcastSubscribed;
+    }
+
+    @Nullable
+    @Override
+    public List<PodcastEpisodeModel> getEpisodes() {
+        return new ArrayList<>(episodes);
+    }
+
+    @Override
+    public void setEpisodes(@Nullable List<? extends PodcastEpisodeModel> list) {
+        for()
     }
 }

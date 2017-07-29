@@ -9,8 +9,8 @@ import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.SimpleContolView
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.custom.CoordinatorWithBottomMargin
+import com.pietrantuono.podcasts.apis.PodcastEpisodeModel
 import com.pietrantuono.podcasts.application.App
-import com.pietrantuono.podcasts.providers.RealmPodcastEpisodeModel
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.di.SingleSubscribedModule
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.presenter.SingleSubscribedPodcastPresenter
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.views.SingleSubscribedPodcastView
@@ -59,7 +59,7 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase(), SingleSubscribedPod
         return presenter.onOptionsItemSelected(item.itemId)
     }
 
-    override fun setEpisodes(episodes: List<RealmPodcastEpisodeModel>?) {
+    override fun setEpisodes(episodes: List<PodcastEpisodeModel>?) {
         recyclerView.setItems(episodes)
     }
 

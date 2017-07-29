@@ -4,6 +4,7 @@ package com.pietrantuono.podcasts.providers;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SimpleEnclosure;
 import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
+import com.rometools.rome.feed.rss.Enclosure;
 import com.rometools.rome.feed.synd.SyndEnclosure;
 
 import java.util.ArrayList;
@@ -27,10 +28,6 @@ public class RealmUtlis {
             realmStrings.add(new RealmString(s));
         }
         return realmStrings;
-    }
-
-    public static List<SyndEnclosure> toEnclosureList(List<SimpleEnclosure> syndEnclosures) {
-        return null;
     }
 
     public static SinglePodcastRealm singlePodcastRealm(SinglePodcast podcast) {
@@ -68,12 +65,39 @@ public class RealmUtlis {
         singlePodcastRealm.setTrackViewUrl(podcast.getTrackViewUrl());
         singlePodcastRealm.setTrackRentalPrice(podcast.getTrackRentalPrice());
         singlePodcastRealm.setWrapperType(podcast.getWrapperType());
-        singlePodcastRealm.setEpisodes(getEpisodes(podcast.getEpisoeds()));
+        singlePodcastRealm.setEpisodes(getEpisodes(podcast.getEpisodes()));
         return singlePodcastRealm;
     }
 
-    private static RealmList<RealmPodcastEpisodeModel> getEpisodes(List<PodcastEpisodeModel> episoeds) {
-        return null;
+    public static List<RealmPodcastEpisodeModel> getEpisodes(List<PodcastEpisodeModel> episoeds) {
+        List<RealmPodcastEpisodeModel> podcasts = new RealmList<>();
+        for (PodcastEpisodeModel podcastEpisodeModel : episoeds) {
+            podcasts.add(getRealmPodcastEpisodeModel(podcastEpisodeModel));
+        }
+        return podcasts;
+    }
+
+    public static RealmPodcastEpisodeModel getRealmPodcastEpisodeModel(PodcastEpisodeModel podcastEpisodeModel) {
+        RealmPodcastEpisodeModel.Builder builder = new RealmPodcastEpisodeModel.Builder();
+        builder.setAuthor(podcastEpisodeModel.getAuthor());
+        builder.setDescription(podcastEpisodeModel.getDescription());
+        builder.setDuration(podcastEpisodeModel.getDuration());
+        builder.setExplicit(podcastEpisodeModel.isExplicit());
+        builder.setImageUrl(podcastEpisodeModel.getImageUrl());
+        builder.setKeywords(podcastEpisodeModel.getKeywords());
+        builder.setPubDate(podcastEpisodeModel.getPubDate());
+        builder.setSubtitle(podcastEpisodeModel.getSubtitle());
+        builder.setSummary(podcastEpisodeModel.getSummary());
+        builder.setSyndEnclosures(getEnclosures(podcastEpisodeModel));
+        builder.setTitle(podcastEpisodeModel.getTitle());
+    }
+
+    private static RealmList<SimpleEnclosure> getEnclosures(PodcastEpisodeModel podcastEpisodeModel) {
+        RealmList<SimpleEnclosure> simpleEnclosures = new RealmList<>();
+        for (SyndEnclosure syndEnclosure : podcastEpisodeModel.getEnclosures()) {
+            simpleEnclosures.add(new SimpleEnclosure(syndEnclosure));
+        }
+        return simpleEnclosures;
     }
 
 

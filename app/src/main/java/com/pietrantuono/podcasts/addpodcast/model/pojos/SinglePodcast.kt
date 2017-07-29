@@ -68,6 +68,6 @@ interface SinglePodcast : Parcelable {
 
     var genres: List<String>?
 
-    var episoeds: List<PodcastEpisodeModel>?
+    var episodes: List<PodcastEpisodeModel>?
 
 }
