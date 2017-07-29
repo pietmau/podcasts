@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts.addpodcast.model.pojos
 
 import android.os.Parcelable
+import com.pietrantuono.podcasts.apis.PodcastEpisodeModel
 
 interface SinglePodcast : Parcelable {
     var wrapperType: String?
@@ -67,5 +68,6 @@ interface SinglePodcast : Parcelable {
 
     var genres: List<String>?
 
+    var episoeds: List<PodcastEpisodeModel>?
 
 }

@@ -3,6 +3,7 @@ package com.pietrantuono.podcasts.providers;
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SimpleEnclosure;
+import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
 import com.rometools.rome.feed.synd.SyndEnclosure;
 
 import java.util.ArrayList;
@@ -67,7 +68,12 @@ public class RealmUtlis {
         singlePodcastRealm.setTrackViewUrl(podcast.getTrackViewUrl());
         singlePodcastRealm.setTrackRentalPrice(podcast.getTrackRentalPrice());
         singlePodcastRealm.setWrapperType(podcast.getWrapperType());
+        singlePodcastRealm.setEpisodes(getEpisodes(podcast.getEpisoeds()));
         return singlePodcastRealm;
+    }
+
+    private static RealmList<RealmPodcastEpisodeModel> getEpisodes(List<PodcastEpisodeModel> episoeds) {
+        return null;
     }
 
 
