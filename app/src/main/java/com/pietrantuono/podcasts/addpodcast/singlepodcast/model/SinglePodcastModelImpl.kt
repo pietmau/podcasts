@@ -18,8 +18,8 @@ Repository) : SinglePodcastModel {
 
     override fun startModel(podcast: SinglePodcast?) {
         this.podcast = podcast
-        podcast?.let {
-            getFeed(podcast.feedUrl)
+        if (podcast != null && podcast.feedUrl != null) {
+            getFeed(podcast.feedUrl!!)
         }
     }
 
@@ -44,7 +44,7 @@ Repository) : SinglePodcastModel {
                 .observeOn(AndroidSchedulers.mainThread()).cache()
         val subscription = podcastFeedObservable!!.subscribe(object : SimpleObserver<PodcastFeed>() {
             override fun onNext(feed: PodcastFeed?) {
-                podcast
+                //podcast?.episoeds = feed?.episodes
             }
         })
         compositeSubscription.add(subscription)

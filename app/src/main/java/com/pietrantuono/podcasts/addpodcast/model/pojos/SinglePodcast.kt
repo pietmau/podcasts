@@ -3,35 +3,35 @@ package com.pietrantuono.podcasts.addpodcast.model.pojos
 import android.os.Parcelable
 
 interface SinglePodcast : Parcelable {
-    var wrapperType: String
+    var wrapperType: String?
 
-    var kind: String
+    var kind: String?
 
     var collectionId: Int?
 
     var trackId: Int?
 
-    var artistName: String
+    var artistName: String?
 
-    var collectionName: String
+    var collectionName: String?
 
-    var trackName: String
+    var trackName: String?
 
-    var collectionCensoredName: String
+    var collectionCensoredName: String?
 
-    var trackCensoredName: String
+    var trackCensoredName: String?
 
-    var collectionViewUrl: String
+    var collectionViewUrl: String?
 
-    var feedUrl: String
+    var feedUrl: String?
 
-    var trackViewUrl: String
+    var trackViewUrl: String?
 
-    var artworkUrl30: String
+    var artworkUrl30: String?
 
-    var artworkUrl60: String
+    var artworkUrl60: String?
 
-    var artworkUrl100: String
+    var artworkUrl100: String?
 
     var collectionPrice: Double?
 
@@ -45,25 +45,27 @@ interface SinglePodcast : Parcelable {
 
     var trackHdRentalPrice: Int?
 
-    var releaseDate: String
+    var releaseDate: String?
 
-    var collectionExplicitness: String
+    var collectionExplicitness: String?
 
-    var trackExplicitness: String
+    var trackExplicitness: String?
 
     var trackCount: Int?
 
-    val country: String
+    val country: String?
 
-    val currency: String
+    val currency: String?
 
-    val primaryGenreName: String
+    val primaryGenreName: String?
 
-    val contentAdvisoryRating: String
+    val contentAdvisoryRating: String?
 
-    val artworkUrl600: String
+    val artworkUrl600: String?
 
-    val genreIds: List<String>
+    var genreIds: List<String>?
 
-    val genres: List<String>
+    var genres: List<String>?
+
+
 }
