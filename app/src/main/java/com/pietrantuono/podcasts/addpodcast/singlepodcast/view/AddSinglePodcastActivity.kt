@@ -63,7 +63,7 @@ class AddSinglePodcastActivity : DetailActivtyBase(), SinglePodcastView {
     }
 
     override fun getImageUrl(): String? {
-        return intent.getParcelableExtra<SinglePodcast>(SINGLE_PODCAST)?.getArtworkUrl600()
+        return intent.getParcelableExtra<SinglePodcast>(SINGLE_PODCAST)?.artworkUrl600
     }
 
     override fun onStop() {

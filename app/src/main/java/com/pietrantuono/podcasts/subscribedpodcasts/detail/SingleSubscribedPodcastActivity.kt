@@ -52,7 +52,7 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase(), SingleSubscribedPod
     }
 
     override fun getImageUrl(): String? {
-        return intent.getParcelableExtra<SinglePodcast>(SINGLE_PODCAST)?.getArtworkUrl600()
+        return intent.getParcelableExtra<SinglePodcast>(SINGLE_PODCAST)?.artworkUrl600
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
