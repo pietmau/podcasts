@@ -10,393 +10,122 @@ import java.util.*
 class SinglePodcastImpl : SinglePodcast {
     override var episodes: List<PodcastEpisodeModel>? = null
 
-    /**
-
-     * @return
-     * *     The wrapperType
-     */
-    /**
-
-     * @param wrapperType
-     * *     The wrapperType
-     */
     @SerializedName("wrapperType")
     @Expose
     override var wrapperType: String? = null
-    /**
 
-     * @return
-     * *     The kind
-     */
-    /**
-
-     * @param kind
-     * *     The kind
-     */
     @SerializedName("kind")
     @Expose
     override var kind: String? = null
-    /**
 
-     * @return
-     * *     The collectionId
-     */
-    /**
-
-     * @param collectionId
-     * *     The collectionId
-     */
     @SerializedName("collectionId")
     @Expose
     override var collectionId: Int? = null
-    /**
 
-     * @return
-     * *     The trackId
-     */
-    /**
-
-     * @param trackId
-     * *     The trackId
-     */
     @SerializedName("trackId")
     @Expose
     override var trackId: Int? = null
-    /**
 
-     * @return
-     * *     The artistName
-     */
-    /**
-
-     * @param artistName
-     * *     The artistName
-     */
     @SerializedName("artistName")
     @Expose
     override var artistName: String? = null
-    /**
 
-     * @return
-     * *     The collectionName
-     */
-    /**
-
-     * @param collectionName
-     * *     The collectionName
-     */
     @SerializedName("collectionName")
     @Expose
     override var collectionName: String? = null
-    /**
 
-     * @return
-     * *     The trackName
-     */
-    /**
-
-     * @param trackName
-     * *     The trackName
-     */
     @SerializedName("trackName")
     @Expose
     override var trackName: String? = null
-    /**
 
-     * @return
-     * *     The collectionCensoredName
-     */
-    /**
-
-     * @param collectionCensoredName
-     * *     The collectionCensoredName
-     */
     @SerializedName("collectionCensoredName")
     @Expose
     override var collectionCensoredName: String? = null
-    /**
 
-     * @return
-     * *     The trackCensoredName
-     */
-    /**
-
-     * @param trackCensoredName
-     * *     The trackCensoredName
-     */
     @SerializedName("trackCensoredName")
     @Expose
     override var trackCensoredName: String? = null
-    /**
 
-     * @return
-     * *     The collectionViewUrl
-     */
-    /**
-
-     * @param collectionViewUrl
-     * *     The collectionViewUrl
-     */
     @SerializedName("collectionViewUrl")
     @Expose
     override var collectionViewUrl: String? = null
-    /**
 
-     * @return
-     * *     The feedUrl
-     */
-    /**
-
-     * @param feedUrl
-     * *     The feedUrl
-     */
     @SerializedName("feedUrl")
     @Expose
     override var feedUrl: String? = null
-    /**
 
-     * @return
-     * *     The trackViewUrl
-     */
-    /**
-
-     * @param trackViewUrl
-     * *     The trackViewUrl
-     */
     @SerializedName("trackViewUrl")
     @Expose
     override var trackViewUrl: String? = null
-    /**
 
-     * @return
-     * *     The artworkUrl30
-     */
-    /**
-
-     * @param artworkUrl30
-     * *     The artworkUrl30
-     */
     @SerializedName("artworkUrl30")
     @Expose
     override var artworkUrl30: String? = null
-    /**
 
-     * @return
-     * *     The artworkUrl60
-     */
-    /**
-
-     * @param artworkUrl60
-     * *     The artworkUrl60
-     */
     @SerializedName("artworkUrl60")
     @Expose
     override var artworkUrl60: String? = null
-    /**
 
-     * @return
-     * *     The artworkUrl100
-     */
-    /**
-
-     * @param artworkUrl100
-     * *     The artworkUrl100
-     */
     @SerializedName("artworkUrl100")
     @Expose
     override var artworkUrl100: String? = null
-    /**
 
-     * @return
-     * *     The collectionPrice
-     */
-    /**
-
-     * @param collectionPrice
-     * *     The collectionPrice
-     */
     @SerializedName("collectionPrice")
     @Expose
     override var collectionPrice: Double? = null
-    /**
 
-     * @return
-     * *     The trackPrice
-     */
-    /**
-
-     * @param trackPrice
-     * *     The trackPrice
-     */
     @SerializedName("trackPrice")
     @Expose
     override var trackPrice: Double? = null
-    /**
 
-     * @return
-     * *     The trackRentalPrice
-     */
-    /**
-
-     * @param trackRentalPrice
-     * *     The trackRentalPrice
-     */
     @SerializedName("trackRentalPrice")
     @Expose
     override var trackRentalPrice: Int? = null
-    /**
 
-     * @return
-     * *     The collectionHdPrice
-     */
-    /**
-
-     * @param collectionHdPrice
-     * *     The collectionHdPrice
-     */
     @SerializedName("collectionHdPrice")
     @Expose
     override var collectionHdPrice: Int? = null
-    /**
 
-     * @return
-     * *     The trackHdPrice
-     */
-    /**
-
-     * @param trackHdPrice
-     * *     The trackHdPrice
-     */
     @SerializedName("trackHdPrice")
     @Expose
     override var trackHdPrice: Int? = null
-    /**
 
-     * @return
-     * *     The trackHdRentalPrice
-     */
-    /**
-
-     * @param trackHdRentalPrice
-     * *     The trackHdRentalPrice
-     */
     @SerializedName("trackHdRentalPrice")
     @Expose
     override var trackHdRentalPrice: Int? = null
-    /**
 
-     * @return
-     * *     The releaseDate
-     */
-    /**
-
-     * @param releaseDate
-     * *     The releaseDate
-     */
     @SerializedName("releaseDate")
     @Expose
     override var releaseDate: String? = null
-    /**
 
-     * @return
-     * *     The collectionExplicitness
-     */
-    /**
-
-     * @param collectionExplicitness
-     * *     The collectionExplicitness
-     */
     @SerializedName("collectionExplicitness")
     @Expose
     override var collectionExplicitness: String? = null
-    /**
 
-     * @return
-     * *     The trackExplicitness
-     */
-    /**
-
-     * @param trackExplicitness
-     * *     The trackExplicitness
-     */
     @SerializedName("trackExplicitness")
     @Expose
     override var trackExplicitness: String? = null
-    /**
 
-     * @return
-     * *     The trackCount
-     */
-    /**
-
-     * @param trackCount
-     * *     The trackCount
-     */
     @SerializedName("trackCount")
     @Expose
     override var trackCount: Int? = null
-    /**
 
-     * @return
-     * *     The country
-     */
-    /**
-
-     * @param country
-     * *     The country
-     */
     @SerializedName("country")
     @Expose
     override var country: String? = null
-    /**
 
-     * @return
-     * *     The currency
-     */
-    /**
-
-     * @param currency
-     * *     The currency
-     */
     @SerializedName("currency")
     @Expose
     override var currency: String? = null
-    /**
 
-     * @return
-     * *     The primaryGenreName
-     */
-    /**
-
-     * @param primaryGenreName
-     * *     The primaryGenreName
-     */
     @SerializedName("primaryGenreName")
     @Expose
     override var primaryGenreName: String? = null
-    /**
 
-     * @return
-     * *     The contentAdvisoryRating
-     */
-    /**
-
-     * @param contentAdvisoryRating
-     * *     The contentAdvisoryRating
-     */
     @SerializedName("contentAdvisoryRating")
     @Expose
     override var contentAdvisoryRating: String? = null
-    /**
 
-     * @return
-     * *     The artworkUrl600
-     */
-    /**
-
-     * @param artworkUrl600
-     * *     The artworkUrl600
-     */
     @SerializedName("artworkUrl600")
     @Expose
     override var artworkUrl600: String? = null
