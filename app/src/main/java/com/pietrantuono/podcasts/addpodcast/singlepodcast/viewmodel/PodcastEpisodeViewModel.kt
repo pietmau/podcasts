@@ -1,13 +1,12 @@
 package com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel
 
 import android.graphics.drawable.Drawable
-
 import com.pietrantuono.podcasts.Constants
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.apis.PodcastEpisodeModel
 
 class PodcastEpisodeViewModel(podcastEpisodeModel: PodcastEpisodeModel, private val resourcesProvider:
-ResourcesProvider) : BasePodcastEpisodeViewModel(podcastEpisodeModel) {
+ResourcesProvider) : PodcastEpisodeModel by podcastEpisodeModel {
 
     val visibilityOfFooter: VisibilityWrapper
         get() =
