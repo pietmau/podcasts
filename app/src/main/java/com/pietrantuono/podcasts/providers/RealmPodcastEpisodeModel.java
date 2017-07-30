@@ -169,5 +169,9 @@ public class RealmPodcastEpisodeModel extends RealmObject implements PodcastEpis
             this.syndEnclosures = syndEnclosures;
             return this;
         }
+
+        public RealmPodcastEpisodeModel create(){
+            return new RealmPodcastEpisodeModel(this);
+        }
     }
 }

@@ -4,7 +4,6 @@ package com.pietrantuono.podcasts.providers;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SimpleEnclosure;
 import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
-import com.rometools.rome.feed.rss.Enclosure;
 import com.rometools.rome.feed.synd.SyndEnclosure;
 
 import java.util.ArrayList;
@@ -90,6 +89,7 @@ public class RealmUtlis {
         builder.setSummary(podcastEpisodeModel.getSummary());
         builder.setSyndEnclosures(getEnclosures(podcastEpisodeModel));
         builder.setTitle(podcastEpisodeModel.getTitle());
+        return builder.create();
     }
 
     private static RealmList<SimpleEnclosure> getEnclosures(PodcastEpisodeModel podcastEpisodeModel) {
@@ -99,6 +99,4 @@ public class RealmUtlis {
         }
         return simpleEnclosures;
     }
-
-
 }
