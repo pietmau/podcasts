@@ -10,7 +10,7 @@
     </data>
 
     <RelativeLayout
-        android:visibility="@{viewModel.visibilityOfFooter.visibility}"
+        android:visibility="@{viewModel.visibilityOfFooter}"
         android:id="@+id/footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
         tools:showIn="@layout/episode_item">
 
         <LinearLayout
-            android:visibility="@{viewModel.visibilityOfType.visibility}"
+            android:visibility="@{viewModel.visibilityOfType}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -46,7 +46,7 @@
 
 
         <LinearLayout
-            android:visibility="@{viewModel.visibilityOfDuration.visibility}"
+            android:visibility="@{viewModel.visibilityOfDuration}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

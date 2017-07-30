@@ -1,35 +1,37 @@
 package com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel
 
 import android.graphics.drawable.Drawable
+import android.view.View
 import com.pietrantuono.podcasts.Constants
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.apis.PodcastEpisodeModel
+import java.text.SimpleDateFormat
 
 class PodcastEpisodeViewModel(podcastEpisodeModel: PodcastEpisodeModel, private val resourcesProvider:
 ResourcesProvider) : PodcastEpisodeModel by podcastEpisodeModel {
 
-    val visibilityOfFooter: VisibilityWrapper
+    val visibilityOfFooter: Int
         get() =
-        if (visibilityOfType.isVisible || visibilityOfDuration.isVisible) {
-            VisibilityWrapper.VISIBLE
+        if (visibilityOfType == View.VISIBLE || visibilityOfDuration == View.VISIBLE) {
+            View.VISIBLE
         } else {
-            VisibilityWrapper.GONE
+            View.GONE
         }
 
-    val visibilityOfType: VisibilityWrapper
+    val visibilityOfType: Int
         get() =
         if (mediaTypeText == null) {
-            VisibilityWrapper.GONE
+            View.GONE
         } else {
-            VisibilityWrapper.VISIBLE
+            View.VISIBLE
         }
 
-    val visibilityOfDuration: VisibilityWrapper
+    val visibilityOfDuration: Int
         get() =
         if (duration == null || duration!!.isEmpty()) {
-            VisibilityWrapper.GONE
+            View.GONE
         } else {
-            VisibilityWrapper.VISIBLE
+            View.VISIBLE
         }
 
     val mediaTypeImage: Drawable?
@@ -71,4 +73,11 @@ ResourcesProvider) : PodcastEpisodeModel by podcastEpisodeModel {
         return null
     }
 
+    fun getDate(): String? {
+        val simpleDateFormat = SimpleDateFormat("MMM d yyyy");
+        if (getPubDate() != null) {
+            return simpleDateFormat.format(getPubDate());
+        }
+        return null;
+    }
 }
