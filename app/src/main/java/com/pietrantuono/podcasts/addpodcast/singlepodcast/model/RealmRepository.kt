@@ -40,7 +40,7 @@ class RealmRepository(private val realm: Realm) : Repository {
                 .equalTo("trackId", podcast?.trackId)
                 .findFirst()
         if (singlePodcast == null) {
-            singlePodcast = RealmUtlis.singlePodcastRealm(podcast)
+            singlePodcast = RealmUtlis.toSinglePodcastRealm(podcast)
         }
         realm.executeTransactionAsync {
             singlePodcast.isPodcastSubscribed = !singlePodcast.isPodcastSubscribed

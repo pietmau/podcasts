@@ -4,11 +4,10 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import com.pietrantuono.podcasts.apis.PodcastEpisodeModel
+import com.pietrantuono.podcasts.providers.RealmUtlis
 import java.util.*
 
 class SinglePodcastImpl : SinglePodcast {
-    override var episodes: List<PodcastEpisodeModel>? = null
 
     @SerializedName("wrapperType")
     @Expose
@@ -137,21 +136,6 @@ class SinglePodcastImpl : SinglePodcast {
     @SerializedName("genres")
     @Expose
     override var genres: List<String>? = null
-
-    val genresAsString: String
-        get() {
-            val stringBuilder = StringBuilder()
-            if (genres != null) {
-                val l = genres!!.size
-                for (i in 0..l - 1) {
-                    stringBuilder.append(genres!![i])
-                    if (i < l - 1) {
-                        stringBuilder.append(", ")
-                    }
-                }
-            }
-            return stringBuilder.toString()
-        }
 
     private constructor(`in`: Parcel) {
         wrapperType = `in`.readString()
@@ -302,5 +286,9 @@ class SinglePodcastImpl : SinglePodcast {
                 return arrayOfNulls<SinglePodcast>(size)
             }
         }
+    }
+
+    fun toRealm() {
+        RealmUtlis.toSinglePodcastRealm(this)
     }
 }

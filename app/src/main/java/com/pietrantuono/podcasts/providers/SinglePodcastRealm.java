@@ -604,7 +604,7 @@ public class SinglePodcastRealm extends RealmObject implements SinglePodcast {
     public void setEpisodes(@Nullable List<? extends PodcastEpisodeModel> list) {
         episodes = new RealmList<>();
         for (PodcastEpisodeModel podcastEpisodeModel : list) {
-            episodes.add(RealmUtlis.getRealmPodcastEpisodeModel(podcastEpisodeModel));
+            episodes.add(RealmUtlis.toRealmPodcastEpisodeModel(podcastEpisodeModel));
         }
     }
 

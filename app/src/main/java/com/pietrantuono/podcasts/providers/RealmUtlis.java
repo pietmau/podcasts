@@ -29,7 +29,7 @@ public class RealmUtlis {
         return realmStrings;
     }
 
-    public static SinglePodcastRealm singlePodcastRealm(SinglePodcast podcast) {
+    public static SinglePodcastRealm toSinglePodcastRealm(SinglePodcast podcast) {
         SinglePodcastRealm singlePodcastRealm = new SinglePodcastRealm();
         singlePodcastRealm.setArtistName(podcast.getArtistName());
         singlePodcastRealm.setArtworkUrl30(podcast.getArtworkUrl30());
@@ -64,19 +64,11 @@ public class RealmUtlis {
         singlePodcastRealm.setTrackViewUrl(podcast.getTrackViewUrl());
         singlePodcastRealm.setTrackRentalPrice(podcast.getTrackRentalPrice());
         singlePodcastRealm.setWrapperType(podcast.getWrapperType());
-        singlePodcastRealm.setEpisodes(getEpisodes(podcast.getEpisodes()));
         return singlePodcastRealm;
     }
 
-    public static List<RealmPodcastEpisodeModel> getEpisodes(List<PodcastEpisodeModel> episoeds) {
-        List<RealmPodcastEpisodeModel> podcasts = new RealmList<>();
-        for (PodcastEpisodeModel podcastEpisodeModel : episoeds) {
-            podcasts.add(getRealmPodcastEpisodeModel(podcastEpisodeModel));
-        }
-        return podcasts;
-    }
 
-    public static RealmPodcastEpisodeModel getRealmPodcastEpisodeModel(PodcastEpisodeModel podcastEpisodeModel) {
+    public static RealmPodcastEpisodeModel toRealmPodcastEpisodeModel(PodcastEpisodeModel podcastEpisodeModel) {
         RealmPodcastEpisodeModel.Builder builder = new RealmPodcastEpisodeModel.Builder();
         builder.setAuthor(podcastEpisodeModel.getAuthor());
         builder.setDescription(podcastEpisodeModel.getDescription());
