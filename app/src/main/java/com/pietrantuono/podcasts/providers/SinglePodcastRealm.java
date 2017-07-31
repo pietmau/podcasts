@@ -6,6 +6,7 @@ import android.os.Parcelable;
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
+import com.pietrantuono.podcasts.interfaces.PodcastEpisodeModelImpl;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -50,7 +51,7 @@ public class SinglePodcastRealm extends RealmObject implements SinglePodcast {
     private String artworkUrl600;
     private RealmList<RealmString> genreIds = null;
     private RealmList<RealmString> genres = null;
-    private RealmList<RealmPodcastEpisodeModel> episodes;
+    private RealmList<PodcastEpisodeModelImpl> episodes;
     private boolean podcastSubscribed;
 
     public SinglePodcastRealm() {
@@ -555,7 +556,7 @@ public class SinglePodcastRealm extends RealmObject implements SinglePodcast {
         this.genres = RealmUtlis.toRealmStringList(genres);
     }
 
-    public void setEpisodes(RealmList<RealmPodcastEpisodeModel> episodes) {
+    public void setEpisodes(RealmList<PodcastEpisodeModelImpl> episodes) {
         this.episodes = episodes;
     }
 
@@ -602,10 +603,11 @@ public class SinglePodcastRealm extends RealmObject implements SinglePodcast {
 
     @Override
     public void setEpisodes(@Nullable List<? extends PodcastEpisodeModel> list) {
-        episodes = new RealmList<>();
-        for (PodcastEpisodeModel podcastEpisodeModel : list) {
-            episodes.add(RealmUtlis.toRealmPodcastEpisodeModel(podcastEpisodeModel));
-        }
+//        episodes = new RealmList<PodcastEpisodeModelImpl>();
+//        episodes.addAll(list);
+////        for (PodcastEpisodeModel podcastEpisodeModel : list) {
+////            episodes.add(RealmUtlis.toRealmPodcastEpisodeModel(podcastEpisodeModel));
+////        }
     }
 
 }

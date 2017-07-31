@@ -3,6 +3,7 @@ package com.pietrantuono.podcasts.interfaces;
 
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SimpleEnclosure;
 import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
+import com.pietrantuono.podcasts.providers.RealmString;
 import com.rometools.rome.feed.synd.SyndEnclosure;
 
 import java.util.Date;
@@ -11,31 +12,42 @@ import java.util.List;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 
-public class ROMEPodcastEpisodeModel extends RealmObject implements PodcastEpisodeModel {
-    private final String duration;
-    private final String author;
-    private final boolean isExplicit;
-    private final String imageUrl;
-    private final List<String> keywords;
-    private final String subtitle;
-    private final String summary;
-    private final Date pubDate;
-    private final String title;
-    private final String description;
-    private final RealmList<SimpleEnclosure> syndEnclosures;
+public class PodcastEpisodeModelImpl extends RealmObject implements PodcastEpisodeModel {
+    private String duration;
+    private String author;
+    private boolean isExplicit;
+    private String imageUrl;
+    private RealmList<RealmString> keywords;
+    private String subtitle;
+    private String summary;
+    private Date pubDate;
+    private String title;
+    private String description;
+    private RealmList<SimpleEnclosure> syndEnclosures;
 
-    public ROMEPodcastEpisodeModel(String duration, String author, boolean isExplicit, String imageUrl, List<String> keywords, String subtitle, String summary, Date pubDate, String title, String description, List<SyndEnclosure> syndEnclosures) {
+    public PodcastEpisodeModelImpl(String duration, String author, boolean isExplicit, String imageUrl, List<String> keywords, String subtitle, String summary, Date pubDate, String title, String description, List<SyndEnclosure> syndEnclosures) {
         this.duration = duration;
         this.author = author;
         this.isExplicit = isExplicit;
         this.imageUrl = imageUrl;
-        this.keywords = keywords;
+        this.keywords = parseKeywords(keywords);
         this.subtitle = subtitle;
         this.summary = summary;
         this.pubDate = pubDate;
         this.title = title;
         this.description = description;
         this.syndEnclosures = parseEnclosures(syndEnclosures);
+    }
+
+    private RealmList<RealmString> parseKeywords(List<String> keywords) {
+        RealmList<RealmString> realmStrings = new RealmList<>();
+        for (String keyword : keywords) {
+            realmStrings.add(new RealmString(keyword));
+        }
+        return realmStrings;
+    }
+
+    public PodcastEpisodeModelImpl() {
     }
 
     private RealmList<SimpleEnclosure> parseEnclosures(List<SyndEnclosure> syndEnclosures) {
@@ -68,7 +80,7 @@ public class ROMEPodcastEpisodeModel extends RealmObject implements PodcastEpiso
 
     @Override
     public List<String> getKeywords() {
-        return keywords;
+        throw new UnsupportedOperationException("Not implemented");
     }
 
     @Override

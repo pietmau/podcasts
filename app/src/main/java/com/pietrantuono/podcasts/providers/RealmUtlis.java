@@ -68,21 +68,21 @@ public class RealmUtlis {
     }
 
 
-    public static RealmPodcastEpisodeModel toRealmPodcastEpisodeModel(PodcastEpisodeModel podcastEpisodeModel) {
-        RealmPodcastEpisodeModel.Builder builder = new RealmPodcastEpisodeModel.Builder();
-        builder.setAuthor(podcastEpisodeModel.getAuthor());
-        builder.setDescription(podcastEpisodeModel.getDescription());
-        builder.setDuration(podcastEpisodeModel.getDuration());
-        builder.setExplicit(podcastEpisodeModel.isExplicit());
-        builder.setImageUrl(podcastEpisodeModel.getImageUrl());
-        builder.setKeywords(podcastEpisodeModel.getKeywords());
-        builder.setPubDate(podcastEpisodeModel.getPubDate());
-        builder.setSubtitle(podcastEpisodeModel.getSubtitle());
-        builder.setSummary(podcastEpisodeModel.getSummary());
-        builder.setSyndEnclosures(getEnclosures(podcastEpisodeModel));
-        builder.setTitle(podcastEpisodeModel.getTitle());
-        return builder.create();
-    }
+//    public static RealmPodcastEpisodeModel toRealmPodcastEpisodeModel(PodcastEpisodeModel podcastEpisodeModel) {
+//        RealmPodcastEpisodeModel.Builder builder = new RealmPodcastEpisodeModel.Builder();
+//        builder.setAuthor(podcastEpisodeModel.getAuthor());
+//        builder.setDescription(podcastEpisodeModel.getDescription());
+//        builder.setDuration(podcastEpisodeModel.getDuration());
+//        builder.setExplicit(podcastEpisodeModel.isExplicit());
+//        builder.setImageUrl(podcastEpisodeModel.getImageUrl());
+//        builder.setKeywords(podcastEpisodeModel.getKeywords());
+//        builder.setPubDate(podcastEpisodeModel.getPubDate());
+//        builder.setSubtitle(podcastEpisodeModel.getSubtitle());
+//        builder.setSummary(podcastEpisodeModel.getSummary());
+//        builder.setSyndEnclosures(getEnclosures(podcastEpisodeModel));
+//        builder.setTitle(podcastEpisodeModel.getTitle());
+//        return builder.create();
+//    }
 
     private static RealmList<SimpleEnclosure> getEnclosures(PodcastEpisodeModel podcastEpisodeModel) {
         RealmList<SimpleEnclosure> simpleEnclosures = new RealmList<>();
