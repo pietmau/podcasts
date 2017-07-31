@@ -1,13 +1,17 @@
 package com.pietrantuono.podcasts.interfaces;
 
 
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SimpleEnclosure;
 import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
 import com.rometools.rome.feed.synd.SyndEnclosure;
 
 import java.util.Date;
 import java.util.List;
 
-public class ROMEPodcastEpisodeModel implements PodcastEpisodeModel {
+import io.realm.RealmList;
+import io.realm.RealmObject;
+
+public class ROMEPodcastEpisodeModel extends RealmObject implements PodcastEpisodeModel {
     private final String duration;
     private final String author;
     private final boolean isExplicit;
@@ -18,7 +22,7 @@ public class ROMEPodcastEpisodeModel implements PodcastEpisodeModel {
     private final Date pubDate;
     private final String title;
     private final String description;
-    private final List<SyndEnclosure> syndEnclosures;
+    private final RealmList<SimpleEnclosure> syndEnclosures;
 
     public ROMEPodcastEpisodeModel(String duration, String author, boolean isExplicit, String imageUrl, List<String> keywords, String subtitle, String summary, Date pubDate, String title, String description, List<SyndEnclosure> syndEnclosures) {
         this.duration = duration;
@@ -31,7 +35,15 @@ public class ROMEPodcastEpisodeModel implements PodcastEpisodeModel {
         this.pubDate = pubDate;
         this.title = title;
         this.description = description;
-        this.syndEnclosures = syndEnclosures;
+        this.syndEnclosures = parseEnclosures(syndEnclosures);
+    }
+
+    private RealmList<SimpleEnclosure> parseEnclosures(List<SyndEnclosure> syndEnclosures) {
+        RealmList<SimpleEnclosure> result = new RealmList<>();
+        for (SyndEnclosure enc : syndEnclosures) {
+            result.add(new SimpleEnclosure(enc));
+        }
+        return result;
     }
 
     @Override
@@ -85,10 +97,9 @@ public class ROMEPodcastEpisodeModel implements PodcastEpisodeModel {
     }
 
     @Override
-    public List<SyndEnclosure> getEnclosures() {
+    public List<? extends SyndEnclosure> getEnclosures() {
         return syndEnclosures;
     }
-
 
 
 }
