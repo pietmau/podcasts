@@ -22,7 +22,7 @@ class AddSinglePodcastActivity : DetailActivtyBase(), SinglePodcastView {
     private var isSubscribed: Boolean = false
 
     companion object {
-        val SINGLE_PODCAST = "single_podcast"
+        val SINGLE_PODCAST_TRACK_ID = "single_podcast_track_id"
         val STARTED_WITH_TRANSITION = "with_transition"
     }
 
@@ -58,12 +58,12 @@ class AddSinglePodcastActivity : DetailActivtyBase(), SinglePodcastView {
     private fun startPresenter() {
         presenter.bindView(this@AddSinglePodcastActivity)
         presenter.startPresenter(intent
-                .getParcelableExtra<SinglePodcast>(SINGLE_PODCAST), intent
+                .getParcelableExtra<SinglePodcast>(SINGLE_PODCAST_TRACK_ID), intent
                 .getBooleanExtra(STARTED_WITH_TRANSITION, false))
     }
 
     override fun getImageUrl(): String? {
-        return intent.getParcelableExtra<SinglePodcast>(SINGLE_PODCAST)?.artworkUrl600
+        return intent.getParcelableExtra<SinglePodcast>(SINGLE_PODCAST_TRACK_ID)?.artworkUrl600
     }
 
     override fun onStop() {

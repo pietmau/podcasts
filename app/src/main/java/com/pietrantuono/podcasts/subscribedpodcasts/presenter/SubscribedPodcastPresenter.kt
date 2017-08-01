@@ -2,20 +2,20 @@ package com.pietrantuono.podcasts.subscribedpodcasts.presenter
 
 import android.widget.ImageView
 import android.widget.LinearLayout
-
 import com.pietrantuono.podcasts.GenericPresenter
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsAdapter
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
 import com.pietrantuono.podcasts.subscribedpodcasts.model.SubscribedPodcastModel
 import com.pietrantuono.podcasts.subscribedpodcasts.view.SubscribedPodcastView
 
-import rx.Observer
-
 class SubscribedPodcastPresenter(private val model: SubscribedPodcastModel, private val apiLevelChecker:
 ApiLevelChecker) : GenericPresenter, PodcastsAdapter.OnItemClickedClickedListener {
 
-    override fun onStop() { }
+    override fun onDestroy() { }
+
+    override fun onStop() {}
 
     private var view: SubscribedPodcastView? = null
 
@@ -24,14 +24,10 @@ ApiLevelChecker) : GenericPresenter, PodcastsAdapter.OnItemClickedClickedListene
     }
 
     override fun onStart() {
-        model.subscribeToSubscribedPodcasts(object : Observer<List<SinglePodcast>> {
-            override fun onCompleted() {
-            }
-
+        model.subscribeToSubscribedPodcasts(object : SimpleObserver<List<SinglePodcast>>() {
             override fun onError(throwable: Throwable) {
                 view!!.onError(throwable)
             }
-
             override fun onNext(podcasts: List<SinglePodcast>?) {
                 if (podcasts != null || !podcasts!!.isEmpty()) {
                     view!!.setPodcasts(podcasts)
@@ -39,8 +35,6 @@ ApiLevelChecker) : GenericPresenter, PodcastsAdapter.OnItemClickedClickedListene
             }
         })
     }
-
-    override fun onDestroy() {}
 
     override fun onItemClicked(singlePodcast: SinglePodcast?, imageView: ImageView?, position: Int,
                                titleContainer: LinearLayout?) {

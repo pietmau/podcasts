@@ -603,11 +603,10 @@ public class SinglePodcastRealm extends RealmObject implements SinglePodcast {
 
     @Override
     public void setEpisodes(@Nullable List<? extends PodcastEpisodeModel> list) {
-//        episodes = new RealmList<PodcastEpisodeModelImpl>();
-//        episodes.addAll(list);
-////        for (PodcastEpisodeModel podcastEpisodeModel : list) {
-////            episodes.add(RealmUtlis.toRealmPodcastEpisodeModel(podcastEpisodeModel));
-////        }
+        episodes = new RealmList<>();
+        for (PodcastEpisodeModel podcastEpisodeModel : list) {
+            episodes.add((PodcastEpisodeModelImpl) podcastEpisodeModel);
+        }
     }
 
 }

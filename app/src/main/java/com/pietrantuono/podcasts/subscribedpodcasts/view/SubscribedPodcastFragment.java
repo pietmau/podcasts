@@ -53,7 +53,7 @@ public class SubscribedPodcastFragment extends Fragment implements SubscribedPod
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((MainActivity)getActivity()).getMainComponent().with(new SubscribedPodcastModule()).inject(this);
+        ((MainActivity) getActivity()).getMainComponent().with(new SubscribedPodcastModule()).inject(this);
     }
 
     @Nullable
@@ -66,10 +66,8 @@ public class SubscribedPodcastFragment extends Fragment implements SubscribedPod
         return view;
     }
 
-
     @Override
     public void onError(Throwable throwable) {
-
     }
 
     @Override
@@ -96,7 +94,7 @@ public class SubscribedPodcastFragment extends Fragment implements SubscribedPod
     public void startDetailActivityWithTransition(SinglePodcast singlePodcast, ImageView
             imageView, LinearLayout titleContainer) {
         Intent intent = new Intent(getActivity(), SingleSubscribedPodcastActivity.class);
-        intent.putExtra(AddSinglePodcastActivity.Companion.getSINGLE_PODCAST(), singlePodcast);
+        intent.putExtra(AddSinglePodcastActivity.Companion.getSINGLE_PODCAST_TRACK_ID(), singlePodcast.getTrackId());
         intent.putExtra(AddSinglePodcastActivity.Companion.getSTARTED_WITH_TRANSITION(), true);
         getActivity().startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), getPairs(imageView, titleContainer)).toBundle());
     }
@@ -105,7 +103,7 @@ public class SubscribedPodcastFragment extends Fragment implements SubscribedPod
     @Override
     public void startDetailActivityWithoutTransition(SinglePodcast singlePodcast) {
         Intent intent = new Intent(getActivity(), AddSinglePodcastActivity.class);
-        intent.putExtra(AddSinglePodcastActivity.Companion.getSINGLE_PODCAST(), singlePodcast);
+        intent.putExtra(AddSinglePodcastActivity.Companion.getSINGLE_PODCAST_TRACK_ID(), singlePodcast);
         getActivity().startActivity(intent);
     }
 

@@ -134,7 +134,7 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     @Override
     public void startDetailActivityWithTransition(SinglePodcast singlePodcast, ImageView imageView, LinearLayout titleContainer) {
         Intent intent = new Intent(getActivity(), AddSinglePodcastActivity.class);
-        intent.putExtra(AddSinglePodcastActivity.Companion.getSINGLE_PODCAST(), singlePodcast);
+        intent.putExtra(AddSinglePodcastActivity.Companion.getSINGLE_PODCAST_TRACK_ID(), singlePodcast);
         intent.putExtra(AddSinglePodcastActivity.Companion.getSTARTED_WITH_TRANSITION(), true);
         getActivity().startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), getPairs(imageView, titleContainer)).toBundle());
     }
@@ -143,7 +143,7 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     @Override
     public void startDetailActivityWithoutTransition(SinglePodcast singlePodcast) {
         Intent intent = new Intent(getActivity(), AddSinglePodcastActivity.class);
-        intent.putExtra(AddSinglePodcastActivity.Companion.getSINGLE_PODCAST(), singlePodcast);
+        intent.putExtra(AddSinglePodcastActivity.Companion.getSINGLE_PODCAST_TRACK_ID(), singlePodcast);
         getActivity().startActivity(intent);
     }
 
