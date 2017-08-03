@@ -50,7 +50,7 @@ class SingleSubscribedModule(private val activity: AppCompatActivity) {
 
         return object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>?): T {
-                return SingleSubscribedPodcastPresenter(model,wrapper,creator,player) as T
+                return SingleSubscribedPodcastPresenter(model) as T
             }
         }
     }

@@ -2,11 +2,9 @@ package com.pietrantuono.podcasts.addpodcast.singlepodcast.view
 
 
 import android.os.Bundle
-import android.view.MenuItem
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.SimpleContolView
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.custom.CoordinatorWithBottomMargin
 import com.pietrantuono.podcasts.apis.PodcastEpisodeModel
@@ -18,10 +16,10 @@ import com.pietrantuono.podcasts.subscribedpodcasts.detail.views.SingleSubscribe
 import javax.inject.Inject
 
 class SingleSubscribedPodcastActivity : DetailActivtyBase(), SingleSubscribedPodcastView {
-
     companion object {
-        val SINGLE_PODCAST = "single_podcast"
         val STARTED_WITH_TRANSITION = "with_transition"
+        val SINGLE_PODCAST_TRACK_ID: String? = "track_id"
+        val ARTWORK: String? = "artwork"
     }
 
     @BindView(R.id.recycler) lateinit var recyclerView: SingleSubscribedPodcastsRecycler
@@ -52,11 +50,7 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase(), SingleSubscribedPod
     }
 
     override fun getImageUrl(): String? {
-        return intent.getParcelableExtra<SinglePodcast>(SINGLE_PODCAST)?.artworkUrl600
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return presenter.onOptionsItemSelected(item.itemId)
+        return intent.getStringExtra(ARTWORK)
     }
 
     override fun setEpisodes(episodes: List<PodcastEpisodeModel>?) {
@@ -71,7 +65,7 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase(), SingleSubscribedPod
     override fun onStart() {
         super.onStart()
         presenter.onStart(this, intent
-                .getParcelableExtra<SinglePodcast>(SINGLE_PODCAST), intent
+                .getStringExtra(SINGLE_PODCAST_TRACK_ID), intent
                 .getBooleanExtra(STARTED_WITH_TRANSITION, false))
     }
 }

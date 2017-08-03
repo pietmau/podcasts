@@ -2,28 +2,21 @@ package com.pietrantuono.podcasts.subscribedpodcasts.detail.presenter
 
 
 import android.arch.lifecycle.ViewModel
-import com.pietrantuono.podcasts.CrashlyticsWrapper
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast
-import com.pietrantuono.podcasts.player.player.MediaSourceCreator
-import com.pietrantuono.podcasts.player.player.service.Player
 import com.pietrantuono.podcasts.providers.SinglePodcastRealm
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.model.SingleSubscribedModel
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.views.SingleSubscribedPodcastView
 import rx.Observer
 
-class SingleSubscribedPodcastPresenter(private val model: SingleSubscribedModel, private val crashlyticsWrapper:
-CrashlyticsWrapper, val creator: MediaSourceCreator, private val player: Player?) : ViewModel() {
+class SingleSubscribedPodcastPresenter(private val model: SingleSubscribedModel) : ViewModel() {
 
     var view: SingleSubscribedPodcastView? = null
 
     private var startedWithTransition: Boolean = false
-
-    private var podcast: SinglePodcast? = null
-
-    fun onStart(view: SingleSubscribedPodcastView, singlePodcast: SinglePodcast, startedWithTransition: Boolean) {
+    
+    fun onStart(view: SingleSubscribedPodcastView, trackId: String, startedWithTransition: Boolean) {
         this.view = view
-        startPresenter(singlePodcast, startedWithTransition)
-        model.subscribe(podcast, object : Observer<SinglePodcastRealm> {
+        startPresenter(startedWithTransition)
+        model.subscribe(trackId, object : Observer<SinglePodcastRealm> {
             override fun onError(e: Throwable?) {}
 
             override fun onCompleted() {}
@@ -31,9 +24,9 @@ CrashlyticsWrapper, val creator: MediaSourceCreator, private val player: Player?
             override fun onNext(feed: SinglePodcastRealm?) {
                 if (view != null && feed != null && feed.episodes != null) {
                     view.setEpisodes(feed.episodes)
+                    view?.setTitle(feed?.collectionName)
                 }
             }
-
         })
     }
 
@@ -41,20 +34,14 @@ CrashlyticsWrapper, val creator: MediaSourceCreator, private val player: Player?
         this.view = null
     }
 
-    private fun startPresenter(podcast: SinglePodcast?, startedWithTransition: Boolean) {
-        this.podcast = podcast
+    private fun startPresenter(startedWithTransition: Boolean) {
         this.startedWithTransition = startedWithTransition
         if (startedWithTransition) {
             view?.enterWithTransition()
         } else {
             view?.enterWithoutTransition()
         }
-        view?.setTitle(podcast?.collectionName)
     }
 
-    fun onOptionsItemSelected(itemId: Int): Boolean {
-        return true
-
-    }
 
 }
