@@ -26,27 +26,27 @@ import io.realm.Realm
 class SingleSubscribedModule(private val activity: AppCompatActivity) {
 
     @Provides
-    internal fun provideSinglePodcastPresenter(factory: ViewModelProvider.Factory): SingleSubscribedPodcastPresenter {
+    fun provideSinglePodcastPresenter(factory: ViewModelProvider.Factory): SingleSubscribedPodcastPresenter {
         return ViewModelProviders.of(activity, factory).get(SingleSubscribedPodcastPresenter::class.java)
     }
 
     @Provides
-    internal fun provideTransitionImageLoadingListener(framework: TransitionsFramework): TransitionImageLoadingListener {
+    fun provideTransitionImageLoadingListener(framework: TransitionsFramework): TransitionImageLoadingListener {
         return TransitionImageLoadingListener(activity, framework)
     }
 
     @Provides
-    internal fun provideSingleSubscribedPodcastsAdapter(loader: SimpleImageLoader, provider: ResourcesProvider): SingleSubscribedPodcastsAdapter {
+    fun provideSingleSubscribedPodcastsAdapter(loader: SimpleImageLoader, provider: ResourcesProvider): SingleSubscribedPodcastsAdapter {
         return SingleSubscribedPodcastsAdapter(provider)
     }
 
     @Provides
-    internal fun provideSingleSubscribedModel(realm: Realm): SingleSubscribedModel {
+    fun provideSingleSubscribedModel(realm: Realm): SingleSubscribedModel {
         return SingleSubscribedModelImpl(realm)
     }
 
     @Provides
-    internal fun provideViewModelProviderFactory(wrapper: CrashlyticsWrapper, player: Player, creator: MediaSourceCreator, model: SingleSubscribedModel): ViewModelProvider.Factory {
+    fun provideViewModelProviderFactory(wrapper: CrashlyticsWrapper, player: Player, creator: MediaSourceCreator, model: SingleSubscribedModel): ViewModelProvider.Factory {
 
         return object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>?): T {
