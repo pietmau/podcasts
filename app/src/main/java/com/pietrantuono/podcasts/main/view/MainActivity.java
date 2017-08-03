@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @Override
     public void navigateToSubscribedPodcasts() {
 
-        SubscribedPodcastFragment.navigateTo(fragmentManager);
+        SubscribedPodcastFragment.Companion.navigateTo(fragmentManager);
     }
 
     @Override

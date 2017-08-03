@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.os.Build;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -19,5 +20,5 @@ public interface TransitionsFramework {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     void startPostponedEnterTransition(AppCompatActivity activity);
 
-    Pair[] getPairs(ImageView imageView, Activity activity, LinearLayout titleContainer);
+    Pair<View, String>[] getPairs(ImageView imageView, Activity activity, LinearLayout titleContainer);
 }
