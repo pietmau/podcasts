@@ -12,8 +12,8 @@ class SingleSubscribedPodcastPresenter(private val model: SingleSubscribedModel)
     var view: SingleSubscribedPodcastView? = null
 
     private var startedWithTransition: Boolean = false
-    
-    fun onStart(view: SingleSubscribedPodcastView, trackId: String, startedWithTransition: Boolean) {
+
+    fun onStart(view: SingleSubscribedPodcastView, trackId: Int, startedWithTransition: Boolean) {
         this.view = view
         startPresenter(startedWithTransition)
         model.subscribe(trackId, object : Observer<SinglePodcastRealm> {

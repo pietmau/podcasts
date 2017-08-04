@@ -6,6 +6,6 @@ import rx.Observer
 
 abstract class SingleSubscribedModel {
 
-    abstract fun subscribe(trackId: String?, observer: Observer<SinglePodcastRealm>)
+    abstract fun subscribe(trackId: Int, observer: Observer<SinglePodcastRealm>)
     abstract fun unsubscribe()
 }

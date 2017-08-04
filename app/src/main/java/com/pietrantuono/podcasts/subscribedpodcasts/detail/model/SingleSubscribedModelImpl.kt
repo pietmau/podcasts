@@ -9,8 +9,8 @@ import rx.Subscription
 class SingleSubscribedModelImpl(val realm: Realm) : SingleSubscribedModel() {
     private var subhscription: Subscription? = null
 
-    override fun subscribe(trackId: String?, observer: Observer<SinglePodcastRealm>) {
-        if (trackId == null) {
+    override fun subscribe(trackId: Int, observer: Observer<SinglePodcastRealm>) {
+        if (trackId == null || trackId < 0) {
             return
         }
         subhscription = realm

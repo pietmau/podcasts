@@ -65,7 +65,7 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase(), SingleSubscribedPod
     override fun onStart() {
         super.onStart()
         presenter.onStart(this, intent
-                .getStringExtra(SINGLE_PODCAST_TRACK_ID), intent
+                .getIntExtra(SINGLE_PODCAST_TRACK_ID, -1), intent
                 .getBooleanExtra(STARTED_WITH_TRANSITION, false))
     }
 }
