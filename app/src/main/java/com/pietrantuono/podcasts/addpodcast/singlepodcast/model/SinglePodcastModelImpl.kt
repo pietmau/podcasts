@@ -36,7 +36,7 @@ Repository) : SinglePodcastModel {
     }
 
     override fun unsubscribe() {
-        compositeSubscription.unsubscribe()
+        compositeSubscription.clear()
     }
 
     private fun getFeed(url: String) {

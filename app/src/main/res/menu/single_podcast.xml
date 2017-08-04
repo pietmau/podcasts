@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/ff"
+    <item android:id="@+id/observable"
           android:title="Subscribe"
           android:icon="@drawable/add_circle"
           app:showAsAction="always|withText"/>

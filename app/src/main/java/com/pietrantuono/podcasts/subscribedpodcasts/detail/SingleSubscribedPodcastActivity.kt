@@ -2,6 +2,7 @@ package com.pietrantuono.podcasts.addpodcast.singlepodcast.view
 
 
 import android.os.Bundle
+import android.view.View
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
@@ -43,6 +44,7 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase(), SingleSubscribedPod
         ButterKnife.bind(this@SingleSubscribedPodcastActivity)
         setUpActionBar()
         setUpPlayerControls()
+        progressBar.visibility = View.GONE
     }
 
     private fun setUpPlayerControls() {
@@ -56,7 +58,6 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase(), SingleSubscribedPod
     override fun setEpisodes(episodes: List<PodcastEpisodeModel>?) {
         recyclerView.setItems(episodes)
     }
-
 
     override fun setTitle(collectionName: String?) {
         supportActionBar?.title = collectionName
