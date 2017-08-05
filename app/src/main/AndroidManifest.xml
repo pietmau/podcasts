@@ -31,11 +31,16 @@
             android:name=".addpodcast.singlepodcast.view.SingleSubscribedPodcastActivity">
         </activity>
 
-
         <service
             android:name=".player.player.service.PlayerService"
             android:exported="false">
         </service>
+
+        <service
+            android:name=".repository.SaveEpisodeIntentService"
+            android:exported="false">
+        </service>
+
 
         <meta-data
             android:name="io.fabric.ApiKey"

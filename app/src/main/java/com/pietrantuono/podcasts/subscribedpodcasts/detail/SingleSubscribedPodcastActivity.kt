@@ -44,7 +44,6 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase(), SingleSubscribedPod
         setContentView(R.layout.single_subscribed_podcast_activity)
         ButterKnife.bind(this@SingleSubscribedPodcastActivity)
         setUpActionBar()
-        setUpPlayerControls()
         progressBar.visibility = View.GONE
     }
 
@@ -66,9 +65,14 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase(), SingleSubscribedPod
 
     override fun onStart() {
         super.onStart()
+        setUpPlayerControls()
         presenter.onStart(this, intent
                 .getIntExtra(SINGLE_PODCAST_TRACK_ID, -1), intent
                 .getBooleanExtra(STARTED_WITH_TRANSITION, false))
+    }
+
+    override fun onStop() {
+        super.onStop()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

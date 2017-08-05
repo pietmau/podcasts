@@ -51,7 +51,7 @@ public class PodcastRealm extends RealmObject implements Podcast {
     private String artworkUrl600;
     private RealmList<RealmString> genreIds = null;
     private RealmList<RealmString> genres = null;
-    private RealmList<PodcastEpisodeImpl> episodes;
+    private RealmList<PodcastEpisodeImpl> episodes = new RealmList<>();
     private boolean podcastSubscribed;
 
     public PodcastRealm() {
@@ -606,7 +606,7 @@ public class PodcastRealm extends RealmObject implements Podcast {
         if (list == null) {
             return;
         }
-        episodes = new RealmList<>();
+        episodes.clear();
         for (PodcastEpisode podcastEpisode : list) {
             episodes.add((PodcastEpisodeImpl) podcastEpisode);
         }

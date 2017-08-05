@@ -2,6 +2,7 @@ package com.pietrantuono.podcasts.repository.repository
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.providers.PodcastRealm
+import com.pietrantuono.podcasts.providers.RealmUtlis
 import io.realm.Realm
 import rx.Observable
 import rx.Observer
@@ -11,9 +12,19 @@ class PodcastRepoRealm(private val realm: Realm, private val reposServices: Repo
     private var subject: BehaviorSubject<Boolean>? = null
 
     override fun subscribeUnsubscribeToPodcast(podcast: Podcast?) {
-        if (podcast != null) {
-            reposServices.subscribeUnsubscribeToPodcast(podcast)
-            subject?.onNext(!podcast.isPodcastSubscribed)
+        var singlePodcast = realm.where(PodcastRealm::class.java)
+                .equalTo("trackId", podcast?.trackId)
+                .findFirst()
+        if (singlePodcast == null) {
+            singlePodcast = RealmUtlis.toSinglePodcastRealm(podcast)
+        }
+        realm.executeTransactionAsync {
+            singlePodcast.isPodcastSubscribed = !singlePodcast.isPodcastSubscribed
+            it.copyToRealmOrUpdate(singlePodcast)
+        }
+        if (singlePodcast != null) {
+            reposServices.subscribeUnsubscribeToPodcast(singlePodcast)
+            subject?.onNext(!singlePodcast.isPodcastSubscribed)
         }
     }
 

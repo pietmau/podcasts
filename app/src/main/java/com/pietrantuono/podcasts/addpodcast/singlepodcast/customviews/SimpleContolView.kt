@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import android.view.ViewTreeObserver
 import android.widget.TextView
 import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.PlaybackParameters
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.metadata.Metadata
 import com.google.android.exoplayer2.metadata.MetadataRenderer
@@ -22,9 +21,6 @@ class SimpleContolView(context: Context?, attrs: AttributeSet?) : PlaybackContro
         showTimeoutMs = -1
         show()
         player.addListener(object : SimpleExoPlayerEventListener() {
-            override fun onPlaybackParametersChanged(playbackParameters: PlaybackParameters?) {
-
-            }
 
             override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
                 showOrHide()
@@ -37,7 +33,6 @@ class SimpleContolView(context: Context?, attrs: AttributeSet?) : PlaybackContro
 
             }
         })
-
     }
 
     fun showOrHide() {
