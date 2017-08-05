@@ -10,7 +10,12 @@ import com.pietrantuono.podcasts.subscribedpodcasts.detail.views.SingleSubscribe
 
 class SingleSubscribedPodcastPresenter(
         private val model: SingleSubscribedModel,
-        private val menuProvider: SingleSubscribedPodcastMenuProvider) : ViewModel() {
+        private val menuProvider: SingleSubscribedPodcastMenuProviderImpl)
+    : ViewModel(), SingleSubscribedPodcastMenuProvider by menuProvider {
+
+    init {
+        menuProvider.setcallback(this@SingleSubscribedPodcastPresenter)
+    }
 
     var view: SingleSubscribedPodcastView? = null
 
@@ -42,8 +47,5 @@ class SingleSubscribedPodcastPresenter(
         }
     }
 
-    fun onCreateOptionsMenu(menu: Menu): Boolean {
-        return menuProvider.onCreateOptionsMenu(menu)
-    }
 
 }

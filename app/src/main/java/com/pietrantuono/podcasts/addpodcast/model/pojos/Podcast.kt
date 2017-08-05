@@ -70,4 +70,6 @@ interface Podcast : Parcelable {
 
     var episodes: List<PodcastEpisode>?
 
+    var isPodcastSubscribed: Boolean
+
 }

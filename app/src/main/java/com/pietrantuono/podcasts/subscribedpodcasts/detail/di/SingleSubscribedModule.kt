@@ -16,7 +16,7 @@ import com.pietrantuono.podcasts.player.player.service.Player
 import com.pietrantuono.podcasts.repository.repository.Repository
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.model.SingleSubscribedModel
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.model.SingleSubscribedModelImpl
-import com.pietrantuono.podcasts.subscribedpodcasts.detail.presenter.SingleSubscribedPodcastMenuProvider
+import com.pietrantuono.podcasts.subscribedpodcasts.detail.presenter.SingleSubscribedPodcastMenuProviderImpl
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.presenter.SingleSubscribedPodcastPresenter
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.views.SingleSubscribedPodcastsAdapter
 import dagger.Module
@@ -48,9 +48,9 @@ class SingleSubscribedModule(private val activity: AppCompatActivity) {
 
     @SubscribedPodcastScope
     @Provides
-    fun provideSingleSubscribedPodcastMenuProvider(model: SingleSubscribedModel, context: Context): SingleSubscribedPodcastMenuProvider {
+    fun provideSingleSubscribedPodcastMenuProvider(model: SingleSubscribedModel, context: Context): SingleSubscribedPodcastMenuProviderImpl {
         val inflater = activity.menuInflater
-        return SingleSubscribedPodcastMenuProvider(model, inflater)
+        return SingleSubscribedPodcastMenuProviderImpl(model, inflater)
     }
 
     @Provides
@@ -58,7 +58,7 @@ class SingleSubscribedModule(private val activity: AppCompatActivity) {
                                         player: Player,
                                         creator: MediaSourceCreator,
                                         model: SingleSubscribedModel,
-                                        menuProvider: SingleSubscribedPodcastMenuProvider
+                                        menuProvider: SingleSubscribedPodcastMenuProviderImpl
     ): ViewModelProvider.Factory {
         return object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>?): T {

@@ -1,9 +1,7 @@
 package com.pietrantuono.podcasts.repository
 
-import com.pietrantuono.podcasts.repository.repository.PodcastRepo
-import com.pietrantuono.podcasts.repository.repository.PodcastRepoRealm
-import com.pietrantuono.podcasts.repository.repository.RealmRepository
-import com.pietrantuono.podcasts.repository.repository.Repository
+import android.content.Context
+import com.pietrantuono.podcasts.repository.repository.*
 import dagger.Module
 import dagger.Provides
 import io.realm.Realm
@@ -22,9 +20,16 @@ class RepositoryModule {
     fun provideRealm(): Realm {
         return Realm.getDefaultInstance()
     }
-    
+
     @Provides
-    fun providePodcastRepo(realm: Realm): PodcastRepo {
-        return PodcastRepoRealm(realm)
+    fun providePodcastRepo(realm: Realm, services: RepoServices): PodcastRepo {
+        return PodcastRepoRealm(realm, services)
     }
+
+    @Provides
+    fun provideServices(context: Context): RepoServices {
+        return RepoServicesImpl(context)
+    }
+
 }
+

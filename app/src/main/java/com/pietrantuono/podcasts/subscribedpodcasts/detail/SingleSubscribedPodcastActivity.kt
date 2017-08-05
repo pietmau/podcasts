@@ -2,6 +2,7 @@ package com.pietrantuono.podcasts.addpodcast.singlepodcast.view
 
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.View
 import butterknife.BindView
 import butterknife.ButterKnife
@@ -70,11 +71,12 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase(), SingleSubscribedPod
                 .getBooleanExtra(STARTED_WITH_TRANSITION, false))
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        return presenter.onCreateOptionsMenu(menu!!)
-//    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        return presenter.onCreateOptionsMenu(menu!!)
+    }
 
-
-
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        return presenter.onPrepareOptionsMenu(menu!!)
+    }
 }
 

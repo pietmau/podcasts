@@ -9,6 +9,11 @@ import com.pietrantuono.podcasts.providers.RealmUtlis
 import java.util.*
 
 class PodcastImpl : Podcast {
+    override var isPodcastSubscribed: Boolean
+        get() = throw Exception("Unsopported")
+        set(value) {
+            throw Exception("Unsopported")
+        }
 
     override var episodes: List<PodcastEpisode>? = null
 
