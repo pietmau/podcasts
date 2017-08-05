@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import dagger.Subcomponent;
 
+@SubscribedPodcastScope
 @Subcomponent(modules = SingleSubscribedModule.class)
 public interface SingleSubscribedComponent {
 

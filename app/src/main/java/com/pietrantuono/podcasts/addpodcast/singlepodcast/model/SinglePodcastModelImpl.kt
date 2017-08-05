@@ -1,7 +1,7 @@
 package com.pietrantuono.podcasts.addpodcast.singlepodcast.model
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
-import com.pietrantuono.podcasts.addpodcast.repository.repository.Repository
+import com.pietrantuono.podcasts.repository.repository.Repository
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
 import com.pietrantuono.podcasts.apis.PodcastFeed
 import com.pietrantuono.podcasts.apis.SinglePodcastApi

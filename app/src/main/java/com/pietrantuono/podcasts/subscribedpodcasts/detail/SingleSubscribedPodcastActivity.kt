@@ -69,5 +69,12 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase(), SingleSubscribedPod
                 .getIntExtra(SINGLE_PODCAST_TRACK_ID, -1), intent
                 .getBooleanExtra(STARTED_WITH_TRANSITION, false))
     }
+
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        return presenter.onCreateOptionsMenu(menu!!)
+//    }
+
+
+
 }
 

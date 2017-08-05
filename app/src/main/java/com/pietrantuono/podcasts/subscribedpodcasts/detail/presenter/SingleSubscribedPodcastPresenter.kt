@@ -2,12 +2,15 @@ package com.pietrantuono.podcasts.subscribedpodcasts.detail.presenter
 
 
 import android.arch.lifecycle.ViewModel
+import android.view.Menu
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.model.SingleSubscribedModel
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.views.SingleSubscribedPodcastView
 
-class SingleSubscribedPodcastPresenter(private val model: SingleSubscribedModel) : ViewModel() {
+class SingleSubscribedPodcastPresenter(
+        private val model: SingleSubscribedModel,
+        private val menuProvider: SingleSubscribedPodcastMenuProvider) : ViewModel() {
 
     var view: SingleSubscribedPodcastView? = null
 
@@ -39,5 +42,8 @@ class SingleSubscribedPodcastPresenter(private val model: SingleSubscribedModel)
         }
     }
 
+    fun onCreateOptionsMenu(menu: Menu): Boolean {
+        return menuProvider.onCreateOptionsMenu(menu)
+    }
 
 }

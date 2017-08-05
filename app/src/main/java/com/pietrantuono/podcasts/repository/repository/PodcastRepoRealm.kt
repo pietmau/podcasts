@@ -1,4 +1,4 @@
-package com.pietrantuono.podcasts.addpodcast.repository.repository
+package com.pietrantuono.podcasts.repository.repository
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.providers.PodcastRealm
@@ -22,7 +22,7 @@ class PodcastRepoRealm(private val realm: Realm) : PodcastRepo {
             singlePodcast.isPodcastSubscribed = !singlePodcast.isPodcastSubscribed
             it.copyToRealmOrUpdate(singlePodcast)
         }
-        subject?.onNext(singlePodcast.isPodcastSubscribed)
+        subject?.onNext(!singlePodcast.isPodcastSubscribed)
     }
 
     override fun getIfSubscribed(podcast: Podcast?): Observable<Boolean> {

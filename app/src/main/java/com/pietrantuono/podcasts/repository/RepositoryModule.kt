@@ -1,9 +1,9 @@
-package com.pietrantuono.podcasts.addpodcast.repository
+package com.pietrantuono.podcasts.repository
 
-import com.pietrantuono.podcasts.addpodcast.repository.repository.PodcastRepo
-import com.pietrantuono.podcasts.addpodcast.repository.repository.PodcastRepoRealm
-import com.pietrantuono.podcasts.addpodcast.repository.repository.RealmRepository
-import com.pietrantuono.podcasts.addpodcast.repository.repository.Repository
+import com.pietrantuono.podcasts.repository.repository.PodcastRepo
+import com.pietrantuono.podcasts.repository.repository.PodcastRepoRealm
+import com.pietrantuono.podcasts.repository.repository.RealmRepository
+import com.pietrantuono.podcasts.repository.repository.Repository
 import dagger.Module
 import dagger.Provides
 import io.realm.Realm

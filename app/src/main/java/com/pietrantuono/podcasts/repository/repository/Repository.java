@@ -1,4 +1,4 @@
-package com.pietrantuono.podcasts.addpodcast.repository.repository;
+package com.pietrantuono.podcasts.repository.repository;
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
 

@@ -90,18 +90,9 @@ CrashlyticsWrapper, val creator: MediaSourceCreator, private val player: Player?
         return true;
     }
 
-    fun onSubscribeUnsubscribeToPodcastClicked() {
-        model.onSubscribeUnsubscribeToPodcastClicked()
-    }
-
-    fun onDownloadAllPressed(): Boolean {
-        return true
-    }
-
     fun onListenToAllPressed() {
         player?.playFeed(creator.createSourceFromFeed(podcastFeed))
     }
-
 
     fun onOptionsItemSelected(itemId: Int): Boolean {
         when (itemId) {
@@ -114,7 +105,7 @@ CrashlyticsWrapper, val creator: MediaSourceCreator, private val player: Player?
                 return true
             }
             R.id.subscribe_unsubscribe -> {
-                onSubscribeUnsubscribeToPodcastClicked()
+                model.onSubscribeUnsubscribeToPodcastClicked()
                 return true
             }
         }
