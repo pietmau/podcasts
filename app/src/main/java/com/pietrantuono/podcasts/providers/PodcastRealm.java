@@ -4,9 +4,9 @@ package com.pietrantuono.podcasts.providers;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
-import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
-import com.pietrantuono.podcasts.interfaces.PodcastEpisodeModelImpl;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
+import com.pietrantuono.podcasts.apis.PodcastEpisode;
+import com.pietrantuono.podcasts.interfaces.PodcastEpisodeImpl;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -17,7 +17,7 @@ import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class SinglePodcastRealm extends RealmObject implements SinglePodcast {
+public class PodcastRealm extends RealmObject implements Podcast {
     private String wrapperType;
     private String kind;
     private Integer collectionId;
@@ -51,10 +51,10 @@ public class SinglePodcastRealm extends RealmObject implements SinglePodcast {
     private String artworkUrl600;
     private RealmList<RealmString> genreIds = null;
     private RealmList<RealmString> genres = null;
-    private RealmList<PodcastEpisodeModelImpl> episodes;
+    private RealmList<PodcastEpisodeImpl> episodes;
     private boolean podcastSubscribed;
 
-    public SinglePodcastRealm() {
+    public PodcastRealm() {
     }
 
     /**
@@ -556,11 +556,11 @@ public class SinglePodcastRealm extends RealmObject implements SinglePodcast {
         this.genres = RealmUtlis.toRealmStringList(genres);
     }
 
-    public void setEpisodes(RealmList<PodcastEpisodeModelImpl> episodes) {
+    public void setEpisodes(RealmList<PodcastEpisodeImpl> episodes) {
         this.episodes = episodes;
     }
 
-    private SinglePodcastRealm(Parcel in) {
+    private PodcastRealm(Parcel in) {
         throw new UnsupportedOperationException("Not supported");
     }
 
@@ -575,14 +575,14 @@ public class SinglePodcastRealm extends RealmObject implements SinglePodcast {
     }
 
     @SuppressWarnings("unused")
-    public static final Parcelable.Creator<SinglePodcast> CREATOR = new Parcelable.Creator<SinglePodcast>() {
+    public static final Parcelable.Creator<Podcast> CREATOR = new Parcelable.Creator<Podcast>() {
         @Override
-        public SinglePodcast createFromParcel(Parcel in) {
+        public Podcast createFromParcel(Parcel in) {
             throw new UnsupportedOperationException("Not supported");
         }
 
         @Override
-        public SinglePodcast[] newArray(int size) {
+        public Podcast[] newArray(int size) {
             throw new UnsupportedOperationException("Not supported");
         }
     };
@@ -597,15 +597,15 @@ public class SinglePodcastRealm extends RealmObject implements SinglePodcast {
 
     @Nullable
     @Override
-    public List<PodcastEpisodeModel> getEpisodes() {
+    public List<PodcastEpisode> getEpisodes() {
         return new ArrayList<>(episodes);
     }
 
     @Override
-    public void setEpisodes(@Nullable List<? extends PodcastEpisodeModel> list) {
+    public void setEpisodes(@Nullable List<? extends PodcastEpisode> list) {
         episodes = new RealmList<>();
-        for (PodcastEpisodeModel podcastEpisodeModel : list) {
-            episodes.add((PodcastEpisodeModelImpl) podcastEpisodeModel);
+        for (PodcastEpisode podcastEpisode : list) {
+            episodes.add((PodcastEpisodeImpl) podcastEpisode);
         }
     }
 

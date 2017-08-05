@@ -1,7 +1,8 @@
 package com.pietrantuono.podcasts.addpodcast.singlepodcast.model;
 
+import com.pietrantuono.podcasts.addpodcast.repository.repository.Repository;
 import com.pietrantuono.podcasts.apis.SinglePodcastApi;
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,21 +20,21 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SinglePodcastModelImplTest {
+public class PodcastModelImplTest {
     private static final String TEXT = "text";
     private static final int TRACK_ID = 1;
     @Mock SinglePodcastApi api;
     @Mock Repository repository;
-    @Mock SinglePodcast singlePodcast;
+    @Mock Podcast podcast;
     private SinglePodcastModelImpl model;
 
     @Before
     public void setUp() throws Exception {
         model = new SinglePodcastModelImpl(api, repository);
-        when(singlePodcast.getTrackId()).thenReturn(TRACK_ID);
-        when(singlePodcast.getFeedUrl()).thenReturn(TEXT);
+        when(podcast.getTrackId()).thenReturn(TRACK_ID);
+        when(podcast.getFeedUrl()).thenReturn(TEXT);
         when(repository.getIfSubscribed(TRACK_ID)).thenReturn(Observable.just(true));
-        model.startModel(singlePodcast);
+        model.startModel(podcast);
     }
 
     @Test
@@ -70,7 +71,7 @@ public class SinglePodcastModelImplTest {
         //WHEN
         model.actuallySubscribesToPodcast();
         //THEN
-        verify(repository).actuallySubscribesToPodcast(singlePodcast);
+        verify(repository).actuallySubscribesToPodcast(podcast);
     }
 
     @Test
@@ -78,6 +79,6 @@ public class SinglePodcastModelImplTest {
         //WHEN
         model.actuallyUnSubscribesToPodcast();
         //THEN
-        verify(repository).actuallyUnSubscribesToPodcast(singlePodcast);
+        verify(repository).actuallyUnSubscribesToPodcast(podcast);
     }
 }

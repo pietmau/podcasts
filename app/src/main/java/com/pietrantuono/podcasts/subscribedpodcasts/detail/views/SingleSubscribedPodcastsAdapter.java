@@ -8,13 +8,13 @@ import android.view.ViewGroup;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.customviews.SingleSubscribedPodcastHolder;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider;
-import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
+import com.pietrantuono.podcasts.apis.PodcastEpisode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SingleSubscribedPodcastsAdapter extends RecyclerView.Adapter<SingleSubscribedPodcastHolder> {
-    private final List<PodcastEpisodeModel> items;
+    private final List<PodcastEpisode> items;
     private final ResourcesProvider resourcesProvider;
 
     public SingleSubscribedPodcastsAdapter(ResourcesProvider resourcesProvider) {
@@ -39,7 +39,7 @@ public class SingleSubscribedPodcastsAdapter extends RecyclerView.Adapter<Single
         return items.size();
     }
 
-    public void setItems(List<PodcastEpisodeModel> items) {
+    public void setItems(List<PodcastEpisode> items) {
         this.items.clear();
         this.items.addAll(items);
         notifyDataSetChanged();

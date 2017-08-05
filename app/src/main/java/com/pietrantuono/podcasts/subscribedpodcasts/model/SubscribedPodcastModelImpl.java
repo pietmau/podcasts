@@ -1,8 +1,8 @@
 package com.pietrantuono.podcasts.subscribedpodcasts.model;
 
 
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.Repository;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
+import com.pietrantuono.podcasts.addpodcast.repository.repository.Repository;
 
 import java.util.List;
 
@@ -19,8 +19,8 @@ public class SubscribedPodcastModelImpl implements SubscribedPodcastModel {
     }
 
     @Override
-    public void subscribeToSubscribedPodcasts(Observer<List<SinglePodcast>> observer) {
-        Observable<List<SinglePodcast>> observable = repository.subscribeToSubscribedPodcasts(observer);
+    public void subscribeToSubscribedPodcasts(Observer<List<Podcast>> observer) {
+        Observable<List<Podcast>> observable = repository.getSubscribedPodcasts(observer);
         subscription = observable.subscribe(observer);
     }
 }

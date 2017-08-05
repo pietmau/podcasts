@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.pietrantuono.podcasts.R;
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider;
 
@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> implements Filterable {
-    private final List<SinglePodcast> items;
-    private final List<SinglePodcast> publishedItems;
+    private final List<Podcast> items;
+    private final List<Podcast> publishedItems;
     private final SimpleImageLoader imageLoader;
     @NonNull private OnItemClickedClickedListener onItemClickedClickedListener;
     @NonNull private ResourcesProvider resolver;
@@ -48,13 +48,13 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
         return publishedItems.size();
     }
 
-    public void setItems(List<SinglePodcast> items) {
+    public void setItems(List<Podcast> items) {
         this.items.clear();
         this.items.addAll(items);
         setPublishedItems(items);
     }
 
-    public void setPublishedItems(List<SinglePodcast> items) {
+    public void setPublishedItems(List<Podcast> items) {
         publishedItems.clear();
         publishedItems.addAll(items);
         notifyDataSetChanged();
@@ -75,10 +75,10 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
     }
 
     public interface OnSunscribeClickedListener {
-        void onSubscribeClicked(SinglePodcast singlePodcast);
+        void onSubscribeClicked(Podcast podcast);
     }
 
     public interface OnItemClickedClickedListener {
-        void onItemClicked(SinglePodcast singlePodcast, ImageView imageView, int position, LinearLayout titleContainer);
+        void onItemClicked(Podcast podcast, ImageView imageView, int position, LinearLayout titleContainer);
     }
 }

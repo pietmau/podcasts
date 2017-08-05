@@ -4,13 +4,13 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import com.pietrantuono.podcasts.apis.PodcastEpisodeModel
+import com.pietrantuono.podcasts.apis.PodcastEpisode
 import com.pietrantuono.podcasts.providers.RealmUtlis
 import java.util.*
 
-class SinglePodcastImpl : SinglePodcast {
+class PodcastImpl : Podcast {
 
-    override var episodes: List<PodcastEpisodeModel>? = null
+    override var episodes: List<PodcastEpisode>? = null
 
     @SerializedName("wrapperType")
     @Expose
@@ -280,13 +280,13 @@ class SinglePodcastImpl : SinglePodcast {
     }
 
     companion object {
-        @JvmField final val CREATOR: Parcelable.Creator<SinglePodcast> = object : Parcelable.Creator<SinglePodcast> {
-            override fun createFromParcel(`in`: Parcel): SinglePodcast {
-                return SinglePodcastImpl(`in`)
+        @JvmField final val CREATOR: Parcelable.Creator<Podcast> = object : Parcelable.Creator<Podcast> {
+            override fun createFromParcel(`in`: Parcel): Podcast {
+                return PodcastImpl(`in`)
             }
 
-            override fun newArray(size: Int): Array<SinglePodcast?> {
-                return arrayOfNulls<SinglePodcast>(size)
+            override fun newArray(size: Int): Array<Podcast?> {
+                return arrayOfNulls<Podcast>(size)
             }
         }
     }

@@ -1,7 +1,6 @@
 package com.pietrantuono.podcasts.addpodcast.model;
 
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcastImpl;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
 
 import java.util.List;
 import java.util.Map;
@@ -13,7 +12,7 @@ import rx.Observable;
 public interface SearchApi {
 
     @GET("search")
-    Observable<List<SinglePodcast>> search(@QueryMap Map<String, String> query);
+    Observable<List<Podcast>> search(@QueryMap Map<String, String> query);
 
     Observable<SearchResult> search(String query);
 }

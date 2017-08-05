@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts.addpodcast.singlepodcast.model
 
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast
+import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
+import com.pietrantuono.podcasts.addpodcast.repository.repository.Repository
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
 import com.pietrantuono.podcasts.apis.PodcastFeed
 import com.pietrantuono.podcasts.apis.SinglePodcastApi
@@ -13,10 +14,10 @@ import rx.subscriptions.CompositeSubscription
 class SinglePodcastModelImpl(private val singlePodcastApi: SinglePodcastApi, private val repository:
 Repository) : SinglePodcastModel {
     private var podcastFeedObservable: Observable<PodcastFeed>? = null
-    private var podcast: SinglePodcast? = null
+    private var podcast: Podcast? = null
     private var compositeSubscription: CompositeSubscription = CompositeSubscription()
 
-    override fun startModel(podcast: SinglePodcast?) {
+    override fun startModel(podcast: Podcast?) {
         this.podcast = podcast
         if (podcast != null && podcast.feedUrl != null) {
             getFeed(podcast.feedUrl!!)
@@ -24,7 +25,7 @@ Repository) : SinglePodcastModel {
     }
 
     override fun onSubscribeUnsubscribeToPodcastClicked() {
-        repository.onSubscribeUnsubscribeToPodcastClicked(podcast)
+        repository.subscribeUnsubscribeToPodcast(podcast)
     }
 
     override fun subscribeToFeed(observer: Observer<PodcastFeed>) {

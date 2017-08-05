@@ -3,7 +3,7 @@ package com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter
 import com.pietrantuono.podcasts.CrashlyticsWrapper
 import com.pietrantuono.podcasts.GenericPresenter
 import com.pietrantuono.podcasts.R
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast
+import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastModel
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.SinglePodcastView
 import com.pietrantuono.podcasts.apis.PodcastFeed
@@ -64,7 +64,7 @@ CrashlyticsWrapper, val creator: MediaSourceCreator, private val player: Player?
         setEpisodes()
     }
 
-    fun startPresenter(podcast: SinglePodcast?, startedWithTransition: Boolean) {
+    fun startPresenter(podcast: Podcast?, startedWithTransition: Boolean) {
         this.startedWithTransition = startedWithTransition
         model.startModel(podcast)
         if (startedWithTransition) {

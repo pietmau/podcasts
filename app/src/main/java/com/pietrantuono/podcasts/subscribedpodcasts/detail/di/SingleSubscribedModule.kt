@@ -6,7 +6,7 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
 import com.pietrantuono.podcasts.CrashlyticsWrapper
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.Repository
+import com.pietrantuono.podcasts.addpodcast.repository.repository.Repository
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.TransitionImageLoadingListener
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader

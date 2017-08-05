@@ -8,13 +8,13 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.PresenterManager
 import com.pietrantuono.podcasts.R
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast
+import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.EpisodesRecycler
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.SimpleContolView
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.dagger.SinglePodcastModule
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SinglePodcastPresenter
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.custom.CoordinatorWithBottomMargin
-import com.pietrantuono.podcasts.apis.PodcastEpisodeModel
+import com.pietrantuono.podcasts.apis.PodcastEpisode
 import com.pietrantuono.podcasts.application.App
 import javax.inject.Inject
 
@@ -58,12 +58,12 @@ class AddSinglePodcastActivity : DetailActivtyBase(), SinglePodcastView {
     private fun startPresenter() {
         presenter.bindView(this@AddSinglePodcastActivity)
         presenter.startPresenter(intent
-                .getParcelableExtra<SinglePodcast>(SINGLE_PODCAST_TRACK_ID), intent
+                .getParcelableExtra<Podcast>(SINGLE_PODCAST_TRACK_ID), intent
                 .getBooleanExtra(STARTED_WITH_TRANSITION, false))
     }
 
     override fun getImageUrl(): String? {
-        return intent.getParcelableExtra<SinglePodcast>(SINGLE_PODCAST_TRACK_ID)?.artworkUrl600
+        return intent.getParcelableExtra<Podcast>(SINGLE_PODCAST_TRACK_ID)?.artworkUrl600
     }
 
     override fun onStop() {
@@ -89,7 +89,7 @@ class AddSinglePodcastActivity : DetailActivtyBase(), SinglePodcastView {
         return presenterManager
     }
 
-    override fun setEpisodes(episodes: List<PodcastEpisodeModel>?) {
+    override fun setEpisodes(episodes: List<PodcastEpisode>?) {
         recyclerView.setItems(episodes)
     }
 

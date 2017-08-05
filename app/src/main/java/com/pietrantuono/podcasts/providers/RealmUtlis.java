@@ -1,9 +1,9 @@
 package com.pietrantuono.podcasts.providers;
 
 
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SimpleEnclosure;
-import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
+import com.pietrantuono.podcasts.apis.PodcastEpisode;
 import com.rometools.rome.feed.synd.SyndEnclosure;
 
 import java.util.ArrayList;
@@ -29,8 +29,8 @@ public class RealmUtlis {
         return realmStrings;
     }
 
-    public static SinglePodcastRealm toSinglePodcastRealm(SinglePodcast podcast) {
-        SinglePodcastRealm singlePodcastRealm = new SinglePodcastRealm();
+    public static PodcastRealm toSinglePodcastRealm(Podcast podcast) {
+        PodcastRealm singlePodcastRealm = new PodcastRealm();
         singlePodcastRealm.setArtistName(podcast.getArtistName());
         singlePodcastRealm.setArtworkUrl30(podcast.getArtworkUrl30());
         singlePodcastRealm.setArtworkUrl60(podcast.getArtworkUrl60());
@@ -69,7 +69,7 @@ public class RealmUtlis {
     }
 
 
-//    public static RealmPodcastEpisodeModel toRealmPodcastEpisodeModel(PodcastEpisodeModel podcastEpisodeModel) {
+//    public static RealmPodcastEpisodeModel toRealmPodcastEpisodeModel(PodcastEpisode podcastEpisodeModel) {
 //        RealmPodcastEpisodeModel.Builder builder = new RealmPodcastEpisodeModel.Builder();
 //        builder.setAuthor(podcastEpisodeModel.getAuthor());
 //        builder.setDescription(podcastEpisodeModel.getDescription());
@@ -85,9 +85,9 @@ public class RealmUtlis {
 //        return builder.create();
 //    }
 
-    private static RealmList<SimpleEnclosure> getEnclosures(PodcastEpisodeModel podcastEpisodeModel) {
+    private static RealmList<SimpleEnclosure> getEnclosures(PodcastEpisode podcastEpisode) {
         RealmList<SimpleEnclosure> simpleEnclosures = new RealmList<>();
-        for (SyndEnclosure syndEnclosure : podcastEpisodeModel.getEnclosures()) {
+        for (SyndEnclosure syndEnclosure : podcastEpisode.getEnclosures()) {
             simpleEnclosures.add(new SimpleEnclosure(syndEnclosure));
         }
         return simpleEnclosures;

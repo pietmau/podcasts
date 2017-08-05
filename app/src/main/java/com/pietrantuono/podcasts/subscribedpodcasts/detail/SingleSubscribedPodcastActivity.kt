@@ -2,14 +2,13 @@ package com.pietrantuono.podcasts.addpodcast.singlepodcast.view
 
 
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.SimpleContolView
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.custom.CoordinatorWithBottomMargin
-import com.pietrantuono.podcasts.apis.PodcastEpisodeModel
+import com.pietrantuono.podcasts.apis.PodcastEpisode
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.di.SingleSubscribedModule
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.presenter.SingleSubscribedPodcastPresenter
@@ -56,7 +55,7 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase(), SingleSubscribedPod
         return intent.getStringExtra(ARTWORK)
     }
 
-    override fun setEpisodes(episodes: List<PodcastEpisodeModel>?) {
+    override fun setEpisodes(episodes: List<PodcastEpisode>?) {
         recyclerView.setItems(episodes)
     }
 

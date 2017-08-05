@@ -2,7 +2,7 @@ package com.pietrantuono.podcasts.subscribedpodcasts.di;
 
 import com.pietrantuono.podcasts.PresenterManager;
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker;
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.Repository;
+import com.pietrantuono.podcasts.addpodcast.repository.repository.Repository;
 import com.pietrantuono.podcasts.subscribedpodcasts.model.SubscribedPodcastModel;
 import com.pietrantuono.podcasts.subscribedpodcasts.model.SubscribedPodcastModelImpl;
 import com.pietrantuono.podcasts.subscribedpodcasts.presenter.SubscribedPodcastPresenter;

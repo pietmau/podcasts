@@ -6,15 +6,12 @@ import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.RealmRepository;
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.Repository;
 import com.pietrantuono.podcasts.player.player.service.Player;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import io.realm.Realm;
 
 @Singleton
 @Module
@@ -30,11 +27,6 @@ public class AppModule {
         return context;
     }
 
-    @Provides
-    Repository provideRepository(Realm realm) {
-        return new RealmRepository(realm);
-    }
-
     @Singleton
     @Provides
     SimpleExoPlayer provideExoPlayer() {
@@ -46,11 +38,4 @@ public class AppModule {
     Player providePlayer() {
         return ((App) context).getPlayer();
     }
-
-    @Singleton
-    @Provides
-    Realm provideRealm() {
-        return Realm.getDefaultInstance();
-    }
-
 }

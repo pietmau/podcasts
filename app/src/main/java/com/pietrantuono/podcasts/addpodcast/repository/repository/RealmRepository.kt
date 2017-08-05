@@ -1,52 +1,53 @@
-package com.pietrantuono.podcasts.addpodcast.singlepodcast.model
+package com.pietrantuono.podcasts.addpodcast.repository.repository
 
 
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast
+import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
+import com.pietrantuono.podcasts.providers.PodcastRealm
 import com.pietrantuono.podcasts.providers.RealmUtlis
-import com.pietrantuono.podcasts.providers.SinglePodcastRealm
 import io.realm.Realm
 import rx.Observable
 import rx.Observer
 import rx.subjects.BehaviorSubject
 
-class RealmRepository(private val realm: Realm) : Repository {
+class RealmRepository(private val realm: Realm, private val podcastsRepo: PodcastRepo) : Repository {
     private var subject: BehaviorSubject<Boolean>? = null
 
-    override fun getPodcastById(trackId: Int): Observable<out SinglePodcast> {
-        return realm.where(SinglePodcastRealm::class.java)
+    override fun getPodcastById(trackId: Int): Observable<out Podcast> {
+
+        return realm.where(PodcastRealm::class.java)
                 .equalTo("trackId", trackId)
                 .findFirstAsync()
-                .asObservable<SinglePodcastRealm>()
-                .filter(SinglePodcastRealm::isLoaded)
+                .asObservable<PodcastRealm>()
+                .filter(PodcastRealm::isLoaded)
                 .map(realm::copyFromRealm)
                 .cache()
     }
 
-    override fun getIfSubscribed(podcast: SinglePodcast?): Observable<Boolean> {
+    override fun getIfSubscribed(podcast: Podcast?): Observable<Boolean> {
         subject = BehaviorSubject.create<Boolean>()
-        realm.where(SinglePodcastRealm::class.java)
+        realm.where(PodcastRealm::class.java)
                 .equalTo("trackId", podcast?.trackId)
                 .findFirstAsync()
-                .asObservable<SinglePodcastRealm>()
+                .asObservable<PodcastRealm>()
                 .filter { it.isLoaded && it.isValid }
                 .map { it.isPodcastSubscribed }
                 .subscribe(subject)
         return subject!!.asObservable()
     }
 
-    override fun subscribeToSubscribedPodcasts(observer: Observer<List<SinglePodcast>>?): Observable<List<SinglePodcast>> {
-        return realm.where(SinglePodcastRealm::class.java)
+    override fun getSubscribedPodcasts(observer: Observer<List<Podcast>>?): Observable<List<Podcast>> {
+        return realm.where(PodcastRealm::class.java)
                 .equalTo("podcastSubscribed", true)
                 .findAllAsync()
                 .asObservable()
                 .filter { it.isLoaded && it.isValid }
                 .map { realm.copyFromRealm(it) }
-                .map { it as List<SinglePodcast> }
+                .map { it as List<Podcast> }
                 .cache()
     }
 
-    override fun onSubscribeUnsubscribeToPodcastClicked(podcast: SinglePodcast?) {
-        var singlePodcast = realm.where(SinglePodcastRealm::class.java)
+    override fun subscribeUnsubscribeToPodcast(podcast: Podcast?) {
+        var singlePodcast = realm.where(PodcastRealm::class.java)
                 .equalTo("trackId", podcast?.trackId)
                 .findFirst()
         if (singlePodcast == null) {

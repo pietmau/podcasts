@@ -1,6 +1,6 @@
 package com.pietrantuono.podcasts.subscribedpodcasts.detail;
 
-import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
+import com.pietrantuono.podcasts.apis.PodcastEpisode;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -14,7 +14,7 @@ public interface SinglePodcastView {
 
     void showProgress(boolean show);
 
-    void setEpisodes(@Nullable List<PodcastEpisodeModel> episodes);
+    void setEpisodes(@Nullable List<PodcastEpisode> episodes);
 
     void exitWithSharedTrsnsition();
 

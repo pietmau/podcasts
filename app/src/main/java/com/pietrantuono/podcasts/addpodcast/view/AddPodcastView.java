@@ -5,14 +5,14 @@ import android.os.Build;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
 
 import java.util.List;
 
 public interface AddPodcastView {
     void onError(Throwable €e);
 
-    void updateSearchResults(List<SinglePodcast> items);
+    void updateSearchResults(List<Podcast> items);
 
     void showProgressBar(boolean show);
 
@@ -20,10 +20,10 @@ public interface AddPodcastView {
 
     void onQueryTextChange(String newText);
 
-    void startDetailActivityWithTransition(SinglePodcast singlePodcast, ImageView imageView, LinearLayout titleContainer);
+    void startDetailActivityWithTransition(Podcast podcast, ImageView imageView, LinearLayout titleContainer);
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    void startDetailActivityWithoutTransition(SinglePodcast singlePodcast);
+    void startDetailActivityWithoutTransition(Podcast podcast);
 
 
     boolean isPartiallyHidden(int imageView);

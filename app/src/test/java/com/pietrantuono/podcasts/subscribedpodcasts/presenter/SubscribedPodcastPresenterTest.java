@@ -1,6 +1,6 @@
 package com.pietrantuono.podcasts.subscribedpodcasts.presenter;
 
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
 import com.pietrantuono.podcasts.subscribedpodcasts.model.SubscribedPodcastModel;
 import com.pietrantuono.podcasts.subscribedpodcasts.view.SubscribedPodcastView;
 
@@ -27,7 +27,7 @@ public class SubscribedPodcastPresenterTest {
     @Mock SubscribedPodcastModel model;
     @InjectMocks SubscribedPodcastPresenter presenter;
     @Mock SubscribedPodcastView view;
-    @Captor ArgumentCaptor<Observer<List<SinglePodcast>>> captor;
+    @Captor ArgumentCaptor<Observer<List<Podcast>>> captor;
 
     @Before
     public void setUp() throws Exception {
@@ -56,7 +56,7 @@ public class SubscribedPodcastPresenterTest {
     public void when_onNext_then_podcatsSet() {
         //WHEN
         subscribesToPodcasts();
-        List<SinglePodcast> list = new ArrayList<>();
+        List<Podcast> list = new ArrayList<>();
         captor.getValue().onNext(list);
         //THEN
         verify(view).setPodcasts(list);

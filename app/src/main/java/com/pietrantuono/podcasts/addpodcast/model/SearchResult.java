@@ -1,19 +1,19 @@
 package com.pietrantuono.podcasts.addpodcast.model;
 
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
 
 import java.util.List;
 
 public class SearchResult {
-    private final List<SinglePodcast> list;
+    private final List<Podcast> list;
     private final String query;
 
-    public SearchResult(List<SinglePodcast> list, String query) {
+    public SearchResult(List<Podcast> list, String query) {
         this.list = list;
         this.query = query;
     }
 
-    public List<SinglePodcast> getList() {
+    public List<Podcast> getList() {
         return list;
     }
 

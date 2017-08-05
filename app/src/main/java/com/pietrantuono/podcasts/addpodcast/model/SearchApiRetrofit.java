@@ -1,7 +1,6 @@
 package com.pietrantuono.podcasts.addpodcast.model;
 
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcastImpl;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
 import com.pietrantuono.podcasts.addpodcast.model.retrofitconverters.PodcastSearchResultConverterFactory;
 
 import java.util.List;
@@ -29,7 +28,7 @@ public class SearchApiRetrofit implements SearchApi {
     }
 
     @Override
-    public Observable<List<SinglePodcast>> search(@retrofit2.http.QueryMap Map<String, String> query) {
+    public Observable<List<Podcast>> search(@retrofit2.http.QueryMap Map<String, String> query) {
         throw new UnsupportedOperationException("Not implemented");
     }
 

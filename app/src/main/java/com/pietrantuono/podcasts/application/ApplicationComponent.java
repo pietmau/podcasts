@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler;
 import com.pietrantuono.podcasts.addpodcast.dagger.ApiLevelCheckerlModule;
 import com.pietrantuono.podcasts.addpodcast.dagger.SearchModelsModule;
+import com.pietrantuono.podcasts.addpodcast.repository.RepositoryModule;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.EpisodesRecycler;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.dagger.SinglePodcastModule;
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule;
@@ -25,7 +26,7 @@ import dagger.Component;
 @Singleton
 @Component(modules = {AppModule.class, ApiLevelCheckerlModule.class,
         SearchModelsModule.class, ImageLoaderModule.class,
-        TransitionsModule.class, MediaModule.class})
+        TransitionsModule.class, MediaModule.class, RepositoryModule.class})
 public interface ApplicationComponent {
 
     void inject(@NotNull App app);

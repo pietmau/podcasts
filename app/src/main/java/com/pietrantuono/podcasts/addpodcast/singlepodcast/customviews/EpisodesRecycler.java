@@ -8,7 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
-import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
+import com.pietrantuono.podcasts.apis.PodcastEpisode;
 import com.pietrantuono.podcasts.application.App;
 
 import java.util.List;
@@ -33,7 +33,7 @@ public class EpisodesRecycler extends RecyclerView {
         init();
     }
 
-    public void setItems(List<PodcastEpisodeModel> episodes) {
+    public void setItems(List<PodcastEpisode> episodes) {
         adapter.setItems(episodes);
     }
 

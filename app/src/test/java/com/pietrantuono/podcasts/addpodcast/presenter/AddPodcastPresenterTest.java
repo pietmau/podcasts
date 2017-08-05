@@ -2,7 +2,7 @@ package com.pietrantuono.podcasts.addpodcast.presenter;
 
 import com.pietrantuono.podcasts.addpodcast.model.AddPodcastsModel;
 import com.pietrantuono.podcasts.addpodcast.model.SearchResult;
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastFragmentMemento;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastView;
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker;
@@ -31,7 +31,7 @@ public class AddPodcastPresenterTest {
 
     @Mock AddPodcastView view;
     @Mock Throwable error;
-    @Mock List<SinglePodcast> list;
+    @Mock List<Podcast> list;
     @Mock AddPodcastFragmentMemento memento;
     @Mock AddPodcastsModel addPodcastsModel;
     @Mock SearchResult result;

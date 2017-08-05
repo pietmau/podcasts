@@ -1,7 +1,7 @@
 package com.pietrantuono.podcasts.subscribedpodcasts.model;
 
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.Repository;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
+import com.pietrantuono.podcasts.addpodcast.repository.repository.Repository;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,8 +23,8 @@ import static org.mockito.Mockito.when;
 public class SubscribedPodcastModelTest {
     @Mock Repository repository;
     @InjectMocks SubscribedPodcastModelImpl model;
-    private Observable<List<SinglePodcast>> observable;
-    private List<SinglePodcast> result = new ArrayList<>();
+    private Observable<List<Podcast>> observable;
+    private List<Podcast> result = new ArrayList<>();
 
     @Before
     public void setUp() throws Exception {
@@ -34,12 +34,12 @@ public class SubscribedPodcastModelTest {
 
     @Test
     public void when_subscribeToSubscribedPodcasts_then_repositorySubscribeToSubscribedPodcasts() {
-        when(repository.subscribeToSubscribedPodcasts(any())).thenReturn(observable);
+        when(repository.getSubscribedPodcasts(any())).thenReturn(observable);
         //WHEN
-        TestObserver<List<SinglePodcast>> observer = new TestObserver<>();
+        TestObserver<List<Podcast>> observer = new TestObserver<>();
         model.subscribeToSubscribedPodcasts(observer);
         //THEN
-        List<List<SinglePodcast>> list= new ArrayList<>();
+        List<List<Podcast>> list= new ArrayList<>();
         list.add(result);
         observer.assertReceivedOnNext(list);
     }

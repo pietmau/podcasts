@@ -2,7 +2,7 @@ package com.pietrantuono.podcasts.interfaces;
 
 
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SimpleEnclosure;
-import com.pietrantuono.podcasts.apis.PodcastEpisodeModel;
+import com.pietrantuono.podcasts.apis.PodcastEpisode;
 import com.pietrantuono.podcasts.providers.RealmString;
 import com.rometools.rome.feed.synd.SyndEnclosure;
 
@@ -12,7 +12,7 @@ import java.util.List;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 
-public class PodcastEpisodeModelImpl extends RealmObject implements PodcastEpisodeModel {
+public class PodcastEpisodeImpl extends RealmObject implements PodcastEpisode {
     private String duration;
     private String author;
     private boolean isExplicit;
@@ -25,7 +25,7 @@ public class PodcastEpisodeModelImpl extends RealmObject implements PodcastEpiso
     private String description;
     private RealmList<SimpleEnclosure> syndEnclosures;
 
-    public PodcastEpisodeModelImpl(String duration, String author, boolean isExplicit, String imageUrl, List<String> keywords, String subtitle, String summary, Date pubDate, String title, String description, List<SyndEnclosure> syndEnclosures) {
+    public PodcastEpisodeImpl(String duration, String author, boolean isExplicit, String imageUrl, List<String> keywords, String subtitle, String summary, Date pubDate, String title, String description, List<SyndEnclosure> syndEnclosures) {
         this.duration = duration;
         this.author = author;
         this.isExplicit = isExplicit;
@@ -47,7 +47,7 @@ public class PodcastEpisodeModelImpl extends RealmObject implements PodcastEpiso
         return realmStrings;
     }
 
-    public PodcastEpisodeModelImpl() {
+    public PodcastEpisodeImpl() {
     }
 
     private RealmList<SimpleEnclosure> parseEnclosures(List<SyndEnclosure> syndEnclosures) {

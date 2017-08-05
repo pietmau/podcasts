@@ -73,8 +73,8 @@ public class ROMEPodcastEpisodeBuilder {
         return this;
     }
 
-    public PodcastEpisodeModelImpl createROMEPodcastEpisode() {
-        return new PodcastEpisodeModelImpl(duration, author, isExplicit, imageUrl, keywords, subtitle, summary, pubDate, title, description, syndEnclosures);
+    public PodcastEpisodeImpl createROMEPodcastEpisode() {
+        return new PodcastEpisodeImpl(duration, author, isExplicit, imageUrl, keywords, subtitle, summary, pubDate, title, description, syndEnclosures);
     }
 
 }

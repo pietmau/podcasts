@@ -4,7 +4,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.pietrantuono.podcasts.GenericPresenter
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsAdapter
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast
+import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
 import com.pietrantuono.podcasts.subscribedpodcasts.model.SubscribedPodcastModel
@@ -24,11 +24,11 @@ ApiLevelChecker) : GenericPresenter, PodcastsAdapter.OnItemClickedClickedListene
     }
 
     override fun onStart() {
-        model.subscribeToSubscribedPodcasts(object : SimpleObserver<List<SinglePodcast>>() {
+        model.subscribeToSubscribedPodcasts(object : SimpleObserver<List<Podcast>>() {
             override fun onError(throwable: Throwable) {
                 view!!.onError(throwable)
             }
-            override fun onNext(podcasts: List<SinglePodcast>?) {
+            override fun onNext(podcasts: List<Podcast>?) {
                 if (podcasts != null || !podcasts!!.isEmpty()) {
                     view!!.setPodcasts(podcasts)
                 }
@@ -36,12 +36,12 @@ ApiLevelChecker) : GenericPresenter, PodcastsAdapter.OnItemClickedClickedListene
         })
     }
 
-    override fun onItemClicked(singlePodcast: SinglePodcast?, imageView: ImageView?, position: Int,
+    override fun onItemClicked(podcast: Podcast?, imageView: ImageView?, position: Int,
                                titleContainer: LinearLayout?) {
         if (apiLevelChecker.isLollipopOrHigher && !view!!.isPartiallyHidden(position)) {
-            view!!.startDetailActivityWithTransition(singlePodcast, imageView, titleContainer)
+            view!!.startDetailActivityWithTransition(podcast, imageView, titleContainer)
         } else {
-            view!!.startDetailActivityWithoutTransition(singlePodcast)
+            view!!.startDetailActivityWithoutTransition(podcast)
         }
     }
 

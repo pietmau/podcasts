@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.pietrantuono.podcasts.CrashlyticsWrapper;
 import com.pietrantuono.podcasts.PresenterManager;
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.Repository;
+import com.pietrantuono.podcasts.addpodcast.repository.repository.Repository;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastModel;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastModelImpl;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SinglePodcastPresenter;

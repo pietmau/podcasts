@@ -5,9 +5,9 @@ import android.databinding.ViewDataBinding
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.pietrantuono.podcasts.BR
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.PodcastEpisodeViewModel
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.PodcastEpisodeView
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
-import com.pietrantuono.podcasts.apis.PodcastEpisodeModel
+import com.pietrantuono.podcasts.apis.PodcastEpisode
 
 class SingleSubscribedPodcastHolder(itemView: View, private val resourcesProvider: ResourcesProvider) : RecyclerView.ViewHolder(itemView) {
     private val dataBinding: ViewDataBinding
@@ -16,8 +16,8 @@ class SingleSubscribedPodcastHolder(itemView: View, private val resourcesProvide
         dataBinding = DataBindingUtil.bind<ViewDataBinding>(itemView)
     }
 
-    fun bind(podcastEpisodeModel: PodcastEpisodeModel) {
-        val podcastEpisodeViewModel = PodcastEpisodeViewModel(podcastEpisodeModel, resourcesProvider)
+    fun bind(podcastEpisode: PodcastEpisode) {
+        val podcastEpisodeViewModel = PodcastEpisodeView(podcastEpisode, resourcesProvider)
         dataBinding.setVariable(BR.viewModel, podcastEpisodeViewModel)
         dataBinding.executePendingBindings()
     }

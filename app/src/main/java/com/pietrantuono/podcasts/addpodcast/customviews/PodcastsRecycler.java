@@ -9,7 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
 import com.pietrantuono.podcasts.application.App;
 
 import java.util.List;
@@ -39,7 +39,7 @@ public class PodcastsRecycler extends RecyclerView {
         }
     }
 
-    public void setItems(List<SinglePodcast> items) {
+    public void setItems(List<Podcast> items) {
         adapter.setItems(items);
     }
 

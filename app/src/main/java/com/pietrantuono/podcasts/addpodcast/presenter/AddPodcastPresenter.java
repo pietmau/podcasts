@@ -7,7 +7,7 @@ import android.widget.LinearLayout;
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsAdapter;
 import com.pietrantuono.podcasts.addpodcast.model.AddPodcastsModel;
 import com.pietrantuono.podcasts.addpodcast.model.SearchResult;
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastFragmentMemento;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastView;
 import com.pietrantuono.podcasts.GenericPresenter;
@@ -101,15 +101,15 @@ public class AddPodcastPresenter implements GenericPresenter, PodcastsAdapter.On
     }
 
     @Override
-    public void onSubscribeClicked(SinglePodcast singlePodcast) {
+    public void onSubscribeClicked(Podcast podcast) {
     }
 
     @Override
-    public void onItemClicked(SinglePodcast singlePodcast, ImageView imageView, int position, LinearLayout titleContainer) {
+    public void onItemClicked(Podcast podcast, ImageView imageView, int position, LinearLayout titleContainer) {
         if (apiLevelChecker.isLollipopOrHigher() && !addPodcastView.isPartiallyHidden(position)) {
-            addPodcastView.startDetailActivityWithTransition(singlePodcast, imageView, titleContainer);
+            addPodcastView.startDetailActivityWithTransition(podcast, imageView, titleContainer);
         } else {
-            addPodcastView.startDetailActivityWithoutTransition(singlePodcast);
+            addPodcastView.startDetailActivityWithoutTransition(podcast);
         }
     }
 }

@@ -6,7 +6,7 @@ import com.rometools.rome.feed.synd.SyndEnclosure;
 import java.util.Date;
 import java.util.List;
 
-public interface PodcastEpisodeModel {
+public interface PodcastEpisode {
 
     String getDuration();
 

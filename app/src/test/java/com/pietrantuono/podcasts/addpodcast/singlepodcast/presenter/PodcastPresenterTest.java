@@ -2,7 +2,7 @@ package com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter;
 
 
 import com.pietrantuono.podcasts.CrashlyticsWrapper;
-import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
+import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastModel;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.SinglePodcastView;
 
@@ -21,7 +21,7 @@ import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SinglePodcastPresenterTest {
+public class PodcastPresenterTest {
     private static final String TEXT = "text";
     private static final int TRACK_ID = 1;
     @Mock SinglePodcastView view;
@@ -29,7 +29,7 @@ public class SinglePodcastPresenterTest {
     @Mock CrashlyticsWrapper crashlyticsWrapper;
     @InjectMocks SinglePodcastPresenter presenter;
     @Captor ArgumentCaptor<Observer<Boolean>> captor;
-    @Mock SinglePodcast podcast;
+    @Mock Podcast podcast;
 
     @Before
     public void setUp() throws Exception {
