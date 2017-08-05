@@ -27,8 +27,8 @@ class RepositoryModule {
     }
 
     @Provides
-    fun provideServices(context: Context): RepoServices {
-        return RepoServicesImpl(context)
+    fun provideServices(context: Context, realm: Realm): RepoServices {
+        return RepoServicesImpl(context, realm)
     }
 
 }
