@@ -68,23 +68,6 @@ public class RealmUtlis {
         return singlePodcastRealm;
     }
 
-
-//    public static RealmPodcastEpisodeModel toRealmPodcastEpisodeModel(PodcastEpisode podcastEpisodeModel) {
-//        RealmPodcastEpisodeModel.Builder builder = new RealmPodcastEpisodeModel.Builder();
-//        builder.setAuthor(podcastEpisodeModel.getAuthor());
-//        builder.setDescription(podcastEpisodeModel.getDescription());
-//        builder.setDuration(podcastEpisodeModel.getDuration());
-//        builder.setExplicit(podcastEpisodeModel.isExplicit());
-//        builder.setImageUrl(podcastEpisodeModel.getImageUrl());
-//        builder.setKeywords(podcastEpisodeModel.getKeywords());
-//        builder.setPubDate(podcastEpisodeModel.getPubDate());
-//        builder.setSubtitle(podcastEpisodeModel.getSubtitle());
-//        builder.setSummary(podcastEpisodeModel.getSummary());
-//        builder.setSyndEnclosures(getEnclosures(podcastEpisodeModel));
-//        builder.setTitle(podcastEpisodeModel.getTitle());
-//        return builder.create();
-//    }
-
     private static RealmList<SimpleEnclosure> getEnclosures(PodcastEpisode podcastEpisode) {
         RealmList<SimpleEnclosure> simpleEnclosures = new RealmList<>();
         for (SyndEnclosure syndEnclosure : podcastEpisode.getEnclosures()) {

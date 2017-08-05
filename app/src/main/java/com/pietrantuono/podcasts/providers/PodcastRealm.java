@@ -603,6 +603,9 @@ public class PodcastRealm extends RealmObject implements Podcast {
 
     @Override
     public void setEpisodes(@Nullable List<? extends PodcastEpisode> list) {
+        if (list == null) {
+            return;
+        }
         episodes = new RealmList<>();
         for (PodcastEpisode podcastEpisode : list) {
             episodes.add((PodcastEpisodeImpl) podcastEpisode);
