@@ -1,9 +1,6 @@
 package com.pietrantuono.podcasts.application;
 
 
-import android.support.annotation.Nullable;
-
-import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler;
 import com.pietrantuono.podcasts.addpodcast.dagger.ApiLevelCheckerlModule;
 import com.pietrantuono.podcasts.addpodcast.dagger.SearchModelsModule;
@@ -47,8 +44,4 @@ public interface ApplicationComponent {
 
     @NotNull
     SingleSubscribedComponent with(SingleSubscribedModule mainModule);
-
-    @Nullable
-    SimpleExoPlayer simpleExoPlayer();
-
 }

@@ -8,6 +8,10 @@ import io.realm.Realm
 
 class RepoServicesImpl(private val context: Context, private val realm: Realm) : RepoServices {
 
+    companion object {
+        val TAG: String? = "RepoServicesImpl"
+    }
+
     override fun subscribeUnsubscribeToPodcast(podcast: Podcast) {
         if (podcast.episodes == null || podcast.episodes!!.isEmpty()) {
             startService(podcast)

@@ -21,8 +21,9 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <com.pietrantuono.podcasts.addpodcast.singlepodcast.view.custom.CoordinatorWithBottomMargin
+    <android.support.design.widget.CoordinatorLayout
         android:id="@+id/coordinator"
+        android:layout_above="@+id/playbackcontrols"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/activityBackgroundColor"
@@ -69,9 +70,9 @@
             android:layout_below="@+id/subscribeunsubscribe"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             />
-    </com.pietrantuono.podcasts.addpodcast.singlepodcast.view.custom.CoordinatorWithBottomMargin>
+    </android.support.design.widget.CoordinatorLayout>
 
-    <com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.SimpleContolView
+    <com.google.android.exoplayer2.ui.PlaybackControlView
         android:id="@+id/playbackcontrols"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

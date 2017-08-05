@@ -1,5 +1,6 @@
 package com.pietrantuono.podcasts.repository.repository
 
+import android.util.Log
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.providers.PodcastRealm
 import com.pietrantuono.podcasts.providers.RealmUtlis
@@ -9,6 +10,11 @@ import rx.Observer
 import rx.subjects.BehaviorSubject
 
 class PodcastRepoRealm(private val realm: Realm, private val reposServices: RepoServices) : PodcastRepo {
+
+    companion object {
+        val TAG: String? = "PodcastRepoRealm"
+    }
+
     private var subject: BehaviorSubject<Boolean>? = null
 
     override fun subscribeUnsubscribeToPodcast(podcast: Podcast?) {
@@ -23,6 +29,7 @@ class PodcastRepoRealm(private val realm: Realm, private val reposServices: Repo
             it.copyToRealmOrUpdate(singlePodcast)
         }
         if (singlePodcast != null) {
+            Log.d(TAG, "singlePodcast != null")
             reposServices.subscribeUnsubscribeToPodcast(singlePodcast)
             subject?.onNext(!singlePodcast.isPodcastSubscribed)
         }

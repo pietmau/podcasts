@@ -2,40 +2,40 @@ package com.pietrantuono.podcasts.addpodcast.singlepodcast.view
 
 
 import android.os.Bundle
+import android.support.design.widget.CoordinatorLayout
 import android.view.Menu
 import android.view.MenuItem
 import butterknife.BindView
 import butterknife.ButterKnife
+import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.ui.PlaybackControlView
 import com.pietrantuono.podcasts.PresenterManager
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.EpisodesRecycler
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.SimpleContolView
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.dagger.SinglePodcastModule
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SinglePodcastPresenter
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.custom.CoordinatorWithBottomMargin
 import com.pietrantuono.podcasts.apis.PodcastEpisode
 import com.pietrantuono.podcasts.application.App
 import javax.inject.Inject
 
 class AddSinglePodcastActivity : DetailActivtyBase(), SinglePodcastView {
     private var isSubscribed: Boolean = false
-
     companion object {
         val SINGLE_PODCAST_TRACK_ID = "single_podcast_track_id"
         val STARTED_WITH_TRANSITION = "with_transition"
     }
-
     @BindView(R.id.recycler) lateinit var recyclerView: EpisodesRecycler
-    @BindView(R.id.playbackcontrols) lateinit var playbackControls: SimpleContolView
-    @BindView(R.id.coordinator) lateinit var coordinator: CoordinatorWithBottomMargin
+    @BindView(R.id.playbackcontrols) lateinit var playbackControls: PlaybackControlView
+    @BindView(R.id.coordinator) lateinit var coordinator: CoordinatorLayout
     @Inject lateinit var presenter: SinglePodcastPresenter
     @Inject lateinit var presenterManager: PresenterManager
+    @Inject lateinit var player: SimpleExoPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initViews()
         inject()
+        initViews()
         startPresenter()
         loadImage()
     }
@@ -47,12 +47,9 @@ class AddSinglePodcastActivity : DetailActivtyBase(), SinglePodcastView {
     private fun initViews() {
         setContentView(R.layout.add_single_podcast_activity)
         ButterKnife.bind(this@AddSinglePodcastActivity)
+        playbackControls.player = player
+        playbackControls.show()
         setUpActionBar()
-        setUpPlayerControls()
-    }
-
-    private fun setUpPlayerControls() {
-        coordinator.setUpPlayerControls(playbackControls)
     }
 
     private fun startPresenter() {

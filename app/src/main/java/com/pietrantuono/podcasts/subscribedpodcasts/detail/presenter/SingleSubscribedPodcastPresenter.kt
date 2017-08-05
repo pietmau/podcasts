@@ -2,7 +2,6 @@ package com.pietrantuono.podcasts.subscribedpodcasts.detail.presenter
 
 
 import android.arch.lifecycle.ViewModel
-import android.view.Menu
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.model.SingleSubscribedModel
@@ -28,7 +27,7 @@ class SingleSubscribedPodcastPresenter(
             override fun onNext(feed: Podcast?) {
                 if (view != null && feed != null && feed.episodes != null) {
                     view.setEpisodes(feed.episodes)
-                    view?.setTitle(feed?.collectionName)
+                    view.setTitle(feed.collectionName)
                 }
             }
         })
@@ -36,6 +35,7 @@ class SingleSubscribedPodcastPresenter(
 
     fun onStop() {
         this.view = null
+        model.unsubscribe()
     }
 
     private fun startPresenter(startedWithTransition: Boolean) {

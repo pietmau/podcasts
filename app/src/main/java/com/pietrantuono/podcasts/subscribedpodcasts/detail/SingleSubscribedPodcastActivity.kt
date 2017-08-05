@@ -2,13 +2,13 @@ package com.pietrantuono.podcasts.addpodcast.singlepodcast.view
 
 
 import android.os.Bundle
+import android.support.design.widget.CoordinatorLayout
 import android.view.Menu
 import android.view.View
 import butterknife.BindView
 import butterknife.ButterKnife
+import com.google.android.exoplayer2.ui.PlaybackControlView
 import com.pietrantuono.podcasts.R
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.SimpleContolView
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.custom.CoordinatorWithBottomMargin
 import com.pietrantuono.podcasts.apis.PodcastEpisode
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.di.SingleSubscribedModule
@@ -25,8 +25,8 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase(), SingleSubscribedPod
     }
 
     @BindView(R.id.recycler) lateinit var recyclerView: SingleSubscribedPodcastsRecycler
-    @BindView(R.id.playbackcontrols) lateinit var playbackControls: SimpleContolView
-    @BindView(R.id.coordinator) lateinit var coordinator: CoordinatorWithBottomMargin
+    @BindView(R.id.playbackcontrols) lateinit var playbackControls: PlaybackControlView
+    @BindView(R.id.coordinator) lateinit var coordinator: CoordinatorLayout
     @Inject lateinit var presenter: SingleSubscribedPodcastPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,10 +47,6 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase(), SingleSubscribedPod
         progressBar.visibility = View.GONE
     }
 
-    private fun setUpPlayerControls() {
-        coordinator.setUpPlayerControls(playbackControls)
-    }
-
     override fun getImageUrl(): String? {
         return intent.getStringExtra(ARTWORK)
     }
@@ -65,7 +61,6 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase(), SingleSubscribedPod
 
     override fun onStart() {
         super.onStart()
-        setUpPlayerControls()
         presenter.onStart(this, intent
                 .getIntExtra(SINGLE_PODCAST_TRACK_ID, -1), intent
                 .getBooleanExtra(STARTED_WITH_TRANSITION, false))
@@ -73,6 +68,7 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase(), SingleSubscribedPod
 
     override fun onStop() {
         super.onStop()
+        presenter.onStop()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
