@@ -2,6 +2,8 @@ package com.pietrantuono.podcasts.addpodcast.singlepodcast.model;
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.SinglePodcast;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 import rx.Observable;
@@ -13,4 +15,6 @@ public interface Repository {
     Observable<List<SinglePodcast>> subscribeToSubscribedPodcasts(Observer<List<SinglePodcast>> observer);
 
     void onSubscribeUnsubscribeToPodcastClicked(SinglePodcast podcast);
-    }
+
+    @NotNull Observable<? extends SinglePodcast> getPodcastById(int trackId);
+}

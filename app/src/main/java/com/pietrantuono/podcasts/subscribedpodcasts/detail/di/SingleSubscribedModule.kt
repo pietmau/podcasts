@@ -5,8 +5,8 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
-
 import com.pietrantuono.podcasts.CrashlyticsWrapper
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.Repository
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.TransitionImageLoadingListener
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
@@ -17,10 +17,8 @@ import com.pietrantuono.podcasts.subscribedpodcasts.detail.model.SingleSubscribe
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.model.SingleSubscribedModelImpl
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.presenter.SingleSubscribedPodcastPresenter
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.views.SingleSubscribedPodcastsAdapter
-
 import dagger.Module
 import dagger.Provides
-import io.realm.Realm
 
 @Module
 class SingleSubscribedModule(private val activity: AppCompatActivity) {
@@ -41,13 +39,12 @@ class SingleSubscribedModule(private val activity: AppCompatActivity) {
     }
 
     @Provides
-    fun provideSingleSubscribedModel(realm: Realm): SingleSubscribedModel {
-        return SingleSubscribedModelImpl(realm)
+    fun provideSingleSubscribedModel(repository: Repository): SingleSubscribedModel {
+        return SingleSubscribedModelImpl(repository)
     }
 
     @Provides
     fun provideViewModelProviderFactory(wrapper: CrashlyticsWrapper, player: Player, creator: MediaSourceCreator, model: SingleSubscribedModel): ViewModelProvider.Factory {
-
         return object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>?): T {
                 return SingleSubscribedPodcastPresenter(model) as T

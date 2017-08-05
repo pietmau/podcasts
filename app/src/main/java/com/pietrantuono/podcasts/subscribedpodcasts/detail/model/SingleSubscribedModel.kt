@@ -5,7 +5,6 @@ import rx.Observer
 
 
 abstract class SingleSubscribedModel {
-
     abstract fun subscribe(trackId: Int, observer: Observer<in SinglePodcast>)
     abstract fun unsubscribe()
 }

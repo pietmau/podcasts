@@ -12,6 +12,16 @@ import rx.subjects.BehaviorSubject
 class RealmRepository(private val realm: Realm) : Repository {
     private var subject: BehaviorSubject<Boolean>? = null
 
+    override fun getPodcastById(trackId: Int): Observable<out SinglePodcast> {
+        return realm.where(SinglePodcastRealm::class.java)
+                .equalTo("trackId", trackId)
+                .findFirstAsync()
+                .asObservable<SinglePodcastRealm>()
+                .filter(SinglePodcastRealm::isLoaded)
+                .map(realm::copyFromRealm)
+                .cache()
+    }
+
     override fun getIfSubscribed(podcast: SinglePodcast?): Observable<Boolean> {
         subject = BehaviorSubject.create<Boolean>()
         realm.where(SinglePodcastRealm::class.java)
