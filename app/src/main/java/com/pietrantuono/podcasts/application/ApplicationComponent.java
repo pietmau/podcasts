@@ -9,6 +9,7 @@ import com.pietrantuono.podcasts.addpodcast.dagger.ApiLevelCheckerlModule;
 import com.pietrantuono.podcasts.addpodcast.dagger.SearchModelsModule;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.EpisodesRecycler;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.dagger.SinglePodcastModule;
+import com.pietrantuono.podcasts.apis.ApiModule;
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule;
 import com.pietrantuono.podcasts.main.dagger.MainModule;
 import com.pietrantuono.podcasts.main.dagger.TransitionsModule;
@@ -25,9 +26,9 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 @Singleton
-@Component(modules = {AppModule.class, ApiLevelCheckerlModule.class,
-        SearchModelsModule.class, ImageLoaderModule.class,
-        TransitionsModule.class, MediaModule.class, RepositoryModule.class})
+@Component(modules = {AppModule.class, ApiLevelCheckerlModule.class, SearchModelsModule.class,
+        ImageLoaderModule.class, TransitionsModule.class, MediaModule.class, RepositoryModule.class,
+        ApiModule.class})
 public interface ApplicationComponent {
 
     void inject(@NotNull App app);

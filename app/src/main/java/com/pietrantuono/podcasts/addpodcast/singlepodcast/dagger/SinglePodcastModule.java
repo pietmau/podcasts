@@ -8,20 +8,17 @@ import android.support.v7.app.AppCompatActivity;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.pietrantuono.podcasts.CrashlyticsWrapper;
 import com.pietrantuono.podcasts.PresenterManager;
-import com.pietrantuono.podcasts.repository.repository.Repository;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastModel;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastModelImpl;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SinglePodcastPresenter;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.TransitionImageLoadingListener;
 import com.pietrantuono.podcasts.apis.SinglePodcastApi;
-import com.pietrantuono.podcasts.apis.SinglePodcastApiRetrofit;
-import com.pietrantuono.podcasts.interfaces.ImageParser;
-import com.pietrantuono.podcasts.interfaces.PodcastEpisodeParser;
 import com.pietrantuono.podcasts.main.view.TransitionsFramework;
 import com.pietrantuono.podcasts.player.player.LocalPlayback;
 import com.pietrantuono.podcasts.player.player.MediaSourceCreator;
 import com.pietrantuono.podcasts.player.player.Playback;
 import com.pietrantuono.podcasts.player.player.service.Player;
+import com.pietrantuono.podcasts.repository.repository.Repository;
 
 import dagger.Module;
 import dagger.Provides;
@@ -62,18 +59,8 @@ public class SinglePodcastModule {
     }
 
     @Provides
-    SinglePodcastApi provideSinglePodcastApi(CrashlyticsWrapper crashlyticsWrapper, PodcastEpisodeParser episodeparser) {
-        return new SinglePodcastApiRetrofit(crashlyticsWrapper, episodeparser);
-    }
-
-    @Provides
     SinglePodcastModel provideSinglePodcastModel(SinglePodcastApi api, Repository repository) {
         return new SinglePodcastModelImpl(api, repository);
-    }
-
-    @Provides
-    PodcastEpisodeParser providePodcastEpisodeParser(ImageParser imageParser) {
-        return new PodcastEpisodeParser(imageParser);
     }
 
     @Provides

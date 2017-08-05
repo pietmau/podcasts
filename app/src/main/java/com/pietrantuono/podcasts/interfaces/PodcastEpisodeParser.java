@@ -17,9 +17,12 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class PodcastEpisodeParser {
     private final ImageParser imageParser;
 
+    @Inject
     public PodcastEpisodeParser(ImageParser imageParser) {
         this.imageParser = imageParser;
     }
