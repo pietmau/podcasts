@@ -1,6 +1,5 @@
 package com.pietrantuono.podcasts.addpodcast.singlepodcast.view
 
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.widget.ImageView
@@ -12,7 +11,7 @@ import com.pietrantuono.podcasts.main.view.TransitionsFramework
 import javax.inject.Inject
 
 
-open abstract class DetailActivtyBase : AppCompatActivity() {
+open abstract class DetailActivtyBase : BaseActivity() {
     @Inject lateinit var imageLoader: SimpleImageLoader
     @BindView(R.id.toolbar) lateinit var toolbar: Toolbar
     @BindView(R.id.progress) lateinit var progressBar: SimpleProgressBar

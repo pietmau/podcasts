@@ -7,8 +7,6 @@ import android.view.Menu
 import android.view.MenuItem
 import butterknife.BindView
 import butterknife.ButterKnife
-import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.exoplayer2.ui.PlaybackControlView
 import com.pietrantuono.podcasts.PresenterManager
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
@@ -21,16 +19,17 @@ import javax.inject.Inject
 
 class AddSinglePodcastActivity : DetailActivtyBase(), SinglePodcastView {
     private var isSubscribed: Boolean = false
+
     companion object {
         val SINGLE_PODCAST_TRACK_ID = "single_podcast_track_id"
         val STARTED_WITH_TRANSITION = "with_transition"
+        val TAG = "AddSinglePodcastActivity"
     }
+
     @BindView(R.id.recycler) lateinit var recyclerView: EpisodesRecycler
-    @BindView(R.id.playbackcontrols) lateinit var playbackControls: PlaybackControlView
     @BindView(R.id.coordinator) lateinit var coordinator: CoordinatorLayout
     @Inject lateinit var presenter: SinglePodcastPresenter
     @Inject lateinit var presenterManager: PresenterManager
-    @Inject lateinit var player: SimpleExoPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,8 +46,6 @@ class AddSinglePodcastActivity : DetailActivtyBase(), SinglePodcastView {
     private fun initViews() {
         setContentView(R.layout.add_single_podcast_activity)
         ButterKnife.bind(this@AddSinglePodcastActivity)
-        playbackControls.player = player
-        playbackControls.show()
         setUpActionBar()
     }
 
