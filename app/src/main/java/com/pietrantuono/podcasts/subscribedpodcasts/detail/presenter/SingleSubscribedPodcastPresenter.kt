@@ -2,6 +2,7 @@ package com.pietrantuono.podcasts.subscribedpodcasts.detail.presenter
 
 
 import android.arch.lifecycle.ViewModel
+import android.view.MenuItem
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.model.SingleSubscribedModel
@@ -13,7 +14,7 @@ class SingleSubscribedPodcastPresenter(
     : ViewModel(), SingleSubscribedPodcastMenuProvider by menuProvider {
 
     init {
-        menuProvider.setcallback(this@SingleSubscribedPodcastPresenter)
+        menuProvider.setCallback(this@SingleSubscribedPodcastPresenter)
     }
 
     var view: SingleSubscribedPodcastView? = null
@@ -45,6 +46,10 @@ class SingleSubscribedPodcastPresenter(
         } else {
             view?.enterWithoutTransition()
         }
+    }
+
+    fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return false
     }
 
 

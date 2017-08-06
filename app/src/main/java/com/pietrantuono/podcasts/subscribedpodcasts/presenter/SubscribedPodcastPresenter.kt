@@ -13,9 +13,11 @@ import com.pietrantuono.podcasts.subscribedpodcasts.view.SubscribedPodcastView
 class SubscribedPodcastPresenter(private val model: SubscribedPodcastModel, private val apiLevelChecker:
 ApiLevelChecker) : GenericPresenter, PodcastsAdapter.OnItemClickedClickedListener {
 
-    override fun onDestroy() { }
+    override fun onDestroy() {}
 
-    override fun onStop() {}
+    override fun onStop() {
+        model.unsubscribe()
+    }
 
     private var view: SubscribedPodcastView? = null
 
@@ -28,6 +30,7 @@ ApiLevelChecker) : GenericPresenter, PodcastsAdapter.OnItemClickedClickedListene
             override fun onError(throwable: Throwable) {
                 view!!.onError(throwable)
             }
+
             override fun onNext(podcasts: List<Podcast>?) {
                 if (podcasts != null || !podcasts!!.isEmpty()) {
                     view!!.setPodcasts(podcasts)

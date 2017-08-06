@@ -16,7 +16,7 @@ class SingleSubscribedPodcastMenuProviderImpl(private val model: SingleSubscribe
         return true
     }
 
-    fun setcallback(presenter: SingleSubscribedPodcastPresenter) {
+    fun setCallback(presenter: SingleSubscribedPodcastPresenter) {
         this@SingleSubscribedPodcastMenuProviderImpl.callback = presenter
     }
 

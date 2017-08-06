@@ -4,10 +4,10 @@ package com.pietrantuono.podcasts.addpodcast.singlepodcast.view
 import android.os.Bundle
 import android.support.design.widget.CoordinatorLayout
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import butterknife.BindView
 import butterknife.ButterKnife
-import com.google.android.exoplayer2.ui.PlaybackControlView
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.apis.PodcastEpisode
 import com.pietrantuono.podcasts.application.App
@@ -76,6 +76,10 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase(), SingleSubscribedPod
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         return presenter.onPrepareOptionsMenu(menu!!)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return presenter.onOptionsItemSelected(item)
     }
 }
 
