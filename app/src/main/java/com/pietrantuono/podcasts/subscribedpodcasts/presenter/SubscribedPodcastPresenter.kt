@@ -21,19 +21,19 @@ ApiLevelChecker) : GenericPresenter, PodcastsAdapter.OnItemClickedClickedListene
 
     private var view: SubscribedPodcastView? = null
 
-    fun bindView(view: SubscribedPodcastView) {
+    fun bindView(view: SubscribedPodcastView?) {
         this.view = view
     }
 
     override fun onStart() {
         model.subscribeToSubscribedPodcasts(object : SimpleObserver<List<Podcast>>() {
             override fun onError(throwable: Throwable) {
-                view!!.onError(throwable)
+                view?.onError(throwable)
             }
 
             override fun onNext(podcasts: List<Podcast>?) {
                 if (podcasts != null || !podcasts!!.isEmpty()) {
-                    view!!.setPodcasts(podcasts)
+                    view?.setPodcasts(podcasts)
                 }
             }
         })
@@ -41,10 +41,10 @@ ApiLevelChecker) : GenericPresenter, PodcastsAdapter.OnItemClickedClickedListene
 
     override fun onItemClicked(podcast: Podcast?, imageView: ImageView?, position: Int,
                                titleContainer: LinearLayout?) {
-        if (apiLevelChecker.isLollipopOrHigher && !view!!.isPartiallyHidden(position)) {
-            view!!.startDetailActivityWithTransition(podcast, imageView, titleContainer)
+        if (apiLevelChecker.isLollipopOrHigher && !isViewPartiallyHidden(position)) {
+            view?.startDetailActivityWithTransition(podcast, imageView, titleContainer)
         } else {
-            view!!.startDetailActivityWithoutTransition(podcast)
+            view?.startDetailActivityWithoutTransition(podcast)
         }
     }
 
@@ -52,5 +52,11 @@ ApiLevelChecker) : GenericPresenter, PodcastsAdapter.OnItemClickedClickedListene
         val TAG = SubscribedPodcastPresenter::class.java.simpleName
     }
 
-
+    private fun isViewPartiallyHidden(position: Int): Boolean {
+        if (view != null) {
+            return view!!.isPartiallyHidden(position)
+        } else {
+            return false
+        }
+    }
 }

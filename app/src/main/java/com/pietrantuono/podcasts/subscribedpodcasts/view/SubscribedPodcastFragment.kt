@@ -39,8 +39,6 @@ class SubscribedPodcastFragment : Fragment(), SubscribedPodcastView {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.fragment_subscribed, container, false)
         ButterKnife.bind(this, view)
-        presenter.bindView(this)
-        recycler.setListeners(presenter)
         return view
     }
 
@@ -54,12 +52,15 @@ class SubscribedPodcastFragment : Fragment(), SubscribedPodcastView {
 
     override fun onStart() {
         super.onStart()
+        presenter.bindView(this)
+        recycler.setListeners(presenter)
         presenter.onStart()
     }
 
     override fun onStop() {
         super.onStop()
         presenter.onStop()
+        presenter.bindView(null)
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
