@@ -38,4 +38,9 @@ public class AppModule {
     Player providePlayer() {
         return ((App) context).getPlayer();
     }
+
+    @Provides
+    DebugLogger provideDebugLogger() {
+        return new DebugLoggerImpl();
+    }
 }
