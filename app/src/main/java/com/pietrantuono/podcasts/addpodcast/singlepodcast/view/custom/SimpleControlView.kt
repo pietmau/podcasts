@@ -24,16 +24,17 @@ class SimpleControlView(context: Context?, attrs: AttributeSet?) : PlaybackContr
 
     init {
         showTimeoutMs = 0
-        player = (((context as Activity).application as App).applicationComponent!!).simpleExoPlayer()
     }
 
     fun setCallback() {
+        player = (((context as Activity).application as App).applicationComponent!!).simpleExoPlayer()
         listener.onPlayerStateChanged(player.playWhenReady, player.playbackState)
         player.addListener(listener)
     }
 
     fun removeCallback() {
         player.removeListener(listener)
+        player = null
     }
 
 }
