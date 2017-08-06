@@ -1,6 +1,5 @@
 package com.pietrantuono.podcasts.application
 
-
 import android.app.Application
 import android.content.ComponentName
 import android.content.Context
@@ -12,7 +11,6 @@ import com.pietrantuono.podcasts.player.player.service.Player
 import com.pietrantuono.podcasts.player.player.service.PlayerService
 import com.squareup.leakcanary.LeakCanary
 import io.realm.Realm
-
 
 class App : Application(), ServiceConnection {
     var applicationComponent: ApplicationComponent? = null
@@ -28,12 +26,23 @@ class App : Application(), ServiceConnection {
         applicationComponent = DaggerApplicationComponent.builder().appModule(AppModule(this))
                 .imageLoaderModule(ImageLoaderModule(this)).build()
         applicationComponent?.inject(this)
-        bindPlayerService()
+        startService()
     }
 
-    private fun bindPlayerService() {
+    private fun startService() {
+        val intent = Intent(this, PlayerService::class.java)
+        startService(intent)
+    }
+
+    fun bindPlayerService() {
         val intent = Intent(this, PlayerService::class.java)
         bindService(intent, this, Context.BIND_AUTO_CREATE)
+    }
+
+    fun unbindPlayerService() {
+        if (player != null) {
+            unbindService(this)
+        }
     }
 
     override fun onServiceDisconnected(componentName: ComponentName?) {

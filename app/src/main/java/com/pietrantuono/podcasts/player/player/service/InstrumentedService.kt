@@ -6,6 +6,6 @@ import android.app.Service
 abstract class InstrumentedService : Service() {
 
     companion object {
-        val TAG: String = "Service"
+        val TAG: String = "PlayerService"
     }
 }

@@ -31,11 +31,16 @@ public class AppModule {
     @Provides
     SimpleExoPlayer provideExoPlayer() {
         return ExoPlayerFactory.newSimpleInstance(
-                context, new DefaultTrackSelector(), new DefaultLoadControl());
+                context.getApplicationContext(), new DefaultTrackSelector(), new DefaultLoadControl());
     }
 
     @Provides
     Player providePlayer() {
         return ((App) context).getPlayer();
+    }
+
+    @Provides
+    DebugLogger provideDebugLogger() {
+        return new DebugLoggerImpl();
     }
 }
