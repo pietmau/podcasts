@@ -11,10 +11,13 @@ import com.pietrantuono.podcasts.player.player.service.Player
 import com.pietrantuono.podcasts.player.player.service.PlayerService
 import com.squareup.leakcanary.LeakCanary
 import io.realm.Realm
+import javax.inject.Inject
 
 class App : Application(), ServiceConnection {
+    private var serviceIsBound: Boolean = false
     var applicationComponent: ApplicationComponent? = null
     var player: Player? = null
+    @Inject lateinit var logger: DebugLogger
 
     override fun onCreate() {
         super.onCreate()
@@ -37,11 +40,13 @@ class App : Application(), ServiceConnection {
     fun bindPlayerService() {
         val intent = Intent(this, PlayerService::class.java)
         bindService(intent, this, Context.BIND_AUTO_CREATE)
+        serviceIsBound = true
     }
 
     fun unbindPlayerService() {
-        if (player != null) {
+        if (serviceIsBound) {
             unbindService(this)
+            serviceIsBound = false
         }
     }
 
