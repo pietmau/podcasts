@@ -16,16 +16,7 @@ import io.realm.Realm
 
 class App : Application(), ServiceConnection {
     var applicationComponent: ApplicationComponent? = null
-        private set
     var player: Player? = null
-
-    override fun onServiceDisconnected(componentName: ComponentName?) {
-        player = null
-    }
-
-    override fun onServiceConnected(componentName: ComponentName?, iBinder: IBinder?) {
-        player = iBinder as Player
-    }
 
     override fun onCreate() {
         super.onCreate()
@@ -37,9 +28,19 @@ class App : Application(), ServiceConnection {
         applicationComponent = DaggerApplicationComponent.builder().appModule(AppModule(this))
                 .imageLoaderModule(ImageLoaderModule(this)).build()
         applicationComponent?.inject(this)
+        bindPlayerService()
+    }
+
+    private fun bindPlayerService() {
         val intent = Intent(this, PlayerService::class.java)
         bindService(intent, this, Context.BIND_AUTO_CREATE)
     }
 
+    override fun onServiceDisconnected(componentName: ComponentName?) {
+        player = null
+    }
 
+    override fun onServiceConnected(componentName: ComponentName?, iBinder: IBinder?) {
+        player = iBinder as Player
+    }
 }
