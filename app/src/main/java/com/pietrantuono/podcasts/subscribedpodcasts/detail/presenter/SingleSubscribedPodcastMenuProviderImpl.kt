@@ -12,7 +12,7 @@ class SingleSubscribedPodcastMenuProviderImpl(private val model: SingleSubscribe
     private var callback: SingleSubscribedPodcastPresenter? = null
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.other_actions, menu)
+        menuInflater.inflate(R.menu.subscribed_menu, menu)
         return true
     }
 
@@ -23,5 +23,6 @@ class SingleSubscribedPodcastMenuProviderImpl(private val model: SingleSubscribe
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         return true
     }
+
 }
 

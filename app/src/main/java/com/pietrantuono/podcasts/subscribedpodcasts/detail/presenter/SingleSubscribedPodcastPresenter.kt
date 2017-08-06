@@ -3,6 +3,7 @@ package com.pietrantuono.podcasts.subscribedpodcasts.detail.presenter
 
 import android.arch.lifecycle.ViewModel
 import android.view.MenuItem
+import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.model.SingleSubscribedModel
@@ -49,8 +50,12 @@ class SingleSubscribedPodcastPresenter(
     }
 
     fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.unsubscribe -> {
+                model.unsubscribeFromPodcast()
+            }
+        }
         return false
     }
-
 
 }

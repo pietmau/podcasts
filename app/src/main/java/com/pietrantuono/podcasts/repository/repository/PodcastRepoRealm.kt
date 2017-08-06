@@ -24,14 +24,14 @@ class PodcastRepoRealm(private val realm: Realm, private val reposServices: Repo
         if (singlePodcast == null) {
             singlePodcast = RealmUtlis.toSinglePodcastRealm(podcast)
         }
-        realm.executeTransactionAsync {
+        realm.executeTransaction {
             singlePodcast.isPodcastSubscribed = !singlePodcast.isPodcastSubscribed
             it.copyToRealmOrUpdate(singlePodcast)
         }
         if (singlePodcast != null) {
             Log.d(TAG, "singlePodcast != null")
             reposServices.subscribeUnsubscribeToPodcast(singlePodcast)
-            subject?.onNext(!singlePodcast.isPodcastSubscribed)
+            subject?.onNext(singlePodcast.isPodcastSubscribed)
         }
     }
 
