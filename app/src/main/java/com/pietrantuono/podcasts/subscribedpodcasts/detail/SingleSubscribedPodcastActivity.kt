@@ -25,7 +25,6 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase(), SingleSubscribedPod
     }
 
     @BindView(R.id.recycler) lateinit var recyclerView: SingleSubscribedPodcastsRecycler
-    @BindView(R.id.playbackcontrols) lateinit var playbackControls: PlaybackControlView
     @BindView(R.id.coordinator) lateinit var coordinator: CoordinatorLayout
     @Inject lateinit var presenter: SingleSubscribedPodcastPresenter
 
