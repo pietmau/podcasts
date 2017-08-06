@@ -72,7 +72,7 @@
             />
     </android.support.design.widget.CoordinatorLayout>
 
-    <com.google.android.exoplayer2.ui.PlaybackControlView
+    <com.pietrantuono.podcasts.addpodcast.singlepodcast.view.custom.SimpleControlView
         android:id="@+id/playbackcontrols"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

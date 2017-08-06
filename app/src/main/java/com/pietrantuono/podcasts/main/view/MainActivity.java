@@ -2,12 +2,12 @@ package com.pietrantuono.podcasts.main.view;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.crashlytics.android.Crashlytics;
 import com.pietrantuono.podcasts.PresenterManager;
 import com.pietrantuono.podcasts.R;
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.BaseActivity;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastFragment;
 import com.pietrantuono.podcasts.application.App;
 import com.pietrantuono.podcasts.application.MainComponent;
@@ -23,7 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.fabric.sdk.android.Fabric;
 
-public class MainActivity extends AppCompatActivity implements MainView {
+public class MainActivity extends BaseActivity implements MainView {
     @Inject MainPresenter mainPresenter;
     @Inject PresenterManager presenterManager;
     @Inject TransitionsFramework transitionsFramework;
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     protected void onCreate(Bundle savedInstanceState) {
         initDependencies();
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
+        Fabric.with(getApplicationContext(), new Crashlytics());
         setContentView(R.layout.activity_main);
         ButterKnife.bind(MainActivity.this);
         fragmentManager = getSupportFragmentManager();
@@ -84,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     @Override
     public void navigateToSubscribedPodcasts() {
-
         SubscribedPodcastFragment.Companion.navigateTo(fragmentManager);
     }
 
