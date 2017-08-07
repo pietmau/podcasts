@@ -1,5 +1,6 @@
 package com.pietrantuono.podcasts.subscribedpodcasts.presenter
 
+import android.arch.lifecycle.ViewModel
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.pietrantuono.podcasts.GenericPresenter
@@ -11,7 +12,7 @@ import com.pietrantuono.podcasts.subscribedpodcasts.model.SubscribedPodcastModel
 import com.pietrantuono.podcasts.subscribedpodcasts.view.SubscribedPodcastView
 
 class SubscribedPodcastPresenter(private val model: SubscribedPodcastModel, private val apiLevelChecker:
-ApiLevelChecker) : GenericPresenter, PodcastsAdapter.OnItemClickedClickedListener {
+ApiLevelChecker) : GenericPresenter, PodcastsAdapter.OnItemClickedClickedListener, ViewModel() {
 
     override fun onDestroy() {}
 
