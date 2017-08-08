@@ -7,7 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import butterknife.BindView
 import butterknife.ButterKnife
-import com.pietrantuono.podcasts.PresenterManager
+
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.EpisodesRecycler
@@ -29,7 +29,6 @@ class AddSinglePodcastActivity : DetailActivtyBase(), SinglePodcastView {
     @BindView(R.id.recycler) lateinit var recyclerView: EpisodesRecycler
     @BindView(R.id.coordinator) lateinit var coordinator: CoordinatorLayout
     @Inject lateinit var presenter: SinglePodcastPresenter
-    @Inject lateinit var presenterManager: PresenterManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,10 +76,6 @@ class AddSinglePodcastActivity : DetailActivtyBase(), SinglePodcastView {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return presenter.onOptionsItemSelected(item.itemId)
-    }
-
-    override fun onRetainCustomNonConfigurationInstance(): Any {
-        return presenterManager
     }
 
     override fun setEpisodes(episodes: List<PodcastEpisode>?) {

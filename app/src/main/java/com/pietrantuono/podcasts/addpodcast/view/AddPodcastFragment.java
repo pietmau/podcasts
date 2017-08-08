@@ -56,7 +56,8 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((MainActivity) getActivity()).getMainComponent().with(new AddPodcastModule()).inject(this);
+        ((MainActivity) getActivity()).getMainComponent().with(new AddPodcastModule(getActivity()))
+                .inject(this);
     }
 
 

@@ -1,8 +1,7 @@
 package com.pietrantuono.podcasts.subscribedpodcasts.di;
 
-import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker;
 import com.pietrantuono.podcasts.repository.repository.Repository;
@@ -15,9 +14,9 @@ import dagger.Provides;
 
 @Module
 public class SubscribedPodcastModule {
-    private final Activity activity;
+    private final FragmentActivity activity;
 
-    public SubscribedPodcastModule(Activity activity) {
+    public SubscribedPodcastModule(FragmentActivity activity) {
         this.activity = activity;
     }
 

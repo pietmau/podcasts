@@ -1,5 +1,6 @@
 package com.pietrantuono.podcasts.addpodcast.presenter;
 
+import android.arch.lifecycle.ViewModel;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,7 +16,7 @@ import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker;
 
 import rx.Observer;
 
-public class AddPodcastPresenter implements GenericPresenter, PodcastsAdapter.OnSunscribeClickedListener, PodcastsAdapter.OnItemClickedClickedListener {
+public class AddPodcastPresenter extends ViewModel implements GenericPresenter, PodcastsAdapter.OnSunscribeClickedListener, PodcastsAdapter.OnItemClickedClickedListener {
     public static final String TAG = (AddPodcastPresenter.class).getSimpleName();
     private final AddPodcastsModel addPodcastsModel;
     private final Observer<SearchResult> observer;

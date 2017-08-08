@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 
 import com.crashlytics.android.Crashlytics;
-import com.pietrantuono.podcasts.PresenterManager;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.BaseActivity;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastFragment;
@@ -25,7 +24,6 @@ import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends BaseActivity implements MainView {
     @Inject MainPresenter mainPresenter;
-    @Inject PresenterManager presenterManager;
     @Inject TransitionsFramework transitionsFramework;
     @BindView(R.id.drawer) DrawerLayoutWithToggle drawerLayoutWithToggle;
     @BindView(R.id.maintoolbar) Toolbar mainToolbar;
@@ -48,7 +46,7 @@ public class MainActivity extends BaseActivity implements MainView {
     }
 
     private void initDependencies() {
-        mainComponent = ((App) getApplicationContext()).getApplicationComponent().with(new MainModule(this));
+        mainComponent = ((App) getApplicationContext()).getApplicationComponent().with(new MainModule());
         mainComponent.inject(this);
     }
 
@@ -85,11 +83,6 @@ public class MainActivity extends BaseActivity implements MainView {
     @Override
     public void navigateToSubscribedPodcasts() {
         SubscribedPodcastFragment.Companion.navigateTo(fragmentManager);
-    }
-
-    @Override
-    public Object onRetainCustomNonConfigurationInstance() {
-        return presenterManager;
     }
 
     public MainComponent getMainComponent() {

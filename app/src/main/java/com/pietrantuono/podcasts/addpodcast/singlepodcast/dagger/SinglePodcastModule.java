@@ -27,6 +27,13 @@ import dagger.Provides;
 public class SinglePodcastModule {
     private AppCompatActivity activity;
 
+    public SinglePodcastModule(AppCompatActivity activity) {
+        this.activity = activity;
+    }
+
+    public SinglePodcastModule() {
+    }
+
     @Provides
     SinglePodcastPresenter provideSinglePodcastPresenter(SinglePodcastPresenterFactoryFactory factory) {
         return ViewModelProviders.of(activity, factory).get(SinglePodcastPresenter.class);
