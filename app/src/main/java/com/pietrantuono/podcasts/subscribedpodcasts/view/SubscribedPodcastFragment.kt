@@ -74,7 +74,7 @@ class SubscribedPodcastFragment : Fragment(), SubscribedPodcastView {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     override fun startDetailActivityWithoutTransition(podcast: Podcast) {
-        val intent = Intent(activity, AddSinglePodcastActivity::class.java)
+        val intent = Intent(activity, SingleSubscribedPodcastActivity::class.java)
         intent.putExtra(SingleSubscribedPodcastActivity.SINGLE_PODCAST_TRACK_ID, podcast?.trackId)
         intent.putExtra(SingleSubscribedPodcastActivity.ARTWORK, podcast?.artworkUrl600)
         activity.startActivity(intent)

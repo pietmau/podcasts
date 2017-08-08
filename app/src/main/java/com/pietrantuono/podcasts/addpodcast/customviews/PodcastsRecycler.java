@@ -47,7 +47,6 @@ public class PodcastsRecycler extends RecyclerView {
         adapter.onQueryTextChange(newText);
     }
 
-
     private void setOnItemClickListener(PodcastsAdapter.OnItemClickedClickedListener onItemClickedClickedListener) {
         adapter.setOnItemClickListener(onItemClickedClickedListener);
     }
