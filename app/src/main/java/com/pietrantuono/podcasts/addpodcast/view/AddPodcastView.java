@@ -18,8 +18,6 @@ public interface AddPodcastView {
 
     boolean isProgressShowing();
 
-    void onQueryTextChange(String newText);
-
     void startDetailActivityWithTransition(Podcast podcast, ImageView imageView, LinearLayout titleContainer);
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

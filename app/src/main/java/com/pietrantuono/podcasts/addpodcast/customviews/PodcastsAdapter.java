@@ -5,20 +5,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
-import com.pietrantuono.podcasts.imageloader.SimpleImageLoader;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider;
+import com.pietrantuono.podcasts.imageloader.SimpleImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> implements Filterable {
+public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> {
     private final List<Podcast> items;
     private final List<Podcast> publishedItems;
     private final SimpleImageLoader imageLoader;
@@ -58,16 +56,6 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> impleme
         publishedItems.clear();
         publishedItems.addAll(items);
         notifyDataSetChanged();
-    }
-
-
-    public void onQueryTextChange(String newText) {
-        getFilter().filter(newText);
-    }
-
-    @Override
-    public Filter getFilter() {
-        return new PodcastsFilter(this, items);
     }
 
     public void setOnItemClickListener(@NonNull OnItemClickedClickedListener onItemClickedClickedListener) {

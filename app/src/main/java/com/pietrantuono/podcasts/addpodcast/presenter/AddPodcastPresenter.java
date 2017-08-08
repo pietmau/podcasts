@@ -86,11 +86,6 @@ public class AddPodcastPresenter extends ViewModel implements GenericPresenter, 
         showProgressBar(true);
     }
 
-    public boolean onQueryTextChange(String newText) {
-        addPodcastView.onQueryTextChange(newText);
-        return true;
-    }
-
     public void onSaveInstanceState(AddPodcastFragmentMemento memento) {
         memento.setProgressShowing(addPodcastView.isProgressShowing());
     }

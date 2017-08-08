@@ -43,10 +43,6 @@ public class PodcastsRecycler extends RecyclerView {
         adapter.setItems(items);
     }
 
-    public void onQueryTextChange(String newText) {
-        adapter.onQueryTextChange(newText);
-    }
-
     private void setOnItemClickListener(PodcastsAdapter.OnItemClickedClickedListener onItemClickedClickedListener) {
         adapter.setOnItemClickListener(onItemClickedClickedListener);
     }

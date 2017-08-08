@@ -87,7 +87,6 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
         ButterKnife.bind(this, view);
         addPodcastPresenter.bindView(AddPodcastFragment.this, new AddPodcastFragmentMemento(savedInstanceState));
         podcastsRecycler.setListeners(addPodcastPresenter);
-        initSearchView();
         return view;
     }
 
@@ -95,11 +94,6 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         addPodcastPresenter.onSaveInstanceState(new AddPodcastFragmentMemento(outState));
-    }
-
-    @DebugLog
-    private void initSearchView() {
-        searchView.setOnQueryTextListener(new PodcastOnQueryTextListener(addPodcastPresenter));
     }
 
     @DebugLog
@@ -121,11 +115,6 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     @Override
     public boolean isProgressShowing() {
         return progressBar.getVisibility() == View.VISIBLE;
-    }
-
-    @Override
-    public void onQueryTextChange(String newText) {
-        podcastsRecycler.onQueryTextChange(newText);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
