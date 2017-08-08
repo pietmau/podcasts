@@ -9,39 +9,26 @@
     android:fitsSystemWindows="true"
     >
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/maintoolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <com.pietrantuono.podcasts.main.customviews.DrawerLayoutWithToggle
-        android:layout_above="@+id/playbackcontrols"
+        android:layout_below="@id/maintoolbar"
         android:id="@+id/drawer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/playbackcontrols"
         android:background="@color/activityBackgroundColor"
         android:fitsSystemWindows="true">
 
-        <android.support.design.widget.CoordinatorLayout
+        <FrameLayout
+            android:id="@+id/fragmentContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             >
-
-            <android.support.design.widget.AppBarLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/maintoolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_scrollFlags="scroll"/>
-            </android.support.design.widget.AppBarLayout>
-
-            <FrameLayout
-                android:id="@+id/fragmentContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                >
-            </FrameLayout>
-
-        </android.support.design.widget.CoordinatorLayout>
+        </FrameLayout>
 
         <com.pietrantuono.podcasts.main.customviews.SimpleNavView
             android:id="@+id/nav_view"

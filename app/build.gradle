@@ -110,7 +110,6 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.4.0'
 
     compile 'com.android.support:support-v4:25.4.0'
-    compile 'com.bartoszlipinski:recyclerviewheader2:2.0.1'
 
     compile 'com.google.android.exoplayer:exoplayer:r2.4.3'
 

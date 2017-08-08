@@ -17,16 +17,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.bartoszlipinski.recyclerviewheader2.RecyclerViewHeader;
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.customviews.CustomProgressBar;
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler;
 import com.pietrantuono.podcasts.addpodcast.dagger.AddPodcastModule;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
 import com.pietrantuono.podcasts.addpodcast.presenter.AddPodcastPresenter;
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.AddSinglePodcastActivity;
 import com.pietrantuono.podcasts.main.view.MainActivity;
 import com.pietrantuono.podcasts.main.view.TransitionsFramework;
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.AddSinglePodcastActivity;
 
 import java.util.List;
 
@@ -43,7 +42,6 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
     @BindView(R.id.search_view) SearchView searchView;
     @BindView(R.id.search_results) PodcastsRecycler podcastsRecycler;
     @BindView(R.id.progress) CustomProgressBar progressBar;
-    @BindView(R.id.header) RecyclerViewHeader recyclerViewHeader;
 
     public static void navigateTo(FragmentManager fragmentManager) {
         AddPodcastFragment frag = (AddPodcastFragment) fragmentManager.findFragmentByTag(AddPodcastFragment.TAG);
@@ -89,7 +87,6 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
         ButterKnife.bind(this, view);
         addPodcastPresenter.bindView(AddPodcastFragment.this, new AddPodcastFragmentMemento(savedInstanceState));
         podcastsRecycler.setListeners(addPodcastPresenter);
-        recyclerViewHeader.attachTo(podcastsRecycler);
         initSearchView();
         return view;
     }
