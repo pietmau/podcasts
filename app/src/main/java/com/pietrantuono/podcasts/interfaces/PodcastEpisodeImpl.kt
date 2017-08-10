@@ -39,6 +39,7 @@ open class PodcastEpisodeImpl : RealmObject, PodcastEpisode {
         this.syndEnclosures = parseEnclosures(syndEnclosures)
     }
 
+
     private fun returnKeywords(): List<String> {
         val list = mutableListOf<String>()
         for (realmSting in realmKeywords) {
