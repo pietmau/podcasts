@@ -75,8 +75,8 @@ ResourcesProvider) : PodcastEpisode by podcastEpisode {
 
     fun getDate(): String? {
         val simpleDateFormat = SimpleDateFormat("MMM d yyyy");
-        if (getPubDate() != null) {
-            return simpleDateFormat.format(getPubDate());
+        if (pubDate != null) {
+            return simpleDateFormat.format(pubDate);
         }
         return null;
     }
