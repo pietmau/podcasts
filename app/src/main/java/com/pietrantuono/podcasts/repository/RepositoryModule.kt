@@ -29,5 +29,10 @@ class RepositoryModule {
         return RepoServicesImpl(context, realm)
     }
 
+    @Provides
+    fun provideEpisodesRepository(): EpisodesRepository {
+        return EpisodesRepositoryRealm()
+    }
+
 }
 

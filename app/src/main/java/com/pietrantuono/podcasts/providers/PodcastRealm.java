@@ -6,7 +6,7 @@ import android.os.Parcelable;
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
 import com.pietrantuono.podcasts.apis.PodcastEpisode;
-import com.pietrantuono.podcasts.interfaces.PodcastEpisodeImpl;
+import com.pietrantuono.podcasts.interfaces.RealmPodcastEpisode;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -51,7 +51,7 @@ public class PodcastRealm extends RealmObject implements Podcast {
     private String artworkUrl600;
     private RealmList<RealmString> genreIds = null;
     private RealmList<RealmString> genres = null;
-    private RealmList<PodcastEpisodeImpl> episodes = new RealmList<>();
+    private RealmList<RealmPodcastEpisode> episodes = new RealmList<>();
     private boolean podcastSubscribed;
 
     public PodcastRealm() {
@@ -556,7 +556,7 @@ public class PodcastRealm extends RealmObject implements Podcast {
         this.genres = RealmUtlis.toRealmStringList(genres);
     }
 
-    public void setEpisodes(RealmList<PodcastEpisodeImpl> episodes) {
+    public void setEpisodes(RealmList<RealmPodcastEpisode> episodes) {
         this.episodes = episodes;
     }
 
@@ -608,7 +608,7 @@ public class PodcastRealm extends RealmObject implements Podcast {
         }
         episodes.clear();
         for (PodcastEpisode podcastEpisode : list) {
-            episodes.add((PodcastEpisodeImpl) podcastEpisode);
+            episodes.add((RealmPodcastEpisode) podcastEpisode);
         }
     }
 

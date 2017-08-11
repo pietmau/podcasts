@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".application.App"
@@ -41,6 +43,11 @@
             android:exported="false">
         </service>
 
+        <service
+            android:process="download"
+            android:name=".downloader.DowloaderService"
+            android:exported="false">
+        </service>
 
         <meta-data
             android:name="io.fabric.ApiKey"

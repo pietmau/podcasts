@@ -29,4 +29,5 @@ interface PodcastEpisode {
     var enclosures: List<SyndEnclosure>?
 
     var downloaded: Boolean?
+
 }

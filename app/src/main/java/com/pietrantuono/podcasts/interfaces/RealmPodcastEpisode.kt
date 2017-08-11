@@ -10,7 +10,7 @@ import io.realm.RealmObject
 import io.realm.annotations.Ignore
 import java.util.*
 
-open class PodcastEpisodeImpl : RealmObject, PodcastEpisode {
+open class RealmPodcastEpisode : RealmObject, PodcastEpisode {
     override var downloaded: Boolean? = false
     @Ignore
     override var keywords: List<String>? = null
@@ -46,7 +46,6 @@ open class PodcastEpisodeImpl : RealmObject, PodcastEpisode {
 
     constructor()
 
-
     private fun returnKeywords(): List<String> {
         val list = mutableListOf<String>()
         for (realmSting in realmKeywords!!) {
@@ -70,6 +69,4 @@ open class PodcastEpisodeImpl : RealmObject, PodcastEpisode {
         }
         return result
     }
-
-
 }
