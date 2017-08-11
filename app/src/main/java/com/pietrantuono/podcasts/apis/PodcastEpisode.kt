@@ -6,27 +6,27 @@ import java.util.*
 
 interface PodcastEpisode {
 
-    val duration: String
+    var duration: String?
 
-    val author: String
+    var author: String?
 
-    val isExplicit: Boolean
+    var isExplicit: Boolean?
 
-    val imageUrl: String
+    var imageUrl: String?
 
-    val keywords: List<String>
+    var keywords: List<String>?
 
-    val subtitle: String
+    var subtitle: String?
 
-    val summary: String
+    var summary: String?
 
-    val pubDate: Date
+    var pubDate: Date?
 
-    val title: String
+    var title: String?
 
-    val description: String
+    var description: String?
 
-    val enclosures: List<SyndEnclosure>
+    var enclosures: List<SyndEnclosure>?
 
-    var downloaded: Boolean
+    var downloaded: Boolean?
 }

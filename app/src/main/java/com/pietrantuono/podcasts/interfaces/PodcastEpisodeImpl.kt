@@ -7,23 +7,28 @@ import com.pietrantuono.podcasts.providers.RealmString
 import com.rometools.rome.feed.synd.SyndEnclosure
 import io.realm.RealmList
 import io.realm.RealmObject
+import io.realm.annotations.Ignore
 import java.util.*
 
 open class PodcastEpisodeImpl : RealmObject, PodcastEpisode {
-    override var downloaded: Boolean = false
-    override val keywords: List<String>
+    override var downloaded: Boolean? = false
+    @Ignore
+    override var keywords: List<String>? = null
         get() = returnKeywords()
-    override val duration: String
-    override val author: String
-    override val isExplicit: Boolean
-    override val imageUrl: String
-    private val realmKeywords: RealmList<RealmString>
-    override val subtitle: String
-    override val summary: String
-    override val pubDate: Date
-    override val title: String
-    override val description: String
-    private val syndEnclosures: RealmList<SimpleEnclosure>
+    override var duration: String? = null
+    override var author: String? = null
+    override var isExplicit: Boolean? = null
+    override var imageUrl: String? = null
+    private var realmKeywords: RealmList<RealmString>? = null
+    override var subtitle: String? = null
+    override var summary: String? = null
+    override var pubDate: Date? = null
+    override var title: String? = null
+    override var description: String? = null
+    private var syndEnclosures: RealmList<SimpleEnclosure>? = null
+    @Ignore
+    override var enclosures: List<SyndEnclosure>? = null
+        get() = syndEnclosures
 
     constructor(duration: String, author: String, isExplicit: Boolean, imageUrl: String, keywords: List<String>, subtitle: String, summary: String, pubDate: Date, title: String, description: String, syndEnclosures: List<SyndEnclosure>) {
         this.duration = duration
@@ -39,10 +44,12 @@ open class PodcastEpisodeImpl : RealmObject, PodcastEpisode {
         this.syndEnclosures = parseEnclosures(syndEnclosures)
     }
 
+    constructor()
+
 
     private fun returnKeywords(): List<String> {
         val list = mutableListOf<String>()
-        for (realmSting in realmKeywords) {
+        for (realmSting in realmKeywords!!) {
             list.add(realmSting.string)
         }
         return list
@@ -64,7 +71,5 @@ open class PodcastEpisodeImpl : RealmObject, PodcastEpisode {
         return result
     }
 
-    override val enclosures: List<SyndEnclosure>
-        get() = syndEnclosures
 
 }

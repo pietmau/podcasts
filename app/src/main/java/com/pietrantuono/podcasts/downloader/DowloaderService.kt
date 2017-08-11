@@ -15,7 +15,7 @@ class DowloaderService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         (application as App).applicationComponent?.with(DownloadModule(this))?.inject(this)
-        return START_REDELIVER_INTENT
+        return START_STICKY
     }
 
 
