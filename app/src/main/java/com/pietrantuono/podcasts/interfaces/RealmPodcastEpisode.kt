@@ -30,7 +30,9 @@ open class RealmPodcastEpisode : RealmObject, PodcastEpisode {
     override var enclosures: List<SyndEnclosure>? = null
         get() = syndEnclosures
 
-    constructor(duration: String, author: String, isExplicit: Boolean, imageUrl: String, keywords: List<String>, subtitle: String, summary: String, pubDate: Date, title: String, description: String, syndEnclosures: List<SyndEnclosure>) {
+    constructor(duration: String?, author: String?, isExplicit: Boolean?, imageUrl: String?,
+                keywords: List<String>?, subtitle: String?, summary: String?, pubDate: Date?,
+                title: String?, description: String?, syndEnclosures: List<SyndEnclosure>?) {
         this.duration = duration
         this.author = author
         this.isExplicit = isExplicit
@@ -54,16 +56,22 @@ open class RealmPodcastEpisode : RealmObject, PodcastEpisode {
         return list
     }
 
-    private fun parseKeywords(keywords: List<String>): RealmList<RealmString> {
+    private fun parseKeywords(keywords: List<String>?): RealmList<RealmString> {
         val realmStrings = RealmList<RealmString>()
+        if (keywords == null) {
+            return realmStrings
+        }
         for (keyword in keywords) {
             realmStrings.add(RealmString(keyword))
         }
         return realmStrings
     }
 
-    private fun parseEnclosures(syndEnclosures: List<SyndEnclosure>): RealmList<SimpleEnclosure> {
+    private fun parseEnclosures(syndEnclosures: List<SyndEnclosure>?): RealmList<SimpleEnclosure> {
         val result = RealmList<SimpleEnclosure>()
+        if (syndEnclosures == null) {
+            return result
+        }
         for (enc in syndEnclosures) {
             result.add(SimpleEnclosure(enc))
         }
