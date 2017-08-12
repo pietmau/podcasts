@@ -1,10 +1,11 @@
-package com.pietrantuono.podcasts.subscribedpodcasts.detail.presenter
+package com.pietrantuono.podcasts.subscribedpodcasts.detail.menu
 
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.model.SingleSubscribedModel
+import com.pietrantuono.podcasts.subscribedpodcasts.detail.presenter.SingleSubscribedPodcastPresenter
 
 
 class SingleSubscribedPodcastMenuProviderImpl(private val model: SingleSubscribedModel,

@@ -1,6 +1,20 @@
 package com.pietrantuono.podcasts.application
 
+import android.util.Log
+import com.pietrantuono.podcasts.BuildConfig
+import javax.inject.Inject
 
-interface DebugLogger {
-    fun debug(tag: String?, msg: String?)
+
+class DebugLogger @Inject constructor() {
+    private val DEBUG: String = "debug"
+
+    fun debug(tag: String?, msg: String?) {
+        if (shouldLog()) {
+            Log.d(tag, msg)
+        }
+    }
+
+    private fun shouldLog(): Boolean {
+        return DEBUG.equals(BuildConfig.BUILD_TYPE, true)
+    }
 }

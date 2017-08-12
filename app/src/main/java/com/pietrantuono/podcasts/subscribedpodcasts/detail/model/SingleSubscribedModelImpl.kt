@@ -8,13 +8,15 @@ import com.pietrantuono.podcasts.repository.repository.Repository
 import rx.Observer
 import rx.subscriptions.CompositeSubscription
 
-class SingleSubscribedModelImpl(private val repository: Repository, private val dowloadmanager:
+class SingleSubscribedModelImpl(private val repository: Repository, private val downLoadManager:
 PodcastDownLoadManager) : SingleSubscribedModel() {
     private val compositeSubscription: CompositeSubscription = CompositeSubscription()
     private var feed: Podcast? = null
 
     override fun onDownLoadAllSelected() {
-
+        if (feed != null && feed!!.episodes != null) {
+            downLoadManager.downLoadAll(feed!!.episodes!!)
+        }
     }
 
     override fun unsubscribeFromPodcast() {

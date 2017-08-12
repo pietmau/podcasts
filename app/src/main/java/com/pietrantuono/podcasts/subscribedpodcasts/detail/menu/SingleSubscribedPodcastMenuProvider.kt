@@ -1,4 +1,4 @@
-package com.pietrantuono.podcasts.subscribedpodcasts.detail.presenter
+package com.pietrantuono.podcasts.subscribedpodcasts.detail.menu
 
 import android.view.Menu
 import android.view.MenuItem

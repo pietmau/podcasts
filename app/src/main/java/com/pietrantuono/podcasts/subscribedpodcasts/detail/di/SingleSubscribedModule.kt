@@ -15,9 +15,9 @@ import com.pietrantuono.podcasts.main.view.TransitionsFramework
 import com.pietrantuono.podcasts.player.player.MediaSourceCreator
 import com.pietrantuono.podcasts.player.player.service.Player
 import com.pietrantuono.podcasts.repository.repository.Repository
+import com.pietrantuono.podcasts.subscribedpodcasts.detail.menu.SingleSubscribedPodcastMenuProviderImpl
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.model.SingleSubscribedModel
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.model.SingleSubscribedModelImpl
-import com.pietrantuono.podcasts.subscribedpodcasts.detail.presenter.SingleSubscribedPodcastMenuProviderImpl
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.presenter.SingleSubscribedPodcastPresenter
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.views.SingleSubscribedPodcastsAdapter
 import dagger.Module

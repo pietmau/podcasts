@@ -5,6 +5,8 @@ import android.arch.lifecycle.ViewModel
 import android.view.MenuItem
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
+import com.pietrantuono.podcasts.subscribedpodcasts.detail.menu.SingleSubscribedPodcastMenuProvider
+import com.pietrantuono.podcasts.subscribedpodcasts.detail.menu.SingleSubscribedPodcastMenuProviderImpl
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.model.SingleSubscribedModel
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.views.SingleSubscribedPodcastView
 

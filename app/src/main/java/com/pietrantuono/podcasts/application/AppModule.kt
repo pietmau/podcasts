@@ -5,8 +5,6 @@ import com.google.android.exoplayer2.DefaultLoadControl
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
-import com.pietrantuono.podcasts.downloader.PodcastDownLoadManager
-import com.pietrantuono.podcasts.downloader.PodcastDownLoadManagerImpl
 import com.pietrantuono.podcasts.player.player.service.Player
 import dagger.Module
 import dagger.Provides
@@ -33,13 +31,4 @@ class AppModule(private val context: Context) {
         return (context as App).player
     }
 
-    @Provides
-    internal fun provideDebugLogger(): DebugLogger {
-        return DebugLoggerImpl()
-    }
-
-    @Provides
-    internal fun providePodcastDownLoadManager(): PodcastDownLoadManager {
-        return PodcastDownLoadManagerImpl()
-    }
 }
