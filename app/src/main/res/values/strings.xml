@@ -19,5 +19,6 @@
 
     <string name="audio">AUDIO</string>
     <string name="video">VIDEO</string>
+    <string name="download">Download</string>
 
 </resources>

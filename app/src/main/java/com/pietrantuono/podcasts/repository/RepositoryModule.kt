@@ -30,8 +30,8 @@ class RepositoryModule {
     }
 
     @Provides
-    fun provideEpisodesRepository(): EpisodesRepository {
-        return EpisodesRepositoryRealm()
+    fun provideEpisodesRepository(realm: Realm): EpisodesRepository {
+        return EpisodesRepositoryRealm(realm)
     }
 
 }

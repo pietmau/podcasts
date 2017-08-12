@@ -4,6 +4,7 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import com.pietrantuono.podcasts.application.App
+import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 import com.tonyodev.fetch.listener.FetchListener
 import com.tonyodev.fetch.request.Request
@@ -20,6 +21,7 @@ class DowloaderService : Service(), FetchListener {
     @Inject lateinit var repository: EpisodesRepository
     @Inject lateinit var notification: Notificator
     @Inject lateinit var requestGenerator: RequestGenerator
+    @Inject lateinit var debugLogger: DebugLogger
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
@@ -50,6 +52,7 @@ class DowloaderService : Service(), FetchListener {
     }
 
     override fun onUpdate(id: Long, status: Int, progress: Int, downloadedBytes: Long, fileSize: Long, error: Int) {
+        debugLogger.debug(this@DowloaderService::class.simpleName, "" + progress)
         notification.notifyUser(requests[id], downloader.getById(id), id, status, progress, downloadedBytes, fileSize, error)
     }
 }

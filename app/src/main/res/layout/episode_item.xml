@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:lib="http://schemas.android.com/apk/res-auto"
-        xmlns:bind="http://schemas.android.com/tools">
+        xmlns:bind="http://schemas.android.com/tools"
+        xmlns:lib="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.PodcastEpisodeView"/>
@@ -26,11 +27,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <include layout="@layout/episode_item_image"
-                         bind:viewModel="@{viewModel}"/>
+                <include
+                    layout="@layout/episode_item_image"
+                    bind:viewModel="@{viewModel}"/>
 
-                <include layout="@layout/episode_item_content"
-                         bind:viewModel="@{viewModel}"/>
+                <include
+                    android:id="@+id/content"
+                    layout="@layout/episode_item_content"
+                    bind:viewModel="@{viewModel}"/>
 
             </RelativeLayout>
 

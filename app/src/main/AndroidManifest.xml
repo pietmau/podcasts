@@ -30,22 +30,22 @@
         </activity>
 
         <activity
-            android:name=".addpodcast.singlepodcast.view.SingleSubscribedPodcastActivity">
+            android:name="com.pietrantuono.podcasts.addpodcast.singlepodcast.view.SingleSubscribedPodcastActivity">
         </activity>
 
         <service
-            android:name=".player.player.service.PlayerService"
+            android:name="com.pietrantuono.podcasts.player.player.service.PlayerService"
             android:exported="false">
         </service>
 
         <service
-            android:name=".repository.SaveEpisodeIntentService"
+            android:name="com.pietrantuono.podcasts.repository.SaveEpisodeIntentService"
             android:exported="false">
         </service>
 
         <service
-            android:process="download"
-            android:name=".downloader.DowloaderService"
+            android:process=":download"
+            android:name="com.pietrantuono.podcasts.downloader.DowloaderService"
             android:exported="false">
         </service>
 
