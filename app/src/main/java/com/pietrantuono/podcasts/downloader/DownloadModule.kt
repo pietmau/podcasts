@@ -8,8 +8,19 @@ import dagger.Provides
 class DownloadModule(private val context: Context) {
 
     @Provides
-    fun provideDowloader(): Dowloader {
+    fun provideDowloader(): Downloader {
         return FetchDownloader(context)
     }
+
+    @Provides
+    fun provideNotificator(): Notificator {
+        return NotificatorImpl()
+    }
+
+    @Provides
+    fun provideRequestGenerator(): RequestGenerator {
+        return RequestGeneratorImpl()
+    }
+
 }
 
