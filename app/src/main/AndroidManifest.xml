@@ -44,7 +44,7 @@
         </service>
 
         <service
-
+            android:process=":download"
             android:name="com.pietrantuono.podcasts.downloader.service.DowloaderService"
             android:exported="false">
         </service>

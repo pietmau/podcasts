@@ -1,12 +1,10 @@
 package com.pietrantuono.podcasts.downloader.di
 
 import android.content.Context
-import com.pietrantuono.podcasts.downloader.downloader.Downloader
-import com.pietrantuono.podcasts.downloader.downloader.FetchDownloader
-import com.pietrantuono.podcasts.downloader.downloader.RequestGenerator
-import com.pietrantuono.podcasts.downloader.downloader.RequestGeneratorImpl
+import com.pietrantuono.podcasts.downloader.downloader.*
 import com.pietrantuono.podcasts.downloader.service.Notificator
 import com.pietrantuono.podcasts.downloader.service.NotificatorImpl
+import com.pietrantuono.podcasts.settings.PreferencesManager
 import dagger.Module
 import dagger.Provides
 
@@ -24,9 +22,13 @@ class DownloadModule(private val context: Context) {
     }
 
     @Provides
-    fun provideRequestGenerator(): RequestGenerator {
-        return RequestGeneratorImpl()
+    fun provideRequestGenerator(preferenceManager: PreferencesManager, provider: DirectoryProvider): RequestGenerator {
+        return RequestGeneratorImpl(provider)
     }
 
+    @Provides
+    fun provideDirectoryProvider():DirectoryProvider{
+        return DirectoryProviderImpl(context)
+    }
 }
 
