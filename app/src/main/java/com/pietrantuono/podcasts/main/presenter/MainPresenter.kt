@@ -2,10 +2,9 @@ package com.pietrantuono.podcasts.main.presenter
 
 import com.pietrantuono.podcasts.GenericPresenter
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
-import com.pietrantuono.podcasts.application.PermissionManager
 import com.pietrantuono.podcasts.main.view.MainView
 
-class MainPresenter(private val checker: ApiLevelChecker,private val permissionManager: PermissionManager) : GenericPresenter {
+class MainPresenter(private val checker: ApiLevelChecker) : GenericPresenter {
     private var view: MainView? = null
 
     fun bindView(view: MainView) {

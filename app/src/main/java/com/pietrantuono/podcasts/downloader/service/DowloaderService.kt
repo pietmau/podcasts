@@ -11,7 +11,6 @@ import com.pietrantuono.podcasts.downloader.downloader.RequestGenerator
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 import com.tonyodev.fetch.listener.FetchListener
 import com.tonyodev.fetch.request.Request
-import java.util.*
 import javax.inject.Inject
 
 class DowloaderService : Service(), FetchListener {
@@ -55,14 +54,10 @@ class DowloaderService : Service(), FetchListener {
         } else {
             val trackList = intent.getStringArrayListExtra(TRACK_LIST)
             if (trackList != null) {
-                getAndEnqueueList(trackList)
+                for (trackId in trackList) {
+                    getAndEnqueueSingleEpisode(trackId)
+                }
             }
-        }
-    }
-
-    private fun getAndEnqueueList(trackList: ArrayList<String>) {
-        for (trackId in trackList) {
-            getAndEnqueueSingleEpisode(trackId)
         }
     }
 
