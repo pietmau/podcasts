@@ -5,6 +5,6 @@ import com.tonyodev.fetch.request.Request
 
 interface RequestGenerator {
 
-    fun createRequest(enclosure: SyndEnclosure): Request
+    fun createRequest(enclosure: SyndEnclosure): Request?
 
 }

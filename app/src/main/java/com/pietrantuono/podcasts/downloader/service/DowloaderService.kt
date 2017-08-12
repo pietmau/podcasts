@@ -35,7 +35,8 @@ class DowloaderService : Service(), FetchListener {
 
     override fun onCreate() {
         super.onCreate()
-        (application as App).applicationComponent?.with(DownloadModule(this))?.inject(this)
+        (application as App).applicationComponent?.with(DownloadModule(this))?.
+                inject(this)
         downloader.addListener(this@DowloaderService)
     }
 
@@ -69,8 +70,10 @@ class DowloaderService : Service(), FetchListener {
         repository.getEpisodeByUrl(url)?.let {
             it.enclosures?.let {
                 if (!it.isEmpty()) {
-                    val request = requestGenerator.createRequest(it[0])
-                    requests.put(downloader.enqueueRequest(request), request)
+                    requestGenerator.createRequest(it[0])?.let {
+                        requests.put(downloader.enqueueRequest(it), it)
+                    }
+
                 }
             }
         }

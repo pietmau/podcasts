@@ -7,9 +7,7 @@ import javax.inject.Inject
 
 class RequestGeneratorImpl @Inject constructor() : RequestGenerator {
 
-    override fun createRequest(enclosure: SyndEnclosure): Request {
-        throw RuntimeException()
-        return Request(enclosure.url)
-    }
+    override fun createRequest(enclosure: SyndEnclosure): Request? = enclosure.url?.let { Request(it) }
+
 }
 
