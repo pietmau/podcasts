@@ -1,15 +1,15 @@
 package com.pietrantuono.podcasts.downloader.downloader
 
-import com.pietrantuono.podcasts.apis.PodcastEpisode
-import com.pietrantuono.podcasts.downloader.downloader.RequestGenerator
+import com.rometools.rome.feed.synd.SyndEnclosure
 import com.tonyodev.fetch.request.Request
 import javax.inject.Inject
 
 
-class RequestGeneratorImpl @Inject constructor(): RequestGenerator {
+class RequestGeneratorImpl @Inject constructor() : RequestGenerator {
 
-    override fun createRequest(episode: PodcastEpisode): Request {
-        return Request("",""",""")
+    override fun createRequest(enclosure: SyndEnclosure): Request {
+        throw RuntimeException()
+        return Request(enclosure.url)
     }
 }
 

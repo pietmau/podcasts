@@ -18,7 +18,8 @@ class DowloaderService : Service(), FetchListener {
     private val requests: MutableMap<Long, Request> = mutableMapOf()
 
     companion object {
-        val TRACK_ID: String = "track_id"
+        private val TAG: String = "DowloaderService"
+        val TRACK: String = "track_id"
         val TRACK_LIST: String = "track_list"
     }
 
@@ -47,9 +48,9 @@ class DowloaderService : Service(), FetchListener {
         if (intent == null) {
             return
         }
-        val trackId = intent.getStringExtra(TRACK_ID)
-        if (trackId != null) {
-            getAndEnqueueSingleEpisode(trackId)
+        val url = intent.getStringExtra(TRACK)
+        if (url != null) {
+            getAndEnqueueSingleEpisode(url)
         } else {
             val trackList = intent.getStringArrayListExtra(TRACK_LIST)
             if (trackList != null) {
@@ -64,17 +65,19 @@ class DowloaderService : Service(), FetchListener {
         }
     }
 
-    private fun getAndEnqueueSingleEpisode(trackId: String) {
-        val episode = repository.getEpisoceById(trackId)
-        if (episode == null) {
-            return
+    private fun getAndEnqueueSingleEpisode(url: String) {
+        repository.getEpisodeByUrl(url)?.let {
+            it.enclosures?.let {
+                if (!it.isEmpty()) {
+                    val request = requestGenerator.createRequest(it[0])
+                    requests.put(downloader.enqueueRequest(request), request)
+                }
+            }
         }
-        val request = requestGenerator.createRequest(episode)
-        requests.put(downloader.enqueueRequest(request), request)
     }
 
     override fun onUpdate(id: Long, status: Int, progress: Int, downloadedBytes: Long, fileSize: Long, error: Int) {
-        debugLogger.debug(this@DowloaderService::class.simpleName, "" + progress)
+        debugLogger.debug(TAG, "" + progress)
         notification.notifyUser(requests[id], downloader.getById(id), id, status, progress, downloadedBytes, fileSize, error)
     }
 }

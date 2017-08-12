@@ -47,8 +47,7 @@ public class PodcastEpisodeParser {
     @NonNull
     private ROMEPodcastEpisodeBuilder getRomePodcastEpisodeBuilder(SyndEntry syndEntry, EntryInformation itunesEntryInformation, MediaEntryModule mediaEntryModule) {
         ROMEPodcastEpisodeBuilder romePodcastEpisodeBuilder = new ROMEPodcastEpisodeBuilder();
-        romePodcastEpisodeBuilder = parseItunesEntryInformation(itunesEntryInformation, romePodcastEpisodeBuilder);
-        romePodcastEpisodeBuilder = parseSyndEntry(syndEntry, romePodcastEpisodeBuilder);
+        romePodcastEpisodeBuilder = parseSyndEntry(syndEntry, parseItunesEntryInformation(itunesEntryInformation, romePodcastEpisodeBuilder));
         romePodcastEpisodeBuilder = parseImage(itunesEntryInformation, mediaEntryModule, romePodcastEpisodeBuilder);
         return romePodcastEpisodeBuilder;
     }
@@ -58,24 +57,21 @@ public class PodcastEpisodeParser {
         if (syndEntry == null) {
             return romePodcastEpisodeBuilder;
         }
-        romePodcastEpisodeBuilder.setPubDate(parsePubDate(syndEntry));
-        romePodcastEpisodeBuilder.setDescription(parseDescription(syndEntry));
-        romePodcastEpisodeBuilder.setTitle(parseTitle(syndEntry));
-        romePodcastEpisodeBuilder.setEnclosures(parseEnclosures(syndEntry));
-        return romePodcastEpisodeBuilder;
+        return romePodcastEpisodeBuilder.setPubDate(parsePubDate(syndEntry))
+                .setDescription(parseDescription(syndEntry)).setTitle(parseTitle(syndEntry))
+                .setEnclosures(parseEnclosures(syndEntry)).setLink(syndEntry.getLink());
     }
 
     @NonNull
-    private ROMEPodcastEpisodeBuilder parseItunesEntryInformation(EntryInformation itunesEntryInformation, ROMEPodcastEpisodeBuilder romePodcastEpisodeBuilder) {
+    private ROMEPodcastEpisodeBuilder parseItunesEntryInformation(EntryInformation itunesEntryInformation,
+                                                                  ROMEPodcastEpisodeBuilder romePodcastEpisodeBuilder) {
         if (itunesEntryInformation == null) {
             return romePodcastEpisodeBuilder;
         }
-        romePodcastEpisodeBuilder.setAuthor(parseAuthor(itunesEntryInformation));
-        romePodcastEpisodeBuilder.setDuration(parseDuration(itunesEntryInformation));
-        romePodcastEpisodeBuilder.setIsExplicit(parseExplicit(itunesEntryInformation));
-        romePodcastEpisodeBuilder.setKeywords(parseKeywords(itunesEntryInformation));
-        romePodcastEpisodeBuilder.setSubtitle(parseSubtitle(itunesEntryInformation));
-        romePodcastEpisodeBuilder.setSummary(parseSummary(itunesEntryInformation));
+        romePodcastEpisodeBuilder.setAuthor(parseAuthor(itunesEntryInformation))
+                .setDuration(parseDuration(itunesEntryInformation)).setIsExplicit(parseExplicit(itunesEntryInformation))
+                .setKeywords(parseKeywords(itunesEntryInformation)).setSubtitle(parseSubtitle(itunesEntryInformation))
+                .setSummary(parseSummary(itunesEntryInformation));
         return romePodcastEpisodeBuilder;
     }
 
@@ -140,7 +136,9 @@ public class PodcastEpisodeParser {
         }
     }
 
-    private ROMEPodcastEpisodeBuilder parseImage(EntryInformation itunesEntryInformation, MediaEntryModule mediaEntryModule, ROMEPodcastEpisodeBuilder romePodcastEpisodeBuilder) {
+    private ROMEPodcastEpisodeBuilder parseImage(EntryInformation itunesEntryInformation,
+                                                 MediaEntryModule mediaEntryModule,
+                                                 ROMEPodcastEpisodeBuilder romePodcastEpisodeBuilder) {
         romePodcastEpisodeBuilder.setImageUrl(imageParser.parseImage(itunesEntryInformation, mediaEntryModule));
         return romePodcastEpisodeBuilder;
     }

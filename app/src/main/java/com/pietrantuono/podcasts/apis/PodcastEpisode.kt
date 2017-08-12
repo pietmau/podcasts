@@ -30,4 +30,6 @@ interface PodcastEpisode {
 
     var downloaded: Boolean?
 
+    var link: String?
+
 }

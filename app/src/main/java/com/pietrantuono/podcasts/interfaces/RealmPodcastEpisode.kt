@@ -11,6 +11,7 @@ import io.realm.annotations.Ignore
 import java.util.*
 
 open class RealmPodcastEpisode : RealmObject, PodcastEpisode {
+    override var link: String? = null
     override var downloaded: Boolean? = false
     @Ignore
     override var keywords: List<String>? = null
@@ -32,7 +33,7 @@ open class RealmPodcastEpisode : RealmObject, PodcastEpisode {
 
     constructor(duration: String?, author: String?, isExplicit: Boolean?, imageUrl: String?,
                 keywords: List<String>?, subtitle: String?, summary: String?, pubDate: Date?,
-                title: String?, description: String?, syndEnclosures: List<SyndEnclosure>?) {
+                title: String?, description: String?, syndEnclosures: List<SyndEnclosure>?, link: String?) {
         this.duration = duration
         this.author = author
         this.isExplicit = isExplicit
@@ -44,6 +45,7 @@ open class RealmPodcastEpisode : RealmObject, PodcastEpisode {
         this.title = title
         this.description = description
         this.syndEnclosures = parseEnclosures(syndEnclosures)
+        this.link = link
     }
 
     constructor()

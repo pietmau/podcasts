@@ -1,10 +1,10 @@
 package com.pietrantuono.podcasts.downloader.downloader
 
-import com.pietrantuono.podcasts.apis.PodcastEpisode
+import com.rometools.rome.feed.synd.SyndEnclosure
 import com.tonyodev.fetch.request.Request
 
 interface RequestGenerator {
 
-    fun createRequest(episode: PodcastEpisode): Request
+    fun createRequest(enclosure: SyndEnclosure): Request
 
 }

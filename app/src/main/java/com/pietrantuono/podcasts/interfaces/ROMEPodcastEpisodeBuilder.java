@@ -17,6 +17,7 @@ public class ROMEPodcastEpisodeBuilder {
     private String title;
     private String description;
     private List<SyndEnclosure> syndEnclosures;
+    private String link;
 
     public ROMEPodcastEpisodeBuilder setDuration(String duration) {
         this.duration = duration;
@@ -73,8 +74,13 @@ public class ROMEPodcastEpisodeBuilder {
         return this;
     }
 
+    public ROMEPodcastEpisodeBuilder setLink(String link) {
+        this.link = link;
+        return this;
+    }
+
     public RealmPodcastEpisode createROMEPodcastEpisode() {
-        return new RealmPodcastEpisode(duration, author, isExplicit, imageUrl, keywords, subtitle, summary, pubDate, title, description, syndEnclosures);
+        return new RealmPodcastEpisode(duration, author, isExplicit, imageUrl, keywords, subtitle, summary, pubDate, title, description, syndEnclosures, link);
     }
 
 }
