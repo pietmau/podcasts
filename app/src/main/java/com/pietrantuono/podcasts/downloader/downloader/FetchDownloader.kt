@@ -1,6 +1,7 @@
-package com.pietrantuono.podcasts.downloader
+package com.pietrantuono.podcasts.downloader.downloader
 
 import android.content.Context
+import com.pietrantuono.podcasts.downloader.downloader.Downloader
 import com.tonyodev.fetch.Fetch
 import com.tonyodev.fetch.listener.FetchListener
 import com.tonyodev.fetch.request.Request

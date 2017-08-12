@@ -1,4 +1,4 @@
-package com.pietrantuono.podcasts.downloader
+package com.pietrantuono.podcasts.downloader.downloader
 
 import com.tonyodev.fetch.listener.FetchListener
 import com.tonyodev.fetch.request.Request

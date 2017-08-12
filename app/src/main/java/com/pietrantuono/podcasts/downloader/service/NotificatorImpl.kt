@@ -1,5 +1,6 @@
-package com.pietrantuono.podcasts.downloader
+package com.pietrantuono.podcasts.downloader.service
 
+import com.pietrantuono.podcasts.downloader.service.Notificator
 import com.tonyodev.fetch.request.Request
 import com.tonyodev.fetch.request.RequestInfo
 

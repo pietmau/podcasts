@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import com.pietrantuono.podcasts.CrashlyticsWrapper
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.TransitionImageLoadingListener
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
+import com.pietrantuono.podcasts.downloader.PodcastDownLoadManager
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
 import com.pietrantuono.podcasts.main.view.TransitionsFramework
 import com.pietrantuono.podcasts.player.player.MediaSourceCreator
@@ -42,8 +43,8 @@ class SingleSubscribedModule(private val activity: AppCompatActivity) {
 
     @SubscribedPodcastScope
     @Provides
-    fun provideSingleSubscribedModel(repository: Repository): SingleSubscribedModel {
-        return SingleSubscribedModelImpl(repository)
+    fun provideSingleSubscribedModel(repository: Repository, downloadManager: PodcastDownLoadManager): SingleSubscribedModel {
+        return SingleSubscribedModelImpl(repository, downloadManager)
     }
 
     @SubscribedPodcastScope
@@ -55,7 +56,7 @@ class SingleSubscribedModule(private val activity: AppCompatActivity) {
 
     @Provides
     fun provideViewModelProviderFactory(wrapper: CrashlyticsWrapper,
-                                        player: Player,
+                                        player: Player?,
                                         creator: MediaSourceCreator,
                                         model: SingleSubscribedModel,
                                         menuProvider: SingleSubscribedPodcastMenuProviderImpl

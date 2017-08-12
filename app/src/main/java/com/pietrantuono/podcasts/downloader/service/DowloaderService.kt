@@ -1,10 +1,13 @@
-package com.pietrantuono.podcasts.downloader
+package com.pietrantuono.podcasts.downloader.service
 
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.application.DebugLogger
+import com.pietrantuono.podcasts.downloader.downloader.RequestGenerator
+import com.pietrantuono.podcasts.downloader.di.DownloadModule
+import com.pietrantuono.podcasts.downloader.downloader.Downloader
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 import com.tonyodev.fetch.listener.FetchListener
 import com.tonyodev.fetch.request.Request

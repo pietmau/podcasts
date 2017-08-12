@@ -4,6 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.PodcastEpisodeView"/>
@@ -32,23 +33,15 @@
             style="@style/Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/pub_date"
             android:layout_marginLeft="@dimen/standard_margin"
-            android:layout_toLeftOf="@+id/overflow"
             android:ellipsize="end"
             android:maxLines="2"
             android:text="@{viewModel.title}"/>
-
-        <ImageView
-            android:id="@+id/overflow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:paddingLeft="8dp"
-            bind:srcCompat="@drawable/ic_more_vert_black_12dp"/>
 
         <TextView
             android:id="@+id/subtitle"

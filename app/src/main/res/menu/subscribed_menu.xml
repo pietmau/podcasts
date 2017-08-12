@@ -9,4 +9,8 @@
         android:id="@+id/unsubscribe"
         android:title="@string/unsubscribe"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/dowload_all"
+        android:title="Download"
+        app:showAsAction="never"/>
 </menu>

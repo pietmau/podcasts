@@ -3,7 +3,6 @@ package com.pietrantuono.podcasts.subscribedpodcasts.detail.presenter
 
 import android.arch.lifecycle.ViewModel
 import android.view.MenuItem
-import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.model.SingleSubscribedModel
@@ -14,15 +13,12 @@ class SingleSubscribedPodcastPresenter(
         private val menuProvider: SingleSubscribedPodcastMenuProviderImpl)
     : ViewModel(), SingleSubscribedPodcastMenuProvider by menuProvider {
 
-    init {
-        menuProvider.setCallback(this@SingleSubscribedPodcastPresenter)
-    }
-
     var view: SingleSubscribedPodcastView? = null
 
     private var startedWithTransition: Boolean = false
 
     fun onStart(view: SingleSubscribedPodcastView, trackId: Int, startedWithTransition: Boolean) {
+        menuProvider.setCallback(this@SingleSubscribedPodcastPresenter)
         this.view = view
         startPresenter(startedWithTransition)
         model.subscribe(trackId, object : SimpleObserver<Podcast>() {
@@ -36,6 +32,7 @@ class SingleSubscribedPodcastPresenter(
     }
 
     fun onStop() {
+        menuProvider.setCallback(null)
         this.view = null
         model.unsubscribe()
     }
@@ -49,13 +46,12 @@ class SingleSubscribedPodcastPresenter(
         }
     }
 
-    fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            R.id.unsubscribe -> {
-                model.unsubscribeFromPodcast()
-            }
-        }
-        return false
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return menuProvider.onOptionsItemSelected(item)
+    }
+
+    fun onDownLoadAllSelected() {
+        model.onDownLoadAllSelected()
     }
 
 }

@@ -23,7 +23,6 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase(), SingleSubscribedPod
         val SINGLE_PODCAST_TRACK_ID: String? = "track_id"
         val ARTWORK: String? = "artwork"
     }
-
     @BindView(R.id.recycler) lateinit var recyclerView: SingleSubscribedPodcastsRecycler
     @BindView(R.id.coordinator) lateinit var coordinator: CoordinatorLayout
     @Inject lateinit var presenter: SingleSubscribedPodcastPresenter
@@ -74,11 +73,11 @@ class SingleSubscribedPodcastActivity : DetailActivtyBase(), SingleSubscribedPod
         return presenter.onCreateOptionsMenu(menu!!)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         return presenter.onPrepareOptionsMenu(menu!!)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return presenter.onOptionsItemSelected(item)
     }
 }

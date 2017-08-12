@@ -8,4 +8,5 @@ abstract class SingleSubscribedModel {
     abstract fun subscribe(trackId: Int, observer: Observer<in Podcast>)
     abstract fun unsubscribe()
     abstract fun unsubscribeFromPodcast()
+    abstract fun onDownLoadAllSelected()
 }

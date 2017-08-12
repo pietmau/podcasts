@@ -8,8 +8,8 @@ import com.pietrantuono.podcasts.addpodcast.dagger.SearchModelsModule
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.EpisodesRecycler
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.dagger.SinglePodcastModule
 import com.pietrantuono.podcasts.apis.ApiModule
-import com.pietrantuono.podcasts.downloader.DowloadSubComponent
-import com.pietrantuono.podcasts.downloader.DownloadModule
+import com.pietrantuono.podcasts.downloader.DownloadSubComponent
+import com.pietrantuono.podcasts.downloader.di.DownloadModule
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule
 import com.pietrantuono.podcasts.main.dagger.MainModule
 import com.pietrantuono.podcasts.main.dagger.TransitionsModule
@@ -22,7 +22,9 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = arrayOf(AppModule::class, ApiLevelCheckerlModule::class, SearchModelsModule::class, ImageLoaderModule::class, TransitionsModule::class, MediaModule::class, RepositoryModule::class, ApiModule::class))
+@Component(modules = arrayOf(AppModule::class, ApiLevelCheckerlModule::class,
+        SearchModelsModule::class, ImageLoaderModule::class, TransitionsModule::class,
+        MediaModule::class, RepositoryModule::class, ApiModule::class))
 interface ApplicationComponent {
 
     fun inject(app: App)
@@ -39,8 +41,8 @@ interface ApplicationComponent {
 
     fun with(mainModule: SingleSubscribedModule): SingleSubscribedComponent
 
-    fun with(downloadModule: DownloadModule): DowloadSubComponent
+    fun with(downloadModule: DownloadModule): DownloadSubComponent
 
-    fun simpleExoPlayer(): SimpleExoPlayer
+    fun simpleExoPlayer(): SimpleExoPlayer?
 
 }

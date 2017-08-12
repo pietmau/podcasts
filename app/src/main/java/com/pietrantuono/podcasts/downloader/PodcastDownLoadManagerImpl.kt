@@ -1,0 +1,3 @@
+package com.pietrantuono.podcasts.downloader
+
+class PodcastDownLoadManagerImpl : PodcastDownLoadManager
