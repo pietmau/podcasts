@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.pietrantuono.podcasts.R;
+import com.pietrantuono.podcasts.addpodcast.SimpleOnQueryTextListener;
 import com.pietrantuono.podcasts.addpodcast.customviews.CustomProgressBar;
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler;
 import com.pietrantuono.podcasts.addpodcast.dagger.AddPodcastModule;
@@ -87,6 +88,12 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
         ButterKnife.bind(this, view);
         addPodcastPresenter.bindView(AddPodcastFragment.this, new AddPodcastFragmentMemento(savedInstanceState));
         podcastsRecycler.setListeners(addPodcastPresenter);
+        searchView.setOnQueryTextListener(new SimpleOnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(@Nullable String query) {
+                return addPodcastPresenter.onQueryTextSubmit(query);
+            }
+        });
         return view;
     }
 
