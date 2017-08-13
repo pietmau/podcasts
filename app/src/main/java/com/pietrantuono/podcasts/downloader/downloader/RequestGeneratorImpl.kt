@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts.downloader.downloader
 
 import android.webkit.URLUtil
+import com.pietrantuono.podcasts.apis.PodcastEpisode
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 import com.tonyodev.fetch.request.Request
 import javax.inject.Inject
@@ -8,8 +9,12 @@ import javax.inject.Inject
 
 class RequestGeneratorImpl @Inject constructor(private val directoryProvider: DirectoryProvider,
                                                private var repository: EpisodesRepository) : RequestGenerator {
-    override fun createRequest(url: String): Request? {
+    override fun createRequest(url: String): Pair<Request, PodcastEpisode>? {
         val episode = repository.getEpisodeByUrl(url)
+        return getRequest(episode)?.let { Pair(it, episode!!) }
+    }
+
+    private fun getRequest(episode: PodcastEpisode?): Request? {
         if (episode != null) {
             val enclosures = episode.enclosures
             if (enclosures != null && !enclosures!!.isEmpty()) {

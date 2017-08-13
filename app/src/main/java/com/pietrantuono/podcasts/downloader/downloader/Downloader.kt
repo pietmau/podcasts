@@ -9,4 +9,6 @@ interface Downloader {
     fun removeListener(listener: FetchListener)
     fun getById(id: Long): RequestInfo?
     fun enqueueRequest(request: Request): Long
+    fun alreadyDownloaded(url: String): Boolean
+    fun  thereIsEnoughSpace(fileSize: Long): Boolean
 }

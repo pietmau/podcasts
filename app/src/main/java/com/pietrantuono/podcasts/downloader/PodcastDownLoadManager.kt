@@ -3,7 +3,7 @@ package com.pietrantuono.podcasts.downloader
 import android.content.Context
 import android.content.Intent
 import com.pietrantuono.podcasts.apis.PodcastEpisode
-import com.pietrantuono.podcasts.downloader.service.DowloaderService
+import com.pietrantuono.podcasts.downloader.service.DownloaderService
 import javax.inject.Inject
 
 class PodcastDownLoadManager @Inject constructor(private val context: Context) {
@@ -13,8 +13,8 @@ class PodcastDownLoadManager @Inject constructor(private val context: Context) {
         for (episode in episodes) {
             episode.link?.let { tracks.add(it) }
         }
-        val intent = Intent(context, DowloaderService::class.java)
-        intent.putStringArrayListExtra(DowloaderService.TRACK_LIST, tracks)
+        val intent = Intent(context, DownloaderService::class.java)
+        intent.putStringArrayListExtra(DownloaderService.TRACK_LIST, tracks)
         context.startService(intent)
     }
 }

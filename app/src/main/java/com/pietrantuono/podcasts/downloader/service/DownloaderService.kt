@@ -3,30 +3,32 @@ package com.pietrantuono.podcasts.downloader.service
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
+import com.pietrantuono.podcasts.apis.PodcastEpisode
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.downloader.di.DownloadModule
-import com.pietrantuono.podcasts.downloader.downloader.DirectoryProvider
 import com.pietrantuono.podcasts.downloader.downloader.Downloader
 import com.pietrantuono.podcasts.downloader.downloader.RequestGenerator
+import com.pietrantuono.podcasts.repository.EpisodesRepository
 import com.tonyodev.fetch.listener.FetchListener
 import com.tonyodev.fetch.request.Request
 import javax.inject.Inject
 
-class DowloaderService() : Service(), FetchListener {
-    private val requests: MutableMap<Long, Request> = mutableMapOf()
+class DownloaderService() : Service(), FetchListener {
+    private val requests: MutableMap<Long, Pair<Request, PodcastEpisode>> = mutableMapOf()
 
     companion object {
-        private val TAG: String = "DowloaderService"
-        val TRACK: String = "track_id"
-        val TRACK_LIST: String = "track_list"
+        const private val TAG: String = "DownloaderService"
+        const val TRACK: String = "track_id"
+        const val TRACK_LIST: String = "track_list"
+        const val DOWNLOAD_COMPLETED: Int = 100
     }
 
     @Inject lateinit var downloader: Downloader
     @Inject lateinit var notificator: Notificator
     @Inject lateinit var requestGenerator: RequestGenerator
     @Inject lateinit var debugLogger: DebugLogger
-    @Inject lateinit var directoryProvider: DirectoryProvider
+    @Inject lateinit var repository: EpisodesRepository
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
@@ -36,14 +38,11 @@ class DowloaderService() : Service(), FetchListener {
         super.onCreate()
         (application as App).applicationComponent?.with(DownloadModule(this))?.
                 inject(this)
-        downloader.addListener(this@DowloaderService)
+        downloader.addListener(this@DownloaderService)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (intent == null) {
-            return START_STICKY
-        }
-        startDownload(intent)
+        intent?.let { startDownload(intent) }
         return START_STICKY
     }
 
@@ -62,21 +61,36 @@ class DowloaderService() : Service(), FetchListener {
     }
 
     private fun getAndEnqueueSingleEpisode(url: String) {
-        requestGenerator.createRequest(url)?.let {
-            requests.put(downloader.enqueueRequest(it), it)
+        if (!alreadyDownLoaded(url)) {
+            requestGenerator.createRequest(url)?.let {
+                requests.put(downloader.enqueueRequest(it.first), it)
+            }
         }
     }
+
+    private fun alreadyDownLoaded(url: String) = downloader.alreadyDownloaded(url)
 
     override fun onUpdate(id: Long, status: Int, progress: Int, downloadedBytes: Long, fileSize: Long, error: Int) {
         debugLogger.debug(TAG, "" + progress)
-        if (directoryProvider.thereIsEnoughSpace(fileSize)) {
-            notificator.notifyprogress(requests[id], downloader.getById(id), id, status, progress, downloadedBytes, fileSize, error)
+        if (downloader.thereIsEnoughSpace(fileSize)) {
+            notificator.notifyProgress(requests[id]?.second, id, progress)
         } else {
-            interruptDownloadAndNotifyUser(id, status, progress, downloadedBytes, fileSize, error)
+            interruptDownloadAndNotifyUser(id, progress)
+        }
+        updateEpisodIfAppropriate(progress, id)
+    }
+
+    private fun updateEpisodIfAppropriate(progress: Int, id: Long) {
+        if (progress >= DOWNLOAD_COMPLETED) {
+            onDownloadCompleted(requests[id]?.second)
         }
     }
 
-    private fun interruptDownloadAndNotifyUser(id: Long, status: Int, progress: Int, downloadedBytes: Long, fileSize: Long, error: Int) {
+    private fun onDownloadCompleted(episode: PodcastEpisode?) {
+        repository.onDownloadCompleted(episode)
+    }
+
+    private fun interruptDownloadAndNotifyUser(id: Long, progress: Int) {
 
     }
 }

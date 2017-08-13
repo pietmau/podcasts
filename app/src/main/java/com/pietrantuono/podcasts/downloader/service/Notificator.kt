@@ -1,9 +1,8 @@
 package com.pietrantuono.podcasts.downloader.service
 
-import com.tonyodev.fetch.request.Request
-import com.tonyodev.fetch.request.RequestInfo
+import com.pietrantuono.podcasts.apis.PodcastEpisode
 
 interface Notificator {
-    fun notifyprogress(request: Request?, info: RequestInfo?, id: Long, status: Int, progress: Int, downloadedBytes: Long, fileSize: Long, error: Int)
+    fun notifyProgress(episode: PodcastEpisode?, id: Long, progress: Int)
 
 }
