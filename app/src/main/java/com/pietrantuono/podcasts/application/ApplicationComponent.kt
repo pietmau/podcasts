@@ -10,6 +10,8 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.dagger.SinglePodcastMo
 import com.pietrantuono.podcasts.apis.ApiModule
 import com.pietrantuono.podcasts.downloader.DownloadSubComponent
 import com.pietrantuono.podcasts.downloader.di.DownloadModule
+import com.pietrantuono.podcasts.episode.di.EpisodeModule
+import com.pietrantuono.podcasts.episode.di.EpisodeSubComponent
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule
 import com.pietrantuono.podcasts.main.dagger.MainModule
 import com.pietrantuono.podcasts.main.dagger.TransitionsModule
@@ -45,5 +47,7 @@ interface ApplicationComponent {
     fun with(downloadModule: DownloadModule): DownloadSubComponent
 
     fun simpleExoPlayer(): SimpleExoPlayer?
+
+    fun with(episodeModule: EpisodeModule): EpisodeSubComponent
 
 }

@@ -12,7 +12,7 @@ import java.util.*
 
 open class RealmPodcastEpisode : RealmObject, PodcastEpisode {
     override var link: String? = null
-    override var downloaded: Boolean? = false
+    override var downloaded: Boolean = false
     @Ignore
     override var keywords: List<String>? = null
         get() = returnKeywords()

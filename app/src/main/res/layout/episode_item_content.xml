@@ -34,7 +34,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/item_margin"
-            app:srcCompat="@drawable/ic_access_time_black_24dp"
+            android:visibility="@{viewModel.downloadIconShouldbeVisible}"
+            app:srcCompat="@drawable/ic_cloud_done_white_24dp"
             />
 
         <TextView

@@ -28,7 +28,7 @@ interface PodcastEpisode {
 
     var enclosures: List<SyndEnclosure>?
 
-    var downloaded: Boolean?
+    var downloaded: Boolean
 
     var link: String?
 

@@ -18,6 +18,9 @@ ResourcesProvider) : PodcastEpisode by podcastEpisode {
             View.GONE
         }
 
+    val downloadIconShouldbeVisible: Int
+        get() = if(downloaded){View.VISIBLE} else {View.GONE}
+
     val visibilityOfType: Int
         get() =
         if (mediaTypeText == null) {
