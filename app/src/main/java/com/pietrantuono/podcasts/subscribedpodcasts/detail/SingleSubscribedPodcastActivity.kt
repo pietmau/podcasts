@@ -2,7 +2,6 @@ package com.pietrantuono.podcasts.addpodcast.singlepodcast.view
 
 
 import android.os.Bundle
-import android.support.design.widget.CoordinatorLayout
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -15,16 +14,13 @@ import com.pietrantuono.podcasts.subscribedpodcasts.detail.di.SingleSubscribedMo
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.presenter.SingleSubscribedPodcastPresenter
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.views.SingleSubscribedPodcastView
 import com.pietrantuono.podcasts.subscribedpodcasts.detail.views.SingleSubscribedPodcastsRecycler
+import com.pietrantuono.podcasts.utils.ARTWORK
+import com.pietrantuono.podcasts.utils.SINGLE_PODCAST_TRACK_ID
+import com.pietrantuono.podcasts.utils.STARTED_WITH_TRANSITION
 import javax.inject.Inject
 
 class SingleSubscribedPodcastActivity : DetailActivtyBase(), SingleSubscribedPodcastView {
-    companion object {
-        val STARTED_WITH_TRANSITION = "with_transition"
-        val SINGLE_PODCAST_TRACK_ID: String? = "track_id"
-        val ARTWORK: String? = "artwork"
-    }
     @BindView(R.id.recycler) lateinit var recyclerView: SingleSubscribedPodcastsRecycler
-    @BindView(R.id.coordinator) lateinit var coordinator: CoordinatorLayout
     @Inject lateinit var presenter: SingleSubscribedPodcastPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {

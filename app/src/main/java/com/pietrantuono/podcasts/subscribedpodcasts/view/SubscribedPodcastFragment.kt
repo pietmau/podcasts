@@ -18,12 +18,14 @@ import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.AddSinglePodcastActivity
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.SingleSubscribedPodcastActivity
 import com.pietrantuono.podcasts.main.view.MainActivity
 import com.pietrantuono.podcasts.main.view.TransitionsFramework
 import com.pietrantuono.podcasts.subscribedpodcasts.di.SubscribedPodcastModule
 import com.pietrantuono.podcasts.subscribedpodcasts.presenter.SubscribedPodcastPresenter
+import com.pietrantuono.podcasts.utils.ARTWORK
+import com.pietrantuono.podcasts.utils.SINGLE_PODCAST_TRACK_ID
+import com.pietrantuono.podcasts.utils.STARTED_WITH_TRANSITION
 import javax.inject.Inject
 
 class SubscribedPodcastFragment : Fragment(), SubscribedPodcastView {
@@ -66,17 +68,17 @@ class SubscribedPodcastFragment : Fragment(), SubscribedPodcastView {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     override fun startDetailActivityWithTransition(podcast: Podcast, imageView: ImageView, titleContainer: LinearLayout) {
         val intent = Intent(activity, SingleSubscribedPodcastActivity::class.java)
-        intent.putExtra(SingleSubscribedPodcastActivity.SINGLE_PODCAST_TRACK_ID, podcast?.trackId)
-        intent.putExtra(SingleSubscribedPodcastActivity.ARTWORK, podcast?.artworkUrl600)
-        intent.putExtra(SingleSubscribedPodcastActivity.STARTED_WITH_TRANSITION, true)
+        intent.putExtra(SINGLE_PODCAST_TRACK_ID, podcast?.trackId)
+        intent.putExtra(ARTWORK, podcast?.artworkUrl600)
+        intent.putExtra(STARTED_WITH_TRANSITION, true)
         activity.startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(activity, *getPairs(imageView, titleContainer)).toBundle())
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     override fun startDetailActivityWithoutTransition(podcast: Podcast) {
         val intent = Intent(activity, SingleSubscribedPodcastActivity::class.java)
-        intent.putExtra(SingleSubscribedPodcastActivity.SINGLE_PODCAST_TRACK_ID, podcast?.trackId)
-        intent.putExtra(SingleSubscribedPodcastActivity.ARTWORK, podcast?.artworkUrl600)
+        intent.putExtra(SINGLE_PODCAST_TRACK_ID, podcast?.trackId)
+        intent.putExtra(ARTWORK, podcast?.artworkUrl600)
         activity.startActivity(intent)
     }
 

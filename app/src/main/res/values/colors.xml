@@ -6,4 +6,7 @@
 
     <color name="activityBackgroundColor">@color/background_material_dark</color>
 
+
+    <color name="fullscreen_line_color">#E5FFFFFF</color>
+    <color name="fullscreen_secondary_line_color">#E5CCCCCC</color>
 </resources>

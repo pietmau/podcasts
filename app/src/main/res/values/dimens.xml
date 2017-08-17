@@ -22,4 +22,8 @@
     <dimen name="podcast_item_image_size">500dp</dimen>
     <dimen name="podcast_title_bar_height">30dp</dimen>
     <dimen name="podcast_title_bar_padding">4dp</dimen>
+
+    <!-- Margins for full screen activity-->
+    <dimen name="text_view_margin">16dp</dimen>
+    <dimen name="end_text_margin">16dp</dimen>
 </resources>
