@@ -63,7 +63,7 @@
                 android:visibility="visible"/>
         </android.support.design.widget.AppBarLayout>
 
-        <com.pietrantuono.podcasts.subscribedpodcasts.detail.views.SingleSubscribedPodcastsRecycler
+        <com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.views.EpisodedListRecycler
             android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

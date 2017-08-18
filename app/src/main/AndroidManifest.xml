@@ -30,7 +30,7 @@
         </activity>
 
         <activity
-            android:name="com.pietrantuono.podcasts.addpodcast.singlepodcast.view.SingleSubscribedPodcastActivity">
+            android:name="com.pietrantuono.podcasts.addpodcast.singlepodcast.view.EpisodesListActivity">
         </activity>
 
         <service

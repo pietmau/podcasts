@@ -1,10 +1,10 @@
-package com.pietrantuono.podcasts.subscribedpodcasts.detail.model
+package com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.model
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import rx.Observer
 
 
-abstract class SingleSubscribedModel {
+abstract class EpisodesListModel {
     abstract fun subscribe(trackId: Int, observer: Observer<in Podcast>)
     abstract fun unsubscribe()
     abstract fun unsubscribeFromPodcast()

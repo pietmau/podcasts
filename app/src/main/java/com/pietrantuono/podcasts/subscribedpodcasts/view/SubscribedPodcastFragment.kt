@@ -18,7 +18,7 @@ import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.SingleSubscribedPodcastActivity
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.EpisodesListActivity
 import com.pietrantuono.podcasts.main.view.MainActivity
 import com.pietrantuono.podcasts.main.view.TransitionsFramework
 import com.pietrantuono.podcasts.subscribedpodcasts.di.SubscribedPodcastModule
@@ -67,7 +67,7 @@ class SubscribedPodcastFragment : Fragment(), SubscribedPodcastView {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     override fun startDetailActivityWithTransition(podcast: Podcast, imageView: ImageView, titleContainer: LinearLayout) {
-        val intent = Intent(activity, SingleSubscribedPodcastActivity::class.java)
+        val intent = Intent(activity, EpisodesListActivity::class.java)
         intent.putExtra(SINGLE_PODCAST_TRACK_ID, podcast?.trackId)
         intent.putExtra(ARTWORK, podcast?.artworkUrl600)
         intent.putExtra(STARTED_WITH_TRANSITION, true)
@@ -76,7 +76,7 @@ class SubscribedPodcastFragment : Fragment(), SubscribedPodcastView {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     override fun startDetailActivityWithoutTransition(podcast: Podcast) {
-        val intent = Intent(activity, SingleSubscribedPodcastActivity::class.java)
+        val intent = Intent(activity, EpisodesListActivity::class.java)
         intent.putExtra(SINGLE_PODCAST_TRACK_ID, podcast?.trackId)
         intent.putExtra(ARTWORK, podcast?.artworkUrl600)
         activity.startActivity(intent)

@@ -11,7 +11,7 @@ import com.pietrantuono.podcasts.apis.PodcastEpisode
 import com.pietrantuono.podcasts.databinding.EpisodeItemBinding
 
 
-class SingleSubscribedPodcastHolder(itemView: View, private val resourcesProvider: ResourcesProvider) : RecyclerView.ViewHolder(itemView) {
+class EpisodesListHolder(itemView: View, private val resourcesProvider: ResourcesProvider) : RecyclerView.ViewHolder(itemView) {
     private val dataBinding: EpisodeItemBinding
 
     init {
@@ -22,6 +22,9 @@ class SingleSubscribedPodcastHolder(itemView: View, private val resourcesProvide
         val podcastEpisodeViewModel = PodcastEpisodeView(podcastEpisode, resourcesProvider)
         dataBinding.setVariable(BR.viewModel, podcastEpisodeViewModel)
         dataBinding.executePendingBindings()
+        dataBinding.root.setOnClickListener {
+
+        }
     }
 }
 

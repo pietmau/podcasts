@@ -1,10 +1,8 @@
 package com.pietrantuono.podcasts.fullscreenplay
 
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import com.pietrantuono.podcasts.R
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.AddSinglePodcastActivity
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.DetailActivtyBase
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.fullscreenplay.di.FullscreenModule
 import com.pietrantuono.podcasts.fullscreenplay.presenter.FullscreenPresenter
@@ -13,7 +11,7 @@ import com.pietrantuono.podcasts.utils.STARTED_WITH_TRANSITION
 import javax.inject.Inject
 
 
-class FullscreenPlayActivity : DetailActivtyBase() {
+class FullscreenPlayActivity : AppCompatActivity(), FullscreenPlayView {
     @Inject lateinit var presenter: FullscreenPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +32,4 @@ class FullscreenPlayActivity : DetailActivtyBase() {
         presenter.onStop()
     }
 
-    override fun getImageUrl(): String? {
-        return intent.getParcelableExtra<Podcast>(AddSinglePodcastActivity.SINGLE_PODCAST_TRACK_ID)?.artworkUrl600
-    }
 }

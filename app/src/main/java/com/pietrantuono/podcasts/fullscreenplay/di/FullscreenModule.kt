@@ -1,5 +1,6 @@
 package com.pietrantuono.podcasts.fullscreenplay.di
 
+import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
 import com.pietrantuono.podcasts.fullscreenplay.presenter.FullscreenPresenter
 import dagger.Module
 import dagger.Provides
@@ -9,5 +10,7 @@ import dagger.Provides
 class FullscreenModule {
 
     @Provides
-    fun provideFullscreenPresenter(): FullscreenPresenter = FullscreenPresenter()
+    fun provideFullscreenPresenter(checker: ApiLevelChecker): FullscreenPresenter {
+        return FullscreenPresenter(checker)
+    }
 }

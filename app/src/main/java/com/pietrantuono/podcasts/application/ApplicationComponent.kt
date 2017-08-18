@@ -10,8 +10,6 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.dagger.SinglePodcastMo
 import com.pietrantuono.podcasts.apis.ApiModule
 import com.pietrantuono.podcasts.downloader.DownloadSubComponent
 import com.pietrantuono.podcasts.downloader.di.DownloadModule
-import com.pietrantuono.podcasts.episode.di.EpisodeModule
-import com.pietrantuono.podcasts.episode.di.EpisodeSubComponent
 import com.pietrantuono.podcasts.fullscreenplay.di.FullscreenModule
 import com.pietrantuono.podcasts.fullscreenplay.di.FullscreenSubComponent
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule
@@ -21,8 +19,8 @@ import com.pietrantuono.podcasts.media.MediaModule
 import com.pietrantuono.podcasts.repository.RepositoryModule
 import com.pietrantuono.podcasts.repository.SaveEpisodeIntentService
 import com.pietrantuono.podcasts.settings.SettingsModule
-import com.pietrantuono.podcasts.subscribedpodcasts.detail.di.SingleSubscribedComponent
-import com.pietrantuono.podcasts.subscribedpodcasts.detail.di.SingleSubscribedModule
+import com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.di.SingleSubscribedComponent
+import com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.di.SingleSubscribedModule
 import dagger.Component
 import javax.inject.Singleton
 
@@ -49,8 +47,6 @@ interface ApplicationComponent {
     fun with(downloadModule: DownloadModule): DownloadSubComponent
 
     fun simpleExoPlayer(): SimpleExoPlayer?
-
-    fun with(episodeModule: EpisodeModule): EpisodeSubComponent
 
     fun with(fullscreenModule: FullscreenModule): FullscreenSubComponent
 

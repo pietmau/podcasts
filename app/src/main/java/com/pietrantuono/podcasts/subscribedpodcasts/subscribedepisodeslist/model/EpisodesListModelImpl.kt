@@ -1,4 +1,4 @@
-package com.pietrantuono.podcasts.subscribedpodcasts.detail.model
+package com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.model
 
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
@@ -8,8 +8,8 @@ import com.pietrantuono.podcasts.repository.repository.Repository
 import rx.Observer
 import rx.subscriptions.CompositeSubscription
 
-class SingleSubscribedModelImpl(private val repository: Repository, private val downLoadManager:
-PodcastDownLoadManager) : SingleSubscribedModel() {
+class EpisodesListModelImpl(private val repository: Repository, private val downLoadManager:
+PodcastDownLoadManager) : EpisodesListModel() {
     private val compositeSubscription: CompositeSubscription = CompositeSubscription()
     private var feed: Podcast? = null
 
@@ -28,7 +28,7 @@ PodcastDownLoadManager) : SingleSubscribedModel() {
         compositeSubscription.add(observable.subscribe(observer))
         compositeSubscription.add(observable.subscribe(object : SimpleObserver<Podcast>() {
             override fun onNext(feed: Podcast?) {
-                this@SingleSubscribedModelImpl.feed = feed
+                this@EpisodesListModelImpl.feed = feed
             }
         }))
     }
