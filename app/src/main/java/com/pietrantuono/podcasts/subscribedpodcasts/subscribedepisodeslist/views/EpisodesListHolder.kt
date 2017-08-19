@@ -5,10 +5,11 @@ import android.databinding.ViewDataBinding
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.pietrantuono.podcasts.BR
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.PodcastEpisodeView
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.EpisodeView
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
-import com.pietrantuono.podcasts.apis.PodcastEpisode
+import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.databinding.EpisodeItemBinding
+import com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.views.EpisodedListRecycler
 
 
 class EpisodesListHolder(itemView: View, private val resourcesProvider: ResourcesProvider) : RecyclerView.ViewHolder(itemView) {
@@ -18,12 +19,12 @@ class EpisodesListHolder(itemView: View, private val resourcesProvider: Resource
         dataBinding = DataBindingUtil.bind<ViewDataBinding>(itemView) as EpisodeItemBinding
     }
 
-    fun bind(podcastEpisode: PodcastEpisode) {
-        val podcastEpisodeViewModel = PodcastEpisodeView(podcastEpisode, resourcesProvider)
+    fun bind(episode: Episode, onItemClickListener: EpisodedListRecycler.OnItemClickListener?, position: Int) {
+        val podcastEpisodeViewModel = EpisodeView(episode, resourcesProvider)
         dataBinding.setVariable(BR.viewModel, podcastEpisodeViewModel)
         dataBinding.executePendingBindings()
         dataBinding.root.setOnClickListener {
-
+            onItemClickListener?.let { it.onItemClicked(episode, dataBinding.content?.image, dataBinding.card, position) }
         }
     }
 }

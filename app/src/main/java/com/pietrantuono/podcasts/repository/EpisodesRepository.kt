@@ -1,8 +1,8 @@
 package com.pietrantuono.podcasts.repository
 
-import com.pietrantuono.podcasts.apis.PodcastEpisode
+import com.pietrantuono.podcasts.apis.Episode
 
 interface EpisodesRepository {
-    fun getEpisodeByUrl(url: String?): PodcastEpisode?
-    fun onDownloadCompleted(episode: PodcastEpisode?)
+    fun getEpisodeByUrl(url: String?): Episode?
+    fun onDownloadCompleted(episode: Episode?)
 }

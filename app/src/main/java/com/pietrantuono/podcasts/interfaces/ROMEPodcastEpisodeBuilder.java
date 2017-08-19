@@ -79,8 +79,8 @@ public class ROMEPodcastEpisodeBuilder {
         return this;
     }
 
-    public RealmPodcastEpisode createROMEPodcastEpisode() {
-        return new RealmPodcastEpisode(duration, author, isExplicit, imageUrl, keywords, subtitle, summary, pubDate, title, description, syndEnclosures, link);
+    public RealmEpisode createROMEPodcastEpisode() {
+        return new RealmEpisode(duration, author, isExplicit, imageUrl, keywords, subtitle, summary, pubDate, title, description, syndEnclosures, link);
     }
 
 }

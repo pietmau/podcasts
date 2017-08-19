@@ -4,7 +4,7 @@ package com.pietrantuono.podcasts.apis
 import com.rometools.rome.feed.synd.SyndEnclosure
 import java.util.*
 
-interface PodcastEpisode {
+interface Episode {
 
     var duration: String?
 

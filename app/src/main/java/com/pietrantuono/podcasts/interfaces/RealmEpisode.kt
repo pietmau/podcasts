@@ -2,7 +2,7 @@ package com.pietrantuono.podcasts.interfaces
 
 
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SimpleEnclosure
-import com.pietrantuono.podcasts.apis.PodcastEpisode
+import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.providers.RealmString
 import com.rometools.rome.feed.synd.SyndEnclosure
 import io.realm.RealmList
@@ -10,7 +10,7 @@ import io.realm.RealmObject
 import io.realm.annotations.Ignore
 import java.util.*
 
-open class RealmPodcastEpisode : RealmObject, PodcastEpisode {
+open class RealmEpisode : RealmObject, Episode {
     override var link: String? = null
     override var downloaded: Boolean = false
     @Ignore

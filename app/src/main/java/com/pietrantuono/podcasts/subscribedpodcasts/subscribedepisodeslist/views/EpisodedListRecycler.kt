@@ -3,11 +3,13 @@ package com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.view
 import android.content.Context
 import android.content.res.Configuration
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.CardView
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
-import com.pietrantuono.podcasts.apis.PodcastEpisode
+import android.widget.ImageView
+import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.di.SingleSubscribedModule
 import javax.inject.Inject
@@ -28,7 +30,7 @@ class EpisodedListRecycler : RecyclerView {
         init()
     }
 
-    fun setItems(episodes: List<PodcastEpisode>) {
+    fun setItems(episodes: List<Episode>) {
         adapter!!.setItems(episodes)
     }
 
@@ -49,10 +51,16 @@ class EpisodedListRecycler : RecyclerView {
         }
     }
 
-    interface OnItemClickListener {}
-
     fun setOnItemClickListener(listener: OnItemClickListener) {
         onItemClickListener = listener
         adapter!!.onItemClickListener = listener
+    }
+
+    fun isPartiallyHidden(position: Int): Boolean {
+        return (layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition() < position
+    }
+
+    interface OnItemClickListener {
+        fun onItemClicked(episode: Episode, image: ImageView?, card: CardView, position: Int)
     }
 }

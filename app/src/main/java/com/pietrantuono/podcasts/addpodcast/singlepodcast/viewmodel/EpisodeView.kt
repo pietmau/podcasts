@@ -4,11 +4,11 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import com.pietrantuono.podcasts.Constants
 import com.pietrantuono.podcasts.R
-import com.pietrantuono.podcasts.apis.PodcastEpisode
+import com.pietrantuono.podcasts.apis.Episode
 import java.text.SimpleDateFormat
 
-class PodcastEpisodeView(podcastEpisode: PodcastEpisode, private val resourcesProvider:
-ResourcesProvider) : PodcastEpisode by podcastEpisode {
+class EpisodeView(episode: Episode, private val resourcesProvider:
+ResourcesProvider) : Episode by episode {
 
     val visibilityOfFooter: Int
         get() =

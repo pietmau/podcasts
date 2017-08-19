@@ -5,7 +5,7 @@ import android.app.NotificationManager
 import android.content.Context
 import android.support.v4.app.NotificationCompat
 import com.pietrantuono.podcasts.R
-import com.pietrantuono.podcasts.apis.PodcastEpisode
+import com.pietrantuono.podcasts.apis.Episode
 
 class NotificatorImpl(private val context: Context) : Notificator {
 
@@ -16,7 +16,7 @@ class NotificatorImpl(private val context: Context) : Notificator {
     private val notifManager: NotificationManager
         get() = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-    override fun notifyProgress(episode: PodcastEpisode?, id: Long, progress: Int) {
+    override fun notifyProgress(episode: Episode?, id: Long, progress: Int) {
         if (episode == null) {
             return
         }
@@ -25,15 +25,15 @@ class NotificatorImpl(private val context: Context) : Notificator {
         notifManager.notify(notificationId, notification)
     }
 
-    private fun getNotification(podcastEpisode: PodcastEpisode, progress: Int): Notification? {
+    private fun getNotification(episode: Episode, progress: Int): Notification? {
         if (progress < DOWNLOAD_COMPLETED) {
-            return createProgressNotification(podcastEpisode, progress)
+            return createProgressNotification(episode, progress)
         } else {
-            return createCompleteNotification(podcastEpisode)
+            return createCompleteNotification(episode)
         }
     }
 
-    private fun createCompleteNotification(episode: PodcastEpisode): Notification? {
+    private fun createCompleteNotification(episode: Episode): Notification? {
         val text = getText(episode)
         return NotificationCompat
                 .Builder(context)
@@ -43,7 +43,7 @@ class NotificatorImpl(private val context: Context) : Notificator {
                 .build()
     }
 
-    private fun createProgressNotification(episode: PodcastEpisode, progress: Int): Notification {
+    private fun createProgressNotification(episode: Episode, progress: Int): Notification {
         val text = getText(episode)
         return NotificationCompat
                 .Builder(context)
@@ -54,7 +54,7 @@ class NotificatorImpl(private val context: Context) : Notificator {
                 .build()
     }
 
-    private fun getText(episode: PodcastEpisode) = episode.title ?: context.getString(R.string.title_not_available)
+    private fun getText(episode: Episode) = episode.title ?: context.getString(R.string.title_not_available)
 
     private fun calculateNotificationId(id: Long): Int {
         val diff = id - (Int.MAX_VALUE.toLong())

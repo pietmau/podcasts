@@ -2,12 +2,13 @@ package com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.pres
 
 
 import android.arch.lifecycle.ViewModel
+import android.support.v7.widget.CardView
 import android.view.MenuItem
 import android.widget.ImageView
-import android.widget.LinearLayout
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
+import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.menu.EpisodesListMenuProvider
 import com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.menu.EpisodesListMenuProviderImpl
 import com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.model.EpisodesListModel
@@ -18,7 +19,7 @@ class EpisodesListPresenter(private val model: EpisodesListModel, private val me
                             private val apiLevelChecker: ApiLevelChecker)
     : ViewModel(), EpisodesListMenuProvider by menuProvider, EpisodedListRecycler.OnItemClickListener {
 
-    var view: EpisodesListView? = null
+    private var view: EpisodesListView? = null
 
     private var startedWithTransition: Boolean = false
 
@@ -59,16 +60,14 @@ class EpisodesListPresenter(private val model: EpisodesListModel, private val me
         model.onDownLoadAllSelected()
     }
 
-    fun onItemClicked(podcast: Podcast?, imageView: ImageView?, position: Int,
-                      titleContainer: LinearLayout?) {
+    override fun onItemClicked(episode: Episode, image: ImageView?, card: CardView, position: Int) {
         if (view == null) {
             return
         }
         if (apiLevelChecker.isLollipopOrHigher && !view!!.isPartiallyHidden(position)) {
-            view?.startDetailActivityWithTransition(podcast, imageView, titleContainer)
+            view?.startDetailActivityWithTransition(episode, image, card)
         } else {
-            view?.startDetailActivityWithoutTransition(podcast)
+            view?.startDetailActivityWithoutTransition(episode)
         }
     }
-
 }

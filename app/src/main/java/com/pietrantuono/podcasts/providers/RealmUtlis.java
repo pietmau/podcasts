@@ -3,7 +3,7 @@ package com.pietrantuono.podcasts.providers;
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SimpleEnclosure;
-import com.pietrantuono.podcasts.apis.PodcastEpisode;
+import com.pietrantuono.podcasts.apis.Episode;
 import com.rometools.rome.feed.synd.SyndEnclosure;
 
 import java.util.ArrayList;
@@ -68,9 +68,9 @@ public class RealmUtlis {
         return singlePodcastRealm;
     }
 
-    private static RealmList<SimpleEnclosure> getEnclosures(PodcastEpisode podcastEpisode) {
+    private static RealmList<SimpleEnclosure> getEnclosures(Episode episode) {
         RealmList<SimpleEnclosure> simpleEnclosures = new RealmList<>();
-        for (SyndEnclosure syndEnclosure : podcastEpisode.getEnclosures()) {
+        for (SyndEnclosure syndEnclosure : episode.getEnclosures()) {
             simpleEnclosures.add(new SimpleEnclosure(syndEnclosure));
         }
         return simpleEnclosures;

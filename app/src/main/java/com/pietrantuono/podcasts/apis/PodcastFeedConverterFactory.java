@@ -44,8 +44,8 @@ class PodcastFeedConverterFactory extends Converter.Factory {
     }
 
     private PodcastFeed parseFeed(SyndFeed syndFeed) {
-        List<PodcastEpisode> podcastEpisodes = episodeparser.parseFeed(syndFeed);
-        return new ROMEPodcastFeed(podcastEpisodes);
+        List<Episode> episodes = episodeparser.parseFeed(syndFeed);
+        return new ROMEPodcastFeed(episodes);
     }
 
 }

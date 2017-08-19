@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.pietrantuono.podcasts.Constants;
-import com.pietrantuono.podcasts.apis.PodcastEpisode;
+import com.pietrantuono.podcasts.apis.Episode;
 import com.rometools.modules.itunes.EntryInformation;
 import com.rometools.modules.mediarss.MediaEntryModule;
 import com.rometools.modules.mediarss.MediaModule;
@@ -28,8 +28,8 @@ public class PodcastEpisodeParser {
     }
 
     @NonNull
-    public List<PodcastEpisode> parseFeed(SyndFeed feed) {
-        List<PodcastEpisode> episodes = new ArrayList<>();
+    public List<Episode> parseFeed(SyndFeed feed) {
+        List<Episode> episodes = new ArrayList<>();
         for (SyndEntry entry : feed.getEntries()) {
             episodes.add(parseEntry(entry));
         }
@@ -37,7 +37,7 @@ public class PodcastEpisodeParser {
     }
 
     @NonNull
-    private PodcastEpisode parseEntry(SyndEntry syndEntry) {
+    private Episode parseEntry(SyndEntry syndEntry) {
         EntryInformation entryInformation = (EntryInformation) syndEntry.getModule(Constants.ITUNES_URI);
         MediaEntryModule mediaEntryModule = (MediaEntryModule) syndEntry.getModule(MediaModule.URI);
         ROMEPodcastEpisodeBuilder romePodcastEpisodeBuilder = getRomePodcastEpisodeBuilder(syndEntry, entryInformation, mediaEntryModule);

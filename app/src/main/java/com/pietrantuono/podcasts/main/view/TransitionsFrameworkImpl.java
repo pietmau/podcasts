@@ -5,9 +5,9 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
-import android.transition.Slide;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -18,8 +18,6 @@ import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker;
 
 public class TransitionsFrameworkImpl implements TransitionsFramework {
     private final ApiLevelChecker apiLevelChecker;
-    private static final long SHORT = 400;
-    private static final long LONG = 800;
 
     public TransitionsFrameworkImpl(ApiLevelChecker apiLevelChecker) {
         this.apiLevelChecker = apiLevelChecker;
@@ -55,12 +53,30 @@ public class TransitionsFrameworkImpl implements TransitionsFramework {
         activity.startPostponedEnterTransition();
     }
 
-
+    @NonNull
     @Override
     public Pair[] getPairs(ImageView imageView, Activity activity, LinearLayout titleContainer) {
         if (!apiLevelChecker.isLollipopOrHigher()) {
             return new Pair[0];
         }
+        Pair[] pairs = getNavigationBarAndImage(imageView, activity);
+        pairs = getLinearLayout(activity, titleContainer, pairs);
+        return pairs;
+    }
+
+    private Pair[] getNavigationBarAndImage(ImageView imageView, Activity activity) {
+        Pair[] pairs = getNavigationBar(activity);
+        pairs[0] = new Pair(imageView, activity.getString(R.string.detail_transition_image));
+        return pairs;
+    }
+
+    private Pair[] getLinearLayout(Activity activity, LinearLayout titleContainer, Pair[] pairs) {
+        pairs[1] = new Pair(titleContainer, activity.getString(R.string.detail_transition_toolbar));
+        return pairs;
+    }
+
+    @NonNull
+    private Pair[] getNavigationBar(Activity activity) {
         View decor = activity.getWindow().getDecorView();
         View navBar = decor.findViewById(android.R.id.navigationBarBackground);
         Pair[] pairs;
@@ -70,18 +86,6 @@ public class TransitionsFrameworkImpl implements TransitionsFramework {
         } else {
             pairs = new Pair[2];
         }
-        pairs[0] = new Pair(imageView, activity.getString(R.string.detail_transition_image));
-        pairs[1] = new Pair(titleContainer, activity.getString(R.string.detail_transition_toolbar));
         return pairs;
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private Slide createSlide(long duration, int edge) {
-        Slide slide = new Slide();
-        slide.setDuration(duration);
-        slide.setSlideEdge(edge);
-        slide.excludeTarget(android.R.id.statusBarBackground, true);
-        slide.excludeTarget(android.R.id.navigationBarBackground, true);
-        return slide;
     }
 }

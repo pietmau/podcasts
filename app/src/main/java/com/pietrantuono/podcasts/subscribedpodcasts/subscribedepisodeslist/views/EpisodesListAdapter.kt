@@ -2,22 +2,19 @@ package com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.view
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.customviews.EpisodesListHolder
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
-import com.pietrantuono.podcasts.apis.PodcastEpisode
-
-import java.util.ArrayList
+import com.pietrantuono.podcasts.apis.Episode
+import java.util.*
 
 class EpisodesListAdapter(private val resourcesProvider: ResourcesProvider) : RecyclerView.Adapter<EpisodesListHolder>() {
-    private val items: MutableList<PodcastEpisode>
+    private val items: MutableList<Episode>
     var onItemClickListener: EpisodedListRecycler.OnItemClickListener? = null
 
     init {
-        items = ArrayList<PodcastEpisode>()
+        items = ArrayList<Episode>()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EpisodesListHolder {
@@ -27,14 +24,14 @@ class EpisodesListAdapter(private val resourcesProvider: ResourcesProvider) : Re
     }
 
     override fun onBindViewHolder(holder: EpisodesListHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(items[position], onItemClickListener, position)
     }
 
     override fun getItemCount(): Int {
         return items.size
     }
 
-    fun setItems(items: List<PodcastEpisode>) {
+    fun setItems(items: List<Episode>) {
         this.items.clear()
         this.items.addAll(items)
         notifyDataSetChanged()

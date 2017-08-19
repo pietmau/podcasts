@@ -7,16 +7,15 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.util.Pair
+import android.support.v7.widget.CardView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
-import android.widget.LinearLayout
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
-import com.pietrantuono.podcasts.apis.PodcastEpisode
+import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayActivity
 import com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.di.SingleSubscribedModule
@@ -55,7 +54,7 @@ class EpisodesListActivity : DetailActivtyBase(), EpisodesListView {
         return intent.getStringExtra(ARTWORK)
     }
 
-    override fun setEpisodes(episodes: List<PodcastEpisode>) {
+    override fun setEpisodes(episodes: List<Episode>) {
         recycler.setItems(episodes)
     }
 
@@ -88,28 +87,28 @@ class EpisodesListActivity : DetailActivtyBase(), EpisodesListView {
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun startDetailActivityWithTransition(podcast: Podcast?, imageView: ImageView?, titleContainer: LinearLayout?) {
+    override fun startDetailActivityWithTransition(episode: Episode, imageView: ImageView?, cardView: CardView) {
         val intent = Intent(this@EpisodesListActivity, FullscreenPlayActivity::class.java)
-        intent.putExtra(SINGLE_PODCAST_TRACK_ID, podcast?.trackId)
-        intent.putExtra(ARTWORK, podcast?.artworkUrl600)
+        intent.putExtra(SINGLE_PODCAST_TRACK_ID, episode.link)
+        intent.putExtra(ARTWORK, episode.imageUrl)
         intent.putExtra(STARTED_WITH_TRANSITION, true)
-        startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this@EpisodesListActivity, *getPairs(imageView, titleContainer)).toBundle())
+        startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this@EpisodesListActivity, *getPairs(imageView, cardView)).toBundle())
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun startDetailActivityWithoutTransition(podcast: Podcast?) {
+    override fun startDetailActivityWithoutTransition(episode: Episode) {
         val intent = Intent(this@EpisodesListActivity, FullscreenPlayActivity::class.java)
-        intent.putExtra(SINGLE_PODCAST_TRACK_ID, podcast?.trackId)
-        intent.putExtra(ARTWORK, podcast?.artworkUrl600)
+        intent.putExtra(SINGLE_PODCAST_TRACK_ID, episode.link)
+        intent.putExtra(ARTWORK, episode.imageUrl)
         startActivity(intent)
     }
 
-    private fun getPairs(imageView: ImageView?, titleContainer: LinearLayout?): Array<Pair<View, String>> {
-        return transitionsFramework.getPairs(imageView, this@EpisodesListActivity, titleContainer)
+    private fun getPairs(imageView: ImageView?, cardView: CardView?): Array<Pair<View, String>> {
+        return transitionsFramework.getPairs(imageView, this@EpisodesListActivity, cardView)
     }
 
     override fun isPartiallyHidden(position: Int): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return recycler.isPartiallyHidden(position)
     }
 
 }

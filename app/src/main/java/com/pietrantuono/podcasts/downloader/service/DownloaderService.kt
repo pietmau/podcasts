@@ -3,7 +3,7 @@ package com.pietrantuono.podcasts.downloader.service
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import com.pietrantuono.podcasts.apis.PodcastEpisode
+import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.downloader.di.DownloadModule
@@ -15,7 +15,7 @@ import com.tonyodev.fetch.request.Request
 import javax.inject.Inject
 
 class DownloaderService() : Service(), FetchListener {
-    private val requests: MutableMap<Long, Pair<Request, PodcastEpisode>> = mutableMapOf()
+    private val requests: MutableMap<Long, Pair<Request, Episode>> = mutableMapOf()
 
     companion object {
         const private val TAG: String = "DownloaderService"
@@ -86,7 +86,7 @@ class DownloaderService() : Service(), FetchListener {
         }
     }
 
-    private fun onDownloadCompleted(episode: PodcastEpisode?) {
+    private fun onDownloadCompleted(episode: Episode?) {
         repository.onDownloadCompleted(episode)
     }
 

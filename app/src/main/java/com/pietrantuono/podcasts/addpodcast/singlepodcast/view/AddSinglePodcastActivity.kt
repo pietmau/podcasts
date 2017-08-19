@@ -13,7 +13,7 @@ import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.EpisodesRecycler
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.dagger.SinglePodcastModule
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SinglePodcastPresenter
-import com.pietrantuono.podcasts.apis.PodcastEpisode
+import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.App
 import javax.inject.Inject
 
@@ -78,7 +78,7 @@ class AddSinglePodcastActivity : DetailActivtyBase(), SinglePodcastView {
         return presenter.onOptionsItemSelected(item.itemId)
     }
 
-    override fun setEpisodes(episodes: List<PodcastEpisode>?) {
+    override fun setEpisodes(episodes: List<Episode>?) {
         recyclerView.setItems(episodes)
     }
 

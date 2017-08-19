@@ -3,7 +3,7 @@ package com.pietrantuono.podcasts.repository
 import android.app.IntentService
 import android.content.Intent
 import com.pietrantuono.podcasts.CrashlyticsWrapper
-import com.pietrantuono.podcasts.apis.PodcastEpisode
+import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.apis.SinglePodcastApi
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.application.DebugLogger
@@ -37,7 +37,7 @@ class SaveEpisodeIntentService : IntentService("SaveEpisodeIntentService") {
         realm.close()
     }
 
-    private fun getEpisodes(intent: Intent): List<PodcastEpisode>? {
+    private fun getEpisodes(intent: Intent): List<Episode>? {
         val url = intent.getStringExtra(URL)
         if (url.isNullOrBlank()) {
             return null

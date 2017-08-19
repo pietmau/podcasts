@@ -1,19 +1,19 @@
 package com.pietrantuono.podcasts.interfaces;
 
-import com.pietrantuono.podcasts.apis.PodcastEpisode;
+import com.pietrantuono.podcasts.apis.Episode;
 import com.pietrantuono.podcasts.apis.PodcastFeed;
 
 import java.util.List;
 
 public class ROMEPodcastFeed implements PodcastFeed {
-    private final List<PodcastEpisode> episodes;
+    private final List<Episode> episodes;
 
-    public ROMEPodcastFeed(List<PodcastEpisode> episodes) {
+    public ROMEPodcastFeed(List<Episode> episodes) {
         this.episodes = episodes;
     }
 
     @Override
-    public List<PodcastEpisode> getEpisodes() {
+    public List<Episode> getEpisodes() {
         return episodes;
     }
 

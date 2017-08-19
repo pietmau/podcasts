@@ -2,13 +2,13 @@ package com.pietrantuono.podcasts.downloader
 
 import android.content.Context
 import android.content.Intent
-import com.pietrantuono.podcasts.apis.PodcastEpisode
+import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.downloader.service.DownloaderService
 import javax.inject.Inject
 
 class PodcastDownLoadManager @Inject constructor(private val context: Context) {
 
-    fun downLoadAll(episodes: List<PodcastEpisode>) {
+    fun downLoadAll(episodes: List<Episode>) {
         val tracks = arrayListOf<String>()
         for (episode in episodes) {
             episode.link?.let { tracks.add(it) }

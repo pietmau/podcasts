@@ -4,7 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import com.pietrantuono.podcasts.apis.PodcastEpisode
+import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.providers.RealmUtlis
 import java.util.*
 
@@ -15,7 +15,7 @@ class PodcastImpl : Podcast {
             throw Exception("Unsopported")
         }
 
-    override var episodes: List<PodcastEpisode>? = null
+    override var episodes: List<Episode>? = null
 
     @SerializedName("wrapperType")
     @Expose

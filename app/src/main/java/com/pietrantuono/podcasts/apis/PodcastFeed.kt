@@ -2,6 +2,6 @@ package com.pietrantuono.podcasts.apis
 
 interface PodcastFeed {
 
-    val episodes: List<PodcastEpisode>
+    val episodes: List<Episode>
 
 }
