@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts.fullscreenplay.custom
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
@@ -12,6 +13,12 @@ import com.pietrantuono.podcasts.application.App
 class SimpleExoPlayerViewWrapper : FrameLayout {
     private val simpleExoPlayerView: SimpleExoPlayerView
 
+    var defaultArtwork: Bitmap
+        set(value) {
+            simpleExoPlayerView.defaultArtwork = value
+        }
+        get() = simpleExoPlayerView.defaultArtwork
+
     constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet) {
         val inflater = context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -20,5 +27,7 @@ class SimpleExoPlayerViewWrapper : FrameLayout {
         simpleExoPlayerView.player = ((context.applicationContext as App).applicationComponent!!).simpleExoPlayer()
         simpleExoPlayerView.controllerShowTimeoutMs = -1
         simpleExoPlayerView.showController()
+        simpleExoPlayerView.useArtwork
     }
+
 }
