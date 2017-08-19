@@ -10,7 +10,7 @@ interface EpisodesListView {
     fun enterWithTransition()
     fun enterWithoutTransition()
     fun setTitle(collectionName: String?)
-    @TargetApi(value = 21) fun startDetailActivityWithTransition(episode: Episode, imageView: ImageView?, cardView: CardView)
+    @TargetApi(value = 21) fun startDetailActivityWithTransition(episode: Episode, imageView: ImageView, cardView: CardView)
     @TargetApi(value = 21) fun startDetailActivityWithoutTransition(episode: Episode)
     fun isPartiallyHidden(position: Int): Boolean
 }

@@ -61,6 +61,6 @@ class EpisodedListRecycler : RecyclerView {
     }
 
     interface OnItemClickListener {
-        fun onItemClicked(episode: Episode, image: ImageView?, card: CardView, position: Int)
+        fun onItemClicked(episode: Episode, image: ImageView, card: CardView, position: Int)
     }
 }

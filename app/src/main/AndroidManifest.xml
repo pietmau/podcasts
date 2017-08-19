@@ -33,6 +33,10 @@
             android:name="com.pietrantuono.podcasts.addpodcast.singlepodcast.view.EpisodesListActivity">
         </activity>
 
+        <activity
+            android:name=".fullscreenplay.FullscreenPlayActivity">
+        </activity>
+
         <service
             android:name="com.pietrantuono.podcasts.player.player.service.PlayerService"
             android:exported="false">
@@ -44,7 +48,6 @@
         </service>
 
         <service
-            
             android:name="com.pietrantuono.podcasts.downloader.service.DownloaderService"
             android:exported="false">
         </service>

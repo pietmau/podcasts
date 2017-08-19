@@ -8,6 +8,7 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -15,6 +16,9 @@ import android.widget.LinearLayout;
 
 import com.pietrantuono.podcasts.R;
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class TransitionsFrameworkImpl implements TransitionsFramework {
     private final ApiLevelChecker apiLevelChecker;
@@ -86,6 +90,22 @@ public class TransitionsFrameworkImpl implements TransitionsFramework {
         } else {
             pairs = new Pair[2];
         }
+        return pairs;
+    }
+
+    @NotNull
+    @Override
+    public Pair<View, String>[] getPairs(@NotNull ImageView imageView, @NotNull Activity activity, @Nullable CardView cardView) {
+        if (!apiLevelChecker.isLollipopOrHigher()) {
+            return new Pair[0];
+        }
+        Pair[] pairs = getNavigationBarAndImage(imageView, activity);
+        pairs = getCardView(activity, cardView, pairs);
+        return pairs;
+    }
+
+    private Pair[] getCardView(Activity activity, CardView cardView, Pair[] pairs) {
+        pairs[1] = new Pair(cardView, activity.getString(R.string.detail_transition_card));
         return pairs;
     }
 }

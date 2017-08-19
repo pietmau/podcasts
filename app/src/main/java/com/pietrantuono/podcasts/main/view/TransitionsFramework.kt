@@ -9,7 +9,6 @@ import android.support.v7.widget.CardView
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.EpisodesListActivity
 
 interface TransitionsFramework {
 
@@ -24,5 +23,5 @@ interface TransitionsFramework {
 
     fun getPairs(imageView: ImageView, activity: Activity, titleContainer: LinearLayout): Array<Pair<View, String>>
 
-    fun getPairs(imageView: ImageView?, episodesListActivity: EpisodesListActivity, cardView: CardView?): Array<Pair<View, String>>
+    fun getPairs(imageView: ImageView, activity: Activity, cardView: CardView?): Array<Pair<View, String>>
 }

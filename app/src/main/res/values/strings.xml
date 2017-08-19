@@ -6,8 +6,6 @@
     <string name="close">Close</string>
     <string name="search">Search</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="subscribe">Subscribe</string>
     <string name="detail_transition_image">detail_transition_image</string>
     <string name="episodes">episodes</string>
@@ -23,5 +21,6 @@
     <string name="downloading">Downloading</string>
     <string name="title_not_available">Title not available</string>
     <string name="download_completed">Download completed</string>
+    <string name="detail_transition_card">detail_transition_cardview</string>
 
 </resources>

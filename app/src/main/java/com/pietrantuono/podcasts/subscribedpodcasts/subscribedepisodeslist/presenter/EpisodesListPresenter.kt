@@ -60,7 +60,7 @@ class EpisodesListPresenter(private val model: EpisodesListModel, private val me
         model.onDownLoadAllSelected()
     }
 
-    override fun onItemClicked(episode: Episode, image: ImageView?, card: CardView, position: Int) {
+    override fun onItemClicked(episode: Episode, image: ImageView, card: CardView, position: Int) {
         if (view == null) {
             return
         }

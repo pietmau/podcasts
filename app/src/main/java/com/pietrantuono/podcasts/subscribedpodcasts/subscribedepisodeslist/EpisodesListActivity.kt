@@ -87,7 +87,7 @@ class EpisodesListActivity : DetailActivtyBase(), EpisodesListView {
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun startDetailActivityWithTransition(episode: Episode, imageView: ImageView?, cardView: CardView) {
+    override fun startDetailActivityWithTransition(episode: Episode, imageView: ImageView, cardView: CardView) {
         val intent = Intent(this@EpisodesListActivity, FullscreenPlayActivity::class.java)
         intent.putExtra(SINGLE_PODCAST_TRACK_ID, episode.link)
         intent.putExtra(ARTWORK, episode.imageUrl)
@@ -103,13 +103,12 @@ class EpisodesListActivity : DetailActivtyBase(), EpisodesListView {
         startActivity(intent)
     }
 
-    private fun getPairs(imageView: ImageView?, cardView: CardView?): Array<Pair<View, String>> {
+    private fun getPairs(imageView: ImageView, cardView: CardView): Array<Pair<View, String>> {
         return transitionsFramework.getPairs(imageView, this@EpisodesListActivity, cardView)
     }
 
     override fun isPartiallyHidden(position: Int): Boolean {
         return recycler.isPartiallyHidden(position)
     }
-
 }
 
