@@ -53,8 +53,8 @@ class DownloaderService() : Service(), FetchListener {
         } else {
             val trackList = intent.getStringArrayListExtra(TRACK_LIST)
             if (trackList != null) {
-                for (trackId in trackList) {
-                    getAndEnqueueSingleEpisode(trackId)
+                for (url in trackList) {
+                    getAndEnqueueSingleEpisode(url)
                 }
             }
         }

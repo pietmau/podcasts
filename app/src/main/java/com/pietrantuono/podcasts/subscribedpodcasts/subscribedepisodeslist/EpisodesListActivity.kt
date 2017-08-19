@@ -23,6 +23,7 @@ import com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.prese
 import com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.views.EpisodedListRecycler
 import com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.views.EpisodesListView
 import com.pietrantuono.podcasts.utils.ARTWORK
+import com.pietrantuono.podcasts.utils.EPISODE_LINK
 import com.pietrantuono.podcasts.utils.SINGLE_PODCAST_TRACK_ID
 import com.pietrantuono.podcasts.utils.STARTED_WITH_TRANSITION
 import javax.inject.Inject
@@ -89,7 +90,7 @@ class EpisodesListActivity : DetailActivtyBase(), EpisodesListView {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     override fun startDetailActivityWithTransition(episode: Episode, imageView: ImageView, cardView: CardView) {
         val intent = Intent(this@EpisodesListActivity, FullscreenPlayActivity::class.java)
-        intent.putExtra(SINGLE_PODCAST_TRACK_ID, episode.link)
+        intent.putExtra(EPISODE_LINK, episode.link)
         intent.putExtra(ARTWORK, episode.imageUrl)
         intent.putExtra(STARTED_WITH_TRANSITION, true)
         startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this@EpisodesListActivity, *getPairs(imageView, cardView)).toBundle())
@@ -98,7 +99,7 @@ class EpisodesListActivity : DetailActivtyBase(), EpisodesListView {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     override fun startDetailActivityWithoutTransition(episode: Episode) {
         val intent = Intent(this@EpisodesListActivity, FullscreenPlayActivity::class.java)
-        intent.putExtra(SINGLE_PODCAST_TRACK_ID, episode.link)
+        intent.putExtra(EPISODE_LINK, episode.link)
         intent.putExtra(ARTWORK, episode.imageUrl)
         startActivity(intent)
     }

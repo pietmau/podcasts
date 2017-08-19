@@ -101,4 +101,5 @@ interface Playback {
     fun setCallback(callback: Callback?)
 
     fun playAll(mediaSource: MediaSource)
+    fun playMediaSource(mediaSource: MediaSource)
 }

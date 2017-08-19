@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.source.ConcatenatingMediaSource
 import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.upstream.DataSource
+import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.apis.PodcastFeed
 
 class MediaSourceCreator(val mediaDataSourceFactory: DataSource.Factory, val mainHandler: Handler,
@@ -40,6 +41,19 @@ class MediaSourceCreator(val mediaDataSourceFactory: DataSource.Factory, val mai
                     DefaultExtractorsFactory(), mainHandler, eventLogger))
         }
         return result.toTypedArray()
+    }
+
+    fun getMediaSourceFromSingleEpisode(episode: Episode): MediaSource? {
+        val enclosures = episode.enclosures
+        if (enclosures == null || enclosures.isEmpty()) {
+            return null
+        }
+        val url = enclosures[0].url
+        if (url == null) {
+            return null
+        }
+        return ExtractorMediaSource(Uri.parse(url), mediaDataSourceFactory,
+                DefaultExtractorsFactory(), mainHandler, eventLogger)
     }
 }
 

@@ -9,7 +9,7 @@ import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.fullscreenplay.custom.SimpleExoPlayerViewWrapper
 import com.pietrantuono.podcasts.fullscreenplay.di.FullscreenModule
 import com.pietrantuono.podcasts.fullscreenplay.presenter.FullscreenPresenter
-import com.pietrantuono.podcasts.utils.SINGLE_PODCAST_TRACK_ID
+import com.pietrantuono.podcasts.utils.EPISODE_LINK
 import com.pietrantuono.podcasts.utils.STARTED_WITH_TRANSITION
 import javax.inject.Inject
 
@@ -28,7 +28,7 @@ class FullscreenPlayActivity : AppCompatActivity(), FullscreenPlayView {
     override fun onStart() {
         super.onStart()
         presenter.onStart(this, intent
-                .getIntExtra(SINGLE_PODCAST_TRACK_ID, -1), intent
+                .getStringExtra(EPISODE_LINK), intent
                 .getBooleanExtra(STARTED_WITH_TRANSITION, false))
     }
 

@@ -91,7 +91,7 @@ class LocalPlayback(context: Context, override var exoPlayer: SimpleExoPlayer?) 
         //playMediaSource(item)
     }
 
-    private fun playMediaSource(mediaSource: MediaSource) {
+    override fun playMediaSource(mediaSource: MediaSource) {
         playOnFocusGain = true
         tryToGetAudioFocus()
 

@@ -1,22 +1,21 @@
 package com.pietrantuono.podcasts.fullscreenplay.presenter
 
-import android.widget.ImageView
-import android.widget.LinearLayout
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
-import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
-import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayActivity
+import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayView
+import com.pietrantuono.podcasts.player.player.service.Player
+import com.pietrantuono.podcasts.repository.EpisodesRepository
 
 
-class FullscreenPresenter(private val apiLevelChecker: ApiLevelChecker) {
+class FullscreenPresenter(private val episodesRepository: EpisodesRepository, private val player: Player?) {
     private var view: FullscreenPlayView? = null
-        set(value) {
-            view = value
-        }
+    private var episode: Episode? = null
 
-    fun onStart(fullscreenPlayActivity: FullscreenPlayActivity, intExtra: Int, booleanExtra: Boolean) {}
+    fun onStart(view: FullscreenPlayView, url: String?, booleanExtra: Boolean) {
+        this.view = view
+        episode = episodesRepository.getEpisodeByUrl(url)
+        episode?.let { player?.playEpisode(it) }
+    }
 
     fun onStop() {}
-
 
 }
