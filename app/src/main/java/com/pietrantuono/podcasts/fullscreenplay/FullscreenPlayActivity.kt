@@ -1,15 +1,12 @@
 package com.pietrantuono.podcasts.fullscreenplay
 
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.view.View
 import butterknife.BindView
 import butterknife.ButterKnife
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.application.App
-import com.pietrantuono.podcasts.fullscreenplay.custom.SimpleExoPlayerViewWrapper
+import com.pietrantuono.podcasts.fullscreenplay.custom.FullScreenAudioPlaybackControlViewWithBackground
 import com.pietrantuono.podcasts.fullscreenplay.di.FullscreenModule
 import com.pietrantuono.podcasts.fullscreenplay.presenter.FullscreenPresenter
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
@@ -22,7 +19,7 @@ import javax.inject.Inject
 class FullscreenPlayActivity : AppCompatActivity(), FullscreenPlayView {
     @Inject lateinit var presenter: FullscreenPresenter
     @Inject lateinit var imageLoader: SimpleImageLoader
-    @BindView(R.id.simple_exo_player_view) lateinit var exoPlayerView: SimpleExoPlayerViewWrapper
+    @BindView(R.id.simple_exo_player_view) lateinit var exoPlayerViewWithBackground: FullScreenAudioPlaybackControlViewWithBackground
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,20 +31,14 @@ class FullscreenPlayActivity : AppCompatActivity(), FullscreenPlayView {
 
     private fun setImage() {
         intent?.let {
-            intent.getStringExtra(ARTWORK)?.let {
-                imageLoader.loadImage(it, object : SimpleImageLoadingListener() {
-                    override fun onLoadingComplete(imageUri: String?, view: View?, loadedImage: Bitmap?) {
-                        if (activityIsInAValidState() && loadedImage != null) {
-                            exoPlayerView.defaultArtwork = loadedImage
-                        }
-                    }
-                })
+            it.getStringExtra(ARTWORK)?.let {
+                exoPlayerViewWithBackground.imageUrl = it
             }
         }
     }
 
     private fun activityIsInAValidState(): Boolean {
-        return (isFinishing || isDestroyed || isChangingConfigurations)
+        return !(isFinishing || isDestroyed || isChangingConfigurations)
     }
 
     override fun onStart() {
@@ -61,5 +52,6 @@ class FullscreenPlayActivity : AppCompatActivity(), FullscreenPlayView {
         super.onStop()
         presenter.onStop()
     }
+
 
 }

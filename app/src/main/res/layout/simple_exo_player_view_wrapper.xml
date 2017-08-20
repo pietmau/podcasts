@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.exoplayer2.ui.SimpleExoPlayerView
+<FrameLayout
+    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/simple"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-</com.google.android.exoplayer2.ui.SimpleExoPlayerView>
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"/>
+
+    <com.google.android.exoplayer2.ui.PlaybackControlView
+        android:id="@+id/controller"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:controller_layout_id="@layout/custom_exo_playback_control_view">
+
+    </com.google.android.exoplayer2.ui.PlaybackControlView>
+</FrameLayout>

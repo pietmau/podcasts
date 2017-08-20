@@ -12,6 +12,7 @@ import com.pietrantuono.podcasts.downloader.DownloadSubComponent
 import com.pietrantuono.podcasts.downloader.di.DownloadModule
 import com.pietrantuono.podcasts.fullscreenplay.di.FullscreenModule
 import com.pietrantuono.podcasts.fullscreenplay.di.FullscreenSubComponent
+import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule
 import com.pietrantuono.podcasts.main.dagger.MainModule
 import com.pietrantuono.podcasts.main.dagger.TransitionsModule
@@ -47,6 +48,8 @@ interface ApplicationComponent {
     fun with(downloadModule: DownloadModule): DownloadSubComponent
 
     fun simpleExoPlayer(): SimpleExoPlayer?
+
+    fun simpleImageLoader(): SimpleImageLoader
 
     fun with(fullscreenModule: FullscreenModule): FullscreenSubComponent
 
