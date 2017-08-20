@@ -1,4 +1,4 @@
-package com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.model
+package com.pietrantuono.podcasts.subscribedpodcasts.list.model
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import rx.Observer

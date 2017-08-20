@@ -1,4 +1,4 @@
-package com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.views
+package com.pietrantuono.podcasts.subscribedpodcasts.list.views
 
 import android.annotation.TargetApi
 import android.support.v7.widget.CardView

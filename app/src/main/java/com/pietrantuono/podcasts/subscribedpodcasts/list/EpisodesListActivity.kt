@@ -18,14 +18,11 @@ import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayActivity
-import com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.di.SingleSubscribedModule
-import com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.presenter.EpisodesListPresenter
-import com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.views.EpisodedListRecycler
-import com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.views.EpisodesListView
-import com.pietrantuono.podcasts.utils.ARTWORK
-import com.pietrantuono.podcasts.utils.EPISODE_LINK
-import com.pietrantuono.podcasts.utils.SINGLE_PODCAST_TRACK_ID
-import com.pietrantuono.podcasts.utils.STARTED_WITH_TRANSITION
+import com.pietrantuono.podcasts.subscribedpodcasts.list.di.SingleSubscribedModule
+import com.pietrantuono.podcasts.subscribedpodcasts.list.presenter.EpisodesListPresenter
+import com.pietrantuono.podcasts.subscribedpodcasts.list.views.EpisodedListRecycler
+import com.pietrantuono.podcasts.subscribedpodcasts.list.views.EpisodesListView
+import com.pietrantuono.podcasts.utils.*
 import javax.inject.Inject
 
 class EpisodesListActivity : DetailActivtyBase(), EpisodesListView {
@@ -89,19 +86,23 @@ class EpisodesListActivity : DetailActivtyBase(), EpisodesListView {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     override fun startDetailActivityWithTransition(episode: Episode, imageView: ImageView, cardView: CardView) {
-        val intent = Intent(this@EpisodesListActivity, FullscreenPlayActivity::class.java)
-        intent.putExtra(EPISODE_LINK, episode.link)
-        intent.putExtra(ARTWORK, episode.imageUrl)
+        val intent = getIntent(episode)
         intent.putExtra(STARTED_WITH_TRANSITION, true)
         startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this@EpisodesListActivity, *getPairs(imageView, cardView)).toBundle())
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     override fun startDetailActivityWithoutTransition(episode: Episode) {
+        val intent = getIntent(episode)
+        startActivity(intent)
+    }
+
+    private fun getIntent(episode: Episode): Intent {
         val intent = Intent(this@EpisodesListActivity, FullscreenPlayActivity::class.java)
         intent.putExtra(EPISODE_LINK, episode.link)
         intent.putExtra(ARTWORK, episode.imageUrl)
-        startActivity(intent)
+        transitionImageLoadingListener.colors?.let { intent.putExtra(COLORS, it) }
+        return intent
     }
 
     private fun getPairs(imageView: ImageView, cardView: CardView): Array<Pair<View, String>> {

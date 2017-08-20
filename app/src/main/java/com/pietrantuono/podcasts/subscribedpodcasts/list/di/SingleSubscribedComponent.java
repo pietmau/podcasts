@@ -1,7 +1,7 @@
-package com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.di;
+package com.pietrantuono.podcasts.subscribedpodcasts.list.di;
 
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.EpisodesListActivity;
-import com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.views.EpisodedListRecycler;
+import com.pietrantuono.podcasts.subscribedpodcasts.list.views.EpisodedListRecycler;
 
 import org.jetbrains.annotations.NotNull;
 

@@ -20,8 +20,8 @@ import com.pietrantuono.podcasts.media.MediaModule
 import com.pietrantuono.podcasts.repository.RepositoryModule
 import com.pietrantuono.podcasts.repository.SaveEpisodeIntentService
 import com.pietrantuono.podcasts.settings.SettingsModule
-import com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.di.SingleSubscribedComponent
-import com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.di.SingleSubscribedModule
+import com.pietrantuono.podcasts.subscribedpodcasts.list.di.SingleSubscribedComponent
+import com.pietrantuono.podcasts.subscribedpodcasts.list.di.SingleSubscribedModule
 import dagger.Component
 import javax.inject.Singleton
 

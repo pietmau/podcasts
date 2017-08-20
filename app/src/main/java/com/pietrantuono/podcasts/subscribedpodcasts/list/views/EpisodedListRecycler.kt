@@ -1,4 +1,4 @@
-package com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.views
+package com.pietrantuono.podcasts.subscribedpodcasts.list.views
 
 import android.content.Context
 import android.content.res.Configuration
@@ -11,7 +11,7 @@ import android.util.AttributeSet
 import android.widget.ImageView
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.App
-import com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.di.SingleSubscribedModule
+import com.pietrantuono.podcasts.subscribedpodcasts.list.di.SingleSubscribedModule
 import javax.inject.Inject
 
 class EpisodedListRecycler : RecyclerView {

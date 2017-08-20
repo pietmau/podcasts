@@ -1,4 +1,4 @@
-package com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.di
+package com.pietrantuono.podcasts.subscribedpodcasts.list.di
 
 
 import android.arch.lifecycle.ViewModel
@@ -6,21 +6,18 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
-import com.pietrantuono.podcasts.CrashlyticsWrapper
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.TransitionImageLoadingListener
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
 import com.pietrantuono.podcasts.downloader.PodcastDownLoadManager
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
 import com.pietrantuono.podcasts.main.view.TransitionsFramework
-import com.pietrantuono.podcasts.player.player.MediaSourceCreator
-import com.pietrantuono.podcasts.player.player.service.Player
 import com.pietrantuono.podcasts.repository.repository.Repository
-import com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.menu.EpisodesListMenuProviderImpl
-import com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.model.EpisodesListModel
-import com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.model.EpisodesListModelImpl
-import com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.presenter.EpisodesListPresenter
-import com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.views.EpisodesListAdapter
+import com.pietrantuono.podcasts.subscribedpodcasts.list.menu.EpisodesListMenuProviderImpl
+import com.pietrantuono.podcasts.subscribedpodcasts.list.model.EpisodesListModel
+import com.pietrantuono.podcasts.subscribedpodcasts.list.model.EpisodesListModelImpl
+import com.pietrantuono.podcasts.subscribedpodcasts.list.presenter.EpisodesListPresenter
+import com.pietrantuono.podcasts.subscribedpodcasts.list.views.EpisodesListAdapter
 import dagger.Module
 import dagger.Provides
 

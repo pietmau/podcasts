@@ -1,4 +1,4 @@
-package com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.menu
+package com.pietrantuono.podcasts.subscribedpodcasts.list.menu
 
 import android.view.Menu
 import android.view.MenuItem

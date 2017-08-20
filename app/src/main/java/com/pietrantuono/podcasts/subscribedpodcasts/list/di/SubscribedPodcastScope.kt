@@ -1,4 +1,4 @@
-package com.pietrantuono.podcasts.subscribedpodcasts.subscribedepisodeslist.di
+package com.pietrantuono.podcasts.subscribedpodcasts.list.di
 
 import java.lang.annotation.Documented
 import java.lang.annotation.Retention
