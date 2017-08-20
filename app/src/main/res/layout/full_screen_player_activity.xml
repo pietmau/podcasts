@@ -4,11 +4,11 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <com.pietrantuono.podcasts.fullscreenplay.custom.FullScreenAudioPlaybackControlViewWithBackground
+    <com.pietrantuono.podcasts.fullscreenplay.custom.FullScreenPlaybackControlView
         android:id="@+id/simple_exo_player_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </com.pietrantuono.podcasts.fullscreenplay.custom.FullScreenAudioPlaybackControlViewWithBackground>
+    </com.pietrantuono.podcasts.fullscreenplay.custom.FullScreenPlaybackControlView>
 
 </LinearLayout>

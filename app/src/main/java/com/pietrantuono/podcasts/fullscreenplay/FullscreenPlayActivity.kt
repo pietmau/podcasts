@@ -6,11 +6,10 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.application.App
-import com.pietrantuono.podcasts.fullscreenplay.custom.FullScreenAudioPlaybackControlViewWithBackground
+import com.pietrantuono.podcasts.fullscreenplay.custom.FullScreenPlaybackControlView
 import com.pietrantuono.podcasts.fullscreenplay.di.FullscreenModule
 import com.pietrantuono.podcasts.fullscreenplay.presenter.FullscreenPresenter
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
-import com.pietrantuono.podcasts.utils.ARTWORK
 import com.pietrantuono.podcasts.utils.EPISODE_LINK
 import com.pietrantuono.podcasts.utils.STARTED_WITH_TRANSITION
 import javax.inject.Inject
@@ -19,24 +18,20 @@ import javax.inject.Inject
 class FullscreenPlayActivity : AppCompatActivity(), FullscreenPlayView {
     @Inject lateinit var presenter: FullscreenPresenter
     @Inject lateinit var imageLoader: SimpleImageLoader
-    @BindView(R.id.simple_exo_player_view) lateinit var exoPlayerViewWithBackground: FullScreenAudioPlaybackControlViewWithBackground
+    @BindView(R.id.simple_exo_player_view) lateinit var exoPlayerViewWithBackground: FullScreenPlaybackControlView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.full_screen_player_activity)
         (application as App).applicationComponent?.with(FullscreenModule())?.inject(this@FullscreenPlayActivity)
         ButterKnife.bind(this@FullscreenPlayActivity)
-        setImage()
+        setData()
     }
 
-    private fun setImage() {
-        if (intent != null && intent.getStringExtra(ARTWORK) != null) {
-            exoPlayerViewWithBackground.imageUrl = intent.getStringExtra(ARTWORK)
+    private fun setData() {
+        intent?.let {
+            exoPlayerViewWithBackground.setImageAndColors(intent)
         }
-    }
-
-    private fun activityIsInAValidState(): Boolean {
-        return !(isFinishing || isDestroyed || isChangingConfigurations)
     }
 
     override fun onStart() {
