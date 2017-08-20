@@ -10,22 +10,11 @@
     android:orientation="vertical"
     >
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        android:elevation="1dp"
-        android:transitionName="@string/detail_transition_toolbar"
-        >
-
-    </android.support.v7.widget.Toolbar>
-
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/coordinator"
-        android:layout_above="@+id/playbackcontrols"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/playbackcontrols"
         android:background="@color/activityBackgroundColor"
         >
 
@@ -78,5 +67,16 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:elevation="1dp"
+        android:transitionName="@string/detail_transition_toolbar"
+        >
+    </android.support.v7.widget.Toolbar>
+
 
 </RelativeLayout>
