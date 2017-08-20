@@ -30,10 +30,8 @@ class FullscreenPlayActivity : AppCompatActivity(), FullscreenPlayView {
     }
 
     private fun setImage() {
-        intent?.let {
-            it.getStringExtra(ARTWORK)?.let {
-                exoPlayerViewWithBackground.imageUrl = it
-            }
+        if (intent != null && intent.getStringExtra(ARTWORK) != null) {
+            exoPlayerViewWithBackground.imageUrl = intent.getStringExtra(ARTWORK)
         }
     }
 
