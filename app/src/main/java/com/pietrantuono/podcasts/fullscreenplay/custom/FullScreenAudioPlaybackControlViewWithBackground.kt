@@ -2,6 +2,8 @@ package com.pietrantuono.podcasts.fullscreenplay.custom
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Color
+import android.support.v4.graphics.drawable.DrawableCompat
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -25,11 +27,9 @@ class FullScreenAudioPlaybackControlViewWithBackground : FrameLayout {
     var imageUrl: String?
         get() = null
         set(value) {
-            imageLoader.loadImage(value, object : SimpleImageLoadingListener() {
+            imageLoader.displayImage(value, imageView, object : SimpleImageLoadingListener() {
                 override fun onLoadingComplete(imageUri: String?, view: View?, loadedImage: Bitmap?) {
-                    if (!detached && loadedImage != null) {
-                        imageView.setImageBitmap(loadedImage)
-                    }
+
                 }
             })
         }
@@ -42,8 +42,8 @@ class FullScreenAudioPlaybackControlViewWithBackground : FrameLayout {
         playbackControlView.player = ((context.applicationContext as App).applicationComponent!!).simpleExoPlayer()
         playbackControlView.showTimeoutMs = -1
         playbackControlView.show()
+        tintDrawables()
     }
-
 
     private fun performInjection() {
         imageLoader = (context.applicationContext as App).applicationComponent!!.simpleImageLoader()
@@ -53,5 +53,11 @@ class FullScreenAudioPlaybackControlViewWithBackground : FrameLayout {
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         detached = true
+    }
+
+    private fun tintDrawables() {
+        val drawable = (findViewById(R.id.exo_prev) as ImageView).drawable
+        DrawableCompat.setTint(drawable, Color.RED)
+
     }
 }
