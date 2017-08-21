@@ -31,7 +31,7 @@ class SingleSubscribedModule(private val activity: AppCompatActivity) {
 
     @Provides
     fun provideTransitionImageLoadingListener(framework: TransitionsFramework): TransitionImageLoadingListener {
-        return TransitionImageLoadingListener(activity, framework)
+        return TransitionImageLoadingListener(framework)
     }
 
     @Provides

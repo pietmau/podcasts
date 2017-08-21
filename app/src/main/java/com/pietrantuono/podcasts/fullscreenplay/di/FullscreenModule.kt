@@ -20,6 +20,6 @@ class FullscreenModule(private val activity: AppCompatActivity) {
 
     @Provides
     fun provideTransitionImageLoadingListener(framework: TransitionsFramework): TransitionImageLoadingListener{
-        return TransitionImageLoadingListener(activity, framework)
+        return TransitionImageLoadingListener(framework)
     }
 }

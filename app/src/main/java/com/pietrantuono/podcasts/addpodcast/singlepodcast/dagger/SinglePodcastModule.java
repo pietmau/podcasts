@@ -46,7 +46,7 @@ public class SinglePodcastModule {
 
     @Provides
     TransitionImageLoadingListener provideTransitionImageLoadingListener(TransitionsFramework framework) {
-        return new TransitionImageLoadingListener(activity, framework);
+        return new TransitionImageLoadingListener(framework);
     }
 
     @Provides
