@@ -21,7 +21,6 @@ class SimpleImageLoader {
         ImageLoader.getInstance().loadImage(url, listener)
     }
 
-
     companion object {
         private val options = DisplayImageOptions.Builder()
                 .showImageForEmptyUri(R.drawable.podcast_grey_icon_very_big)

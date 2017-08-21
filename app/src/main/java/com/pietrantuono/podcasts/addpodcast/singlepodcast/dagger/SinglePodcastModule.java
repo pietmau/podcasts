@@ -11,7 +11,7 @@ import com.pietrantuono.podcasts.CrashlyticsWrapper;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastModel;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastModelImpl;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SinglePodcastPresenter;
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.TransitionImageLoadingListener;
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.BitmapColorExtractor;
 import com.pietrantuono.podcasts.apis.SinglePodcastApi;
 import com.pietrantuono.podcasts.main.view.TransitionsFramework;
 import com.pietrantuono.podcasts.player.player.LocalPlayback;
@@ -45,8 +45,8 @@ public class SinglePodcastModule {
     }
 
     @Provides
-    TransitionImageLoadingListener provideTransitionImageLoadingListener(TransitionsFramework framework) {
-        return new TransitionImageLoadingListener(framework);
+    BitmapColorExtractor provideTransitionImageLoadingListener(TransitionsFramework framework) {
+        return new BitmapColorExtractor(framework);
     }
 
     @Provides

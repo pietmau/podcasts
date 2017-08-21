@@ -1,7 +1,6 @@
 package com.pietrantuono.podcasts.fullscreenplay.di
 
-import android.support.v7.app.AppCompatActivity
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.TransitionImageLoadingListener
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.BitmapColorExtractor
 import com.pietrantuono.podcasts.fullscreenplay.presenter.FullscreenPresenter
 import com.pietrantuono.podcasts.main.view.TransitionsFramework
 import com.pietrantuono.podcasts.player.player.service.Player
@@ -19,7 +18,7 @@ class FullscreenModule() {
     }
 
     @Provides
-    fun provideTransitionImageLoadingListener(framework: TransitionsFramework): TransitionImageLoadingListener{
-        return TransitionImageLoadingListener(framework)
+    fun provideTransitionImageLoadingListener(framework: TransitionsFramework): BitmapColorExtractor {
+        return BitmapColorExtractor(framework)
     }
 }

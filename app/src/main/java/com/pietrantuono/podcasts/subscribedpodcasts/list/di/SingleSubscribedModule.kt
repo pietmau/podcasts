@@ -6,7 +6,7 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.TransitionImageLoadingListener
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.BitmapColorExtractor
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
 import com.pietrantuono.podcasts.downloader.PodcastDownLoadManager
@@ -30,8 +30,8 @@ class SingleSubscribedModule(private val activity: AppCompatActivity) {
     }
 
     @Provides
-    fun provideTransitionImageLoadingListener(framework: TransitionsFramework): TransitionImageLoadingListener {
-        return TransitionImageLoadingListener(framework)
+    fun provideTransitionImageLoadingListener(framework: TransitionsFramework): BitmapColorExtractor {
+        return BitmapColorExtractor(framework)
     }
 
     @Provides

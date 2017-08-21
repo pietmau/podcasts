@@ -100,7 +100,7 @@ class EpisodesListActivity : DetailActivtyBase(), EpisodesListView {
         val intent = Intent(this@EpisodesListActivity, FullscreenPlayActivity::class.java)
         intent.putExtra(EPISODE_LINK, episode.link)
         intent.putExtra(ARTWORK, episode.imageUrl)
-        transitionImageLoadingListener.colors?.let { intent.putExtra(COLORS, it) }
+        colorExtractor.backgroundColor?.let { intent.putExtra(COLORS, it) }
         return intent
     }
 
@@ -111,5 +111,6 @@ class EpisodesListActivity : DetailActivtyBase(), EpisodesListView {
     override fun isPartiallyHidden(position: Int): Boolean {
         return recycler.isPartiallyHidden(position)
     }
+
 }
 

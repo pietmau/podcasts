@@ -1,5 +1,6 @@
 package com.pietrantuono.podcasts.addpodcast.singlepodcast.view
 
+import android.graphics.drawable.ColorDrawable
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.widget.ImageView
@@ -11,13 +12,13 @@ import com.pietrantuono.podcasts.main.view.TransitionsFramework
 import javax.inject.Inject
 
 
-open abstract class DetailActivtyBase : BaseActivity() {
+open abstract class DetailActivtyBase : BaseActivity(), BitmapColorExtractor.Callback {
     @Inject lateinit var imageLoader: SimpleImageLoader
     @BindView(R.id.toolbar) lateinit var toolbar: Toolbar
     @BindView(R.id.progress) lateinit var progressBar: SimpleProgressBar
     @BindView(R.id.main_image) lateinit var imageView: ImageView
     @Inject lateinit var transitionsFramework: TransitionsFramework
-    @Inject lateinit var transitionImageLoadingListener: TransitionImageLoadingListener
+    @Inject lateinit var colorExtractor: BitmapColorExtractor
 
     protected fun setUpActionBar() {
         setSupportActionBar(toolbar)
@@ -52,19 +53,24 @@ open abstract class DetailActivtyBase : BaseActivity() {
         super.onBackPressed()
     }
 
-    protected fun loadImage() {
+    open fun loadImage() {
         imageLoader.displayImage(getImageUrl(), imageView,
-                transitionImageLoadingListener)
+                colorExtractor)
     }
 
     override fun onStart() {
         super.onStart()
-        transitionImageLoadingListener.setActivity(this)
+        colorExtractor.callback = this
     }
 
     override fun onStop() {
         super.onStop()
-        transitionImageLoadingListener.setActivity(null)
+        colorExtractor.callback = null
+    }
+
+    override fun onColorExtractionCompleted() {
+        colorExtractor.backgroundColor?.let { getSupportActionBar()?.setBackgroundDrawable(ColorDrawable(it)); }
+        transitionsFramework.startPostponedEnterTransition(this)
     }
 
     abstract fun getImageUrl(): String?
