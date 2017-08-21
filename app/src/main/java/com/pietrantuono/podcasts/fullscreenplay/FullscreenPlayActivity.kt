@@ -22,7 +22,7 @@ class FullscreenPlayActivity : DetailActivtyBase(), FullscreenPlayView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.full_screen_player_activity)
-        (application as App).applicationComponent?.with(FullscreenModule(this@FullscreenPlayActivity))?.inject(this@FullscreenPlayActivity)
+        (application as App).applicationComponent?.with(FullscreenModule())?.inject(this@FullscreenPlayActivity)
         ButterKnife.bind(this@FullscreenPlayActivity)
         setImageAndColors()
     }

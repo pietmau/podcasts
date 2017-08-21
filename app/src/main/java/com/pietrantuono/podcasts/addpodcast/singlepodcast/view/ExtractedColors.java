@@ -6,24 +6,17 @@ import android.os.Parcelable;
 
 public class ExtractedColors implements Parcelable {
     private final int backgroundColor;
-    private final int textColor;
 
-    ExtractedColors(int backgroundColor, int textColor) {
+    ExtractedColors(int backgroundColor) {
         this.backgroundColor = backgroundColor;
-        this.textColor = textColor;
     }
 
     public int getBackgroundColor() {
         return backgroundColor;
     }
 
-    public int getTextColor() {
-        return textColor;
-    }
-
     protected ExtractedColors(Parcel in) {
         backgroundColor = in.readInt();
-        textColor = in.readInt();
     }
 
     @Override
@@ -34,7 +27,6 @@ public class ExtractedColors implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(backgroundColor);
-        dest.writeInt(textColor);
     }
 
     @SuppressWarnings("unused")

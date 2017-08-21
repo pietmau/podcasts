@@ -11,7 +11,7 @@ import dagger.Provides
 
 
 @Module
-class FullscreenModule(private val activity: AppCompatActivity) {
+class FullscreenModule() {
 
     @Provides
     fun provideFullscreenPresenter(repo: EpisodesRepository, player: Player?): FullscreenPresenter {
