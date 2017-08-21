@@ -2,7 +2,6 @@ package com.pietrantuono.podcasts.subscribedpodcasts.list.presenter
 
 
 import android.arch.lifecycle.ViewModel
-import android.support.v7.widget.CardView
 import android.view.MenuItem
 import android.widget.ImageView
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
@@ -60,12 +59,12 @@ class EpisodesListPresenter(private val model: EpisodesListModel, private val me
         model.onDownLoadAllSelected()
     }
 
-    override fun onItemClicked(episode: Episode, image: ImageView, card: CardView, position: Int) {
+    override fun onItemClicked(episode: Episode, image: ImageView, position: Int) {
         if (view == null) {
             return
         }
         if (apiLevelChecker.isLollipopOrHigher && !view!!.isPartiallyHidden(position)) {
-            view?.startDetailActivityWithTransition(episode, image, card)
+            view?.startDetailActivityWithTransition(episode, image)
         } else {
             view?.startDetailActivityWithoutTransition(episode)
         }

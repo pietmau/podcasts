@@ -24,7 +24,7 @@ class EpisodesListHolder(itemView: View, private val resourcesProvider: Resource
         dataBinding.setVariable(BR.viewModel, podcastEpisodeViewModel)
         dataBinding.executePendingBindings()
         dataBinding.root.setOnClickListener {
-            onItemClickListener?.let { it.onItemClicked(episode, dataBinding.content!!.image, dataBinding.card, position) }
+            onItemClickListener?.let { it.onItemClicked(episode, dataBinding.content!!.image, position) }
         }
     }
 }

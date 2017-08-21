@@ -36,15 +36,7 @@ class FullscreenPlayActivity : AppCompatActivity(), FullscreenPlayView {
 
     override fun onStart() {
         super.onStart()
-        presenter.onStart(this, intent
-                .getStringExtra(EPISODE_LINK), intent
-                .getBooleanExtra(STARTED_WITH_TRANSITION, false))
+        presenter.onStart(this, intent.getStringExtra(EPISODE_LINK))
     }
-
-    override fun onStop() {
-        super.onStop()
-        presenter.onStop()
-    }
-
 
 }

@@ -3,7 +3,6 @@ package com.pietrantuono.podcasts.subscribedpodcasts.list.views
 import android.content.Context
 import android.content.res.Configuration
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.CardView
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -61,6 +60,6 @@ class EpisodedListRecycler : RecyclerView {
     }
 
     interface OnItemClickListener {
-        fun onItemClicked(episode: Episode, image: ImageView, card: CardView, position: Int)
+        fun onItemClicked(episode: Episode, image: ImageView, position: Int)
     }
 }

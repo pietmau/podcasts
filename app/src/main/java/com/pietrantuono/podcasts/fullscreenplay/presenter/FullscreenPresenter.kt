@@ -10,12 +10,10 @@ class FullscreenPresenter(private val episodesRepository: EpisodesRepository, pr
     private var view: FullscreenPlayView? = null
     private var episode: Episode? = null
 
-    fun onStart(view: FullscreenPlayView, url: String?, booleanExtra: Boolean) {
+    fun onStart(view: FullscreenPlayView, url: String?) {
         this.view = view
         episode = episodesRepository.getEpisodeByUrl(url)
         episode?.let { player?.playEpisode(it) }
     }
-
-    fun onStop() {}
 
 }

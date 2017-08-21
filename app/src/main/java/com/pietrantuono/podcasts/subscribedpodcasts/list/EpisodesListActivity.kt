@@ -7,7 +7,6 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.util.Pair
-import android.support.v7.widget.CardView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -85,10 +84,10 @@ class EpisodesListActivity : DetailActivtyBase(), EpisodesListView {
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun startDetailActivityWithTransition(episode: Episode, imageView: ImageView, cardView: CardView) {
+    override fun startDetailActivityWithTransition(episode: Episode, imageView: ImageView) {
         val intent = getIntent(episode)
         intent.putExtra(STARTED_WITH_TRANSITION, true)
-        startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this@EpisodesListActivity, *getPairs(imageView, cardView)).toBundle())
+        startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this@EpisodesListActivity, *getPairs(imageView)).toBundle())
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -105,8 +104,8 @@ class EpisodesListActivity : DetailActivtyBase(), EpisodesListView {
         return intent
     }
 
-    private fun getPairs(imageView: ImageView, cardView: CardView): Array<Pair<View, String>> {
-        return transitionsFramework.getPairs(imageView, this@EpisodesListActivity, cardView)
+    private fun getPairs(imageView: ImageView): Array<Pair<View, String>> {
+        return transitionsFramework.getPairs(imageView, this@EpisodesListActivity, toolbar)
     }
 
     override fun isPartiallyHidden(position: Int): Boolean {
