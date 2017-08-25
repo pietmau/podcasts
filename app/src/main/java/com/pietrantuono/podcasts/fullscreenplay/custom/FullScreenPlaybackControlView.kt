@@ -50,8 +50,13 @@ class FullScreenPlaybackControlView : FrameLayout {
     }
 
     private fun setColors(intent: Intent) {
-        intent.getParcelableExtra<ExtractedColors>(COLORS)?.let {
-            val backgroundColor = ColorUtils.setAlphaComponent(it.backgroundColor, 255 * 8 / 10)
+        val color = intent.getParcelableExtra<ExtractedColors>(COLORS)
+        if (color != null) {
+            val backgroundColor = ColorUtils.setAlphaComponent(color.backgroundColor, 255 * 8 / 10)
+            playbackControlView.setBackgroundColor(backgroundColor)
+        } else {
+            val backgroundColor = context.resources.getColor(R.color.colorPrimary)
+            ColorUtils.setAlphaComponent(color.backgroundColor, 255 * 8 / 10)
             playbackControlView.setBackgroundColor(backgroundColor)
         }
     }
@@ -60,10 +65,6 @@ class FullScreenPlaybackControlView : FrameLayout {
         intent.getStringExtra(ARTWORK)?.let {
             imageLoader.displayImage(it, imageView, object : SimpleImageLoadingListener() {
                 override fun onLoadingComplete(imageUri: String?, view: View?, loadedImage: Bitmap?) {
-                    (context as Callback).onImageLoadedSuccessfullyOrUnsuccessfully()
-                }
-
-                override fun onLoadingStarted(imageUri: String?, view: View?) {
                     (context as Callback).onImageLoadedSuccessfullyOrUnsuccessfully()
                 }
 
