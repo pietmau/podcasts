@@ -2,17 +2,18 @@ package com.pietrantuono.podcasts.fullscreenplay.custom
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
+import android.graphics.Bitmap
 import android.support.v4.graphics.ColorUtils
-import android.support.v4.graphics.drawable.DrawableCompat
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.FrameLayout
-import android.widget.ImageButton
 import android.widget.ImageView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.google.android.exoplayer2.ui.PlaybackControlView
+import com.nostra13.universalimageloader.core.assist.FailReason
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.ExtractedColors
 import com.pietrantuono.podcasts.application.App
@@ -56,7 +57,28 @@ class FullScreenPlaybackControlView : FrameLayout {
     }
 
     private fun setImage(intent: Intent) {
-        intent.getStringExtra(ARTWORK)?.let { imageLoader.displayImage(it, imageView) }
+        intent.getStringExtra(ARTWORK)?.let {
+            imageLoader.displayImage(it, imageView, object : SimpleImageLoadingListener() {
+                override fun onLoadingComplete(imageUri: String?, view: View?, loadedImage: Bitmap?) {
+                    (context as Callback).onImageLoadedSuccessfullyOrUnsuccessfully()
+                }
+
+                override fun onLoadingStarted(imageUri: String?, view: View?) {
+                    (context as Callback).onImageLoadedSuccessfullyOrUnsuccessfully()
+                }
+
+                override fun onLoadingCancelled(imageUri: String?, view: View?) {
+                    (context as Callback).onImageLoadedSuccessfullyOrUnsuccessfully()
+                }
+
+                override fun onLoadingFailed(imageUri: String?, view: View?, failReason: FailReason?) {
+                    (context as Callback).onImageLoadedSuccessfullyOrUnsuccessfully()
+                }
+            })
+        }
     }
 
+    interface Callback {
+        fun onImageLoadedSuccessfullyOrUnsuccessfully()
+    }
 }
