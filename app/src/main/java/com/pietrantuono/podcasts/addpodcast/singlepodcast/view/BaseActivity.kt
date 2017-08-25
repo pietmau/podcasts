@@ -5,20 +5,21 @@ import butterknife.BindView
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.custom.SimpleControlView
 import com.pietrantuono.podcasts.application.App
+import org.jetbrains.annotations.Nullable
 
 
 open class BaseActivity : AppCompatActivity() {
-    @BindView(R.id.playbackcontrols) lateinit var playbackControls: SimpleControlView
+    @BindView(R.id.playbackcontrols) @Nullable lateinit var playbackControls: SimpleControlView
 
     override fun onStop() {
         super.onStop()
-        playbackControls.removeCallback()
+        playbackControls?.removeCallback()
         (applicationContext as App).unbindPlayerService()
     }
 
     override fun onStart() {
         super.onStart()
-        playbackControls.setCallback()
+        playbackControls?.setCallback()
         (applicationContext as App).bindPlayerService()
     }
 }
