@@ -26,7 +26,6 @@ import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
 import com.pietrantuono.podcasts.addpodcast.presenter.AddPodcastPresenter;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.AddSinglePodcastActivity;
 import com.pietrantuono.podcasts.main.view.MainActivity;
-import com.pietrantuono.podcasts.main.view.TransitionsFramework;
 
 import java.util.List;
 

@@ -20,7 +20,6 @@ import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.EpisodesListActivity
 import com.pietrantuono.podcasts.main.view.MainActivity
-import com.pietrantuono.podcasts.main.view.TransitionsFramework
 import com.pietrantuono.podcasts.subscribedpodcasts.di.SubscribedPodcastModule
 import com.pietrantuono.podcasts.subscribedpodcasts.presenter.SubscribedPodcastPresenter
 import com.pietrantuono.podcasts.utils.ARTWORK
@@ -82,7 +81,7 @@ class SubscribedPodcastFragment : Fragment(), SubscribedPodcastView {
         activity.startActivity(intent)
     }
 
-    private fun getPairs(imageView: ImageView, titleContainer: LinearLayout): Array<Pair<View, String>> {
+    private fun getPairs(imageView: ImageView, titleContainer: LinearLayout): Array<Pair<View, String>?> {
         return transitionsFramework.getPairs(imageView, activity, titleContainer)
     }
 

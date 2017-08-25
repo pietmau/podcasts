@@ -9,7 +9,6 @@ import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.fullscreenplay.custom.FullScreenPlaybackControlView
 import com.pietrantuono.podcasts.fullscreenplay.di.FullscreenModule
 import com.pietrantuono.podcasts.fullscreenplay.presenter.FullscreenPresenter
-import com.pietrantuono.podcasts.main.view.TransitionsFramework
 import com.pietrantuono.podcasts.utils.ARTWORK
 import com.pietrantuono.podcasts.utils.BACKGROUND_COLOR
 import com.pietrantuono.podcasts.utils.EPISODE_LINK

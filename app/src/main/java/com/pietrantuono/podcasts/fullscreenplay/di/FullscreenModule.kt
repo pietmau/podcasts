@@ -18,7 +18,7 @@ class FullscreenModule() {
     }
 
     @Provides
-    fun provideTransitionImageLoadingListener(framework: TransitionsFramework): BitmapColorExtractor {
+    fun provideTransitionImageLoadingListener(framework: 89TransitionsFramework): BitmapColorExtractor {
         return BitmapColorExtractor(framework)
     }
 }

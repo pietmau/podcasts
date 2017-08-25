@@ -9,7 +9,6 @@ import android.widget.ImageView
 
 import com.nostra13.universalimageloader.core.assist.FailReason
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener
-import com.pietrantuono.podcasts.main.view.TransitionsFramework
 
 class BitmapColorExtractor(private val transitionsFramework: TransitionsFramework)
     : SimpleImageLoadingListener() {

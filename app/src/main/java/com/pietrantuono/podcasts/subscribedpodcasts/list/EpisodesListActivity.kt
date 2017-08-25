@@ -104,7 +104,7 @@ class EpisodesListActivity : DetailActivtyBase(), EpisodesListView {
         return intent
     }
 
-    private fun getPairs(imageView: ImageView): Array<Pair<View, String>> {
+    private fun getPairs(imageView: ImageView): Array<Pair<View, String>?> {
         return transitionsFramework.getPairs(imageView, this@EpisodesListActivity, toolbar)
     }
 
