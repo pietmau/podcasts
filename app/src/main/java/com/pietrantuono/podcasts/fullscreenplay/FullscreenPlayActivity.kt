@@ -10,6 +10,8 @@ import com.pietrantuono.podcasts.fullscreenplay.custom.FullScreenPlaybackControl
 import com.pietrantuono.podcasts.fullscreenplay.di.FullscreenModule
 import com.pietrantuono.podcasts.fullscreenplay.presenter.FullscreenPresenter
 import com.pietrantuono.podcasts.main.view.TransitionsFramework
+import com.pietrantuono.podcasts.utils.ARTWORK
+import com.pietrantuono.podcasts.utils.BACKGROUND_COLOR
 import com.pietrantuono.podcasts.utils.EPISODE_LINK
 import com.pietrantuono.podcasts.utils.STARTED_WITH_TRANSITION
 import javax.inject.Inject
@@ -33,15 +35,19 @@ class FullscreenPlayActivity : AppCompatActivity(), FullscreenPlayView, FullScre
     }
 
     private fun setImageAndColors() {
-        intent?.let {
-            exoPlayerViewWithBackground.setImageAndColors(intent)
+        val defaultColor = resources.getColor(R.color.colorPrimary)
+        exoPlayerViewWithBackground.setColors(intent?.getIntExtra(BACKGROUND_COLOR, defaultColor) ?: defaultColor)
+        val imageUrl = intent?.getStringExtra(ARTWORK)
+        if (imageUrl != null) {
+            exoPlayerViewWithBackground.setImageUrl(imageUrl)
+        } else {
+            transitionsFramework.startPostponedEnterTransition(this)
         }
     }
 
     override fun onStart() {
         super.onStart()
         presenter.onStart(this, intent?.getStringExtra(EPISODE_LINK))
-
     }
 
     fun enterWithTransition() {
@@ -61,7 +67,7 @@ class FullscreenPlayActivity : AppCompatActivity(), FullscreenPlayView, FullScre
         super.onBackPressed()
     }
 
-    override fun onImageLoadedSuccessfullyOrUnsuccessfully() {
+    override fun loadImageAttempted() {
         transitionsFramework.startPostponedEnterTransition(this)
     }
 

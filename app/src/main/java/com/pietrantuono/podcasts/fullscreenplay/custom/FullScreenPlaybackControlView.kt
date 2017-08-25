@@ -1,7 +1,6 @@
 package com.pietrantuono.podcasts.fullscreenplay.custom
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
 import android.support.v4.graphics.ColorUtils
 import android.util.AttributeSet
@@ -15,11 +14,8 @@ import com.google.android.exoplayer2.ui.PlaybackControlView
 import com.nostra13.universalimageloader.core.assist.FailReason
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener
 import com.pietrantuono.podcasts.R
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.ExtractedColors
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
-import com.pietrantuono.podcasts.utils.ARTWORK
-import com.pietrantuono.podcasts.utils.COLORS
 
 class FullScreenPlaybackControlView : FrameLayout {
     @BindView(R.id.controller) lateinit var playbackControlView: PlaybackControlView
@@ -42,44 +38,27 @@ class FullScreenPlaybackControlView : FrameLayout {
         imageLoader = applicationComponent.simpleImageLoader()
     }
 
-    fun setImageAndColors(intent: Intent) {
-        intent?.let {
-            setImage(it)
-            setColors(it)
-        }
+    fun setColors(backgroundColor: Int) {
+        playbackControlView.setBackgroundColor(ColorUtils.setAlphaComponent(backgroundColor, (255 * 8 / 10)))
     }
 
-    private fun setColors(intent: Intent) {
-        val color = intent.getParcelableExtra<ExtractedColors>(COLORS)
-        if (color != null) {
-            val backgroundColor = ColorUtils.setAlphaComponent(color.backgroundColor, 255 * 8 / 10)
-            playbackControlView.setBackgroundColor(backgroundColor)
-        } else {
-            val backgroundColor = context.resources.getColor(R.color.colorPrimary)
-            ColorUtils.setAlphaComponent(color.backgroundColor, 255 * 8 / 10)
-            playbackControlView.setBackgroundColor(backgroundColor)
-        }
-    }
+    fun setImageUrl(imageUrl: String) {
+        imageLoader.displayImage(imageUrl, imageView, object : SimpleImageLoadingListener() {
+            override fun onLoadingComplete(imageUri: String?, view: View?, loadedImage: Bitmap?) {
+                (context as Callback).loadImageAttempted()
+            }
 
-    private fun setImage(intent: Intent) {
-        intent.getStringExtra(ARTWORK)?.let {
-            imageLoader.displayImage(it, imageView, object : SimpleImageLoadingListener() {
-                override fun onLoadingComplete(imageUri: String?, view: View?, loadedImage: Bitmap?) {
-                    (context as Callback).onImageLoadedSuccessfullyOrUnsuccessfully()
-                }
+            override fun onLoadingCancelled(imageUri: String?, view: View?) {
+                (context as Callback).loadImageAttempted()
+            }
 
-                override fun onLoadingCancelled(imageUri: String?, view: View?) {
-                    (context as Callback).onImageLoadedSuccessfullyOrUnsuccessfully()
-                }
-
-                override fun onLoadingFailed(imageUri: String?, view: View?, failReason: FailReason?) {
-                    (context as Callback).onImageLoadedSuccessfullyOrUnsuccessfully()
-                }
-            })
-        }
+            override fun onLoadingFailed(imageUri: String?, view: View?, failReason: FailReason?) {
+                (context as Callback).loadImageAttempted()
+            }
+        })
     }
 
     interface Callback {
-        fun onImageLoadedSuccessfullyOrUnsuccessfully()
+        fun loadImageAttempted()
     }
 }
