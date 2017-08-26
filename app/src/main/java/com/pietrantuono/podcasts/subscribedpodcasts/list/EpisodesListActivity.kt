@@ -89,8 +89,7 @@ class EpisodesListActivity : DetailActivtyBase(), EpisodesListView {
         intent.putExtra(STARTED_WITH_TRANSITION, true)
         startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this@EpisodesListActivity, *getPairs(imageView)).toBundle())
     }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    
     override fun startDetailActivityWithoutTransition(episode: Episode) {
         val intent = getIntent(episode)
         startActivity(intent)

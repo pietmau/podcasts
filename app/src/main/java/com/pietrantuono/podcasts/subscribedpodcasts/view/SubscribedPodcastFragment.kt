@@ -74,7 +74,6 @@ class SubscribedPodcastFragment : Fragment(), SubscribedPodcastView {
         activity.startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(activity, *getPairs(imageView, titleContainer)).toBundle())
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     override fun startDetailActivityWithoutTransition(podcast: Podcast) {
         val intent = Intent(activity, EpisodesListActivity::class.java)
         intent.putExtra(SINGLE_PODCAST_TRACK_ID, podcast?.trackId)
