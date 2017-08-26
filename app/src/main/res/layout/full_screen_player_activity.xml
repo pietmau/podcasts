@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                android:orientation="vertical">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/main_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:transitionName="@string/episode_image_transition"/>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -14,18 +23,12 @@
         >
     </android.support.v7.widget.Toolbar>
 
-    <ImageView
-        android:id="@+id/main_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:transitionName="@string/episode_image_transition"/>
-
     <com.pietrantuono.podcasts.fullscreenplay.custom.ColorizedPlaybackControlView
         android:id="@+id/simple_exo_player_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        app:controller_layout_id="@layout/custom_exo_playback_control_view"
         >
     </com.pietrantuono.podcasts.fullscreenplay.custom.ColorizedPlaybackControlView>
 

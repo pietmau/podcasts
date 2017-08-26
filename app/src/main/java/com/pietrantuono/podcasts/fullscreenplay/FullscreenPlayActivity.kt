@@ -29,16 +29,13 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
             enterWithoutTransition()
         }
         setImageAndColors()
+        setUpActionBar()
     }
 
     private fun setImageAndColors() {
         val backgroundColor = intent?.getIntExtra(BACKGROUND_COLOR, resources.getColor(R.color.colorPrimary)) ?: resources.getColor(R.color.colorPrimary)
         colorizedPlaybackControlView.setBackgroundColors(backgroundColor)
         setToolbarColor(backgroundColor)
-    }
-
-    override fun setImage(imageUrl: String) {
-        loadImage(imageUrl)
     }
 
     override fun onStart() {

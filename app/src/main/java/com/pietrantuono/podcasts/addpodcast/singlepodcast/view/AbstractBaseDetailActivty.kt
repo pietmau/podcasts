@@ -52,7 +52,7 @@ abstract class AbstractBaseDetailActivty : AbstractPlaybackControlsActivity(), B
                 colorExtractor)
     }
 
-    fun loadImage(url: String) {
+    fun loadImage(url: String?) {
         imageLoader.displayImage(url, imageView,
                 colorExtractor)
     }
