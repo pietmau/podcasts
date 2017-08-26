@@ -6,7 +6,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.crashlytics.android.Crashlytics;
 import com.pietrantuono.podcasts.R;
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.BaseActivity;
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.AbstractPlaybackControlsActivity;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastFragment;
 import com.pietrantuono.podcasts.application.App;
 import com.pietrantuono.podcasts.application.MainComponent;
@@ -22,7 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.fabric.sdk.android.Fabric;
 
-public class MainActivity extends BaseActivity implements MainView {
+public class MainActivity extends AbstractPlaybackControlsActivity implements MainView {
     @Inject MainPresenter mainPresenter;
     @Inject Transitions transitions;
     @BindView(R.id.drawer) DrawerLayoutWithToggle drawerLayoutWithToggle;
@@ -43,6 +43,7 @@ public class MainActivity extends BaseActivity implements MainView {
         mainPresenter.bindView(MainActivity.this);
         mainPresenter.onCreate(savedInstanceState != null);
         transitions.initMainActivityTransitions(MainActivity.this);
+        initPlaybackControls();
     }
 
     private void initDependencies() {

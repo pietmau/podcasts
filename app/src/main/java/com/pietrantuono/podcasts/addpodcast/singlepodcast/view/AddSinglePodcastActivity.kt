@@ -7,7 +7,6 @@ import android.view.Menu
 import android.view.MenuItem
 import butterknife.BindView
 import butterknife.ButterKnife
-
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.EpisodesRecycler
@@ -17,8 +16,8 @@ import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.App
 import javax.inject.Inject
 
-class AddSinglePodcastActivity : DetailActivtyBase(), SinglePodcastView {
-    private var isSubscribed: Boolean = false
+class AddSinglePodcastActivity : AbstractBaseDetailActivty(), SinglePodcastView {
+    private var isSubscribed: Boolean? = false
 
     companion object {
         val SINGLE_PODCAST_TRACK_ID = "single_podcast_track_id"
@@ -46,6 +45,8 @@ class AddSinglePodcastActivity : DetailActivtyBase(), SinglePodcastView {
         setContentView(R.layout.add_single_podcast_activity)
         ButterKnife.bind(this@AddSinglePodcastActivity)
         setUpActionBar()
+        initPlaybackControls()
+        initProgress()
     }
 
     private fun startPresenter() {
@@ -86,14 +87,14 @@ class AddSinglePodcastActivity : DetailActivtyBase(), SinglePodcastView {
         presenter.onBackPressed()
     }
 
-    override fun setSubscribedToPodcast(isSubscribed: Boolean) {
+    override fun setSubscribedToPodcast(isSubscribed: Boolean?) {
         this.isSubscribed = isSubscribed
         supportInvalidateOptionsMenu()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         val item = menu?.findItem(R.id.subscribe_unsubscribe)!!
-        if (isSubscribed) {
+        if (isSubscribed == true) {
             item.setTitle(R.string.unsubscribe)
         } else {
             item.setTitle(R.string.subscribe)
@@ -101,24 +102,12 @@ class AddSinglePodcastActivity : DetailActivtyBase(), SinglePodcastView {
         return true
     }
 
-    override fun setTitle(collectionName: String?) {
-        supportActionBar?.title = collectionName
-    }
-
-    override fun enterWithTransition() {
-        transitions.initDetailTransitions(this)
-    }
-
-    override fun enterWithoutTransition() {
-        overridePendingTransition(R.anim.pop_in, R.anim.pop_out)
-    }
-
-    override fun exitWithoutSharedTransition() {
+    override fun exitWithoutSharedTransition() {//TODO remove
         finish()
         overridePendingTransition(R.anim.pop_in, R.anim.pop_out)
     }
 
-    override fun exitWithSharedTrsnsition() {
+    override fun exitWithSharedTrsnsition() {//TODO remove
         super.onBackPressed()
     }
 }

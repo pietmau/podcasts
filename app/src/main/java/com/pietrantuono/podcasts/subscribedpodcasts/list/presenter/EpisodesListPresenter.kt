@@ -30,7 +30,7 @@ class EpisodesListPresenter(private val model: EpisodesListModel, private val me
             override fun onNext(feed: Podcast?) {
                 if (view != null && feed != null && feed.episodes != null) {
                     view.setEpisodes(feed.episodes!!)
-                    view.setTitle(feed.collectionName)
+                    view.title = feed.collectionName
                 }
             }
         })

@@ -24,7 +24,7 @@ import com.pietrantuono.podcasts.subscribedpodcasts.list.views.EpisodesListView
 import com.pietrantuono.podcasts.utils.*
 import javax.inject.Inject
 
-class EpisodesListActivity : DetailActivtyBase(), EpisodesListView {
+class EpisodesListActivity : AbstractBaseDetailActivty(), EpisodesListView {
     @BindView(R.id.recycler) lateinit var recycler: EpisodedListRecycler
     @Inject lateinit var presenter: EpisodesListPresenter
 
@@ -41,10 +41,10 @@ class EpisodesListActivity : DetailActivtyBase(), EpisodesListView {
 
     private fun initViews() {
         setContentView(R.layout.single_subscribed_podcast_activity)
+        initPlaybackControls()
         ButterKnife.bind(this@EpisodesListActivity)
         setUpActionBar()
         recycler.setOnItemClickListener(presenter)
-        progressBar.visibility = View.GONE
     }
 
     override fun getImageUrl(): String? {
@@ -53,10 +53,6 @@ class EpisodesListActivity : DetailActivtyBase(), EpisodesListView {
 
     override fun setEpisodes(episodes: List<Episode>) {
         recycler.setItems(episodes)
-    }
-
-    override fun setTitle(collectionName: String?) {
-        supportActionBar?.title = collectionName
     }
 
     override fun onStart() {
@@ -110,14 +106,6 @@ class EpisodesListActivity : DetailActivtyBase(), EpisodesListView {
 
     override fun isPartiallyHidden(position: Int): Boolean {
         return recycler.isPartiallyHidden(position)
-    }
-
-    override fun enterWithTransition() {
-        transitions.initDetailTransitions(this)
-    }
-
-    override fun enterWithoutTransition() {
-        overridePendingTransition(R.anim.pop_in, R.anim.pop_out)
     }
 
     override fun finish() {

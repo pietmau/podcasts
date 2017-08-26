@@ -9,16 +9,23 @@ import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.custom.SimpleProgressBar
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
 import com.pietrantuono.podcasts.main.view.Transitions
+import com.pietrantuono.podcasts.utils.isInValidState
 import javax.inject.Inject
 
 
-open abstract class DetailActivtyBase : BaseActivity(), BitmapColorExtractor.Callback {
-    @Inject lateinit var imageLoader: SimpleImageLoader
+abstract class AbstractBaseDetailActivty : AbstractPlaybackControlsActivity(), BitmapColorExtractor.Callback {
+    var progressBar: SimpleProgressBar? = null
     @BindView(R.id.toolbar) lateinit var toolbar: Toolbar
-    @BindView(R.id.progress) lateinit var progressBar: SimpleProgressBar
     @BindView(R.id.main_image) lateinit var imageView: ImageView
     @Inject lateinit var transitions: Transitions
     @Inject lateinit var colorExtractor: BitmapColorExtractor
+    @Inject lateinit var imageLoader: SimpleImageLoader
+
+    var title: String?
+        get() = toolbar?.title?.toString()
+        set(string) {
+            toolbar?.let { it.setTitle(string) }
+        }
 
     protected fun setUpActionBar() {
         setSupportActionBar(toolbar)
@@ -27,17 +34,26 @@ open abstract class DetailActivtyBase : BaseActivity(), BitmapColorExtractor.Cal
         supportActionBar?.title = null
     }
 
+    fun initProgress() {
+        progressBar = findViewById(R.id.progress) as SimpleProgressBar?
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.other_actions, menu)
         return true
     }
 
     fun showProgress(show: Boolean) {
-        progressBar.showProgress = show
+        progressBar?.showProgress = show
     }
 
-    open fun loadImage() {
+    fun loadImage() {
         imageLoader.displayImage(getImageUrl(), imageView,
+                colorExtractor)
+    }
+
+    fun loadImage(url: String) {
+        imageLoader.displayImage(url, imageView,
                 colorExtractor)
     }
 
@@ -57,5 +73,28 @@ open abstract class DetailActivtyBase : BaseActivity(), BitmapColorExtractor.Cal
     }
 
     abstract fun getImageUrl(): String?
+
+    fun enterWithTransition() {
+        transitions.initDetailTransitions(this)
+    }
+
+    fun enterWithoutTransition() {
+        overridePendingTransition(R.anim.pop_in, R.anim.pop_out)
+    }
+
+    fun startTransitionPostponed() {
+        if (isInValidState()) {
+            transitions.startPostponedEnterTransition(this)
+        }
+    }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.pop_in, R.anim.pop_out)
+    }
+
+    protected fun setToolbarColor(backgroundColor: Int) {
+        toolbar.setBackgroundColor(backgroundColor)
+    }
 
 }

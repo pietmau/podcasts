@@ -1,15 +1,17 @@
 package com.pietrantuono.podcasts.addpodcast.singlepodcast.view
 
 import android.support.v7.app.AppCompatActivity
-import butterknife.BindView
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.custom.SimpleControlView
 import com.pietrantuono.podcasts.application.App
-import org.jetbrains.annotations.Nullable
 
 
-open class BaseActivity : AppCompatActivity() {
-    @BindView(R.id.playbackcontrols) @Nullable lateinit var playbackControls: SimpleControlView
+open class AbstractPlaybackControlsActivity : AppCompatActivity() {
+    var playbackControls: SimpleControlView? = null
+
+    fun initPlaybackControls() {
+        playbackControls = findViewById(R.id.playbackcontrols) as SimpleControlView?
+    }
 
     override fun onStop() {
         super.onStop()
@@ -22,4 +24,5 @@ open class BaseActivity : AppCompatActivity() {
         playbackControls?.setCallback()
         (applicationContext as App).bindPlayerService()
     }
+
 }

@@ -53,14 +53,6 @@
 
             </android.support.design.widget.CollapsingToolbarLayout>
 
-            <com.pietrantuono.podcasts.addpodcast.singlepodcast.view.custom.SimpleProgressBar
-                android:id="@+id/progress"
-                style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/progress_heigth"
-                android:background="@color/activityBackgroundColor"
-                android:indeterminate="true"
-                android:visibility="visible"/>
         </android.support.design.widget.AppBarLayout>
 
         <com.pietrantuono.podcasts.subscribedpodcasts.list.views.EpisodedListRecycler
