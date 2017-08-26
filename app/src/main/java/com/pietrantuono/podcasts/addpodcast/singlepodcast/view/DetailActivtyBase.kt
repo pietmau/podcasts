@@ -8,6 +8,7 @@ import butterknife.BindView
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.custom.SimpleProgressBar
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
+import com.pietrantuono.podcasts.main.view.TransitionsFramework
 import javax.inject.Inject
 
 

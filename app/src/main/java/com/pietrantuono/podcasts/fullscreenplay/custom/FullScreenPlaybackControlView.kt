@@ -38,7 +38,7 @@ class FullScreenPlaybackControlView : FrameLayout {
         imageLoader = applicationComponent.simpleImageLoader()
     }
 
-    fun setColors(backgroundColor: Int) {
+    fun setBackgroundColors(backgroundColor: Int) {
         playbackControlView.setBackgroundColor(ColorUtils.setAlphaComponent(backgroundColor, (255 * 8 / 10)))
     }
 

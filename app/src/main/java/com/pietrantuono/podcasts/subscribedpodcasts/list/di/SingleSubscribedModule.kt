@@ -11,6 +11,7 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesPro
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
 import com.pietrantuono.podcasts.downloader.PodcastDownLoadManager
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
+import com.pietrantuono.podcasts.main.view.TransitionsFramework
 import com.pietrantuono.podcasts.repository.repository.Repository
 import com.pietrantuono.podcasts.subscribedpodcasts.list.menu.EpisodesListMenuProviderImpl
 import com.pietrantuono.podcasts.subscribedpodcasts.list.model.EpisodesListModel
@@ -30,7 +31,7 @@ class SingleSubscribedModule(private val activity: AppCompatActivity) {
 
     @Provides
     fun provideTransitionImageLoadingListener(framework: TransitionsFramework): BitmapColorExtractor {
-        return BitmapColorExtractor(framework)
+        return BitmapColorExtractor()
     }
 
     @Provides

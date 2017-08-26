@@ -2,6 +2,7 @@ package com.pietrantuono.podcasts.fullscreenplay
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
@@ -9,16 +10,22 @@ import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.fullscreenplay.custom.FullScreenPlaybackControlView
 import com.pietrantuono.podcasts.fullscreenplay.di.FullscreenModule
 import com.pietrantuono.podcasts.fullscreenplay.presenter.FullscreenPresenter
-import com.pietrantuono.podcasts.utils.ARTWORK
+import com.pietrantuono.podcasts.main.view.TransitionsFramework
 import com.pietrantuono.podcasts.utils.BACKGROUND_COLOR
 import com.pietrantuono.podcasts.utils.EPISODE_LINK
 import com.pietrantuono.podcasts.utils.STARTED_WITH_TRANSITION
 import javax.inject.Inject
 
 class FullscreenPlayActivity : AppCompatActivity(), FullscreenPlayView, FullScreenPlaybackControlView.Callback {
+    override var title: String?
+        get() = tooolbar?.title?.toString()
+        set(string) {
+            tooolbar?.let { it.setTitle(string) }
+        }
     @Inject lateinit var transitionsFramework: TransitionsFramework
     @Inject lateinit var presenter: FullscreenPresenter
-    @BindView(R.id.simple_exo_player_view) lateinit var exoPlayerViewWithBackground: FullScreenPlaybackControlView
+    @BindView(R.id.simple_exo_player_view) lateinit var controlView: FullScreenPlaybackControlView
+    @BindView(R.id.toolbar) lateinit var tooolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,14 +41,13 @@ class FullscreenPlayActivity : AppCompatActivity(), FullscreenPlayView, FullScre
     }
 
     private fun setImageAndColors() {
-        val defaultColor = resources.getColor(R.color.colorPrimary)
-        exoPlayerViewWithBackground.setColors(intent?.getIntExtra(BACKGROUND_COLOR, defaultColor) ?: defaultColor)
-        val imageUrl = intent?.getStringExtra(ARTWORK)
-        if (imageUrl != null) {
-            exoPlayerViewWithBackground.setImageUrl(imageUrl)
-        } else {
-            transitionsFramework.startPostponedEnterTransition(this)
-        }
+        val backgroundColor = intent?.getIntExtra(BACKGROUND_COLOR, resources.getColor(R.color.colorPrimary)) ?: resources.getColor(R.color.colorPrimary)
+        controlView.setBackgroundColors(backgroundColor)
+        tooolbar.setBackgroundColor(backgroundColor)
+    }
+
+    override fun setImage(imageUrl: String) {
+        controlView.setImageUrl(imageUrl)
     }
 
     override fun onStart() {
@@ -67,7 +73,10 @@ class FullscreenPlayActivity : AppCompatActivity(), FullscreenPlayView, FullScre
     }
 
     override fun loadImageAttempted() {
-        transitionsFramework.startPostponedEnterTransition(this)
+        startTransitionPostponed()
     }
 
+    override fun startTransitionPostponed() {
+        transitionsFramework.startPostponedEnterTransition(this)
+    }
 }

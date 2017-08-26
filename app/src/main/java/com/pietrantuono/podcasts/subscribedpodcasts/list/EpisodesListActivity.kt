@@ -99,7 +99,6 @@ class EpisodesListActivity : DetailActivtyBase(), EpisodesListView {
     private fun getIntent(episode: Episode): Intent {
         val intent = Intent(this@EpisodesListActivity, FullscreenPlayActivity::class.java)
         intent.putExtra(EPISODE_LINK, episode.link)
-        intent.putExtra(ARTWORK, episode.imageUrl)
         colorExtractor.backgroundColor?.let { intent.putExtra(BACKGROUND_COLOR, it) }
         return intent
     }
