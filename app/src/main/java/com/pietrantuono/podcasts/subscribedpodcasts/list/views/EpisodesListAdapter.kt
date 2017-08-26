@@ -18,9 +18,8 @@ class EpisodesListAdapter(private val resourcesProvider: ResourcesProvider) : Re
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EpisodesListHolder {
-        val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.episode_item, parent, false)
-        return EpisodesListHolder(view, resourcesProvider)
+        return EpisodesListHolder(LayoutInflater.from(parent.context)
+                .inflate(R.layout.episode_item, parent, false), resourcesProvider)
     }
 
     override fun onBindViewHolder(holder: EpisodesListHolder, position: Int) {

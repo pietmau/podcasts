@@ -26,7 +26,7 @@ import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
 import com.pietrantuono.podcasts.addpodcast.presenter.AddPodcastPresenter;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.AddSinglePodcastActivity;
 import com.pietrantuono.podcasts.main.view.MainActivity;
-import com.pietrantuono.podcasts.main.view.TransitionsFramework;
+import com.pietrantuono.podcasts.main.view.Transitions;
 
 import java.util.List;
 
@@ -39,7 +39,7 @@ import hugo.weaving.DebugLog;
 public class AddPodcastFragment extends Fragment implements AddPodcastView {
     private static final String TAG = (AddPodcastFragment.class).getSimpleName();
     @Inject AddPodcastPresenter addPodcastPresenter;
-    @Inject TransitionsFramework transitionsFramework;
+    @Inject Transitions transitions;
     @BindView(R.id.search_view) SearchView searchView;
     @BindView(R.id.search_results) PodcastsRecycler podcastsRecycler;
     @BindView(R.id.progress) CustomProgressBar progressBar;
@@ -143,7 +143,7 @@ public class AddPodcastFragment extends Fragment implements AddPodcastView {
 
     @NonNull
     private Pair[] getPairs(ImageView imageView, LinearLayout titleContainer) {
-        return transitionsFramework.getPairs(imageView, getActivity(), titleContainer);
+        return transitions.getPairs(imageView, getActivity(), titleContainer);
     }
 
     @Override

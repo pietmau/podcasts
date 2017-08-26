@@ -28,6 +28,7 @@
                 android:layout_height="wrap_content">
 
                 <include
+                    android:id="@+id/image_layout"
                     layout="@layout/episode_item_image"
                     bind:viewModel="@{viewModel}"/>
 

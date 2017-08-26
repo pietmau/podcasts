@@ -8,7 +8,7 @@ import butterknife.BindView
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.custom.SimpleProgressBar
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
-import com.pietrantuono.podcasts.main.view.TransitionsFramework
+import com.pietrantuono.podcasts.main.view.Transitions
 import javax.inject.Inject
 
 
@@ -17,7 +17,7 @@ open abstract class DetailActivtyBase : BaseActivity(), BitmapColorExtractor.Cal
     @BindView(R.id.toolbar) lateinit var toolbar: Toolbar
     @BindView(R.id.progress) lateinit var progressBar: SimpleProgressBar
     @BindView(R.id.main_image) lateinit var imageView: ImageView
-    @Inject lateinit var transitionsFramework: TransitionsFramework
+    @Inject lateinit var transitions: Transitions
     @Inject lateinit var colorExtractor: BitmapColorExtractor
 
     protected fun setUpActionBar() {
@@ -37,7 +37,7 @@ open abstract class DetailActivtyBase : BaseActivity(), BitmapColorExtractor.Cal
     }
 
     fun enterWithTransition() {
-        transitionsFramework.initDetailTransitions(this)
+        transitions.initDetailTransitions(this)
     }
 
     fun enterWithoutTransition() {
@@ -70,7 +70,7 @@ open abstract class DetailActivtyBase : BaseActivity(), BitmapColorExtractor.Cal
 
     override fun onColorExtractionCompleted() {
         colorExtractor.backgroundColor?.let { getSupportActionBar()?.setBackgroundDrawable(ColorDrawable(it)); }
-        transitionsFramework.startPostponedEnterTransition(this)
+        transitions.startPostponedEnterTransition(this)
     }
 
     abstract fun getImageUrl(): String?

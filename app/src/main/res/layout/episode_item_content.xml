@@ -14,7 +14,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_image_size"
-        android:layout_toRightOf="@+id/image_container"
+        android:layout_toRightOf="@+id/image_layout"
         tools:showIn="@layout/episode_item">
 
         <TextView

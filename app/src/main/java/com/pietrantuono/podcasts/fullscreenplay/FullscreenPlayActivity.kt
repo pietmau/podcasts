@@ -10,22 +10,23 @@ import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.fullscreenplay.custom.FullScreenPlaybackControlView
 import com.pietrantuono.podcasts.fullscreenplay.di.FullscreenModule
 import com.pietrantuono.podcasts.fullscreenplay.presenter.FullscreenPresenter
-import com.pietrantuono.podcasts.main.view.TransitionsFramework
+import com.pietrantuono.podcasts.main.view.Transitions
 import com.pietrantuono.podcasts.utils.BACKGROUND_COLOR
 import com.pietrantuono.podcasts.utils.EPISODE_LINK
 import com.pietrantuono.podcasts.utils.STARTED_WITH_TRANSITION
 import javax.inject.Inject
 
 class FullscreenPlayActivity : AppCompatActivity(), FullscreenPlayView, FullScreenPlaybackControlView.Callback {
+    @Inject lateinit var transitions: Transitions
+    @Inject lateinit var presenter: FullscreenPresenter
+    @BindView(R.id.simple_exo_player_view) lateinit var controlView: FullScreenPlaybackControlView
+    @BindView(R.id.toolbar) lateinit var tooolbar: Toolbar
+
     override var title: String?
         get() = tooolbar?.title?.toString()
         set(string) {
             tooolbar?.let { it.setTitle(string) }
         }
-    @Inject lateinit var transitionsFramework: TransitionsFramework
-    @Inject lateinit var presenter: FullscreenPresenter
-    @BindView(R.id.simple_exo_player_view) lateinit var controlView: FullScreenPlaybackControlView
-    @BindView(R.id.toolbar) lateinit var tooolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +57,7 @@ class FullscreenPlayActivity : AppCompatActivity(), FullscreenPlayView, FullScre
     }
 
     fun enterWithTransition() {
-        transitionsFramework.initDetailTransitions(this)
+        transitions.initDetailTransitions(this)
     }
 
     fun enterWithoutTransition() {
@@ -77,6 +78,6 @@ class FullscreenPlayActivity : AppCompatActivity(), FullscreenPlayView, FullScre
     }
 
     override fun startTransitionPostponed() {
-        transitionsFramework.startPostponedEnterTransition(this)
+        transitions.startPostponedEnterTransition(this)
     }
 }

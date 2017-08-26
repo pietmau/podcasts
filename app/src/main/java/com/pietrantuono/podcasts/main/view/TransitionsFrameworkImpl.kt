@@ -1,5 +1,6 @@
 package com.pietrantuono.podcasts.main.view
 
+
 import android.annotation.TargetApi
 import android.app.Activity
 import android.graphics.Color
@@ -10,13 +11,10 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.support.v7.widget.Toolbar
-
-
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
 
-class TransitionsFramework(private val apiLevelChecker: ApiLevelChecker) {
+class Transitions(private val apiLevelChecker: ApiLevelChecker) {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP) fun initMainActivityTransitions(activity: AppCompatActivity) {
         if (!apiLevelChecker.isLollipopOrHigher) {
@@ -72,20 +70,6 @@ class TransitionsFramework(private val apiLevelChecker: ApiLevelChecker) {
         } else {
             pairs = arrayOfNulls<Pair<View, String>>(2)
         }
-        return pairs
-    }
-
-    fun getPairs(imageView: ImageView, activity: Activity, toolbar: Toolbar): Array<Pair<View, String>?> {
-        if (!apiLevelChecker.isLollipopOrHigher) {
-            return emptyArray()
-        }
-        var pairs: Array<Pair<View, String>?> = getNavigationBarAndImage(imageView, activity)
-        pairs = getCardView(activity, toolbar, pairs)
-        return pairs
-    }
-
-    fun getCardView(activity: Activity, toolbar: Toolbar, pairs: Array<Pair<View, String>?>): Array<Pair<View, String>?> {
-        pairs[1] = Pair(toolbar, activity.getString(R.string.detail_transition_toolbar))
         return pairs
     }
 }

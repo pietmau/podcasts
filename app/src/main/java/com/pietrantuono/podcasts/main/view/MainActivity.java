@@ -24,7 +24,7 @@ import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends BaseActivity implements MainView {
     @Inject MainPresenter mainPresenter;
-    @Inject TransitionsFramework transitionsFramework;
+    @Inject Transitions transitions;
     @BindView(R.id.drawer) DrawerLayoutWithToggle drawerLayoutWithToggle;
     @BindView(R.id.maintoolbar) Toolbar mainToolbar;
     @BindView(R.id.nav_view) SimpleNavView simpleNavView;
@@ -42,7 +42,7 @@ public class MainActivity extends BaseActivity implements MainView {
         setUpViews();
         mainPresenter.bindView(MainActivity.this);
         mainPresenter.onCreate(savedInstanceState != null);
-        transitionsFramework.initMainActivityTransitions(MainActivity.this);
+        transitions.initMainActivityTransitions(MainActivity.this);
     }
 
     private void initDependencies() {
