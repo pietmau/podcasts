@@ -61,16 +61,7 @@ class FullscreenPlayActivity : AppCompatActivity(), FullscreenPlayView, FullScre
     }
 
     fun enterWithoutTransition() {
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
-    }
-
-    fun exitWithoutSharedTransition() {
-        finish()
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
-    }
-
-    fun exitWithSharedTrsnsition() {
-        super.onBackPressed()
+        overridePendingTransition(R.anim.pop_in, R.anim.pop_out)
     }
 
     override fun loadImageAttempted() {
@@ -79,5 +70,10 @@ class FullscreenPlayActivity : AppCompatActivity(), FullscreenPlayView, FullScre
 
     override fun startTransitionPostponed() {
         transitions.startPostponedEnterTransition(this)
+    }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.pop_in, R.anim.pop_out)
     }
 }

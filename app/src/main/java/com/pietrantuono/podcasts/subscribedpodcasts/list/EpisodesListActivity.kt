@@ -117,8 +117,12 @@ class EpisodesListActivity : DetailActivtyBase(), EpisodesListView {
     }
 
     override fun enterWithoutTransition() {
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
+        overridePendingTransition(R.anim.pop_in, R.anim.pop_out)
     }
 
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.pop_in, R.anim.pop_out)
+    }
 }
 

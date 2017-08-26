@@ -105,20 +105,20 @@ class AddSinglePodcastActivity : DetailActivtyBase(), SinglePodcastView {
         supportActionBar?.title = collectionName
     }
 
-    fun enterWithTransition() {
+    override fun enterWithTransition() {
         transitions.initDetailTransitions(this)
     }
 
-    fun enterWithoutTransition() {
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
+    override fun enterWithoutTransition() {
+        overridePendingTransition(R.anim.pop_in, R.anim.pop_out)
     }
 
-    fun exitWithoutSharedTransition() {
+    override fun exitWithoutSharedTransition() {
         finish()
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
+        overridePendingTransition(R.anim.pop_in, R.anim.pop_out)
     }
 
-    fun exitWithSharedTrsnsition() {
+    override fun exitWithSharedTrsnsition() {
         super.onBackPressed()
     }
 }

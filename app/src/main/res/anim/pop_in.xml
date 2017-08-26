@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-/* //device/apps/common/res/anim/slide_in_left.xml
-**
+/* //device/apps/common/res/apop_in.xml
 ** Copyright 2007, The Android Open PodcastFeedSource Project
 **
 ** Licensed under the Apache License, Version 2.0 (the "License"); 
@@ -19,8 +18,16 @@
 -->
 
 <set xmlns:android="http://schemas.android.com/apk/res/android">
-	<translate android:fromXDelta="-50%p" android:toXDelta="0"
-            android:duration="@android:integer/config_mediumAnimTime"/>
-	<alpha android:fromAlpha="0.0" android:toAlpha="1.0"
-            android:duration="@android:integer/config_mediumAnimTime" />
+    <scale
+        android:duration="@integer/activity_transition"
+        android:fromXScale="0.0"
+        android:fromYScale="0.0"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:toXScale="1.0"
+        android:toYScale="1.0"/>
+    <alpha
+        android:duration="@integer/activity_transition"
+        android:fromAlpha="0.0"
+        android:toAlpha="1.0"/>
 </set>
