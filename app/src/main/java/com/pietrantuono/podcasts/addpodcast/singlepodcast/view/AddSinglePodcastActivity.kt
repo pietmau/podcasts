@@ -104,4 +104,21 @@ class AddSinglePodcastActivity : DetailActivtyBase(), SinglePodcastView {
     override fun setTitle(collectionName: String?) {
         supportActionBar?.title = collectionName
     }
+
+    fun enterWithTransition() {
+        transitions.initDetailTransitions(this)
+    }
+
+    fun enterWithoutTransition() {
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
+    }
+
+    fun exitWithoutSharedTransition() {
+        finish()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
+    }
+
+    fun exitWithSharedTrsnsition() {
+        super.onBackPressed()
+    }
 }

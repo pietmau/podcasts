@@ -36,23 +36,6 @@ open abstract class DetailActivtyBase : BaseActivity(), BitmapColorExtractor.Cal
         progressBar.showProgress = show
     }
 
-    fun enterWithTransition() {
-        transitions.initDetailTransitions(this)
-    }
-
-    fun enterWithoutTransition() {
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
-    }
-
-    fun exitWithoutSharedTransition() {
-        finish()
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
-    }
-
-    fun exitWithSharedTrsnsition() {
-        super.onBackPressed()
-    }
-
     open fun loadImage() {
         imageLoader.displayImage(getImageUrl(), imageView,
                 colorExtractor)

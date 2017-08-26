@@ -89,7 +89,7 @@ class EpisodesListActivity : DetailActivtyBase(), EpisodesListView {
         intent.putExtra(STARTED_WITH_TRANSITION, true)
         startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this@EpisodesListActivity, *getPairs(imageView)).toBundle())
     }
-    
+
     override fun startDetailActivityWithoutTransition(episode: Episode) {
         val intent = getIntent(episode)
         startActivity(intent)
@@ -110,6 +110,14 @@ class EpisodesListActivity : DetailActivtyBase(), EpisodesListView {
 
     override fun isPartiallyHidden(position: Int): Boolean {
         return recycler.isPartiallyHidden(position)
+    }
+
+    override fun enterWithTransition() {
+        transitions.initDetailTransitions(this)
+    }
+
+    override fun enterWithoutTransition() {
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
     }
 
 }
