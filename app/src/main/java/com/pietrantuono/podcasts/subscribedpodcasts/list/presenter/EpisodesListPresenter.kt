@@ -2,6 +2,7 @@ package com.pietrantuono.podcasts.subscribedpodcasts.list.presenter
 
 
 import android.arch.lifecycle.ViewModel
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.ImageView
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
@@ -19,8 +20,9 @@ class EpisodesListPresenter(private val model: EpisodesListModel, private val me
     : ViewModel(), EpisodesListMenuProvider by menuProvider, EpisodedListRecycler.OnItemClickListener {
 
     private var view: EpisodesListView? = null
-
     private var startedWithTransition: Boolean = false
+    val menuInflater: MenuInflater?
+        get() = view?.getMenuInflater()
 
     fun onStart(view: EpisodesListView, trackId: Int, startedWithTransition: Boolean) {
         menuProvider.setCallback(this@EpisodesListPresenter)
@@ -69,4 +71,6 @@ class EpisodesListPresenter(private val model: EpisodesListModel, private val me
             view?.startDetailActivityWithoutTransition(episode)
         }
     }
+
+
 }

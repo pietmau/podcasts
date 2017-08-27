@@ -23,13 +23,17 @@ import javax.inject.Inject
 class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
     private val TRANSITION_DURATION: Long = 200
     @Inject lateinit var presenter: FullscreenPresenter
-    @BindView(R.id.simple_exo_player_view) lateinit var controlView: ColorizedPlaybackControlView
+    @BindView(R.id.control) lateinit var controlView: ColorizedPlaybackControlView
     private var controlViewTop: Int? = null
+    override fun getImageUrl(): String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.full_screen_player_activity)
-        (application as App).applicationComponent?.with(FullscreenModule())?.inject(this@FullscreenPlayActivity)
+        (application as App)
+                .applicationComponent
+                ?.with(FullscreenModule())
+                ?.inject(this@FullscreenPlayActivity)
         ButterKnife.bind(this@FullscreenPlayActivity)
         if (savedInstanceState == null && isLollipopOrHigher) {
             addOnGlobalLayoutListener()
@@ -56,7 +60,7 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
         transitions.initDetailTransitions(this, imageView, object : SimpleTransitionListener() {
             override fun onTransitionEnd(transition: Transition?) {
                 animateControlsIn()
-                transition?.let { it.removeListener(this) }
+                transition?.removeListener(this)
             }
         })
     }
@@ -71,22 +75,17 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
         controlViewTop?.let {
             controlView.y = it.toFloat()
         }
-        overridePendingTransition(R.anim.pop_in, R.anim.pop_out)
+        super.enterWithoutTransition()
     }
 
     private fun setImageAndColors() {
-        val backgroundColor = getBackgroundColor()
-        controlView.setBackgroundColors(backgroundColor)
-        setToolbarColor(backgroundColor)
+        controlView.setBackgroundColors(getBackgroundColor())
+        setToolbarColor(getBackgroundColor())
     }
 
     override fun onStart() {
         super.onStart()
         presenter.onStart(this, intent?.getStringExtra(EPISODE_LINK))
-    }
-
-    override fun getImageUrl(): String? {
-        return null
     }
 
     override fun onBackPressed() {

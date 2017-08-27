@@ -1,15 +1,13 @@
 package com.pietrantuono.podcasts.subscribedpodcasts.list.menu
 
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.subscribedpodcasts.list.model.EpisodesListModel
 import com.pietrantuono.podcasts.subscribedpodcasts.list.presenter.EpisodesListPresenter
 
 
-class EpisodesListMenuProviderImpl(private val model: EpisodesListModel,
-                                   private val menuInflater: MenuInflater) :
+class EpisodesListMenuProviderImpl(private val model: EpisodesListModel) :
         EpisodesListMenuProvider {
     private var callback: EpisodesListPresenter? = null
 
@@ -23,7 +21,7 @@ class EpisodesListMenuProviderImpl(private val model: EpisodesListModel,
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.subscribed_menu, menu)
+        callback?.menuInflater?.inflate(R.menu.subscribed_menu, menu)
         return true
     }
 

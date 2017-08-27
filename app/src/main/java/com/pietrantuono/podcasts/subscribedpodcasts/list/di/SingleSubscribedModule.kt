@@ -48,8 +48,7 @@ class SingleSubscribedModule(private val activity: AppCompatActivity) {
     @SubscribedPodcastScope
     @Provides
     fun provideSingleSubscribedPodcastMenuProvider(model: EpisodesListModel, context: Context): EpisodesListMenuProviderImpl {
-        val inflater = activity.menuInflater
-        return EpisodesListMenuProviderImpl(model, inflater)
+        return EpisodesListMenuProviderImpl(model)
     }
 
     @Provides
