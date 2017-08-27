@@ -9,6 +9,7 @@ import android.os.IBinder
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule
 import com.pietrantuono.podcasts.player.player.service.Player
 import com.pietrantuono.podcasts.player.player.service.PlayerService
+import com.pietrantuono.podcasts.player.player.service.messenger.OutgoingMessenger
 import com.squareup.leakcanary.LeakCanary
 import io.realm.Realm
 import javax.inject.Inject
@@ -55,6 +56,6 @@ class App : Application(), ServiceConnection {
     }
 
     override fun onServiceConnected(componentName: ComponentName?, iBinder: IBinder?) {
-        player = iBinder as Player
+        player = OutgoingMessenger(iBinder)
     }
 }

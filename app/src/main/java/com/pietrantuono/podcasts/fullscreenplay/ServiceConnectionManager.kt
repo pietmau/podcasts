@@ -8,6 +8,7 @@ import android.content.ServiceConnection
 import android.os.IBinder
 import com.pietrantuono.podcasts.player.player.service.NotificatorService
 import com.pietrantuono.podcasts.player.player.service.PlayerService
+import com.pietrantuono.podcasts.player.player.service.messenger.OutgoingMessenger
 
 
 class ServiceConnectionManager {
@@ -19,7 +20,7 @@ class ServiceConnectionManager {
         }
 
         override fun onServiceConnected(componentName: ComponentName?, iBinder: IBinder?) {
-            notificatorService = iBinder as? NotificatorService
+            notificatorService = OutgoingMessenger(iBinder)
             notificatorService?.boundToFullScreen = true
             notificatorService?.checkIfShouldNotify()
         }
