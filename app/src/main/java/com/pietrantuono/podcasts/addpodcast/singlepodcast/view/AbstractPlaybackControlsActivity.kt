@@ -6,7 +6,7 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.custom.SimpleCont
 import com.pietrantuono.podcasts.application.App
 
 
-open class AbstractPlaybackControlsActivity : AppCompatActivity() {
+open class AbstractPlaybackControlsActivity : AppCompatActivity() { //TODO remove
     var playbackControls: SimpleControlView? = null
 
     fun initPlaybackControls() {

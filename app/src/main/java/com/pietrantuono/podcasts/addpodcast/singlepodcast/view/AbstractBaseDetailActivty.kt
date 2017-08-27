@@ -74,7 +74,7 @@ abstract class AbstractBaseDetailActivty : AbstractPlaybackControlsActivity(), B
 
     abstract fun getImageUrl(): String?
 
-    fun enterWithTransition() {
+    open fun enterWithTransition() {
         transitions.initDetailTransitions(this)
     }
 

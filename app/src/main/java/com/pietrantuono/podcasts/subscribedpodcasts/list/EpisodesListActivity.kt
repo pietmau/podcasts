@@ -100,8 +100,9 @@ class EpisodesListActivity : AbstractBaseDetailActivty(), EpisodesListView {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private fun getPairs(imageView: ImageView): Array<Pair<View, String>?> {
-        val pair: Pair<View, String>? = Pair(imageView, getString(R.string.episode_image_transition))
-        return arrayOf(pair)
+        val a: Pair<View, String>? = Pair(imageView, getString(R.string.episode_image_transition))
+        val b: Pair<View, String>? = Pair(toolbar, getString(R.string.detail_transition_toolbar))
+        return arrayOf(a, b)
     }
 
     override fun isPartiallyHidden(position: Int): Boolean {

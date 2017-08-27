@@ -1,5 +1,6 @@
 package com.pietrantuono.podcasts.utils
 
+import android.os.Build
 import android.support.v7.app.AppCompatActivity
 
 const val STARTED_WITH_TRANSITION = "with_transition"
@@ -14,3 +15,9 @@ fun AppCompatActivity.isInValidState(): Boolean {
     val changingConfigurations = this.isChangingConfigurations
     return !destroyed && !finishing && !changingConfigurations
 }
+
+val isLollipopOrHigher: Boolean
+    get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+
+val isMarshmallowOrHigher: Boolean
+    get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M

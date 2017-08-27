@@ -32,6 +32,15 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
         setUpActionBar()
     }
 
+    override fun enterWithTransition() {
+        transitions.initDetailTransitions(this)
+//        if (isLollipopOrHigher) {
+//            transitions.initDetailTransitions(this, imageView, @TargetApi(Build.VERSION_CODES.KITKAT)
+//            object : Transition.TransitionListener {})
+//        } else {
+//        }
+    }
+
     private fun setImageAndColors() {
         val backgroundColor = intent?.getIntExtra(BACKGROUND_COLOR, resources.getColor(R.color.colorPrimary)) ?: resources.getColor(R.color.colorPrimary)
         colorizedPlaybackControlView.setBackgroundColors(backgroundColor)

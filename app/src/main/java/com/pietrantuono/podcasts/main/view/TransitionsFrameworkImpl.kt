@@ -6,8 +6,10 @@ import android.app.Activity
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
+
 import android.support.v4.util.Pair
 import android.support.v7.app.AppCompatActivity
+import android.transition.Transition
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -22,6 +24,21 @@ class Transitions(private val apiLevelChecker: ApiLevelChecker) {
         }
         val window = activity.window
         window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP) fun initDetailTransitions(
+            activity: AppCompatActivity, target: View?, listener: Transition.TransitionListener?) {
+        if (!apiLevelChecker.isLollipopOrHigher) {
+            return
+        }
+        val window = activity.window
+        window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val transition = window.sharedElementEnterTransition
+        transition?.let {
+            it.addTarget(target)
+            it.addListener(listener)
+        }
+        activity.postponeEnterTransition()
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP) fun initDetailTransitions(activity: AppCompatActivity) {
