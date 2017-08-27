@@ -31,14 +31,8 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
         setContentView(R.layout.full_screen_player_activity)
         (application as App).applicationComponent?.with(FullscreenModule())?.inject(this@FullscreenPlayActivity)
         ButterKnife.bind(this@FullscreenPlayActivity)
-        controlView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                controlView.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                controlViewTop = controlView.top
-                controlView.y = window.decorView.bottom.toFloat()
-            }
-        })
-        if (isLollipopOrHigher) {
+        if (savedInstanceState == null && isLollipopOrHigher) {
+            addOnGlobalLayoutListener()
             enterWithTransition()
         } else {
             enterWithoutTransition()
@@ -47,17 +41,27 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
         setUpActionBar()
     }
 
+    private fun addOnGlobalLayoutListener() {
+        controlView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                controlView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                controlViewTop = controlView.top
+                controlView.y = window.decorView.bottom.toFloat()
+            }
+        })
+    }
+
     @SuppressLint("NewApi")
     override fun enterWithTransition() {
         transitions.initDetailTransitions(this, imageView, object : SimpleTransitionListener() {
             override fun onTransitionEnd(transition: Transition?) {
-                animateControlIn()
+                animateControlsIn()
                 transition?.let { it.removeListener(this) }
             }
         })
     }
 
-    private fun animateControlIn() {
+    private fun animateControlsIn() {
         if (isInValidState() && controlViewTop != null) {
             controlView.animate().y(controlViewTop!!.toFloat()).setDuration(TRANSITION_DURATION).start()
         }
@@ -89,11 +93,11 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
         if (!isLollipopOrHigher) {
             finish()
         } else {
-            animateControlOut()
+            animateControlsOut()
         }
     }
 
-    private fun animateControlOut() {
+    private fun animateControlsOut() {
         if (isInValidState()) {
             controlView
                     .animate()
@@ -102,6 +106,7 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
                     .setListener(object : SimpleAnimatorListener() {
                         @TargetApi(Build.VERSION_CODES.LOLLIPOP)
                         override fun onAnimationEnd(animator: Animator?) {
+                            animator?.removeAllListeners()
                             finishAfterTransition()
                         }
                     })
