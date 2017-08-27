@@ -27,7 +27,7 @@ class Transitions(private val apiLevelChecker: ApiLevelChecker) {
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP) fun initDetailTransitions(
-            activity: AppCompatActivity, target: View?, listener: Transition.TransitionListener?) {
+            activity: AppCompatActivity, target: View?, listener: Transition.TransitionListener?){
         if (!apiLevelChecker.isLollipopOrHigher) {
             return
         }

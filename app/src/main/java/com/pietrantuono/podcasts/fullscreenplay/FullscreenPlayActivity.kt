@@ -1,6 +1,9 @@
 package com.pietrantuono.podcasts.fullscreenplay
 
+import android.animation.Animator
 import android.annotation.SuppressLint
+import android.annotation.TargetApi
+import android.os.Build
 import android.os.Bundle
 import android.transition.Transition
 import android.view.ViewTreeObserver
@@ -12,12 +15,13 @@ import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.fullscreenplay.custom.ColorizedPlaybackControlView
 import com.pietrantuono.podcasts.fullscreenplay.di.FullscreenModule
 import com.pietrantuono.podcasts.fullscreenplay.presenter.FullscreenPresenter
-import com.pietrantuono.podcasts.utils.BACKGROUND_COLOR
 import com.pietrantuono.podcasts.utils.EPISODE_LINK
+import com.pietrantuono.podcasts.utils.isInValidState
 import com.pietrantuono.podcasts.utils.isLollipopOrHigher
 import javax.inject.Inject
 
 class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
+    private val TRANSITION_DURATION: Long = 200
     @Inject lateinit var presenter: FullscreenPresenter
     @BindView(R.id.simple_exo_player_view) lateinit var controlView: ColorizedPlaybackControlView
     private var controlViewTop: Int? = null
@@ -34,8 +38,7 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
                 controlView.y = window.decorView.bottom.toFloat()
             }
         })
-
-        if (startedWithTransition() && isLollipopOrHigher) {
+        if (isLollipopOrHigher) {
             enterWithTransition()
         } else {
             enterWithoutTransition()
@@ -47,19 +50,16 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
     @SuppressLint("NewApi")
     override fun enterWithTransition() {
         transitions.initDetailTransitions(this, imageView, object : SimpleTransitionListener() {
-            override fun onTransitionCancel(transition: Transition?) {
-                animateControlIn()
-            }
-
             override fun onTransitionEnd(transition: Transition?) {
                 animateControlIn()
+                transition?.let { it.removeListener(this) }
             }
         })
     }
 
     private fun animateControlIn() {
-        controlViewTop?.let {
-            controlView.animate().y(it.toFloat()).setDuration(1000).start()
+        if (isInValidState() && controlViewTop != null) {
+            controlView.animate().y(controlViewTop!!.toFloat()).setDuration(TRANSITION_DURATION).start()
         }
     }
 
@@ -71,7 +71,7 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
     }
 
     private fun setImageAndColors() {
-        val backgroundColor = intent?.getIntExtra(BACKGROUND_COLOR, resources.getColor(R.color.colorPrimary)) ?: resources.getColor(R.color.colorPrimary)
+        val backgroundColor = getBackgroundColor()
         controlView.setBackgroundColors(backgroundColor)
         setToolbarColor(backgroundColor)
     }
@@ -83,5 +83,28 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
 
     override fun getImageUrl(): String? {
         return null
+    }
+
+    override fun onBackPressed() {
+        if (!isLollipopOrHigher) {
+            finish()
+        } else {
+            animateControlOut()
+        }
+    }
+
+    private fun animateControlOut() {
+        if (isInValidState()) {
+            controlView
+                    .animate()
+                    .y(window.decorView.bottom.toFloat())
+                    .setDuration(TRANSITION_DURATION)
+                    .setListener(object : SimpleAnimatorListener() {
+                        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+                        override fun onAnimationEnd(animator: Animator?) {
+                            finishAfterTransition()
+                        }
+                    })
+        }
     }
 }
