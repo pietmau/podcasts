@@ -40,11 +40,4 @@
 
     </com.pietrantuono.podcasts.main.customviews.DrawerLayoutWithToggle>
 
-    <com.pietrantuono.podcasts.addpodcast.singlepodcast.view.custom.SimpleControlView
-        android:id="@+id/playbackcontrols"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        />
-
 </RelativeLayout>
