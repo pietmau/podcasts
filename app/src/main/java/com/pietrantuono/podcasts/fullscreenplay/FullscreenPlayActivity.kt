@@ -86,6 +86,12 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
     override fun onStart() {
         super.onStart()
         presenter.onStart(this, intent?.getStringExtra(EPISODE_LINK))
+        controlView.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        controlView.onStop()
     }
 
     override fun onBackPressed() {

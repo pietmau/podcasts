@@ -2,6 +2,7 @@ package com.pietrantuono.podcasts.player.player.service
 
 import android.content.Intent
 import android.os.IBinder
+import com.google.android.exoplayer2.source.MediaSource
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.dagger.SinglePodcastModule
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
@@ -23,6 +24,10 @@ class PlayerService : InstrumentedService(), Player {
 
     override fun playFeed(source: PodcastFeedSource) {
         playback.playAll(creator.createConcatenateMediaSource(source))
+    }
+
+    override fun setMediaSource(source: MediaSource) {
+        playback.setMediaSource(source)
     }
 
     override fun onCreate() {

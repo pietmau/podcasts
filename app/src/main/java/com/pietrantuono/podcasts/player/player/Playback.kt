@@ -102,4 +102,5 @@ interface Playback {
 
     fun playAll(mediaSource: MediaSource)
     fun playMediaSource(mediaSource: MediaSource)
+    fun setMediaSource(mediaSource: MediaSource)
 }
