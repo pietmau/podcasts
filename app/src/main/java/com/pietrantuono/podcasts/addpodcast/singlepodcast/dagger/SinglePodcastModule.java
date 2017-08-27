@@ -13,11 +13,14 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastMod
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SinglePodcastPresenter;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.BitmapColorExtractor;
 import com.pietrantuono.podcasts.apis.SinglePodcastApi;
+import com.pietrantuono.podcasts.application.DebugLogger;
 import com.pietrantuono.podcasts.main.view.Transitions;
 import com.pietrantuono.podcasts.player.player.LocalPlayback;
 import com.pietrantuono.podcasts.player.player.MediaSourceCreator;
 import com.pietrantuono.podcasts.player.player.Playback;
 import com.pietrantuono.podcasts.player.player.service.Player;
+import com.pietrantuono.podcasts.player.player.service.playbacknotificator.PlaybackNotificator;
+import com.pietrantuono.podcasts.player.player.service.playbacknotificator.PlaybackNotificatorImpl;
 import com.pietrantuono.podcasts.repository.repository.Repository;
 
 import dagger.Module;
@@ -58,6 +61,11 @@ public class SinglePodcastModule {
     SinglePodcastPresenterFactoryFactory provideSinglePodcastPresenterFactory(SinglePodcastModel model, CrashlyticsWrapper
             crashlyticsWrapper, @Nullable Player player, MediaSourceCreator creator) {
         return new SinglePodcastPresenterFactoryFactory(model, crashlyticsWrapper, player, creator);
+    }
+
+    @Provides
+    PlaybackNotificator providePlaybackNotificator(DebugLogger logger) {
+        return new PlaybackNotificatorImpl(logger);
     }
 
 }

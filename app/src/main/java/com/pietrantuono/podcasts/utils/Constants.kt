@@ -29,3 +29,5 @@ val AppCompatActivity.isValidState: Boolean
         val changingConfigurations = this.isChangingConfigurations
         return !destroyed && !finishing && !changingConfigurations
     }
+
+val TRANSITION_DURATION: Long = 200

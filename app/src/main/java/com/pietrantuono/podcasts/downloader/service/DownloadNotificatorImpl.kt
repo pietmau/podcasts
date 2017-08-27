@@ -7,7 +7,7 @@ import android.support.v4.app.NotificationCompat
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.apis.Episode
 
-class NotificatorImpl(private val context: Context) : Notificator {
+class DownloadNotificatorImpl(private val context: Context) : DownloadNotificator {
 
     companion object {
         const val DOWNLOAD_COMPLETED: Int = 100

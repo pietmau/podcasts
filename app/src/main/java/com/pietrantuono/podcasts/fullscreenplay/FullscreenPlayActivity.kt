@@ -16,16 +16,16 @@ import com.pietrantuono.podcasts.fullscreenplay.custom.ColorizedPlaybackControlV
 import com.pietrantuono.podcasts.fullscreenplay.di.FullscreenModule
 import com.pietrantuono.podcasts.fullscreenplay.presenter.FullscreenPresenter
 import com.pietrantuono.podcasts.utils.EPISODE_LINK
+import com.pietrantuono.podcasts.utils.TRANSITION_DURATION
 import com.pietrantuono.podcasts.utils.isInValidState
 import com.pietrantuono.podcasts.utils.isLollipopOrHigher
 import javax.inject.Inject
 
 class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
-    private val TRANSITION_DURATION: Long = 200
     @Inject lateinit var presenter: FullscreenPresenter
+    @Inject lateinit var serviceConnectionManager: ServiceConnectionManager
     @BindView(R.id.control) lateinit var controlView: ColorizedPlaybackControlView
     private var controlViewTop: Int? = null
-    override fun getImageUrl(): String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,12 +85,14 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
 
     override fun onStart() {
         super.onStart()
+        serviceConnectionManager.bind(this)
         presenter.onStart(this, intent?.getStringExtra(EPISODE_LINK))
         controlView.onStart()
     }
 
     override fun onStop() {
         super.onStop()
+        serviceConnectionManager.unbind(this)
         controlView.onStop()
     }
 
@@ -117,4 +119,6 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
                     })
         }
     }
+
+    override fun getImageUrl(): String? = null
 }

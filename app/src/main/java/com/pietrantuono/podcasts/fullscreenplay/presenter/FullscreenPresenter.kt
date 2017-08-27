@@ -7,7 +7,8 @@ import com.pietrantuono.podcasts.player.player.service.Player
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 
 
-class FullscreenPresenter(private val episodesRepository: EpisodesRepository, private val player: Player?,
+class FullscreenPresenter(private val episodesRepository: EpisodesRepository,
+                          private val player: Player?,
                           private val creator: MediaSourceCreator) {
     private var view: FullscreenPlayView? = null
     private var episode: Episode? = null

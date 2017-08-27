@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts.fullscreenplay.di
 
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.BitmapColorExtractor
+import com.pietrantuono.podcasts.fullscreenplay.ServiceConnectionManager
 import com.pietrantuono.podcasts.fullscreenplay.presenter.FullscreenPresenter
 import com.pietrantuono.podcasts.main.view.Transitions
 import com.pietrantuono.podcasts.player.player.MediaSourceCreator
@@ -21,5 +22,10 @@ class FullscreenModule() {
     @Provides
     fun provideTransitionImageLoadingListener(framework: Transitions): BitmapColorExtractor {
         return BitmapColorExtractor()
+    }
+
+    @Provides
+    fun provideServiceConnectionManager(): ServiceConnectionManager {
+        return ServiceConnectionManager()
     }
 }

@@ -25,7 +25,7 @@ class DownloaderService() : Service(), FetchListener {
     }
 
     @Inject lateinit var downloader: Downloader
-    @Inject lateinit var notificator: Notificator
+    @Inject lateinit var downloadNotificator: DownloadNotificator
     @Inject lateinit var requestGenerator: RequestGenerator
     @Inject lateinit var debugLogger: DebugLogger
     @Inject lateinit var repository: EpisodesRepository
@@ -73,7 +73,7 @@ class DownloaderService() : Service(), FetchListener {
     override fun onUpdate(id: Long, status: Int, progress: Int, downloadedBytes: Long, fileSize: Long, error: Int) {
         debugLogger.debug(TAG, "" + progress)
         if (downloader.thereIsEnoughSpace(fileSize)) {
-            notificator.notifyProgress(requests[id]?.second, id, progress)
+            downloadNotificator.notifyProgress(requests[id]?.second, id, progress)
         } else {
             interruptDownloadAndNotifyUser(id, progress)
         }
