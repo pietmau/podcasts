@@ -1,5 +1,6 @@
 package com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel
 
+import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.view.View
 import com.pietrantuono.podcasts.Constants
@@ -7,8 +8,8 @@ import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.apis.Episode
 import java.text.SimpleDateFormat
 
-class EpisodeView(episode: Episode, private val resourcesProvider:
-ResourcesProvider) : Episode by episode {
+@SuppressLint("ParcelCreator")
+class EpisodeView(episode: Episode, private val resourcesProvider: ResourcesProvider) : Episode by episode {
 
     val visibilityOfFooter: Int
         get() =
@@ -19,7 +20,11 @@ ResourcesProvider) : Episode by episode {
         }
 
     val downloadIconShouldbeVisible: Int
-        get() = if(downloaded){View.VISIBLE} else {View.GONE}
+        get() = if (downloaded) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
 
     val visibilityOfType: Int
         get() =

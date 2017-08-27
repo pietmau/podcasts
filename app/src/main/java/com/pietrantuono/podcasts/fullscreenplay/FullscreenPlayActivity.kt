@@ -85,7 +85,7 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
 
     override fun onStart() {
         super.onStart()
-        serviceConnectionManager.bind(this)
+        presenter.bindService(this)
         presenter.onStart(this, intent?.getStringExtra(EPISODE_LINK))
         controlView.onStart()
     }
@@ -93,6 +93,7 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
     override fun onStop() {
         super.onStop()
         serviceConnectionManager.unbind(this)
+        presenter.unbind(this)
         controlView.onStop()
     }
 

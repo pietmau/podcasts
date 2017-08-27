@@ -1,10 +1,11 @@
 package com.pietrantuono.podcasts.apis
 
 
+import android.os.Parcelable
 import com.rometools.rome.feed.synd.SyndEnclosure
 import java.util.*
 
-interface Episode {
+interface Episode : Parcelable {
 
     var duration: String?
 

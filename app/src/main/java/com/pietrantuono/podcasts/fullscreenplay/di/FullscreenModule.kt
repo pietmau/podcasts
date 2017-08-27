@@ -16,7 +16,7 @@ class FullscreenModule() {
 
     @Provides
     fun provideFullscreenPresenter(repo: EpisodesRepository, player: Player?, creator: MediaSourceCreator): FullscreenPresenter {
-        return FullscreenPresenter(repo, player, creator)
+        return FullscreenPresenter(repo, creator)
     }
 
     @Provides
