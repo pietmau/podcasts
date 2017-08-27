@@ -21,3 +21,11 @@ val isLollipopOrHigher: Boolean
 
 val isMarshmallowOrHigher: Boolean
     get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+
+val AppCompatActivity.isValidState: Boolean
+    get() {
+        val destroyed = this.isDestroyed
+        val finishing = this.isFinishing
+        val changingConfigurations = this.isChangingConfigurations
+        return !destroyed && !finishing && !changingConfigurations
+    }

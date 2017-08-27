@@ -9,6 +9,7 @@ import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.custom.SimpleProgressBar
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
 import com.pietrantuono.podcasts.main.view.Transitions
+import com.pietrantuono.podcasts.utils.STARTED_WITH_TRANSITION
 import com.pietrantuono.podcasts.utils.isInValidState
 import javax.inject.Inject
 
@@ -78,7 +79,7 @@ abstract class AbstractBaseDetailActivty : AbstractPlaybackControlsActivity(), B
         transitions.initDetailTransitions(this)
     }
 
-    fun enterWithoutTransition() {
+    open fun enterWithoutTransition() {
         overridePendingTransition(R.anim.pop_in, R.anim.pop_out)
     }
 
@@ -96,5 +97,7 @@ abstract class AbstractBaseDetailActivty : AbstractPlaybackControlsActivity(), B
     protected fun setToolbarColor(backgroundColor: Int) {
         toolbar.setBackgroundColor(backgroundColor)
     }
+
+    fun startedWithTransition() = intent?.getBooleanExtra(STARTED_WITH_TRANSITION, false) == true
 
 }
