@@ -11,10 +11,12 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.AbstractBaseDetailActivty
+import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.fullscreenplay.custom.ColorizedPlaybackControlView
 import com.pietrantuono.podcasts.fullscreenplay.di.FullscreenModule
 import com.pietrantuono.podcasts.fullscreenplay.presenter.FullscreenPresenter
+import com.pietrantuono.podcasts.fullscreenplay.view.custom.EpisodeView
 import com.pietrantuono.podcasts.utils.EPISODE_LINK
 import com.pietrantuono.podcasts.utils.TRANSITION_DURATION
 import com.pietrantuono.podcasts.utils.isInValidState
@@ -24,6 +26,7 @@ import javax.inject.Inject
 class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
     @Inject lateinit var presenter: FullscreenPresenter
     @BindView(R.id.control) lateinit var controlView: ColorizedPlaybackControlView
+    @BindView(R.id.episodeView) lateinit var episodeView: EpisodeView
     private var controlViewTop: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -117,6 +120,11 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
                         }
                     })
         }
+    }
+
+    override fun setEpisode(episode: Episode) {
+        setTitle(episode.title)
+        episodeView.setEpisode(episode)
     }
 
     override fun getImageUrl(): String? = null

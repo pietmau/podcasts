@@ -5,28 +5,55 @@
 
         <variable
             name="episode"
-            type="com.pietrantuono.podcasts.apis.Episode"/>
+            type="com.pietrantuono.podcasts.apis.Episode" />
     </data>
 
     <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_margin="50dp"
+        android:background="@color/whiteTransparent"
+        android:padding="25dp">
 
         <TextView
-            android:id="@+id/subtitle"
+            android:id="@+id/title"
+            style="@style/EpisodeViewTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:text="@{episode.subtitle}"/>
-        
+            android:text="@{episode.title}" />
+
         <TextView
-            android:id="@+id/summary"
+            android:id="@+id/author"
+            style="@style/EpisodeViewSubtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/subtitle"
-            android:text="@{episode.summary}"/>
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/title"
+            android:text="@{episode.title}" />
+
+        <TextView
+            android:id="@+id/subtitle"
+            style="@style/EpisodeViewSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/author"
+            android:text="@{episode.subtitle}" />
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/author">
+
+            <TextView
+                android:id="@+id/summary"
+                style="@style/EpisodeViewBody"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{episode.summary}" />
+        </ScrollView>
 
     </RelativeLayout>
 </layout>

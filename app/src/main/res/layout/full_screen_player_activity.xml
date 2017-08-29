@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,25 +11,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:transitionName="@string/episode_image_transition"/>
+        android:transitionName="@string/episode_image_transition" />
 
     <android.support.v7.widget.Toolbar
-        android:transitionName="@string/detail_transition_toolbar"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentTop="true"
         android:background="@color/colorPrimary"
-        >
-    </android.support.v7.widget.Toolbar>
+        android:transitionName="@string/detail_transition_toolbar"></android.support.v7.widget.Toolbar>
+
+    <com.pietrantuono.podcasts.fullscreenplay.view.custom.EpisodeView
+        android:id="@+id/episodeView"
+        android:layout_above="@+id/control"
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </com.pietrantuono.podcasts.fullscreenplay.view.custom.EpisodeView>
 
     <com.pietrantuono.podcasts.fullscreenplay.custom.ColorizedPlaybackControlView
         android:id="@+id/control"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:controller_layout_id="@layout/custom_exo_playback_control_view"
-        >
-    </com.pietrantuono.podcasts.fullscreenplay.custom.ColorizedPlaybackControlView>
+        app:controller_layout_id="@layout/custom_exo_playback_control_view"></com.pietrantuono.podcasts.fullscreenplay.custom.ColorizedPlaybackControlView>
 
 </RelativeLayout>

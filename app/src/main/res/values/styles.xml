@@ -30,7 +30,6 @@
     </style>
 
     <style name="Genre">
-
         <item name="android:textSize">@dimen/NormalTextSize</item>
     </style>
 
@@ -42,16 +41,25 @@
         <item name="android:textSize">@dimen/BigTextSize</item>
     </style>
 
-    <style name="actionbar_textview">
-        <item name="android:paddingRight">@dimen/actionbar_textview_padding_right</item>
-        <item name="android:drawablePadding">@dimen/actionbar_textview_drawable_padding</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:layout_centerVertical">true</item>
-        <item name="android:layout_alignParentEnd">true</item>
+    <style name="EpisodeView">
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:clickable">true</item>
-        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+    </style>
+
+    <style name="EpisodeViewTitle" parent="EpisodeView">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAppearance">?android:textAppearanceLarge</item>
+    </style>
+
+    <style name="EpisodeViewSubtitle" parent="EpisodeView">
+        <item name="android:textAppearance">?android:textAppearanceMedium</item>
+    </style>
+
+    <style name="EpisodeViewBody" parent="EpisodeView">
+        <item name="android:textAppearance">?android:textAppearanceMedium</item>
+    </style>
+
+    <style name="EpisodeViewSmall" parent="EpisodeView">
+        <item name="android:textAppearance">?android:textAppearanceSmall</item>
     </style>
 
 

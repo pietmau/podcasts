@@ -42,7 +42,7 @@ class FullscreenPresenter(private val episodesRepository: EpisodesRepository,
             episode = episodesRepository.getEpisodeByUrl(url)
         }
         episode?.let {
-            setTitle(it.title)
+            view?.setEpisode(it)
             setImage(it.imageUrl)
         }
     }
