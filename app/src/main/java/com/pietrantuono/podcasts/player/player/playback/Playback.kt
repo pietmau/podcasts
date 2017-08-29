@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.pietrantuono.podcasts.player.player
+package com.pietrantuono.podcasts.player.player.playback
 
 import android.support.v4.media.session.MediaSessionCompat.QueueItem
 import com.google.android.exoplayer2.SimpleExoPlayer

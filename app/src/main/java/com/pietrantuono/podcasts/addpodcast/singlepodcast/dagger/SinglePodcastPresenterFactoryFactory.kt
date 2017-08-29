@@ -9,7 +9,7 @@ import com.pietrantuono.podcasts.player.player.MediaSourceCreator
 import com.pietrantuono.podcasts.player.player.service.Player
 
 
-internal class SinglePodcastPresenterFactoryFactory(private val model: SinglePodcastModel,
+class SinglePodcastPresenterFactoryFactory(private val model: SinglePodcastModel,
                                                     private val crashlyticsWrapper: CrashlyticsWrapper,
                                                     private val player: Player,
                                                     private val creator: MediaSourceCreator) : ViewModelProvider.Factory {

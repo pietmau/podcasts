@@ -9,42 +9,40 @@ import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.player.player.MediaSourceCreator
-import com.pietrantuono.podcasts.player.player.Playback
 import com.pietrantuono.podcasts.player.player.PodcastFeedSource
-import com.pietrantuono.podcasts.player.player.service.messenger.MessagerInService
+import com.pietrantuono.podcasts.player.player.playback.LocalPlaybackWrapper
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.PlaybackNotificator
 import javax.inject.Inject
+import javax.inject.Named
 
 
 class PlayerService : InstrumentedService(), Player, NotificatorService {
     override var boundToFullScreen: Boolean? = false
     private val listeners: Set<Listener> = setOf()
-    @Inject lateinit var playback: Playback
+    @field:[Inject Named(LocalPlaybackWrapper.TAG)] lateinit var playback: Player
     @Inject lateinit var logger: DebugLogger
     @Inject lateinit var creator: MediaSourceCreator
     @Inject lateinit var resources: ResourcesProvider
     @Inject lateinit var notificator: PlaybackNotificator
-    private var messagerInService: MessagerInService? = null
 
     override fun playFeed(source: PodcastFeedSource) {
-        playback.playAll(creator.createConcatenateMediaSource(source))
+        //playback.playAll(creator.createConcatenateMediaSource(source))
     }
 
     override fun setEpisode(episode: Episode) {
-        throw UnsupportedOperationException("Unsupported")
+        playback.setEpisode(episode)
     }
 
     override fun onCreate() {
         super.onCreate()
         (applicationContext as App).applicationComponent?.with(SinglePodcastModule())?.inject(this)
-        messagerInService = MessagerInService(this)
         logger.debug(TAG, "onCreate")
     }
 
     override fun onBind(intent: Intent?): IBinder? {
         logger.debug(TAG, "onBind")
         checkIfShouldNotify()
-        return messagerInService?.iBinder
+        return PlayerServiceBinder(this)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -70,7 +68,7 @@ class PlayerService : InstrumentedService(), Player, NotificatorService {
     }
 
     override fun playEpisode(episode: MediaSource) {
-        playback.playMediaSource(episode)
+        //playback.playMediaSource(episode)
     }
 
     private fun onError(message: String?) {

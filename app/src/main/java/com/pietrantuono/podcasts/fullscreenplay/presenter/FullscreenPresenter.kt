@@ -12,7 +12,6 @@ import com.pietrantuono.podcasts.player.player.MediaSourceCreator
 import com.pietrantuono.podcasts.player.player.service.NotificatorService
 import com.pietrantuono.podcasts.player.player.service.Player
 import com.pietrantuono.podcasts.player.player.service.PlayerService
-import com.pietrantuono.podcasts.player.player.service.messenger.MessengerInUi
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 
 
@@ -27,9 +26,8 @@ class FullscreenPresenter(private val episodesRepository: EpisodesRepository,
         override fun onServiceDisconnected(componentName: ComponentName?) {}
 
         override fun onServiceConnected(componentName: ComponentName?, iBinder: IBinder?) {
-            val messengerInUi = MessengerInUi(iBinder)
-            notificatorService = messengerInUi
-            player = messengerInUi
+            notificatorService = iBinder as? NotificatorService
+            player = iBinder as? Player
             episode?.let {
                 player?.setEpisode(it)
             }
@@ -77,7 +75,7 @@ class FullscreenPresenter(private val episodesRepository: EpisodesRepository,
         activity.bindService(Intent(activity, PlayerService::class.java), connection, Context.BIND_AUTO_CREATE)
     }
 
-    fun unbind(activity: Activity) {
+    fun unbindService(activity: Activity) {
         notificatorService?.boundToFullScreen = false
         notificatorService?.checkIfShouldNotify()
         notificatorService = null

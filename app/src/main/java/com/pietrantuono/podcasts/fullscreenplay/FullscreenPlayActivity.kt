@@ -23,7 +23,6 @@ import javax.inject.Inject
 
 class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
     @Inject lateinit var presenter: FullscreenPresenter
-    @Inject lateinit var serviceConnectionManager: ServiceConnectionManager
     @BindView(R.id.control) lateinit var controlView: ColorizedPlaybackControlView
     private var controlViewTop: Int? = null
 
@@ -92,8 +91,7 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
 
     override fun onStop() {
         super.onStop()
-        serviceConnectionManager.unbind(this)
-        presenter.unbind(this)
+        presenter.unbindService(this)
         controlView.onStop()
     }
 
