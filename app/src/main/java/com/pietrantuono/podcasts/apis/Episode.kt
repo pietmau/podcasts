@@ -33,4 +33,5 @@ interface Episode : Parcelable {
 
     var link: String?
 
+    var listenedTo: Boolean
 }
