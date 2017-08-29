@@ -1,7 +1,5 @@
 package com.pietrantuono.podcasts.fullscreenplay.model
 
-import com.pietrantuono.podcasts.repository.EpisodesRepository
+interface FullscreenModel {
 
-
-class FullscreenModel(private val repo: EpisodesRepository) {
 }

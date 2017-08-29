@@ -1,25 +1,29 @@
 package com.pietrantuono.podcasts.fullscreenplay.di
 
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.BitmapColorExtractor
+import com.pietrantuono.podcasts.fullscreenplay.model.FullscreenModel
+import com.pietrantuono.podcasts.fullscreenplay.model.FullscreenModelImpl
 import com.pietrantuono.podcasts.fullscreenplay.presenter.FullscreenPresenter
 import com.pietrantuono.podcasts.main.view.Transitions
-import com.pietrantuono.podcasts.player.player.MediaSourceCreator
-import com.pietrantuono.podcasts.player.player.service.Player
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 import dagger.Module
 import dagger.Provides
-
 
 @Module
 class FullscreenModule() {
 
     @Provides
-    fun provideFullscreenPresenter(repo: EpisodesRepository, player: Player?, creator: MediaSourceCreator): FullscreenPresenter {
-        return FullscreenPresenter(repo, creator)
+    fun provideFullscreenPresenter(model: FullscreenModel): FullscreenPresenter {
+        return FullscreenPresenter(model)
     }
 
     @Provides
     fun provideTransitionImageLoadingListener(framework: Transitions): BitmapColorExtractor {
         return BitmapColorExtractor()
+    }
+
+    @Provides
+    fun provideModel(repository: EpisodesRepository): FullscreenModel {
+        return FullscreenModelImpl(repository)
     }
 }

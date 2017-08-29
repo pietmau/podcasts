@@ -8,15 +8,14 @@ import android.content.ServiceConnection
 import android.os.IBinder
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayView
-import com.pietrantuono.podcasts.player.player.MediaSourceCreator
+import com.pietrantuono.podcasts.fullscreenplay.model.FullscreenModel
+import com.pietrantuono.podcasts.fullscreenplay.model.FullscreenModelImpl
 import com.pietrantuono.podcasts.player.player.service.NotificatorService
 import com.pietrantuono.podcasts.player.player.service.Player
 import com.pietrantuono.podcasts.player.player.service.PlayerService
-import com.pietrantuono.podcasts.repository.EpisodesRepository
 
 
-class FullscreenPresenter(private val episodesRepository: EpisodesRepository,
-                          private val creator: MediaSourceCreator) {
+class FullscreenPresenter(private val model: FullscreenModel) {
     private var view: FullscreenPlayView? = null
     private var episode: Episode? = null
     private var notificatorService: NotificatorService? = null
@@ -40,7 +39,7 @@ class FullscreenPresenter(private val episodesRepository: EpisodesRepository,
         this.view = view
 
 //        if (episode == null) {
-//            episode = episodesRepository.getEpisodeByUrl(url)
+//            episode = model.getEpisodeByUrl(url)
 //        }
 //        episode?.let {
 //            view?.setEpisode(it)
