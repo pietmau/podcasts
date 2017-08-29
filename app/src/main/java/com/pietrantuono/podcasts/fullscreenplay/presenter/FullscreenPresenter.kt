@@ -38,13 +38,14 @@ class FullscreenPresenter(private val episodesRepository: EpisodesRepository,
 
     fun onStart(view: FullscreenPlayView, url: String?) {
         this.view = view
-        if (episode == null) {
-            episode = episodesRepository.getEpisodeByUrl(url)
-        }
-        episode?.let {
-            view?.setEpisode(it)
-            setImage(it.imageUrl)
-        }
+
+//        if (episode == null) {
+//            episode = episodesRepository.getEpisodeByUrl(url)
+//        }
+//        episode?.let {
+//            view?.setEpisode(it)
+//            setImage(it.imageUrl)
+//        }
     }
 
     private fun setImage(url: String?) {

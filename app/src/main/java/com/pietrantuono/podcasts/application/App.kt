@@ -22,10 +22,10 @@ class App : Application(), ServiceConnection {
 
     override fun onCreate() {
         super.onCreate()
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            return;
-        }
-        LeakCanary.install(this);
+//        if (LeakCanary.isInAnalyzerProcess(this)) {
+//            return;
+//        }
+//        LeakCanary.install(this);
         Realm.init(this)
         applicationComponent = DaggerApplicationComponent.builder().appModule(AppModule(this))
                 .imageLoaderModule(ImageLoaderModule(this)).build()
