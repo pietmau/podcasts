@@ -6,10 +6,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayView
 import com.pietrantuono.podcasts.fullscreenplay.model.FullscreenModel
-import com.pietrantuono.podcasts.fullscreenplay.model.FullscreenModelImpl
 import com.pietrantuono.podcasts.player.player.service.NotificatorService
 import com.pietrantuono.podcasts.player.player.service.Player
 import com.pietrantuono.podcasts.player.player.service.PlayerService
@@ -35,16 +35,9 @@ class FullscreenPresenter(private val model: FullscreenModel) {
         }
     }
 
-    fun onStart(view: FullscreenPlayView, url: String?) {
+    fun onCreate(view: FullscreenPlayView, url: String?, fromSavedState: Boolean) {
         this.view = view
-
-//        if (episode == null) {
-//            episode = model.getEpisodeByUrl(url)
-//        }
-//        episode?.let {
-//            view?.setEpisode(it)
-//            setImage(it.imageUrl)
-//        }
+        model.getEpisodeByUrl(url)
     }
 
     private fun setImage(url: String?) {
@@ -59,8 +52,19 @@ class FullscreenPresenter(private val model: FullscreenModel) {
         view?.title = title
     }
 
+    fun onStart() {
+        model.subscribe(object : SimpleObserver<Episode>() {
+            override fun onNext(episode: Episode) {
+                this@FullscreenPresenter.episode = episode
+                view?.setEpisode(episode)
+                setImage(episode.imageUrl)
+            }
+        })
+    }
+
     fun onStop() {
         view = null
+        model.unSubscribe()
     }
 
     private fun setEpisode(episode: Episode) {

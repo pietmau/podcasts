@@ -45,6 +45,7 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
         }
         setImageAndColors()
         setUpActionBar()
+        presenter.onCreate(this, intent?.getStringExtra(EPISODE_LINK), savedInstanceState==null)
     }
 
     private fun addOnGlobalLayoutListener() {
@@ -88,7 +89,6 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
     override fun onStart() {
         super.onStart()
         presenter.bindService(this)
-        presenter.onStart(this, intent?.getStringExtra(EPISODE_LINK))
         controlView.onStart()
     }
 

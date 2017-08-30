@@ -8,6 +8,8 @@ import com.pietrantuono.podcasts.main.view.Transitions
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 import dagger.Module
 import dagger.Provides
+import rx.Scheduler
+import rx.android.schedulers.AndroidSchedulers
 
 @Module
 class FullscreenModule() {
@@ -24,6 +26,6 @@ class FullscreenModule() {
 
     @Provides
     fun provideModel(repository: EpisodesRepository): FullscreenModel {
-        return FullscreenModelImpl(repository)
+        return FullscreenModelImpl(repository, AndroidSchedulers.mainThread())
     }
 }

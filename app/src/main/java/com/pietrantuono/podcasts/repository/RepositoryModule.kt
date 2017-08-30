@@ -5,6 +5,7 @@ import com.pietrantuono.podcasts.repository.repository.*
 import dagger.Module
 import dagger.Provides
 import io.realm.Realm
+import rx.schedulers.Schedulers
 
 @Module
 class RepositoryModule {
@@ -31,7 +32,7 @@ class RepositoryModule {
 
     @Provides
     fun provideEpisodesRepository(realm: Realm): EpisodesRepository {
-        return EpisodesRepositoryRealm(realm)
+        return EpisodesRepositoryRealm(realm, Schedulers.io())
     }
 
 }
