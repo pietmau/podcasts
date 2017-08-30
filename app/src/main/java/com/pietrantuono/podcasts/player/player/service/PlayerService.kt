@@ -18,6 +18,11 @@ import javax.inject.Named
 
 class PlayerService : InstrumentedService(), Player, NotificatorService {
     override var boundToFullScreen: Boolean? = false
+        get() = field
+        set(value) {
+            field == value
+            checkIfShouldNotify()
+        }
     private val listeners: Set<Listener> = setOf()
     @field:[Inject Named(LocalPlaybackWrapper.TAG)] lateinit var playback: Player
     @Inject lateinit var logger: DebugLogger

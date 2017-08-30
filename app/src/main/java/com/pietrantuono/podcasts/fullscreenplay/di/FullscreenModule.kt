@@ -4,19 +4,20 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.BitmapColorExtrac
 import com.pietrantuono.podcasts.fullscreenplay.model.FullscreenModel
 import com.pietrantuono.podcasts.fullscreenplay.model.FullscreenModelImpl
 import com.pietrantuono.podcasts.fullscreenplay.presenter.FullscreenPresenter
+import com.pietrantuono.podcasts.fullscreenplay.presenter.ServiceConnector
 import com.pietrantuono.podcasts.main.view.Transitions
+import com.pietrantuono.podcasts.player.player.service.Player
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 import dagger.Module
 import dagger.Provides
-import rx.Scheduler
 import rx.android.schedulers.AndroidSchedulers
 
 @Module
 class FullscreenModule() {
 
     @Provides
-    fun provideFullscreenPresenter(model: FullscreenModel): FullscreenPresenter {
-        return FullscreenPresenter(model)
+    fun provideFullscreenPresenter(model: FullscreenModel, player: Player?): FullscreenPresenter {
+        return FullscreenPresenter(model, player, ServiceConnector())
     }
 
     @Provides
