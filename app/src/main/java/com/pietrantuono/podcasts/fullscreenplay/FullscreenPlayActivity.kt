@@ -3,6 +3,7 @@ package com.pietrantuono.podcasts.fullscreenplay
 import android.animation.Animator
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.transition.Transition
@@ -126,6 +127,11 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
         episodeView.setEpisode(episode)
         title = episode?.title
         loadImage(episode?.imageUrl)
+    }
+
+    override fun onColorExtractionCompleted() {
+        super.onColorExtractionCompleted()
+        episodeView.setColors(colorExtractor.colorForBackgroundAndText)
     }
 
     override fun getImageUrl(): String? = null

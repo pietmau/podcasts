@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.os.Parcel
 import android.os.Parcelable
+import android.support.v4.graphics.ColorUtils
 import android.support.v7.graphics.Palette
 import android.view.View
 import android.widget.ImageView
@@ -14,6 +15,7 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 class BitmapColorExtractor() : SimpleImageLoadingListener(), Parcelable {
     var callback: Callback? = null
     var backgroundColor: Int? = null
+    var colorForBackgroundAndText: ColorForBackgroundAndText? = null
 
     constructor(parcel: Parcel) : this() {
         backgroundColor = parcel.readValue(Int::class.java.classLoader) as? Int
@@ -30,6 +32,8 @@ class BitmapColorExtractor() : SimpleImageLoadingListener(), Parcelable {
     override fun onLoadingComplete(imageUri: String?, view: View?, loadedImage: Bitmap?) {
         Palette.from(((view as ImageView).drawable as BitmapDrawable).bitmap).generate {
             backgroundColor = it?.vibrantSwatch?.rgb
+            colorForBackgroundAndText = ColorForBackgroundAndText(it?.darkMutedSwatch?.rgb,
+                    it?.darkMutedSwatch?.titleTextColor, it?.darkMutedSwatch?.bodyTextColor)
             callback?.onColorExtractionCompleted()
         }
     }
@@ -55,5 +59,9 @@ class BitmapColorExtractor() : SimpleImageLoadingListener(), Parcelable {
             return arrayOfNulls(size)
         }
     }
+
+
+
+
 }
 
