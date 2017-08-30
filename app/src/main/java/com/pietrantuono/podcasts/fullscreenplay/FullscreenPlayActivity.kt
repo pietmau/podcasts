@@ -45,7 +45,7 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
         }
         setImageAndColors()
         setUpActionBar()
-        presenter.onCreate(this, intent?.getStringExtra(EPISODE_LINK), savedInstanceState==null)
+        presenter.onCreate(this, intent?.getStringExtra(EPISODE_LINK), savedInstanceState == null)
     }
 
     private fun addOnGlobalLayoutListener() {
@@ -88,13 +88,13 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
 
     override fun onStart() {
         super.onStart()
-        presenter.bindService(this)
+        presenter.onStart(this)
         controlView.onStart()
     }
 
     override fun onStop() {
         super.onStop()
-        presenter.unbindService(this)
+        presenter.onStop(this)
         controlView.onStop()
     }
 
@@ -122,9 +122,18 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
         }
     }
 
-    override fun setEpisode(episode: Episode) {
-        setTitle(episode.title)
+    override fun setEpisode(episode: Episode?) {
         episodeView.setEpisode(episode)
+        setTitle(null)
+        setImage(episode?.imageUrl)
+    }
+
+    private fun setImage(url: String?) {
+        if (url != null) {
+            loadImage(url)
+        } else {
+            startTransitionPostponed()
+        }
     }
 
     override fun getImageUrl(): String? = null

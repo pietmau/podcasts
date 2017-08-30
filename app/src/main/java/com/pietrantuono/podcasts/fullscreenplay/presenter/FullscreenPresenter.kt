@@ -40,31 +40,28 @@ class FullscreenPresenter(private val model: FullscreenModel) {
         model.getEpisodeByUrl(url)
     }
 
-    private fun setImage(url: String?) {
-        if (url != null) {
-            view?.loadImage(url)
-        } else {
-            view?.startTransitionPostponed()
-        }
-    }
-
     private fun setTitle(title: String?) {
         view?.title = title
     }
 
-    fun onStart() {
+    fun onStart(activity: Activity) {
         model.subscribe(object : SimpleObserver<Episode>() {
             override fun onNext(episode: Episode) {
                 this@FullscreenPresenter.episode = episode
                 view?.setEpisode(episode)
-                setImage(episode.imageUrl)
+            }
+
+            override fun onError(throwable: Throwable?) {
+                view?.setEpisode(null)
             }
         })
+        bindService(activity)
     }
 
-    fun onStop() {
+    fun onStop(activity: Activity) {
         view = null
         model.unSubscribe()
+        unbindService(activity)
     }
 
     private fun setEpisode(episode: Episode) {
@@ -75,11 +72,11 @@ class FullscreenPresenter(private val model: FullscreenModel) {
 
     }
 
-    fun bindService(activity: Activity) {
+    private fun bindService(activity: Activity) {
         activity.bindService(Intent(activity, PlayerService::class.java), connection, Context.BIND_AUTO_CREATE)
     }
 
-    fun unbindService(activity: Activity) {
+    private fun unbindService(activity: Activity) {
         notificatorService?.boundToFullScreen = false
         notificatorService?.checkIfShouldNotify()
         notificatorService = null

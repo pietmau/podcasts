@@ -6,5 +6,5 @@ interface FullscreenPlayView {
     fun startTransitionPostponed()
     var title: String?
     fun loadImage(url: String?)
-    fun setEpisode(episode: Episode)
+    fun setEpisode(episode: Episode?)
 }

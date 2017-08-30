@@ -7,7 +7,6 @@ import rx.Observer
 
 interface FullscreenModel {
     fun getEpisodeByUrl(urls: String?)
-
     fun subscribe(observer: Observer<in Episode>)
     fun unSubscribe()
 }
