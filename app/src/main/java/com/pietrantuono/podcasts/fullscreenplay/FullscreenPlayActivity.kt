@@ -125,16 +125,7 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
     override fun setEpisode(episode: Episode?) {
         episodeView.setEpisode(episode)
         title = episode?.title
-        setImage(episode?.imageUrl)
-    }
-
-    private fun setImage(url: String?) {
-        url?.let { }
-        if (url != null) {
-            loadImage(url)
-        } else {
-            startTransitionPostponed()
-        }
+        loadImage(episode?.imageUrl)
     }
 
     override fun getImageUrl(): String? = null
