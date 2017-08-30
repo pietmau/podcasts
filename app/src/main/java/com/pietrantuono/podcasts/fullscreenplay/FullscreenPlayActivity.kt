@@ -34,7 +34,7 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
         setContentView(R.layout.full_screen_player_activity)
         (application as App)
                 .applicationComponent
-                ?.with(FullscreenModule())
+                ?.with(FullscreenModule(this))
                 ?.inject(this@FullscreenPlayActivity)
         ButterKnife.bind(this@FullscreenPlayActivity)
         if (savedInstanceState == null && isLollipopOrHigher) {
@@ -124,12 +124,12 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
 
     override fun setEpisode(episode: Episode?) {
         episodeView.setEpisode(episode)
-        setTitle(episode?.title)
+        title = episode?.title
         setImage(episode?.imageUrl)
     }
 
     private fun setImage(url: String?) {
-        url?.let {  }
+        url?.let { }
         if (url != null) {
             loadImage(url)
         } else {

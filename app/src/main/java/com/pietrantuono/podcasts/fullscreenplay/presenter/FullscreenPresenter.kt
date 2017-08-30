@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts.fullscreenplay.presenter
 
 import android.app.Activity
+import android.arch.lifecycle.ViewModel
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayView
@@ -9,7 +10,7 @@ import com.pietrantuono.podcasts.player.player.service.Player
 
 
 class FullscreenPresenter(private val model: FullscreenModel, private val player: Player?,
-                          private val connector: ServiceConnector) {
+                          private val connector: ServiceConnector) : ViewModel() {
     private var view: FullscreenPlayView? = null
 
     fun onCreate(view: FullscreenPlayView, url: String?, fromSavedState: Boolean) {
