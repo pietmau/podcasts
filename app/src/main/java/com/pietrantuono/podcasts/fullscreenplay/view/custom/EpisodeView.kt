@@ -2,6 +2,7 @@ package com.pietrantuono.podcasts.fullscreenplay.view.custom
 
 import android.content.Context
 import android.databinding.DataBindingUtil
+import android.text.Html
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.RelativeLayout
@@ -20,13 +21,23 @@ class EpisodeView : RelativeLayout {
     }
 
     fun setEpisode(episode: Episode?) {
-        binding.episode = episode
-
+        if (episode == null) {
+            return
+        }
+        binding.author.text = Html.fromHtml(episode.author)
+        binding.subtitle.text = Html.fromHtml(episode.subtitle)
+        binding.summary.text = Html.fromHtml(episode.summary)
+        binding.title.text = Html.fromHtml(episode.title)
     }
 
     fun setColors(colorForBackgroundAndText: ColorForBackgroundAndText?) {
         colorForBackgroundAndText?.let {
-            it.backgroundColor?.let { setBackgroundColor(it) }
+            it.backgroundColor?.let {
+                binding.author.setBackgroundColor(it)
+                binding.subtitle.setBackgroundColor(it)
+                binding.summary.setBackgroundColor(it)
+                binding.title.setBackgroundColor(it)
+            }
             it.bodyTextColor?.let {
                 binding.author.setTextColor(it)
                 binding.subtitle.setTextColor(it)

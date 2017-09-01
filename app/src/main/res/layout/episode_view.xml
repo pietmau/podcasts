@@ -5,55 +5,60 @@
 
         <variable
             name="episode"
-            type="com.pietrantuono.podcasts.apis.Episode" />
+            type="com.pietrantuono.podcasts.apis.Episode"/>
     </data>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="50dp"
-        android:background="@color/whiteTransparent"
-        android:padding="25dp">
+        android:layout_margin="10dp"
+        >
 
-        <TextView
-            android:id="@+id/title"
-            style="@style/EpisodeViewTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:text="@{episode.title}" />
-
-        <TextView
-            android:id="@+id/author"
-            style="@style/EpisodeViewSubtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/title"
-            android:text="@{episode.title}" />
-
-        <TextView
-            android:id="@+id/subtitle"
-            style="@style/EpisodeViewSubtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/author"
-            android:text="@{episode.subtitle}" />
-
-        <ScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/author">
+        <RelativeLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
 
             <TextView
-                android:id="@+id/summary"
-                style="@style/EpisodeViewBody"
+                android:id="@+id/title"
+                style="@style/EpisodeViewTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{episode.summary}" />
-        </ScrollView>
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:text="@{episode.title}"/>
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/author"
+                style="@style/EpisodeViewSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/title"
+                android:text="@{episode.title}"/>
+
+            <TextView
+                android:id="@+id/subtitle"
+                style="@style/EpisodeViewSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/author"
+                android:text="@{episode.subtitle}"/>
+
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/subtitle">
+
+                <TextView
+                    android:id="@+id/summary"
+                    style="@style/EpisodeViewBody"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{episode.summary}"/>
+            </ScrollView>
+        </RelativeLayout>
+    </LinearLayout>
 </layout>

@@ -6,7 +6,7 @@ class ColorForBackgroundAndText(var backgroundColor: Int? = null, val titleTextC
                                 val bodyTextColor: Int? = null) {
     init {
         backgroundColor?.let {
-            backgroundColor = ColorUtils.setAlphaComponent(it, (255 * 95 / 100))
+            backgroundColor = ColorUtils.setAlphaComponent(it, (255 * 85 / 100))
         }
     }
 }

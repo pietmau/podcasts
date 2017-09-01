@@ -10,5 +10,5 @@
     <color name="fullscreen_line_color">#E5FFFFFF</color>
     <color name="fullscreen_secondary_line_color">#E5CCCCCC</color>
 
-    <color name="whiteTransparent">#88FFFFFF</color>
+    <color name="whiteTransparent">#CCFFFFFF</color>
 </resources>

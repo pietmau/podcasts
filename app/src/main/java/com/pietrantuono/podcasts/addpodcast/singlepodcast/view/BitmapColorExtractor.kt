@@ -2,13 +2,10 @@ package com.pietrantuono.podcasts.addpodcast.singlepodcast.view
 
 
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.os.Parcel
 import android.os.Parcelable
-import android.support.v4.graphics.ColorUtils
 import android.support.v7.graphics.Palette
 import android.view.View
-import android.widget.ImageView
 import com.nostra13.universalimageloader.core.assist.FailReason
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener
 
@@ -30,10 +27,14 @@ class BitmapColorExtractor() : SimpleImageLoadingListener(), Parcelable {
     }
 
     override fun onLoadingComplete(imageUri: String?, view: View?, loadedImage: Bitmap?) {
-        Palette.from(((view as ImageView).drawable as BitmapDrawable).bitmap).generate {
-            backgroundColor = it?.vibrantSwatch?.rgb
-            colorForBackgroundAndText = ColorForBackgroundAndText(it?.darkMutedSwatch?.rgb,
-                    it?.darkMutedSwatch?.titleTextColor, it?.darkMutedSwatch?.bodyTextColor)
+        if (loadedImage != null) {
+            Palette.from(loadedImage).generate {
+                backgroundColor = it?.vibrantSwatch?.rgb
+                colorForBackgroundAndText = ColorForBackgroundAndText(it?.darkMutedSwatch?.rgb,
+                        it?.darkMutedSwatch?.titleTextColor, it?.darkMutedSwatch?.bodyTextColor)
+                callback?.onColorExtractionCompleted()
+            }
+        } else {
             callback?.onColorExtractionCompleted()
         }
     }
@@ -59,8 +60,6 @@ class BitmapColorExtractor() : SimpleImageLoadingListener(), Parcelable {
             return arrayOfNulls(size)
         }
     }
-
-
 
 
 }
