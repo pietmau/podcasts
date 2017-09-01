@@ -21,12 +21,20 @@ class EpisodeView : RelativeLayout {
 
     fun setEpisode(episode: Episode?) {
         binding.episode = episode
+
     }
 
     fun setColors(colorForBackgroundAndText: ColorForBackgroundAndText?) {
         colorForBackgroundAndText?.let {
             it.backgroundColor?.let { setBackgroundColor(it) }
-            it.bodyTextColor?.let {  }
+            it.bodyTextColor?.let {
+                binding.author.setTextColor(it)
+                binding.subtitle.setTextColor(it)
+                binding.summary.setTextColor(it)
+            }
+            it.titleTextColor?.let {
+                binding.title.setTextColor(it)
+            }
         }
     }
 
