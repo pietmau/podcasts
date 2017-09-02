@@ -3,7 +3,6 @@ package com.pietrantuono.podcasts.fullscreenplay
 import android.animation.Animator
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
-import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.transition.Transition
@@ -107,19 +106,14 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private fun animateControlsOut() {
         if (isInValidState()) {
             controlView
                     .animate()
                     .y(window.decorView.bottom.toFloat())
                     .setDuration(TRANSITION_DURATION)
-                    .setListener(object : SimpleAnimatorListener() {
-                        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-                        override fun onAnimationEnd(animator: Animator?) {
-                            animator?.removeAllListeners()
-                            finishAfterTransition()
-                        }
-                    })
+                    .withEndAction { finishAfterTransition() }
         }
     }
 

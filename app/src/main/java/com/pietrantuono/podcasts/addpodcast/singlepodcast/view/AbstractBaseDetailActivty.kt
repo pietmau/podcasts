@@ -70,7 +70,7 @@ abstract class AbstractBaseDetailActivty : AbstractPlaybackControlsActivity(), B
 
     override fun onColorExtractionCompleted() {
         colorExtractor.backgroundColor?.let { getSupportActionBar()?.setBackgroundDrawable(ColorDrawable(it)); }
-        transitions.startPostponedEnterTransition(this)
+        startTransitionPostponed()
     }
 
     abstract fun getImageUrl(): String?
@@ -87,11 +87,6 @@ abstract class AbstractBaseDetailActivty : AbstractPlaybackControlsActivity(), B
         if (isInValidState()) {
             transitions.startPostponedEnterTransition(this)
         }
-    }
-
-    override fun finish() {
-        super.finish()
-        overridePendingTransition(R.anim.pop_in, R.anim.pop_out)
     }
 
     protected fun setToolbarColor(backgroundColor: Int) {

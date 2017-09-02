@@ -112,5 +112,6 @@ class EpisodesListActivity : AbstractBaseDetailActivty(), EpisodesListView {
         super.finish()
         overridePendingTransition(R.anim.pop_in, R.anim.pop_out)
     }
+
 }
 

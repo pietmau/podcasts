@@ -67,18 +67,20 @@ class SubscribedPodcastFragment : Fragment(), SubscribedPodcastView {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     override fun startDetailActivityWithTransition(podcast: Podcast, imageView: ImageView, titleContainer: LinearLayout) {
-        val intent = Intent(activity, EpisodesListActivity::class.java)
-        intent.putExtra(SINGLE_PODCAST_TRACK_ID, podcast?.trackId)
-        intent.putExtra(ARTWORK, podcast?.artworkUrl600)
+        val intent = getDetailActivityIntent(podcast)
         intent.putExtra(STARTED_WITH_TRANSITION, true)
         activity.startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(activity, *getPairs(imageView, titleContainer)).toBundle())
     }
 
     override fun startDetailActivityWithoutTransition(podcast: Podcast) {
+        activity.startActivity(getDetailActivityIntent(podcast))
+    }
+
+    private fun getDetailActivityIntent(podcast: Podcast): Intent {
         val intent = Intent(activity, EpisodesListActivity::class.java)
         intent.putExtra(SINGLE_PODCAST_TRACK_ID, podcast?.trackId)
         intent.putExtra(ARTWORK, podcast?.artworkUrl600)
-        activity.startActivity(intent)
+        return intent
     }
 
     private fun getPairs(imageView: ImageView, titleContainer: LinearLayout): Array<Pair<View, String>?> {
