@@ -1,6 +1,5 @@
 package com.pietrantuono.podcasts.fullscreenplay
 
-import android.animation.Animator
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.os.Build
@@ -113,7 +112,7 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
                     .animate()
                     .y(window.decorView.bottom.toFloat())
                     .setDuration(TRANSITION_DURATION)
-                    .withEndAction { finishAfterTransition() }
+                    .withEndAction { super.onBackPressed() }
         }
     }
 
@@ -129,4 +128,11 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
     }
 
     override fun getImageUrl(): String? = null
+
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.pop_in, R.anim.pop_out)
+    }
+
 }
