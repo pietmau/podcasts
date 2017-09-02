@@ -22,8 +22,7 @@ class Transitions(private val apiLevelChecker: ApiLevelChecker) {
         if (!apiLevelChecker.isLollipopOrHigher) {
             return
         }
-        val window = activity.window
-        window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        activity.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP) fun initDetailTransitions(
@@ -32,8 +31,8 @@ class Transitions(private val apiLevelChecker: ApiLevelChecker) {
             return
         }
         val window = activity.window
-        window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        val transition = window.sharedElementEnterTransition
+        window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val transition = window?.sharedElementEnterTransition
         transition?.let {
             it.addTarget(target)
             it.addListener(listener)
@@ -45,8 +44,7 @@ class Transitions(private val apiLevelChecker: ApiLevelChecker) {
         if (!apiLevelChecker.isLollipopOrHigher) {
             return
         }
-        val window = activity.window
-        window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        activity.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         activity.postponeEnterTransition()
     }
 
@@ -78,8 +76,7 @@ class Transitions(private val apiLevelChecker: ApiLevelChecker) {
     }
 
     fun getNavigationBar(activity: Activity): Array<Pair<View, String>?> {
-        val decor = activity.window.decorView
-        val navBar = decor.findViewById(android.R.id.navigationBarBackground)
+        val navBar = activity.window?.decorView?.findViewById(android.R.id.navigationBarBackground)
         val pairs: Array<Pair<View, String>?>
         if (navBar != null) {
             pairs = arrayOfNulls<Pair<View, String>>(3)

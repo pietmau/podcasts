@@ -87,8 +87,7 @@ class EpisodesListActivity : AbstractBaseDetailActivty(), EpisodesListView {
     }
 
     override fun startDetailActivityWithoutTransition(episode: Episode) {
-        val intent = getIntent(episode)
-        startActivity(intent)
+        startActivity(getIntent(episode))
     }
 
     private fun getIntent(episode: Episode): Intent {
