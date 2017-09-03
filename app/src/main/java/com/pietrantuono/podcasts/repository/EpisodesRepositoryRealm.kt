@@ -5,7 +5,6 @@ import com.pietrantuono.podcasts.interfaces.RealmEpisode
 import io.realm.Realm
 import rx.Observable
 import rx.Scheduler
-import rx.subjects.BehaviorSubject
 
 class EpisodesRepositoryRealm(private val realm: Realm, private val ioScheduler: Scheduler) : EpisodesRepository {
 
@@ -27,8 +26,10 @@ class EpisodesRepositoryRealm(private val realm: Realm, private val ioScheduler:
     }
 
     override fun getEpisodeByUrlAsObservable(url: String?): Observable<out Episode> {
-        return Observable
-                .fromCallable { getEpisodeByUrl(url) }
+        return realm.where(RealmEpisode::class.java)
+                .equalTo("link", url)
+                .findFirst()
+                .asObservable<RealmEpisode>()
                 .filter { it != null }
                 .map { it as RealmEpisode }
                 .filter { it.isLoaded && it.isValid }

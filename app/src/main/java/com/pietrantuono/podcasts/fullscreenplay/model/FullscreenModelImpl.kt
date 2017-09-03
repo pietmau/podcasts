@@ -15,11 +15,17 @@ class FullscreenModelImpl(private val repo: EpisodesRepository, private val mani
     private var subscription: Subscription? = null
 
     override fun getEpisodeByUrl(url: String?) {
-        cached = repo.getEpisodeByUrlAsObservable(url).observeOn(manithreadScheduler).cache()
+        cached = repo
+                .getEpisodeByUrlAsObservable(url)
+                .cache()
     }
 
     override fun subscribe(observer: Observer<in Episode>) {
-        subscription = cached?.timeout(1, TimeUnit.SECONDS)?.subscribe(observer)
+        subscription = cached
+                ?.take(1)
+                ?.timeout(1, TimeUnit.SECONDS)
+                ?.observeOn(manithreadScheduler)
+                ?.subscribe(observer)
     }
 
     override fun unSubscribe() {
