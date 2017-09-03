@@ -29,17 +29,34 @@ class BitmapColorExtractor() : SimpleImageLoadingListener(), Parcelable {
     }
 
     override fun onLoadingComplete(imageUri: String?, view: View?, loadedImage: Bitmap?) {
-        val bm = ((view as? ImageView)?.drawable as? BitmapDrawable)?.bitmap
-        if (bm != null) {
-            Palette.from(bm).generate {
-                backgroundColor = it?.vibrantSwatch?.rgb
-                colorForBackgroundAndText = ColorForBackgroundAndText(it?.darkMutedSwatch?.rgb,
-                        it?.darkMutedSwatch?.titleTextColor, it?.darkMutedSwatch?.bodyTextColor)
+        val bitmap = ((view as? ImageView)?.drawable as? BitmapDrawable)?.bitmap
+        if (bitmap != null) {
+            Palette.from(bitmap).generate {
+                extractColors(it)
                 callback?.onColorExtractionCompleted()
             }
         } else {
             callback?.onColorExtractionCompleted()
         }
+    }
+
+    private fun extractColors(palette: Palette) {
+        backgroundColor = getVibrantSwatch(palette)?.rgb
+        colorForBackgroundAndText = extractTextColors(palette)
+    }
+
+    private fun extractTextColors(palette: Palette): ColorForBackgroundAndText {
+        val swatch = getMutedSwatch(palette)
+        return ColorForBackgroundAndText(swatch?.rgb,
+                swatch?.titleTextColor, swatch?.bodyTextColor)
+    }
+
+    private fun getMutedSwatch(palette: Palette): Palette.Swatch? {
+        return (palette?.darkMutedSwatch) ?: (palette?.mutedSwatch ?: palette?.lightMutedSwatch)
+    }
+
+    private fun getVibrantSwatch(palette: Palette): Palette.Swatch? {
+        return (palette?.vibrantSwatch) ?: (palette?.darkVibrantSwatch ?: palette?.lightMutedSwatch)
     }
 
     interface Callback {
@@ -63,7 +80,5 @@ class BitmapColorExtractor() : SimpleImageLoadingListener(), Parcelable {
             return arrayOfNulls(size)
         }
     }
-
-
 }
 
