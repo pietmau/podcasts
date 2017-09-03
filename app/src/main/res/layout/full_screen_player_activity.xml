@@ -22,7 +22,7 @@
         android:transitionName="@string/detail_transition_toolbar"></android.support.v7.widget.Toolbar>
 
     <com.pietrantuono.podcasts.fullscreenplay.view.custom.EpisodeView
-        android:alpha="0"
+
         android:id="@+id/episodeView"
         android:layout_above="@+id/control"
         android:layout_below="@+id/toolbar"

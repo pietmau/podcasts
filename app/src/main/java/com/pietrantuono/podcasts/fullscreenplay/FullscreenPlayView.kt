@@ -10,6 +10,5 @@ interface FullscreenPlayView {
     fun enterWithTransition()
     fun enterWithoutTransition()
     fun finish()
-    fun animateControlsOut
-            ()
+    fun animateControlsOut()
 }

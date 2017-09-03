@@ -102,7 +102,6 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
         overridePendingTransition(R.anim.pop_in, R.anim.pop_out)
     }
 
-
     override fun animateControlsOut() {
         animationsHelper.animateControlsOut(this, controlView, episodeView)
     }

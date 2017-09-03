@@ -28,15 +28,11 @@ class AnimationsHelper {
                 .alpha(1.0f)
                 .setDuration(TRANSITION_DURATION)
                 .start()
-
-
     }
 
     fun setViewsImmediately(controlView: ColorizedPlaybackControlView, episodeView: EpisodeView) {
-        controlViewTop?.let {
-            controlView.y = it.toFloat()
-            episodeView.alpha = 1.0f
-        }
+        controlViewTop?.let { controlView.y = it.toFloat() }
+        episodeView.alpha = 1.0f
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -55,7 +51,6 @@ class AnimationsHelper {
                 .alpha(0.0f)
                 .setDuration(TRANSITION_DURATION)
                 .start()
-
     }
 
 }
