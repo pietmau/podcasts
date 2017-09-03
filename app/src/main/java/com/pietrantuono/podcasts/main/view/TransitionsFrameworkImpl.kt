@@ -16,7 +16,7 @@ import android.widget.LinearLayout
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
 
-class Transitions(private val apiLevelChecker: ApiLevelChecker) {
+class TransitionsHelper(private val apiLevelChecker: ApiLevelChecker) {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP) fun initMainActivityTransitions(activity: AppCompatActivity) {
         if (!apiLevelChecker.isLollipopOrHigher) {

@@ -12,7 +12,7 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SinglePodcas
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.BitmapColorExtractor
 import com.pietrantuono.podcasts.apis.SinglePodcastApi
 import com.pietrantuono.podcasts.application.DebugLogger
-import com.pietrantuono.podcasts.main.view.Transitions
+import com.pietrantuono.podcasts.main.view.TransitionsHelper
 import com.pietrantuono.podcasts.player.player.MediaSourceCreator
 import com.pietrantuono.podcasts.player.player.playback.LocalPlayback
 import com.pietrantuono.podcasts.player.player.playback.LocalPlaybackWrapper
@@ -46,7 +46,7 @@ class SinglePodcastModule {
     }
 
     @Provides
-    fun provideTransitionImageLoadingListener(framework: Transitions): BitmapColorExtractor {
+    fun provideTransitionImageLoadingListener(framework: TransitionsHelper): BitmapColorExtractor {
         return BitmapColorExtractor()
     }
 

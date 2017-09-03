@@ -1,7 +1,7 @@
 package com.pietrantuono.podcasts.main.dagger;
 
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker;
-import com.pietrantuono.podcasts.main.view.Transitions;
+import com.pietrantuono.podcasts.main.view.TransitionsHelper;
 
 import dagger.Module;
 import dagger.Provides;
@@ -10,8 +10,8 @@ import dagger.Provides;
 public class TransitionsModule {
 
     @Provides
-    Transitions provideTransitionsFramework(ApiLevelChecker apiLevelChecker){
-        return new Transitions(apiLevelChecker);
+    TransitionsHelper provideTransitionsFramework(ApiLevelChecker apiLevelChecker){
+        return new TransitionsHelper(apiLevelChecker);
     }
 
 }

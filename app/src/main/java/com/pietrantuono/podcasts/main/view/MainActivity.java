@@ -24,7 +24,7 @@ import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AbstractPlaybackControlsActivity implements MainView {
     @Inject MainPresenter mainPresenter;
-    @Inject Transitions transitions;
+    @Inject TransitionsHelper transitions;
     @BindView(R.id.drawer) DrawerLayoutWithToggle drawerLayoutWithToggle;
     @BindView(R.id.maintoolbar) Toolbar mainToolbar;
     @BindView(R.id.nav_view) SimpleNavView simpleNavView;

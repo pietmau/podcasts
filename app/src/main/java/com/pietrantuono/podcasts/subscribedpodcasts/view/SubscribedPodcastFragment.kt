@@ -20,7 +20,7 @@ import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.EpisodesListActivity
 import com.pietrantuono.podcasts.main.view.MainActivity
-import com.pietrantuono.podcasts.main.view.Transitions
+import com.pietrantuono.podcasts.main.view.TransitionsHelper
 import com.pietrantuono.podcasts.subscribedpodcasts.di.SubscribedPodcastModule
 import com.pietrantuono.podcasts.subscribedpodcasts.presenter.SubscribedPodcastPresenter
 import com.pietrantuono.podcasts.utils.ARTWORK
@@ -30,7 +30,7 @@ import javax.inject.Inject
 
 class SubscribedPodcastFragment : Fragment(), SubscribedPodcastView {
     @Inject lateinit var presenter: SubscribedPodcastPresenter
-    @Inject lateinit var transitions: Transitions
+    @Inject lateinit var transitions: TransitionsHelper
     @BindView(R.id.recycler) lateinit var recycler: PodcastsRecycler
 
     override fun onCreate(savedInstanceState: Bundle?) {

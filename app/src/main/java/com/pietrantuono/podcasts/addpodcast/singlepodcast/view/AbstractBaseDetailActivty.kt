@@ -8,7 +8,7 @@ import butterknife.BindView
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.custom.SimpleProgressBar
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
-import com.pietrantuono.podcasts.main.view.Transitions
+import com.pietrantuono.podcasts.main.view.TransitionsHelper
 import com.pietrantuono.podcasts.utils.BACKGROUND_COLOR
 import com.pietrantuono.podcasts.utils.isInValidState
 import javax.inject.Inject
@@ -18,7 +18,7 @@ abstract class AbstractBaseDetailActivty : AbstractPlaybackControlsActivity(), B
     var progressBar: SimpleProgressBar? = null
     @BindView(R.id.toolbar) lateinit var toolbar: Toolbar
     @BindView(R.id.main_image) lateinit var imageView: ImageView
-    @Inject lateinit var transitions: Transitions
+    @Inject lateinit var transitionsHelper: TransitionsHelper
     @Inject lateinit var colorExtractor: BitmapColorExtractor
     @Inject lateinit var imageLoader: SimpleImageLoader
 
@@ -76,7 +76,7 @@ abstract class AbstractBaseDetailActivty : AbstractPlaybackControlsActivity(), B
     abstract fun getImageUrl(): String?
 
     open fun enterWithTransition() {
-        transitions.initDetailTransitions(this)
+        transitionsHelper.initDetailTransitions(this)
     }
 
     open fun enterWithoutTransition() {
@@ -85,7 +85,7 @@ abstract class AbstractBaseDetailActivty : AbstractPlaybackControlsActivity(), B
 
     fun startTransitionPostponed() {
         if (isInValidState()) {
-            transitions.startPostponedEnterTransition(this)
+            transitionsHelper.startPostponedEnterTransition(this)
         }
     }
 

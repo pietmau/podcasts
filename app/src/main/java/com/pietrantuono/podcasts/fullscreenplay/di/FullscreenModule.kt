@@ -5,11 +5,12 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.FragmentActivity
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.BitmapColorExtractor
+import com.pietrantuono.podcasts.fullscreenplay.AnimationsHelper
 import com.pietrantuono.podcasts.fullscreenplay.model.FullscreenModel
 import com.pietrantuono.podcasts.fullscreenplay.model.FullscreenModelImpl
 import com.pietrantuono.podcasts.fullscreenplay.presenter.FullscreenPresenter
 import com.pietrantuono.podcasts.fullscreenplay.presenter.ServiceConnector
-import com.pietrantuono.podcasts.main.view.Transitions
+import com.pietrantuono.podcasts.main.view.TransitionsHelper
 import com.pietrantuono.podcasts.player.player.service.Player
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 import dagger.Module
@@ -25,7 +26,7 @@ class FullscreenModule(private val activity: FragmentActivity) {
     }
 
     @Provides
-    fun provideTransitionImageLoadingListener(framework: Transitions): BitmapColorExtractor {
+    fun provideTransitionImageLoadingListener(framework: TransitionsHelper): BitmapColorExtractor {
         return BitmapColorExtractor()
     }
 
@@ -37,6 +38,11 @@ class FullscreenModule(private val activity: FragmentActivity) {
     @Provides
     fun provideFullscreenPresenterFactory(model: FullscreenModel, player: Player?): FullscreenPresenterFactory {
         return FullscreenPresenterFactory(model, player, ServiceConnector())
+    }
+
+    @Provides
+    fun provideAnimationsHelper(): AnimationsHelper {
+        return AnimationsHelper()
     }
 }
 

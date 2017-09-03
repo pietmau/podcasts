@@ -1,8 +1,6 @@
 package com.pietrantuono.podcasts.fullscreenplay
 
 import android.annotation.SuppressLint
-import android.annotation.TargetApi
-import android.os.Build
 import android.os.Bundle
 import android.transition.Transition
 import android.view.ViewTreeObserver
@@ -10,6 +8,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.AbstractBaseDetailActivty
+import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.fullscreenplay.custom.ColorizedPlaybackControlView
@@ -17,16 +16,14 @@ import com.pietrantuono.podcasts.fullscreenplay.di.FullscreenModule
 import com.pietrantuono.podcasts.fullscreenplay.presenter.FullscreenPresenter
 import com.pietrantuono.podcasts.fullscreenplay.view.custom.EpisodeView
 import com.pietrantuono.podcasts.utils.EPISODE_LINK
-import com.pietrantuono.podcasts.utils.TRANSITION_DURATION
-import com.pietrantuono.podcasts.utils.isInValidState
-import com.pietrantuono.podcasts.utils.isLollipopOrHigher
 import javax.inject.Inject
 
 class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
     @Inject lateinit var presenter: FullscreenPresenter
+    @Inject lateinit var apiLevelChecker: ApiLevelChecker
+    @Inject lateinit var animationsHelper: AnimationsHelper
     @BindView(R.id.control) lateinit var controlView: ColorizedPlaybackControlView
     @BindView(R.id.episodeView) lateinit var episodeView: EpisodeView
-    private var controlViewTop: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,23 +32,28 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
                 .applicationComponent
                 ?.with(FullscreenModule(this))
                 ?.inject(this@FullscreenPlayActivity)
+        initViews(savedInstanceState)
+        presenter.onCreate(this, intent?.getStringExtra(EPISODE_LINK), savedInstanceState != null)
+    }
+
+    private fun initViews(savedInstanceState: Bundle?) {
         ButterKnife.bind(this@FullscreenPlayActivity)
-        if (savedInstanceState == null && isLollipopOrHigher) {
+        setUpActionBar()
+        controlView.setBackgroundColors(getBackgroundColor())
+        setToolbarColor(getBackgroundColor())
+        if (savedInstanceState == null && apiLevelChecker.isLollipopOrHigher) {
             addOnGlobalLayoutListener()
             enterWithTransition()
         } else {
             enterWithoutTransition()
         }
-        setImageAndColors()
-        setUpActionBar()
-        presenter.onCreate(this, intent?.getStringExtra(EPISODE_LINK), savedInstanceState != null)
     }
 
     private fun addOnGlobalLayoutListener() {
         controlView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 controlView.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                controlViewTop = controlView.top
+                animationsHelper.controlViewTop = controlView.top
                 controlView.y = window.decorView.bottom.toFloat()
             }
         })
@@ -59,30 +61,17 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
 
     @SuppressLint("NewApi")
     override fun enterWithTransition() {
-        transitions.initDetailTransitions(this, imageView, object : SimpleTransitionListener() {
+        transitionsHelper.initDetailTransitions(this, imageView, object : SimpleTransitionListener() {
             override fun onTransitionEnd(transition: Transition?) {
-                animateControlsIn()
+                animationsHelper.animateViewsIn(this@FullscreenPlayActivity, controlView, episodeView)
                 transition?.removeListener(this)
             }
         })
     }
 
-    private fun animateControlsIn() {
-        if (isInValidState() && controlViewTop != null) {
-            controlView.animate().y(controlViewTop!!.toFloat()).setDuration(TRANSITION_DURATION).start()
-        }
-    }
-
     override fun enterWithoutTransition() {
-        controlViewTop?.let {
-            controlView.y = it.toFloat()
-        }
+        animationsHelper.setViewsImmediately(controlView, episodeView)
         super.enterWithoutTransition()
-    }
-
-    private fun setImageAndColors() {
-        controlView.setBackgroundColors(getBackgroundColor())
-        setToolbarColor(getBackgroundColor())
     }
 
     override fun onStart() {
@@ -98,21 +87,10 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
     }
 
     override fun onBackPressed() {
-        if (!isLollipopOrHigher) {
+        if (!apiLevelChecker.isLollipopOrHigher) {
             finish()
         } else {
-            animateControlsOut()
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private fun animateControlsOut() {
-        if (isInValidState()) {
-            controlView
-                    .animate()
-                    .y(window.decorView.bottom.toFloat())
-                    .setDuration(TRANSITION_DURATION)
-                    .withEndAction { super.onBackPressed() }
+            animationsHelper.animateControlsOut(this, controlView, episodeView)
         }
     }
 
@@ -123,12 +101,11 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
     }
 
     override fun onColorExtractionCompleted() {
-        super.onColorExtractionCompleted()
         episodeView.setColors(colorExtractor.colorForBackgroundAndText)
+        startTransitionPostponed()
     }
 
     override fun getImageUrl(): String? = null
-
 
     override fun finish() {
         super.finish()
@@ -136,3 +113,4 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
     }
 
 }
+

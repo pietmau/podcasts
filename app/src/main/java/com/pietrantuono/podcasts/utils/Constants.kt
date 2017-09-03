@@ -24,10 +24,11 @@ val isMarshmallowOrHigher: Boolean
 
 val AppCompatActivity.isValidState: Boolean
     get() {
+        val isNull = this == null
         val destroyed = this.isDestroyed
         val finishing = this.isFinishing
         val changingConfigurations = this.isChangingConfigurations
-        return !destroyed && !finishing && !changingConfigurations
+        return !isNull && !destroyed && !finishing && !changingConfigurations
     }
 
 val TRANSITION_DURATION: Long = 200
