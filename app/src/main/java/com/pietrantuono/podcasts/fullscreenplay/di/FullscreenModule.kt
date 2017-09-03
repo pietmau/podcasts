@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.FragmentActivity
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.BitmapColorExtractor
+import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
 import com.pietrantuono.podcasts.fullscreenplay.AnimationsHelper
 import com.pietrantuono.podcasts.fullscreenplay.model.FullscreenModel
 import com.pietrantuono.podcasts.fullscreenplay.model.FullscreenModelImpl
@@ -36,8 +37,8 @@ class FullscreenModule(private val activity: FragmentActivity) {
     }
 
     @Provides
-    fun provideFullscreenPresenterFactory(model: FullscreenModel, player: Player?): FullscreenPresenterFactory {
-        return FullscreenPresenterFactory(model, player, ServiceConnector())
+    fun provideFullscreenPresenterFactory(model: FullscreenModel, player: Player?, apiLevelChecker: ApiLevelChecker): FullscreenPresenterFactory {
+        return FullscreenPresenterFactory(model, player, ServiceConnector(), apiLevelChecker)
     }
 
     @Provides
@@ -46,9 +47,11 @@ class FullscreenModule(private val activity: FragmentActivity) {
     }
 }
 
-class FullscreenPresenterFactory(private val model: FullscreenModel, val player: Player?, val connector: ServiceConnector) : ViewModelProvider.Factory {
+class FullscreenPresenterFactory(private val model: FullscreenModel, val player: Player?,
+                                 val connector: ServiceConnector, val apiLevelChecker: ApiLevelChecker)
+    : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>?): T {
-        return FullscreenPresenter(model, player, connector) as T
+        return FullscreenPresenter(model, player, connector, apiLevelChecker) as T
     }
 }

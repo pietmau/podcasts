@@ -19,7 +19,7 @@ import com.pietrantuono.podcasts.utils.EPISODE_LINK
 import javax.inject.Inject
 
 class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
-    @Inject lateinit var presenter: FullscreenPresenter
+        @Inject lateinit var presenter: FullscreenPresenter
     @Inject lateinit var apiLevelChecker: ApiLevelChecker
     @Inject lateinit var animationsHelper: AnimationsHelper
     @BindView(R.id.control) lateinit var controlView: ColorizedPlaybackControlView
@@ -32,24 +32,18 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
                 .applicationComponent
                 ?.with(FullscreenModule(this))
                 ?.inject(this@FullscreenPlayActivity)
-        initViews(savedInstanceState)
+        initViews()
         presenter.onCreate(this, intent?.getStringExtra(EPISODE_LINK), savedInstanceState != null)
     }
 
-    private fun initViews(savedInstanceState: Bundle?) {
+    private fun initViews() {
         ButterKnife.bind(this@FullscreenPlayActivity)
         setUpActionBar()
         controlView.setBackgroundColors(getBackgroundColor())
         setToolbarColor(getBackgroundColor())
-        if (savedInstanceState == null && apiLevelChecker.isLollipopOrHigher) {
-            addOnGlobalLayoutListener()
-            enterWithTransition()
-        } else {
-            enterWithoutTransition()
-        }
     }
 
-    private fun addOnGlobalLayoutListener() {
+    override fun addOnGlobalLayoutListener() {
         controlView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 controlView.viewTreeObserver.removeOnGlobalLayoutListener(this)
@@ -87,11 +81,7 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
     }
 
     override fun onBackPressed() {
-        if (!apiLevelChecker.isLollipopOrHigher) {
-            finish()
-        } else {
-            animationsHelper.animateControlsOut(this, controlView, episodeView)
-        }
+        presenter.onBackPressed()
     }
 
     override fun setEpisode(episode: Episode?) {
@@ -110,6 +100,11 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
     override fun finish() {
         super.finish()
         overridePendingTransition(R.anim.pop_in, R.anim.pop_out)
+    }
+
+
+    override fun animateControlsOut() {
+        animationsHelper.animateControlsOut(this, controlView, episodeView)
     }
 
 }
