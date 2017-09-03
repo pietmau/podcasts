@@ -1,16 +1,10 @@
 package com.pietrantuono.podcasts.addpodcast.singlepodcast.view
 
 
-import android.annotation.TargetApi
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.support.v4.app.ActivityOptionsCompat
-import android.support.v4.util.Pair
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.ImageView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
@@ -79,13 +73,6 @@ class EpisodesListActivity : AbstractBaseDetailActivty(), EpisodesListView {
         return presenter.onOptionsItemSelected(item)
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun startDetailActivityWithTransition(episode: Episode, imageView: ImageView) {
-        val intent = getIntent(episode)
-        intent.putExtra(STARTED_WITH_TRANSITION, true)
-        startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this@EpisodesListActivity, *getPairs(imageView)).toBundle())
-    }
-
     override fun startDetailActivityWithoutTransition(episode: Episode) {
         startActivity(getIntent(episode))
     }
@@ -97,13 +84,6 @@ class EpisodesListActivity : AbstractBaseDetailActivty(), EpisodesListView {
         return intent
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private fun getPairs(imageView: ImageView): Array<Pair<View, String>?> {
-        val a: Pair<View, String>? = Pair(imageView, getString(R.string.episode_image_transition))
-        val b: Pair<View, String>? = Pair(toolbar, getString(R.string.detail_transition_toolbar))
-        return arrayOf(a, b)
-    }
-
     override fun isPartiallyHidden(position: Int): Boolean {
         return recycler.isPartiallyHidden(position)
     }
@@ -112,6 +92,5 @@ class EpisodesListActivity : AbstractBaseDetailActivty(), EpisodesListView {
         super.finish()
         overridePendingTransition(R.anim.pop_in, R.anim.pop_out)
     }
-
 }
 

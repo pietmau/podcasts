@@ -62,15 +62,6 @@ class EpisodesListPresenter(private val model: EpisodesListModel, private val me
     }
 
     override fun onItemClicked(episode: Episode, image: ImageView, position: Int) {
-        if (view == null) {
-            return
-        }
-        if (apiLevelChecker.isLollipopOrHigher && !view!!.isPartiallyHidden(position)) {
-            view?.startDetailActivityWithTransition(episode, image)
-        } else {
-            view?.startDetailActivityWithoutTransition(episode)
-        }
+        view?.startDetailActivityWithoutTransition(episode)
     }
-
-
 }

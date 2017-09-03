@@ -21,12 +21,6 @@ class FullscreenPresenter(private val model: FullscreenModel, private val player
         if (!fromSavedState) {
             model.getEpisodeByUrl(url)
         }
-        if (!fromSavedState && apiLevelChecker.isLollipopOrHigher) {
-            view.addOnGlobalLayoutListener()
-            view.enterWithTransition()
-        } else {
-            view.enterWithoutTransition()
-        }
     }
 
     fun onStart(activity: Activity) {
@@ -37,7 +31,7 @@ class FullscreenPresenter(private val model: FullscreenModel, private val player
             }
 
             override fun onError(throwable: Throwable?) {
-                onEpisodeAvailable(null)
+
             }
         })
     }
@@ -51,13 +45,5 @@ class FullscreenPresenter(private val model: FullscreenModel, private val player
         view = null
         model.unSubscribe()
         connector.unbindService(activity)
-    }
-
-    fun onBackPressed() {
-        if (!apiLevelChecker.isLollipopOrHigher) {
-            view?.finish()
-        } else {
-            view?.animateControlsOut()
-        }
     }
 }

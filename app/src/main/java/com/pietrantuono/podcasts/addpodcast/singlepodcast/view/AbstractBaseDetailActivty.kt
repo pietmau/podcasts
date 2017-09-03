@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 abstract class AbstractBaseDetailActivty : AbstractPlaybackControlsActivity(), BitmapColorExtractor.Callback {
     var progressBar: SimpleProgressBar? = null
-    @BindView(R.id.toolbar) lateinit var toolbar: Toolbar
+    var toolbar: Toolbar? = null
     @BindView(R.id.main_image) lateinit var imageView: ImageView
     @Inject lateinit var transitionsHelper: TransitionsHelper
     @Inject lateinit var colorExtractor: BitmapColorExtractor
@@ -29,10 +29,12 @@ abstract class AbstractBaseDetailActivty : AbstractPlaybackControlsActivity(), B
         }
 
     protected fun setUpActionBar() {
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-        supportActionBar?.title = null
+        (findViewById(R.id.toolbar) as? Toolbar)?.let {
+            setSupportActionBar(it)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayShowHomeEnabled(true)
+            supportActionBar?.title = null
+        }
     }
 
     fun initProgress() {
@@ -90,7 +92,7 @@ abstract class AbstractBaseDetailActivty : AbstractPlaybackControlsActivity(), B
     }
 
     protected fun setToolbarColor(backgroundColor: Int) {
-        toolbar.setBackgroundColor(backgroundColor)
+        toolbar?.setBackgroundColor(backgroundColor)
     }
 
     fun getBackgroundColor() = intent?.getIntExtra(BACKGROUND_COLOR, resources.getColor(R.color.colorPrimary)) ?: resources.getColor(R.color.colorPrimary)

@@ -1,14 +1,10 @@
 package com.pietrantuono.podcasts.fullscreenplay
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.transition.Transition
-import android.view.ViewTreeObserver
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.AbstractBaseDetailActivty
-import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.fullscreenplay.custom.ColorizedPlaybackControlView
@@ -19,15 +15,14 @@ import com.pietrantuono.podcasts.utils.EPISODE_LINK
 import javax.inject.Inject
 
 class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
-        @Inject lateinit var presenter: FullscreenPresenter
-    @Inject lateinit var apiLevelChecker: ApiLevelChecker
-    @Inject lateinit var animationsHelper: AnimationsHelper
+    @Inject lateinit var presenter: FullscreenPresenter
     @BindView(R.id.control) lateinit var controlView: ColorizedPlaybackControlView
     @BindView(R.id.episodeView) lateinit var episodeView: EpisodeView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.full_screen_player_activity)
+        overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_top)
         (application as App)
                 .applicationComponent
                 ?.with(FullscreenModule(this))
@@ -38,34 +33,8 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
 
     private fun initViews() {
         ButterKnife.bind(this@FullscreenPlayActivity)
-        setUpActionBar()
         controlView.setBackgroundColors(getBackgroundColor())
         setToolbarColor(getBackgroundColor())
-    }
-
-    override fun addOnGlobalLayoutListener() {
-        controlView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                controlView.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                animationsHelper.controlViewTop = controlView.top
-                controlView.y = window.decorView.bottom.toFloat()
-            }
-        })
-    }
-
-    @SuppressLint("NewApi")
-    override fun enterWithTransition() {
-        transitionsHelper.initDetailTransitions(this, imageView, object : SimpleTransitionListener() {
-            override fun onTransitionEnd(transition: Transition?) {
-                animationsHelper.animateViewsIn(this@FullscreenPlayActivity, controlView, episodeView)
-                transition?.removeListener(this)
-            }
-        })
-    }
-
-    override fun enterWithoutTransition() {
-        animationsHelper.setViewsImmediately(controlView, episodeView)
-        super.enterWithoutTransition()
     }
 
     override fun onStart() {
@@ -80,31 +49,20 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
         controlView.onStop()
     }
 
-    override fun onBackPressed() {
-        presenter.onBackPressed()
-    }
-
     override fun setEpisode(episode: Episode?) {
         episodeView.setEpisode(episode)
-        title = episode?.title
         loadImage(episode?.imageUrl)
     }
 
     override fun onColorExtractionCompleted() {
         episodeView.setColors(colorExtractor.colorForBackgroundAndText)
-        startTransitionPostponed()
     }
 
     override fun getImageUrl(): String? = null
 
-    override fun finish() {
-        super.finish()
-        overridePendingTransition(R.anim.pop_in, R.anim.pop_out)
+    override fun onBackPressed() {
+        finish()
+        overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_top)
     }
-
-    override fun animateControlsOut() {
-        animationsHelper.animateControlsOut(this, controlView, episodeView)
-    }
-
 }
 
