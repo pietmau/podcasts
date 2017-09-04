@@ -2,6 +2,7 @@ package com.pietrantuono.podcasts.fullscreenplay.view.custom
 
 import android.content.Context
 import android.databinding.DataBindingUtil
+import android.support.v4.graphics.ColorUtils
 import android.text.Html
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -14,6 +15,10 @@ import com.pietrantuono.podcasts.databinding.EpisodeViewBinding
 class EpisodeView : RelativeLayout {
     private val binding: EpisodeViewBinding
 
+    companion object {
+        private val TRANSPARENCY = 100
+    }
+
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         val inflater: LayoutInflater = context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -25,7 +30,6 @@ class EpisodeView : RelativeLayout {
             return
         }
         binding.author.text = Html.fromHtml(episode.author)
-        binding.subtitle.text = Html.fromHtml(episode.subtitle)
         binding.summary.text = Html.fromHtml(episode.summary)
         binding.title.text = Html.fromHtml(episode.title)
     }
@@ -33,14 +37,13 @@ class EpisodeView : RelativeLayout {
     fun setColors(colorForBackgroundAndText: ColorForBackgroundAndText?) {
         colorForBackgroundAndText?.let {
             it.backgroundColor?.let {
-                binding.author.setBackgroundColor(it)
-                binding.subtitle.setBackgroundColor(it)
-                binding.summary.setBackgroundColor(it)
-                binding.title.setBackgroundColor(it)
+                val color = ColorUtils.setAlphaComponent(it, (TRANSPARENCY / 100) * 255)
+                binding.author.setBackgroundColor(color)
+                binding.summary.setBackgroundColor(color)
+                binding.title.setBackgroundColor(color)
             }
             it.bodyTextColor?.let {
                 binding.author.setTextColor(it)
-                binding.subtitle.setTextColor(it)
                 binding.summary.setTextColor(it)
             }
             it.titleTextColor?.let {

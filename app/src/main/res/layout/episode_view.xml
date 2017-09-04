@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -21,43 +22,65 @@
             >
 
             <TextView
-                android:id="@+id/title"
-                style="@style/EpisodeViewTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:text="@{episode.title}"/>
-
-            <TextView
                 android:id="@+id/author"
                 style="@style/EpisodeViewSubtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_below="@+id/title"
-                android:text="@{episode.title}"/>
+                android:layout_alignParentTop="true"
+                />
+
+            <RelativeLayout
+                android:id="@+id/date_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/author">
+
+                <TextView
+                    android:text="date"
+                    android:id="@+id/date"
+                    style="@style/EpisodeViewSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    />
+
+                <ImageView
+                    app:srcCompat="@drawable/ic_access_time_black_24dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/duration"/>
+
+                <TextView
+                    android:text="duration"
+                    android:id="@+id/duration"
+                    style="@style/EpisodeViewSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    />
+            </RelativeLayout>
 
             <TextView
-                android:id="@+id/subtitle"
-                style="@style/EpisodeViewSubtitle"
+                android:id="@+id/title"
+                style="@style/EpisodeViewTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_below="@+id/author"
-                android:text="@{episode.subtitle}"/>
+                android:layout_below="@+id/date_container"
+                />
 
             <ScrollView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/subtitle">
+                android:layout_below="@+id/title">
 
                 <TextView
                     android:id="@+id/summary"
                     style="@style/EpisodeViewBody"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{episode.summary}"/>
+                    />
             </ScrollView>
         </RelativeLayout>
     </LinearLayout>
