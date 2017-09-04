@@ -29,7 +29,8 @@ abstract class AbstractBaseDetailActivty : AbstractPlaybackControlsActivity(), B
         }
 
     protected fun setUpActionBar() {
-        (findViewById(R.id.toolbar) as? Toolbar)?.let {
+        toolbar = (findViewById(R.id.toolbar) as? Toolbar)
+        toolbar?.let {
             setSupportActionBar(it)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)
