@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.EpisodeView"/>
+            type="com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.EpisodeViewModel"/>
     </data>
 
     <RelativeLayout

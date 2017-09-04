@@ -5,7 +5,7 @@ import android.databinding.ViewDataBinding
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.pietrantuono.podcasts.BR
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.EpisodeView
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.EpisodeViewModel
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.databinding.EpisodeItemBinding
@@ -20,7 +20,7 @@ class EpisodesListHolder(itemView: View, private val resourcesProvider: Resource
     }
 
     fun bind(episode: Episode, onItemClickListener: EpisodedListRecycler.OnItemClickListener?, position: Int) {
-        val podcastEpisodeViewModel = EpisodeView(episode, resourcesProvider)
+        val podcastEpisodeViewModel = EpisodeViewModel(episode, resourcesProvider)
         dataBinding.setVariable(BR.viewModel, podcastEpisodeViewModel)
         dataBinding.executePendingBindings()
         dataBinding.root.setOnClickListener {

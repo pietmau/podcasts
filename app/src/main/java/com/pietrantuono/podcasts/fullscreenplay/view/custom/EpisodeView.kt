@@ -9,6 +9,8 @@ import android.view.LayoutInflater
 import android.widget.RelativeLayout
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.ColorForBackgroundAndText
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.EpisodeViewModel
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.databinding.EpisodeViewBinding
 
@@ -26,12 +28,7 @@ class EpisodeView : RelativeLayout {
     }
 
     fun setEpisode(episode: Episode?) {
-        if (episode == null) {
-            return
-        }
-        binding.author.text = Html.fromHtml(episode.author)
-        binding.summary.text = Html.fromHtml(episode.summary)
-        binding.title.text = Html.fromHtml(episode.title)
+        episode?.let { binding.episode = EpisodeViewModel(episode, ResourcesProvider(context)) }
     }
 
     fun setColors(colorForBackgroundAndText: ColorForBackgroundAndText?) {

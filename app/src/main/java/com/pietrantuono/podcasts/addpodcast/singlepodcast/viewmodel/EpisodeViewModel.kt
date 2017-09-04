@@ -9,7 +9,7 @@ import com.pietrantuono.podcasts.apis.Episode
 import java.text.SimpleDateFormat
 
 @SuppressLint("ParcelCreator")
-class EpisodeView(episode: Episode, private val resourcesProvider: ResourcesProvider) : Episode by episode {
+class EpisodeViewModel(episode: Episode, private val resourcesProvider: ResourcesProvider) : Episode by episode {
 
     val visibilityOfFooter: Int
         get() =

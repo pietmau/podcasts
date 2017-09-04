@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
-            name="episode"
-            type="com.pietrantuono.podcasts.apis.Episode"/>
+            name="viewModel"
+            type="com.pietrantuono.podcasts.apis.Episode" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
-        >
+        android:layout_margin="10dp">
 
         <RelativeLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/author"
@@ -28,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                />
+                android:text="@{viewModel.author}" />
 
             <RelativeLayout
                 android:id="@+id/date_container"
@@ -37,38 +35,36 @@
                 android:layout_below="@+id/author">
 
                 <TextView
-                    android:text="date"
                     android:id="@+id/date"
                     style="@style/EpisodeViewSubtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    />
+                    android:text="@{viewModel.date}" />
 
                 <ImageView
-                    app:srcCompat="@drawable/ic_access_time_black_24dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/duration"/>
+                    android:layout_toLeftOf="@+id/duration"
+                    app:srcCompat="@drawable/ic_access_time_black_24dp" />
 
                 <TextView
-                    android:text="duration"
                     android:id="@+id/duration"
                     style="@style/EpisodeViewSubtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    />
+                    android:text="@{viewModel.duration}" />
             </RelativeLayout>
 
             <TextView
+                android:text="@{viewModel.title}"
                 android:id="@+id/title"
                 style="@style/EpisodeViewTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_below="@+id/date_container"
-                />
+                android:layout_below="@+id/date_container" />
 
             <ScrollView
                 android:layout_width="wrap_content"
@@ -76,11 +72,11 @@
                 android:layout_below="@+id/title">
 
                 <TextView
+                    android:text="@{viewModel.summary}"
                     android:id="@+id/summary"
                     style="@style/EpisodeViewBody"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="wrap_content" />
             </ScrollView>
         </RelativeLayout>
     </LinearLayout>
