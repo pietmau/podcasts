@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="viewModel"
-            type="com.pietrantuono.podcasts.apis.Episode" />
+            type="com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.EpisodeViewModel"/>
     </data>
 
     <LinearLayout
@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:text="@{viewModel.author}" />
+                android:text="@{viewModel.author}"/>
 
             <RelativeLayout
                 android:id="@+id/date_container"
@@ -40,13 +40,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:text="@{viewModel.date}" />
+                    android:layout_centerVertical="true"
+                    android:text="@{viewModel.date}"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/duration"
-                    app:srcCompat="@drawable/ic_access_time_black_24dp" />
+                    app:srcCompat="@drawable/ic_access_time_black_24dp"/>
 
                 <TextView
                     android:id="@+id/duration"
@@ -54,29 +56,43 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="@{viewModel.duration}" />
+                    android:layout_centerVertical="true"
+                    android:text="@{viewModel.duration}"/>
             </RelativeLayout>
 
             <TextView
-                android:text="@{viewModel.title}"
                 android:id="@+id/title"
                 style="@style/EpisodeViewTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_below="@+id/date_container" />
+                android:layout_below="@+id/date_container"
+                android:text="@{viewModel.title}"/>
 
             <ScrollView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/title">
 
-                <TextView
-                    android:text="@{viewModel.summary}"
-                    android:id="@+id/summary"
-                    style="@style/EpisodeViewBody"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/summary"
+                        style="@style/EpisodeViewBody"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.summaryNotHtml}"/>
+
+                    <TextView
+                        android:id="@+id/description"
+                        style="@style/EpisodeViewBody"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.descriptionNotHtml}"/>
+                </LinearLayout>
             </ScrollView>
         </RelativeLayout>
     </LinearLayout>

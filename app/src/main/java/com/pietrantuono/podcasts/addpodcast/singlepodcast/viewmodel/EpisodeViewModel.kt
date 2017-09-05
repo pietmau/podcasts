@@ -2,6 +2,7 @@ package com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel
 
 import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
+import android.text.Html
 import android.view.View
 import com.pietrantuono.podcasts.Constants
 import com.pietrantuono.podcasts.R
@@ -88,4 +89,20 @@ class EpisodeViewModel(episode: Episode, private val resourcesProvider: Resource
         }
         return null;
     }
+
+    fun getSummaryNotHtml(): String? {
+        if (summary != null) {
+            return fromHtml(summary!!)
+        }
+        return null
+    }
+
+    fun getDescriptionNotHtml(): String? {
+        if (description != null) {
+            return fromHtml(description!!)
+        }
+        return null
+    }
+
+    private fun fromHtml(text: String) = Html.fromHtml(text).toString().trim()
 }
