@@ -64,25 +64,17 @@ class EpisodeView : RelativeLayout {
     }
 
     private fun tintVector(color: Int) {
-        val compat = DrawableCompat.wrap(VectorDrawableCompat
-                .create(getResources(), R.drawable.ic_access_time_black_24dp, null)!!)
-        DrawableCompat.setTint(compat, color)
-        binding.timeImage.setImageDrawable(compat)
+        DrawableCompat.setTint(DrawableCompat.wrap(VectorDrawableCompat
+                .create(getResources(), R.drawable.ic_access_time_black_24dp, null)!!), color)
+        binding.timeImage.setImageDrawable(DrawableCompat.wrap(VectorDrawableCompat
+                .create(getResources(), R.drawable.ic_access_time_black_24dp, null)!!))
     }
 
     private fun setBackgroundColor(it: ColorForBackgroundAndText) {
         it.backgroundColor?.let {
-            val color = ColorUtils.setAlphaComponent(it, ((TRANSPARENCY / 100) * 255).toInt())
-//            binding.author.setBackgroundColor(color)
-//            binding.summary.setBackgroundColor(color)
-//            binding.title.setBackgroundColor(color)
-//            binding.date.setBackgroundColor(color)
-//            binding.duration.setBackgroundColor(color)
-//            binding.description.setBackgroundColor(color)
-            setBackgroundDrawable(color)
+            setBackgroundDrawable(ColorUtils.setAlphaComponent(it, ((TRANSPARENCY / 100) * 255).toInt()))
         }
     }
-
 
     private fun decideWhatToShow(episode: Episode) {
         if (episode.summary == null) {
@@ -99,10 +91,10 @@ class EpisodeView : RelativeLayout {
     }
 
     fun setBackgroundDrawable(backgroundColor: Int) {
-        val shape = GradientDrawable()
-        shape.shape = GradientDrawable.RECTANGLE
-        shape.cornerRadii = floatArrayOf(RADIUS, RADIUS, RADIUS, RADIUS, RADIUS, RADIUS, RADIUS, RADIUS)
-        shape.setColor(backgroundColor)
-        binding.container.setBackgroundDrawable(shape)
+        binding.container.setBackgroundDrawable(GradientDrawable().apply {
+            this.shape = GradientDrawable.RECTANGLE
+            cornerRadii = floatArrayOf(RADIUS, RADIUS, RADIUS, RADIUS, RADIUS, RADIUS, RADIUS, RADIUS)
+            setColor(backgroundColor)
+        })
     }
 }

@@ -15,10 +15,41 @@
         android:layout_margin="10dp">
 
         <RelativeLayout
-            android:padding="10dp"
             android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <RelativeLayout
+                android:id="@+id/additional_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true">
+
+                    <ImageView
+                        android:id="@+id/dowloaded_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="5dp"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true">
+                </LinearLayout>
+
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/author"
@@ -26,13 +57,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
+                android:layout_below="@+id/additional_info"
                 android:text="@{viewModel.author}"/>
 
             <RelativeLayout
                 android:id="@+id/date_container"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/author">
 
                 <TextView
@@ -45,11 +76,11 @@
                     android:text="@{viewModel.date}"/>
 
                 <ImageView
-                    android:layout_marginRight="5dp"
                     android:id="@+id/time_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
                     android:layout_toLeftOf="@+id/duration"
                     app:srcCompat="@drawable/ic_access_time_black_24dp"/>
 
@@ -78,9 +109,9 @@
                 android:layout_below="@+id/title">
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/summary"
