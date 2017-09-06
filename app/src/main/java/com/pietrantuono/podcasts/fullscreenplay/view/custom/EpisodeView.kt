@@ -2,7 +2,10 @@ package com.pietrantuono.podcasts.fullscreenplay.view.custom
 
 import android.content.Context
 import android.databinding.DataBindingUtil
+import android.graphics.drawable.GradientDrawable
+import android.support.graphics.drawable.VectorDrawableCompat
 import android.support.v4.graphics.ColorUtils
+import android.support.v4.graphics.drawable.DrawableCompat
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -14,11 +17,13 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesPro
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.databinding.EpisodeViewBinding
 
+
 class EpisodeView : RelativeLayout {
     private val binding: EpisodeViewBinding
 
     companion object {
-        private val TRANSPARENCY: Float = 90f
+        private val TRANSPARENCY: Float = 80f
+        private val RADIUS = 32f
     }
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
@@ -37,26 +42,44 @@ class EpisodeView : RelativeLayout {
 
     fun setColors(colorForBackgroundAndText: ColorForBackgroundAndText?) {
         colorForBackgroundAndText?.let {
-            it.backgroundColor?.let {
-                val transprency = ((TRANSPARENCY / 100) * 255).toInt()
-                val color = ColorUtils.setAlphaComponent(it, transprency)
-                binding.author.setBackgroundColor(color)
-                binding.summary.setBackgroundColor(color)
-                binding.title.setBackgroundColor(color)
-                binding.date.setBackgroundColor(color)
-                binding.duration.setBackgroundColor(color)
-                binding.description.setBackgroundColor(color)
-            }
-            it.bodyTextColor?.let {
-                binding.author.setTextColor(it)
-                binding.summary.setTextColor(it)
-                binding.date.setTextColor(it)
-                binding.duration.setTextColor(it)
-                binding.description.setTextColor(it)
-            }
-            it.titleTextColor?.let {
-                binding.title.setTextColor(it)
-            }
+            setBackgroundColor(it)
+            setTextColor(it)
+        }
+    }
+
+    private fun setTextColor(it: ColorForBackgroundAndText) {
+        it.bodyTextColor?.let {
+            binding.author.setTextColor(it)
+            binding.summary.setTextColor(it)
+            binding.date.setTextColor(it)
+            binding.duration.setTextColor(it)
+            binding.description.setTextColor(it)
+        }
+        it.bodyTextColor?.let {
+            tintVector(it)
+        }
+        it.titleTextColor?.let {
+            binding.title.setTextColor(it)
+        }
+    }
+
+    private fun tintVector(color: Int) {
+        val compat = DrawableCompat.wrap(VectorDrawableCompat
+                .create(getResources(), R.drawable.ic_access_time_black_24dp, null)!!)
+        DrawableCompat.setTint(compat, color)
+        binding.timeImage.setImageDrawable(compat)
+    }
+
+    private fun setBackgroundColor(it: ColorForBackgroundAndText) {
+        it.backgroundColor?.let {
+            val color = ColorUtils.setAlphaComponent(it, ((TRANSPARENCY / 100) * 255).toInt())
+//            binding.author.setBackgroundColor(color)
+//            binding.summary.setBackgroundColor(color)
+//            binding.title.setBackgroundColor(color)
+//            binding.date.setBackgroundColor(color)
+//            binding.duration.setBackgroundColor(color)
+//            binding.description.setBackgroundColor(color)
+            setBackgroundDrawable(color)
         }
     }
 
@@ -73,5 +96,13 @@ class EpisodeView : RelativeLayout {
                 binding.description.visibility = View.GONE
             }
         }
+    }
+
+    fun setBackgroundDrawable(backgroundColor: Int) {
+        val shape = GradientDrawable()
+        shape.shape = GradientDrawable.RECTANGLE
+        shape.cornerRadii = floatArrayOf(RADIUS, RADIUS, RADIUS, RADIUS, RADIUS, RADIUS, RADIUS, RADIUS)
+        shape.setColor(backgroundColor)
+        binding.container.setBackgroundDrawable(shape)
     }
 }
