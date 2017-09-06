@@ -46,7 +46,6 @@
     </style>
 
     <style name="EpisodeViewTitle" parent="EpisodeView">
-        <item name="android:textStyle">bold</item>
         <item name="android:textAppearance">?android:textAppearanceLarge</item>
     </style>
 
