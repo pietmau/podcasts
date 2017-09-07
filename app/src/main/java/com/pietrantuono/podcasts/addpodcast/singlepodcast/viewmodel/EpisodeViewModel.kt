@@ -52,6 +52,10 @@ class EpisodeViewModel(episode: Episode, private val resourcesProvider: Resource
             null
         }
 
+    val dowloadedText: String
+        get() = if (downloaded) resourcesProvider.getString(R.string.downloaded) else ""
+
+
     private fun getImageResouce(type: String): Drawable? {
         if (type.contains(Constants.AUDIO)) {
             return resourcesProvider.ContextCompatgetDrawable(R.drawable.ic_audio_icon)

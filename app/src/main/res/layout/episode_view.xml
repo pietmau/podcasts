@@ -41,6 +41,14 @@
                         android:layout_marginRight="5dp"
                         />
 
+                    <TextView
+                        style="@style/EpisodeViewSubtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_below="@+id/additional_info"
+                        android:text="@{viewModel.dowloadedText}"/>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -76,6 +84,7 @@
                     android:text="@{viewModel.date}"/>
 
                 <ImageView
+                    android:visibility="@{viewModel.visibilityOfDuration}"
                     android:id="@+id/time_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
