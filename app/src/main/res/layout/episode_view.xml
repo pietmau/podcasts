@@ -28,6 +28,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -35,13 +36,14 @@
 
                     <ImageView
                         android:id="@+id/dowloaded_image"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="@dimen/images_size"
+                        android:layout_height="@dimen/images_size"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="5dp"
                         />
 
                     <TextView
+                        android:id="@+id/dowloaded_text"
                         style="@style/EpisodeViewSubtitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -86,8 +88,8 @@
                 <ImageView
                     android:visibility="@{viewModel.visibilityOfDuration}"
                     android:id="@+id/time_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/images_size"
+                    android:layout_height="@dimen/images_size"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="5dp"
                     android:layout_toLeftOf="@+id/duration"

@@ -26,4 +26,5 @@
     <!-- Margins for full screen activity-->
     <dimen name="text_view_margin">16dp</dimen>
     <dimen name="end_text_margin">16dp</dimen>
+    <dimen name="images_size">32dp</dimen>
 </resources>

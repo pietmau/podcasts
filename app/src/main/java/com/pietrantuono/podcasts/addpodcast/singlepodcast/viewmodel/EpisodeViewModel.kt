@@ -53,7 +53,7 @@ class EpisodeViewModel(episode: Episode, private val resourcesProvider: Resource
         }
 
     val dowloadedText: String
-        get() = if (downloaded) resourcesProvider.getString(R.string.downloaded) else ""
+        get() = if (downloaded) resourcesProvider.getString(R.string.downloaded) else resourcesProvider.getString(R.string.not_downloaded)
 
 
     private fun getImageResouce(type: String): Drawable? {
@@ -87,27 +87,22 @@ class EpisodeViewModel(episode: Episode, private val resourcesProvider: Resource
     }
 
     fun getDate(): String? {
-        val simpleDateFormat = SimpleDateFormat("MMM d yyyy");
         if (pubDate != null) {
+            val simpleDateFormat = SimpleDateFormat("MMM d yyyy");
             return simpleDateFormat.format(pubDate);
         }
         return null;
     }
 
-    fun getSummaryNotHtml(): String? {
-        if (summary != null) {
-            return fromHtml(summary!!)
-        }
-        return null
-    }
+    fun getSummaryNotHtml(): String? = fromHtml(summary)
 
-    fun getDescriptionNotHtml(): String? {
-        if (description != null) {
-            return fromHtml(description!!)
-        }
-        return null
-    }
+    fun getDescriptionNotHtml(): String? = fromHtml(description)
 
-    private fun fromHtml(text: String) = Html.fromHtml(text).toString().replace('\n', 32.toChar())
-            .replace(160.toChar(), 32.toChar()).replace(65532.toChar(), 32.toChar()).trim();
+    private fun fromHtml(text: String?): String? {
+        if (text == null) {
+            return null
+        }
+        return Html.fromHtml(text).toString().replace('\n', 32.toChar())
+                .replace(160.toChar(), 32.toChar()).replace(65532.toChar(), 32.toChar()).trim();
+    }
 }

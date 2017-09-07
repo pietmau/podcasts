@@ -6,25 +6,22 @@ import android.graphics.drawable.GradientDrawable
 import android.support.graphics.drawable.VectorDrawableCompat
 import android.support.v4.graphics.ColorUtils
 import android.support.v4.graphics.drawable.DrawableCompat
+import android.widget.ImageView
 import android.widget.RelativeLayout
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.ColorForBackgroundAndText
 import com.pietrantuono.podcasts.apis.Episode
 
 class DrawableHelper(private val resources: Resources) {
+    private var colorForBackgroundAndText: ColorForBackgroundAndText? = null
+    var episode: Episode? = null
 
     companion object {
         private val RADIUS = 32f
         private val TRANSPARENCY: Float = 80f
     }
 
-    var episode: Episode? = null
-
-    private fun setAndTintDowloadDrawable(color: Int): Drawable? {
-        return getAndTintDrawable(getDowloadedDrawbale(), color)
-    }
-
-    private fun getDowloadedDrawbale(): Int? {
+    private fun getDownloadedDrawbale(): Int? {
         if (episode == null) {
             return null
         }
@@ -35,19 +32,13 @@ class DrawableHelper(private val resources: Resources) {
         }
     }
 
-    private fun getAndTintDrawable(drawableResource: Int?, color: Int): Drawable? {
+    private fun getAndTintDrawable(drawableResource: Int?, color: Int, view: ImageView) {
         if (drawableResource == null) {
-            return null
+            return
         }
         val drawable = DrawableCompat.wrap(VectorDrawableCompat.create(resources, drawableResource, null)!!)
         DrawableCompat.setTint(drawable, color)
-        return drawable
-    }
-
-    private fun setAndTintDurationDrawable(color: Int): Drawable? {
-        val drawableResource = R.drawable.ic_access_time_black_24dp
-        val drawable = getAndTintDrawable(drawableResource, color)
-        return drawable
+        view.setImageDrawable(drawable)
     }
 
     private fun getBackgroundDrawable(backgroundColor: Int): Drawable? {
@@ -58,18 +49,21 @@ class DrawableHelper(private val resources: Resources) {
         }
     }
 
-    fun tintDrawables(color: ColorForBackgroundAndText) {
-        color.bodyTextColor?.let {
-            setAndTintDurationDrawable(it)
-            setAndTintDowloadDrawable(it)
+    fun tintDrawables(downloadedDrawbale: ImageView, durationView: ImageView) {
+        colorForBackgroundAndText?.bodyTextColor?.let {
+            getAndTintDrawable(R.drawable.ic_access_time_black_24dp, it, durationView)
+            getAndTintDrawable(getDownloadedDrawbale(), it, downloadedDrawbale)
         }
     }
 
-    fun setBackgroundColor(container: RelativeLayout, it: ColorForBackgroundAndText) {
-        it.backgroundColor?.let {
+    fun setBackgroundColor(container: RelativeLayout, colorForBackgroundAndText: ColorForBackgroundAndText,
+                           downloadedDrawbale: ImageView, durationView: ImageView) {
+        this.colorForBackgroundAndText = colorForBackgroundAndText
+        colorForBackgroundAndText.backgroundColor?.let {
             container.setBackgroundDrawable(getBackgroundDrawable(ColorUtils.setAlphaComponent(it,
                     ((TRANSPARENCY / 100) * 255).toInt())))
         }
+        tintDrawables(downloadedDrawbale, durationView)
     }
 
 

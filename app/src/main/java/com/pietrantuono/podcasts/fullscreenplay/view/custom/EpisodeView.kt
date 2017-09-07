@@ -31,23 +31,15 @@ class EpisodeView : RelativeLayout {
         episode?.let {
             binding.viewModel = EpisodeViewModel(episode, ResourcesProvider(context))
             decideWhatToShow(episode)
+            drawableHelper.tintDrawables(binding.dowloadedImage, binding.timeImage)
         }
     }
 
     fun setColors(colorForBackgroundAndText: ColorForBackgroundAndText?) {
         colorForBackgroundAndText?.let {
-            setBackgroundColor(it)
-            setTextColor(it)
+            drawableHelper.setBackgroundColor(binding.container, it, binding.dowloadedImage, binding.timeImage)
+            colorHelper.setTextColors(binding, it)
         }
-    }
-
-    private fun setTextColor(color: ColorForBackgroundAndText) {
-        colorHelper.setTextColors(binding, color)
-        drawableHelper.tintDrawables(color)
-    }
-
-    private fun setBackgroundColor(it: ColorForBackgroundAndText) {
-        drawableHelper.setBackgroundColor(binding.container, it)
     }
 
     private fun decideWhatToShow(episode: Episode) {

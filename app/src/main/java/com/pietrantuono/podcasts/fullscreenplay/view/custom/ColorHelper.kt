@@ -11,6 +11,7 @@ class ColorHelper {
             binding.date.setTextColor(it)
             binding.duration.setTextColor(it)
             binding.description.setTextColor(it)
+            binding.dowloadedText.setTextColor(it)
         }
     }
 

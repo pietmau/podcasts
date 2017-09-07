@@ -25,5 +25,6 @@
     <string name="invalid_media">Invalid media</string>
     <string name="episode_image_transition">episode_image_transition</string>
     <string name="downloaded">Downloaded</string>
+    <string name="not_downloaded">Not downloaded</string>
 
 </resources>
