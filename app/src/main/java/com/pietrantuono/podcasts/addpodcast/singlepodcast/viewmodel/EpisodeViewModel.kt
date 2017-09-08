@@ -13,58 +13,32 @@ import java.text.SimpleDateFormat
 class EpisodeViewModel(episode: Episode, private val resourcesProvider: ResourcesProvider) : Episode by episode {
 
     val visibilityOfFooter: Int
-        get() =
-        if (visibilityOfType == View.VISIBLE || visibilityOfDuration == View.VISIBLE) {
-            View.VISIBLE
-        } else {
-            View.GONE
-        }
+        get() = if (visibilityOfType == View.VISIBLE || visibilityOfDuration == View.VISIBLE) View.VISIBLE else View.GONE
 
     val downloadIconShouldbeVisible: Int
-        get() = if (downloaded) {
-            View.VISIBLE
-        } else {
-            View.GONE
-        }
+        get() = if (downloaded) View.VISIBLE else View.GONE
 
     val visibilityOfType: Int
-        get() =
-        if (mediaTypeText == null) {
-            View.GONE
-        } else {
-            View.VISIBLE
-        }
+        get() = if (mediaTypeText == null) View.GONE else View.VISIBLE
 
     val visibilityOfDuration: Int
-        get() =
-        if (duration == null || duration!!.isEmpty()) {
-            View.GONE
-        } else {
-            View.VISIBLE
-        }
+        get() = if (duration == null || duration!!.isEmpty()) View.GONE else View.VISIBLE
 
     val mediaTypeImage: Drawable?
-        get() =
-        try {
-            val type = enclosures!![0].type.toLowerCase()
-            getImageResouce(type)
-        } catch (e: Exception) {
-            null
-        }
+        get() = enclosures?.map { it.type }?.filterNotNull()?.map { getImageResouce(it) }?.firstOrNull()
+
 
     val dowloadedText: String
         get() = if (downloaded) resourcesProvider.getString(R.string.downloaded) else resourcesProvider.getString(R.string.not_downloaded)
 
 
-    private fun getImageResouce(type: String): Drawable? {
-        if (type.contains(Constants.AUDIO)) {
-            return resourcesProvider.ContextCompatgetDrawable(R.drawable.ic_audio_icon)
-        }
-        if (type.contains(Constants.VIDEO)) {
-            resourcesProvider.ContextCompatgetDrawable(R.drawable.ic_video_icon)
-        }
-        return null
-    }
+    private fun getImageResouce(type: String): Drawable? =
+            when {
+                type.contains(Constants.AUDIO) -> resourcesProvider.ContextCompatgetDrawable(R.drawable.ic_audio_icon)
+                type.contains(Constants.VIDEO) -> resourcesProvider.ContextCompatgetDrawable(R.drawable.ic_video_icon)
+                else -> null
+            }
+
 
     val mediaTypeText: String?
         get() =
