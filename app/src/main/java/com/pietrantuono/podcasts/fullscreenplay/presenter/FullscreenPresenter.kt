@@ -29,10 +29,6 @@ class FullscreenPresenter(private val model: FullscreenModel, private val player
             override fun onNext(episode: Episode) {
                 onEpisodeAvailable(episode)
             }
-
-            override fun onError(throwable: Throwable?) {
-
-            }
         })
     }
 

@@ -240,16 +240,9 @@ class LocalPlayback(context: Context, override var exoPlayer: SimpleExoPlayer?) 
     }
 
     override fun setMediaSource(mediaSource: MediaSource) {
-        playOnFocusGain = true
-        tryToGetAudioFocus()
-
-        exoPlayer?.addListener(eventListener)
-
         exoPlayer?.audioStreamType = AudioManager.STREAM_MUSIC
         exoPlayer?.prepare(mediaSource)
-
-        wifiLock.acquire()
-        //configurePlayerState()
+        exoPlayer?.playWhenReady = false
     }
 
     companion object {
