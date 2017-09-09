@@ -32,11 +32,9 @@ class PlayerService() : InstrumentedService(), Player, NotificatorService {
     @Inject lateinit var notificator: PlaybackNotificator
     @Inject lateinit var broadcastManager: BroadcastManager
 
-    companion object {
-        private object RECEIVER : BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent?) {
-
-            }
+    val RECEIVER: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            broadcastManager.onReceive(intent, this@PlayerService)
         }
     }
 
@@ -92,8 +90,18 @@ class PlayerService() : InstrumentedService(), Player, NotificatorService {
         //playback.playMediaSource(episode)
     }
 
+    override fun pause() {
+        playback.pause()
+    }
+
+    override fun play() {
+        playback.play()
+    }
+
     override fun checkIfShoudBeForeground() {
         notificator.checkIfShoudBeForeground(this, playback.media)
     }
+
+
 }
 

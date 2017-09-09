@@ -13,7 +13,7 @@ import android.support.v7.app.NotificationCompat
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayActivity
 
-class NotificationCreator(private val context: Context, private val albumArtCache: AlbumArtCache, val intentManager: IntentManager) {
+class NotificationCreator(private val context: Context, private val albumArtCache: AlbumArtCache, val intentManager: IntentsManager) {
 
     fun createNotification(notificatorService: NotificatorService): Notification {
         val context = getContext(notificatorService)

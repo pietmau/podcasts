@@ -10,4 +10,6 @@ interface Player {
     fun playEpisode(episode: MediaSource)
     fun setEpisode(episode: Episode)
     val media: MediaDescriptionCompat?
+    fun pause()
+    fun play()
 }

@@ -30,4 +30,12 @@ class LocalPlaybackWrapper(private val localPlayback: Playback, private val medi
         this.episode = episode
         mediaCreator.getMediaSourceFromSingleEpisode(episode)?.let { localPlayback.setMediaSource(it) }
     }
+
+    override fun pause() {
+        localPlayback.pause()
+    }
+
+    override fun play() {
+        localPlayback.play()
+    }
 }

@@ -6,7 +6,7 @@ import android.content.Intent
 import com.pietrantuono.podcasts.BuildConfig
 import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayActivity
 
-class IntentManager {
+class IntentsManager {
 
     val REQUEST_CODE = 1
     val PACKAGE = BuildConfig.APPLICATION_ID

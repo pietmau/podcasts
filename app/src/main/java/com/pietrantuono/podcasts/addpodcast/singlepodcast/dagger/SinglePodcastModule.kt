@@ -54,7 +54,7 @@ class SinglePodcastModule {
             SinglePodcastPresenterFactoryFactory(model, crashlyticsWrapper, player!!, creator)
 
     @Provides
-    fun providePlaybackNotificator(logger: DebugLogger, context: Context, intentManager: IntentManager): PlaybackNotificator
+    fun providePlaybackNotificator(logger: DebugLogger, context: Context, intentManager: IntentsManager): PlaybackNotificator
             = PlaybackNotificatorImpl(logger, NotificationCreator(context, AlbumArtCache(), intentManager))
 
     @Provides
@@ -63,10 +63,10 @@ class SinglePodcastModule {
 
 
     @Provides
-    fun providesBroadcastManger(intentManager: IntentManager) = BroadcastManager(intentManager)
+    fun providesBroadcastManger(intentManager: IntentsManager) = BroadcastManager(intentManager)
 
     @Provides
-    fun providesIntentManager() = IntentManager()
+    fun providesIntentManager() = IntentsManager()
 
 }
 
