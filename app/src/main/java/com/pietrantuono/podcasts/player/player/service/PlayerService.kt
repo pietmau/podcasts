@@ -17,12 +17,12 @@ import javax.inject.Named
 
 
 class PlayerService : InstrumentedService(), Player, NotificatorService {
-    override var boundToFullScreen: Boolean? = false
-        get() = field
+    override var boundToFullScreen: Boolean = false
         set(value) {
-            field == value
+            field = value
             checkIfShouldNotify()
         }
+
     private val listeners: Set<Listener> = setOf()
     @field:[Inject Named(LocalPlaybackWrapper.TAG)] lateinit var playback: Player
     @Inject lateinit var logger: DebugLogger
@@ -62,7 +62,6 @@ class PlayerService : InstrumentedService(), Player, NotificatorService {
         return true
     }
 
-
     override fun onRebind(intent: Intent?) {
         logger.debug(TAG, "onRebind")
         checkIfShouldNotify()
@@ -70,6 +69,10 @@ class PlayerService : InstrumentedService(), Player, NotificatorService {
 
     override fun onDestroy() {
         logger.debug(TAG, "onDestroy")
+    }
+
+    override fun onTrimMemory(level: Int) {
+        logger.debug(TAG, "onTrimMemory")
     }
 
     override fun playEpisode(episode: MediaSource) {
