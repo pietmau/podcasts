@@ -1,7 +1,7 @@
 package com.pietrantuono.podcasts.player.player.service.playbacknotificator
 
+import android.support.v4.media.MediaDescriptionCompat
 import com.pietrantuono.podcasts.application.DebugLogger
-import com.pietrantuono.podcasts.player.player.service.NotificatorService
 
 class PlaybackNotificatorImpl(private val logger: DebugLogger,
                               private val notificationCreator: NotificationCreator) : PlaybackNotificator {
@@ -10,11 +10,11 @@ class PlaybackNotificatorImpl(private val logger: DebugLogger,
         private val NOTIFICATION_ID: Int = 1
     }
 
-    override fun checkIfShoudBeForeground(notificatorService: NotificatorService): Boolean {
+    override fun checkIfShoudBeForeground(notificatorService: NotificatorService, media: MediaDescriptionCompat?): Boolean {
         val shouldBeForeground = shouldBeForeground(notificatorService)
         logger.debug(PlaybackNotificatorImpl::class.java.simpleName, "checkIfShoudBeForeground = " + shouldBeForeground)
         if (shouldBeForeground) {
-            startForeground(notificatorService)
+            startForeground(notificatorService, media)
         } else {
             stopForeground(notificatorService)
         }
@@ -25,8 +25,9 @@ class PlaybackNotificatorImpl(private val logger: DebugLogger,
         notificatorService.stopForeground(REMOVE_NOTIFICATION);
     }
 
-    private fun startForeground(notificatorService: NotificatorService) {
-        notificatorService.startForeground(NOTIFICATION_ID, notificationCreator.createNotification(notificatorService));
+    private fun startForeground(notificatorService: NotificatorService, media: MediaDescriptionCompat?) {
+        val notification = notificationCreator.createNotification(media)
+        notificatorService.startForeground(NOTIFICATION_ID, notification);
     }
 
     private fun shouldBeForeground(notificatorService: NotificatorService) = !notificatorService.boundToFullScreen

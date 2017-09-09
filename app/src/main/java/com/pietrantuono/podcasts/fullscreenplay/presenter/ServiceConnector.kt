@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
-import com.pietrantuono.podcasts.player.player.service.NotificatorService
+import com.pietrantuono.podcasts.player.player.service.playbacknotificator.NotificatorService
 import com.pietrantuono.podcasts.player.player.service.PlayerService
 
 class ServiceConnector : ServiceConnection {

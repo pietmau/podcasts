@@ -30,5 +30,11 @@
     <string name="not_played">Not played</string>
     <string name="notification_message">Playing</string>
     <string name="notification_title">Podcasts</string>
+    <string name="label_previous">Previous</string>
+    <string name="label_pause">Pause</string>
+    <string name="label_play">Play</string>
+    <string name="label_next">Next</string>
+    <string name="notification_subtitle">Subtitle</string>
+
 
 </resources>

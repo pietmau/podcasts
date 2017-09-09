@@ -1,6 +1,7 @@
-package com.pietrantuono.podcasts.player.player.service
+package com.pietrantuono.podcasts.player.player.service.playbacknotificator
 
 import android.app.Notification
+import android.support.v4.media.MediaDescriptionCompat
 
 interface NotificatorService {
     var boundToFullScreen: Boolean
