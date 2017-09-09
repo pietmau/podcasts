@@ -28,5 +28,7 @@
     <string name="not_downloaded">Not downloaded</string>
     <string name="played">Played</string>
     <string name="not_played">Not played</string>
+    <string name="notification_message">Playing</string>
+    <string name="notification_title">Podcasts</string>
 
 </resources>

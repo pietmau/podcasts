@@ -15,12 +15,11 @@ import com.pietrantuono.podcasts.player.player.service.playbacknotificator.Playb
 import javax.inject.Inject
 import javax.inject.Named
 
-
 class PlayerService : InstrumentedService(), Player, NotificatorService {
     override var boundToFullScreen: Boolean = false
         set(value) {
             field = value
-            checkIfShouldNotify()
+            checkIfShoudBeForeground()
         }
 
     private val listeners: Set<Listener> = setOf()
@@ -46,28 +45,29 @@ class PlayerService : InstrumentedService(), Player, NotificatorService {
 
     override fun onBind(intent: Intent?): IBinder? {
         logger.debug(TAG, "onBind")
-        checkIfShouldNotify()
+        checkIfShoudBeForeground()
         return PlayerServiceBinder(this)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         logger.debug(TAG, "onStartCommand")
-        checkIfShouldNotify()
+        checkIfShoudBeForeground()
         return START_STICKY
     }
 
     override fun onUnbind(intent: Intent?): Boolean {
         logger.debug(TAG, "onUnbind")
-        checkIfShouldNotify()
+        checkIfShoudBeForeground()
         return true
     }
 
     override fun onRebind(intent: Intent?) {
         logger.debug(TAG, "onRebind")
-        checkIfShouldNotify()
+        checkIfShoudBeForeground()
     }
 
     override fun onDestroy() {
+        checkIfShoudBeForeground()
         logger.debug(TAG, "onDestroy")
     }
 
@@ -79,17 +79,12 @@ class PlayerService : InstrumentedService(), Player, NotificatorService {
         //playback.playMediaSource(episode)
     }
 
-    private fun onError(message: String?) {
-        listeners.forEach { it.onError(message) }
-    }
-
     interface Listener {
         fun onError(message: String?)
     }
 
-    override fun checkIfShouldNotify() {
-        notificator.shuldNotify(this)
+    override fun checkIfShoudBeForeground() {
+        notificator.checkIfShoudBeForeground(this)
     }
-
 }
 

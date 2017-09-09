@@ -18,6 +18,7 @@ import com.pietrantuono.podcasts.player.player.playback.LocalPlayback
 import com.pietrantuono.podcasts.player.player.playback.LocalPlaybackWrapper
 import com.pietrantuono.podcasts.player.player.playback.Playback
 import com.pietrantuono.podcasts.player.player.service.Player
+import com.pietrantuono.podcasts.player.player.service.playbacknotificator.NotificationCreator
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.PlaybackNotificator
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.PlaybackNotificatorImpl
 import com.pietrantuono.podcasts.repository.repository.Repository
@@ -62,7 +63,7 @@ class SinglePodcastModule {
 
     @Provides
     fun providePlaybackNotificator(logger: DebugLogger): PlaybackNotificator {
-        return PlaybackNotificatorImpl(logger)
+        return PlaybackNotificatorImpl(logger, NotificationCreator())
     }
 
     @Provides

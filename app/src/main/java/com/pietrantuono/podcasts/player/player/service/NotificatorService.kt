@@ -1,7 +1,10 @@
 package com.pietrantuono.podcasts.player.player.service
 
+import android.app.Notification
+
 interface NotificatorService {
     var boundToFullScreen: Boolean
-
-    fun checkIfShouldNotify()
+    fun checkIfShoudBeForeground()
+    fun startForeground(notificatioN_ID: Int, notification: Notification)
+    fun stopForeground(removeNotifcationo: Boolean)
 }
