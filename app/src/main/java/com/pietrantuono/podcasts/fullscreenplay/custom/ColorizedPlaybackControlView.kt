@@ -7,7 +7,7 @@ import android.util.AttributeSet
 import com.google.android.exoplayer2.ui.PlaybackControlView
 import com.pietrantuono.podcasts.application.App
 
-class ColorizedPlaybackControlView : PlaybackControlView {
+class ColorizedPlaybackControlView : CustomPlaybackControlView {
 
     constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet) {
         showTimeoutMs = -1
