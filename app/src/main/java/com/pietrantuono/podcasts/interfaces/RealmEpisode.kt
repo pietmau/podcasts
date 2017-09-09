@@ -13,7 +13,7 @@ import io.realm.annotations.Ignore
 import java.util.*
 
 open class RealmEpisode : RealmObject, Episode {
-    override var listenedTo: Boolean = false
+    override var played: Boolean = false
     override var link: String? = null
     override var downloaded: Boolean = false
     @Ignore

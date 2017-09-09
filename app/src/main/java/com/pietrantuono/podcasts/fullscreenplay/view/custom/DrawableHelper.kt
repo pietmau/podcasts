@@ -25,7 +25,7 @@ class DrawableHelper(private val resources: Resources) {
         if (episode == null) {
             return null
         }
-        if (episode!!.downloaded) {
+        if (episode?.downloaded == true) {
             return R.drawable.ic_cloud_done_white_24dp
         } else {
             return R.drawable.ic_cloud_download_white_24dp
@@ -53,8 +53,11 @@ class DrawableHelper(private val resources: Resources) {
         colorForBackgroundAndText?.bodyTextColor?.let {
             getAndTintDrawable(R.drawable.ic_access_time_black_24dp, it, durationView)
             getAndTintDrawable(getDownloadedDrawbale(), it, downloadedDrawbale)
+            getAndTintDrawable(getPlayedDrawbale(), it, downloadedDrawbale)
         }
     }
+
+    private fun getPlayedDrawbale(): Int? = if (episode?.played == true) R.drawable.ic_check_black_24dp else null
 
     fun setBackgroundColor(container: RelativeLayout, colorForBackgroundAndText: ColorForBackgroundAndText,
                            downloadedDrawbale: ImageView, durationView: ImageView) {
