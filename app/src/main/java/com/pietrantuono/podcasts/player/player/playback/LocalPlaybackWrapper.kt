@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts.player.player.playback
 
 import android.support.v4.media.MediaDescriptionCompat
+import android.support.v4.media.session.PlaybackStateCompat
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.source.MediaSource
 import com.pietrantuono.podcasts.apis.Episode
@@ -10,6 +11,8 @@ import com.pietrantuono.podcasts.player.player.player.Player
 
 
 class LocalPlaybackWrapper(private val localPlayback: Playback, private val mediaCreator: MediaSourceCreator) : Player {
+    override val playbackState: PlaybackStateCompat
+        get() = localPlayback.playbackState
     private var episode: Episode? = null
 
     override val media: MediaDescriptionCompat?

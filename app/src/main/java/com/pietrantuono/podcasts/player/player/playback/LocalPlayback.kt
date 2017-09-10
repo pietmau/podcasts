@@ -25,7 +25,10 @@ import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.TrackGroupArray
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 
-class LocalPlayback(context: Context, override var exoPlayer: SimpleExoPlayer?) : Playback {
+class LocalPlayback(context: Context, override var exoPlayer: SimpleExoPlayer?, val playbackStateCreator: PlaybackStateCreator) : Playback {
+    override val playbackState: PlaybackStateCompat
+        get() = getPlaybackStateCompat()
+
     private val context: Context
     private val wifiLock: WifiManager.WifiLock
     private var playOnFocusGain: Boolean = false
@@ -276,4 +279,8 @@ class LocalPlayback(context: Context, override var exoPlayer: SimpleExoPlayer?) 
             it.removeListener(listener)
         }
     }
+
+    private fun getPlaybackStateCompat(): PlaybackStateCompat = playbackStateCreator.getPlaybackState(exoPlayer)
+
 }
+

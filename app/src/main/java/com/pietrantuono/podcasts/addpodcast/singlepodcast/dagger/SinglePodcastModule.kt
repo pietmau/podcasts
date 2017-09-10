@@ -17,8 +17,9 @@ import com.pietrantuono.podcasts.player.player.MediaSourceCreator
 import com.pietrantuono.podcasts.player.player.playback.LocalPlayback
 import com.pietrantuono.podcasts.player.player.playback.LocalPlaybackWrapper
 import com.pietrantuono.podcasts.player.player.playback.Playback
-import com.pietrantuono.podcasts.player.player.service.BroadcastManager
+import com.pietrantuono.podcasts.player.player.playback.PlaybackStateCreator
 import com.pietrantuono.podcasts.player.player.player.Player
+import com.pietrantuono.podcasts.player.player.service.BroadcastManager
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.*
 import com.pietrantuono.podcasts.repository.repository.Repository
 import dagger.Module
@@ -47,7 +48,7 @@ class SinglePodcastModule {
     fun provideTransitionImageLoadingListener(framework: TransitionsHelper) = BitmapColorExtractor()
 
     @Provides
-    fun providesPlayback(context: Context, exoplayer: SimpleExoPlayer): Playback = LocalPlayback(context, exoplayer)
+    fun providesPlayback(context: Context, exoplayer: SimpleExoPlayer, creator: PlaybackStateCreator): Playback = LocalPlayback(context, exoplayer, creator)
 
     @Provides
     fun provideSinglePodcastPresenterFactory(model: SinglePodcastModel, crashlyticsWrapper: CrashlyticsWrapper, player: Player?, creator: MediaSourceCreator) =
@@ -68,5 +69,7 @@ class SinglePodcastModule {
     @Provides
     fun providesIntentManager() = IntentsManager()
 
+    @Provides
+    fun providesPlaybackStateCreator() = PlaybackStateCreator()
 }
 

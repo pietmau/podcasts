@@ -22,7 +22,7 @@ import javax.inject.Inject
 import javax.inject.Named
 
 class PlayerService() : InstrumentedService(), Player, NotificatorService { //TODO remove this crap
-    override val playbackSate: PlaybackStateCompat = throw UnsupportedOperationException("Not suported")
+    override val playbackState: PlaybackStateCompat = throw UnsupportedOperationException("Not suported")
     override val media: MediaDescriptionCompat = throw UnsupportedOperationException("Not suported")
     override fun addListener(listener: ExoPlayer.EventListener) = throw UnsupportedOperationException("Not implemented")
     override fun removeListener(listener: ExoPlayer.EventListener) = throw UnsupportedOperationException("Not implemented")
@@ -46,7 +46,7 @@ class PlayerService() : InstrumentedService(), Player, NotificatorService { //TO
 
     val exoPlayerEventListener: SimpleExoPlayerEventListener = object : SimpleExoPlayerEventListener() {
         override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
-            updateNotification(playWhenReady, playback.playbackSate)
+            updateNotification(playWhenReady, playback.playbackState)
         }
     }
 
@@ -112,7 +112,7 @@ class PlayerService() : InstrumentedService(), Player, NotificatorService { //TO
     }
 
     override fun checkIfShoudBeForeground() {
-        notificator.checkIfShoudBeForeground(this, playback.media, playback.playbackSate)
+        notificator.checkIfShoudBeForeground(this, playback.media, playback.playbackState)
     }
 
     private fun updateNotification(playWhenReady: Boolean, playbackState: PlaybackStateCompat) {

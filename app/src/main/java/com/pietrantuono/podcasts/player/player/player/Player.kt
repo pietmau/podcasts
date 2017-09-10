@@ -16,5 +16,5 @@ interface Player {
     fun play()
     fun addListener(listener: ExoPlayer.EventListener)
     fun removeListener(listener: ExoPlayer.EventListener)
-    val playbackSate: PlaybackStateCompat
+    val playbackState: PlaybackStateCompat
 }
