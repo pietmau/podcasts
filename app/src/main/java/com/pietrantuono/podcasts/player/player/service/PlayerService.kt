@@ -39,7 +39,7 @@ class PlayerService() : InstrumentedService(), Player, NotificatorService {
 
     val exoPlayerEventListener: SimpleExoPlayerEventListener = object : SimpleExoPlayerEventListener() {
         override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
-            updateNotification(playWhenReady, playback.playbackState)
+            updateNotification(playWhenReady)
         }
     }
 
@@ -108,8 +108,8 @@ class PlayerService() : InstrumentedService(), Player, NotificatorService {
         notificator.checkIfShoudBeForeground(this, playback.media, playback.playbackState)
     }
 
-    private fun updateNotification(playWhenReady: Boolean, playbackState: PlaybackStateCompat) {
-        notificator.updateNotification(this, this, playback.media, playbackState, playWhenReady)
+    private fun updateNotification(playWhenReady: Boolean) {
+        notificator.updateNotification(this, this, playback.media, playback.playbackState, playWhenReady)
     }
 }
 

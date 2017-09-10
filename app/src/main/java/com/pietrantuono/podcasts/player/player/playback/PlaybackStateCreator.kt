@@ -20,6 +20,30 @@ class PlaybackStateCreator {
 
     private fun getPosition(exoPlayer: SimpleExoPlayer?): Long = if (exoPlayer == null) 0 else exoPlayer.currentPosition
 
-    private fun getState(exoPlayer: SimpleExoPlayer?): Int = if (exoPlayer == null) ExoPlayer.STATE_IDLE else exoPlayer.playbackState
+    private fun getState(exoPlayer: SimpleExoPlayer?): Int = if (exoPlayer == null) PlaybackStateCompat.STATE_NONE else parseState(exoPlayer)
+
+    private fun parseState(exoPlayer: SimpleExoPlayer): Int =
+            when (exoPlayer.playWhenReady) {
+                true -> playWhenReady(exoPlayer.playbackState)
+                false -> notPlayWhenReady(exoPlayer.playbackState)
+            }
+
+    private fun notPlayWhenReady(playbackState: Int): Int =
+            when (playbackState) {
+                ExoPlayer.STATE_BUFFERING -> PlaybackStateCompat.STATE_STOPPED
+                ExoPlayer.STATE_ENDED -> PlaybackStateCompat.STATE_STOPPED
+                ExoPlayer.STATE_READY -> PlaybackStateCompat.STATE_STOPPED
+                ExoPlayer.STATE_IDLE -> PlaybackStateCompat.STATE_STOPPED
+                else -> PlaybackStateCompat.STATE_NONE
+            }
+
+    private fun playWhenReady(playbackState: Int): Int =
+            when (playbackState) {
+                ExoPlayer.STATE_BUFFERING -> PlaybackStateCompat.STATE_BUFFERING
+                ExoPlayer.STATE_ENDED -> PlaybackStateCompat.STATE_STOPPED
+                ExoPlayer.STATE_READY -> PlaybackStateCompat.STATE_PLAYING
+                ExoPlayer.STATE_IDLE -> PlaybackStateCompat.STATE_PAUSED
+                else -> PlaybackStateCompat.STATE_NONE
+            }
 
 }

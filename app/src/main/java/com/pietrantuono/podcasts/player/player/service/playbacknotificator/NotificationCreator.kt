@@ -21,10 +21,9 @@ class NotificationCreator(private val context: Context, private val albumArtCach
 
         val (fetchArtUrl: String?, art: Bitmap?) = getArtwork(mediaDescriptionCompat)
 
-        builder
-                .setStyle(NotificationCompat.MediaStyle()
-                        .setShowActionsInCompactView(*intArrayOf(1))  // show only play/pause in compact view
-                        .setMediaSession(null))
+        builder.setStyle(NotificationCompat.MediaStyle()
+                .setShowActionsInCompactView(*intArrayOf(1))  // show only play/pause in compact view
+                .setMediaSession(null))
                 .setColor(getNotificationColor(context))
                 .setSmallIcon(R.drawable.ic_notification)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -70,7 +69,7 @@ class NotificationCreator(private val context: Context, private val albumArtCach
 
     private fun getTitle(context: Context, mediaDescriptionCompat: MediaDescriptionCompat?): String? = getTitle(context)
 
-    private fun fetchBitmapFromURLAsync(fetchArtUrl: String?, notificationBuilder: NotificationCompat.Builder) {  }
+    private fun fetchBitmapFromURLAsync(fetchArtUrl: String?, notificationBuilder: NotificationCompat.Builder) {}
 
     private fun getNotificationColor(context: Context): Int = context.resources.getColor(R.color.colorPrimary)
 
@@ -93,13 +92,11 @@ class NotificationCreator(private val context: Context, private val albumArtCach
 
     private fun setNotificationPlaybackState(builder: NotificationCompat.Builder, playbackState: PlaybackStateCompat) {
         if (playbackState.state == PlaybackStateCompat.STATE_PLAYING && playbackState.getPosition() >= 0) {
-            builder
-                    .setWhen(System.currentTimeMillis() - playbackState.getPosition())
+            builder.setWhen(System.currentTimeMillis() - playbackState.getPosition())
                     .setShowWhen(true)
                     .setUsesChronometer(true)
         } else {
-            builder
-                    .setWhen(0)
+            builder.setWhen(0)
                     .setShowWhen(false)
                     .setUsesChronometer(false)
         }
