@@ -25,7 +25,10 @@ import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.TrackGroupArray
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 
-class LocalPlayback(context: Context, override var exoPlayer: SimpleExoPlayer?) : Playback {
+class LocalPlayback(context: Context, override var exoPlayer: SimpleExoPlayer?, val playbackStateCreator: PlaybackStateCreator) : Playback {
+    override val playbackState: PlaybackStateCompat
+        get() = getPlaybackStateCompat()
+
     private val context: Context
     private val wifiLock: WifiManager.WifiLock
     private var playOnFocusGain: Boolean = false
@@ -115,10 +118,6 @@ class LocalPlayback(context: Context, override var exoPlayer: SimpleExoPlayer?) 
         if (exoPlayer != null) {
             exoPlayer!!.seekTo(position)
         }
-    }
-
-    override fun setCallback(callback: Playback.Callback?) {
-        this.mCallback = callback
     }
 
     private fun tryToGetAudioFocus() {
@@ -235,14 +234,22 @@ class LocalPlayback(context: Context, override var exoPlayer: SimpleExoPlayer?) 
         }
     }
 
-    override fun playAll(mediaSource: MediaSource) {
-        playMediaSource(mediaSource)
-    }
-
     override fun setMediaSource(mediaSource: MediaSource) {
         exoPlayer?.audioStreamType = AudioManager.STREAM_MUSIC
         exoPlayer?.prepare(mediaSource)
         exoPlayer?.playWhenReady = false
+    }
+
+    override fun play() {
+        playOnFocusGain = true
+        tryToGetAudioFocus()
+
+        exoPlayer?.addListener(eventListener)
+
+        exoPlayer?.audioStreamType = AudioManager.STREAM_MUSIC
+
+        wifiLock.acquire()
+        configurePlayerState()
     }
 
     companion object {
@@ -252,4 +259,20 @@ class LocalPlayback(context: Context, override var exoPlayer: SimpleExoPlayer?) 
         private val AUDIO_NO_FOCUS_CAN_DUCK = 1
         private val AUDIO_FOCUSED = 2
     }
+
+    override fun addListener(listener: ExoPlayer.EventListener) {
+        exoPlayer?.let {
+            it.addListener(listener)
+        }
+    }
+
+    override fun removeListener(listener: ExoPlayer.EventListener) {
+        exoPlayer?.let {
+            it.removeListener(listener)
+        }
+    }
+
+    private fun getPlaybackStateCompat(): PlaybackStateCompat = playbackStateCreator.getPlaybackState(exoPlayer)
+
 }
+

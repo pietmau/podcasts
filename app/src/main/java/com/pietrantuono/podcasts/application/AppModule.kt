@@ -5,7 +5,7 @@ import com.google.android.exoplayer2.DefaultLoadControl
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
-import com.pietrantuono.podcasts.player.player.service.Player
+import com.pietrantuono.podcasts.player.player.player.Player
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

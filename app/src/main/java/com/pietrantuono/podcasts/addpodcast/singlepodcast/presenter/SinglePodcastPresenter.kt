@@ -9,7 +9,7 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastMod
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.SinglePodcastView
 import com.pietrantuono.podcasts.apis.PodcastFeed
 import com.pietrantuono.podcasts.player.player.MediaSourceCreator
-import com.pietrantuono.podcasts.player.player.service.Player
+import com.pietrantuono.podcasts.player.player.player.Player
 import rx.Observer
 
 class SinglePodcastPresenter(private val model: SinglePodcastModel, private val crashlyticsWrapper:

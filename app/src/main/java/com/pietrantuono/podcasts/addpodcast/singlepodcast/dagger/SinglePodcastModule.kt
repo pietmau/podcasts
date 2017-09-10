@@ -12,19 +12,19 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SinglePodcas
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.BitmapColorExtractor
 import com.pietrantuono.podcasts.apis.SinglePodcastApi
 import com.pietrantuono.podcasts.application.DebugLogger
+import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
 import com.pietrantuono.podcasts.main.view.TransitionsHelper
 import com.pietrantuono.podcasts.player.player.MediaSourceCreator
-import com.pietrantuono.podcasts.player.player.playback.LocalPlayback
-import com.pietrantuono.podcasts.player.player.playback.LocalPlaybackWrapper
-import com.pietrantuono.podcasts.player.player.playback.Playback
-import com.pietrantuono.podcasts.player.player.service.Player
+import com.pietrantuono.podcasts.player.player.playback.*
+import com.pietrantuono.podcasts.player.player.player.Player
+import com.pietrantuono.podcasts.player.player.service.BroadcastManager
+import com.pietrantuono.podcasts.player.player.service.playbacknotificator.IntentsManager
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.NotificationCreator
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.PlaybackNotificator
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.PlaybackNotificatorImpl
 import com.pietrantuono.podcasts.repository.repository.Repository
 import dagger.Module
 import dagger.Provides
-import javax.inject.Named
 
 @Module
 class SinglePodcastModule {
@@ -37,39 +37,40 @@ class SinglePodcastModule {
     constructor() {}
 
     @Provides
-    fun provideSinglePodcastPresenter(factory: SinglePodcastPresenterFactoryFactory): SinglePodcastPresenter {
-        return ViewModelProviders.of(activity!!, factory).get(SinglePodcastPresenter::class.java)
-    }
+    fun provideSinglePodcastPresenter(factory: SinglePodcastPresenterFactoryFactory): SinglePodcastPresenter =
+            ViewModelProviders.of(activity!!, factory).get(SinglePodcastPresenter::class.java)
 
     @Provides
-    fun provideSinglePodcastModel(api: SinglePodcastApi, repository: Repository): SinglePodcastModel {
-        return SinglePodcastModelImpl(api, repository)
-    }
+    fun provideSinglePodcastModel(api: SinglePodcastApi, repository: Repository): SinglePodcastModel =
+            SinglePodcastModelImpl(api, repository)
 
     @Provides
-    fun provideTransitionImageLoadingListener(framework: TransitionsHelper): BitmapColorExtractor {
-        return BitmapColorExtractor()
-    }
+    fun provideTransitionImageLoadingListener(framework: TransitionsHelper) = BitmapColorExtractor()
 
     @Provides
-    fun providesPlayback(context: Context, exoplayer: SimpleExoPlayer): Playback {
-        return LocalPlayback(context, exoplayer)
-    }
+    fun providesPlayback(context: Context, exoplayer: SimpleExoPlayer, creator: PlaybackStateCreator): Playback = LocalPlayback(context, exoplayer, creator)
 
     @Provides
-    fun provideSinglePodcastPresenterFactory(model: SinglePodcastModel, crashlyticsWrapper: CrashlyticsWrapper, player: Player?, creator: MediaSourceCreator): SinglePodcastPresenterFactoryFactory {
-        return SinglePodcastPresenterFactoryFactory(model, crashlyticsWrapper, player!!, creator)
-    }
+    fun provideSinglePodcastPresenterFactory(model: SinglePodcastModel, crashlyticsWrapper: CrashlyticsWrapper, player: Player?, creator: MediaSourceCreator) =
+            SinglePodcastPresenterFactoryFactory(model, crashlyticsWrapper, player!!, creator)
 
     @Provides
-    fun providePlaybackNotificator(logger: DebugLogger): PlaybackNotificator {
-        return PlaybackNotificatorImpl(logger, NotificationCreator())
-    }
+    fun providePlaybackNotificator(logger: DebugLogger, creator: NotificationCreator, loader: SimpleImageLoader): PlaybackNotificator
+            = PlaybackNotificatorImpl(logger, creator, loader)
 
     @Provides
-    @Named(LocalPlaybackWrapper.TAG)
-    fun providesPlayerWrapper(localPlayback: Playback, creator: MediaSourceCreator): Player {
-        return LocalPlaybackWrapper(localPlayback, creator)
-    }
+    fun providesPlayerWrapper(localPlayback: Playback, creator: MediaSourceCreator): PlaybackWrapper = LocalPlaybackWrapper(localPlayback, creator)
+
+    @Provides
+    fun providesBroadcastManger(intentManager: IntentsManager) = BroadcastManager(intentManager)
+
+    @Provides
+    fun providesIntentManager(context: Context) = IntentsManager(context)
+
+    @Provides
+    fun providesPlaybackStateCreator() = PlaybackStateCreator()
+
+    @Provides
+    fun providesNotificationCreator(context: Context, loader: SimpleImageLoader, intentsmanager: IntentsManager) = NotificationCreator(context, loader, intentsmanager)
 }
 

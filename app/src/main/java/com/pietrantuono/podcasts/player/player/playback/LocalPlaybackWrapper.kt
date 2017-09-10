@@ -1,27 +1,45 @@
 package com.pietrantuono.podcasts.player.player.playback
 
-import com.google.android.exoplayer2.source.MediaSource
+import android.support.v4.media.MediaDescriptionCompat
+import android.support.v4.media.session.PlaybackStateCompat
+import com.google.android.exoplayer2.ExoPlayer
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.player.player.MediaSourceCreator
-import com.pietrantuono.podcasts.player.player.PodcastFeedSource
-import com.pietrantuono.podcasts.player.player.service.Player
 
 
-class LocalPlaybackWrapper(private val localPlayback: Playback, private val mediaCreator: MediaSourceCreator) : Player {
+class LocalPlaybackWrapper(private val localPlayback: Playback, private val mediaCreator: MediaSourceCreator) : PlaybackWrapper {
+    override val playbackState: PlaybackStateCompat
+        get() = localPlayback.playbackState
 
-    companion object {
-        const val TAG: String = "LocalPlaybackWrapper"
+    override var episode: Episode? = null
+        set(value) {
+            field = value
+            if (value != null) {
+                mediaCreator.getMediaSourceFromSingleEpisode(value)?.let { localPlayback.setMediaSource(it) }
+            }
+        }
+
+    override val media: MediaDescriptionCompat?
+        get() = mediaCreator.getMediaDescriptionFromSingleEpisode(episode)
+
+    override fun pause() {
+        localPlayback.pause()
     }
 
-    override fun playFeed(source: PodcastFeedSource) {
-
+    override fun play() {
+        localPlayback.play()
     }
 
-    override fun playEpisode(episode: MediaSource) {
-
+    override fun addListener(listener: ExoPlayer.EventListener) {
+        localPlayback.addListener(listener)
     }
 
-    override fun setEpisode(episode: Episode) {
-        mediaCreator.getMediaSourceFromSingleEpisode(episode)?.let { localPlayback.setMediaSource(it) }
+    override fun removeListener(listener: ExoPlayer.EventListener) {
+        localPlayback.removeListener(listener)
+    }
+
+    override fun stop() {
+        localPlayback.stop(true)
     }
 }
+

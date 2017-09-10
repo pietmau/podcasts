@@ -2,6 +2,7 @@ package com.pietrantuono.podcasts.player.player
 
 import android.net.Uri
 import android.os.Handler
+import android.support.v4.media.MediaDescriptionCompat
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource
 import com.google.android.exoplayer2.source.ExtractorMediaSource
@@ -55,6 +56,15 @@ class MediaSourceCreator(val mediaDataSourceFactory: DataSource.Factory, val mai
         return ExtractorMediaSource(Uri.parse(url), mediaDataSourceFactory,
                 DefaultExtractorsFactory(), mainHandler, eventLogger)
     }
+
+    fun getMediaDescriptionFromSingleEpisode(episode: Episode?): MediaDescriptionCompat? =
+            episode?.let {
+                val builder = MediaDescriptionCompat.Builder()
+                builder.setDescription(it.description)
+                        .setTitle(it.title)
+                        .setSubtitle(it.subtitle)
+                        .build()
+            }
 }
 
 

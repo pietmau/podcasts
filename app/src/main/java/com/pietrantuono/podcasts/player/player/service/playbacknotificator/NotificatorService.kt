@@ -1,10 +1,10 @@
-package com.pietrantuono.podcasts.player.player.service
+package com.pietrantuono.podcasts.player.player.service.playbacknotificator
 
 import android.app.Notification
 
 interface NotificatorService {
     var boundToFullScreen: Boolean
     fun checkIfShoudBeForeground()
-    fun startForeground(notificatioN_ID: Int, notification: Notification)
+    fun startForeground(notificationId: Int, notification: Notification)
     fun stopForeground(removeNotifcationo: Boolean)
 }

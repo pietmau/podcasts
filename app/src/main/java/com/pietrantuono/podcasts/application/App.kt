@@ -7,10 +7,9 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule
-import com.pietrantuono.podcasts.player.player.service.Player
+import com.pietrantuono.podcasts.player.player.player.Player
 import com.pietrantuono.podcasts.player.player.service.PlayerService
 
-import com.squareup.leakcanary.LeakCanary
 import io.realm.Realm
 import javax.inject.Inject
 

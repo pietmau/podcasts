@@ -11,7 +11,7 @@ import com.pietrantuono.podcasts.fullscreenplay.model.FullscreenModelImpl
 import com.pietrantuono.podcasts.fullscreenplay.presenter.FullscreenPresenter
 import com.pietrantuono.podcasts.fullscreenplay.presenter.ServiceConnector
 import com.pietrantuono.podcasts.main.view.TransitionsHelper
-import com.pietrantuono.podcasts.player.player.service.Player
+import com.pietrantuono.podcasts.player.player.player.Player
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 import dagger.Module
 import dagger.Provides
