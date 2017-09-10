@@ -18,7 +18,7 @@ import com.pietrantuono.podcasts.player.player.playback.LocalPlayback
 import com.pietrantuono.podcasts.player.player.playback.LocalPlaybackWrapper
 import com.pietrantuono.podcasts.player.player.playback.Playback
 import com.pietrantuono.podcasts.player.player.service.BroadcastManager
-import com.pietrantuono.podcasts.player.player.service.Player
+import com.pietrantuono.podcasts.player.player.player.Player
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.*
 import com.pietrantuono.podcasts.repository.repository.Repository
 import dagger.Module

@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import com.pietrantuono.podcasts.player.player.player.Player
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.IntentsManager
 
 class BroadcastManager(private val intentManager: IntentsManager) {

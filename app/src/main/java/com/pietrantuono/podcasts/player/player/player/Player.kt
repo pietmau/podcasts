@@ -1,6 +1,7 @@
-package com.pietrantuono.podcasts.player.player.service
+package com.pietrantuono.podcasts.player.player.player
 
 import android.support.v4.media.MediaDescriptionCompat
+import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.source.MediaSource
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.player.player.PodcastFeedSource
@@ -12,4 +13,6 @@ interface Player {
     val media: MediaDescriptionCompat?
     fun pause()
     fun play()
+    fun addListener(listener: ExoPlayer.EventListener)
+    fun removeListener(listener: ExoPlayer.EventListener)
 }

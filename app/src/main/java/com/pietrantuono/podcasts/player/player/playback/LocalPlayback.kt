@@ -264,4 +264,16 @@ class LocalPlayback(context: Context, override var exoPlayer: SimpleExoPlayer?) 
         private val AUDIO_NO_FOCUS_CAN_DUCK = 1
         private val AUDIO_FOCUSED = 2
     }
+
+    override fun addListener(listener: ExoPlayer.EventListener) {
+        exoPlayer?.let {
+            it.addListener(listener)
+        }
+    }
+
+    override fun removeListener(listener: ExoPlayer.EventListener) {
+        exoPlayer?.let {
+            it.removeListener(listener)
+        }
+    }
 }

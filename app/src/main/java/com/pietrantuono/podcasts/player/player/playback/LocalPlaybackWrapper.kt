@@ -1,11 +1,12 @@
 package com.pietrantuono.podcasts.player.player.playback
 
 import android.support.v4.media.MediaDescriptionCompat
+import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.source.MediaSource
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.player.player.MediaSourceCreator
 import com.pietrantuono.podcasts.player.player.PodcastFeedSource
-import com.pietrantuono.podcasts.player.player.service.Player
+import com.pietrantuono.podcasts.player.player.player.Player
 
 
 class LocalPlaybackWrapper(private val localPlayback: Playback, private val mediaCreator: MediaSourceCreator) : Player {
@@ -38,4 +39,13 @@ class LocalPlaybackWrapper(private val localPlayback: Playback, private val medi
     override fun play() {
         localPlayback.play()
     }
+
+    override fun addListener(listener: ExoPlayer.EventListener) {
+        localPlayback.addListener(listener)
+    }
+
+    override fun removeListener(listener: ExoPlayer.EventListener) {
+        localPlayback.removeListener(listener)
+    }
+
 }

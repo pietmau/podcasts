@@ -31,5 +31,13 @@ class PlaybackNotificatorImpl(private val logger: DebugLogger,
     }
 
     private fun shouldBeForeground(notificatorService: NotificatorService) = !notificatorService.boundToFullScreen
+
+    override fun updateNotification(notificatorService: NotificatorService, media: MediaDescriptionCompat?, playbackState: Int, playWhenReady: Boolean) {
+        if (!shouldBeForeground(notificatorService)) {
+            return
+        }
+        val notification = notificationCreator.updateNotification(media, playbackState, playWhenReady)
+        notificatorService.updateNotification(NOTIFICATION_ID, notification);
+    }
 }
 

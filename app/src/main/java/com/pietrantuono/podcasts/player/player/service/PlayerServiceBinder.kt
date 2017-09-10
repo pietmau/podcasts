@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts.player.player.service
 
 import android.os.Binder
+import com.pietrantuono.podcasts.player.player.player.Player
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.NotificatorService
 
 

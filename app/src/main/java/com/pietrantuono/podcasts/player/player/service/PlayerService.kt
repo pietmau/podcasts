@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import android.support.v4.media.MediaDescriptionCompat
+import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.source.MediaSource
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.dagger.SinglePodcastModule
 import com.pietrantuono.podcasts.apis.Episode
@@ -12,14 +13,15 @@ import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.player.player.PodcastFeedSource
 import com.pietrantuono.podcasts.player.player.playback.LocalPlaybackWrapper
+import com.pietrantuono.podcasts.player.player.player.Player
+import com.pietrantuono.podcasts.player.player.player.SimpleExoPlayerEventListener
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.NotificatorService
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.PlaybackNotificator
 import javax.inject.Inject
 import javax.inject.Named
 
 class PlayerService() : InstrumentedService(), Player, NotificatorService {
-    override val media: MediaDescriptionCompat?
-        get() = playback.media
+    override val media: MediaDescriptionCompat = throw UnsupportedOperationException("Not implemented")
 
     override var boundToFullScreen: Boolean = false
         set(value) {
@@ -32,9 +34,15 @@ class PlayerService() : InstrumentedService(), Player, NotificatorService {
     @Inject lateinit var notificator: PlaybackNotificator
     @Inject lateinit var broadcastManager: BroadcastManager
 
-    val RECEIVER: BroadcastReceiver = object : BroadcastReceiver() {
+    val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             broadcastManager.onReceive(intent, this@PlayerService)
+        }
+    }
+
+    val exoPlayerEventListener: SimpleExoPlayerEventListener = object : SimpleExoPlayerEventListener() {
+        override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
+            updateNotification(playWhenReady, playbackState)
         }
     }
 
@@ -50,7 +58,8 @@ class PlayerService() : InstrumentedService(), Player, NotificatorService {
         super.onCreate()
         (applicationContext as App).applicationComponent?.with(SinglePodcastModule())?.inject(this)
         logger.debug(TAG, "onCreate")
-        broadcastManager.registerForBroadcastsFromNotification(this, RECEIVER)
+        broadcastManager.registerForBroadcastsFromNotification(this, receiver)
+        playback.addListener(exoPlayerEventListener)
     }
 
     override fun onBind(intent: Intent?): IBinder? {
@@ -79,7 +88,7 @@ class PlayerService() : InstrumentedService(), Player, NotificatorService {
     override fun onDestroy() {
         checkIfShoudBeForeground()
         logger.debug(TAG, "onDestroy")
-        broadcastManager.unregisterForBroadcastsFromNotification(this, RECEIVER)
+        broadcastManager.unregisterForBroadcastsFromNotification(this, receiver)
     }
 
     override fun onTrimMemory(level: Int) {
@@ -102,6 +111,12 @@ class PlayerService() : InstrumentedService(), Player, NotificatorService {
         notificator.checkIfShoudBeForeground(this, playback.media)
     }
 
+    override fun addListener(listener: ExoPlayer.EventListener) = throw UnsupportedOperationException("Not implemented")
 
+    override fun removeListener(listener: ExoPlayer.EventListener) = throw UnsupportedOperationException("Not implemented")
+
+    private fun updateNotification(playWhenReady: Boolean, playbackState: Int) {
+        notificator.updateNotification(this, playback.media, playbackState, playWhenReady)
+    }
 }
 

@@ -7,7 +7,7 @@ import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayView
 import com.pietrantuono.podcasts.fullscreenplay.model.FullscreenModel
-import com.pietrantuono.podcasts.player.player.service.Player
+import com.pietrantuono.podcasts.player.player.player.Player
 
 
 class FullscreenPresenter(private val model: FullscreenModel, private val player: Player?,

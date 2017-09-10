@@ -16,6 +16,7 @@
 package com.pietrantuono.podcasts.player.player.playback
 
 import android.support.v4.media.session.MediaSessionCompat.QueueItem
+import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.MediaSource
 
@@ -104,4 +105,6 @@ interface Playback {
     fun playMediaSource(mediaSource: MediaSource)
     fun setMediaSource(mediaSource: MediaSource)
     fun play()
+    fun addListener(listener: ExoPlayer.EventListener)
+    fun removeListener(listener: ExoPlayer.EventListener)
 }
