@@ -14,10 +14,10 @@ class NotificationCreator(private val context: Context, private val albumArtCach
 
     private fun getTitle(context: Context): String? = context.getText(R.string.notification_title)?.toString()
 
-    fun createNotification(mediaDescriptionCompat: MediaDescriptionCompat?): Notification {
+    fun createNotification(mediaDescriptionCompat: MediaDescriptionCompat?, state: PlaybackStateCompat): Notification {
         val builder = NotificationCompat.Builder(context)
 
-        setActions(builder)
+        setActions(builder, state)
 
         val (fetchArtUrl: String?, art: Bitmap?) = getArtwork(mediaDescriptionCompat)
 
@@ -34,7 +34,7 @@ class NotificationCreator(private val context: Context, private val albumArtCach
                 .setContentText(getSubtitle(context, mediaDescriptionCompat))
                 .setLargeIcon(art)
 
-        setNotificationPlaybackState(builder)
+        setNotificationPlaybackState(builder, state)
 
         fetchBitmapFromURLAsync(fetchArtUrl, builder)
 
@@ -58,12 +58,12 @@ class NotificationCreator(private val context: Context, private val albumArtCach
         return Pair(fetchArtUrl, art)
     }
 
-    private fun setActions(builder: NotificationCompat.Builder) {
+    private fun setActions(builder: NotificationCompat.Builder, state: PlaybackStateCompat) {
         builder.addAction(R.drawable.ic_skip_previous_white_24dp,
                 context.getString(R.string.label_previous), intentManager.getPreviousIntent(context))
         builder.addAction(R.drawable.ic_skip_next_white_24dp,
                 context.getString(R.string.label_next), intentManager.getNextIntent(context))
-        addPlayPauseAction(builder, context)
+        addPlayPauseAction(builder, context, state)
     }
 
     private fun getSubtitle(context: Context, mediaDescriptionCompat: MediaDescriptionCompat?): CharSequence? = getSubtitle(context)
@@ -78,8 +78,8 @@ class NotificationCreator(private val context: Context, private val albumArtCach
 
     private fun getSubtitle(context: Context): CharSequence? = context.getText(R.string.notification_subtitle)?.toString()
 
-    private fun addPlayPauseAction(builder: NotificationCompat.Builder, context: Context) {
-        if (getPlaybackState().state == PlaybackStateCompat.STATE_PLAYING) {
+    private fun addPlayPauseAction(builder: NotificationCompat.Builder, context: Context, playbackState: PlaybackStateCompat) {
+        if (playbackState.state == PlaybackStateCompat.STATE_PLAYING) {
             val label = context.getString(R.string.label_pause)
             val icon = R.drawable.uamp_ic_pause_white_24dp
             val intent = intentManager.getPauseIntent(context)
@@ -93,14 +93,7 @@ class NotificationCreator(private val context: Context, private val albumArtCach
 
     }
 
-    private fun getPlaybackState(): PlaybackStateCompat {
-        val builder = PlaybackStateCompat.Builder()
-        builder.setState(PlaybackStateCompat.STATE_BUFFERING, 100, 10f)
-        return builder.build()
-    }
-
-    private fun setNotificationPlaybackState(builder: NotificationCompat.Builder) {
-        val playbackState = getPlaybackState()
+    private fun setNotificationPlaybackState(builder: NotificationCompat.Builder, playbackState: PlaybackStateCompat) {
         if (playbackState.state == PlaybackStateCompat.STATE_PLAYING && playbackState.getPosition() >= 0) {
             builder
                     .setWhen(System.currentTimeMillis() - playbackState.getPosition())
@@ -115,7 +108,7 @@ class NotificationCreator(private val context: Context, private val albumArtCach
         builder.setOngoing(playbackState.getState() == PlaybackStateCompat.STATE_PLAYING)
     }
 
-    fun updateNotification(media: MediaDescriptionCompat?, playbackState: Int, playWhenReady: Boolean): Any = {}
+    fun updateNotification(media: MediaDescriptionCompat?, playbackState: PlaybackStateCompat, playWhenReady: Boolean): Notification = createNotification(media, playbackState)
 
 }
 

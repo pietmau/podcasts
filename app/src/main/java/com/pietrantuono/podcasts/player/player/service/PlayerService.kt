@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import android.support.v4.media.MediaDescriptionCompat
+import android.support.v4.media.session.PlaybackStateCompat
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.source.MediaSource
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.dagger.SinglePodcastModule
@@ -20,8 +21,11 @@ import com.pietrantuono.podcasts.player.player.service.playbacknotificator.Playb
 import javax.inject.Inject
 import javax.inject.Named
 
-class PlayerService() : InstrumentedService(), Player, NotificatorService {
-    override val media: MediaDescriptionCompat = throw UnsupportedOperationException("Not implemented")
+class PlayerService() : InstrumentedService(), Player, NotificatorService { //TODO remove this crap
+    override val playbackSate: PlaybackStateCompat = throw UnsupportedOperationException("Not suported")
+    override val media: MediaDescriptionCompat = throw UnsupportedOperationException("Not suported")
+    override fun addListener(listener: ExoPlayer.EventListener) = throw UnsupportedOperationException("Not implemented")
+    override fun removeListener(listener: ExoPlayer.EventListener) = throw UnsupportedOperationException("Not implemented")
 
     override var boundToFullScreen: Boolean = false
         set(value) {
@@ -42,7 +46,7 @@ class PlayerService() : InstrumentedService(), Player, NotificatorService {
 
     val exoPlayerEventListener: SimpleExoPlayerEventListener = object : SimpleExoPlayerEventListener() {
         override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
-            updateNotification(playWhenReady, playbackState)
+            updateNotification(playWhenReady, playback.playbackSate)
         }
     }
 
@@ -108,15 +112,11 @@ class PlayerService() : InstrumentedService(), Player, NotificatorService {
     }
 
     override fun checkIfShoudBeForeground() {
-        notificator.checkIfShoudBeForeground(this, playback.media)
+        notificator.checkIfShoudBeForeground(this, playback.media, playback.playbackSate)
     }
 
-    override fun addListener(listener: ExoPlayer.EventListener) = throw UnsupportedOperationException("Not implemented")
-
-    override fun removeListener(listener: ExoPlayer.EventListener) = throw UnsupportedOperationException("Not implemented")
-
-    private fun updateNotification(playWhenReady: Boolean, playbackState: Int) {
-        notificator.updateNotification(this, playback.media, playbackState, playWhenReady)
+    private fun updateNotification(playWhenReady: Boolean, playbackState: PlaybackStateCompat) {
+        notificator.updateNotification(this, this, playback.media, playbackState, playWhenReady)
     }
 }
 
