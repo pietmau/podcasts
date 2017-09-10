@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
-import android.support.v4.media.session.PlaybackStateCompat
 import com.google.android.exoplayer2.source.MediaSource
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.dagger.SinglePodcastModule
 import com.pietrantuono.podcasts.apis.Episode
@@ -16,6 +15,7 @@ import com.pietrantuono.podcasts.player.player.player.Player
 import com.pietrantuono.podcasts.player.player.player.SimpleExoPlayerEventListener
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.NotificatorService
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.PlaybackNotificator
+import com.pietrantuono.podcasts.player.player.service.playbacknotificator.PlaybackNotificatorImpl
 import javax.inject.Inject
 
 class PlayerService() : InstrumentedService(), Player, NotificatorService {
@@ -102,6 +102,16 @@ class PlayerService() : InstrumentedService(), Player, NotificatorService {
 
     override fun play() {
         playback.play()
+    }
+
+    override fun stop() {
+        playback.stop()
+        stopThisService()
+    }
+
+    private fun stopThisService() {
+        stopForeground(PlaybackNotificatorImpl.REMOVE_NOTIFICATION)
+        stopSelf()
     }
 
     override fun checkIfShoudBeForeground() {

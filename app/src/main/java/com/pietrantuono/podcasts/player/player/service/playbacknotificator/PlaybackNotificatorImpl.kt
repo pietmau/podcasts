@@ -9,7 +9,7 @@ import com.pietrantuono.podcasts.application.DebugLogger
 class PlaybackNotificatorImpl(private val logger: DebugLogger,
                               private val notificationCreator: NotificationCreator) : PlaybackNotificator {
     companion object {
-        private val REMOVE_NOTIFICATION: Boolean = true
+        val REMOVE_NOTIFICATION: Boolean = true
         private val NOTIFICATION_ID: Int = 1
     }
 
@@ -39,7 +39,7 @@ class PlaybackNotificatorImpl(private val logger: DebugLogger,
         if (!shouldBeForeground(notificatorService)) {
             return
         }
-        val notification = notificationCreator.updateNotification(media, playbackState, playWhenReady)
+        val notification = notificationCreator.updateNotification(media, playbackState, playWhenReady, )
         (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(NOTIFICATION_ID, notification);
     }
 }

@@ -13,4 +13,5 @@ interface PlaybackWrapper {
     fun play()
     fun addListener(listener: ExoPlayer.EventListener)
     fun removeListener(listener: ExoPlayer.EventListener)
+    fun stop()
 }

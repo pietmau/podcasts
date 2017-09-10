@@ -35,6 +35,7 @@
     <string name="label_play">Play</string>
     <string name="label_next">Next</string>
     <string name="notification_subtitle">Subtitle</string>
+    <string name="stop">Stop</string>
 
 
 </resources>

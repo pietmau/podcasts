@@ -19,6 +19,7 @@ class BroadcastManager(private val intentManager: IntentsManager) {
         filter.addAction(intentManager.ACTION_PAUSE)
         filter.addAction(intentManager.ACTION_PLAY)
         filter.addAction(intentManager.ACTION_NEXT)
+        filter.addAction(intentManager.ACTION_STOP)
         return filter
     }
 
@@ -31,6 +32,7 @@ class BroadcastManager(private val intentManager: IntentsManager) {
             when (it) {
                 intentManager.ACTION_PAUSE -> player.pause()
                 intentManager.ACTION_PLAY -> player.play()
+                intentManager.ACTION_STOP -> player.stop()
             }
         }
 

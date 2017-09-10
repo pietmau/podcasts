@@ -10,6 +10,7 @@ import com.pietrantuono.podcasts.player.player.MediaSourceCreator
 class LocalPlaybackWrapper(private val localPlayback: Playback, private val mediaCreator: MediaSourceCreator) : PlaybackWrapper {
     override val playbackState: PlaybackStateCompat
         get() = localPlayback.playbackState
+
     override var episode: Episode? = null
         set(value) {
             field = value
@@ -37,5 +38,8 @@ class LocalPlaybackWrapper(private val localPlayback: Playback, private val medi
         localPlayback.removeListener(listener)
     }
 
+    override fun stop() {
+        localPlayback.stop(true)
+    }
 }
 

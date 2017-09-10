@@ -61,7 +61,7 @@ class SinglePodcastModule {
     fun providesBroadcastManger(intentManager: IntentsManager) = BroadcastManager(intentManager)
 
     @Provides
-    fun providesIntentManager() = IntentsManager()
+    fun providesIntentManager(context: Context) = IntentsManager(context)
 
     @Provides
     fun providesPlaybackStateCreator() = PlaybackStateCreator()

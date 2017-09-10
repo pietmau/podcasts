@@ -6,7 +6,7 @@ import android.content.Intent
 import com.pietrantuono.podcasts.BuildConfig
 import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayActivity
 
-class IntentsManager {
+class IntentsManager(private val context: Context) {
 
     val REQUEST_CODE = 1
     val PACKAGE = BuildConfig.APPLICATION_ID
@@ -14,24 +14,27 @@ class IntentsManager {
     val ACTION_PAUSE = PACKAGE + ".pause"
     val ACTION_PLAY = PACKAGE + ".play"
     val ACTION_NEXT = PACKAGE + ".next"
+    val ACTION_STOP = PACKAGE + ".stop"
 
+    val playIntent: PendingIntent
+        get() = PendingIntent.getBroadcast(context, REQUEST_CODE,
+                Intent(ACTION_PLAY).setPackage(PACKAGE), PendingIntent.FLAG_CANCEL_CURRENT)
 
-    fun getPlayIntent(context: Context): PendingIntent =
-            PendingIntent.getBroadcast(context, REQUEST_CODE,
-                    Intent(ACTION_PLAY).setPackage(PACKAGE), PendingIntent.FLAG_CANCEL_CURRENT)
+    val stopIntent: PendingIntent
+        get() = PendingIntent.getBroadcast(context, REQUEST_CODE,
+                Intent(ACTION_STOP).setPackage(PACKAGE), PendingIntent.FLAG_CANCEL_CURRENT)
 
-    fun getPreviousIntent(context: Context): PendingIntent =
-            PendingIntent.getBroadcast(context, REQUEST_CODE,
-                    Intent(ACTION_PREV).setPackage(PACKAGE), PendingIntent.FLAG_CANCEL_CURRENT)
+    val previousIntent: PendingIntent
+        get() = PendingIntent.getBroadcast(context, REQUEST_CODE,
+                Intent(ACTION_PREV).setPackage(PACKAGE), PendingIntent.FLAG_CANCEL_CURRENT)
 
+    val pauseIntent: PendingIntent
+        get() = PendingIntent.getBroadcast(context, REQUEST_CODE,
+                Intent(ACTION_PAUSE).setPackage(PACKAGE), PendingIntent.FLAG_CANCEL_CURRENT)
 
-    fun getPauseIntent(context: Context): PendingIntent =
-            PendingIntent.getBroadcast(context, REQUEST_CODE,
-                    Intent(ACTION_PAUSE).setPackage(PACKAGE), PendingIntent.FLAG_CANCEL_CURRENT)
-
-    fun getNextIntent(context: Context): PendingIntent =
-            PendingIntent.getBroadcast(context, REQUEST_CODE,
-                    Intent(ACTION_NEXT).setPackage(PACKAGE), PendingIntent.FLAG_CANCEL_CURRENT)
+    val nextIntent: PendingIntent
+        get() = PendingIntent.getBroadcast(context, REQUEST_CODE,
+                Intent(ACTION_NEXT).setPackage(PACKAGE), PendingIntent.FLAG_CANCEL_CURRENT)
 
     fun createContentIntent(context: Context, description: Any?): PendingIntent? {
         val openUI = Intent(context, FullscreenPlayActivity::class.java)
