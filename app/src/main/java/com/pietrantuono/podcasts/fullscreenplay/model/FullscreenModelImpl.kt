@@ -1,5 +1,6 @@
 package com.pietrantuono.podcasts.fullscreenplay.model
 
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 import rx.Observable
@@ -13,11 +14,17 @@ class FullscreenModelImpl(private val repo: EpisodesRepository, private val mani
     : FullscreenModel {
     private var cached: Observable<out Episode>? = null
     private var subscription: Subscription? = null
+    override var episode: Episode? = null
 
     override fun getEpisodeByUrl(url: String?) {
         cached = repo
                 .getEpisodeByUrlAsObservable(url)
                 .cache()
+        subscribe(object : SimpleObserver<Episode>() {
+            override fun onNext(feed: Episode?) {
+                this@FullscreenModelImpl.episode = feed
+            }
+        })
     }
 
     override fun subscribe(observer: Observer<in Episode>) {

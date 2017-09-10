@@ -23,7 +23,7 @@ class PlaybackNotificatorImpl(private val logger: DebugLogger,
     }
 
     override fun checkIfShoudBeForeground(notificatorService: NotificatorService, media: MediaDescriptionCompat?, state: PlaybackStateCompat, bitmap: Bitmap?): Boolean {
-        val shouldBeForeground = shouldBeForeground(notificatorService)
+        val shouldBeForeground = shouldBeForeground(notificatorService, media)
         logger.debug(PlaybackNotificatorImpl::class.java.simpleName, "checkIfShoudBeForeground = " + shouldBeForeground)
         if (shouldBeForeground) {
             startForeground(notificatorService, media, state, bitmap)
@@ -42,14 +42,17 @@ class PlaybackNotificatorImpl(private val logger: DebugLogger,
         notificatorService.startForeground(NOTIFICATION_ID, notification);
     }
 
-    private fun shouldBeForeground(notificatorService: NotificatorService) = !notificatorService.boundToFullScreen
+    private fun shouldBeForeground(notificatorService: NotificatorService, media: MediaDescriptionCompat?): Boolean {
+        val isBound = notificatorService.boundToFullScreen
+        val hasMedia = media != null
+        return !isBound && hasMedia
+    }
 
     override fun updateNotification(context: Context, notificatorService: NotificatorService, media: MediaDescriptionCompat?, playbackState: PlaybackStateCompat, playWhenReady: Boolean, bitmap: Bitmap?) {
-        if (!shouldBeForeground(notificatorService)) {
+        if (!shouldBeForeground(notificatorService, media)) {
             return
         }
         val notification = notificationCreator.updateNotification(media, playbackState, playWhenReady, bitmap)
         (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(NOTIFICATION_ID, notification);
     }
 }
-

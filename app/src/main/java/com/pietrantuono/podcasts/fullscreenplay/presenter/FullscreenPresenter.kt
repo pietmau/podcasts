@@ -6,13 +6,14 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserv
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayView
+import com.pietrantuono.podcasts.fullscreenplay.custom.ColorizedPlaybackControlView
 import com.pietrantuono.podcasts.fullscreenplay.model.FullscreenModel
 import com.pietrantuono.podcasts.player.player.player.Player
 
 
 class FullscreenPresenter(private val model: FullscreenModel, private val player: Player?,
                           private val connector: ServiceConnector, private val apiLevelChecker: ApiLevelChecker)
-    : ViewModel() {
+    : ViewModel(), ColorizedPlaybackControlView.Callback {
 
     private var view: FullscreenPlayView? = null
 
@@ -33,8 +34,7 @@ class FullscreenPresenter(private val model: FullscreenModel, private val player
     }
 
     private fun onEpisodeAvailable(episode: Episode?) {
-        view?.setEpisode(episode)
-        episode?.let { player?.setEpisode(it) }
+        view?.setEpisode(episode)//TODO enable only when available
     }
 
     fun onStop(activity: Activity) {
@@ -42,4 +42,9 @@ class FullscreenPresenter(private val model: FullscreenModel, private val player
         model.unSubscribe()
         connector.unbindService(activity)
     }
+
+    override fun onPlayClicked() {
+        model.episode?.let { player?.setEpisode(it) }
+    }
+
 }

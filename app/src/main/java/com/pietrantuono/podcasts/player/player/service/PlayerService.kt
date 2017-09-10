@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.IBinder
+import android.util.Log
 import android.view.View
 import com.google.android.exoplayer2.source.MediaSource
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener
@@ -43,6 +44,7 @@ class PlayerService() : InstrumentedService(), Player, NotificatorService {
 
     val exoPlayerEventListener: SimpleExoPlayerEventListener = object : SimpleExoPlayerEventListener() {
         override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
+            Log.d("EventListener", "onPlayerStateChanged " + playWhenReady + " " + playbackState)
             updateNotification(playWhenReady, artwork)
         }
     }
@@ -117,10 +119,6 @@ class PlayerService() : InstrumentedService(), Player, NotificatorService {
 
     override fun stop() {
         playback.stop()
-        stopThisService()
-    }
-
-    private fun stopThisService() {
         stopForeground(PlaybackNotificatorImpl.REMOVE_NOTIFICATION)
         stopSelf()
     }

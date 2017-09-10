@@ -24,4 +24,12 @@ class ColorizedPlaybackControlView : CustomPlaybackControlView {
     fun onStop() {
         player = null
     }
+
+    override fun setCallback(callback: Callback) {
+        super.setCallback(callback)
+    }
+
+    interface Callback {
+        fun onPlayClicked()
+    }
 }
