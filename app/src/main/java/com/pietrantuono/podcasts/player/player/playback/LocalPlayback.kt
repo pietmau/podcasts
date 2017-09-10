@@ -120,10 +120,6 @@ class LocalPlayback(context: Context, override var exoPlayer: SimpleExoPlayer?, 
         }
     }
 
-    override fun setCallback(callback: Playback.Callback?) {
-        this.mCallback = callback
-    }
-
     private fun tryToGetAudioFocus() {
         val result = audioManager.requestAudioFocus(
                 mOnAudioFocusChangeListener,
@@ -236,10 +232,6 @@ class LocalPlayback(context: Context, override var exoPlayer: SimpleExoPlayer?, 
 
         override fun onPositionDiscontinuity() {
         }
-    }
-
-    override fun playAll(mediaSource: MediaSource) {
-        playMediaSource(mediaSource)
     }
 
     override fun setMediaSource(mediaSource: MediaSource) {

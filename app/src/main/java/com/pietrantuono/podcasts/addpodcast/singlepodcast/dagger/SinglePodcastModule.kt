@@ -14,17 +14,13 @@ import com.pietrantuono.podcasts.apis.SinglePodcastApi
 import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.main.view.TransitionsHelper
 import com.pietrantuono.podcasts.player.player.MediaSourceCreator
-import com.pietrantuono.podcasts.player.player.playback.LocalPlayback
-import com.pietrantuono.podcasts.player.player.playback.LocalPlaybackWrapper
-import com.pietrantuono.podcasts.player.player.playback.Playback
-import com.pietrantuono.podcasts.player.player.playback.PlaybackStateCreator
+import com.pietrantuono.podcasts.player.player.playback.*
 import com.pietrantuono.podcasts.player.player.player.Player
 import com.pietrantuono.podcasts.player.player.service.BroadcastManager
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.*
 import com.pietrantuono.podcasts.repository.repository.Repository
 import dagger.Module
 import dagger.Provides
-import javax.inject.Named
 
 @Module
 class SinglePodcastModule {
@@ -59,9 +55,7 @@ class SinglePodcastModule {
             = PlaybackNotificatorImpl(logger, NotificationCreator(context, AlbumArtCache(), intentManager))
 
     @Provides
-    @Named(LocalPlaybackWrapper.TAG)
-    fun providesPlayerWrapper(localPlayback: Playback, creator: MediaSourceCreator): Player = LocalPlaybackWrapper(localPlayback, creator)
-
+    fun providesPlayerWrapper(localPlayback: Playback, creator: MediaSourceCreator): PlaybackWrapper = LocalPlaybackWrapper(localPlayback, creator)
 
     @Provides
     fun providesBroadcastManger(intentManager: IntentsManager) = BroadcastManager(intentManager)

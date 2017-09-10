@@ -100,9 +100,6 @@ interface Playback {
         fun setCurrentMediaId(mediaId: String?)
     }
 
-    fun setCallback(callback: Callback?)
-
-    fun playAll(mediaSource: MediaSource)
     fun playMediaSource(mediaSource: MediaSource)
     fun setMediaSource(mediaSource: MediaSource)
     fun play()

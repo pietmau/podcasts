@@ -4,28 +4,21 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
-import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.source.MediaSource
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.dagger.SinglePodcastModule
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.player.player.PodcastFeedSource
-import com.pietrantuono.podcasts.player.player.playback.LocalPlaybackWrapper
+import com.pietrantuono.podcasts.player.player.playback.PlaybackWrapper
 import com.pietrantuono.podcasts.player.player.player.Player
 import com.pietrantuono.podcasts.player.player.player.SimpleExoPlayerEventListener
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.NotificatorService
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.PlaybackNotificator
 import javax.inject.Inject
-import javax.inject.Named
 
-class PlayerService() : InstrumentedService(), Player, NotificatorService { //TODO remove this crap
-    override val playbackState: PlaybackStateCompat = throw UnsupportedOperationException("Not suported")
-    override val media: MediaDescriptionCompat = throw UnsupportedOperationException("Not suported")
-    override fun addListener(listener: ExoPlayer.EventListener) = throw UnsupportedOperationException("Not implemented")
-    override fun removeListener(listener: ExoPlayer.EventListener) = throw UnsupportedOperationException("Not implemented")
+class PlayerService() : InstrumentedService(), Player, NotificatorService {
 
     override var boundToFullScreen: Boolean = false
         set(value) {
@@ -33,7 +26,7 @@ class PlayerService() : InstrumentedService(), Player, NotificatorService { //TO
             checkIfShoudBeForeground()
         }
 
-    @field:[Inject Named(LocalPlaybackWrapper.TAG)] lateinit var playback: Player
+    @Inject lateinit var playback: PlaybackWrapper
     @Inject lateinit var logger: DebugLogger
     @Inject lateinit var notificator: PlaybackNotificator
     @Inject lateinit var broadcastManager: BroadcastManager
@@ -55,7 +48,7 @@ class PlayerService() : InstrumentedService(), Player, NotificatorService { //TO
     }
 
     override fun setEpisode(episode: Episode) {
-        playback.setEpisode(episode)
+        playback.episode = episode
     }
 
     override fun onCreate() {

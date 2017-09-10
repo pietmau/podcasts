@@ -61,18 +61,16 @@ class NotificationCreator(private val context: Context, private val albumArtCach
     private fun setActions(builder: NotificationCompat.Builder, state: PlaybackStateCompat) {
         builder.addAction(R.drawable.ic_skip_previous_white_24dp,
                 context.getString(R.string.label_previous), intentManager.getPreviousIntent(context))
+        addPlayPauseAction(builder, context, state)
         builder.addAction(R.drawable.ic_skip_next_white_24dp,
                 context.getString(R.string.label_next), intentManager.getNextIntent(context))
-        addPlayPauseAction(builder, context, state)
     }
 
     private fun getSubtitle(context: Context, mediaDescriptionCompat: MediaDescriptionCompat?): CharSequence? = getSubtitle(context)
 
     private fun getTitle(context: Context, mediaDescriptionCompat: MediaDescriptionCompat?): String? = getTitle(context)
 
-    private fun fetchBitmapFromURLAsync(fetchArtUrl: String?, notificationBuilder: NotificationCompat.Builder) {
-        TODO()
-    }
+    private fun fetchBitmapFromURLAsync(fetchArtUrl: String?, notificationBuilder: NotificationCompat.Builder) {  }
 
     private fun getNotificationColor(context: Context): Int = context.resources.getColor(R.color.colorPrimary)
 
