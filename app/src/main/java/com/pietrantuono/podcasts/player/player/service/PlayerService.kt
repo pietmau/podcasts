@@ -3,8 +3,11 @@ package com.pietrantuono.podcasts.player.player.service
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.IBinder
+import android.view.View
 import com.google.android.exoplayer2.source.MediaSource
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.dagger.SinglePodcastModule
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.App
@@ -19,6 +22,7 @@ import com.pietrantuono.podcasts.player.player.service.playbacknotificator.Playb
 import javax.inject.Inject
 
 class PlayerService() : InstrumentedService(), Player, NotificatorService {
+    private var artwork: Bitmap? = null
 
     override var boundToFullScreen: Boolean = false
         set(value) {
@@ -39,7 +43,7 @@ class PlayerService() : InstrumentedService(), Player, NotificatorService {
 
     val exoPlayerEventListener: SimpleExoPlayerEventListener = object : SimpleExoPlayerEventListener() {
         override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
-            updateNotification(playWhenReady)
+            updateNotification(playWhenReady, artwork)
         }
     }
 
@@ -49,6 +53,13 @@ class PlayerService() : InstrumentedService(), Player, NotificatorService {
 
     override fun setEpisode(episode: Episode) {
         playback.episode = episode
+        artwork = null
+        notificator.loadImage(episode.imageUrl, object : SimpleImageLoadingListener() {
+            override fun onLoadingComplete(imageUri: String?, view: View?, loadedImage: Bitmap?) {
+                this@PlayerService.artwork = loadedImage
+                checkIfShoudBeForeground()
+            }
+        })
     }
 
     override fun onCreate() {
@@ -115,11 +126,11 @@ class PlayerService() : InstrumentedService(), Player, NotificatorService {
     }
 
     override fun checkIfShoudBeForeground() {
-        notificator.checkIfShoudBeForeground(this, playback.media, playback.playbackState)
+        notificator.checkIfShoudBeForeground(this, playback.media, playback.playbackState, artwork)
     }
 
-    private fun updateNotification(playWhenReady: Boolean) {
-        notificator.updateNotification(this, this, playback.media, playback.playbackState, playWhenReady)
+    private fun updateNotification(playWhenReady: Boolean, bitmap: Bitmap?) {
+        notificator.updateNotification(this, this, playback.media, playback.playbackState, playWhenReady, artwork)
     }
 }
 

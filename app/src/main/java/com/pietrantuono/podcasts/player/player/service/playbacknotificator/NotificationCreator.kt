@@ -4,6 +4,7 @@ package com.pietrantuono.podcasts.player.player.service.playbacknotificator
 import android.app.Notification
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.app.NotificationCompat
@@ -14,7 +15,7 @@ class NotificationCreator(private val context: Context, private val imageLooader
 
     private fun getTitle(context: Context): String? = context.getText(R.string.notification_title)?.toString()
 
-    fun createNotification(mediaDescriptionCompat: MediaDescriptionCompat?, state: PlaybackStateCompat, bitmap: Bitmap): Notification {
+    fun createNotification(mediaDescriptionCompat: MediaDescriptionCompat?, state: PlaybackStateCompat, bitmap: Bitmap?): Notification {
         val builder = NotificationCompat.Builder(context)
 
         setActions(builder, state)
@@ -38,11 +39,15 @@ class NotificationCreator(private val context: Context, private val imageLooader
     }
 
     fun updateNotification(media: MediaDescriptionCompat?, playbackState: PlaybackStateCompat,
-                           playWhenReady: Boolean, bitmap: Bitmap): Notification = createNotification(media, playbackState, bitmap)
+                           playWhenReady: Boolean, bitmap: Bitmap?): Notification = createNotification(media, playbackState, bitmap)
 
-    private fun setBitmap(bitmap: Bitmap, builder: NotificationCompat.Builder) {
+    private fun setBitmap(bitmap: Bitmap?, builder: NotificationCompat.Builder) {
         if (bitmap != null) {
             builder.setLargeIcon(bitmap)
+        } else {
+            val art = BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.ic_default_art)
+            builder.setLargeIcon(art)
         }
     }
 
