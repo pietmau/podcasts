@@ -40,6 +40,9 @@
         <service
             android:name="com.pietrantuono.podcasts.player.player.service.PlayerService"
             android:exported="false">
+            <intent-filter>
+                <action android:name="android.media.browse.MediaBrowserService"/>
+            </intent-filter>
         </service>
 
         <service

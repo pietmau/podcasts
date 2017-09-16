@@ -4,7 +4,10 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.os.Bundle
 import android.os.IBinder
+import android.support.v4.media.MediaBrowserCompat
+import android.support.v4.media.MediaBrowserServiceCompat
 import android.util.Log
 import android.view.View
 import com.google.android.exoplayer2.source.MediaSource
@@ -22,7 +25,10 @@ import com.pietrantuono.podcasts.player.player.service.playbacknotificator.Playb
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.PlaybackNotificatorImpl
 import javax.inject.Inject
 
-class PlayerService() : InstrumentedService(), Player, NotificatorService {
+class PlayerService() : Player, NotificatorService, MediaBrowserServiceCompat() {
+    val TAG: String = "PlayerService"
+    val MEDIA_ID_EMPTY_ROOT = "__EMPTY_ROOT__"
+
     private var artwork: Bitmap? = null
 
     override var boundToFullScreen: Boolean = false
@@ -35,6 +41,16 @@ class PlayerService() : InstrumentedService(), Player, NotificatorService {
     @Inject lateinit var logger: DebugLogger
     @Inject lateinit var notificator: PlaybackNotificator
     @Inject lateinit var broadcastManager: BroadcastManager
+
+    override fun onLoadChildren(parentId: String, result: Result<MutableList<MediaBrowserCompat.MediaItem>>) {
+        throw UnsupportedOperationException("Browsing unsupported")
+    }
+
+    // Binds but borwsing is not enabled
+    override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): BrowserRoot? {
+        return MediaBrowserServiceCompat.BrowserRoot(MEDIA_ID_EMPTY_ROOT, null)
+    }
+
 
     val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {

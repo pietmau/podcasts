@@ -46,6 +46,6 @@ class FullscreenPresenterFactory(private val model: FullscreenModel, val player:
     : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>?): T {
-        return FullscreenPresenter(model, player, connector, apiLevelChecker) as T
+        return FullscreenPresenter(model, player, connector) as T
     }
 }
