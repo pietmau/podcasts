@@ -32,17 +32,22 @@ class FullscreenPresenter(
         mediaBrowser = MediaBrowserCompat(context, ComponentName(context, PlayerService::class.java),
                 object : MediaBrowserCompat.ConnectionCallback() {
                     override fun onConnected() {
-
+                        bar()
                     }
 
                     override fun onConnectionSuspended() {
-
+                        bar()
                     }
 
                     override fun onConnectionFailed() {
-
+                        bar()
                     }
                 }, null)
+    }
+
+    private fun bar() {
+
+
     }
 
     fun onStart(activity: Activity) {

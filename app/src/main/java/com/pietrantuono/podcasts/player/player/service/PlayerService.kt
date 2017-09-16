@@ -5,9 +5,10 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.os.IBinder
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaBrowserServiceCompat
+import android.support.v4.media.session.MediaSessionCompat
+import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import android.view.View
 import com.google.android.exoplayer2.source.MediaSource
@@ -24,6 +25,7 @@ import com.pietrantuono.podcasts.player.player.service.playbacknotificator.Notif
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.PlaybackNotificator
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.PlaybackNotificatorImpl
 import javax.inject.Inject
+
 
 class PlayerService() : Player, NotificatorService, MediaBrowserServiceCompat() {
     val TAG: String = "PlayerService"
@@ -80,19 +82,40 @@ class PlayerService() : Player, NotificatorService, MediaBrowserServiceCompat() 
         })
     }
 
+    private var mMediaSession: MediaSessionCompat? = null
+
+    private var mStateBuilder: PlaybackStateCompat.Builder? = null
+
     override fun onCreate() {
         super.onCreate()
         (applicationContext as App).applicationComponent?.with(SinglePodcastModule())?.inject(this)
         logger.debug(TAG, "onCreate")
         broadcastManager.registerForBroadcastsFromNotification(this, receiver)
         playback.addListener(exoPlayerEventListener)
+        mMediaSession = MediaSessionCompat(this, "fubar")
+
+        // Enable callbacks from MediaButtons and TransportControls
+        mMediaSession?.setFlags(
+                MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
+
+        // Set an initial PlaybackState with ACTION_PLAY, so media buttons can start the player
+        mStateBuilder = PlaybackStateCompat.Builder()
+                .setActions(
+                        PlaybackStateCompat.ACTION_PLAY or PlaybackStateCompat.ACTION_PLAY_PAUSE)
+        mMediaSession?.setPlaybackState(mStateBuilder?.build())
+
+        // MySessionCallback() has methods that handle callbacks from a media controller
+        mMediaSession?.setCallback(object :MediaSessionCompat.Callback(){})
+
+        // Set the session's token so that client activities can communicate with it.
+        setSessionToken(mMediaSession?.getSessionToken())
     }
 
-    override fun onBind(intent: Intent?): IBinder? {
-        logger.debug(TAG, "onBind")
-        checkIfShoudBeForeground()
-        return PlayerServiceBinder(this)
-    }
+//    override fun onBind(intent: Intent?): IBinder? {
+//        logger.debug(TAG, "onBind")
+//        checkIfShoudBeForeground()
+//        return PlayerServiceBinder(this)
+//    }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         logger.debug(TAG, "onStartCommand")
@@ -100,22 +123,22 @@ class PlayerService() : Player, NotificatorService, MediaBrowserServiceCompat() 
         return START_STICKY
     }
 
-    override fun onUnbind(intent: Intent?): Boolean {
-        logger.debug(TAG, "onUnbind")
-        checkIfShoudBeForeground()
-        return true
-    }
-
-    override fun onRebind(intent: Intent?) {
-        logger.debug(TAG, "onRebind")
-        checkIfShoudBeForeground()
-    }
-
-    override fun onDestroy() {
-        checkIfShoudBeForeground()
-        logger.debug(TAG, "onDestroy")
-        broadcastManager.unregisterForBroadcastsFromNotification(this, receiver)
-    }
+//    override fun onUnbind(intent: Intent?): Boolean {
+//        logger.debug(TAG, "onUnbind")
+//        checkIfShoudBeForeground()
+//        return true
+//    }
+//
+//    override fun onRebind(intent: Intent?) {
+//        logger.debug(TAG, "onRebind")
+//        checkIfShoudBeForeground()
+//    }
+//
+//    override fun onDestroy() {
+//        checkIfShoudBeForeground()
+//        logger.debug(TAG, "onDestroy")
+//        broadcastManager.unregisterForBroadcastsFromNotification(this, receiver)
+//    }
 
     override fun onTrimMemory(level: Int) {
         logger.debug(TAG, "onTrimMemory")
