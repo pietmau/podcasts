@@ -16,10 +16,9 @@
 package com.pietrantuono.podcasts.customcontrols;
 
 import android.content.ComponentName;
-import android.content.Intent;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.RemoteException;
 import android.os.SystemClock;
@@ -31,15 +30,18 @@ import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateUtils;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.pietrantuono.podcasts.R;
+import com.pietrantuono.podcasts.player.player.service.PlayerService;
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.AlbumArtCache;
 
 import java.util.concurrent.Executors;
@@ -47,16 +49,11 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import static android.view.View.INVISIBLE;
-import static android.view.View.VISIBLE;
-
 /**
  * A full screen player that shows the current playing music with a background image
  * depicting the album art. The activity also has controls to seek/pause/play the audio.
  */
-public class FullScreenPlayerActivity extends AppCompatActivity {
-    public static final String EXTRA_CURRENT_MEDIA_DESCRIPTION =
-            "com.example.android.uamp.CURRENT_MEDIA_DESCRIPTION";
+public class CustomControls extends RelativeLayout {
     public static final String EXTRA_CONNECTED_CAST = "com.example.android.uamp.CAST_NAME";
     private static final long PROGRESS_UPDATE_INTERNAL = 1000;
     private static final long PROGRESS_UPDATE_INITIAL_INTERVAL = 100;
@@ -79,13 +76,87 @@ public class FullScreenPlayerActivity extends AppCompatActivity {
     private String mCurrentArtUrl;
     private final Handler mHandler = new Handler();
     private MediaBrowserCompat mMediaBrowser;
+    private MediaControllerCompat supportMediaController;
 
-    private final Runnable mUpdateProgressTask = new Runnable() {
-        @Override
-        public void run() {
-            updateProgress();
-        }
-    };
+    public CustomControls(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        LayoutInflater inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater.inflate(R.layout.custom_player, this);
+        mBackgroundImage = (ImageView) findViewById(R.id.background_image);
+        mPauseDrawable = ContextCompat.getDrawable(getContext(), R.drawable.uamp_ic_pause_white_48dp);
+        mPlayDrawable = ContextCompat.getDrawable(getContext(), R.drawable.uamp_ic_play_arrow_white_48dp);
+        mPlayPause = (ImageView) findViewById(R.id.play_pause);
+        mSkipNext = (ImageView) findViewById(R.id.next);
+        mSkipPrev = (ImageView) findViewById(R.id.prev);
+        mStart = (TextView) findViewById(R.id.startText);
+        mEnd = (TextView) findViewById(R.id.endText);
+        mSeekbar = (SeekBar) findViewById(R.id.seekBar1);
+        mLine1 = (TextView) findViewById(R.id.line1);
+        mLine2 = (TextView) findViewById(R.id.line2);
+        mLine3 = (TextView) findViewById(R.id.line3);
+        mLoading = (ProgressBar) findViewById(R.id.progressBar1);
+        mControllers = findViewById(R.id.controllers);
+
+        mSkipNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MediaControllerCompat.TransportControls controls =
+                        getSupportMediaController().getTransportControls();
+                controls.skipToNext();
+            }
+        });
+
+        mSkipPrev.setOnClickListener(v -> {
+            MediaControllerCompat.TransportControls controls =
+                    getSupportMediaController().getTransportControls();
+            controls.skipToPrevious();
+        });
+
+        mPlayPause.setOnClickListener(v -> {
+            PlaybackStateCompat state = getSupportMediaController().getPlaybackState();
+            if (state != null) {
+                MediaControllerCompat.TransportControls controls =
+                        getSupportMediaController().getTransportControls();
+                switch (state.getState()) {
+                    case PlaybackStateCompat.STATE_PLAYING: // fall through
+                    case PlaybackStateCompat.STATE_BUFFERING:
+                        controls.pause();
+                        stopSeekbarUpdate();
+                        break;
+                    case PlaybackStateCompat.STATE_PAUSED:
+                    case PlaybackStateCompat.STATE_STOPPED:
+                        controls.play();
+                        scheduleSeekbarUpdate();
+                        break;
+                    default:
+                }
+            }
+        });
+
+        mSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                mStart.setText(DateUtils.formatElapsedTime(progress / 1000));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                stopSeekbarUpdate();
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                getSupportMediaController().getTransportControls().seekTo(seekBar.getProgress());
+                scheduleSeekbarUpdate();
+            }
+        });
+
+        mMediaBrowser = new MediaBrowserCompat(getContext(), new ComponentName(getContext(), PlayerService.class), mConnectionCallback, null);
+    }
+
+
+    private final Runnable mUpdateProgressTask = () -> updateProgress();
 
     private final ScheduledExecutorService mExecutorService =
             Executors.newSingleThreadScheduledExecutor();
@@ -113,7 +184,6 @@ public class FullScreenPlayerActivity extends AppCompatActivity {
             new MediaBrowserCompat.ConnectionCallback() {
                 @Override
                 public void onConnected() {
-
                     try {
                         connectToSession(mMediaBrowser.getSessionToken());
                     } catch (RemoteException e) {
@@ -122,104 +192,10 @@ public class FullScreenPlayerActivity extends AppCompatActivity {
                 }
             };
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_full_player);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("");
-        }
-
-        mBackgroundImage = (ImageView) findViewById(R.id.background_image);
-        mPauseDrawable = ContextCompat.getDrawable(this, R.drawable.uamp_ic_pause_white_48dp);
-        mPlayDrawable = ContextCompat.getDrawable(this, R.drawable.uamp_ic_play_arrow_white_48dp);
-        mPlayPause = (ImageView) findViewById(R.id.play_pause);
-        mSkipNext = (ImageView) findViewById(R.id.next);
-        mSkipPrev = (ImageView) findViewById(R.id.prev);
-        mStart = (TextView) findViewById(R.id.startText);
-        mEnd = (TextView) findViewById(R.id.endText);
-        mSeekbar = (SeekBar) findViewById(R.id.seekBar1);
-        mLine1 = (TextView) findViewById(R.id.line1);
-        mLine2 = (TextView) findViewById(R.id.line2);
-        mLine3 = (TextView) findViewById(R.id.line3);
-        mLoading = (ProgressBar) findViewById(R.id.progressBar1);
-        mControllers = findViewById(R.id.controllers);
-
-        mSkipNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MediaControllerCompat.TransportControls controls =
-                        getSupportMediaController().getTransportControls();
-                controls.skipToNext();
-            }
-        });
-
-        mSkipPrev.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MediaControllerCompat.TransportControls controls =
-                        getSupportMediaController().getTransportControls();
-                controls.skipToPrevious();
-            }
-        });
-
-        mPlayPause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PlaybackStateCompat state = getSupportMediaController().getPlaybackState();
-                if (state != null) {
-                    MediaControllerCompat.TransportControls controls =
-                            getSupportMediaController().getTransportControls();
-                    switch (state.getState()) {
-                        case PlaybackStateCompat.STATE_PLAYING: // fall through
-                        case PlaybackStateCompat.STATE_BUFFERING:
-                            controls.pause();
-                            stopSeekbarUpdate();
-                            break;
-                        case PlaybackStateCompat.STATE_PAUSED:
-                        case PlaybackStateCompat.STATE_STOPPED:
-                            controls.play();
-                            scheduleSeekbarUpdate();
-                            break;
-                        default:
-                    }
-                }
-            }
-        });
-
-        mSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mStart.setText(DateUtils.formatElapsedTime(progress / 1000));
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                stopSeekbarUpdate();
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                getSupportMediaController().getTransportControls().seekTo(seekBar.getProgress());
-                scheduleSeekbarUpdate();
-            }
-        });
-
-        // Only update from the intent if we are not recreating from a config change:
-        if (savedInstanceState == null) {
-            updateFromParams(getIntent());
-        }
-
-        mMediaBrowser = new MediaBrowserCompat(this,
-                new ComponentName(this, MusicService.class), mConnectionCallback, null);
-    }
 
     private void connectToSession(MediaSessionCompat.Token token) throws RemoteException {
-        MediaControllerCompat mediaController = new MediaControllerCompat(
-                FullScreenPlayerActivity.this, token);
+        MediaControllerCompat mediaController = new MediaControllerCompat(getContext(), token);
         if (mediaController.getMetadata() == null) {
-            finish();
             return;
         }
         setSupportMediaController(mediaController);
@@ -235,16 +211,6 @@ public class FullScreenPlayerActivity extends AppCompatActivity {
         if (state != null && (state.getState() == PlaybackStateCompat.STATE_PLAYING ||
                 state.getState() == PlaybackStateCompat.STATE_BUFFERING)) {
             scheduleSeekbarUpdate();
-        }
-    }
-
-    private void updateFromParams(Intent intent) {
-        if (intent != null) {
-            MediaDescriptionCompat description = intent.getParcelableExtra(
-                    EXTRA_CURRENT_MEDIA_DESCRIPTION);
-            if (description != null) {
-                updateMediaDescription(description);
-            }
         }
     }
 
@@ -268,17 +234,14 @@ public class FullScreenPlayerActivity extends AppCompatActivity {
         }
     }
 
-    @Override
     public void onStart() {
-        super.onStart();
+
         if (mMediaBrowser != null) {
             mMediaBrowser.connect();
         }
     }
 
-    @Override
     public void onStop() {
-        super.onStop();
         if (mMediaBrowser != null) {
             mMediaBrowser.disconnect();
         }
@@ -287,9 +250,7 @@ public class FullScreenPlayerActivity extends AppCompatActivity {
         }
     }
 
-    @Override
     public void onDestroy() {
-        super.onDestroy();
         stopSeekbarUpdate();
         mExecutorService.shutdown();
     }
@@ -323,7 +284,7 @@ public class FullScreenPlayerActivity extends AppCompatActivity {
         }
     }
 
-    private void updateMediaDescription(MediaDescriptionCompat description) {
+    public void updateMediaDescription(MediaDescriptionCompat description) {
         if (description == null) {
             return;
         }
@@ -398,14 +359,18 @@ public class FullScreenPlayerActivity extends AppCompatActivity {
         }
         long currentPosition = mLastPlaybackState.getPosition();
         if (mLastPlaybackState.getState() == PlaybackStateCompat.STATE_PLAYING) {
-            // Calculate the elapsed time between the last position update and now and unless
-            // paused, we can assume (delta * speed) + current position is approximately the
-            // latest position. This ensure that we do not repeatedly call the getPlaybackState()
-            // on MediaControllerCompat.
             long timeDelta = SystemClock.elapsedRealtime() -
                     mLastPlaybackState.getLastPositionUpdateTime();
             currentPosition += (int) timeDelta * mLastPlaybackState.getPlaybackSpeed();
         }
         mSeekbar.setProgress((int) currentPosition);
+    }
+
+    public void setSupportMediaController(MediaControllerCompat supportMediaController) {
+        this.supportMediaController = supportMediaController;
+    }
+
+    public MediaControllerCompat getSupportMediaController() {
+        return supportMediaController;
     }
 }

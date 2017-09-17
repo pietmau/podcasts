@@ -14,50 +14,43 @@
         android:label="@string/app_name"
         android:screenOrientation="sensor"
         android:theme="@style/TransparentToolbarTheme">
-
         <activity
-            android:name=".main.view.MainActivity"
+            android:name=".Main2Activity"
             android:screenOrientation="sensor"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
-        <activity
-            android:name="com.pietrantuono.podcasts.addpodcast.singlepodcast.view.AddSinglePodcastActivity">
+        <activity android:name=".addpodcast.singlepodcast.view.AddSinglePodcastActivity">
         </activity>
-
-        <activity
-            android:name="com.pietrantuono.podcasts.addpodcast.singlepodcast.view.EpisodesListActivity">
+        <activity android:name=".addpodcast.singlepodcast.view.EpisodesListActivity">
         </activity>
-
-        <activity
-            android:name=".fullscreenplay.FullscreenPlayActivity">
+        <activity android:name=".fullscreenplay.FullscreenPlayActivity">
         </activity>
 
         <service
-            android:name="com.pietrantuono.podcasts.player.player.service.PlayerService"
+            android:name=".player.player.service.PlayerService"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService"/>
             </intent-filter>
         </service>
-
         <service
-            android:name="com.pietrantuono.podcasts.repository.SaveEpisodeIntentService"
+            android:name=".repository.SaveEpisodeIntentService"
             android:exported="false">
         </service>
-
         <service
-            android:name="com.pietrantuono.podcasts.downloader.service.DownloaderService"
+            android:name=".downloader.service.DownloaderService"
             android:exported="false">
         </service>
 
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="149dc5c633a9120f622c8468fd3423b84f7932c5"/>
+
     </application>
 
 </manifest>
