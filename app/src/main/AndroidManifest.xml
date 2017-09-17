@@ -15,7 +15,7 @@
         android:screenOrientation="sensor"
         android:theme="@style/TransparentToolbarTheme">
         <activity
-            android:name=".Main2Activity"
+            android:name=".main.view.MainActivity"
             android:screenOrientation="sensor"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -32,6 +32,7 @@
         </activity>
 
         <service
+            android:process=":diocan"
             android:name=".player.player.service.PlayerService"
             android:exported="false">
             <intent-filter>

@@ -7,7 +7,7 @@ import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.AbstractBaseDetailActivty
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.App
-import com.pietrantuono.podcasts.fullscreenplay.custom.ColorizedPlaybackControlView
+import com.pietrantuono.podcasts.customcontrols.CustomControls
 import com.pietrantuono.podcasts.fullscreenplay.di.FullscreenModule
 import com.pietrantuono.podcasts.fullscreenplay.presenter.FullscreenPresenter
 import com.pietrantuono.podcasts.fullscreenplay.view.custom.EpisodeView
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
     @Inject lateinit var presenter: FullscreenPresenter
-    @BindView(R.id.control) lateinit var controlView: ColorizedPlaybackControlView
+    @BindView(R.id.control) lateinit var controlView: CustomControls
     @BindView(R.id.episodeView) lateinit var episodeView: EpisodeView
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -48,11 +48,10 @@ class PlayerService() : Player, NotificatorService, MediaBrowserServiceCompat() 
         throw UnsupportedOperationException("Browsing unsupported")
     }
 
-    // Binds but borwsing is not enabled
+    // Binds but browsing is not enabled
     override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): BrowserRoot? {
         return MediaBrowserServiceCompat.BrowserRoot(MEDIA_ID_EMPTY_ROOT, null)
     }
-
 
     val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
