@@ -36,6 +36,8 @@
     <string name="label_next">Next</string>
     <string name="notification_subtitle">Subtitle</string>
     <string name="stop">Stop</string>
+    <string name="casting_to_device">Casting to %1$s</string>
+    <string name="loading">Loading…</string>
 
 
 </resources>
