@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.IBinder
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaBrowserServiceCompat
 import android.support.v4.media.session.MediaSessionCompat
@@ -29,28 +30,30 @@ import javax.inject.Inject
 
 class PlayerService() : Player, NotificatorService, MediaBrowserServiceCompat() {
     val TAG: String = "PlayerService"
-    val MEDIA_ID_EMPTY_ROOT = "__EMPTY_ROOT__"
-
+    val ROOT = "ROO"
     private var artwork: Bitmap? = null
-
     override var boundToFullScreen: Boolean = false
         set(value) {
             field = value
             checkIfShoudBeForeground()
         }
-
     @Inject lateinit var playback: PlaybackWrapper
     @Inject lateinit var logger: DebugLogger
     @Inject lateinit var notificator: PlaybackNotificator
     @Inject lateinit var broadcastManager: BroadcastManager
 
+    private val callback = object : MediaSessionCompat.Callback() {
+        override fun onPlayFromMediaId(mediaId: String?, extras: Bundle?) {
+
+        }
+    }
+
     override fun onLoadChildren(parentId: String, result: Result<MutableList<MediaBrowserCompat.MediaItem>>) {
         throw UnsupportedOperationException("Browsing unsupported")
     }
-
-    // Binds but browsing is not enabled
+    
     override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): BrowserRoot? {
-        return MediaBrowserServiceCompat.BrowserRoot(MEDIA_ID_EMPTY_ROOT, null)
+        return MediaBrowserServiceCompat.BrowserRoot(ROOT, null)
     }
 
     val receiver = object : BroadcastReceiver() {
@@ -81,9 +84,6 @@ class PlayerService() : Player, NotificatorService, MediaBrowserServiceCompat() 
         })
     }
 
-    private var mMediaSession: MediaSessionCompat? = null
-
-    private var mStateBuilder: PlaybackStateCompat.Builder? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -91,30 +91,20 @@ class PlayerService() : Player, NotificatorService, MediaBrowserServiceCompat() 
         logger.debug(TAG, "onCreate")
         broadcastManager.registerForBroadcastsFromNotification(this, receiver)
         playback.addListener(exoPlayerEventListener)
-        mMediaSession = MediaSessionCompat(this, "fubar")
-
-        // Enable callbacks from MediaButtons and TransportControls
-        mMediaSession?.setFlags(
+        val mediaSession = MediaSessionCompat(this, "fubar")
+        mediaSession?.setFlags(
                 MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
-
-        // Set an initial PlaybackState with ACTION_PLAY, so media buttons can start the player
-        mStateBuilder = PlaybackStateCompat.Builder()
-                .setActions(
-                        PlaybackStateCompat.ACTION_PLAY or PlaybackStateCompat.ACTION_PLAY_PAUSE)
-        mMediaSession?.setPlaybackState(mStateBuilder?.build())
-
-        // MySessionCallback() has methods that handle callbacks from a media controller
-        mMediaSession?.setCallback(object :MediaSessionCompat.Callback(){})
-
-        // Set the session's token so that client activities can communicate with it.
-        setSessionToken(mMediaSession?.getSessionToken())
+        val stateBuilder = PlaybackStateCompat.Builder().setActions(PlaybackStateCompat.ACTION_PLAY or PlaybackStateCompat.ACTION_PLAY_PAUSE)
+        mediaSession?.setPlaybackState(stateBuilder?.build())
+        mediaSession?.setCallback(callback)
+        setSessionToken(mediaSession?.getSessionToken())
     }
 
-//    override fun onBind(intent: Intent?): IBinder? {
-//        logger.debug(TAG, "onBind")
-//        checkIfShoudBeForeground()
-//        return PlayerServiceBinder(this)
-//    }
+    override fun onBind(intent: Intent?): IBinder? {
+        logger.debug(TAG, "onBind")
+        checkIfShoudBeForeground()
+        return PlayerServiceBinder(this)
+    }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         logger.debug(TAG, "onStartCommand")
@@ -122,22 +112,22 @@ class PlayerService() : Player, NotificatorService, MediaBrowserServiceCompat() 
         return START_STICKY
     }
 
-//    override fun onUnbind(intent: Intent?): Boolean {
-//        logger.debug(TAG, "onUnbind")
-//        checkIfShoudBeForeground()
-//        return true
-//    }
-//
-//    override fun onRebind(intent: Intent?) {
-//        logger.debug(TAG, "onRebind")
-//        checkIfShoudBeForeground()
-//    }
-//
-//    override fun onDestroy() {
-//        checkIfShoudBeForeground()
-//        logger.debug(TAG, "onDestroy")
-//        broadcastManager.unregisterForBroadcastsFromNotification(this, receiver)
-//    }
+    override fun onUnbind(intent: Intent?): Boolean {
+        logger.debug(TAG, "onUnbind")
+        checkIfShoudBeForeground()
+        return true
+    }
+
+    override fun onRebind(intent: Intent?) {
+        logger.debug(TAG, "onRebind")
+        checkIfShoudBeForeground()
+    }
+
+    override fun onDestroy() {
+        checkIfShoudBeForeground()
+        logger.debug(TAG, "onDestroy")
+        broadcastManager.unregisterForBroadcastsFromNotification(this, receiver)
+    }
 
     override fun onTrimMemory(level: Int) {
         logger.debug(TAG, "onTrimMemory")

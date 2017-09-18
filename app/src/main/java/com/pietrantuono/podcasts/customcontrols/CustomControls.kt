@@ -37,7 +37,7 @@ import android.widget.*
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
-import com.pietrantuono.podcasts.fullscreenplay.presenter.FullscreenPresenter
+import com.pietrantuono.podcasts.fullscreenplay.custom.ColorizedPlaybackControlView
 import com.pietrantuono.podcasts.player.player.service.PlayerService
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.AlbumArtCache
 import java.util.concurrent.Executors
@@ -56,20 +56,22 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
     @BindView(R.id.line3) lateinit var line3: TextView
     @BindView(R.id.progressBar1) lateinit var loading: ProgressBar
     @BindView(R.id.controllers) lateinit var controllers: View
+    @BindView(R.id.background_image) lateinit var backgroundImage: ImageView
     private val pauseDrawable: Drawable
     private val playDrawable: Drawable
-    @BindView(R.id.background_image) lateinit var backgroundImage: ImageView
     private var currentArtUrl: String? = null
     private val aHandler = Handler()
     private var mediaBrowser: MediaBrowserCompat? = null
     private var supportMediaController: MediaControllerCompat? = null
     private val transportControls = supportMediaController?.transportControls
+    private var onClickListener: ColorizedPlaybackControlView.Callback? = null
 
     private val connectionCallback = object : MediaBrowserCompat.ConnectionCallback() {
         override fun onConnected() {
             try {
                 connectToSession(mediaBrowser?.sessionToken)
-            } catch (e: RemoteException) { }
+            } catch (e: RemoteException) {
+            }
         }
     }
 
@@ -104,6 +106,7 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
         }
         playPause.setOnClickListener {
             supportMediaController?.playbackState?.let {
+                onClickListener?.onPlayClicked()
                 when (it.state) {
                     PlaybackStateCompat.STATE_PLAYING, PlaybackStateCompat.STATE_BUFFERING -> {
                         transportControls?.pause()
@@ -133,7 +136,6 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
 
         mediaBrowser = MediaBrowserCompat(getContext(), ComponentName(getContext(), PlayerService::class.java), connectionCallback, null)
     }
-
 
     @Throws(RemoteException::class)
     private fun connectToSession(token: MediaSessionCompat.Token?) {
@@ -302,7 +304,8 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
 
     }
 
-    fun setCallback(presenter: FullscreenPresenter) {
-
+    fun setCallback(onClickListener: ColorizedPlaybackControlView.Callback) {
+        this.onClickListener = onClickListener
     }
+
 }

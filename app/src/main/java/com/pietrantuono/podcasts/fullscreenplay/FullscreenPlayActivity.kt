@@ -41,13 +41,13 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
 
     override fun onStart() {
         super.onStart()
-        presenter.onStart(this)
+        presenter.onStart()
         controlView.onStart()
     }
 
     override fun onStop() {
         super.onStop()
-        presenter.onStop(this)
+        presenter.onStop()
         controlView.onStop()
     }
 
