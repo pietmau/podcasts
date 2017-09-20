@@ -105,8 +105,8 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
             transportControls?.skipToPrevious()
         }
         playPause.setOnClickListener {
+            onClickListener?.onPlayClicked()
             supportMediaController?.playbackState?.let {
-                onClickListener?.onPlayClicked()
                 when (it.state) {
                     PlaybackStateCompat.STATE_PLAYING, PlaybackStateCompat.STATE_BUFFERING -> {
                         transportControls?.pause()

@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.os.IBinder
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaBrowserServiceCompat
 import android.support.v4.media.session.MediaSessionCompat
@@ -100,11 +99,11 @@ class PlayerService() : Player, NotificatorService, MediaBrowserServiceCompat() 
         setSessionToken(mediaSession?.getSessionToken())
     }
 
-    override fun onBind(intent: Intent?): IBinder? {
-        logger.debug(TAG, "onBind")
-        checkIfShoudBeForeground()
-        return PlayerServiceBinder(this)
-    }
+//    override fun onBind(intent: Intent?): IBinder? {
+//        logger.debug(TAG, "onBind")
+//        checkIfShoudBeForeground()
+//        return PlayerServiceBinder(this)
+//    }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         logger.debug(TAG, "onStartCommand")
@@ -112,16 +111,16 @@ class PlayerService() : Player, NotificatorService, MediaBrowserServiceCompat() 
         return START_STICKY
     }
 
-    override fun onUnbind(intent: Intent?): Boolean {
-        logger.debug(TAG, "onUnbind")
-        checkIfShoudBeForeground()
-        return true
-    }
-
-    override fun onRebind(intent: Intent?) {
-        logger.debug(TAG, "onRebind")
-        checkIfShoudBeForeground()
-    }
+//    override fun onUnbind(intent: Intent?): Boolean {
+//        logger.debug(TAG, "onUnbind")
+//        checkIfShoudBeForeground()
+//        return true
+//    }
+//
+//    override fun onRebind(intent: Intent?) {
+//        logger.debug(TAG, "onRebind")
+//        checkIfShoudBeForeground()
+//    }
 
     override fun onDestroy() {
         checkIfShoudBeForeground()
