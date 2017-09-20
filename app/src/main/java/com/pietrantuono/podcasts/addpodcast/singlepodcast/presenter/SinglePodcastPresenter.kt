@@ -9,11 +9,10 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastMod
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.SinglePodcastView
 import com.pietrantuono.podcasts.apis.PodcastFeed
 import com.pietrantuono.podcasts.player.player.MediaSourceCreator
-import com.pietrantuono.podcasts.player.player.player.Player
 import rx.Observer
 
 class SinglePodcastPresenter(private val model: SinglePodcastModel, private val crashlyticsWrapper:
-CrashlyticsWrapper, val creator: MediaSourceCreator, private val player: Player?) : GenericPresenter, ViewModel() {
+CrashlyticsWrapper, val creator: MediaSourceCreator) : GenericPresenter, ViewModel() {
     companion object {
         val TAG = SinglePodcastPresenter::class.java.simpleName
     }
@@ -92,7 +91,7 @@ CrashlyticsWrapper, val creator: MediaSourceCreator, private val player: Player?
     }
 
     fun onListenToAllPressed() {
-        player?.playFeed(creator.createSourceFromFeed(podcastFeed))
+        //player?.playFeed(creator.createSourceFromFeed(podcastFeed))
     }
 
     fun onOptionsItemSelected(itemId: Int): Boolean {

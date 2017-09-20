@@ -39,7 +39,7 @@ class FullscreenPresenter(
     }
 
     fun onStop() {
-        //mediaBrowserWrapper?.onStop()
+        mediaBrowserWrapper?.onStop()
         view = null
         model.unSubscribe()
     }

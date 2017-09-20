@@ -9,13 +9,12 @@ import com.pietrantuono.podcasts.player.player.MediaSourceCreator
 import com.pietrantuono.podcasts.player.player.player.Player
 
 
-class SinglePodcastPresenterFactoryFactory(private val model: SinglePodcastModel,
-                                           private val crashlyticsWrapper: CrashlyticsWrapper,
-                                           private val player: Player,
-                                           private val creator: MediaSourceCreator) : ViewModelProvider.Factory {
+class SinglePodcastPresenterFactory(private val model: SinglePodcastModel,
+                                    private val crashlyticsWrapper: CrashlyticsWrapper,
+                                    private val creator: MediaSourceCreator) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>?): T {
-        return SinglePodcastPresenter(model, crashlyticsWrapper, creator, player) as T
+        return SinglePodcastPresenter(model, crashlyticsWrapper, creator) as T
     }
 
 }

@@ -37,7 +37,7 @@ class SinglePodcastModule {
     constructor() {}
 
     @Provides
-    fun provideSinglePodcastPresenter(factory: SinglePodcastPresenterFactoryFactory): SinglePodcastPresenter =
+    fun provideSinglePodcastPresenter(factory: SinglePodcastPresenterFactory): SinglePodcastPresenter =
             ViewModelProviders.of(activity!!, factory).get(SinglePodcastPresenter::class.java)
 
     @Provides
@@ -52,7 +52,7 @@ class SinglePodcastModule {
 
     @Provides
     fun provideSinglePodcastPresenterFactory(model: SinglePodcastModel, crashlyticsWrapper: CrashlyticsWrapper, player: Player?, creator: MediaSourceCreator) =
-            SinglePodcastPresenterFactoryFactory(model, crashlyticsWrapper, player!!, creator)
+            SinglePodcastPresenterFactory(model, crashlyticsWrapper, creator)
 
     @Provides
     fun providePlaybackNotificator(logger: DebugLogger, creator: NotificationCreator, loader: SimpleImageLoader): PlaybackNotificator
