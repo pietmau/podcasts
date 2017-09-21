@@ -17,6 +17,8 @@ import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule
 import com.pietrantuono.podcasts.main.dagger.MainModule
 import com.pietrantuono.podcasts.main.dagger.TransitionsModule
 import com.pietrantuono.podcasts.media.MediaModule
+import com.pietrantuono.podcasts.player.player.service.di.ServiceComponent
+import com.pietrantuono.podcasts.player.player.service.di.ServiceModule
 import com.pietrantuono.podcasts.repository.RepositoryModule
 import com.pietrantuono.podcasts.repository.SaveEpisodeIntentService
 import com.pietrantuono.podcasts.settings.SettingsModule
@@ -28,7 +30,8 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = arrayOf(AppModule::class, ApiLevelCheckerlModule::class,
         SearchModelsModule::class, ImageLoaderModule::class, TransitionsModule::class,
-        MediaModule::class, RepositoryModule::class, ApiModule::class, SettingsModule::class))
+        MediaModule::class, RepositoryModule::class, ApiModule::class, SettingsModule::class,
+        PlayerModule::class))
 interface ApplicationComponent {
 
     fun inject(app: App)
@@ -52,5 +55,7 @@ interface ApplicationComponent {
     fun simpleImageLoader(): SimpleImageLoader
 
     fun with(fullscreenModule: FullscreenModule): FullscreenSubComponent
+
+    fun with(serviceModule: ServiceModule): ServiceComponent
 
 }

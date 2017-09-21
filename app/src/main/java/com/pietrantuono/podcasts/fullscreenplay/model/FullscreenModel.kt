@@ -6,7 +6,8 @@ import rx.Observer
 
 interface FullscreenModel {
     var episode: Episode?
-    fun getEpisodeByUrl(urls: String?)
+    fun getEpisodeByUrlAsync(urls: String?)
     fun subscribe(observer: Observer<in Episode>)
     fun unSubscribe()
+    fun getEpisodeByUrl(mediaId: String?): Episode?
 }

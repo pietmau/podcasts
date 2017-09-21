@@ -13,23 +13,22 @@ import android.util.Log
 import android.view.View
 import com.google.android.exoplayer2.source.MediaSource
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.dagger.SinglePodcastModule
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.application.DebugLogger
-import com.pietrantuono.podcasts.player.player.PodcastFeedSource
 import com.pietrantuono.podcasts.player.player.playback.PlaybackWrapper
 import com.pietrantuono.podcasts.player.player.player.Player
 import com.pietrantuono.podcasts.player.player.player.SimpleExoPlayerEventListener
+import com.pietrantuono.podcasts.player.player.service.di.ServiceModule
+import com.pietrantuono.podcasts.player.player.service.model.PlayerServiceModel
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.NotificatorService
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.PlaybackNotificator
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.PlaybackNotificatorImpl
 import javax.inject.Inject
 
-
 class PlayerService() : Player, NotificatorService, MediaBrowserServiceCompat() {
     val TAG: String = "PlayerService"
-    val ROOT = "ROO"
+    val ROOT = "ROOT"
     private var artwork: Bitmap? = null
     override var boundToFullScreen: Boolean = false
         set(value) {
@@ -40,17 +39,27 @@ class PlayerService() : Player, NotificatorService, MediaBrowserServiceCompat() 
     @Inject lateinit var logger: DebugLogger
     @Inject lateinit var notificator: PlaybackNotificator
     @Inject lateinit var broadcastManager: BroadcastManager
+    @Inject lateinit var model: PlayerServiceModel
 
     private val callback = object : MediaSessionCompat.Callback() {
         override fun onPlayFromMediaId(mediaId: String?, extras: Bundle?) {
+            this@PlayerService.onPlayFromMediaId(mediaId, extras)
+        }
+    }
 
+    private fun onPlayFromMediaId(mediaId: String?, extras: Bundle?) {
+        if (model.currentlyPlayingEpisode?.link.equals(mediaId)) return
+        else {
+            model.getEpisodeByUrl(mediaId)
+            playback.episode = model.currentlyPlayingEpisode
+            playback.play()
         }
     }
 
     override fun onLoadChildren(parentId: String, result: Result<MutableList<MediaBrowserCompat.MediaItem>>) {
         throw UnsupportedOperationException("Browsing unsupported")
     }
-    
+
     override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): BrowserRoot? {
         return MediaBrowserServiceCompat.BrowserRoot(ROOT, null)
     }
@@ -68,10 +77,6 @@ class PlayerService() : Player, NotificatorService, MediaBrowserServiceCompat() 
         }
     }
 
-    override fun playFeed(source: PodcastFeedSource) {
-        //playback.playAll(creator.createConcatenateMediaSource(source))
-    }
-
     override fun setEpisode(episode: Episode) {
         playback.episode = episode
         artwork = null
@@ -83,10 +88,9 @@ class PlayerService() : Player, NotificatorService, MediaBrowserServiceCompat() 
         })
     }
 
-
     override fun onCreate() {
         super.onCreate()
-        (applicationContext as App).applicationComponent?.with(SinglePodcastModule())?.inject(this)
+        (applicationContext as App).applicationComponent?.with(ServiceModule())?.inject(this)
         logger.debug(TAG, "onCreate")
         broadcastManager.registerForBroadcastsFromNotification(this, receiver)
         playback.addListener(exoPlayerEventListener)
@@ -99,28 +103,11 @@ class PlayerService() : Player, NotificatorService, MediaBrowserServiceCompat() 
         setSessionToken(mediaSession?.getSessionToken())
     }
 
-//    override fun onBind(intent: Intent?): IBinder? {
-//        logger.debug(TAG, "onBind")
-//        checkIfShoudBeForeground()
-//        return PlayerServiceBinder(this)
-//    }
-
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         logger.debug(TAG, "onStartCommand")
         checkIfShoudBeForeground()
         return START_STICKY
     }
-
-//    override fun onUnbind(intent: Intent?): Boolean {
-//        logger.debug(TAG, "onUnbind")
-//        checkIfShoudBeForeground()
-//        return true
-//    }
-//
-//    override fun onRebind(intent: Intent?) {
-//        logger.debug(TAG, "onRebind")
-//        checkIfShoudBeForeground()
-//    }
 
     override fun onDestroy() {
         checkIfShoudBeForeground()
