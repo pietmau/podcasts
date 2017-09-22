@@ -40,6 +40,7 @@ class PlayerService() : Player, NotificatorService, MediaBrowserServiceCompat() 
     @Inject lateinit var notificator: PlaybackNotificator
     @Inject lateinit var broadcastManager: BroadcastManager
     @Inject lateinit var model: PlayerServiceModel
+    private var mediaSession: MediaSessionCompat? = null
 
     private val callback = object : MediaSessionCompat.Callback() {
         override fun onPlayFromMediaId(mediaId: String?, extras: Bundle?) {
@@ -48,12 +49,11 @@ class PlayerService() : Player, NotificatorService, MediaBrowserServiceCompat() 
     }
 
     private fun onPlayFromMediaId(mediaId: String?, extras: Bundle?) {
-        if (model.currentlyPlayingEpisode?.link.equals(mediaId)) return
-        else {
+        if (!model.currentlyPlayingEpisode?.link.equals(mediaId)) {
             model.getEpisodeByUrl(mediaId)
             playback.episode = model.currentlyPlayingEpisode
-            playback.play()
         }
+        playback.play()
     }
 
     override fun onLoadChildren(parentId: String, result: Result<MutableList<MediaBrowserCompat.MediaItem>>) {
@@ -94,7 +94,7 @@ class PlayerService() : Player, NotificatorService, MediaBrowserServiceCompat() 
         logger.debug(TAG, "onCreate")
         broadcastManager.registerForBroadcastsFromNotification(this, receiver)
         playback.addListener(exoPlayerEventListener)
-        val mediaSession = MediaSessionCompat(this, "fubar")
+        mediaSession = MediaSessionCompat(this, "fubar")
         mediaSession?.setFlags(
                 MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
         val stateBuilder = PlaybackStateCompat.Builder().setActions(PlaybackStateCompat.ACTION_PLAY or PlaybackStateCompat.ACTION_PLAY_PAUSE)
@@ -113,6 +113,7 @@ class PlayerService() : Player, NotificatorService, MediaBrowserServiceCompat() 
         checkIfShoudBeForeground()
         logger.debug(TAG, "onDestroy")
         broadcastManager.unregisterForBroadcastsFromNotification(this, receiver)
+        mediaSession?.release()
     }
 
     override fun onTrimMemory(level: Int) {

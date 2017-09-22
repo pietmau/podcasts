@@ -32,7 +32,6 @@
         </activity>
 
         <service
-            android:process=":diocan"
             android:name=".player.player.service.PlayerService"
             android:exported="false">
             <intent-filter>
