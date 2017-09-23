@@ -35,6 +35,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.media.MediaRouter
 import com.example.android.uamp.MediaNotificationManager
 import com.example.android.uamp.MusicService
+import com.example.android.uamp.R
 import com.example.android.uamp.model.MusicProvider
 import com.example.android.uamp.playback.CastPlayback
 import com.example.android.uamp.playback.LocalPlayback
@@ -54,6 +55,7 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.player.player.service.di.ServiceModule
+import com.pietrantuono.podcasts.player.player.service.playbacknotificator.CustomQueueManager
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
@@ -80,7 +82,7 @@ class CustomMusicService : MusicService(), PlaybackManager.PlaybackServiceCallba
 
         mMusicProvider?.retrieveMediaAsync(null/* Callback */)
 
-        val queueManager = QueueManager(mMusicProvider!!, resources,
+        val queueManager = CustomQueueManager(mMusicProvider!!, resources,
                 object : QueueManager.MetadataUpdateListener {
                     override fun onMetadataChanged(metadata: MediaMetadataCompat) {
                         mSession?.setMetadata(metadata)
@@ -88,7 +90,7 @@ class CustomMusicService : MusicService(), PlaybackManager.PlaybackServiceCallba
 
                     override fun onMetadataRetrieveError() {
                         mPlaybackManager?.updatePlaybackState(
-                                getString(com.example.android.uamp.R.string.error_no_metadata))
+                                getString(R.string.error_no_metadata))
                     }
 
                     override fun onCurrentQueueIndexUpdated(queueIndex: Int) {
