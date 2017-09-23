@@ -21,6 +21,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
+import android.support.v4.media.MediaDescriptionCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 
@@ -173,10 +174,10 @@ public class PlaybackManager implements Playback.Callback {
     private long getAvailableActions() {
         long actions =
                 PlaybackStateCompat.ACTION_PLAY_PAUSE |
-                PlaybackStateCompat.ACTION_PLAY_FROM_MEDIA_ID |
-                PlaybackStateCompat.ACTION_PLAY_FROM_SEARCH |
-                PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS |
-                PlaybackStateCompat.ACTION_SKIP_TO_NEXT;
+                        PlaybackStateCompat.ACTION_PLAY_FROM_MEDIA_ID |
+                        PlaybackStateCompat.ACTION_PLAY_FROM_SEARCH |
+                        PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS |
+                        PlaybackStateCompat.ACTION_SKIP_TO_NEXT;
         if (mPlayback.isPlaying()) {
             actions |= PlaybackStateCompat.ACTION_PAUSE;
         } else {
@@ -288,8 +289,10 @@ public class PlaybackManager implements Playback.Callback {
         @Override
         public void onPlayFromMediaId(String mediaId, Bundle extras) {
             LogHelper.d(TAG, "playFromMediaId mediaId:", mediaId, "  extras=", extras);
+            if (sameItemAlreadySet(mediaId)) {
+                return;
+            }
             mQueueManager.setQueueFromMusic(mediaId);
-            handlePlayRequest();
         }
 
         @Override
@@ -361,7 +364,6 @@ public class PlaybackManager implements Playback.Callback {
         @Override
         public void onPlayFromSearch(final String query, final Bundle extras) {
             LogHelper.d(TAG, "playFromSearch  query=", query, " extras=", extras);
-
             mPlayback.setState(PlaybackStateCompat.STATE_CONNECTING);
             boolean successSearch = mQueueManager.setQueueFromSearch(query, extras);
             if (successSearch) {
@@ -371,6 +373,16 @@ public class PlaybackManager implements Playback.Callback {
                 updatePlaybackState("Could not find music");
             }
         }
+    }
+
+    private boolean sameItemAlreadySet(String mediaId) {
+        MediaSessionCompat.QueueItem currentMusic = mQueueManager.getCurrentMusic();
+        if (currentMusic == null) return false;
+        MediaDescriptionCompat description = currentMusic.getDescription();
+        if (description == null) return false;
+        String id = description.getMediaId();
+        if (id == null) return false;
+        return id.equalsIgnoreCase(mediaId);
     }
 
 

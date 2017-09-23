@@ -37,7 +37,7 @@
 
         <service
             tools:replace="android:exported"
-            android:name="com.example.android.uamp.MusicService"
+            android:name=".player.player.service.CustomMusicService"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService"/>
