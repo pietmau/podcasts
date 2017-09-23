@@ -1,19 +1,18 @@
 package com.pietrantuono.podcasts.application
 
-import android.app.Application
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
+import android.support.multidex.MultiDexApplication
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule
 import com.pietrantuono.podcasts.player.player.player.Player
 import com.pietrantuono.podcasts.player.player.service.PlayerService
-
 import io.realm.Realm
 import javax.inject.Inject
 
-class App : Application(), ServiceConnection {
+class App : MultiDexApplication(), ServiceConnection {
     private var serviceIsBound: Boolean = false
     var applicationComponent: ApplicationComponent? = null
     var player: Player? = null

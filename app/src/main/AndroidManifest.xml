@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.pietrantuono.podcasts">
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.pietrantuono.podcasts">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
@@ -13,7 +15,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:screenOrientation="sensor"
-        android:theme="@style/TransparentToolbarTheme">
+        android:theme="@style/TransparentToolbarTheme"
+        tools:replace="android:icon,android:theme"
+        >
         <activity
             android:name=".main.view.MainActivity"
             android:screenOrientation="sensor"
@@ -32,7 +36,8 @@
         </activity>
 
         <service
-            android:name=".player.player.service.PlayerService"
+            tools:replace="android:exported"
+            android:name="com.example.android.uamp.MusicService"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService"/>

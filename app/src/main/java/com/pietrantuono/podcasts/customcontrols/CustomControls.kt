@@ -38,7 +38,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.fullscreenplay.custom.ColorizedPlaybackControlView
-import com.pietrantuono.podcasts.player.player.service.PlayerService
+import com.pietrantuono.podcasts.player.player.service.CustomMusicService
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.AlbumArtCache
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledFuture
@@ -134,7 +134,7 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
             }
         })
 
-        mediaBrowser = MediaBrowserCompat(getContext(), ComponentName(getContext(), PlayerService::class.java), connectionCallback, null)
+        mediaBrowser = MediaBrowserCompat(getContext(), ComponentName(getContext(), CustomMusicService::class.java), connectionCallback, null)
     }
 
     @Throws(RemoteException::class)

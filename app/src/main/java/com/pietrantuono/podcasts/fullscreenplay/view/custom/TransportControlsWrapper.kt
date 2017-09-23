@@ -5,7 +5,7 @@ import android.content.Context
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.session.MediaControllerCompat
 import com.pietrantuono.podcasts.apis.Episode
-import com.pietrantuono.podcasts.player.player.service.PlayerService
+import com.pietrantuono.podcasts.player.player.service.CustomMusicService
 
 
 class TransportControlsWrapper(context: Context) {
@@ -14,7 +14,7 @@ class TransportControlsWrapper(context: Context) {
     private var mediaControllerCompat: MediaControllerCompat? = null
 
     init {
-        mediaBrowser = MediaBrowserCompat(context, ComponentName(context, PlayerService::class.java),
+        mediaBrowser = MediaBrowserCompat(context, ComponentName(context, CustomMusicService::class.java),
                 object : MediaBrowserCompat.ConnectionCallback() {
                     override fun onConnected() {
                         mediaControllerCompat = MediaControllerCompat(context, mediaBrowser?.sessionToken)

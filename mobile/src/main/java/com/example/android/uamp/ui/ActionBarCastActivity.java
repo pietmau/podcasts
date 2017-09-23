@@ -28,7 +28,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.MediaRouteButton;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -95,13 +94,12 @@ public abstract class ActionBarCastActivity extends AppCompatActivity {
                     ActionBarCastActivity.this, R.anim.fade_in, R.anim.fade_out).toBundle();
 
                 Class activityClass = null;
-                switch (mItemToOpenWhenDrawerCloses) {
-                    case R.id.navigation_allmusic:
-                        activityClass = MusicPlayerActivity.class;
-                        break;
-                    case R.id.navigation_playlists:
-                        activityClass = PlaceholderActivity.class;
-                        break;
+                if (mItemToOpenWhenDrawerCloses == R.id.navigation_allmusic) {
+                    activityClass = MusicPlayerActivity.class;
+
+                } else if (mItemToOpenWhenDrawerCloses == R.id.navigation_playlists) {
+                    activityClass = PlaceholderActivity.class;
+
                 }
                 if (activityClass != null) {
                     startActivity(new Intent(ActionBarCastActivity.this, activityClass), extras);
