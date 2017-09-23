@@ -79,6 +79,12 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
+    dexOptions {
+        jumboMode true
+    }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
