@@ -11,6 +11,8 @@ import com.pietrantuono.podcasts.player.player.playback.Playback
 import com.pietrantuono.podcasts.player.player.playback.PlaybackWrapper
 import com.pietrantuono.podcasts.player.player.service.BroadcastManager
 import com.pietrantuono.podcasts.player.player.service.CustomMusicProvider
+import com.pietrantuono.podcasts.player.player.service.PodcastProvider
+import com.pietrantuono.podcasts.player.player.service.PodcastProviderImpl
 import com.pietrantuono.podcasts.player.player.service.model.PlayerServiceModel
 import com.pietrantuono.podcasts.player.player.service.model.PlayerServiceModelImpl
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.IntentsManager
@@ -48,6 +50,9 @@ class ServiceModule {
 
     @Provides
     fun provideMusicProviderSource() = CustomMusicProviderSource()
+
+    @Provides
+    fun providePodcastProvider(repository: EpisodesRepository): PodcastProvider = PodcastProviderImpl(repository)
 
 }
 

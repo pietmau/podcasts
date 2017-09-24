@@ -18,15 +18,11 @@ package com.pietrantuono.podcasts.player.player.service
 
 import android.app.PendingIntent
 import android.app.Service
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.os.RemoteException
-import android.support.v4.app.ServiceCompat.stopForeground
 import android.support.v4.media.MediaBrowserCompat.MediaItem
 import android.support.v4.media.MediaBrowserServiceCompat
 import android.support.v4.media.MediaMetadataCompat
@@ -35,34 +31,21 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.media.MediaRouter
 import com.example.android.uamp.MediaNotificationManager
-import com.example.android.uamp.MusicService
-import com.example.android.uamp.MusicService.*
-import com.example.android.uamp.R
-import com.example.android.uamp.model.MusicProvider
-import com.example.android.uamp.playback.CastPlayback
-import com.example.android.uamp.playback.LocalPlayback
-import com.example.android.uamp.playback.PlaybackManager
 import com.example.android.uamp.playback.QueueManager
 import com.example.android.uamp.ui.NowPlayingActivity
 import com.example.android.uamp.utils.CarHelper
 import com.example.android.uamp.utils.LogHelper
 import com.example.android.uamp.utils.MediaIDHelper.MEDIA_ID_ROOT
-import com.example.android.uamp.utils.TvHelper
 import com.example.android.uamp.utils.WearHelper
 import com.google.android.gms.cast.framework.CastContext
-import com.google.android.gms.cast.framework.CastSession
-import com.google.android.gms.cast.framework.SessionManager
-import com.google.android.gms.cast.framework.SessionManagerListener
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.GoogleApiAvailability
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.player.player.service.di.ServiceModule
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
-class CustomMusicService() : MediaBrowserServiceCompat() , PlaybackManager.PlaybackServiceCallback {
-    private var mPlaybackManager: PlaybackManager? = null
+class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.PlaybackServiceCallback {
+    private var mPlaybackManager: CustomPlaybackManager? = null
     private var mSession: MediaSessionCompat? = null
     private var mMediaNotificationManager: MediaNotificationManager? = null
     private var mSessionExtras: Bundle? = null
@@ -71,13 +54,33 @@ class CustomMusicService() : MediaBrowserServiceCompat() , PlaybackManager.Playb
 
     @Inject lateinit var repository: EpisodesRepository
 
+    @Inject lateinit var provider: PodcastProvider
+
+    private var manager: PodcastManager? = null
+
     override fun onCreate() {
         super.onCreate()
         LogHelper.d(TAG, "onCreate")
         (applicationContext as App).applicationComponent?.with(ServiceModule())?.inject(this)
-        val playback = LocalPlayback(this, mMusicProvider)
-        mPlaybackManager = PlaybackManager(this, resources, mMusicProvider, queueManager,
-                playback)
+        val playback = CustomLocalPlayback(this, provider)
+        manager = PodcasteManagerImpl(repository, object : QueueManager.MetadataUpdateListener{
+            override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
+
+            }
+
+            override fun onMetadataRetrieveError() {
+
+            }
+
+            override fun onCurrentQueueIndexUpdated(queueIndex: Int) {
+
+            }
+
+            override fun onQueueUpdated(title: String?, newQueue: MutableList<MediaSessionCompat.QueueItem>?) {
+
+            }
+        })
+        mPlaybackManager = CustomPlaybackManager(this, resources, manager, playback)
 
         // Start a new MediaSession
         mSession = MediaSessionCompat(this, "OtherMusicService")
@@ -100,7 +103,7 @@ class CustomMusicService() : MediaBrowserServiceCompat() , PlaybackManager.Playb
         mPlaybackManager?.updatePlaybackState(null)
 
         try {
-            mMediaNotificationManager = MediaNotificationManager(this)
+            //mMediaNotificationManager = MediaNotificationManager(this)
         } catch (e: RemoteException) {
             throw IllegalStateException("Could not create a MediaNotificationManager", e)
         }

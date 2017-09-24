@@ -38,9 +38,11 @@ class CustomQueueManager(
 }
 
 fun createQueueItemFromEpisode(episode: Episode): List<MediaSessionCompat.QueueItem> {
-    val description = createMediaDescriptionCompatFromEpisode(episode)
-    val item = MediaSessionCompat.QueueItem(description, 0)
-    return listOf(item)
+    return listOf(createItemFromEpisode(episode))
+}
+
+fun createItemFromEpisode(episode: Episode): MediaSessionCompat.QueueItem {
+    return MediaSessionCompat.QueueItem(createMediaDescriptionCompatFromEpisode(episode), 0)
 }
 
 fun createMediaDescriptionCompatFromEpisode(episode: Episode): MediaDescriptionCompat {
