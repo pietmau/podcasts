@@ -2,6 +2,7 @@ package com.pietrantuono.podcasts.player.player.service
 
 
 import android.support.v4.media.MediaMetadataCompat
+import com.example.android.uamp.model.MusicProviderSource
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 
@@ -20,7 +21,9 @@ class PodcastProviderImpl(
         val builder = MediaMetadataCompat.Builder()
 
         builder.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, episode.link)
-//                .putString(MusicProviderSource.CUSTOM_METADATA_TRACK_SOURCE, source)
+        if (getSource(episode) != null) {
+            builder.putString(MusicProviderSource.CUSTOM_METADATA_TRACK_SOURCE, getSource(episode))
+        }
 //                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, album)
         builder.putString(MediaMetadataCompat.METADATA_KEY_ARTIST, episode.author)
 //                .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, duration.toLong())
@@ -32,5 +35,13 @@ class PodcastProviderImpl(
 //                .build()
 
         return builder.build()
+    }
+
+    fun getSource(episode: Episode): String? {
+        val enclosures = episode.enclosures
+        if (enclosures != null && enclosures.size > 0) {
+            return enclosures[0].url
+        }
+        return null
     }
 }
