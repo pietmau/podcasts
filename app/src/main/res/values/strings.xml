@@ -38,6 +38,7 @@
     <string name="stop">Stop</string>
     <string name="casting_to_device">Casting to %1$s</string>
     <string name="loading">Loading…</string>
+    <string name="currently_playing">Currently playing</string>
 
 
 </resources>

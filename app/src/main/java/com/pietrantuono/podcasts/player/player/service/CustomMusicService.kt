@@ -55,11 +55,11 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.player.player.service.di.ServiceModule
-import com.pietrantuono.podcasts.player.player.service.playbacknotificator.CustomQueueManager
+import com.pietrantuono.podcasts.repository.EpisodesRepository
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
-class CustomMusicService : MusicService(), PlaybackManager.PlaybackServiceCallback {
+class CustomMusicService() : MusicService(), PlaybackManager.PlaybackServiceCallback {
 
     @Inject lateinit var mMusicProvider: MusicProvider
     private var mPlaybackManager: PlaybackManager? = null
@@ -75,6 +75,8 @@ class CustomMusicService : MusicService(), PlaybackManager.PlaybackServiceCallba
     private var mIsConnectedToCar: Boolean = false
     private var mCarConnectionReceiver: BroadcastReceiver? = null
 
+    @Inject lateinit var repository: EpisodesRepository
+
     override fun onCreate() {
         super.onCreate()
         LogHelper.d(TAG, "onCreate")
@@ -82,7 +84,7 @@ class CustomMusicService : MusicService(), PlaybackManager.PlaybackServiceCallba
 
         mMusicProvider?.retrieveMediaAsync(null/* Callback */)
 
-        val queueManager = CustomQueueManager(mMusicProvider!!, resources,
+        val queueManager = CustomQueueManager(mMusicProvider, resources,
                 object : QueueManager.MetadataUpdateListener {
                     override fun onMetadataChanged(metadata: MediaMetadataCompat) {
                         mSession?.setMetadata(metadata)
@@ -102,7 +104,7 @@ class CustomMusicService : MusicService(), PlaybackManager.PlaybackServiceCallba
                         mSession?.setQueue(newQueue)
                         mSession?.setQueueTitle(title)
                     }
-                })
+                }, repository)
 
         val playback = LocalPlayback(this, mMusicProvider)
         mPlaybackManager = PlaybackManager(this, resources, mMusicProvider, queueManager,

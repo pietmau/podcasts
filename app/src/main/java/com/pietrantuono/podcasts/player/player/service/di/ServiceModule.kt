@@ -2,6 +2,7 @@ package com.pietrantuono.podcasts.player.player.service.di
 
 import android.content.Context
 import com.example.android.uamp.model.MusicProvider
+import com.example.android.uamp.model.MusicProviderSource
 import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
 import com.pietrantuono.podcasts.player.player.MediaSourceCreator
@@ -43,6 +44,10 @@ class ServiceModule {
     fun providesIntentManager(context: Context) = IntentsManager(context)
 
     @Provides
-    fun providesMusicProvider(repo: EpisodesRepository): MusicProvider = CustomMusicProvider(repo)
+    fun providesMusicProvider(source: MusicProviderSource): MusicProvider = CustomMusicProvider(source)
+
+    @Provides
+    fun provideMusicProviderSource() = CustomMusicProviderSource()
 
 }
+

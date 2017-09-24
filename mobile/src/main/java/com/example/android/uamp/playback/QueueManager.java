@@ -43,8 +43,8 @@ import java.util.List;
 public class QueueManager {
     private static final String TAG = LogHelper.makeLogTag(QueueManager.class);
 
-    private MusicProvider mMusicProvider;
-    private MetadataUpdateListener mListener;
+    public MusicProvider mMusicProvider;
+    public MetadataUpdateListener mListener;
     private Resources mResources;
 
     // "Now playing" queue:
