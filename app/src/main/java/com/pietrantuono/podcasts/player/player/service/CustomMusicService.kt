@@ -26,6 +26,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.os.RemoteException
+import android.support.v4.app.ServiceCompat.stopForeground
 import android.support.v4.media.MediaBrowserCompat.MediaItem
 import android.support.v4.media.MediaBrowserServiceCompat
 import android.support.v4.media.MediaMetadataCompat
@@ -35,6 +36,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.media.MediaRouter
 import com.example.android.uamp.MediaNotificationManager
 import com.example.android.uamp.MusicService
+import com.example.android.uamp.MusicService.*
 import com.example.android.uamp.R
 import com.example.android.uamp.model.MusicProvider
 import com.example.android.uamp.playback.CastPlayback
@@ -59,21 +61,13 @@ import com.pietrantuono.podcasts.repository.EpisodesRepository
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
-class CustomMusicService() : MusicService(), PlaybackManager.PlaybackServiceCallback {
-
-    @Inject lateinit var mMusicProvider: MusicProvider
+class CustomMusicService() : MediaBrowserServiceCompat() , PlaybackManager.PlaybackServiceCallback {
     private var mPlaybackManager: PlaybackManager? = null
-
     private var mSession: MediaSessionCompat? = null
     private var mMediaNotificationManager: MediaNotificationManager? = null
     private var mSessionExtras: Bundle? = null
     private val mDelayedStopHandler = DelayedStopHandler(this)
     private var mMediaRouter: MediaRouter? = null
-    private var mCastSessionManager: SessionManager? = null
-    private var mCastSessionManagerListener: SessionManagerListener<CastSession>? = null
-
-    private var mIsConnectedToCar: Boolean = false
-    private var mCarConnectionReceiver: BroadcastReceiver? = null
 
     @Inject lateinit var repository: EpisodesRepository
 
@@ -81,37 +75,12 @@ class CustomMusicService() : MusicService(), PlaybackManager.PlaybackServiceCall
         super.onCreate()
         LogHelper.d(TAG, "onCreate")
         (applicationContext as App).applicationComponent?.with(ServiceModule())?.inject(this)
-
-        mMusicProvider?.retrieveMediaAsync(null/* Callback */)
-
-        val queueManager = CustomQueueManager(mMusicProvider, resources,
-                object : QueueManager.MetadataUpdateListener {
-                    override fun onMetadataChanged(metadata: MediaMetadataCompat) {
-                        mSession?.setMetadata(metadata)
-                    }
-
-                    override fun onMetadataRetrieveError() {
-                        mPlaybackManager?.updatePlaybackState(
-                                getString(R.string.error_no_metadata))
-                    }
-
-                    override fun onCurrentQueueIndexUpdated(queueIndex: Int) {
-                        mPlaybackManager?.handlePlayRequest()
-                    }
-
-                    override fun onQueueUpdated(title: String,
-                                                newQueue: List<MediaSessionCompat.QueueItem>) {
-                        mSession?.setQueue(newQueue)
-                        mSession?.setQueueTitle(title)
-                    }
-                }, repository)
-
         val playback = LocalPlayback(this, mMusicProvider)
         mPlaybackManager = PlaybackManager(this, resources, mMusicProvider, queueManager,
                 playback)
 
         // Start a new MediaSession
-        mSession = MediaSessionCompat(this, "MusicService")
+        mSession = MediaSessionCompat(this, "OtherMusicService")
         setSessionToken(mSession?.sessionToken)
         mSession?.setCallback(mPlaybackManager?.mediaSessionCallback)
         mSession?.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
@@ -135,18 +104,7 @@ class CustomMusicService() : MusicService(), PlaybackManager.PlaybackServiceCall
         } catch (e: RemoteException) {
             throw IllegalStateException("Could not create a MediaNotificationManager", e)
         }
-
-        val playServicesAvailable = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this)
-
-        if (!TvHelper.isTvUiMode(this) && playServicesAvailable == ConnectionResult.SUCCESS) {
-            mCastSessionManager = CastContext.getSharedInstance(this).sessionManager
-            mCastSessionManagerListener = CastSessionManagerListener()
-            mCastSessionManager?.addSessionManagerListener(mCastSessionManagerListener!!, CastSession::class.java)
-        }
-
         mMediaRouter = MediaRouter.getInstance(applicationContext)
-
-        registerCarConnectionReceiver()
     }
 
     /**
@@ -183,15 +141,9 @@ class CustomMusicService() : MusicService(), PlaybackManager.PlaybackServiceCall
      */
     override fun onDestroy() {
         LogHelper.d(TAG, "onDestroy")
-        unregisterCarConnectionReceiver()
         // Service is being killed, so make sure we release our resources
         mPlaybackManager?.handleStopRequest(null)
         mMediaNotificationManager?.stopNotification()
-
-        if (mCastSessionManager != null) {
-            mCastSessionManager?.removeSessionManagerListener(mCastSessionManagerListener,
-                    CastSession::class.java)
-        }
 
         mDelayedStopHandler.removeCallbacksAndMessages(null)
         mSession?.release()
@@ -242,23 +194,6 @@ class CustomMusicService() : MusicService(), PlaybackManager.PlaybackServiceCall
         mSession?.setPlaybackState(newState)
     }
 
-    private fun registerCarConnectionReceiver() {
-        val filter = IntentFilter(CarHelper.ACTION_MEDIA_STATUS)
-        mCarConnectionReceiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context, intent: Intent) {
-                val connectionEvent = intent.getStringExtra(CarHelper.MEDIA_CONNECTION_STATUS)
-                mIsConnectedToCar = CarHelper.MEDIA_CONNECTED == connectionEvent
-                LogHelper.i(TAG, "Connection event to Android Auto: ", connectionEvent,
-                        " isConnectedToCar=", mIsConnectedToCar)
-            }
-        }
-        registerReceiver(mCarConnectionReceiver, filter)
-    }
-
-    private fun unregisterCarConnectionReceiver() {
-        unregisterReceiver(mCarConnectionReceiver)
-    }
-
     /**
      * A simple handler that stops the service if playback is not active (playing)
      */
@@ -280,53 +215,6 @@ class CustomMusicService() : MusicService(), PlaybackManager.PlaybackServiceCall
                 service.stopSelf()
             }
         }
-    }
-
-    /**
-     * Session Manager Listener responsible for switching the Playback instances
-     * depending on whether it is connected to a remote player.
-     */
-    private inner class CastSessionManagerListener : SessionManagerListener<CastSession> {
-
-        override fun onSessionEnded(session: CastSession, error: Int) {
-            LogHelper.d(TAG, "onSessionEnded")
-            mSessionExtras?.remove(EXTRA_CONNECTED_CAST)
-            mSession?.setExtras(mSessionExtras)
-            val playback = LocalPlayback(this@CustomMusicService, mMusicProvider)
-            mMediaRouter?.setMediaSessionCompat(null)
-            mPlaybackManager?.switchToPlayback(playback, false)
-        }
-
-        override fun onSessionResumed(session: CastSession, wasSuspended: Boolean) {}
-
-        override fun onSessionStarted(session: CastSession, sessionId: String) {
-            // In case we are casting, send the device name as an extra on MediaSession metadata.
-            mSessionExtras?.putString(EXTRA_CONNECTED_CAST,
-                    session.castDevice.friendlyName)
-            mSession?.setExtras(mSessionExtras)
-            // Now we can switch to CastPlayback
-            val playback = CastPlayback(mMusicProvider, this@CustomMusicService)
-            mMediaRouter?.setMediaSessionCompat(mSession)
-            mPlaybackManager?.switchToPlayback(playback, true)
-        }
-
-        override fun onSessionStarting(session: CastSession) {}
-
-        override fun onSessionStartFailed(session: CastSession, error: Int) {}
-
-        override fun onSessionEnding(session: CastSession) {
-            // This is our final chance to update the underlying stream position
-            // In onSessionEnded(), the underlying CastPlayback#mRemoteMediaClient
-            // is disconnected and hence we update our local value of stream position
-            // to the latest position.
-            mPlaybackManager?.playback?.updateLastKnownStreamPosition()
-        }
-
-        override fun onSessionResuming(session: CastSession, sessionId: String) {}
-
-        override fun onSessionResumeFailed(session: CastSession, error: Int) {}
-
-        override fun onSessionSuspended(session: CastSession, reason: Int) {}
     }
 
     companion object {
