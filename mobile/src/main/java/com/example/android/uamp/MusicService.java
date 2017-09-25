@@ -1,18 +1,18 @@
- /*
- * Copyright (C) 2014 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+/*
+* Copyright (C) 2014 The Android Open Source Project
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*      http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 
 package com.example.android.uamp;
 
@@ -152,6 +152,95 @@ public class MusicService extends MediaBrowserServiceCompat implements
     private boolean mIsConnectedToCar;
     private BroadcastReceiver mCarConnectionReceiver;
 
+    /*
+     * (non-Javadoc)
+     * @see android.app.Service#onCreate()
+     */
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        LogHelper.d(TAG, "onCreate");
+
+        mMusicProvider = new MusicProvider();
+
+        // To make the app more responsive, fetch and cache catalog information now.
+        // This can help improve the response time in the method
+        // {@link #onLoadChildren(String, Result<List<MediaItem>>) onLoadChildren()}.
+        mMusicProvider.retrieveMediaAsync(null /* Callback */);
+
+        mPackageValidator = new PackageValidator(this);
+
+        QueueManager queueManager = new QueueManager(mMusicProvider, getResources(),
+                new QueueManager.MetadataUpdateListener() {
+                    @Override
+                    public void onMetadataChanged(MediaMetadataCompat metadata) {
+                        mSession.setMetadata(metadata);
+                    }
+
+                    @Override
+                    public void onMetadataRetrieveError() {
+                        mPlaybackManager.updatePlaybackState(
+                                getString(R.string.error_no_metadata));
+                    }
+
+                    @Override
+                    public void onCurrentQueueIndexUpdated(int queueIndex) {
+                        mPlaybackManager.handlePlayRequest();
+                    }
+
+                    @Override
+                    public void onQueueUpdated(String title,
+                                               List<MediaSessionCompat.QueueItem> newQueue) {
+                        mSession.setQueue(newQueue);
+                        mSession.setQueueTitle(title);
+                    }
+                });
+
+        LocalPlayback playback = new LocalPlayback(this, mMusicProvider);
+        mPlaybackManager = new PlaybackManager(this, getResources(), mMusicProvider, queueManager,
+                playback);
+
+        // Start a new MediaSession
+        mSession = new MediaSessionCompat(this, "MusicService");
+        setSessionToken(mSession.getSessionToken());
+        mSession.setCallback(mPlaybackManager.getMediaSessionCallback());
+        mSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS |
+                MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
+
+        Context context = getApplicationContext();
+        Intent intent = new Intent(context, NowPlayingActivity.class);
+        PendingIntent pi = PendingIntent.getActivity(context, 99 /*request code*/,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        mSession.setSessionActivity(pi);
+
+        mSessionExtras = new Bundle();
+        CarHelper.setSlotReservationFlags(mSessionExtras, true, true, true);
+        WearHelper.setSlotReservationFlags(mSessionExtras, true, true);
+        WearHelper.setUseBackgroundFromTheme(mSessionExtras, true);
+        mSession.setExtras(mSessionExtras);
+
+        mPlaybackManager.updatePlaybackState(null);
+
+        try {
+            mMediaNotificationManager = new MediaNotificationManager(this);
+        } catch (RemoteException e) {
+            throw new IllegalStateException("Could not create a MediaNotificationManager", e);
+        }
+
+        int playServicesAvailable =
+                GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this);
+
+        if (!TvHelper.isTvUiMode(this) && playServicesAvailable == ConnectionResult.SUCCESS) {
+            mCastSessionManager = CastContext.getSharedInstance(this).getSessionManager();
+            mCastSessionManagerListener = new CastSessionManagerListener();
+            mCastSessionManager.addSessionManagerListener(mCastSessionManagerListener,
+                    CastSession.class);
+        }
+
+        mMediaRouter = MediaRouter.getInstance(getApplicationContext());
+
+        registerCarConnectionReceiver();
+    }
 
     /**
      * (non-Javadoc)

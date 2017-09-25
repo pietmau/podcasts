@@ -31,6 +31,7 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.media.MediaRouter
 import com.example.android.uamp.MediaNotificationManager
+import com.example.android.uamp.R
 import com.example.android.uamp.playback.QueueManager
 import com.example.android.uamp.ui.NowPlayingActivity
 import com.example.android.uamp.utils.CarHelper
@@ -63,21 +64,22 @@ class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.
         LogHelper.d(TAG, "onCreate")
         (applicationContext as App).applicationComponent?.with(ServiceModule())?.inject(this)
         val playback = CustomLocalPlayback(this, provider)
-        manager = PodcasteManagerImpl(repository, object : QueueManager.MetadataUpdateListener{
+        manager = PodcasteManagerImpl(repository,provider ,object : QueueManager.MetadataUpdateListener {
             override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
-
+                mSession?.setMetadata(metadata)
             }
 
             override fun onMetadataRetrieveError() {
-
+                mPlaybackManager?.updatePlaybackState(getString(R.string.error_no_metadata))
             }
 
             override fun onCurrentQueueIndexUpdated(queueIndex: Int) {
-
+                mPlaybackManager?.handlePlayRequest()
             }
 
             override fun onQueueUpdated(title: String?, newQueue: MutableList<MediaSessionCompat.QueueItem>?) {
-
+                mSession?.setQueue(newQueue)
+                mSession?.setQueueTitle(title)
             }
         })
         mPlaybackManager = CustomPlaybackManager(this, resources, manager, playback)

@@ -63,7 +63,8 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
     private val aHandler = Handler()
     private var mediaBrowser: MediaBrowserCompat? = null
     private var supportMediaController: MediaControllerCompat? = null
-    private val transportControls = supportMediaController?.transportControls
+    private val transportControls
+        get() = supportMediaController?.transportControls
     private var onClickListener: ColorizedPlaybackControlView.Callback? = null
 
     private val connectionCallback = object : MediaBrowserCompat.ConnectionCallback() {
@@ -141,7 +142,7 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
     private fun connectToSession(token: MediaSessionCompat.Token?) {
         val mediaController = MediaControllerCompat(context, token)
         if (mediaController.metadata == null) {
-            return
+            //return
         }
         supportMediaController = mediaController
         supportMediaController?.registerCallback(callback)

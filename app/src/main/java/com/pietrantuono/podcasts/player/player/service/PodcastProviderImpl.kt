@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts.player.player.service
 
 
+import android.graphics.Bitmap
 import android.support.v4.media.MediaMetadataCompat
 import com.example.android.uamp.model.MusicProviderSource
 import com.pietrantuono.podcasts.apis.Episode
@@ -8,6 +9,9 @@ import com.pietrantuono.podcasts.repository.EpisodesRepository
 
 class PodcastProviderImpl(
         private val repo: EpisodesRepository) : PodcastProvider {
+    override fun updateMusicArt(musicId: String?, bitmap: Bitmap, icon: Bitmap) {
+        TODO("not implemented")
+    }
 
     override fun getMusic(mediaId: String?): MediaMetadataCompat? {
         val episode = repo.getEpisodeByUrl(mediaId)
