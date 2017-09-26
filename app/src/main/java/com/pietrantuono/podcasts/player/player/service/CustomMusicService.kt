@@ -83,8 +83,6 @@ class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.
             }
         })
         mPlaybackManager = CustomPlaybackManager(this, resources, manager, playback)
-
-        // Start a new MediaSession
         mSession = MediaSessionCompat(this, "OtherMusicService")
         setSessionToken(mSession?.sessionToken)
         mSession?.setCallback(mPlaybackManager?.mediaSessionCallback)
@@ -112,11 +110,6 @@ class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.
         mMediaRouter = MediaRouter.getInstance(applicationContext)
     }
 
-    /**
-     * (non-Javadoc)
-
-     * @see android.app.Service.onStartCommand
-     */
     override fun onStartCommand(startIntent: Intent?, flags: Int, startId: Int): Int {
         if (startIntent != null) {
             val action = startIntent.action
@@ -128,25 +121,16 @@ class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.
                     CastContext.getSharedInstance(this).sessionManager.endCurrentSession(true)
                 }
             } else {
-                // Try to handle the intent as a media button event wrapped by MediaButtonReceiver
                 MediaButtonReceiver.handleIntent(mSession, startIntent)
             }
         }
-        // Reset the delay handler to enqueue a message to stop the service if
-        // nothing is playing.
         mDelayedStopHandler.removeCallbacksAndMessages(null)
         mDelayedStopHandler.sendEmptyMessageDelayed(0, STOP_DELAY.toLong())
         return Service.START_STICKY
     }
 
-    /**
-     * (non-Javadoc)
-
-     * @see android.app.Service.onDestroy
-     */
     override fun onDestroy() {
         LogHelper.d(TAG, "onDestroy")
-        // Service is being killed, so make sure we release our resources
         mPlaybackManager?.handleStopRequest(null)
         mMediaNotificationManager?.stopNotification()
 
@@ -164,28 +148,15 @@ class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.
         throw UnsupportedOperationException("Not implemented")
     }
 
-    /**
-     * Callback method called from PlaybackManager whenever the music is about to play.
-     */
     override fun onPlaybackStart() {
         mSession?.isActive = true
 
         mDelayedStopHandler.removeCallbacksAndMessages(null)
-
-        // The service needs to continue running even after the bound client (usually a
-        // MediaController) disconnects, otherwise the music playback will stop.
-        // Calling startService(Intent) will keep the service running until it is explicitly killed.
         startService(Intent(applicationContext, CustomMusicService::class.java))
     }
 
-
-    /**
-     * Callback method called from PlaybackManager whenever the music stops playing.
-     */
     override fun onPlaybackStop() {
         mSession?.isActive = false
-        // Reset the delayed stop handler, so after STOP_DELAY it will be executed again,
-        // potentially stopping the service.
         mDelayedStopHandler.removeCallbacksAndMessages(null)
         mDelayedStopHandler.sendEmptyMessageDelayed(0, STOP_DELAY.toLong())
         stopForeground(true)
@@ -199,9 +170,6 @@ class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.
         mSession?.setPlaybackState(newState)
     }
 
-    /**
-     * A simple handler that stops the service if playback is not active (playing)
-     */
     private class DelayedStopHandler(service: CustomMusicService) : Handler() {
         private val mWeakReference: WeakReference<CustomMusicService>
 

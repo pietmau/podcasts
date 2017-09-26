@@ -22,7 +22,10 @@ class EpisodesRepositoryRealm(private val realm: Realm, private val ioScheduler:
     }
 
     override fun getEpisodeByUrl(url: String?): Episode? {
-        return url?.let { realm.where(RealmEpisode::class.java).equalTo("link", url).findFirst() } ?: null
+        return url?.let {dsfsds
+            val episode = realm.where(RealmEpisode::class.java).equalTo("link", url).findFirst()
+            episode
+        } ?: null
     }
 
     override fun getEpisodeByUrlAsObservable(url: String?): Observable<out Episode> {

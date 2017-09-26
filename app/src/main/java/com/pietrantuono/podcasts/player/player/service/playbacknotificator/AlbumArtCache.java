@@ -5,11 +5,11 @@ import android.graphics.Bitmap;
 
 public class AlbumArtCache {
     public static AlbumArtCache getInstance() {
-        throw new UnsupportedOperationException();
+        return new AlbumArtCache();
     }
 
     public Bitmap getBigImage(String artUrl)  {
-        throw new UnsupportedOperationException();
+        return null;
     }
 
     public void fetch(String artUrl, FetchListener fetchListener) {
