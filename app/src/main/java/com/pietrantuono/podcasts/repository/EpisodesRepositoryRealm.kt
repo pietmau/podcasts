@@ -13,17 +13,17 @@ class EpisodesRepositoryRealm(private val realm: Realm, private val ioScheduler:
     }
 
     override fun onDownloadCompleted(episode: Episode?) {
-        if (episode == null) {
-            return
-        }
+        if (episode == null) return
         realm.executeTransaction {
             episode.downloaded = true
         }
     }
 
     override fun getEpisodeByUrl(url: String?): Episode? {
-        return url?.let {dsfsds
-            val episode = realm.where(RealmEpisode::class.java).equalTo("link", url).findFirst()
+        return url?.let {
+            var episode = realm.where(RealmEpisode::class.java).equalTo("link", url).findFirst()
+            episode = episode as RealmEpisode
+            episode = realm.copyFromRealm(episode)
             episode
         } ?: null
     }

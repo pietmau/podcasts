@@ -10,7 +10,7 @@ import com.pietrantuono.podcasts.repository.EpisodesRepository
 class PodcastProviderImpl(
         private val repo: EpisodesRepository) : PodcastProvider {
     override fun updateMusicArt(musicId: String?, bitmap: Bitmap, icon: Bitmap) {
-        TODO("not implemented")
+
     }
 
     override fun getMusic(mediaId: String?): MediaMetadataCompat? {
