@@ -7,9 +7,10 @@ import rx.Observable
 import rx.Scheduler
 
 class EpisodesRepositoryRealm(private val realm: Realm, private val ioScheduler: Scheduler) : EpisodesRepository {
+    private val LINK = "link"
 
     override fun getEpisodeByUrlAsync(url: String?): Observable<out Episode> {
-        return realm.where(RealmEpisode::class.java).equalTo("link", url).findFirst().asObservable<RealmEpisode>()
+        return realm.where(RealmEpisode::class.java).equalTo(LINK, url).findFirst().asObservable<RealmEpisode>()
     }
 
     override fun onDownloadCompleted(episode: Episode?) {
@@ -21,16 +22,13 @@ class EpisodesRepositoryRealm(private val realm: Realm, private val ioScheduler:
 
     override fun getEpisodeByUrl(url: String?): Episode? {
         return url?.let {
-            var episode = realm.where(RealmEpisode::class.java).equalTo("link", url).findFirst()
-            episode = episode as RealmEpisode
-            episode = realm.copyFromRealm(episode)
-            episode
+            realm.copyFromRealm(realm.where(RealmEpisode::class.java).equalTo(LINK, url).findFirst())
         } ?: null
     }
 
     override fun getEpisodeByUrlAsObservable(url: String?): Observable<out Episode> {
         return realm.where(RealmEpisode::class.java)
-                .equalTo("link", url)
+                .equalTo(LINK, url)
                 .findFirst()
                 .asObservable<RealmEpisode>()
                 .filter { it != null }
