@@ -10,9 +10,19 @@ import com.rometools.rome.feed.synd.SyndEnclosure
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.Ignore
+import java.text.SimpleDateFormat
 import java.util.*
 
 open class RealmEpisode : RealmObject, Episode {
+    override val durationInMills: Long?
+        get() = duration?.let {
+            try {
+                SimpleDateFormat("HH:mm:ss").parse(it).time
+            } catch (exception: Exception) {
+                null
+            }
+        }
+
     override var played: Boolean = false
     override var link: String? = null
     override var downloaded: Boolean = false
@@ -48,7 +58,6 @@ open class RealmEpisode : RealmObject, Episode {
     }
 
     constructor()
-
 
     constructor(duration: String?, author: String?, isExplicit: Boolean?, imageUrl: String?,
                 keywords: List<String>?, subtitle: String?, summary: String?, pubDate: Date?,

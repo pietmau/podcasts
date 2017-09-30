@@ -36,5 +36,4 @@ class EpisodesRepositoryRealm(private val realm: Realm, private val ioScheduler:
                 .filter { it.isLoaded && it.isValid }
                 .map { realm.copyFromRealm(it) }
     }
-
 }

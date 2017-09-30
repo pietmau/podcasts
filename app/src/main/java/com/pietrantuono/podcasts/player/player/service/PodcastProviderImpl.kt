@@ -9,6 +9,7 @@ import com.pietrantuono.podcasts.repository.EpisodesRepository
 
 class PodcastProviderImpl(
         private val repo: EpisodesRepository) : PodcastProvider {
+
     override fun updateMusicArt(musicId: String?, bitmap: Bitmap, icon: Bitmap) {
 
     }
@@ -30,7 +31,7 @@ class PodcastProviderImpl(
         }
 //                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, album)
         builder.putString(MediaMetadataCompat.METADATA_KEY_ARTIST, episode.author)
-        getDuration(episode)?.let { builder.putLong(MediaMetadataCompat.METADATA_KEY_DURATION, it) }
+        episode?.durationInMills?.let { builder.putLong(MediaMetadataCompat.METADATA_KEY_DURATION, it) }
 //                .putString(MediaMetadataCompat.METADATA_KEY_GENRE, genre)
         builder.putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, episode.imageUrl)
         builder.putString(MediaMetadataCompat.METADATA_KEY_TITLE, episode.title)
@@ -39,13 +40,6 @@ class PodcastProviderImpl(
 //                .build()
 
         return builder.build()
-    }
-
-    private fun getDuration(episode: Episode): Long? {
-        if (episode.duration == null) {
-            return null;
-        }
-        return null
     }
 
     fun getSource(episode: Episode): String? {
