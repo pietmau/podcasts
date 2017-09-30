@@ -7,4 +7,5 @@ interface FullscreenPlayView {
     var title: String?
     fun setEpisode(episode: Episode?)
     fun enterWithoutTransition()
+    fun onError(errorMessage: CharSequence?)
 }

@@ -39,6 +39,7 @@
     <string name="casting_to_device">Casting to %1$s</string>
     <string name="loading">Loading…</string>
     <string name="currently_playing">Currently playing</string>
+    <string name="player_error">Player Error</string>
 
 
 </resources>

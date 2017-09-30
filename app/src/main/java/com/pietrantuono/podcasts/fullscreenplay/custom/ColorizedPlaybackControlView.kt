@@ -31,5 +31,6 @@ class ColorizedPlaybackControlView : CustomPlaybackControlView {
 
     interface Callback {
         fun onPlayClicked()
+        fun onPlayerError(errorMessage: CharSequence?)
     }
 }

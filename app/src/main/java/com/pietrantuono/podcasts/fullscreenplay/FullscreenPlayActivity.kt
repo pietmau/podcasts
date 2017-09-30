@@ -1,6 +1,8 @@
 package com.pietrantuono.podcasts.fullscreenplay
 
 import android.os.Bundle
+import android.support.design.widget.Snackbar
+import android.view.View
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
@@ -19,6 +21,7 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
     @Inject lateinit var presenter: FullscreenPresenter
     @BindView(R.id.control) lateinit var controlView: CustomControls
     @BindView(R.id.episodeView) lateinit var episodeView: EpisodeView
+    @BindView(R.id.root) lateinit var root: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,5 +68,11 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
         finish()
         overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_top)
     }
+
+    override fun onError(errorMessage: CharSequence?) {
+        val message = errorMessage ?: resources.getString(R.string.player_error)
+        Snackbar.make(root, message, Snackbar.LENGTH_LONG).show()
+    }
+
 }
 

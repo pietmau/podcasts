@@ -48,4 +48,8 @@ class FullscreenPresenter(
         mediaBrowserWrapper?.playFromMediaId(model.episode)
     }
 
+    override fun onPlayerError(errorMessage: CharSequence?) {
+        view?.onError(errorMessage)
+    }
+
 }

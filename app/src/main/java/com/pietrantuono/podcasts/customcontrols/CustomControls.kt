@@ -65,7 +65,7 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
     private var supportMediaController: MediaControllerCompat? = null
     private val transportControls
         get() = supportMediaController?.transportControls
-    private var onClickListener: ColorizedPlaybackControlView.Callback? = null
+    private var listener: ColorizedPlaybackControlView.Callback? = null
 
     private val connectionCallback = object : MediaBrowserCompat.ConnectionCallback() {
         override fun onConnected() {
@@ -106,7 +106,7 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
             transportControls?.skipToPrevious()
         }
         playPause.setOnClickListener {
-            onClickListener?.onPlayClicked()
+            listener?.onPlayClicked()
             supportMediaController?.playbackState?.let {
                 when (it.state) {
                     PlaybackStateCompat.STATE_PLAYING, PlaybackStateCompat.STATE_BUFFERING -> {
@@ -272,6 +272,7 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
                 line3.setText(R.string.loading)
                 stopSeekbarUpdate()
             }
+            PlaybackStateCompat.STATE_ERROR -> onError(state)
         }
 
         skipNext.visibility = if (state.actions and PlaybackStateCompat.ACTION_SKIP_TO_NEXT == 0L)
@@ -282,6 +283,10 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
             View.INVISIBLE
         else
             View.VISIBLE
+    }
+
+    private fun onError(state: PlaybackStateCompat) {
+        listener?.onPlayerError(state.errorMessage)
     }
 
     private fun updateProgress() {
@@ -306,7 +311,7 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
     }
 
     fun setCallback(onClickListener: ColorizedPlaybackControlView.Callback) {
-        this.onClickListener = onClickListener
+        this.listener = onClickListener
     }
 
 }
