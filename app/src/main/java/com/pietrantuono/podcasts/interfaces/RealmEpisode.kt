@@ -14,15 +14,17 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 open class RealmEpisode : RealmObject, Episode {
+    @Ignore private val FORMAT = "HH:mm:ss"
+    @Ignore private val EPOCH = "00:00:00"
     override val durationInMills: Long?
         get() = duration?.let {
             try {
-                SimpleDateFormat("HH:mm:ss").parse(it).time
+                val simpleDateFormat = SimpleDateFormat(FORMAT)
+                simpleDateFormat.parse(it).time - simpleDateFormat.parse(EPOCH).time
             } catch (exception: Exception) {
                 null
             }
         }
-
     override var played: Boolean = false
     override var link: String? = null
     override var downloaded: Boolean = false
@@ -61,7 +63,8 @@ open class RealmEpisode : RealmObject, Episode {
 
     constructor(duration: String?, author: String?, isExplicit: Boolean?, imageUrl: String?,
                 keywords: List<String>?, subtitle: String?, summary: String?, pubDate: Date?,
-                title: String?, description: String?, syndEnclosures: List<SyndEnclosure>?, link: String?) {
+                title: String?, description: String?, syndEnclosures: List<SyndEnclosure>?,
+                link: String?) {
         this.duration = duration
         this.author = author
         this.isExplicit = isExplicit
@@ -126,9 +129,7 @@ open class RealmEpisode : RealmObject, Episode {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is RealmEpisode) return false
-
         if (link != other.link) return false
-
         return true
     }
 
@@ -145,6 +146,4 @@ open class RealmEpisode : RealmObject, Episode {
             return arrayOfNulls(size)
         }
     }
-
-
 }

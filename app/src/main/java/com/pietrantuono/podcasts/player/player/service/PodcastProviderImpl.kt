@@ -10,9 +10,7 @@ import com.pietrantuono.podcasts.repository.EpisodesRepository
 class PodcastProviderImpl(
         private val repo: EpisodesRepository) : PodcastProvider {
 
-    override fun updateMusicArt(musicId: String?, bitmap: Bitmap, icon: Bitmap) {
-
-    }
+    override fun updateMusicArt(musicId: String?, bitmap: Bitmap, icon: Bitmap) { }
 
     override fun getMusic(mediaId: String?): MediaMetadataCompat? {
         val episode = repo.getEpisodeByUrl(mediaId)
