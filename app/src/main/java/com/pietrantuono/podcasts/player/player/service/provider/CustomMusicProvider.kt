@@ -1,4 +1,4 @@
-package com.pietrantuono.podcasts.player.player.service
+package com.pietrantuono.podcasts.player.player.service.provider
 
 import com.example.android.uamp.model.MusicProvider
 import com.example.android.uamp.model.MusicProviderSource

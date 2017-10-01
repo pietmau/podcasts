@@ -30,7 +30,6 @@ import android.support.v4.media.session.MediaButtonReceiver
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.media.MediaRouter
-import com.example.android.uamp.MediaNotificationManager
 import com.example.android.uamp.R
 import com.example.android.uamp.playback.QueueManager
 import com.example.android.uamp.ui.NowPlayingActivity
@@ -41,6 +40,10 @@ import com.example.android.uamp.utils.WearHelper
 import com.google.android.gms.cast.framework.CastContext
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.player.player.service.di.ServiceModule
+import com.pietrantuono.podcasts.player.player.service.playback.CustomLocalPlayback
+import com.pietrantuono.podcasts.player.player.service.playbackmanager.CustomPlaybackManager
+import com.pietrantuono.podcasts.player.player.service.playbacknotificator.CustomNotificationManager
+import com.pietrantuono.podcasts.player.player.service.provider.PodcastProvider
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 import java.lang.ref.WeakReference
 import javax.inject.Inject
@@ -48,15 +51,12 @@ import javax.inject.Inject
 class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.PlaybackServiceCallback {
     private var mPlaybackManager: CustomPlaybackManager? = null
     private var mSession: MediaSessionCompat? = null
-    private var mMediaNotificationManager: MediaNotificationManager? = null
+    private var mMediaNotificationManager: CustomNotificationManager? = null
     private var mSessionExtras: Bundle? = null
     private val mDelayedStopHandler = DelayedStopHandler(this)
     private var mMediaRouter: MediaRouter? = null
-
     @Inject lateinit var repository: EpisodesRepository
-
     @Inject lateinit var provider: PodcastProvider
-
     private var manager: PodcastManager? = null
 
     override fun onCreate() {
@@ -64,7 +64,7 @@ class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.
         LogHelper.d(TAG, "onCreate")
         (applicationContext as App).applicationComponent?.with(ServiceModule())?.inject(this)
         val playback = CustomLocalPlayback(this, provider)
-        manager = PodcasteManagerImpl(repository,provider ,object : QueueManager.MetadataUpdateListener {
+        manager = PodcasteManagerImpl(repository, provider, object : QueueManager.MetadataUpdateListener {
             override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
                 mSession?.setMetadata(metadata)
             }
@@ -103,7 +103,7 @@ class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.
         mPlaybackManager?.updatePlaybackState(null)
 
         try {
-            //mMediaNotificationManager = MediaNotificationManager(this)
+            mMediaNotificationManager = CustomNotificationManager(this)
         } catch (e: RemoteException) {
             throw IllegalStateException("Could not create a MediaNotificationManager", e)
         }
@@ -133,7 +133,6 @@ class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.
         LogHelper.d(TAG, "onDestroy")
         mPlaybackManager?.handleStopRequest(null)
         mMediaNotificationManager?.stopNotification()
-
         mDelayedStopHandler.removeCallbacksAndMessages(null)
         mSession?.release()
     }

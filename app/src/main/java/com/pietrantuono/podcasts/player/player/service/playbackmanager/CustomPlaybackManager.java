@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-package com.pietrantuono.podcasts.player.player.service;
+package com.pietrantuono.podcasts.player.player.service.playbackmanager;
 
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -25,6 +25,7 @@ import android.support.v4.media.session.PlaybackStateCompat;
 
 import com.example.android.uamp.playback.Playback;
 import com.example.android.uamp.utils.LogHelper;
+import com.pietrantuono.podcasts.player.player.service.PodcastManager;
 
 /**
  * Manage the interactions among the container service, the queue manager and the actual playback.

@@ -7,6 +7,7 @@ import android.support.v4.media.session.MediaSessionCompat
 import com.example.android.uamp.AlbumArtCache
 import com.example.android.uamp.playback.QueueManager
 import com.example.android.uamp.utils.MediaIDHelper
+import com.pietrantuono.podcasts.player.player.service.provider.PodcastProvider
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 
 internal class PodcasteManagerImpl(

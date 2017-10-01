@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.pietrantuono.podcasts.player.player.service;
+package com.pietrantuono.podcasts.player.player.service.playback;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -47,6 +47,7 @@ import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.pietrantuono.podcasts.player.player.service.provider.PodcastProvider;
 
 import static android.support.v4.media.session.MediaSessionCompat.QueueItem;
 
