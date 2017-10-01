@@ -19,8 +19,9 @@ CrashlyticsWrapper, val creator: MediaSourceCreator) : GenericPresenter, ViewMod
 
     private var view: SinglePodcastView? = null
     private var podcastFeed: PodcastFeed? = null
-    private var startedWithTransition: Boolean = false
+    private var startedWithTransition: Boolean? = false
     private val observer: SimpleObserver<Boolean>
+    private var fromSavedState: Boolean = false
 
     init {
         observer = object : SimpleObserver<Boolean>() {
@@ -64,10 +65,11 @@ CrashlyticsWrapper, val creator: MediaSourceCreator) : GenericPresenter, ViewMod
         setEpisodes()
     }
 
-    fun startPresenter(podcast: Podcast?, startedWithTransition: Boolean) {
+    fun startPresenter(podcast: Podcast?, startedWithTransition: Boolean?, fromSavedState: Boolean) {
         this.startedWithTransition = startedWithTransition
+        this.fromSavedState = fromSavedState
         model.startModel(podcast)
-        if (startedWithTransition) {
+        if (startedWithTransition == true) {
             view?.enterWithTransition()
         } else {
             view?.enterWithoutTransition()
@@ -82,7 +84,7 @@ CrashlyticsWrapper, val creator: MediaSourceCreator) : GenericPresenter, ViewMod
     }
 
     fun onBackPressed(): Boolean {
-        if (startedWithTransition) {
+        if (startedWithTransition == true && !fromSavedState) {
             view?.exitWithSharedTrsnsition()
         } else {
             view?.exitWithoutSharedTransition()

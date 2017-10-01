@@ -33,7 +33,7 @@ class AddSinglePodcastActivity : AbstractBaseDetailActivty(), SinglePodcastView 
         super.onCreate(savedInstanceState)
         inject()
         initViews()
-        startPresenter()
+        startPresenter(savedInstanceState)
         loadImage()
     }
 
@@ -49,11 +49,11 @@ class AddSinglePodcastActivity : AbstractBaseDetailActivty(), SinglePodcastView 
         initProgress()
     }
 
-    private fun startPresenter() {
+    private fun startPresenter(savedInstanceState: Bundle?) {
         presenter.bindView(this@AddSinglePodcastActivity)
-        presenter.startPresenter(intent
-                .getParcelableExtra<Podcast>(SINGLE_PODCAST_TRACK_ID), intent
-                .getBooleanExtra(STARTED_WITH_TRANSITION, false))
+        presenter.startPresenter(intent?.getParcelableExtra<Podcast>(SINGLE_PODCAST_TRACK_ID),
+                intent?.getBooleanExtra(STARTED_WITH_TRANSITION, false),
+                savedInstanceState != null)
     }
 
     override fun getImageUrl(): String? {

@@ -72,7 +72,7 @@ public class PodcastPresenterTest {
     @Test
     public void when_init_then_initModel() {
         //WHEN
-        presenter.startPresenter(podcast, true);
+        presenter.startPresenter(podcast, true, savedInstanceState != null);
         //THEN
         verify(model).startModel(podcast);
     }
