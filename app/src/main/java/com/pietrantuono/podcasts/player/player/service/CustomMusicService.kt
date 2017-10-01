@@ -16,7 +16,6 @@
 
 package com.pietrantuono.podcasts.player.player.service
 
-import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
 import android.os.Bundle
@@ -29,16 +28,9 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaButtonReceiver
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import android.support.v7.media.MediaRouter
-import com.example.android.uamp.R
-import com.example.android.uamp.playback.QueueManager
-import com.example.android.uamp.ui.NowPlayingActivity
-import com.example.android.uamp.utils.CarHelper
-import com.example.android.uamp.utils.LogHelper
-import com.example.android.uamp.utils.MediaIDHelper.MEDIA_ID_ROOT
-import com.example.android.uamp.utils.WearHelper
-import com.google.android.gms.cast.framework.CastContext
+import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.application.App
+import com.pietrantuono.podcasts.player.player.LogHelper
 import com.pietrantuono.podcasts.player.player.service.di.ServiceModule
 import com.pietrantuono.podcasts.player.player.service.playback.CustomLocalPlayback
 import com.pietrantuono.podcasts.player.player.service.playbackmanager.CustomPlaybackManager
@@ -49,12 +41,12 @@ import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.PlaybackServiceCallback {
+    private val MEDIA_ID_ROOT: String = "ROOT"
     private var mPlaybackManager: CustomPlaybackManager? = null
     private var mSession: MediaSessionCompat? = null
     private var mMediaNotificationManager: CustomNotificationManager? = null
     private var mSessionExtras: Bundle? = null
     private val mDelayedStopHandler = DelayedStopHandler(this)
-    private var mMediaRouter: MediaRouter? = null
     @Inject lateinit var repository: EpisodesRepository
     @Inject lateinit var provider: PodcastProvider
     private var manager: PodcastManager? = null
@@ -64,7 +56,7 @@ class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.
         LogHelper.d(TAG, "onCreate")
         (applicationContext as App).applicationComponent?.with(ServiceModule())?.inject(this)
         val playback = CustomLocalPlayback(this, provider)
-        manager = PodcasteManagerImpl(repository, provider, object : QueueManager.MetadataUpdateListener {
+        manager = PodcasteManagerImpl(repository, provider, object : PodcasteManagerImpl.MetadataUpdateListener {
             override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
                 mSession?.setMetadata(metadata)
             }
@@ -77,7 +69,7 @@ class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.
                 mPlaybackManager?.handlePlayRequest()
             }
 
-            override fun onQueueUpdated(title: String?, newQueue: MutableList<MediaSessionCompat.QueueItem>?) {
+            override fun onQueueUpdated(title: String?, newQueue: List<MediaSessionCompat.QueueItem?>?) {
                 mSession?.setQueue(newQueue)
                 mSession?.setQueueTitle(title)
             }
@@ -89,15 +81,12 @@ class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.
         mSession?.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
 
         val context = applicationContext
-        val intent = Intent(context, NowPlayingActivity::class.java)
-        val pi = PendingIntent.getActivity(context, 99 /*request code*/,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        mSession?.setSessionActivity(pi)
+//        val intent = Intent(context, NowPlayingActivity::class.java)
+//        val pi = PendingIntent.getActivity(context, 99 /*request code*/,
+//                intent, PendingIntent.FLAG_UPDATE_CURRENT)
+//        mSession?.setSessionActivity(pi)
 
         mSessionExtras = Bundle()
-        CarHelper.setSlotReservationFlags(mSessionExtras, true, true, true)
-        WearHelper.setSlotReservationFlags(mSessionExtras, true, true)
-        WearHelper.setUseBackgroundFromTheme(mSessionExtras, true)
         mSession?.setExtras(mSessionExtras)
 
         mPlaybackManager?.updatePlaybackState(null)
@@ -107,7 +96,6 @@ class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.
         } catch (e: RemoteException) {
             throw IllegalStateException("Could not create a MediaNotificationManager", e)
         }
-        mMediaRouter = MediaRouter.getInstance(applicationContext)
     }
 
     override fun onStartCommand(startIntent: Intent?, flags: Int, startId: Int): Int {
@@ -118,7 +106,7 @@ class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.
                 if (CMD_PAUSE == command) {
                     mPlaybackManager?.handlePauseRequest()
                 } else if (CMD_STOP_CASTING == command) {
-                    CastContext.getSharedInstance(this).sessionManager.endCurrentSession(true)
+
                 }
             } else {
                 MediaButtonReceiver.handleIntent(mSession, startIntent)
@@ -136,6 +124,7 @@ class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.
         mDelayedStopHandler.removeCallbacksAndMessages(null)
         mSession?.release()
     }
+
 
     override fun onGetRoot(clientPackageName: String, clientUid: Int,
                            rootHints: Bundle?): MediaBrowserServiceCompat.BrowserRoot? {

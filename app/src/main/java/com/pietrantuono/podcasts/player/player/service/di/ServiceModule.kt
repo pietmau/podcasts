@@ -1,8 +1,6 @@
 package com.pietrantuono.podcasts.player.player.service.di
 
 import android.content.Context
-import com.example.android.uamp.model.MusicProvider
-import com.example.android.uamp.model.MusicProviderSource
 import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
 import com.pietrantuono.podcasts.player.player.MediaSourceCreator
@@ -10,15 +8,14 @@ import com.pietrantuono.podcasts.player.player.playback.LocalPlaybackWrapper
 import com.pietrantuono.podcasts.player.player.playback.Playback
 import com.pietrantuono.podcasts.player.player.playback.PlaybackWrapper
 import com.pietrantuono.podcasts.player.player.service.BroadcastManager
-import com.pietrantuono.podcasts.player.player.service.provider.CustomMusicProvider
-import com.pietrantuono.podcasts.player.player.service.provider.PodcastProvider
-import com.pietrantuono.podcasts.player.player.service.provider.PodcastProviderImpl
 import com.pietrantuono.podcasts.player.player.service.model.PlayerServiceModel
 import com.pietrantuono.podcasts.player.player.service.model.PlayerServiceModelImpl
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.IntentsManager
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.NotificationCreator
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.PlaybackNotificator
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.PlaybackNotificatorImpl
+import com.pietrantuono.podcasts.player.player.service.provider.PodcastProvider
+import com.pietrantuono.podcasts.player.player.service.provider.PodcastProviderImpl
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 import dagger.Module
 import dagger.Provides
@@ -44,9 +41,6 @@ class ServiceModule {
 
     @Provides
     fun providesIntentManager(context: Context) = IntentsManager(context)
-
-    @Provides
-    fun providesMusicProvider(source: MusicProviderSource): MusicProvider = CustomMusicProvider(source)
 
     @Provides
     fun provideMusicProviderSource() = CustomMusicProviderSource()

@@ -33,14 +33,11 @@ import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.app.NotificationCompat
+import com.pietrantuono.podcasts.R
+import com.pietrantuono.podcasts.player.player.LogHelper
 
-import com.example.android.uamp.AlbumArtCache
-import com.example.android.uamp.MusicService
-import com.example.android.uamp.R
-import com.example.android.uamp.ui.MusicPlayerActivity
-import com.example.android.uamp.utils.LogHelper
-import com.example.android.uamp.utils.ResourceHelper
 import com.pietrantuono.podcasts.player.player.service.CustomMusicService
+import com.pietrantuono.podcasts.player.player.service.ResourceHelper
 
 /**
  * Keeps track of a notification and updates it automatically for a given
@@ -151,9 +148,9 @@ constructor(private val mService: CustomMusicService) : BroadcastReceiver() {
             ACTION_NEXT -> mTransportControls!!.skipToNext()
             ACTION_PREV -> mTransportControls!!.skipToPrevious()
             ACTION_STOP_CASTING -> {
-                val i = Intent(context, MusicService::class.java)
-                i.action = MusicService.ACTION_CMD
-                i.putExtra(MusicService.CMD_NAME, MusicService.CMD_STOP_CASTING)
+                val i = Intent(context, CustomMusicService::class.java)
+                i.action = CustomMusicService.ACTION_CMD
+                i.putExtra(CustomMusicService.CMD_NAME, CustomMusicService.CMD_STOP_CASTING)
                 mService.startService(i)
             }
             else -> LogHelper.w(TAG, "Unknown intent ignored. Action=", action)
@@ -184,14 +181,15 @@ constructor(private val mService: CustomMusicService) : BroadcastReceiver() {
     }
 
     private fun createContentIntent(description: MediaDescriptionCompat?): PendingIntent {
-        val openUI = Intent(mService, MusicPlayerActivity::class.java)
-        openUI.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
-        openUI.putExtra(MusicPlayerActivity.EXTRA_START_FULLSCREEN, true)
-        if (description != null) {
-            openUI.putExtra(MusicPlayerActivity.EXTRA_CURRENT_MEDIA_DESCRIPTION, description)
-        }
-        return PendingIntent.getActivity(mService, REQUEST_CODE, openUI,
-                PendingIntent.FLAG_CANCEL_CURRENT)
+        throw UnsupportedOperationException("To do")
+//        val openUI = Intent(mService, MusicPlayerActivity::class.java)
+//        openUI.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+//        openUI.putExtra(MusicPlayerActivity.EXTRA_START_FULLSCREEN, true)
+//        if (description != null) {
+//            openUI.putExtra(MusicPlayerActivity.EXTRA_CURRENT_MEDIA_DESCRIPTION, description)
+//        }
+//        return PendingIntent.getActivity(mService, REQUEST_CODE, openUI,
+//                PendingIntent.FLAG_CANCEL_CURRENT)
     }
 
     private val mCb = object : MediaControllerCompat.Callback() {
@@ -267,7 +265,7 @@ constructor(private val mService: CustomMusicService) : BroadcastReceiver() {
             // it can actually be any valid Android Uri formatted String.
             // async fetch the album art icon
             val artUrl = description.iconUri!!.toString()
-            art = com.example.android.uamp.AlbumArtCache.getInstance().getBigImage(artUrl)
+            art = AlbumArtCache.getInstance().getBigImage(artUrl)
             if (art == null) {
                 fetchArtUrl = artUrl
                 // use a placeholder art while the remote art is being downloaded
@@ -291,7 +289,7 @@ constructor(private val mService: CustomMusicService) : BroadcastReceiver() {
                 .setLargeIcon(art)
 
         if (mController != null && mController!!.extras != null) {
-            val castName = mController!!.extras.getString(MusicService.EXTRA_CONNECTED_CAST)
+            val castName = mController!!.extras.getString(CustomMusicService.EXTRA_CONNECTED_CAST)
             if (castName != null) {
                 val castInfo = mService.resources
                         .getString(R.string.casting_to_device, castName)
@@ -354,7 +352,7 @@ constructor(private val mService: CustomMusicService) : BroadcastReceiver() {
 
     private fun fetchBitmapFromURLAsync(bitmapUrl: String,
                                         builder: NotificationCompat.Builder) {
-        com.example.android.uamp.AlbumArtCache.getInstance().fetch(bitmapUrl, object : AlbumArtCache.FetchListener() {
+        AlbumArtCache.getInstance().fetch(bitmapUrl, object : AlbumArtCache.FetchListener {
             override fun onFetched(artUrl: String, bitmap: Bitmap, icon: Bitmap) {
                 if (mMetadata != null && mMetadata!!.description.iconUri != null &&
                         mMetadata!!.description.iconUri!!.toString() == artUrl) {
