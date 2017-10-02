@@ -23,9 +23,9 @@ import android.support.annotation.NonNull;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 
-import com.example.android.uamp.playback.Playback;
-import com.example.android.uamp.utils.LogHelper;
+import com.pietrantuono.podcasts.player.player.LogHelper;
 import com.pietrantuono.podcasts.player.player.service.PodcastManager;
+import com.pietrantuono.podcasts.player.player.service.playback.Playback;
 
 /**
  * Manage the interactions among the container service, the queue manager and the actual playback.

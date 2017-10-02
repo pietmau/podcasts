@@ -18,6 +18,10 @@ import com.pietrantuono.podcasts.utils.EPISODE_LINK
 import javax.inject.Inject
 
 class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
+    companion object {
+        val EXTRA_CURRENT_MEDIA_DESCRIPTION = "media_description"
+    }
+
     @Inject lateinit var presenter: FullscreenPresenter
     @BindView(R.id.control) lateinit var controlView: CustomControls
     @BindView(R.id.episodeView) lateinit var episodeView: EpisodeView

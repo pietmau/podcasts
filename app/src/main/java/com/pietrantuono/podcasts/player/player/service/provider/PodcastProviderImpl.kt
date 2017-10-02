@@ -3,14 +3,15 @@ package com.pietrantuono.podcasts.player.player.service.provider
 
 import android.graphics.Bitmap
 import android.support.v4.media.MediaMetadataCompat
-import com.example.android.uamp.model.MusicProviderSource
+
 import com.pietrantuono.podcasts.apis.Episode
+import com.pietrantuono.podcasts.player.player.service.di.CustomMusicProviderSource
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 
 class PodcastProviderImpl(
         private val repo: EpisodesRepository) : PodcastProvider {
 
-    override fun updateMusicArt(musicId: String?, bitmap: Bitmap, icon: Bitmap) { }
+    override fun updateMusicArt(musicId: String?, bitmap: Bitmap, icon: Bitmap) {}
 
     override fun getMusic(mediaId: String?): MediaMetadataCompat? {
         val episode = repo.getEpisodeByUrl(mediaId)
@@ -25,7 +26,7 @@ class PodcastProviderImpl(
 
         builder.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, episode.link)
         if (getSource(episode) != null) {
-            builder.putString(MusicProviderSource.CUSTOM_METADATA_TRACK_SOURCE, getSource(episode))
+            builder.putString(CustomMusicProviderSource.CUSTOM_METADATA_TRACK_SOURCE, getSource(episode))
         }
 //                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, album)
         builder.putString(MediaMetadataCompat.METADATA_KEY_ARTIST, episode.author)
