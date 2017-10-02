@@ -16,6 +16,7 @@
 
 package com.pietrantuono.podcasts.player.player.service
 
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
 import android.os.Bundle
@@ -30,6 +31,7 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.application.App
+import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayActivity
 import com.pietrantuono.podcasts.player.player.LogHelper
 import com.pietrantuono.podcasts.player.player.service.di.ServiceModule
 import com.pietrantuono.podcasts.player.player.service.playback.CustomLocalPlayback
@@ -53,7 +55,6 @@ class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.
 
     override fun onCreate() {
         super.onCreate()
-        LogHelper.d(TAG, "onCreate")
         (applicationContext as App).applicationComponent?.with(ServiceModule())?.inject(this)
         val playback = CustomLocalPlayback(this, provider)
         manager = PodcasteManagerImpl(repository, provider, object : PodcasteManagerImpl.MetadataUpdateListener {
@@ -81,16 +82,13 @@ class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.
         mSession?.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
 
         val context = applicationContext
-//        val intent = Intent(context, NowPlayingActivity::class.java)
-//        val pi = PendingIntent.getActivity(context, 99 /*request code*/,
-//                intent, PendingIntent.FLAG_UPDATE_CURRENT)
-//        mSession?.setSessionActivity(pi)
-
+        val intent = Intent(context, FullscreenPlayActivity::class.java)
+        val pi = PendingIntent.getActivity(context, 99 /*request code*/,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        mSession?.setSessionActivity(pi)
         mSessionExtras = Bundle()
         mSession?.setExtras(mSessionExtras)
-
         mPlaybackManager?.updatePlaybackState(null)
-
         try {
             mMediaNotificationManager = CustomNotificationManager(this)
         } catch (e: RemoteException) {
@@ -106,7 +104,6 @@ class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.
                 if (CMD_PAUSE == command) {
                     mPlaybackManager?.handlePauseRequest()
                 } else if (CMD_STOP_CASTING == command) {
-
                 }
             } else {
                 MediaButtonReceiver.handleIntent(mSession, startIntent)
@@ -118,13 +115,11 @@ class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.
     }
 
     override fun onDestroy() {
-        LogHelper.d(TAG, "onDestroy")
         mPlaybackManager?.handleStopRequest(null)
         mMediaNotificationManager?.stopNotification()
         mDelayedStopHandler.removeCallbacksAndMessages(null)
         mSession?.release()
     }
-
 
     override fun onGetRoot(clientPackageName: String, clientUid: Int,
                            rootHints: Bundle?): MediaBrowserServiceCompat.BrowserRoot? {
@@ -138,7 +133,6 @@ class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.
 
     override fun onPlaybackStart() {
         mSession?.isActive = true
-
         mDelayedStopHandler.removeCallbacksAndMessages(null)
         startService(Intent(applicationContext, CustomMusicService::class.java))
     }
@@ -169,17 +163,14 @@ class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.
             val service = mWeakReference.get()
             if (service != null && service.mPlaybackManager?.playback != null) {
                 if (service?.mPlaybackManager?.playback?.isPlaying == true) {
-                    LogHelper.d(TAG, "Ignoring delayed stop since the media player is in use.")
                     return
                 }
-                LogHelper.d(TAG, "Stopping service with delay handler.")
                 service.stopSelf()
             }
         }
     }
 
     companion object {
-
         private val TAG = LogHelper.makeLogTag(CustomMusicService::class.java)
 
         // Extra on MediaSession that contains the Cast device name currently connected to
