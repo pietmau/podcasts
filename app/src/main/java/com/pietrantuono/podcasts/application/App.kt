@@ -1,14 +1,11 @@
 package com.pietrantuono.podcasts.application
 
 import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
 import android.support.multidex.MultiDexApplication
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule
 import com.pietrantuono.podcasts.player.player.player.Player
-import com.pietrantuono.podcasts.player.player.service.PlayerService
 import io.realm.Realm
 import javax.inject.Inject
 
@@ -32,14 +29,11 @@ class App : MultiDexApplication(), ServiceConnection {
     }
 
     private fun startService() {
-        val intent = Intent(this, PlayerService::class.java)
-        startService(intent)
+
     }
 
     fun bindPlayerService() {
-        val intent = Intent(this, PlayerService::class.java)
-        bindService(intent, this, Context.BIND_AUTO_CREATE)
-        serviceIsBound = true
+
     }
 
     fun unbindPlayerService() {

@@ -9,7 +9,6 @@ import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
 import com.pietrantuono.podcasts.fullscreenplay.model.FullscreenModel
 import com.pietrantuono.podcasts.fullscreenplay.model.FullscreenModelImpl
 import com.pietrantuono.podcasts.fullscreenplay.presenter.FullscreenPresenter
-import com.pietrantuono.podcasts.fullscreenplay.presenter.ServiceConnector
 import com.pietrantuono.podcasts.main.view.TransitionsHelper
 import com.pietrantuono.podcasts.player.player.player.Player
 import com.pietrantuono.podcasts.repository.EpisodesRepository
@@ -37,12 +36,12 @@ class FullscreenModule(private val activity: FragmentActivity) {
 
     @Provides
     fun provideFullscreenPresenterFactory(model: FullscreenModel, player: Player?, apiLevelChecker: ApiLevelChecker): FullscreenPresenterFactory {
-        return FullscreenPresenterFactory(model, player, ServiceConnector(), apiLevelChecker)
+        return FullscreenPresenterFactory(model, player, apiLevelChecker)
     }
 }
 
-class FullscreenPresenterFactory(private val model: FullscreenModel, val player: Player?,
-                                 val connector: ServiceConnector, val apiLevelChecker: ApiLevelChecker)
+class FullscreenPresenterFactory(private val model: FullscreenModel, val player: Player?
+                                 , val apiLevelChecker: ApiLevelChecker)
     : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>?): T {
