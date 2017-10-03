@@ -42,7 +42,6 @@ class MusicService() : MediaBrowserServiceCompat(), PlaybackManager.PlaybackServ
     override fun onCreate() {
         super.onCreate()
         (applicationContext as App).applicationComponent!!.with(ServiceModule(this)).inject(this)
-        setSessionToken(session.sessionToken)
         playbackManager.updatePlaybackState(null)
     }
 

@@ -26,7 +26,7 @@ import dagger.Provides
 
 @ServiceScope
 @Module
-class ServiceModule(val musicService: MusicService) {
+class ServiceModule constructor(val musicService: MusicService) {
 
     @Provides
     fun providesModel(repo: EpisodesRepository): PlayerServiceModel = PlayerServiceModelImpl(repo)
@@ -62,6 +62,7 @@ class ServiceModule(val musicService: MusicService) {
                 Intent(context.applicationContext, FullscreenPlayActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
         session.setSessionActivity(pi)
         session.setExtras(Bundle())
+        musicService.sessionToken = session.sessionToken
         return session
     }
 
