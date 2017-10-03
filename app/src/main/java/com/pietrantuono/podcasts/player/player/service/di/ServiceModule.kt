@@ -1,7 +1,10 @@
 package com.pietrantuono.podcasts.player.player.service.di
 
+import android.content.Context
 import com.pietrantuono.podcasts.player.player.service.model.PlayerServiceModel
 import com.pietrantuono.podcasts.player.player.service.model.PlayerServiceModelImpl
+import com.pietrantuono.podcasts.player.player.service.playback.CustomLocalPlayback
+import com.pietrantuono.podcasts.player.player.service.playback.Playback
 import com.pietrantuono.podcasts.player.player.service.provider.PodcastProvider
 import com.pietrantuono.podcasts.player.player.service.provider.PodcastProviderImpl
 import com.pietrantuono.podcasts.repository.EpisodesRepository
@@ -19,6 +22,9 @@ class ServiceModule {
 
     @Provides
     fun providePodcastProvider(repository: EpisodesRepository): PodcastProvider = PodcastProviderImpl(repository)
+
+    @Provides
+    fun provideLocalPlayback(context: Context, provider: PodcastProvider): Playback = CustomLocalPlayback(context, provider)
 
 }
 

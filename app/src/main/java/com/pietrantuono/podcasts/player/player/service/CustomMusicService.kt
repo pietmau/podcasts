@@ -34,7 +34,7 @@ import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayActivity
 import com.pietrantuono.podcasts.player.player.LogHelper
 import com.pietrantuono.podcasts.player.player.service.di.ServiceModule
-import com.pietrantuono.podcasts.player.player.service.playback.CustomLocalPlayback
+import com.pietrantuono.podcasts.player.player.service.playback.Playback
 import com.pietrantuono.podcasts.player.player.service.playbackmanager.CustomPlaybackManager
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.CustomNotificationManager
 import com.pietrantuono.podcasts.player.player.service.provider.PodcastProvider
@@ -52,11 +52,11 @@ class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.
     @Inject lateinit var repository: EpisodesRepository
     @Inject lateinit var provider: PodcastProvider
     private var manager: PodcastManager? = null
+    @Inject lateinit var playback: Playback
 
     override fun onCreate() {
         super.onCreate()
         (applicationContext as App).applicationComponent?.with(ServiceModule())?.inject(this)
-        val playback = CustomLocalPlayback(this, provider)
         manager = PodcasteManagerImpl(repository, provider, object : PodcasteManagerImpl.MetadataUpdateListener {
             override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
                 mSession?.setMetadata(metadata)
@@ -172,22 +172,11 @@ class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.
 
     companion object {
         private val TAG = LogHelper.makeLogTag(CustomMusicService::class.java)
-
-        // Extra on MediaSession that contains the Cast device name currently connected to
         val EXTRA_CONNECTED_CAST = "com.example.android.uamp.CAST_NAME"
-        // The action of the incoming Intent indicating that it contains a command
-        // to be executed (see {@link #onStartCommand})
         val ACTION_CMD = "com.example.android.uamp.ACTION_CMD"
-        // The key in the extras of the incoming Intent indicating the command that
-        // should be executed (see {@link #onStartCommand})
         val CMD_NAME = "CMD_NAME"
-        // A value of a CMD_NAME key in the extras of the incoming Intent that
-        // indicates that the music playback should be paused (see {@link #onStartCommand})
         val CMD_PAUSE = "CMD_PAUSE"
-        // A value of a CMD_NAME key that indicates that the music playback should switch
-        // to local playback from cast playback.
         val CMD_STOP_CASTING = "CMD_STOP_CASTING"
-        // Delay stopSelf by using a handler.
         private val STOP_DELAY = 30000
     }
 }
