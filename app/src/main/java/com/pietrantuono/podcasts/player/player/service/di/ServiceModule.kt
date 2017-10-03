@@ -11,18 +11,23 @@ import com.pietrantuono.podcasts.repository.EpisodesRepository
 import dagger.Module
 import dagger.Provides
 
+
+@ServiceScope
 @Module
 class ServiceModule {
 
     @Provides
     fun providesModel(repo: EpisodesRepository): PlayerServiceModel = PlayerServiceModelImpl(repo)
 
+    @ServiceScope
     @Provides
     fun provideMusicProviderSource() = CustomMusicProviderSource()
 
+    @ServiceScope
     @Provides
     fun providePodcastProvider(repository: EpisodesRepository): PodcastProvider = PodcastProviderImpl(repository)
 
+    @ServiceScope
     @Provides
     fun provideLocalPlayback(context: Context, provider: PodcastProvider): Playback = CustomLocalPlayback(context, provider)
 

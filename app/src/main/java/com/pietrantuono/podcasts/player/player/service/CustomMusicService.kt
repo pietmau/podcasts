@@ -32,19 +32,18 @@ import android.support.v4.media.session.PlaybackStateCompat
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayActivity
-import com.pietrantuono.podcasts.player.player.LogHelper
 import com.pietrantuono.podcasts.player.player.service.di.ServiceModule
 import com.pietrantuono.podcasts.player.player.service.playback.Playback
-import com.pietrantuono.podcasts.player.player.service.playbackmanager.CustomPlaybackManager
+import com.pietrantuono.podcasts.player.player.service.playbackmanager.PlaybackManager
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.CustomNotificationManager
 import com.pietrantuono.podcasts.player.player.service.provider.PodcastProvider
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
-class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.PlaybackServiceCallback {
+class CustomMusicService() : MediaBrowserServiceCompat(), PlaybackManager.PlaybackServiceCallback {
     private val MEDIA_ID_ROOT: String = "ROOT"
-    private var mPlaybackManager: CustomPlaybackManager? = null
+    private var playbackManager: PlaybackManager? = null
     private var mSession: MediaSessionCompat? = null
     private var mMediaNotificationManager: CustomNotificationManager? = null
     private var mSessionExtras: Bundle? = null
@@ -57,17 +56,18 @@ class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.
     override fun onCreate() {
         super.onCreate()
         (applicationContext as App).applicationComponent?.with(ServiceModule())?.inject(this)
-        manager = PodcasteManagerImpl(repository, provider, object : PodcasteManagerImpl.MetadataUpdateListener {
+
+        manager = QueueManager(repository, provider, object : QueueManager.MetadataUpdateListener {
             override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
                 mSession?.setMetadata(metadata)
             }
 
             override fun onMetadataRetrieveError() {
-                mPlaybackManager?.updatePlaybackState(getString(R.string.error_no_metadata))
+                playbackManager?.updatePlaybackState(getString(R.string.error_no_metadata))
             }
 
             override fun onCurrentQueueIndexUpdated(queueIndex: Int) {
-                mPlaybackManager?.handlePlayRequest()
+                playbackManager?.handlePlayRequest()
             }
 
             override fun onQueueUpdated(title: String?, newQueue: List<MediaSessionCompat.QueueItem?>?) {
@@ -75,12 +75,12 @@ class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.
                 mSession?.setQueueTitle(title)
             }
         })
-        mPlaybackManager = CustomPlaybackManager(this, resources, manager, playback)
+
+        playbackManager = PlaybackManager(this, resources, manager, playback)
         mSession = MediaSessionCompat(this, "OtherMusicService")
         setSessionToken(mSession?.sessionToken)
-        mSession?.setCallback(mPlaybackManager?.mediaSessionCallback)
+        mSession?.setCallback(playbackManager?.mediaSessionCallback)
         mSession?.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
-
         val context = applicationContext
         val intent = Intent(context, FullscreenPlayActivity::class.java)
         val pi = PendingIntent.getActivity(context, 99 /*request code*/,
@@ -88,7 +88,7 @@ class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.
         mSession?.setSessionActivity(pi)
         mSessionExtras = Bundle()
         mSession?.setExtras(mSessionExtras)
-        mPlaybackManager?.updatePlaybackState(null)
+        playbackManager?.updatePlaybackState(null)
         try {
             mMediaNotificationManager = CustomNotificationManager(this)
         } catch (e: RemoteException) {
@@ -102,7 +102,7 @@ class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.
             val command = startIntent.getStringExtra(CMD_NAME)
             if (ACTION_CMD == action) {
                 if (CMD_PAUSE == command) {
-                    mPlaybackManager?.handlePauseRequest()
+                    playbackManager?.handlePauseRequest()
                 } else if (CMD_STOP_CASTING == command) {
                 }
             } else {
@@ -115,7 +115,7 @@ class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.
     }
 
     override fun onDestroy() {
-        mPlaybackManager?.handleStopRequest(null)
+        playbackManager?.handleStopRequest(null)
         mMediaNotificationManager?.stopNotification()
         mDelayedStopHandler.removeCallbacksAndMessages(null)
         mSession?.release()
@@ -161,8 +161,8 @@ class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.
 
         override fun handleMessage(msg: Message) {
             val service = mWeakReference.get()
-            if (service != null && service.mPlaybackManager?.playback != null) {
-                if (service?.mPlaybackManager?.playback?.isPlaying == true) {
+            if (service != null && service.playbackManager?.playback != null) {
+                if (service?.playbackManager?.playback?.isPlaying == true) {
                     return
                 }
                 service.stopSelf()
@@ -171,7 +171,6 @@ class CustomMusicService() : MediaBrowserServiceCompat(), CustomPlaybackManager.
     }
 
     companion object {
-        private val TAG = LogHelper.makeLogTag(CustomMusicService::class.java)
         val EXTRA_CONNECTED_CAST = "com.example.android.uamp.CAST_NAME"
         val ACTION_CMD = "com.example.android.uamp.ACTION_CMD"
         val CMD_NAME = "CMD_NAME"

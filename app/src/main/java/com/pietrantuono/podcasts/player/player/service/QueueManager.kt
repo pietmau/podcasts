@@ -9,7 +9,10 @@ import com.pietrantuono.podcasts.player.player.service.playbacknotificator.Album
 import com.pietrantuono.podcasts.player.player.service.provider.PodcastProvider
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 
-internal class PodcasteManagerImpl(
+/**
+ * 
+ */
+internal class QueueManager(
         private val episodesRepository: EpisodesRepository,
         private var provider: PodcastProvider,
         private val listener: MetadataUpdateListener)

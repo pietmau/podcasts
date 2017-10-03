@@ -30,16 +30,16 @@ import com.pietrantuono.podcasts.player.player.service.playback.Playback;
 /**
  * Manage the interactions among the container service, the queue manager and the actual playback.
  */
-public class CustomPlaybackManager implements Playback.Callback {
-    private static final String TAG = LogHelper.makeLogTag(CustomPlaybackManager.class);
+public class PlaybackManager implements Playback.Callback {
+    private static final String TAG = LogHelper.makeLogTag(PlaybackManager.class);
     private PodcastManager mQueueManager;
     private Playback mPlayback;
     private PlaybackServiceCallback mServiceCallback;
     private MediaSessionCallback mMediaSessionCallback;
 
-    public CustomPlaybackManager(PlaybackServiceCallback serviceCallback, Resources resources,
-                                 PodcastManager queueManager,
-                                 Playback playback) {
+    public PlaybackManager(PlaybackServiceCallback serviceCallback, Resources resources,
+                           PodcastManager queueManager,
+                           Playback playback) {
         mServiceCallback = serviceCallback;
         mQueueManager = queueManager;
         mMediaSessionCallback = new MediaSessionCallback();
