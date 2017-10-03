@@ -37,7 +37,7 @@ import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayActivity
 import com.pietrantuono.podcasts.player.player.LogHelper
 
-import com.pietrantuono.podcasts.player.player.service.CustomMusicService
+import com.pietrantuono.podcasts.player.player.service.MusicService
 import com.pietrantuono.podcasts.player.player.service.ResourceHelper
 
 /**
@@ -45,8 +45,8 @@ import com.pietrantuono.podcasts.player.player.service.ResourceHelper
  * MediaSession. Maintaining a visible notification (usually) guarantees that the music service
  * won't be killed during playback.
  */
-class CustomNotificationManager @Throws(RemoteException::class)
-constructor(private val mService: CustomMusicService) : BroadcastReceiver() {
+class NotificationManager @Throws(RemoteException::class)
+constructor(private val mService: MusicService) : BroadcastReceiver() {
     private var mSessionToken: MediaSessionCompat.Token? = null
     private var mController: MediaControllerCompat? = null
     private var mTransportControls: MediaControllerCompat.TransportControls? = null
@@ -149,9 +149,9 @@ constructor(private val mService: CustomMusicService) : BroadcastReceiver() {
             ACTION_NEXT -> mTransportControls!!.skipToNext()
             ACTION_PREV -> mTransportControls!!.skipToPrevious()
             ACTION_STOP_CASTING -> {
-                val i = Intent(context, CustomMusicService::class.java)
-                i.action = CustomMusicService.ACTION_CMD
-                i.putExtra(CustomMusicService.CMD_NAME, CustomMusicService.CMD_STOP_CASTING)
+                val i = Intent(context, MusicService::class.java)
+                i.action = MusicService.ACTION_CMD
+                i.putExtra(MusicService.CMD_NAME, MusicService.CMD_STOP_CASTING)
                 mService.startService(i)
             }
             else -> LogHelper.w(TAG, "Unknown intent ignored. Action=", action)
@@ -289,7 +289,7 @@ constructor(private val mService: CustomMusicService) : BroadcastReceiver() {
                 .setLargeIcon(art)
 
         if (mController != null && mController!!.extras != null) {
-            val castName = mController!!.extras.getString(CustomMusicService.EXTRA_CONNECTED_CAST)
+            val castName = mController!!.extras.getString(MusicService.EXTRA_CONNECTED_CAST)
             if (castName != null) {
                 val castInfo = mService.resources
                         .getString(R.string.casting_to_device, castName)
@@ -366,7 +366,7 @@ constructor(private val mService: CustomMusicService) : BroadcastReceiver() {
     }
 
     companion object {
-        private val TAG = LogHelper.makeLogTag(CustomNotificationManager::class.java)
+        private val TAG = LogHelper.makeLogTag(NotificationManager::class.java)
 
         private val NOTIFICATION_ID = 412
         private val REQUEST_CODE = 100

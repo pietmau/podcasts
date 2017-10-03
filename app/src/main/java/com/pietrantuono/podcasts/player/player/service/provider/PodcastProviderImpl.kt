@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.support.v4.media.MediaMetadataCompat
 
 import com.pietrantuono.podcasts.apis.Episode
-import com.pietrantuono.podcasts.player.player.service.di.CustomMusicProviderSource
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 
 class PodcastProviderImpl(
@@ -26,7 +25,7 @@ class PodcastProviderImpl(
 
         builder.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, episode.link)
         if (getSource(episode) != null) {
-            builder.putString(CustomMusicProviderSource.CUSTOM_METADATA_TRACK_SOURCE, getSource(episode))
+            builder.putString(MusicProviderSource.CUSTOM_METADATA_TRACK_SOURCE, getSource(episode))
         }
 //                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, album)
         builder.putString(MediaMetadataCompat.METADATA_KEY_ARTIST, episode.author)

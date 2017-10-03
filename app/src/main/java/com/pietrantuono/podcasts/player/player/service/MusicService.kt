@@ -35,29 +35,31 @@ import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayActivity
 import com.pietrantuono.podcasts.player.player.service.di.ServiceModule
 import com.pietrantuono.podcasts.player.player.service.playback.Playback
 import com.pietrantuono.podcasts.player.player.service.playbackmanager.PlaybackManager
-import com.pietrantuono.podcasts.player.player.service.playbacknotificator.CustomNotificationManager
+import com.pietrantuono.podcasts.player.player.service.playbacknotificator.NotificationManager
 import com.pietrantuono.podcasts.player.player.service.provider.PodcastProvider
+import com.pietrantuono.podcasts.player.player.service.queue.QueueManager
+import com.pietrantuono.podcasts.player.player.service.queue.QueueManagerImpl
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
-class CustomMusicService() : MediaBrowserServiceCompat(), PlaybackManager.PlaybackServiceCallback {
+class MusicService() : MediaBrowserServiceCompat(), PlaybackManager.PlaybackServiceCallback {
     private val MEDIA_ID_ROOT: String = "ROOT"
     private var playbackManager: PlaybackManager? = null
     private var mSession: MediaSessionCompat? = null
-    private var mMediaNotificationManager: CustomNotificationManager? = null
+    private var mMediaNotificationManager: NotificationManager? = null
     private var mSessionExtras: Bundle? = null
     private val mDelayedStopHandler = DelayedStopHandler(this)
     @Inject lateinit var repository: EpisodesRepository
     @Inject lateinit var provider: PodcastProvider
-    private var manager: PodcastManager? = null
+    private var manager: QueueManager? = null
     @Inject lateinit var playback: Playback
 
     override fun onCreate() {
         super.onCreate()
         (applicationContext as App).applicationComponent?.with(ServiceModule())?.inject(this)
 
-        manager = QueueManager(repository, provider, object : QueueManager.MetadataUpdateListener {
+        manager = QueueManagerImpl(repository, provider, object : QueueManagerImpl.MetadataUpdateListener {
             override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
                 mSession?.setMetadata(metadata)
             }
@@ -90,7 +92,7 @@ class CustomMusicService() : MediaBrowserServiceCompat(), PlaybackManager.Playba
         mSession?.setExtras(mSessionExtras)
         playbackManager?.updatePlaybackState(null)
         try {
-            mMediaNotificationManager = CustomNotificationManager(this)
+            mMediaNotificationManager = NotificationManager(this)
         } catch (e: RemoteException) {
             throw IllegalStateException("Could not create a MediaNotificationManager", e)
         }
@@ -134,7 +136,7 @@ class CustomMusicService() : MediaBrowserServiceCompat(), PlaybackManager.Playba
     override fun onPlaybackStart() {
         mSession?.isActive = true
         mDelayedStopHandler.removeCallbacksAndMessages(null)
-        startService(Intent(applicationContext, CustomMusicService::class.java))
+        startService(Intent(applicationContext, MusicService::class.java))
     }
 
     override fun onPlaybackStop() {
@@ -152,8 +154,8 @@ class CustomMusicService() : MediaBrowserServiceCompat(), PlaybackManager.Playba
         mSession?.setPlaybackState(newState)
     }
 
-    private class DelayedStopHandler(service: CustomMusicService) : Handler() {
-        private val mWeakReference: WeakReference<CustomMusicService>
+    private class DelayedStopHandler(service: MusicService) : Handler() {
+        private val mWeakReference: WeakReference<MusicService>
 
         init {
             mWeakReference = WeakReference(service)

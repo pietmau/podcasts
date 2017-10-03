@@ -1,10 +1,10 @@
-package com.pietrantuono.podcasts.player.player.service
+package com.pietrantuono.podcasts.player.player.service.queue
 
 
 import android.os.Bundle
 import android.support.v4.media.session.MediaSessionCompat
 
-interface PodcastManager {
+interface QueueManager {
 
     fun skipQueuePosition(position: Int): Boolean
 

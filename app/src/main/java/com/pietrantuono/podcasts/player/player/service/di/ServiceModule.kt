@@ -1,9 +1,10 @@
 package com.pietrantuono.podcasts.player.player.service.di
 
 import android.content.Context
+import com.pietrantuono.podcasts.player.player.service.provider.MusicProviderSource
 import com.pietrantuono.podcasts.player.player.service.model.PlayerServiceModel
 import com.pietrantuono.podcasts.player.player.service.model.PlayerServiceModelImpl
-import com.pietrantuono.podcasts.player.player.service.playback.CustomLocalPlayback
+import com.pietrantuono.podcasts.player.player.service.playback.LocalPlayback
 import com.pietrantuono.podcasts.player.player.service.playback.Playback
 import com.pietrantuono.podcasts.player.player.service.provider.PodcastProvider
 import com.pietrantuono.podcasts.player.player.service.provider.PodcastProviderImpl
@@ -21,7 +22,7 @@ class ServiceModule {
 
     @ServiceScope
     @Provides
-    fun provideMusicProviderSource() = CustomMusicProviderSource()
+    fun provideMusicProviderSource() = MusicProviderSource()
 
     @ServiceScope
     @Provides
@@ -29,7 +30,7 @@ class ServiceModule {
 
     @ServiceScope
     @Provides
-    fun provideLocalPlayback(context: Context, provider: PodcastProvider): Playback = CustomLocalPlayback(context, provider)
+    fun provideLocalPlayback(context: Context, provider: PodcastProvider): Playback = LocalPlayback(context, provider)
 
 }
 

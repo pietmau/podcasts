@@ -1,18 +1,9 @@
-package com.pietrantuono.podcasts.player.player.service
+package com.pietrantuono.podcasts.player.player.service.queue
 
 import android.net.Uri
 import android.support.v4.media.MediaDescriptionCompat
-import android.support.v4.media.session.MediaSessionCompat
 import com.pietrantuono.podcasts.apis.Episode
 
-
-fun createQueueItemFromEpisode(episode: Episode): List<MediaSessionCompat.QueueItem> {
-    return listOf(createItemFromEpisode(episode))
-}
-
-fun createItemFromEpisode(episode: Episode): MediaSessionCompat.QueueItem {
-    return MediaSessionCompat.QueueItem(createMediaDescriptionCompatFromEpisode(episode), 0)
-}
 
 fun createMediaDescriptionCompatFromEpisode(episode: Episode): MediaDescriptionCompat {
     val builder = MediaDescriptionCompat.Builder()

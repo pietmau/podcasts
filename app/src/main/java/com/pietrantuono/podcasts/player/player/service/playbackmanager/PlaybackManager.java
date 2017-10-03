@@ -24,7 +24,7 @@ import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 
 import com.pietrantuono.podcasts.player.player.LogHelper;
-import com.pietrantuono.podcasts.player.player.service.PodcastManager;
+import com.pietrantuono.podcasts.player.player.service.queue.QueueManager;
 import com.pietrantuono.podcasts.player.player.service.playback.Playback;
 
 /**
@@ -32,13 +32,13 @@ import com.pietrantuono.podcasts.player.player.service.playback.Playback;
  */
 public class PlaybackManager implements Playback.Callback {
     private static final String TAG = LogHelper.makeLogTag(PlaybackManager.class);
-    private PodcastManager mQueueManager;
+    private QueueManager mQueueManager;
     private Playback mPlayback;
     private PlaybackServiceCallback mServiceCallback;
     private MediaSessionCallback mMediaSessionCallback;
 
     public PlaybackManager(PlaybackServiceCallback serviceCallback, Resources resources,
-                           PodcastManager queueManager,
+                           QueueManager queueManager,
                            Playback playback) {
         mServiceCallback = serviceCallback;
         mQueueManager = queueManager;
