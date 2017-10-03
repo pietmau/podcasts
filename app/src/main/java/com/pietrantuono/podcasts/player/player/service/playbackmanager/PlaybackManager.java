@@ -16,7 +16,6 @@
 
 package com.pietrantuono.podcasts.player.player.service.playbackmanager;
 
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
@@ -24,8 +23,8 @@ import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 
 import com.pietrantuono.podcasts.player.player.LogHelper;
-import com.pietrantuono.podcasts.player.player.service.queue.QueueManager;
 import com.pietrantuono.podcasts.player.player.service.playback.Playback;
+import com.pietrantuono.podcasts.player.player.service.queue.QueueManager;
 
 /**
  * Manage the interactions among the container service, the queue manager and the actual playback.
@@ -37,8 +36,7 @@ public class PlaybackManager implements Playback.Callback {
     private PlaybackServiceCallback mServiceCallback;
     private MediaSessionCallback mMediaSessionCallback;
 
-    public PlaybackManager(PlaybackServiceCallback serviceCallback, Resources resources,
-                           QueueManager queueManager,
+    public PlaybackManager(PlaybackServiceCallback serviceCallback, QueueManager queueManager,
                            Playback playback) {
         mServiceCallback = serviceCallback;
         mQueueManager = queueManager;
