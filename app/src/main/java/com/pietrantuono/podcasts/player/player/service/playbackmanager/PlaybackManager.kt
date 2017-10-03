@@ -20,8 +20,6 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-
-import com.pietrantuono.podcasts.player.player.LogHelper
 import com.pietrantuono.podcasts.player.player.service.playback.Playback
 import com.pietrantuono.podcasts.player.player.service.queue.QueueManager
 
@@ -29,22 +27,18 @@ import com.pietrantuono.podcasts.player.player.service.queue.QueueManager
  * Manage the interactions among the container service, the queue manager and the actual playback.
  */
 class PlaybackManager(private val mServiceCallback: PlaybackServiceCallback, private val mQueueManager: QueueManager,
-                      val playback: Playback?) : Playback.Callback {
-    private val mMediaSessionCallback: MediaSessionCallback
+                      val playback: Playback) : Playback.Callback {
+    val mediaSessionCallback: MediaSessionCallback
 
     init {
-        mMediaSessionCallback = MediaSessionCallback()
-        this.playback!!.setCallback(this)
+        mediaSessionCallback = MediaSessionCallback()
+        this.playback.setCallback(this)
     }
-
-    val mediaSessionCallback: MediaSessionCompat.Callback
-        get() = mMediaSessionCallback
 
     /**
      * Handle a request to play music
      */
     fun handlePlayRequest() {
-        LogHelper.d(TAG, "handlePlayRequest: mState=" + playback!!.state)
         val currentMusic = mQueueManager.currentMusic
         if (currentMusic != null) {
             mServiceCallback.onPlaybackStart()
@@ -53,7 +47,6 @@ class PlaybackManager(private val mServiceCallback: PlaybackServiceCallback, pri
     }
 
     fun handlePauseRequest() {
-        LogHelper.d(TAG, "handlePauseRequest: mState=" + playback!!.state)
         if (playback.isPlaying) {
             playback.pause()
             mServiceCallback.onPlaybackStop()
@@ -61,16 +54,14 @@ class PlaybackManager(private val mServiceCallback: PlaybackServiceCallback, pri
     }
 
     fun handleStopRequest(withError: String?) {
-        LogHelper.d(TAG, "handleStopRequest: mState=" + playback!!.state + " error=", withError)
         playback.stop(true)
         mServiceCallback.onPlaybackStop()
         updatePlaybackState(withError)
     }
 
     fun updatePlaybackState(error: String?) {
-        LogHelper.d(TAG, "updatePlaybackState, playback state=" + playback!!.state)
         var position = PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN
-        if (playback != null && playback.isConnected) {
+        if (playback.isConnected) {
             position = playback.currentStreamPosition
         }
         val stateBuilder = PlaybackStateCompat.Builder()
@@ -103,7 +94,7 @@ class PlaybackManager(private val mServiceCallback: PlaybackServiceCallback, pri
                     PlaybackStateCompat.ACTION_PLAY_FROM_SEARCH or
                     PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS or
                     PlaybackStateCompat.ACTION_SKIP_TO_NEXT
-            if (playback!!.isPlaying) {
+            if (playback.isPlaying) {
                 actions = actions or PlaybackStateCompat.ACTION_PAUSE
             } else {
                 actions = actions or PlaybackStateCompat.ACTION_PLAY
@@ -139,7 +130,7 @@ class PlaybackManager(private val mServiceCallback: PlaybackServiceCallback, pri
     }
 
 
-    private inner class MediaSessionCallback : MediaSessionCompat.Callback() {
+    inner class MediaSessionCallback : MediaSessionCompat.Callback() {
         override fun onPlay() {
             if (mQueueManager.currentMusic == null) {
                 return
@@ -154,28 +145,23 @@ class PlaybackManager(private val mServiceCallback: PlaybackServiceCallback, pri
         }
 
         override fun onSeekTo(position: Long) {
-            LogHelper.d(TAG, "onSeekTo:", position)
-            playback!!.seekTo(position.toInt().toLong())
+            playback.seekTo(position.toInt().toLong())
         }
 
         override fun onPlayFromMediaId(mediaId: String?, extras: Bundle?) {
-            LogHelper.d(TAG, "playFromMediaId mediaId:", mediaId, "  extras=", extras)
             mQueueManager.setQueueFromMusic(mediaId!!)
             handlePlayRequest()
         }
 
         override fun onPause() {
-            LogHelper.d(TAG, "pause. current state=" + playback!!.state)
             handlePauseRequest()
         }
 
         override fun onStop() {
-            LogHelper.d(TAG, "stop. current state=" + playback!!.state)
             handleStopRequest(null)
         }
 
         override fun onSkipToNext() {
-            LogHelper.d(TAG, "skipToNext")
             if (mQueueManager.skipQueuePosition(1)) {
                 handlePlayRequest()
             } else {
@@ -198,8 +184,7 @@ class PlaybackManager(private val mServiceCallback: PlaybackServiceCallback, pri
         }
 
         override fun onPlayFromSearch(query: String?, extras: Bundle?) {
-            LogHelper.d(TAG, "playFromSearch  query=", query, " extras=", extras)
-            playback!!.state = PlaybackStateCompat.STATE_CONNECTING
+            playback.state = PlaybackStateCompat.STATE_CONNECTING
             val successSearch = mQueueManager.setQueueFromSearch(query!!, extras!!)
             if (successSearch) {
                 handlePlayRequest()
@@ -220,7 +205,4 @@ class PlaybackManager(private val mServiceCallback: PlaybackServiceCallback, pri
         fun onPlaybackStateUpdated(newState: PlaybackStateCompat)
     }
 
-    companion object {
-        private val TAG = LogHelper.makeLogTag(PlaybackManager::class.java)
-    }
 }
