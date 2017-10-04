@@ -8,11 +8,10 @@ import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastModel
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.SinglePodcastView
 import com.pietrantuono.podcasts.apis.PodcastFeed
-import com.pietrantuono.podcasts.player.player.MediaSourceCreator
 import rx.Observer
 
 class SinglePodcastPresenter(private val model: SinglePodcastModel, private val crashlyticsWrapper:
-CrashlyticsWrapper, val creator: MediaSourceCreator) : GenericPresenter, ViewModel() {
+CrashlyticsWrapper) : GenericPresenter, ViewModel() {
     companion object {
         val TAG = SinglePodcastPresenter::class.java.simpleName
     }
