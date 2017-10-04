@@ -21,6 +21,7 @@ class EpisodesListPresenter(private val model: EpisodesListModel, private val me
 
     private var view: EpisodesListView? = null
     private var startedWithTransition: Boolean = false
+    private var fromSavedState: Boolean = false
     val menuInflater: MenuInflater?
         get() = view?.getMenuInflater()
 
@@ -63,5 +64,18 @@ class EpisodesListPresenter(private val model: EpisodesListModel, private val me
 
     override fun onItemClicked(episode: Episode, image: ImageView, position: Int) {
         view?.startDetailActivityWithoutTransition(episode)
+    }
+
+    fun onBackPressed() {
+        if (startedWithTransition && !fromSavedState) {
+            view?.finish()
+        }
+        else{
+            view?.finishWithoutTransition()
+        }
+    }
+
+    fun onCreate(fromSavedState: Boolean) {
+        this.fromSavedState = fromSavedState
     }
 }

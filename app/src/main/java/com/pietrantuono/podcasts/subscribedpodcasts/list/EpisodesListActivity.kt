@@ -27,6 +27,7 @@ class EpisodesListActivity : AbstractBaseDetailActivty(), EpisodesListView {
         inject()
         initViews()
         loadImage()
+        presenter.onCreate(savedInstanceState!=null)
     }
 
     private fun inject() {
@@ -92,6 +93,15 @@ class EpisodesListActivity : AbstractBaseDetailActivty(), EpisodesListView {
     override fun finish() {
         super.finish()
         overridePendingTransition(R.anim.pop_in, R.anim.pop_out)
+    }
+
+    override fun finishWithoutTransition() {
+        super.finish()
+        overridePendingTransition(R.anim.pop_in, R.anim.pop_out)
+    }
+
+    override fun onBackPressed() {
+        presenter.onBackPressed()
     }
 }
 
