@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.media.session.MediaSessionCompat
 import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayActivity
+import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
 import com.pietrantuono.podcasts.player.player.service.DelayedStopHandler
 import com.pietrantuono.podcasts.player.player.service.MusicService
 import com.pietrantuono.podcasts.player.player.service.model.PlayerServiceModel
@@ -72,8 +73,8 @@ class ServiceModule constructor(val musicService: MusicService) {
 
     @ServiceScope
     @Provides
-    fun provideNotificationManager(): NotificationManager {
-        return NotificationManager(musicService)
+    fun provideNotificationManager(imageLoader: SimpleImageLoader): NotificationManager {
+        return NotificationManager(musicService, imageLoader)
     }
 
 

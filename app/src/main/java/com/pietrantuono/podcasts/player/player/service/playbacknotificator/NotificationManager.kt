@@ -23,8 +23,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.net.Uri
 import android.os.RemoteException
 import android.support.v4.app.NotificationManagerCompat
 import android.support.v4.media.MediaDescriptionCompat
@@ -33,27 +33,25 @@ import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.app.NotificationCompat
+import android.view.View
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayActivity
+import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
 import com.pietrantuono.podcasts.player.player.LogHelper
-
 import com.pietrantuono.podcasts.player.player.service.MusicService
 import com.pietrantuono.podcasts.player.player.service.ResourceHelper
 
 
 class NotificationManager @Throws(RemoteException::class)
 
-constructor(private val service: MusicService) : BroadcastReceiver() {
-
+constructor(private val service: MusicService, private val imageLoader: SimpleImageLoader) : BroadcastReceiver() {
     private var mSessionToken: MediaSessionCompat.Token? = null
     private var mController: MediaControllerCompat? = null
     private var transportControls: MediaControllerCompat.TransportControls? = null
-
     private var mPlaybackState: PlaybackStateCompat? = null
     private var mMetadata: MediaMetadataCompat? = null
-
     private val mNotificationManager: NotificationManagerCompat
-
     private val mPauseIntent: PendingIntent
     private val mPlayIntent: PendingIntent
     private val mPreviousIntent: PendingIntent
@@ -174,7 +172,6 @@ constructor(private val service: MusicService) : BroadcastReceiver() {
     private val mCb = object : MediaControllerCompat.Callback() {
         override fun onPlaybackStateChanged(state: PlaybackStateCompat) {
             mPlaybackState = state
-            LogHelper.d(TAG, "Received new playback state", state)
             if (state.state == PlaybackStateCompat.STATE_STOPPED || state.state == PlaybackStateCompat.STATE_NONE) {
                 stopNotification()
             } else {
@@ -187,7 +184,6 @@ constructor(private val service: MusicService) : BroadcastReceiver() {
 
         override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
             mMetadata = metadata
-            LogHelper.d(TAG, "Received new metadata ", metadata)
             val notification = createNotification()
             if (notification != null) {
                 mNotificationManager.notify(NOTIFICATION_ID, notification)
@@ -198,14 +194,13 @@ constructor(private val service: MusicService) : BroadcastReceiver() {
             super.onSessionDestroyed()
             try {
                 updateSessionToken()
-           } catch (e: RemoteException) {
+            } catch (e: RemoteException) {
             }
 
         }
     }
 
     private fun createNotification(): Notification? {
-        LogHelper.d(TAG, "updateNotificationMetadata. mMetadata=" + mMetadata!!)
         if (mMetadata == null || mPlaybackState == null) {
             return null
         }
@@ -235,21 +230,6 @@ constructor(private val service: MusicService) : BroadcastReceiver() {
 
         val description = mMetadata!!.description
 
-        var fetchArtUrl: String? = null
-        var art: Bitmap? = null
-        if (description.iconUri != null) {
-            // This sample assumes the iconUri will be a valid URL formatted String, but
-            // it can actually be any valid Android Uri formatted String.
-            // async fetch the album art icon
-            val artUrl = description.iconUri!!.toString()
-            art = AlbumArtCache.getInstance().getBigImage(artUrl)
-            if (art == null) {
-                fetchArtUrl = artUrl
-                // use a placeholder art while the remote art is being downloaded
-                art = BitmapFactory.decodeResource(service.resources,
-                        R.drawable.ic_default_art)
-            }
-        }
 
         notificationBuilder
                 .setStyle(NotificationCompat.MediaStyle()
@@ -263,7 +243,7 @@ constructor(private val service: MusicService) : BroadcastReceiver() {
                 .setContentIntent(createContentIntent(description))
                 .setContentTitle(description.title)
                 .setContentText(description.subtitle)
-                .setLargeIcon(art)
+        //.setLargeIcon(art)
 
         if (mController != null && mController!!.extras != null) {
             val castName = mController!!.extras.getString(MusicService.EXTRA_CONNECTED_CAST)
@@ -276,8 +256,8 @@ constructor(private val service: MusicService) : BroadcastReceiver() {
             }
         }
         setNotificationPlaybackState(notificationBuilder)
-        if (fetchArtUrl != null) {
-            fetchBitmapFromURLAsync(fetchArtUrl, notificationBuilder)
+        if (description.iconUri != null) {
+            fetchBitmapFromURLAsync(description.iconUri, notificationBuilder)
         }
 
         return notificationBuilder.build()
@@ -320,17 +300,12 @@ constructor(private val service: MusicService) : BroadcastReceiver() {
         builder.setOngoing(mPlaybackState!!.state == PlaybackStateCompat.STATE_PLAYING)
     }
 
-    private fun fetchBitmapFromURLAsync(bitmapUrl: String,
+    private fun fetchBitmapFromURLAsync(bitmapUrl: Uri?,
                                         builder: NotificationCompat.Builder) {
-        AlbumArtCache.getInstance().fetch(bitmapUrl, object : AlbumArtCache.FetchListener {
-            override fun onFetched(artUrl: String, bitmap: Bitmap, icon: Bitmap) {
-                if (mMetadata != null && mMetadata!!.description.iconUri != null &&
-                        mMetadata!!.description.iconUri!!.toString() == artUrl) {
-                    // If the media is still the same, update the notification:
-                    LogHelper.d(TAG, "fetchBitmapFromURLAsync: set bitmap to ", artUrl)
-                    builder.setLargeIcon(bitmap)
-                    mNotificationManager.notify(NOTIFICATION_ID, builder.build())
-                }
+        imageLoader.loadImage(bitmapUrl.toString(), object : SimpleImageLoadingListener() {
+            override fun onLoadingComplete(imageUri: String?, view: View?, loadedImage: Bitmap?) {
+                builder.setLargeIcon(loadedImage)
+                mNotificationManager.notify(NOTIFICATION_ID, builder.build())
             }
         })
     }
