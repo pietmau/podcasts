@@ -10,7 +10,6 @@ import com.pietrantuono.podcasts.fullscreenplay.model.FullscreenModel
 import com.pietrantuono.podcasts.fullscreenplay.model.FullscreenModelImpl
 import com.pietrantuono.podcasts.fullscreenplay.presenter.FullscreenPresenter
 import com.pietrantuono.podcasts.main.view.TransitionsHelper
-import com.pietrantuono.podcasts.player.player.player.Player
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 import dagger.Module
 import dagger.Provides
@@ -20,7 +19,7 @@ import rx.android.schedulers.AndroidSchedulers
 class FullscreenModule(private val activity: FragmentActivity) {
 
     @Provides
-    fun provideFullscreenPresenter(model: FullscreenModel, player: Player?, factory: FullscreenPresenterFactory): FullscreenPresenter {
+    fun provideFullscreenPresenter(model: FullscreenModel, factory: FullscreenPresenterFactory): FullscreenPresenter {
         return ViewModelProviders.of(activity, factory).get(FullscreenPresenter::class.java);
     }
 
@@ -35,12 +34,12 @@ class FullscreenModule(private val activity: FragmentActivity) {
     }
 
     @Provides
-    fun provideFullscreenPresenterFactory(model: FullscreenModel, player: Player?, apiLevelChecker: ApiLevelChecker): FullscreenPresenterFactory {
-        return FullscreenPresenterFactory(model, player, apiLevelChecker)
+    fun provideFullscreenPresenterFactory(model: FullscreenModel, apiLevelChecker: ApiLevelChecker): FullscreenPresenterFactory {
+        return FullscreenPresenterFactory(model, apiLevelChecker)
     }
 }
 
-class FullscreenPresenterFactory(private val model: FullscreenModel, val player: Player?
+class FullscreenPresenterFactory(private val model: FullscreenModel
                                  , val apiLevelChecker: ApiLevelChecker)
     : ViewModelProvider.Factory {
 

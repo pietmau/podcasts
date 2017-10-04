@@ -37,19 +37,17 @@ import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayActivity
 import com.pietrantuono.podcasts.player.player.LogHelper
 
-import com.pietrantuono.podcasts.player.player.service.CustomMusicService
+import com.pietrantuono.podcasts.player.player.service.MusicService
 import com.pietrantuono.podcasts.player.player.service.ResourceHelper
 
-/**
- * Keeps track of a notification and updates it automatically for a given
- * MediaSession. Maintaining a visible notification (usually) guarantees that the music service
- * won't be killed during playback.
- */
-class CustomNotificationManager @Throws(RemoteException::class)
-constructor(private val mService: CustomMusicService) : BroadcastReceiver() {
+
+class NotificationManager @Throws(RemoteException::class)
+
+constructor(private val service: MusicService) : BroadcastReceiver() {
+
     private var mSessionToken: MediaSessionCompat.Token? = null
     private var mController: MediaControllerCompat? = null
-    private var mTransportControls: MediaControllerCompat.TransportControls? = null
+    private var transportControls: MediaControllerCompat.TransportControls? = null
 
     private var mPlaybackState: PlaybackStateCompat? = null
     private var mMetadata: MediaMetadataCompat? = null
@@ -60,50 +58,34 @@ constructor(private val mService: CustomMusicService) : BroadcastReceiver() {
     private val mPlayIntent: PendingIntent
     private val mPreviousIntent: PendingIntent
     private val mNextIntent: PendingIntent
-
     private val mStopCastIntent: PendingIntent
-
     private val mNotificationColor: Int
-
     private var mStarted = false
 
     init {
         updateSessionToken()
-
-        mNotificationColor = ResourceHelper.getThemeColor(mService, R.attr.colorPrimary,
+        mNotificationColor = ResourceHelper.getThemeColor(service, R.attr.colorPrimary,
                 Color.DKGRAY)
-
-        mNotificationManager = NotificationManagerCompat.from(mService)
-
-        val pkg = mService.packageName
-        mPauseIntent = PendingIntent.getBroadcast(mService, REQUEST_CODE,
+        mNotificationManager = NotificationManagerCompat.from(service)
+        val pkg = service.packageName
+        mPauseIntent = PendingIntent.getBroadcast(service, REQUEST_CODE,
                 Intent(ACTION_PAUSE).setPackage(pkg), PendingIntent.FLAG_CANCEL_CURRENT)
-        mPlayIntent = PendingIntent.getBroadcast(mService, REQUEST_CODE,
+        mPlayIntent = PendingIntent.getBroadcast(service, REQUEST_CODE,
                 Intent(ACTION_PLAY).setPackage(pkg), PendingIntent.FLAG_CANCEL_CURRENT)
-        mPreviousIntent = PendingIntent.getBroadcast(mService, REQUEST_CODE,
+        mPreviousIntent = PendingIntent.getBroadcast(service, REQUEST_CODE,
                 Intent(ACTION_PREV).setPackage(pkg), PendingIntent.FLAG_CANCEL_CURRENT)
-        mNextIntent = PendingIntent.getBroadcast(mService, REQUEST_CODE,
+        mNextIntent = PendingIntent.getBroadcast(service, REQUEST_CODE,
                 Intent(ACTION_NEXT).setPackage(pkg), PendingIntent.FLAG_CANCEL_CURRENT)
-        mStopCastIntent = PendingIntent.getBroadcast(mService, REQUEST_CODE,
+        mStopCastIntent = PendingIntent.getBroadcast(service, REQUEST_CODE,
                 Intent(ACTION_STOP_CASTING).setPackage(pkg),
                 PendingIntent.FLAG_CANCEL_CURRENT)
-
-        // Cancel all notifications to handle the case where the Service was killed and
-        // restarted by the system.
         mNotificationManager.cancelAll()
     }
 
-    /**
-     * Posts the notification and starts tracking the session to keep it
-     * updated. The notification will automatically be removed if the session is
-     * destroyed before [.stopNotification] is called.
-     */
     fun startNotification() {
         if (!mStarted) {
             mMetadata = mController!!.metadata
             mPlaybackState = mController!!.playbackState
-
-            // The notification must be updated after setting started to true
             val notification = createNotification()
             if (notification != null) {
                 mController!!.registerCallback(mCb)
@@ -113,9 +95,8 @@ constructor(private val mService: CustomMusicService) : BroadcastReceiver() {
                 filter.addAction(ACTION_PLAY)
                 filter.addAction(ACTION_PREV)
                 filter.addAction(ACTION_STOP_CASTING)
-                mService.registerReceiver(this, filter)
-
-                mService.startForeground(NOTIFICATION_ID, notification)
+                service.registerReceiver(this, filter)
+                service.startForeground(NOTIFICATION_ID, notification)
                 mStarted = true
             }
         }
@@ -128,33 +109,31 @@ constructor(private val mService: CustomMusicService) : BroadcastReceiver() {
     fun stopNotification() {
         if (mStarted) {
             mStarted = false
-            mController!!.unregisterCallback(mCb)
+            mController?.unregisterCallback(mCb)
             try {
                 mNotificationManager.cancel(NOTIFICATION_ID)
-                mService.unregisterReceiver(this)
+                service.unregisterReceiver(this)
             } catch (ex: IllegalArgumentException) {
                 // ignore if the receiver is not registered.
             }
-
-            mService.stopForeground(true)
+            service.stopForeground(true)
         }
     }
 
     override fun onReceive(context: Context, intent: Intent) {
-        val action = intent.action
-        LogHelper.d(TAG, "Received intent with action " + action!!)
-        when (action) {
-            ACTION_PAUSE -> mTransportControls!!.pause()
-            ACTION_PLAY -> mTransportControls!!.play()
-            ACTION_NEXT -> mTransportControls!!.skipToNext()
-            ACTION_PREV -> mTransportControls!!.skipToPrevious()
+        when (intent.action) {
+            ACTION_PAUSE -> transportControls?.pause()
+            ACTION_PLAY -> transportControls?.play()
+            ACTION_NEXT -> transportControls?.skipToNext()
+            ACTION_PREV -> transportControls?.skipToPrevious()
             ACTION_STOP_CASTING -> {
-                val i = Intent(context, CustomMusicService::class.java)
-                i.action = CustomMusicService.ACTION_CMD
-                i.putExtra(CustomMusicService.CMD_NAME, CustomMusicService.CMD_STOP_CASTING)
-                mService.startService(i)
+                val i = Intent(context, MusicService::class.java)
+                i.action = MusicService.ACTION_CMD
+                i.putExtra(MusicService.CMD_NAME, MusicService.CMD_STOP_CASTING)
+                service.startService(i)
             }
-            else -> LogHelper.w(TAG, "Unknown intent ignored. Action=", action)
+            else -> {
+            }
         }
     }
 
@@ -165,15 +144,15 @@ constructor(private val mService: CustomMusicService) : BroadcastReceiver() {
      */
     @Throws(RemoteException::class)
     private fun updateSessionToken() {
-        val freshToken = mService.sessionToken
+        val freshToken = service.sessionToken
         if (mSessionToken == null && freshToken != null || mSessionToken != null && mSessionToken != freshToken) {
             if (mController != null) {
                 mController!!.unregisterCallback(mCb)
             }
             mSessionToken = freshToken
             if (mSessionToken != null) {
-                mController = MediaControllerCompat(mService, mSessionToken!!)
-                mTransportControls = mController!!.transportControls
+                mController = MediaControllerCompat(service, mSessionToken!!)
+                transportControls = mController!!.transportControls
                 if (mStarted) {
                     mController!!.registerCallback(mCb)
                 }
@@ -182,13 +161,13 @@ constructor(private val mService: CustomMusicService) : BroadcastReceiver() {
     }
 
     private fun createContentIntent(description: MediaDescriptionCompat?): PendingIntent {
-        val openUI = Intent(mService, FullscreenPlayActivity::class.java)
+        val openUI = Intent(service, FullscreenPlayActivity::class.java)
         openUI.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
         //openUI.putExtra(MusicPlayerActivity.EXTRA_START_FULLSCREEN, true)
         if (description != null) {
             openUI.putExtra(FullscreenPlayActivity.EXTRA_CURRENT_MEDIA_DESCRIPTION, description)
         }
-        return PendingIntent.getActivity(mService, REQUEST_CODE, openUI,
+        return PendingIntent.getActivity(service, REQUEST_CODE, openUI,
                 PendingIntent.FLAG_CANCEL_CURRENT)
     }
 
@@ -217,11 +196,9 @@ constructor(private val mService: CustomMusicService) : BroadcastReceiver() {
 
         override fun onSessionDestroyed() {
             super.onSessionDestroyed()
-            LogHelper.d(TAG, "Session was destroyed, resetting to the new session token")
             try {
                 updateSessionToken()
-            } catch (e: RemoteException) {
-                LogHelper.e(TAG, e, "could not connect media controller")
+           } catch (e: RemoteException) {
             }
 
         }
@@ -233,13 +210,13 @@ constructor(private val mService: CustomMusicService) : BroadcastReceiver() {
             return null
         }
 
-        val notificationBuilder = NotificationCompat.Builder(mService)
+        val notificationBuilder = NotificationCompat.Builder(service)
         var playPauseButtonPosition = 0
 
         // If skip to previous action is enabled
         if (mPlaybackState!!.actions and PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS != 0L) {
             notificationBuilder.addAction(R.drawable.ic_skip_previous_white_24dp,
-                    mService.getString(R.string.label_previous), mPreviousIntent)
+                    service.getString(R.string.label_previous), mPreviousIntent)
 
             // If there is a "skip to previous" button, the play/pause button will
             // be the second one. We need to keep track of it, because the MediaStyle notification
@@ -253,7 +230,7 @@ constructor(private val mService: CustomMusicService) : BroadcastReceiver() {
         // If skip to next action is enabled
         if (mPlaybackState!!.actions and PlaybackStateCompat.ACTION_SKIP_TO_NEXT != 0L) {
             notificationBuilder.addAction(R.drawable.ic_skip_next_white_24dp,
-                    mService.getString(R.string.label_next), mNextIntent)
+                    service.getString(R.string.label_next), mNextIntent)
         }
 
         val description = mMetadata!!.description
@@ -269,7 +246,7 @@ constructor(private val mService: CustomMusicService) : BroadcastReceiver() {
             if (art == null) {
                 fetchArtUrl = artUrl
                 // use a placeholder art while the remote art is being downloaded
-                art = BitmapFactory.decodeResource(mService.resources,
+                art = BitmapFactory.decodeResource(service.resources,
                         R.drawable.ic_default_art)
             }
         }
@@ -289,16 +266,15 @@ constructor(private val mService: CustomMusicService) : BroadcastReceiver() {
                 .setLargeIcon(art)
 
         if (mController != null && mController!!.extras != null) {
-            val castName = mController!!.extras.getString(CustomMusicService.EXTRA_CONNECTED_CAST)
+            val castName = mController!!.extras.getString(MusicService.EXTRA_CONNECTED_CAST)
             if (castName != null) {
-                val castInfo = mService.resources
+                val castInfo = service.resources
                         .getString(R.string.casting_to_device, castName)
                 notificationBuilder.setSubText(castInfo)
                 notificationBuilder.addAction(R.drawable.ic_close_black_24dp,
-                        mService.getString(R.string.stop_casting), mStopCastIntent)
+                        service.getString(R.string.stop_casting), mStopCastIntent)
             }
         }
-
         setNotificationPlaybackState(notificationBuilder)
         if (fetchArtUrl != null) {
             fetchBitmapFromURLAsync(fetchArtUrl, notificationBuilder)
@@ -313,11 +289,11 @@ constructor(private val mService: CustomMusicService) : BroadcastReceiver() {
         val icon: Int
         val intent: PendingIntent
         if (mPlaybackState!!.state == PlaybackStateCompat.STATE_PLAYING) {
-            label = mService.getString(R.string.label_pause)
+            label = service.getString(R.string.label_pause)
             icon = R.drawable.uamp_ic_pause_white_24dp
             intent = mPauseIntent
         } else {
-            label = mService.getString(R.string.label_play)
+            label = service.getString(R.string.label_play)
             icon = R.drawable.uamp_ic_play_arrow_white_24dp
             intent = mPlayIntent
         }
@@ -325,28 +301,22 @@ constructor(private val mService: CustomMusicService) : BroadcastReceiver() {
     }
 
     private fun setNotificationPlaybackState(builder: NotificationCompat.Builder) {
-        LogHelper.d(TAG, "updateNotificationPlaybackState. mPlaybackState=" + mPlaybackState!!)
         if (mPlaybackState == null || !mStarted) {
             LogHelper.d(TAG, "updateNotificationPlaybackState. cancelling notification!")
-            mService.stopForeground(true)
+            service.stopForeground(true)
             return
         }
         if (mPlaybackState!!.state == PlaybackStateCompat.STATE_PLAYING && mPlaybackState!!.position >= 0) {
-            LogHelper.d(TAG, "updateNotificationPlaybackState. updating playback position to ",
-                    (System.currentTimeMillis() - mPlaybackState!!.position) / 1000, " seconds")
             builder
                     .setWhen(System.currentTimeMillis() - mPlaybackState!!.position)
                     .setShowWhen(true)
                     .setUsesChronometer(true)
         } else {
-            LogHelper.d(TAG, "updateNotificationPlaybackState. hiding playback position")
             builder
                     .setWhen(0)
                     .setShowWhen(false)
                     .setUsesChronometer(false)
         }
-
-        // Make sure that the notification can be dismissed by the user when we are not playing:
         builder.setOngoing(mPlaybackState!!.state == PlaybackStateCompat.STATE_PLAYING)
     }
 
@@ -366,15 +336,13 @@ constructor(private val mService: CustomMusicService) : BroadcastReceiver() {
     }
 
     companion object {
-        private val TAG = LogHelper.makeLogTag(CustomNotificationManager::class.java)
-
+        private val TAG = LogHelper.makeLogTag(NotificationManager::class.java)
         private val NOTIFICATION_ID = 412
         private val REQUEST_CODE = 100
-
-        val ACTION_PAUSE = "com.example.android.uamp.pause"
-        val ACTION_PLAY = "com.example.android.uamp.play"
-        val ACTION_PREV = "com.example.android.uamp.prev"
-        val ACTION_NEXT = "com.example.android.uamp.next"
-        val ACTION_STOP_CASTING = "com.example.android.uamp.stop_cast"
+        val ACTION_PAUSE = "com.pietrantuono.podcasts.pause"
+        val ACTION_PLAY = "com.pietrantuono.podcasts.play"
+        val ACTION_PREV = "com.pietrantuono.podcasts.prev"
+        val ACTION_NEXT = "com.pietrantuono.podcasts.next"
+        val ACTION_STOP_CASTING = "com.pietrantuono.podcasts.stop_cast"
     }
 }

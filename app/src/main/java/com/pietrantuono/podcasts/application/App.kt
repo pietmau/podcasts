@@ -5,14 +5,12 @@ import android.content.ServiceConnection
 import android.os.IBinder
 import android.support.multidex.MultiDexApplication
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule
-import com.pietrantuono.podcasts.player.player.player.Player
 import io.realm.Realm
 import javax.inject.Inject
 
 class App : MultiDexApplication(), ServiceConnection {
     private var serviceIsBound: Boolean = false
     var applicationComponent: ApplicationComponent? = null
-    var player: Player? = null
     @Inject lateinit var logger: DebugLogger
 
     override fun onCreate() {
@@ -44,10 +42,10 @@ class App : MultiDexApplication(), ServiceConnection {
     }
 
     override fun onServiceDisconnected(componentName: ComponentName?) {
-        player = null
+
     }
 
     override fun onServiceConnected(componentName: ComponentName?, iBinder: IBinder?) {
-        player = iBinder as? Player
+
     }
 }

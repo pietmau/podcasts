@@ -1,19 +1,22 @@
-package com.pietrantuono.podcasts.player.player.service
+package com.pietrantuono.podcasts.player.player.service.queue
 
 
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
+import com.pietrantuono.podcasts.player.player.service.MediaIDHelper
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.AlbumArtCache
 import com.pietrantuono.podcasts.player.player.service.provider.PodcastProvider
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 
-internal class PodcasteManagerImpl(
+/**
+ *
+ */
+internal class QueueManagerImpl(
         private val episodesRepository: EpisodesRepository,
         private var provider: PodcastProvider,
-        private val listener: MetadataUpdateListener)
-    : PodcastManager {
+        private var listener: QueueManager.MetadataUpdateListener)
+    : QueueManager {
 
     override val currentMusic: MediaSessionCompat.QueueItem?
         get() = queueItem
@@ -42,7 +45,7 @@ internal class PodcasteManagerImpl(
                     // If we are still playing the same music, notify the listeners:
                     val currentMusic = currentMusic ?: return
                     val currentPlayingId = MediaIDHelper.extractMusicIDFromMediaID(
-                            currentMusic!!.getDescription().getMediaId()!!)
+                            currentMusic.getDescription().getMediaId()!!)
                     if (musicId == currentPlayingId) {
                         listener.onMetadataChanged(provider.getMusic(currentPlayingId))
                     }
@@ -80,14 +83,6 @@ internal class PodcasteManagerImpl(
 
     companion object {
         private val DEAFAULT_ID = 0L
-    }
-
-    interface MetadataUpdateListener {
-
-        fun onMetadataChanged(metadata: MediaMetadataCompat?)
-        fun onMetadataRetrieveError()
-        fun onCurrentQueueIndexUpdated(queueIndex: Int)
-        fun onQueueUpdated(title: String?, newQueue: List<MediaSessionCompat.QueueItem?>?)
     }
 
 

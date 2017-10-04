@@ -1,18 +1,3 @@
-/*
- * Copyright (C) 2014 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.pietrantuono.podcasts.player.player.service.playback
 
 import android.content.BroadcastReceiver
@@ -34,14 +19,11 @@ import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import com.pietrantuono.podcasts.player.player.LogHelper
-import com.pietrantuono.podcasts.player.player.service.CustomMusicService
-import com.pietrantuono.podcasts.player.player.service.di.CustomMusicProviderSource
+import com.pietrantuono.podcasts.player.player.service.MusicService
+import com.pietrantuono.podcasts.player.player.service.provider.MusicProviderSource
 import com.pietrantuono.podcasts.player.player.service.provider.PodcastProvider
 
-/**
- * A class that implements local media playback using [ ]
- */
-class CustomLocalPlayback(context: Context, private val mMusicProvider: PodcastProvider) : Playback {
+class LocalPlayback(context: Context, private val mMusicProvider: PodcastProvider) : Playback {
 
     private val mContext: Context
     private val mWifiLock: WifiManager.WifiLock
@@ -65,9 +47,9 @@ class CustomLocalPlayback(context: Context, private val mMusicProvider: PodcastP
             if (AudioManager.ACTION_AUDIO_BECOMING_NOISY == intent?.action) {
                 LogHelper.d(TAG, "Headphones disconnected.")
                 if (isPlaying) {
-                    val i = Intent(context, CustomMusicService::class.java)
-                    i.action = CustomMusicService.ACTION_CMD
-                    i.putExtra(CustomMusicService.CMD_NAME, CustomMusicService.CMD_PAUSE)
+                    val i = Intent(context, MusicService::class.java)
+                    i.action = MusicService.ACTION_CMD
+                    i.putExtra(MusicService.CMD_NAME, MusicService.CMD_PAUSE)
                     context.startService(i)
                 }
             }
@@ -146,7 +128,7 @@ class CustomLocalPlayback(context: Context, private val mMusicProvider: PodcastP
             releaseResources(false) // release everything except the player
             val track = mMusicProvider.getMusic(item?.description?.mediaId)
 
-            var source: String? = track!!.getString(CustomMusicProviderSource.CUSTOM_METADATA_TRACK_SOURCE)
+            var source: String? = track!!.getString(MusicProviderSource.CUSTOM_METADATA_TRACK_SOURCE)
             if (source != null) {
                 source = source.replace(" ".toRegex(), "%20") // Escape spaces for URLs
             }
@@ -373,7 +355,7 @@ class CustomLocalPlayback(context: Context, private val mMusicProvider: PodcastP
 
     companion object {
 
-        private val TAG = LogHelper.makeLogTag(CustomLocalPlayback::class.java)
+        private val TAG = LogHelper.makeLogTag(LocalPlayback::class.java)
 
         // The volume we set the media player to when we lose audio focus, but are
         // allowed to reduce the volume instead of stopping playback.

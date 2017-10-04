@@ -37,7 +37,7 @@
 
         <service
             tools:replace="android:exported"
-            android:name=".player.player.service.CustomMusicService"
+            android:name=".player.player.service.MusicService"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService"/>

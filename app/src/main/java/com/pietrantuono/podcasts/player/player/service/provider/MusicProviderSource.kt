@@ -1,8 +1,8 @@
-package com.pietrantuono.podcasts.player.player.service.di
+package com.pietrantuono.podcasts.player.player.service.provider
 
 import android.support.v4.media.MediaMetadataCompat
 
-class CustomMusicProviderSource {
+class MusicProviderSource {
     companion object {
         val CUSTOM_METADATA_TRACK_SOURCE = "__SOURCE__"
     }
