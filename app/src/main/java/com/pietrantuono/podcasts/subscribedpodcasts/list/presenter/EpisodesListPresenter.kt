@@ -68,10 +68,10 @@ class EpisodesListPresenter(private val model: EpisodesListModel, private val me
 
     fun onBackPressed() {
         if (startedWithTransition && !fromSavedState) {
-            view?.finish()
+            view?.exitWithSharedTrsnsition()
         }
         else{
-            view?.finishWithoutTransition()
+            view?.exitWithoutSharedTransition()
         }
     }
 

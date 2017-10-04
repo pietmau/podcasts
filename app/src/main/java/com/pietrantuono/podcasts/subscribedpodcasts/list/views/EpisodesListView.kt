@@ -11,6 +11,6 @@ interface EpisodesListView {
     fun startDetailActivityWithoutTransition(episode: Episode)
     fun isPartiallyHidden(position: Int): Boolean
     fun getMenuInflater(): MenuInflater
-    fun finishWithoutTransition()
-    fun finish()
+    fun exitWithoutSharedTransition()
+    fun exitWithSharedTrsnsition()
 }

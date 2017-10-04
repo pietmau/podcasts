@@ -90,12 +90,11 @@ class EpisodesListActivity : AbstractBaseDetailActivty(), EpisodesListView {
         return recycler.isPartiallyHidden(position)
     }
 
-    override fun finish() {
-        super.finish()
-        overridePendingTransition(R.anim.pop_in, R.anim.pop_out)
+    override fun exitWithSharedTrsnsition() {
+        super.onBackPressed()
     }
 
-    override fun finishWithoutTransition() {
+    override fun exitWithoutSharedTransition() {
         super.finish()
         overridePendingTransition(R.anim.pop_in, R.anim.pop_out)
     }
