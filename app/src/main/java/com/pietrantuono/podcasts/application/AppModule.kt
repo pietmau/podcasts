@@ -5,7 +5,6 @@ import com.google.android.exoplayer2.DefaultLoadControl
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
-import com.pietrantuono.podcasts.player.player.player.Player
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -24,11 +23,6 @@ class AppModule(private val context: Context) {
     internal fun provideExoPlayer(): SimpleExoPlayer {
         return ExoPlayerFactory.newSimpleInstance(
                 context.applicationContext, DefaultTrackSelector(), DefaultLoadControl())
-    }
-
-    @Provides
-    internal fun providePlayer(): Player? {
-        return (context as App).player
     }
 
 }

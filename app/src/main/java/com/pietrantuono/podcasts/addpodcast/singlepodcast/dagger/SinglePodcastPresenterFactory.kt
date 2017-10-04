@@ -6,7 +6,6 @@ import com.pietrantuono.podcasts.CrashlyticsWrapper
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastModel
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SinglePodcastPresenter
 import com.pietrantuono.podcasts.player.player.MediaSourceCreator
-import com.pietrantuono.podcasts.player.player.player.Player
 
 
 class SinglePodcastPresenterFactory(private val model: SinglePodcastModel,
