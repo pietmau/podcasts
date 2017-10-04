@@ -88,11 +88,11 @@ constructor(private val service: MusicService, private val imageLoader: SimpleIm
             if (notification != null) {
                 mController!!.registerCallback(mCb)
                 val filter = IntentFilter()
-                filter.addAction(ACTION_NEXT)
+                //filter.addAction(ACTION_NEXT)
                 filter.addAction(ACTION_PAUSE)
                 filter.addAction(ACTION_PLAY)
-                filter.addAction(ACTION_PREV)
-                filter.addAction(ACTION_STOP_CASTING)
+                //filter.addAction(ACTION_PREV)
+                //filter.addAction(ACTION_STOP_CASTING)
                 service.registerReceiver(this, filter)
                 service.startForeground(NOTIFICATION_ID, notification)
                 mStarted = true
@@ -209,24 +209,24 @@ constructor(private val service: MusicService, private val imageLoader: SimpleIm
         var playPauseButtonPosition = 0
 
         // If skip to previous action is enabled
-        if (mPlaybackState!!.actions and PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS != 0L) {
-            notificationBuilder.addAction(R.drawable.ic_skip_previous_white_24dp,
-                    service.getString(R.string.label_previous), mPreviousIntent)
-
-            // If there is a "skip to previous" button, the play/pause button will
-            // be the second one. We need to keep track of it, because the MediaStyle notification
-            // requires to specify the index of the buttons (actions) that should be visible
-            // when in compact view.
-            playPauseButtonPosition = 1
-        }
-
+//        if (mPlaybackState!!.actions and PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS != 0L) {
+//            notificationBuilder.addAction(R.drawable.ic_skip_previous_white_24dp,
+//                    service.getString(R.string.label_previous), mPreviousIntent)
+//
+//            // If there is a "skip to previous" button, the play/pause button will
+//            // be the second one. We need to keep track of it, because the MediaStyle notification
+//            // requires to specify the index of the buttons (actions) that should be visible
+//            // when in compact view.
+//            playPauseButtonPosition = 1
+//        }
+//
         addPlayPauseAction(notificationBuilder)
-
-        // If skip to next action is enabled
-        if (mPlaybackState!!.actions and PlaybackStateCompat.ACTION_SKIP_TO_NEXT != 0L) {
-            notificationBuilder.addAction(R.drawable.ic_skip_next_white_24dp,
-                    service.getString(R.string.label_next), mNextIntent)
-        }
+//
+//        // If skip to next action is enabled
+//        if (mPlaybackState!!.actions and PlaybackStateCompat.ACTION_SKIP_TO_NEXT != 0L) {
+//            notificationBuilder.addAction(R.drawable.ic_skip_next_white_24dp,
+//                    service.getString(R.string.label_next), mNextIntent)
+//        }
 
         val description = mMetadata!!.description
 
@@ -243,7 +243,6 @@ constructor(private val service: MusicService, private val imageLoader: SimpleIm
                 .setContentIntent(createContentIntent(description))
                 .setContentTitle(description.title)
                 .setContentText(description.subtitle)
-        //.setLargeIcon(art)
 
         if (mController != null && mController!!.extras != null) {
             val castName = mController!!.extras.getString(MusicService.EXTRA_CONNECTED_CAST)
