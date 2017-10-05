@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.media.session.MediaSessionCompat
 import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayActivity
+import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
 import com.pietrantuono.podcasts.player.player.service.DelayedStopHandler
 import com.pietrantuono.podcasts.player.player.service.MusicService
 import com.pietrantuono.podcasts.player.player.service.model.PlayerServiceModel
@@ -14,6 +15,7 @@ import com.pietrantuono.podcasts.player.player.service.playback.LocalPlayback
 import com.pietrantuono.podcasts.player.player.service.playback.Playback
 import com.pietrantuono.podcasts.player.player.service.playbackmanager.PlaybackManager
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.IconCache
+import com.pietrantuono.podcasts.player.player.service.playbacknotificator.Intents
 import com.pietrantuono.podcasts.player.player.service.playbacknotificator.Notificator
 import com.pietrantuono.podcasts.player.player.service.provider.MusicProviderSource
 import com.pietrantuono.podcasts.player.player.service.provider.PodcastProvider
@@ -46,8 +48,8 @@ class ServiceModule constructor(val musicService: MusicService) {
 
     @ServiceScope
     @Provides
-    fun provideQueueManager(epository: EpisodesRepository, podcastProvider: PodcastProvider): QueueManager
-            = QueueManagerImpl(epository, podcastProvider, musicService)
+    fun provideQueueManager(epository: EpisodesRepository, podcastProvider: PodcastProvider, imageloder: SimpleImageLoader): QueueManager
+            = QueueManagerImpl(epository, podcastProvider, musicService, imageloder)
 
     @ServiceScope
     @Provides
@@ -73,8 +75,8 @@ class ServiceModule constructor(val musicService: MusicService) {
 
     @ServiceScope
     @Provides
-    fun provideNotificationManager(iconCache: IconCache): Notificator {
-        return Notificator(musicService, iconCache)
+    fun provideNotificationManager(iconCache: IconCache, intents: Intents): Notificator {
+        return Notificator(musicService, iconCache, intents)
     }
 
 

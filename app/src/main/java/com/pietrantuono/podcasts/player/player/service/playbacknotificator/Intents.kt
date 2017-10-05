@@ -1,27 +1,19 @@
 package com.pietrantuono.podcasts.player.player.service.playbacknotificator
 
 import android.app.PendingIntent
+import android.app.Service
 import android.content.Intent
+import javax.inject.Inject
 
 
-class Intents {
-    val mPauseIntent: PendingIntent
-    val mPlayIntent: PendingIntent
-    val mPreviousIntent: PendingIntent
-    val mNextIntent: PendingIntent
-    val mStopCastIntent: PendingIntent
+class Intents @Inject constructor() {
 
-    init {
-        mPauseIntent = PendingIntent.getBroadcast(service, Notificator.REQUEST_CODE,
-                Intent(Notificator.ACTION_PAUSE).setPackage(pkg), PendingIntent.FLAG_CANCEL_CURRENT)
-        mPlayIntent = PendingIntent.getBroadcast(service, Notificator.REQUEST_CODE,
-                Intent(Notificator.ACTION_PLAY).setPackage(pkg), PendingIntent.FLAG_CANCEL_CURRENT)
-        mPreviousIntent = PendingIntent.getBroadcast(service, Notificator.REQUEST_CODE,
-                Intent(Notificator.ACTION_PREV).setPackage(pkg), PendingIntent.FLAG_CANCEL_CURRENT)
-        mNextIntent = PendingIntent.getBroadcast(service, Notificator.REQUEST_CODE,
-                Intent(Notificator.ACTION_NEXT).setPackage(pkg), PendingIntent.FLAG_CANCEL_CURRENT)
-        mStopCastIntent = PendingIntent.getBroadcast(service, Notificator.REQUEST_CODE,
-                Intent(Notificator.ACTION_STOP_CASTING).setPackage(pkg),
-                PendingIntent.FLAG_CANCEL_CURRENT)
-    }
+    fun getPauseIntent(service: Service) = PendingIntent.getBroadcast(service, Notificator.REQUEST_CODE,
+            Intent(Notificator.ACTION_PAUSE).setPackage(service.packageName), PendingIntent.FLAG_CANCEL_CURRENT)
+
+    fun getPlayIntent(service: Service) = PendingIntent.getBroadcast(service, Notificator.REQUEST_CODE,
+            Intent(Notificator.ACTION_PLAY).setPackage(service.packageName), PendingIntent.FLAG_CANCEL_CURRENT)
+
+    fun getStopcastIntent(service: Service) = PendingIntent.getBroadcast(service, Notificator.REQUEST_CODE,
+            Intent(Notificator.ACTION_STOP_CASTING).setPackage(service.packageName), PendingIntent.FLAG_CANCEL_CURRENT)
 }

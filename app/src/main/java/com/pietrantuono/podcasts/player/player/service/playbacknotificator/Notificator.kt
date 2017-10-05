@@ -39,8 +39,8 @@ import com.pietrantuono.podcasts.player.player.service.ResourceHelper
 
 
 class Notificator @Throws(RemoteException::class)
-constructor(private val service: MusicService, private val iconCache: IconCache,
-            private val intents: Intents) : BroadcastReceiver() {
+constructor(private val service: MusicService, private val iconCache: IconCache
+            , private val intents: Intents) : BroadcastReceiver() {
     private var mSessionToken: MediaSessionCompat.Token? = null
     private var mController: MediaControllerCompat? = null
     private var transportControls: MediaControllerCompat.TransportControls? = null
@@ -66,11 +66,8 @@ constructor(private val service: MusicService, private val iconCache: IconCache,
             if (notification != null) {
                 mController!!.registerCallback(mediaControllerCompatCallback)
                 val filter = IntentFilter()
-                //filter.addAction(ACTION_NEXT)
                 filter.addAction(ACTION_PAUSE)
                 filter.addAction(ACTION_PLAY)
-                //filter.addAction(ACTION_PREV)
-                //filter.addAction(ACTION_STOP_CASTING)
                 service.registerReceiver(this, filter)
                 service.startForeground(NOTIFICATION_ID, notification)
                 mStarted = true
@@ -78,10 +75,6 @@ constructor(private val service: MusicService, private val iconCache: IconCache,
         }
     }
 
-    /**
-     * Removes the notification and stops tracking the session. If the session
-     * was destroyed this has no effect.
-     */
     fun stopNotification() {
         if (mStarted) {
             mStarted = false
@@ -90,7 +83,6 @@ constructor(private val service: MusicService, private val iconCache: IconCache,
                 mNotificationManager.cancel(NOTIFICATION_ID)
                 service.unregisterReceiver(this)
             } catch (ex: IllegalArgumentException) {
-                // ignore if the receiver is not registered.
             }
             service.stopForeground(true)
         }
@@ -184,26 +176,7 @@ constructor(private val service: MusicService, private val iconCache: IconCache,
         }
         val notificationBuilder = NotificationCompat.Builder(service)
         var playPauseButtonPosition = 0
-
-        // If skip to previous action is enabled
-//        if (mPlaybackState!!.actions and PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS != 0L) {
-//            notificationBuilder.addAction(R.drawable.ic_skip_previous_white_24dp,
-//                    service.getString(R.string.label_previous), mPreviousIntent)
-//
-//            // If there is a "skip to previous" button, the play/pause button will
-//            // be the second one. We need to keep track of it, because the MediaStyle notification
-//            // requires to specify the index of the buttons (actions) that should be visible
-//            // when in compact view.
-//            playPauseButtonPosition = 1
-//        }
-//
         addPlayPauseAction(notificationBuilder)
-//
-//        // If skip to next action is enabled
-//        if (mPlaybackState!!.actions and PlaybackStateCompat.ACTION_SKIP_TO_NEXT != 0L) {
-//            notificationBuilder.addAction(R.drawable.ic_skip_next_white_24dp,
-//                    service.getString(R.string.label_next), mNextIntent)
-//        }
         val description = mMetadata!!.description
         notificationBuilder
                 .setStyle(NotificationCompat.MediaStyle()
@@ -225,7 +198,7 @@ constructor(private val service: MusicService, private val iconCache: IconCache,
                         .getString(R.string.casting_to_device, castName)
                 notificationBuilder.setSubText(castInfo)
                 notificationBuilder.addAction(R.drawable.ic_close_black_24dp,
-                        service.getString(R.string.stop_casting), intents.mStopCastIntent)
+                        service.getString(R.string.stop_casting), intents.getStopcastIntent(service))
             }
         }
         setNotificationPlaybackState(notificationBuilder)
@@ -240,11 +213,11 @@ constructor(private val service: MusicService, private val iconCache: IconCache,
         if (mPlaybackState!!.state == PlaybackStateCompat.STATE_PLAYING) {
             label = service.getString(R.string.label_pause)
             icon = R.drawable.uamp_ic_pause_white_24dp
-            intent = intents.mPauseIntent
+            intent = intents.getPauseIntent(service)
         } else {
             label = service.getString(R.string.label_play)
             icon = R.drawable.uamp_ic_play_arrow_white_24dp
-            intent = intents.mPlayIntent
+            intent = intents.getPlayIntent(service)
         }
         builder.addAction(android.support.v4.app.NotificationCompat.Action(icon, label, intent))
     }
@@ -271,7 +244,7 @@ constructor(private val service: MusicService, private val iconCache: IconCache,
     companion object {
         private val TAG = LogHelper.makeLogTag(Notificator::class.java)
         val NOTIFICATION_ID = 412
-        private val REQUEST_CODE = 100
+        internal val REQUEST_CODE = 100
         val ACTION_PAUSE = "com.pietrantuono.podcasts.pause"
         val ACTION_PLAY = "com.pietrantuono.podcasts.play"
         val ACTION_PREV = "com.pietrantuono.podcasts.prev"

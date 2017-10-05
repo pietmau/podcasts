@@ -4,8 +4,10 @@ package com.pietrantuono.podcasts.player.player.service.queue
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.v4.media.session.MediaSessionCompat
+import android.view.View
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener
+import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
 import com.pietrantuono.podcasts.player.player.service.MediaIDHelper
-import com.pietrantuono.podcasts.player.player.service.playbacknotificator.AlbumArtCache
 import com.pietrantuono.podcasts.player.player.service.provider.PodcastProvider
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 
@@ -15,7 +17,9 @@ import com.pietrantuono.podcasts.repository.EpisodesRepository
 internal class QueueManagerImpl(
         private val episodesRepository: EpisodesRepository,
         private var provider: PodcastProvider,
-        private var listener: QueueManager.MetadataUpdateListener)
+        private var listener: QueueManager.MetadataUpdateListener,
+        private val imageLoader: SimpleImageLoader
+)
     : QueueManager {
 
     override val currentMusic: MediaSessionCompat.QueueItem?
@@ -38,11 +42,9 @@ internal class QueueManagerImpl(
         listener.onMetadataChanged(metadata)
         if (metadata.getDescription().getIconBitmap() == null && metadata.getDescription().getIconUri() != null) {
             val albumUri = metadata.getDescription().getIconUri()!!.toString()
-            AlbumArtCache.getInstance().fetch(albumUri, object : AlbumArtCache.FetchListener {
-                override fun onFetched(artUrl: String, bitmap: Bitmap, icon: Bitmap) {
-                    provider.updateMusicArt(musicId, bitmap, icon)
-
-                    // If we are still playing the same music, notify the listeners:
+            imageLoader.loadImage(albumUri, object : SimpleImageLoadingListener() {
+                override fun onLoadingComplete(imageUri: String?, view: View?, loadedImage: Bitmap?) {
+                    provider.updateMusicArt(musicId, loadedImage, loadedImage)
                     val currentMusic = currentMusic ?: return
                     val currentPlayingId = MediaIDHelper.extractMusicIDFromMediaID(
                             currentMusic.getDescription().getMediaId()!!)

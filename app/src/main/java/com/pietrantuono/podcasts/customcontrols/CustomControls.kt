@@ -17,7 +17,6 @@ package com.pietrantuono.podcasts.customcontrols
 
 import android.content.ComponentName
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.os.RemoteException
@@ -39,7 +38,6 @@ import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.fullscreenplay.custom.ColorizedPlaybackControlView
 import com.pietrantuono.podcasts.player.player.service.MusicService
-import com.pietrantuono.podcasts.player.player.service.playbacknotificator.AlbumArtCache
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit
@@ -186,39 +184,12 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
         executorService.shutdown()
     }
 
-    private fun fetchImageAsync(description: MediaDescriptionCompat) {
-        if (description.iconUri == null) {
-            return
-        }
-        val artUrl = description.iconUri?.toString()
-        currentArtUrl = artUrl
-        val cache = AlbumArtCache.getInstance()
-        var art: Bitmap? = cache.getBigImage(artUrl)
-        if (art == null) {
-            art = description.iconBitmap
-        }
-        if (art != null) {
-            // if we have the art cached or from the MediaDescription, use it:
-            backgroundImage.setImageBitmap(art)
-        } else {
-            // otherwise, fetch a high res version and update:
-            cache.fetch(artUrl) { artUrl, bitmap, icon ->
-                // sanity check, in case a new fetch request has been done while
-                // the previous hasn't yet returned:
-                if (artUrl == currentArtUrl) {
-                    backgroundImage.setImageBitmap(bitmap)
-                }
-            }
-        }
-    }
-
     fun updateMediaDescription(description: MediaDescriptionCompat?) {
         if (description == null) {
             return
         }
         line1.text = description.title
         line2.text = description.subtitle
-        fetchImageAsync(description)
     }
 
     private fun updateDuration(metadata: MediaMetadataCompat?) {
