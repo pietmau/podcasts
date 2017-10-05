@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.media.session.MediaSessionCompat
 import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayActivity
-import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
 import com.pietrantuono.podcasts.player.player.service.DelayedStopHandler
 import com.pietrantuono.podcasts.player.player.service.MusicService
 import com.pietrantuono.podcasts.player.player.service.model.PlayerServiceModel
@@ -14,7 +13,8 @@ import com.pietrantuono.podcasts.player.player.service.model.PlayerServiceModelI
 import com.pietrantuono.podcasts.player.player.service.playback.LocalPlayback
 import com.pietrantuono.podcasts.player.player.service.playback.Playback
 import com.pietrantuono.podcasts.player.player.service.playbackmanager.PlaybackManager
-import com.pietrantuono.podcasts.player.player.service.playbacknotificator.NotificationManager
+import com.pietrantuono.podcasts.player.player.service.playbacknotificator.IconCache
+import com.pietrantuono.podcasts.player.player.service.playbacknotificator.Notificator
 import com.pietrantuono.podcasts.player.player.service.provider.MusicProviderSource
 import com.pietrantuono.podcasts.player.player.service.provider.PodcastProvider
 import com.pietrantuono.podcasts.player.player.service.provider.PodcastProviderImpl
@@ -73,8 +73,8 @@ class ServiceModule constructor(val musicService: MusicService) {
 
     @ServiceScope
     @Provides
-    fun provideNotificationManager(imageLoader: SimpleImageLoader): NotificationManager {
-        return NotificationManager(musicService, imageLoader)
+    fun provideNotificationManager(iconCache: IconCache): Notificator {
+        return Notificator(musicService, iconCache)
     }
 
 

@@ -22,9 +22,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.Bitmap
 import android.graphics.Color
-import android.net.Uri
 import android.os.RemoteException
 import android.support.v4.app.NotificationManagerCompat
 import android.support.v4.media.MediaDescriptionCompat
@@ -33,19 +31,15 @@ import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.app.NotificationCompat
-import android.view.View
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayActivity
-import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
 import com.pietrantuono.podcasts.player.player.LogHelper
 import com.pietrantuono.podcasts.player.player.service.MusicService
 import com.pietrantuono.podcasts.player.player.service.ResourceHelper
 
 
-class NotificationManager @Throws(RemoteException::class)
-
-constructor(private val service: MusicService, private val imageLoader: SimpleImageLoader) : BroadcastReceiver() {
+class Notificator @Throws(RemoteException::class)
+constructor(private val service: MusicService, private val iconCache: IconCache) : BroadcastReceiver() {
     private var mSessionToken: MediaSessionCompat.Token? = null
     private var mController: MediaControllerCompat? = null
     private var transportControls: MediaControllerCompat.TransportControls? = null
@@ -86,7 +80,7 @@ constructor(private val service: MusicService, private val imageLoader: SimpleIm
             mPlaybackState = mController!!.playbackState
             val notification = createNotification()
             if (notification != null) {
-                mController!!.registerCallback(mCb)
+                mController!!.registerCallback(mediaControllerCompatCallback)
                 val filter = IntentFilter()
                 //filter.addAction(ACTION_NEXT)
                 filter.addAction(ACTION_PAUSE)
@@ -107,7 +101,7 @@ constructor(private val service: MusicService, private val imageLoader: SimpleIm
     fun stopNotification() {
         if (mStarted) {
             mStarted = false
-            mController?.unregisterCallback(mCb)
+            mController?.unregisterCallback(mediaControllerCompatCallback)
             try {
                 mNotificationManager.cancel(NOTIFICATION_ID)
                 service.unregisterReceiver(this)
@@ -145,14 +139,14 @@ constructor(private val service: MusicService, private val imageLoader: SimpleIm
         val freshToken = service.sessionToken
         if (mSessionToken == null && freshToken != null || mSessionToken != null && mSessionToken != freshToken) {
             if (mController != null) {
-                mController!!.unregisterCallback(mCb)
+                mController!!.unregisterCallback(mediaControllerCompatCallback)
             }
             mSessionToken = freshToken
             if (mSessionToken != null) {
                 mController = MediaControllerCompat(service, mSessionToken!!)
                 transportControls = mController!!.transportControls
                 if (mStarted) {
-                    mController!!.registerCallback(mCb)
+                    mController!!.registerCallback(mediaControllerCompatCallback)
                 }
             }
         }
@@ -169,7 +163,7 @@ constructor(private val service: MusicService, private val imageLoader: SimpleIm
                 PendingIntent.FLAG_CANCEL_CURRENT)
     }
 
-    private val mCb = object : MediaControllerCompat.Callback() {
+    private val mediaControllerCompatCallback = object : MediaControllerCompat.Callback() {
         override fun onPlaybackStateChanged(state: PlaybackStateCompat) {
             mPlaybackState = state
             if (state.state == PlaybackStateCompat.STATE_STOPPED || state.state == PlaybackStateCompat.STATE_NONE) {
@@ -204,7 +198,6 @@ constructor(private val service: MusicService, private val imageLoader: SimpleIm
         if (mMetadata == null || mPlaybackState == null) {
             return null
         }
-
         val notificationBuilder = NotificationCompat.Builder(service)
         var playPauseButtonPosition = 0
 
@@ -227,10 +220,7 @@ constructor(private val service: MusicService, private val imageLoader: SimpleIm
 //            notificationBuilder.addAction(R.drawable.ic_skip_next_white_24dp,
 //                    service.getString(R.string.label_next), mNextIntent)
 //        }
-
         val description = mMetadata!!.description
-
-
         notificationBuilder
                 .setStyle(NotificationCompat.MediaStyle()
                         .setShowActionsInCompactView(
@@ -255,15 +245,11 @@ constructor(private val service: MusicService, private val imageLoader: SimpleIm
             }
         }
         setNotificationPlaybackState(notificationBuilder)
-        if (description.iconUri != null) {
-            fetchBitmapFromURLAsync(description.iconUri, notificationBuilder)
-        }
-
+        iconCache.setOrGetIcon(mNotificationManager, description, notificationBuilder)
         return notificationBuilder.build()
     }
 
     private fun addPlayPauseAction(builder: NotificationCompat.Builder) {
-        LogHelper.d(TAG, "updatePlayPauseAction")
         val label: String
         val icon: Int
         val intent: PendingIntent
@@ -281,7 +267,6 @@ constructor(private val service: MusicService, private val imageLoader: SimpleIm
 
     private fun setNotificationPlaybackState(builder: NotificationCompat.Builder) {
         if (mPlaybackState == null || !mStarted) {
-            LogHelper.d(TAG, "updateNotificationPlaybackState. cancelling notification!")
             service.stopForeground(true)
             return
         }
@@ -299,19 +284,9 @@ constructor(private val service: MusicService, private val imageLoader: SimpleIm
         builder.setOngoing(mPlaybackState!!.state == PlaybackStateCompat.STATE_PLAYING)
     }
 
-    private fun fetchBitmapFromURLAsync(bitmapUrl: Uri?,
-                                        builder: NotificationCompat.Builder) {
-        imageLoader.loadImage(bitmapUrl.toString(), object : SimpleImageLoadingListener() {
-            override fun onLoadingComplete(imageUri: String?, view: View?, loadedImage: Bitmap?) {
-                builder.setLargeIcon(loadedImage)
-                mNotificationManager.notify(NOTIFICATION_ID, builder.build())
-            }
-        })
-    }
-
     companion object {
-        private val TAG = LogHelper.makeLogTag(NotificationManager::class.java)
-        private val NOTIFICATION_ID = 412
+        private val TAG = LogHelper.makeLogTag(Notificator::class.java)
+        val NOTIFICATION_ID = 412
         private val REQUEST_CODE = 100
         val ACTION_PAUSE = "com.pietrantuono.podcasts.pause"
         val ACTION_PLAY = "com.pietrantuono.podcasts.play"

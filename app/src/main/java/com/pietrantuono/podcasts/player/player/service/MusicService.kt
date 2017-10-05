@@ -29,14 +29,14 @@ import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.player.player.service.di.ServiceModule
 import com.pietrantuono.podcasts.player.player.service.playbackmanager.PlaybackManager
-import com.pietrantuono.podcasts.player.player.service.playbacknotificator.NotificationManager
+import com.pietrantuono.podcasts.player.player.service.playbacknotificator.Notificator
 import com.pietrantuono.podcasts.player.player.service.queue.QueueManager
 import javax.inject.Inject
 
 class MusicService() : MediaBrowserServiceCompat(), PlaybackManager.PlaybackServiceCallback, QueueManager.MetadataUpdateListener {
     @Inject lateinit var playbackManager: PlaybackManager
     @Inject lateinit var session: MediaSessionCompat
-    @Inject lateinit var mediaNotificationManager: NotificationManager
+    @Inject lateinit var mediaNotificator: Notificator
     @Inject lateinit var delayedStopHandler: DelayedStopHandler
 
     override fun onCreate() {
@@ -63,7 +63,7 @@ class MusicService() : MediaBrowserServiceCompat(), PlaybackManager.PlaybackServ
 
     override fun onDestroy() {
         playbackManager.handleStopRequest(null)
-        mediaNotificationManager.stopNotification()
+        mediaNotificator.stopNotification()
         delayedStopHandler.removeCallbacksAndMessages(null)
         session.release()
     }
@@ -92,7 +92,7 @@ class MusicService() : MediaBrowserServiceCompat(), PlaybackManager.PlaybackServ
     }
 
     override fun onNotificationRequired() {
-        mediaNotificationManager.startNotification()
+        mediaNotificator.startNotification()
     }
 
     override fun onPlaybackStateUpdated(newState: PlaybackStateCompat) {
