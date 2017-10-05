@@ -39,18 +39,14 @@ import com.pietrantuono.podcasts.player.player.service.ResourceHelper
 
 
 class Notificator @Throws(RemoteException::class)
-constructor(private val service: MusicService, private val iconCache: IconCache) : BroadcastReceiver() {
+constructor(private val service: MusicService, private val iconCache: IconCache,
+            private val intents: Intents) : BroadcastReceiver() {
     private var mSessionToken: MediaSessionCompat.Token? = null
     private var mController: MediaControllerCompat? = null
     private var transportControls: MediaControllerCompat.TransportControls? = null
     private var mPlaybackState: PlaybackStateCompat? = null
     private var mMetadata: MediaMetadataCompat? = null
     private val mNotificationManager: NotificationManagerCompat
-    private val mPauseIntent: PendingIntent
-    private val mPlayIntent: PendingIntent
-    private val mPreviousIntent: PendingIntent
-    private val mNextIntent: PendingIntent
-    private val mStopCastIntent: PendingIntent
     private val mNotificationColor: Int
     private var mStarted = false
 
@@ -59,18 +55,6 @@ constructor(private val service: MusicService, private val iconCache: IconCache)
         mNotificationColor = ResourceHelper.getThemeColor(service, R.attr.colorPrimary,
                 Color.DKGRAY)
         mNotificationManager = NotificationManagerCompat.from(service)
-        val pkg = service.packageName
-        mPauseIntent = PendingIntent.getBroadcast(service, REQUEST_CODE,
-                Intent(ACTION_PAUSE).setPackage(pkg), PendingIntent.FLAG_CANCEL_CURRENT)
-        mPlayIntent = PendingIntent.getBroadcast(service, REQUEST_CODE,
-                Intent(ACTION_PLAY).setPackage(pkg), PendingIntent.FLAG_CANCEL_CURRENT)
-        mPreviousIntent = PendingIntent.getBroadcast(service, REQUEST_CODE,
-                Intent(ACTION_PREV).setPackage(pkg), PendingIntent.FLAG_CANCEL_CURRENT)
-        mNextIntent = PendingIntent.getBroadcast(service, REQUEST_CODE,
-                Intent(ACTION_NEXT).setPackage(pkg), PendingIntent.FLAG_CANCEL_CURRENT)
-        mStopCastIntent = PendingIntent.getBroadcast(service, REQUEST_CODE,
-                Intent(ACTION_STOP_CASTING).setPackage(pkg),
-                PendingIntent.FLAG_CANCEL_CURRENT)
         mNotificationManager.cancelAll()
     }
 
@@ -241,7 +225,7 @@ constructor(private val service: MusicService, private val iconCache: IconCache)
                         .getString(R.string.casting_to_device, castName)
                 notificationBuilder.setSubText(castInfo)
                 notificationBuilder.addAction(R.drawable.ic_close_black_24dp,
-                        service.getString(R.string.stop_casting), mStopCastIntent)
+                        service.getString(R.string.stop_casting), intents.mStopCastIntent)
             }
         }
         setNotificationPlaybackState(notificationBuilder)
@@ -256,11 +240,11 @@ constructor(private val service: MusicService, private val iconCache: IconCache)
         if (mPlaybackState!!.state == PlaybackStateCompat.STATE_PLAYING) {
             label = service.getString(R.string.label_pause)
             icon = R.drawable.uamp_ic_pause_white_24dp
-            intent = mPauseIntent
+            intent = intents.mPauseIntent
         } else {
             label = service.getString(R.string.label_play)
             icon = R.drawable.uamp_ic_play_arrow_white_24dp
-            intent = mPlayIntent
+            intent = intents.mPlayIntent
         }
         builder.addAction(android.support.v4.app.NotificationCompat.Action(icon, label, intent))
     }
