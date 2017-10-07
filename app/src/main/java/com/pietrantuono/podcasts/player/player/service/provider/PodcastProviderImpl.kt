@@ -22,7 +22,6 @@ class PodcastProviderImpl(
 
     private fun mediaMetadataCompatFromEpisode(episode: Episode): MediaMetadataCompat {
         val builder = MediaMetadataCompat.Builder()
-
         builder.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, episode.link)
         if (getSource(episode) != null) {
             builder.putString(MusicProviderSource.CUSTOM_METADATA_TRACK_SOURCE, getSource(episode))
@@ -38,7 +37,8 @@ class PodcastProviderImpl(
         val enclosures = episode.enclosures
         if (enclosures != null && enclosures.size > 0) {
             return enclosures[0].url
+        } else {
+            return null
         }
-        return null
     }
 }

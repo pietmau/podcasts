@@ -8,6 +8,7 @@ import rx.Scheduler
 
 class EpisodesRepositoryRealm(private val realm: Realm, private val ioScheduler: Scheduler) : EpisodesRepository {
     private val LINK = "link"
+    private val cache: MutableMap<String, Episode> = mutableMapOf()
 
     override fun getEpisodeByUrlAsync(url: String?): Observable<out Episode> {
         return realm.where(RealmEpisode::class.java).equalTo(LINK, url).findFirst().asObservable<RealmEpisode>()
@@ -20,10 +21,14 @@ class EpisodesRepositoryRealm(private val realm: Realm, private val ioScheduler:
         }
     }
 
-    override fun getEpisodeByUrl(url: String?): Episode? {
-        return url?.let {
-            realm.copyFromRealm(realm.where(RealmEpisode::class.java).equalTo(LINK, url).findFirst())
-        } ?: null
+    override fun getEpisodeByUrl(url: String?): Episode? = url?.let {
+        if (cache.containsKey(it)) {
+            cache.get(it)
+        } else {
+            val episode = realm.copyFromRealm(realm.where(RealmEpisode::class.java).equalTo(LINK, it).findFirst())
+            cache.put(it, episode)
+            episode
+        }
     }
 
     override fun getEpisodeByUrlAsObservable(url: String?): Observable<out Episode> {

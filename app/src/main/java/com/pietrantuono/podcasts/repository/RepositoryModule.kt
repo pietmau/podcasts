@@ -6,7 +6,9 @@ import dagger.Module
 import dagger.Provides
 import io.realm.Realm
 import rx.schedulers.Schedulers
+import javax.inject.Singleton
 
+@Singleton
 @Module
 class RepositoryModule {
 
@@ -30,6 +32,7 @@ class RepositoryModule {
         return RepoServicesImpl(context, realm)
     }
 
+    @Singleton
     @Provides
     fun provideEpisodesRepository(realm: Realm): EpisodesRepository {
         return EpisodesRepositoryRealm(realm, Schedulers.io())
