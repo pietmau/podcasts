@@ -57,13 +57,17 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
     @BindView(R.id.background_image) lateinit var backgroundImage: ImageView
     private val pauseDrawable: Drawable
     private val playDrawable: Drawable
-    private var currentArtUrl: String? = null
     private val aHandler = Handler()
     private var mediaBrowser: MediaBrowserCompat? = null
     private var supportMediaController: MediaControllerCompat? = null
     private val transportControls
         get() = supportMediaController?.transportControls
-    private var listener: ColorizedPlaybackControlView.Callback? = null
+    var callback: ColorizedPlaybackControlView.Callback? = null
+
+    companion object {
+        private val PROGRESS_UPDATE_INTERNAL: Long = 1000
+        private val PROGRESS_UPDATE_INITIAL_INTERVAL: Long = 100
+    }
 
     private val connectionCallback = object : MediaBrowserCompat.ConnectionCallback() {
         override fun onConnected() {
@@ -74,20 +78,19 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
         }
     }
 
-    private val updateProgressTask = { updateProgress() }
     private val executorService = Executors.newSingleThreadScheduledExecutor()
     private var scheduleFuture: ScheduledFuture<*>? = null
     private var lastPlaybackState: PlaybackStateCompat? = null
 
-    private val callback = object : MediaControllerCompat.Callback() {
+    private val mediaControllerCompatCallback = object : MediaControllerCompat.Callback() {
         override fun onPlaybackStateChanged(state: PlaybackStateCompat) {
             updatePlaybackState(state)
         }
 
         override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
-            if (metadata != null) {
-                updateMediaDescription(metadata.description)
-                updateDuration(metadata)
+            metadata?.let {
+                updateMediaDescription(it.description)
+                updateDuration(it)
             }
         }
     }
@@ -104,7 +107,7 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
             transportControls?.skipToPrevious()
         }
         playPause.setOnClickListener {
-            listener?.onPlayClicked()
+            callback?.onPlayClicked()
             supportMediaController?.playbackState?.let {
                 when (it.state) {
                     PlaybackStateCompat.STATE_PLAYING, PlaybackStateCompat.STATE_BUFFERING -> {
@@ -132,7 +135,6 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
                 scheduleSeekbarUpdate()
             }
         })
-
         mediaBrowser = MediaBrowserCompat(getContext(), ComponentName(getContext(), MusicService::class.java), connectionCallback, null)
     }
 
@@ -143,13 +145,12 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
             //return
         }
         supportMediaController = mediaController
-        supportMediaController?.registerCallback(callback)
+        supportMediaController?.registerCallback(mediaControllerCompatCallback)
         val state = supportMediaController?.playbackState
         updatePlaybackState(state)
-        val metadata = supportMediaController?.metadata
-        if (metadata != null) {
-            updateMediaDescription(metadata.description)
-            updateDuration(metadata)
+        supportMediaController?.metadata?.let {
+            updateMediaDescription(it.description)
+            updateDuration(it)
         }
         updateProgress()
         if (state?.state == PlaybackStateCompat.STATE_PLAYING || state?.state == PlaybackStateCompat.STATE_BUFFERING) {
@@ -160,8 +161,7 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
     private fun scheduleSeekbarUpdate() {
         stopSeekbarUpdate()
         if (!executorService.isShutdown) {
-            scheduleFuture = executorService.scheduleAtFixedRate(
-                    { aHandler.post(updateProgressTask) }, PROGRESS_UPDATE_INITIAL_INTERVAL,
+            scheduleFuture = executorService.scheduleAtFixedRate({ aHandler.post({ updateProgress() }) }, PROGRESS_UPDATE_INITIAL_INTERVAL,
                     PROGRESS_UPDATE_INTERNAL, TimeUnit.MILLISECONDS)
         }
     }
@@ -176,7 +176,7 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
 
     fun onStop() {
         mediaBrowser?.disconnect()
-        supportMediaController?.unregisterCallback(callback)
+        supportMediaController?.unregisterCallback(mediaControllerCompatCallback)
     }
 
     fun onDestroy() {
@@ -185,20 +185,18 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
     }
 
     fun updateMediaDescription(description: MediaDescriptionCompat?) {
-        if (description == null) {
-            return
+        description?.let {
+            line1.text = it.title
+            line2.text = it.subtitle
         }
-        line1.text = description.title
-        line2.text = description.subtitle
     }
 
     private fun updateDuration(metadata: MediaMetadataCompat?) {
-        if (metadata == null) {
-            return
+        metadata?.let {
+            val duration = metadata.getLong(MediaMetadataCompat.METADATA_KEY_DURATION).toInt()
+            seekbar.max = duration
+            end.text = DateUtils.formatElapsedTime((duration / 1000).toLong())
         }
-        val duration = metadata.getLong(MediaMetadataCompat.METADATA_KEY_DURATION).toInt()
-        seekbar.max = duration
-        end.text = DateUtils.formatElapsedTime((duration / 1000).toLong())
     }
 
     private fun updatePlaybackState(state: PlaybackStateCompat?) {
@@ -206,15 +204,6 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
             return
         }
         lastPlaybackState = state
-        if (supportMediaController != null && supportMediaController?.extras != null) {
-            val castName: String? = supportMediaController?.extras?.getString(EXTRA_CONNECTED_CAST)
-            val line3Text = if (castName == null)
-                ""
-            else
-                resources
-                        .getString(R.string.casting_to_device, castName)
-            line3.text = line3Text
-        }
 
         when (state.state) {
             PlaybackStateCompat.STATE_PLAYING -> {
@@ -257,7 +246,7 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
     }
 
     private fun onError(state: PlaybackStateCompat) {
-        listener?.onPlayerError(state.errorMessage)
+        callback?.onPlayerError(state.errorMessage)
     }
 
     private fun updateProgress() {
@@ -271,18 +260,7 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
         }
     }
 
-    companion object {
-        val EXTRA_CONNECTED_CAST = "com.example.android.uamp.CAST_NAME"
-        private val PROGRESS_UPDATE_INTERNAL: Long = 1000
-        private val PROGRESS_UPDATE_INITIAL_INTERVAL: Long = 100
-    }
-
     fun setBackgroundColors(backgroundColor: Int) {
 
     }
-
-    fun setCallback(onClickListener: ColorizedPlaybackControlView.Callback) {
-        this.listener = onClickListener
-    }
-
 }
