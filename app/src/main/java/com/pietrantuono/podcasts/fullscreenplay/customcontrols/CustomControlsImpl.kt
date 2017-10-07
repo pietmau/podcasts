@@ -13,15 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.pietrantuono.podcasts.customcontrols
+package com.pietrantuono.podcasts.fullscreenplay.customcontrols
 
 import android.content.ComponentName
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.os.RemoteException
 import android.os.SystemClock
-import android.support.v4.content.ContextCompat
+import android.support.v4.app.FragmentActivity
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
@@ -36,33 +35,37 @@ import android.widget.*
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
+import com.pietrantuono.podcasts.apis.Episode
+import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.fullscreenplay.custom.ColorizedPlaybackControlView
+import com.pietrantuono.podcasts.fullscreenplay.di.FullscreenModule
 import com.pietrantuono.podcasts.player.player.service.MusicService
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs) {
+class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs), CustomControls {
     @BindView(R.id.prev) lateinit var skipPrev: ImageView
     @BindView(R.id.next) lateinit var skipNext: ImageView
-    @BindView(R.id.play_pause) lateinit var playPause: ImageView
+    override @BindView(R.id.play_pause) lateinit var playPause: ImageView
     @BindView(R.id.startText) lateinit var start: TextView
     @BindView(R.id.endText) lateinit var end: TextView
     @BindView(R.id.seekBar1) lateinit var seekbar: SeekBar
     @BindView(R.id.line1) lateinit var line1: TextView
     @BindView(R.id.line2) lateinit var line2: TextView
-    @BindView(R.id.line3) lateinit var line3: TextView
-    @BindView(R.id.progressBar1) lateinit var loading: ProgressBar
-    @BindView(R.id.controllers) lateinit var controllers: View
+    override @BindView(R.id.line3) lateinit var line3: TextView
+    override @BindView(R.id.progressBar1) lateinit var loading: ProgressBar
+    override @BindView(R.id.controllers) lateinit var controllers: View
     @BindView(R.id.background_image) lateinit var backgroundImage: ImageView
-    private val pauseDrawable: Drawable
-    private val playDrawable: Drawable
     private val aHandler = Handler()
     private var mediaBrowser: MediaBrowserCompat? = null
     private var supportMediaController: MediaControllerCompat? = null
     private val transportControls
         get() = supportMediaController?.transportControls
     var callback: ColorizedPlaybackControlView.Callback? = null
+    private var episode: Episode? = null
+    @Inject lateinit var presenter: CustomControlsPresenter
 
     companion object {
         private val PROGRESS_UPDATE_INTERNAL: Long = 1000
@@ -98,8 +101,9 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
     init {
         (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(R.layout.custom_player, this)
         ButterKnife.bind(this)
-        pauseDrawable = ContextCompat.getDrawable(getContext(), R.drawable.uamp_ic_pause_white_48dp)
-        playDrawable = ContextCompat.getDrawable(getContext(), R.drawable.uamp_ic_play_arrow_white_48dp)
+        (context.applicationContext as App).applicationComponent
+                ?.with(FullscreenModule(context as FragmentActivity))?.inject(this)
+        presenter.bindView(this)
         skipNext.setOnClickListener {
             transportControls?.skipToNext()
         }
@@ -157,7 +161,7 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
         }
     }
 
-    private fun scheduleSeekbarUpdate() {
+    override fun scheduleSeekbarUpdate() {
         stopSeekbarUpdate()
         if (!executorService.isShutdown) {
             scheduleFuture = executorService.scheduleAtFixedRate({ aHandler.post({ updateProgress() }) }, PROGRESS_UPDATE_INITIAL_INTERVAL,
@@ -165,7 +169,7 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
         }
     }
 
-    private fun stopSeekbarUpdate() {
+    override fun stopSeekbarUpdate() {
         scheduleFuture?.cancel(false)
     }
 
@@ -203,40 +207,12 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
             return
         }
         lastPlaybackState = state
-        when (state.state) {
-            PlaybackStateCompat.STATE_PLAYING -> {
-                loading.visibility = View.INVISIBLE
-                playPause.visibility = View.VISIBLE
-                playPause.setImageDrawable(pauseDrawable)
-                controllers.visibility = View.VISIBLE
-                scheduleSeekbarUpdate()
-            }
-            PlaybackStateCompat.STATE_PAUSED -> {
-                controllers.visibility = View.VISIBLE
-                loading.visibility = View.INVISIBLE
-                playPause.visibility = View.VISIBLE
-                playPause.setImageDrawable(playDrawable)
-                stopSeekbarUpdate()
-            }
-            PlaybackStateCompat.STATE_NONE, PlaybackStateCompat.STATE_STOPPED -> {
-                loading.visibility = View.INVISIBLE
-                playPause.visibility = View.VISIBLE
-                playPause.setImageDrawable(playDrawable)
-                stopSeekbarUpdate()
-            }
-            PlaybackStateCompat.STATE_BUFFERING -> {
-                playPause.visibility = View.INVISIBLE
-                loading.visibility = View.VISIBLE
-                line3.setText(R.string.loading)
-                stopSeekbarUpdate()
-            }
-            PlaybackStateCompat.STATE_ERROR -> onError(state)
-        }
+        presenter.updatePlaybackState(state)
         //skipNext.visibility = if (state.actions and PlaybackStateCompat.ACTION_SKIP_TO_NEXT == 0L) View.INVISIBLE else View.VISIBLE
         //skipPrev.visibility = if (state.actions and PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS == 0L) View.INVISIBLE else View.VISIBLE
     }
 
-    private fun onError(state: PlaybackStateCompat) {
+    override fun onError(state: PlaybackStateCompat) {
         callback?.onPlayerError(state.errorMessage)
     }
 
@@ -252,4 +228,9 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
     }
 
     fun setBackgroundColors(backgroundColor: Int) {}
+
+    fun setEpisode(episode: Episode?) {
+        this.episode = episode
+    }
 }
+

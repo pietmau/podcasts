@@ -23,7 +23,7 @@
         android:layout_below="@+id/toolbar">
     </com.pietrantuono.podcasts.fullscreenplay.view.custom.EpisodeView>
 
-    <com.pietrantuono.podcasts.customcontrols.CustomControls
+    <com.pietrantuono.podcasts.fullscreenplay.customcontrols.CustomControlsImpl
         android:id="@+id/control"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

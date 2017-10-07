@@ -3,9 +3,11 @@ package com.pietrantuono.podcasts.fullscreenplay.di
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.support.v4.app.FragmentActivity
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.BitmapColorExtractor
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
+import com.pietrantuono.podcasts.fullscreenplay.customcontrols.CustomControlsPresenter
 import com.pietrantuono.podcasts.fullscreenplay.model.FullscreenModel
 import com.pietrantuono.podcasts.fullscreenplay.model.FullscreenModelImpl
 import com.pietrantuono.podcasts.fullscreenplay.presenter.FullscreenPresenter
@@ -29,14 +31,19 @@ class FullscreenModule(private val activity: FragmentActivity) {
     }
 
     @Provides
-    fun provideModel(repository: EpisodesRepository): FullscreenModel {
-        return FullscreenModelImpl(repository, AndroidSchedulers.mainThread())
-    }
+    fun provideModel(repository: EpisodesRepository): FullscreenModel
+            = FullscreenModelImpl(repository, AndroidSchedulers.mainThread())
+
 
     @Provides
     fun provideFullscreenPresenterFactory(model: FullscreenModel, apiLevelChecker: ApiLevelChecker): FullscreenPresenterFactory {
         return FullscreenPresenterFactory(model, apiLevelChecker)
     }
+
+
+    @Provides
+    fun provideCustomControlsPresenter(context: Context) = CustomControlsPresenter(context)
+
 }
 
 class FullscreenPresenterFactory(private val model: FullscreenModel

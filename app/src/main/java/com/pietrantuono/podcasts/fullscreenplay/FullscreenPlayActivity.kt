@@ -9,7 +9,7 @@ import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.AbstractBaseDetailActivty
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.App
-import com.pietrantuono.podcasts.customcontrols.CustomControls
+import com.pietrantuono.podcasts.fullscreenplay.customcontrols.CustomControlsImpl
 import com.pietrantuono.podcasts.fullscreenplay.di.FullscreenModule
 import com.pietrantuono.podcasts.fullscreenplay.presenter.FullscreenPresenter
 import com.pietrantuono.podcasts.fullscreenplay.view.custom.EpisodeView
@@ -21,9 +21,8 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
     companion object {
         val EXTRA_CURRENT_MEDIA_DESCRIPTION = "media_description"
     }
-
     @Inject lateinit var presenter: FullscreenPresenter
-    @BindView(R.id.control) lateinit var controlView: CustomControls
+    @BindView(R.id.control) lateinit var controlView: CustomControlsImpl
     @BindView(R.id.episodeView) lateinit var episodeView: EpisodeView
     @BindView(R.id.root) lateinit var root: View
 
@@ -60,6 +59,7 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
 
     override fun setEpisode(episode: Episode?) {
         episodeView.setEpisode(episode)
+        controlView.setEpisode(episode)
     }
 
     override fun onColorExtractionCompleted() {
