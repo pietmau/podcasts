@@ -18,7 +18,7 @@ class SimpleImageLoader {
     }
 
     fun loadImage(url: String?, listener: ImageLoadingListener) {
-        ImageLoader.getInstance().loadImage(url, listener)
+        ImageLoader.getInstance().loadImage(url, options, listener)
     }
 
     companion object {

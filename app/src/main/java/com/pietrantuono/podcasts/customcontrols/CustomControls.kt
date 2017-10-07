@@ -141,8 +141,7 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
     @Throws(RemoteException::class)
     private fun connectToSession(token: MediaSessionCompat.Token?) {
         val mediaController = MediaControllerCompat(context, token)
-        if (mediaController.metadata == null) {
-            //return
+        if (mediaController.metadata == null) {/*return*/
         }
         supportMediaController = mediaController
         supportMediaController?.registerCallback(mediaControllerCompatCallback)
@@ -193,7 +192,7 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
 
     private fun updateDuration(metadata: MediaMetadataCompat?) {
         metadata?.let {
-            val duration = metadata.getLong(MediaMetadataCompat.METADATA_KEY_DURATION).toInt()
+            val duration = it.getLong(MediaMetadataCompat.METADATA_KEY_DURATION).toInt()
             seekbar.max = duration
             end.text = DateUtils.formatElapsedTime((duration / 1000).toLong())
         }
@@ -204,7 +203,6 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
             return
         }
         lastPlaybackState = state
-
         when (state.state) {
             PlaybackStateCompat.STATE_PLAYING -> {
                 loading.visibility = View.INVISIBLE
@@ -234,15 +232,8 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
             }
             PlaybackStateCompat.STATE_ERROR -> onError(state)
         }
-
-        skipNext.visibility = if (state.actions and PlaybackStateCompat.ACTION_SKIP_TO_NEXT == 0L)
-            View.INVISIBLE
-        else
-            View.VISIBLE
-        skipPrev.visibility = if (state.actions and PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS == 0L)
-            View.INVISIBLE
-        else
-            View.VISIBLE
+        //skipNext.visibility = if (state.actions and PlaybackStateCompat.ACTION_SKIP_TO_NEXT == 0L) View.INVISIBLE else View.VISIBLE
+        //skipPrev.visibility = if (state.actions and PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS == 0L) View.INVISIBLE else View.VISIBLE
     }
 
     private fun onError(state: PlaybackStateCompat) {
@@ -260,7 +251,5 @@ class CustomControls(context: Context, attrs: AttributeSet) : RelativeLayout(con
         }
     }
 
-    fun setBackgroundColors(backgroundColor: Int) {
-
-    }
+    fun setBackgroundColors(backgroundColor: Int) {}
 }
