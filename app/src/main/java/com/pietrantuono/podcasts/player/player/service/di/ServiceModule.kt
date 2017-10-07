@@ -4,6 +4,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.NotificationManagerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayActivity
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
@@ -14,9 +15,7 @@ import com.pietrantuono.podcasts.player.player.service.model.PlayerServiceModelI
 import com.pietrantuono.podcasts.player.player.service.playback.LocalPlayback
 import com.pietrantuono.podcasts.player.player.service.playback.Playback
 import com.pietrantuono.podcasts.player.player.service.playbackmanager.PlaybackManager
-import com.pietrantuono.podcasts.player.player.service.playbacknotificator.IconCache
-import com.pietrantuono.podcasts.player.player.service.playbacknotificator.Intents
-import com.pietrantuono.podcasts.player.player.service.playbacknotificator.Notificator
+import com.pietrantuono.podcasts.player.player.service.playbacknotificator.*
 import com.pietrantuono.podcasts.player.player.service.provider.MusicProviderSource
 import com.pietrantuono.podcasts.player.player.service.provider.PodcastProvider
 import com.pietrantuono.podcasts.player.player.service.provider.PodcastProviderImpl
@@ -75,10 +74,23 @@ class ServiceModule constructor(val musicService: MusicService) {
 
     @ServiceScope
     @Provides
-    fun provideNotificationManager(iconCache: IconCache, intents: Intents): Notificator {
-        return Notificator(musicService, iconCache, intents)
+    fun provideNotificationManager(creator: NotificationCreator,
+                                   notificationmanager: NotificationManagerCompat): Notificator =
+            Notificator(musicService, creator, notificationmanager)
+
+    @ServiceScope
+    @Provides
+    fun provideNotificationManagerCompat(): NotificationManagerCompat {
+        val notificationManager = NotificationManagerCompat.from(musicService)
+        notificationManager.cancelAll()
+        return notificationManager
     }
 
+    @ServiceScope
+    @Provides
+    fun provideNotificationCreator(notificationmanager: NotificationManagerCompat, iconcahe: IconCache,
+                                   intents: Intents): NotificationCreator =
+            NotificationCreatorImpl(musicService, notificationmanager, iconcahe, intents)
 
 }
 

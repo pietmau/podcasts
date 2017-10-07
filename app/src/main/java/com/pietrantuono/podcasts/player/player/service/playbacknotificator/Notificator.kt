@@ -16,71 +16,54 @@
 
 package com.pietrantuono.podcasts.player.player.service.playbacknotificator
 
-import android.app.Notification
-import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
-import android.graphics.Color
 import android.os.RemoteException
 import android.support.v4.app.NotificationManagerCompat
-import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import android.support.v7.app.NotificationCompat
-import com.pietrantuono.podcasts.R
-import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayActivity
-import com.pietrantuono.podcasts.player.player.LogHelper
 import com.pietrantuono.podcasts.player.player.service.MusicService
-import com.pietrantuono.podcasts.player.player.service.ResourceHelper
-
 
 class Notificator @Throws(RemoteException::class)
-constructor(private val service: MusicService, private val iconCache: IconCache
-            , private val intents: Intents) : BroadcastReceiver() {
-    private var mSessionToken: MediaSessionCompat.Token? = null
-    private var mController: MediaControllerCompat? = null
-    private var transportControls: MediaControllerCompat.TransportControls? = null
-    private var mPlaybackState: PlaybackStateCompat? = null
-    private var mMetadata: MediaMetadataCompat? = null
-    private val mNotificationManager: NotificationManagerCompat
-    private val mNotificationColor: Int
-    private var mStarted = false
+
+constructor(
+        private val service: MusicService,
+        private val creator: NotificationCreator,
+        private val notificationManager: NotificationManagerCompat)
+    : BroadcastReceiver() {
+
+    private var sessionToken: MediaSessionCompat.Token? = null
+    private var controller: MediaControllerCompat? = null
+    private var playbackState: PlaybackStateCompat? = null
+    private var metadata: MediaMetadataCompat? = null
+    private var started = false
 
     init {
         updateSessionToken()
-        mNotificationColor = ResourceHelper.getThemeColor(service, R.attr.colorPrimary,
-                Color.DKGRAY)
-        mNotificationManager = NotificationManagerCompat.from(service)
-        mNotificationManager.cancelAll()
     }
 
     fun startNotification() {
-        if (!mStarted) {
-            mMetadata = mController!!.metadata
-            mPlaybackState = mController!!.playbackState
-            val notification = createNotification()
-            if (notification != null) {
-                mController!!.registerCallback(mediaControllerCompatCallback)
-                val filter = IntentFilter()
-                filter.addAction(ACTION_PAUSE)
-                filter.addAction(ACTION_PLAY)
-                service.registerReceiver(this, filter)
-                service.startForeground(NOTIFICATION_ID, notification)
-                mStarted = true
+        if (!started) {
+            metadata = controller?.metadata
+            playbackState = controller?.playbackState
+            creator.createNotification(metadata, playbackState, sessionToken, started)?.let {
+                controller?.registerCallback(mediaControllerCompatCallback)
+                service.registerReceiver(this, PlayPauseIntentFilter())
+                service.startForeground(NotificationsConstants.NOTIFICATION_ID, it)
+                started = true
             }
         }
     }
 
     fun stopNotification() {
-        if (mStarted) {
-            mStarted = false
-            mController?.unregisterCallback(mediaControllerCompatCallback)
+        if (started) {
+            started = false
+            controller?.unregisterCallback(mediaControllerCompatCallback)
             try {
-                mNotificationManager.cancel(NOTIFICATION_ID)
+                notificationManager.cancel(NotificationsConstants.NOTIFICATION_ID)
                 service.unregisterReceiver(this)
             } catch (ex: IllegalArgumentException) {
             }
@@ -90,73 +73,45 @@ constructor(private val service: MusicService, private val iconCache: IconCache
 
     override fun onReceive(context: Context, intent: Intent) {
         when (intent.action) {
-            ACTION_PAUSE -> transportControls?.pause()
-            ACTION_PLAY -> transportControls?.play()
-            ACTION_NEXT -> transportControls?.skipToNext()
-            ACTION_PREV -> transportControls?.skipToPrevious()
-            ACTION_STOP_CASTING -> {
-                val i = Intent(context, MusicService::class.java)
-                i.action = MusicService.ACTION_CMD
-                i.putExtra(MusicService.CMD_NAME, MusicService.CMD_STOP_CASTING)
-                service.startService(i)
-            }
-            else -> {
-            }
+            NotificationsConstants.ACTION_PAUSE -> controller?.transportControls?.pause()
+            NotificationsConstants.ACTION_PLAY -> controller?.transportControls?.play()
+            NotificationsConstants.ACTION_NEXT -> controller?.transportControls?.skipToNext()
+            NotificationsConstants.ACTION_PREV -> controller?.transportControls?.skipToPrevious()
         }
     }
 
-    /**
-     * Update the state based on a change on the session token. Called either when
-     * we are running for the first time or when the media session owner has destroyed the session
-     * (see [android.media.session.MediaController.Callback.onSessionDestroyed])
-     */
     @Throws(RemoteException::class)
     private fun updateSessionToken() {
         val freshToken = service.sessionToken
-        if (mSessionToken == null && freshToken != null || mSessionToken != null && mSessionToken != freshToken) {
-            if (mController != null) {
-                mController!!.unregisterCallback(mediaControllerCompatCallback)
-            }
-            mSessionToken = freshToken
-            if (mSessionToken != null) {
-                mController = MediaControllerCompat(service, mSessionToken!!)
-                transportControls = mController!!.transportControls
-                if (mStarted) {
-                    mController!!.registerCallback(mediaControllerCompatCallback)
+        if (sessionToken == null && freshToken != null || sessionToken != null && sessionToken != freshToken) {
+            controller?.unregisterCallback(mediaControllerCompatCallback)
+            sessionToken = freshToken
+            sessionToken?.let {
+                controller = MediaControllerCompat(service, it)
+                if (started) {
+                    controller!!.registerCallback(mediaControllerCompatCallback)
                 }
             }
         }
-    }
-
-    private fun createContentIntent(description: MediaDescriptionCompat?): PendingIntent {
-        val openUI = Intent(service, FullscreenPlayActivity::class.java)
-        openUI.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
-        //openUI.putExtra(MusicPlayerActivity.EXTRA_START_FULLSCREEN, true)
-        if (description != null) {
-            openUI.putExtra(FullscreenPlayActivity.EXTRA_CURRENT_MEDIA_DESCRIPTION, description)
-        }
-        return PendingIntent.getActivity(service, REQUEST_CODE, openUI,
-                PendingIntent.FLAG_CANCEL_CURRENT)
     }
 
     private val mediaControllerCompatCallback = object : MediaControllerCompat.Callback() {
         override fun onPlaybackStateChanged(state: PlaybackStateCompat) {
-            mPlaybackState = state
+            playbackState = state
             if (state.state == PlaybackStateCompat.STATE_STOPPED || state.state == PlaybackStateCompat.STATE_NONE) {
                 stopNotification()
             } else {
-                val notification = createNotification()
-                if (notification != null) {
-                    mNotificationManager.notify(NOTIFICATION_ID, notification)
+                creator.createNotification(metadata, playbackState, sessionToken, started)?.let {
+                    notificationManager.notify(NotificationsConstants.NOTIFICATION_ID, it)
                 }
+
             }
         }
 
         override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
-            mMetadata = metadata
-            val notification = createNotification()
-            if (notification != null) {
-                mNotificationManager.notify(NOTIFICATION_ID, notification)
+            this@Notificator.metadata = metadata
+            creator.createNotification(this@Notificator.metadata, playbackState, sessionToken, started)?.let {
+                notificationManager.notify(NotificationsConstants.NOTIFICATION_ID, it)
             }
         }
 
@@ -169,86 +124,5 @@ constructor(private val service: MusicService, private val iconCache: IconCache
 
         }
     }
-
-    private fun createNotification(): Notification? {
-        if (mMetadata == null || mPlaybackState == null) {
-            return null
-        }
-        val notificationBuilder = NotificationCompat.Builder(service)
-        var playPauseButtonPosition = 0
-        addPlayPauseAction(notificationBuilder)
-        val description = mMetadata!!.description
-        notificationBuilder
-                .setStyle(NotificationCompat.MediaStyle()
-                        .setShowActionsInCompactView(
-                                *intArrayOf(playPauseButtonPosition))  // show only play/pause in compact view
-                        .setMediaSession(mSessionToken))
-                .setColor(mNotificationColor)
-                .setSmallIcon(R.drawable.ic_notification)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setUsesChronometer(true)
-                .setContentIntent(createContentIntent(description))
-                .setContentTitle(description.title)
-                .setContentText(description.subtitle)
-
-        if (mController != null && mController!!.extras != null) {
-            val castName = mController!!.extras.getString(MusicService.EXTRA_CONNECTED_CAST)
-            if (castName != null) {
-                val castInfo = service.resources
-                        .getString(R.string.casting_to_device, castName)
-                notificationBuilder.setSubText(castInfo)
-                notificationBuilder.addAction(R.drawable.ic_close_black_24dp,
-                        service.getString(R.string.stop_casting), intents.getStopcastIntent(service))
-            }
-        }
-        setNotificationPlaybackState(notificationBuilder)
-        iconCache.setOrGetIcon(mNotificationManager, description, notificationBuilder)
-        return notificationBuilder.build()
-    }
-
-    private fun addPlayPauseAction(builder: NotificationCompat.Builder) {
-        val label: String
-        val icon: Int
-        val intent: PendingIntent
-        if (mPlaybackState!!.state == PlaybackStateCompat.STATE_PLAYING) {
-            label = service.getString(R.string.label_pause)
-            icon = R.drawable.uamp_ic_pause_white_24dp
-            intent = intents.getPauseIntent(service)
-        } else {
-            label = service.getString(R.string.label_play)
-            icon = R.drawable.uamp_ic_play_arrow_white_24dp
-            intent = intents.getPlayIntent(service)
-        }
-        builder.addAction(android.support.v4.app.NotificationCompat.Action(icon, label, intent))
-    }
-
-    private fun setNotificationPlaybackState(builder: NotificationCompat.Builder) {
-        if (mPlaybackState == null || !mStarted) {
-            service.stopForeground(true)
-            return
-        }
-        if (mPlaybackState!!.state == PlaybackStateCompat.STATE_PLAYING && mPlaybackState!!.position >= 0) {
-            builder
-                    .setWhen(System.currentTimeMillis() - mPlaybackState!!.position)
-                    .setShowWhen(true)
-                    .setUsesChronometer(true)
-        } else {
-            builder
-                    .setWhen(0)
-                    .setShowWhen(false)
-                    .setUsesChronometer(false)
-        }
-        builder.setOngoing(mPlaybackState!!.state == PlaybackStateCompat.STATE_PLAYING)
-    }
-
-    companion object {
-        private val TAG = LogHelper.makeLogTag(Notificator::class.java)
-        val NOTIFICATION_ID = 412
-        internal val REQUEST_CODE = 100
-        val ACTION_PAUSE = "com.pietrantuono.podcasts.pause"
-        val ACTION_PLAY = "com.pietrantuono.podcasts.play"
-        val ACTION_PREV = "com.pietrantuono.podcasts.prev"
-        val ACTION_NEXT = "com.pietrantuono.podcasts.next"
-        val ACTION_STOP_CASTING = "com.pietrantuono.podcasts.stop_cast"
-    }
 }
+

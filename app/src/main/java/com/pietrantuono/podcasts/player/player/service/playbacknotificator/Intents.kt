@@ -8,12 +8,12 @@ import javax.inject.Inject
 
 class Intents @Inject constructor() {
 
-    fun getPauseIntent(service: Service) = PendingIntent.getBroadcast(service, Notificator.REQUEST_CODE,
-            Intent(Notificator.ACTION_PAUSE).setPackage(service.packageName), PendingIntent.FLAG_CANCEL_CURRENT)
+    fun getPauseIntent(service: Service) = PendingIntent.getBroadcast(service, NotificationsConstants.REQUEST_CODE,
+            Intent(NotificationsConstants.ACTION_PAUSE).setPackage(service.packageName), PendingIntent.FLAG_CANCEL_CURRENT)
 
-    fun getPlayIntent(service: Service) = PendingIntent.getBroadcast(service, Notificator.REQUEST_CODE,
-            Intent(Notificator.ACTION_PLAY).setPackage(service.packageName), PendingIntent.FLAG_CANCEL_CURRENT)
+    fun getPlayIntent(service: Service) = PendingIntent.getBroadcast(service, NotificationsConstants.REQUEST_CODE,
+            Intent(NotificationsConstants.ACTION_PLAY).setPackage(service.packageName), PendingIntent.FLAG_CANCEL_CURRENT)
 
-    fun getStopcastIntent(service: Service) = PendingIntent.getBroadcast(service, Notificator.REQUEST_CODE,
-            Intent(Notificator.ACTION_STOP_CASTING).setPackage(service.packageName), PendingIntent.FLAG_CANCEL_CURRENT)
+    fun getStopcastIntent(service: Service) = PendingIntent.getBroadcast(service, NotificationsConstants.REQUEST_CODE,
+            Intent(NotificationsConstants.ACTION_STOP_CASTING).setPackage(service.packageName), PendingIntent.FLAG_CANCEL_CURRENT)
 }

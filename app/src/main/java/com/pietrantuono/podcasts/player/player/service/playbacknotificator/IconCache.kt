@@ -27,7 +27,7 @@ class IconCache @Inject constructor(private val imageLoader: SimpleImageLoader) 
             override fun onLoadingComplete(imageUri: String?, view: View?, loadedImage: Bitmap?) {
                 cacheImage(imageUri, loadedImage)
                 builder.setLargeIcon(loadedImage)
-                notificationManager.notify(Notificator.NOTIFICATION_ID, builder.build())
+                notificationManager.notify(NotificationsConstants.NOTIFICATION_ID, builder.build())
             }
         })
     }
