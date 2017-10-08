@@ -6,12 +6,15 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.text.format.DateUtils
 import android.view.View
+import android.widget.SeekBar
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.apis.Episode
 
 
-class CustomControlsPresenter(context: Context) {
+class CustomControlsPresenter(context: Context) : SeekBar.OnSeekBarChangeListener {
+
     private var view: CustomControls? = null
     private val pauseDrawable: Drawable
     private val playDrawable: Drawable
@@ -19,6 +22,8 @@ class CustomControlsPresenter(context: Context) {
     private var supportMediaController: MediaControllerCompat? = null
     private val currentlyPlayingMediaId
         get() = supportMediaController?.metadata?.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
+    private val transportControls
+        get() = supportMediaController?.transportControls
 
     init {
         pauseDrawable = ContextCompat.getDrawable(context, R.drawable.uamp_ic_pause_white_48dp)
@@ -103,5 +108,44 @@ class CustomControlsPresenter(context: Context) {
 
     fun setMediaController(supportMediaController: MediaControllerCompat) {
         this.supportMediaController = supportMediaController
+    }
+
+    fun onPlayClicked() {
+        supportMediaController?.playbackState?.let {
+            when (it.state) {
+                PlaybackStateCompat.STATE_PLAYING, PlaybackStateCompat.STATE_BUFFERING -> {
+                    transportControls?.pause()
+                    view?.stopSeekbarUpdate()
+                }
+                PlaybackStateCompat.STATE_PAUSED, PlaybackStateCompat.STATE_STOPPED -> {
+                    transportControls?.play()
+                    view?.scheduleSeekbarUpdate()
+                }
+                else -> {
+                }
+            }
+        }
+
+    }
+
+    fun skipToNext() {
+        transportControls?.skipToNext()
+    }
+
+    fun skipToPrevious() {
+        transportControls?.skipToPrevious()
+    }
+
+    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+        view?.setStartText(DateUtils.formatElapsedTime((progress / 1000).toLong()))
+    }
+
+    override fun onStartTrackingTouch(seekBar: SeekBar?) {
+        view?.stopSeekbarUpdate()
+    }
+
+    override fun onStopTrackingTouch(seekBar: SeekBar?) {
+        transportControls?.seekTo(seekBar!!.progress.toLong())
+        view?.scheduleSeekbarUpdate()
     }
 }

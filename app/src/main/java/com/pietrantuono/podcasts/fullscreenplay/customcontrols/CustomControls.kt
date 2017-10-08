@@ -14,4 +14,5 @@ interface CustomControls {
     fun onError(state: PlaybackStateCompat)
     fun stopSeekbarUpdate()
     fun scheduleSeekbarUpdate()
+    fun  setStartText(text: String?)
 }

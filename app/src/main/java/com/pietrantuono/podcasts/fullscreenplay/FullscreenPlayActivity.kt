@@ -41,7 +41,6 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
 
     private fun initViews() {
         ButterKnife.bind(this@FullscreenPlayActivity)
-        controlView.setBackgroundColors(getBackgroundColor())
         controlView.callback = presenter
     }
 

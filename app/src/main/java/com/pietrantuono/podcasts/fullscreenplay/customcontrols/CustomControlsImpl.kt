@@ -61,8 +61,6 @@ class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout
     private val aHandler = Handler()
     private var mediaBrowser: MediaBrowserCompat? = null
     private var supportMediaController: MediaControllerCompat? = null
-    private val transportControls
-        get() = supportMediaController?.transportControls
     var callback: ColorizedPlaybackControlView.Callback? = null
     @Inject lateinit var presenter: CustomControlsPresenter
 
@@ -104,40 +102,31 @@ class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout
                 ?.with(FullscreenModule(context as FragmentActivity))?.inject(this)
         presenter.bindView(this)
         skipNext.setOnClickListener {
-            transportControls?.skipToNext()
+            presenter.skipToNext()
         }
         skipPrev.setOnClickListener {
-            transportControls?.skipToPrevious()
+            presenter.skipToPrevious()
         }
         playPause.setOnClickListener {
-            callback?.onPlayClicked()
-            supportMediaController?.playbackState?.let {
-                when (it.state) {
-                    PlaybackStateCompat.STATE_PLAYING, PlaybackStateCompat.STATE_BUFFERING -> {
-                        transportControls?.pause()
-                        stopSeekbarUpdate()
-                    }
-                    PlaybackStateCompat.STATE_PAUSED, PlaybackStateCompat.STATE_STOPPED -> {
-                        transportControls?.play()
-                        scheduleSeekbarUpdate()
-                    }
-                }
-            }
+            presenter.onPlayClicked()
         }
-        seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                start.text = DateUtils.formatElapsedTime((progress / 1000).toLong())
-            }
+//        seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+//            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+//                start.text = DateUtils.formatElapsedTime((progress / 1000).toLong())
+//            }
+//
+//            override fun onStartTrackingTouch(seekBar: SeekBar) {
+//                stopSeekbarUpdate()
+//            }
+//
+//            override fun onStopTrackingTouch(seekBar: SeekBar) {
+//                transportControls?.seekTo(seekBar.progress.toLong())
+//                scheduleSeekbarUpdate()
+//            }
+//        })
 
-            override fun onStartTrackingTouch(seekBar: SeekBar) {
-                stopSeekbarUpdate()
-            }
+        seekbar.setOnSeekBarChangeListener(presenter)
 
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-                transportControls?.seekTo(seekBar.progress.toLong())
-                scheduleSeekbarUpdate()
-            }
-        })
         mediaBrowser = MediaBrowserCompat(getContext(), ComponentName(getContext(), MusicService::class.java), connectionCallback, null)
     }
 
@@ -208,8 +197,6 @@ class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout
         }
         lastPlaybackState = state
         presenter.updatePlaybackState(state)
-        //skipNext.visibility = if (state.actions and PlaybackStateCompat.ACTION_SKIP_TO_NEXT == 0L) View.INVISIBLE else View.VISIBLE
-        //skipPrev.visibility = if (state.actions and PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS == 0L) View.INVISIBLE else View.VISIBLE
     }
 
     override fun onError(state: PlaybackStateCompat) {
@@ -227,10 +214,12 @@ class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout
         }
     }
 
-    fun setBackgroundColors(backgroundColor: Int) {}
-
     fun setEpisode(episode: Episode?) {
         presenter.setEpisode(episode)
+    }
+
+    override fun setStartText(text: String?) {
+        start.text = text
     }
 }
 
