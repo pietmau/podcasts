@@ -37,15 +37,15 @@ class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout
     private val playDrawable: Drawable
     @BindView(R.id.prev) lateinit var skipPrev: ImageView
     @BindView(R.id.next) lateinit var skipNext: ImageView
-    override @BindView(R.id.play_pause) lateinit var playPause: ImageView
+    @BindView(R.id.play_pause) lateinit var playPause: ImageView
     @BindView(R.id.startText) lateinit var start: TextView
     @BindView(R.id.endText) lateinit var end: TextView
     @BindView(R.id.seekBar1) lateinit var seekbar: SeekBar
     @BindView(R.id.line1) lateinit var line1: TextView
     @BindView(R.id.line2) lateinit var line2: TextView
-    override @BindView(R.id.line3) lateinit var line3: TextView
-    override @BindView(R.id.progressBar1) lateinit var loading: ProgressBar
-    override @BindView(R.id.controllers) lateinit var controllers: View
+    @BindView(R.id.line3) lateinit var line3: TextView
+    @BindView(R.id.progressBar1) lateinit var loading: ProgressBar
+    @BindView(R.id.controllers) lateinit var controllers: View
     @BindView(R.id.background_image) lateinit var backgroundImage: ImageView
     private val aHandler = Handler()
     private var mediaBrowser: MediaBrowserCompat? = null
@@ -107,8 +107,6 @@ class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout
     @Throws(RemoteException::class)
     private fun connectToSession(token: MediaSessionCompat.Token?) {
         val mediaController = MediaControllerCompat(context, token)
-        if (mediaController.metadata == null) {/*return*/
-        }
         supportMediaController = mediaController
         presenter.setMediaController(mediaController)
         supportMediaController?.registerCallback(mediaControllerCompatCallback)
