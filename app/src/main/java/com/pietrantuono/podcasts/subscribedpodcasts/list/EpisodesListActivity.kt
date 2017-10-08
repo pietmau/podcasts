@@ -102,5 +102,6 @@ class EpisodesListActivity : AbstractBaseDetailActivty(), EpisodesListView {
     override fun onBackPressed() {
         presenter.onBackPressed()
     }
+
 }
 

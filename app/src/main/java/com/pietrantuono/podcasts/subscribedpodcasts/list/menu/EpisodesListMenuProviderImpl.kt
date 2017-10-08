@@ -16,6 +16,9 @@ class EpisodesListMenuProviderImpl(private val model: EpisodesListModel) :
             R.id.dowload_all -> {
                 callback?.onDownLoadAllSelected()
             }
+            android.R.id.home -> {
+                callback?.onBackPressed()
+            }
         }
         return true
     }
