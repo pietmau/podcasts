@@ -15,4 +15,8 @@ interface CustomControls {
     fun stopSeekbarUpdate()
     fun scheduleSeekbarUpdate()
     fun  setStartText(text: String?)
+    fun onStatePaused()
+    fun onStateNone()
+    fun onStatePlaying()
+    fun onStateBuffering()
 }

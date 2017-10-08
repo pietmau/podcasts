@@ -42,7 +42,7 @@ class FullscreenModule(private val activity: FragmentActivity) {
 
 
     @Provides
-    fun provideCustomControlsPresenter(context: Context) = CustomControlsPresenter(context)
+    fun provideCustomControlsPresenter(context: Context) = CustomControlsPresenter()
 
 }
 

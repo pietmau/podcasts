@@ -1,26 +1,13 @@
-/*
- * Copyright (C) 2014 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.pietrantuono.podcasts.fullscreenplay.customcontrols
 
 import android.content.ComponentName
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.os.RemoteException
 import android.os.SystemClock
 import android.support.v4.app.FragmentActivity
+import android.support.v4.content.ContextCompat
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
@@ -46,6 +33,9 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs), CustomControls {
+    private val pauseDrawable: Drawable
+    private val playDrawable: Drawable
+
     @BindView(R.id.prev) lateinit var skipPrev: ImageView
     @BindView(R.id.next) lateinit var skipNext: ImageView
     override @BindView(R.id.play_pause) lateinit var playPause: ImageView
@@ -98,8 +88,9 @@ class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout
     init {
         (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(R.layout.custom_player, this)
         ButterKnife.bind(this)
-        (context.applicationContext as App).applicationComponent
-                ?.with(FullscreenModule(context as FragmentActivity))?.inject(this)
+        (context.applicationContext as App).applicationComponent?.with(FullscreenModule(context as FragmentActivity))?.inject(this)
+        pauseDrawable = ContextCompat.getDrawable(context, R.drawable.uamp_ic_pause_white_48dp)
+        playDrawable = ContextCompat.getDrawable(context, R.drawable.uamp_ic_play_arrow_white_48dp)
         presenter.bindView(this)
         skipNext.setOnClickListener {
             presenter.skipToNext()
@@ -110,23 +101,7 @@ class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout
         playPause.setOnClickListener {
             presenter.onPlayClicked()
         }
-//        seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-//            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-//                start.text = DateUtils.formatElapsedTime((progress / 1000).toLong())
-//            }
-//
-//            override fun onStartTrackingTouch(seekBar: SeekBar) {
-//                stopSeekbarUpdate()
-//            }
-//
-//            override fun onStopTrackingTouch(seekBar: SeekBar) {
-//                transportControls?.seekTo(seekBar.progress.toLong())
-//                scheduleSeekbarUpdate()
-//            }
-//        })
-
         seekbar.setOnSeekBarChangeListener(presenter)
-
         mediaBrowser = MediaBrowserCompat(getContext(), ComponentName(getContext(), MusicService::class.java), connectionCallback, null)
     }
 
@@ -221,5 +196,33 @@ class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout
     override fun setStartText(text: String?) {
         start.text = text
     }
+
+    override fun onStatePlaying() {
+        loading?.visibility = View.INVISIBLE
+        playPause?.visibility = View.VISIBLE
+        playPause?.setImageDrawable(pauseDrawable)
+        controllers?.visibility = View.VISIBLE
+        scheduleSeekbarUpdate()
+    }
+
+    override fun onStateNone() {
+        loading?.visibility = View.INVISIBLE
+        playPause?.visibility = View.VISIBLE
+        playPause?.setImageDrawable(playDrawable)
+        stopSeekbarUpdate()
+    }
+
+    override fun onStatePaused() {
+        controllers?.visibility = View.VISIBLE
+        onStateNone()
+    }
+
+    override fun onStateBuffering() {
+        playPause?.visibility = View.INVISIBLE
+        loading?.visibility = View.VISIBLE
+        line3?.setText(R.string.loading)
+        stopSeekbarUpdate()
+    }
+
 }
 
