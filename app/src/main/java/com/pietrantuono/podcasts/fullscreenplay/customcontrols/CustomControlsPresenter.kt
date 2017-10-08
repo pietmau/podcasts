@@ -49,7 +49,7 @@ class CustomControlsPresenter(
         supportMediaController?.registerCallback(simpleMediaControllerCompatCallback)
         val state = supportMediaController?.playbackState
         updatePlaybackState(state)
-        view?.onMetadataChanged(supportMediaController?.metadata)
+        onMetadataChanged(supportMediaController?.metadata)
         view?.updateProgress()
         if (state?.state == PlaybackStateCompat.STATE_PLAYING || state?.state == PlaybackStateCompat.STATE_BUFFERING) {
             view?.scheduleSeekbarUpdate()
@@ -134,7 +134,10 @@ class CustomControlsPresenter(
     }
 
     fun onMetadataChanged(metadata: MediaMetadataCompat?) {
-        view?.onMetadataChanged(metadata)
+        metadata?.let {
+            it.description?.let { view?.updateMediaDescription(it) }
+            view?.updateDuration(it.getLong(MediaMetadataCompat.METADATA_KEY_DURATION).toInt())
+        }
     }
 }
 

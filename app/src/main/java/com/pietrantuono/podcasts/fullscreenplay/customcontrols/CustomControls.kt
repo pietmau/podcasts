@@ -1,7 +1,6 @@
 package com.pietrantuono.podcasts.fullscreenplay.customcontrols
 
 import android.support.v4.media.MediaDescriptionCompat
-import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 
 interface CustomControls {
@@ -13,9 +12,8 @@ interface CustomControls {
     fun onStateNone()
     fun onStatePlaying()
     fun onStateBuffering()
-    fun updateMediaDescription(description: MediaDescriptionCompat?)
-    fun updateDuration(metadataCompat: MediaMetadataCompat?)
     fun updateProgress()
     fun setPlaybackState(playbackStateCompat: PlaybackStateCompat)
-    fun onMetadataChanged(mediaMetadataCompat: MediaMetadataCompat?)
+    fun updateMediaDescription(description: MediaDescriptionCompat)
+    fun updateDuration(toInt: Int)
 }

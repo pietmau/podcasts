@@ -7,7 +7,6 @@ import android.os.SystemClock
 import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.support.v4.media.MediaDescriptionCompat
-import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.format.DateUtils
 import android.util.AttributeSet
@@ -102,19 +101,14 @@ class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout
         executorService.shutdown()
     }
 
-    override fun updateMediaDescription(description: MediaDescriptionCompat?) {
-        description?.let {
-            line1.text = it.title
-            line2.text = it.subtitle
-        }
+    override fun updateMediaDescription(description: MediaDescriptionCompat) {
+        line1.text = description.title
+        line2.text = description.subtitle
     }
 
-    override fun updateDuration(metadata: MediaMetadataCompat?) {
-        metadata?.let {
-            val duration = it.getLong(MediaMetadataCompat.METADATA_KEY_DURATION).toInt()
-            seekbar.max = duration
-            end.text = DateUtils.formatElapsedTime((duration / 1000).toLong())
-        }
+    override fun updateDuration(duration: Int) {
+        seekbar.max = duration
+        end.text = DateUtils.formatElapsedTime((duration / 1000).toLong())
     }
 
     override fun onError(state: PlaybackStateCompat) {
@@ -164,13 +158,6 @@ class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout
         loading.visibility = View.VISIBLE
         line3.setText(R.string.loading)
         stopSeekbarUpdate()
-    }
-
-    override fun onMetadataChanged(mediaMetadataCompat: MediaMetadataCompat?) {
-        mediaMetadataCompat?.let {
-            updateMediaDescription(mediaMetadataCompat.description)
-            updateDuration(mediaMetadataCompat)
-        }
     }
 }
 
