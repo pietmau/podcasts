@@ -64,7 +64,6 @@ class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout
     private val transportControls
         get() = supportMediaController?.transportControls
     var callback: ColorizedPlaybackControlView.Callback? = null
-    private var episode: Episode? = null
     @Inject lateinit var presenter: CustomControlsPresenter
 
     companion object {
@@ -148,6 +147,7 @@ class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout
         if (mediaController.metadata == null) {/*return*/
         }
         supportMediaController = mediaController
+        presenter.setMediaController(mediaController)
         supportMediaController?.registerCallback(mediaControllerCompatCallback)
         val state = supportMediaController?.playbackState
         updatePlaybackState(state)
@@ -230,7 +230,7 @@ class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout
     fun setBackgroundColors(backgroundColor: Int) {}
 
     fun setEpisode(episode: Episode?) {
-        this.episode = episode
+        presenter.setEpisode(episode)
     }
 }
 
