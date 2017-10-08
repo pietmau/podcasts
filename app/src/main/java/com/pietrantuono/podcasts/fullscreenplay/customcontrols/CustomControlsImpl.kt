@@ -2,8 +2,6 @@ package com.pietrantuono.podcasts.fullscreenplay.customcontrols
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.os.Handler
-import android.os.SystemClock
 import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.support.v4.media.MediaDescriptionCompat
@@ -20,9 +18,6 @@ import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.fullscreenplay.custom.ColorizedPlaybackControlView
 import com.pietrantuono.podcasts.fullscreenplay.di.FullscreenModule
-import java.util.concurrent.Executors
-import java.util.concurrent.ScheduledFuture
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs), CustomControls {
@@ -40,18 +35,8 @@ class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout
     @BindView(R.id.progressBar1) lateinit var loading: ProgressBar
     @BindView(R.id.controllers) lateinit var controllers: View
     @BindView(R.id.background_image) lateinit var backgroundImage: ImageView
-    private val aHandler = Handler()
     var callback: ColorizedPlaybackControlView.Callback? = null
     @Inject lateinit var presenter: CustomControlsPresenter
-
-    companion object {
-        private val PROGRESS_UPDATE_INTERNAL: Long = 1000
-        private val PROGRESS_UPDATE_INITIAL_INTERVAL: Long = 100
-    }
-
-    private val executorService = Executors.newSingleThreadScheduledExecutor()
-    private var scheduleFuture: ScheduledFuture<*>? = null
-    private var lastPlaybackState: PlaybackStateCompat? = null
 
     init {
         (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(R.layout.custom_player, this)
@@ -72,22 +57,6 @@ class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout
         presenter.bindView(this)
     }
 
-    override fun setPlaybackState(playbackStateCompat: PlaybackStateCompat) {
-        lastPlaybackState = playbackStateCompat
-    }
-
-    override fun scheduleSeekbarUpdate() {
-        stopSeekbarUpdate()
-        if (!executorService.isShutdown) {
-            scheduleFuture = executorService.scheduleAtFixedRate({ aHandler.post({ updateProgress() }) }, PROGRESS_UPDATE_INITIAL_INTERVAL,
-                    PROGRESS_UPDATE_INTERNAL, TimeUnit.MILLISECONDS)
-        }
-    }
-
-    override fun stopSeekbarUpdate() {
-        scheduleFuture?.cancel(false)
-    }
-
     fun onStart() {
         presenter.onStart()
     }
@@ -97,8 +66,7 @@ class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout
     }
 
     fun onDestroy() {
-        stopSeekbarUpdate()
-        executorService.shutdown()
+        presenter.onDestroy()
     }
 
     override fun updateMediaDescription(description: MediaDescriptionCompat) {
@@ -115,16 +83,6 @@ class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout
         callback?.onPlayerError(state.errorMessage)
     }
 
-    override fun updateProgress() {
-        lastPlaybackState?.let {
-            var currentPosition = it.position
-            if (it.state == PlaybackStateCompat.STATE_PLAYING) {
-                currentPosition += ((SystemClock.elapsedRealtime() - it.lastPositionUpdateTime).toInt() * it.playbackSpeed).toLong()
-            }
-            seekbar.progress = currentPosition.toInt()
-        }
-    }
-
     fun setEpisode(episode: Episode?) {
         presenter.setEpisode(episode)
     }
@@ -138,26 +96,29 @@ class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout
         playPause.visibility = View.VISIBLE
         playPause.setImageDrawable(pauseDrawable)
         controllers.visibility = View.VISIBLE
-        scheduleSeekbarUpdate()
     }
 
     override fun onStateNone() {
         loading.visibility = View.INVISIBLE
         playPause.visibility = View.VISIBLE
         playPause.setImageDrawable(playDrawable)
-        stopSeekbarUpdate()
     }
 
     override fun onStatePaused() {
         controllers.visibility = View.VISIBLE
-        onStateNone()
+        loading.visibility = View.INVISIBLE
+        playPause.visibility = View.VISIBLE
+        playPause.setImageDrawable(playDrawable)
     }
 
     override fun onStateBuffering() {
         playPause.visibility = View.INVISIBLE
         loading.visibility = View.VISIBLE
         line3.setText(R.string.loading)
-        stopSeekbarUpdate()
+    }
+
+    override fun setProgress(progress: Int) {
+        seekbar.progress = progress
     }
 }
 

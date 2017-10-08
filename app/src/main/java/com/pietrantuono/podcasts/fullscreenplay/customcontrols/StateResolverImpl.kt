@@ -98,7 +98,7 @@ class StateResolver {
         transportControls?.playFromMediaId(episode?.link, null)
     }
 
-    private fun isPlayingCurrentEpisode(): Boolean {
+    fun isPlayingCurrentEpisode(): Boolean {
         if (episode == null || episode?.link == null || currentlyPlayingMediaId == null) {
             return false
         }

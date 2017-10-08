@@ -2,7 +2,9 @@ package com.pietrantuono.podcasts.fullscreenplay.customcontrols
 
 import android.content.ComponentName
 import android.content.Context
+import android.os.Handler
 import android.os.RemoteException
+import android.os.SystemClock
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
@@ -13,6 +15,9 @@ import android.widget.SeekBar
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.player.player.service.MusicService
+import java.util.concurrent.Executors
+import java.util.concurrent.ScheduledFuture
+import java.util.concurrent.TimeUnit
 
 
 class CustomControlsPresenter(
@@ -20,6 +25,7 @@ class CustomControlsPresenter(
         private val stateResolver: StateResolver,
         private val debugLogger: DebugLogger)
     : SeekBar.OnSeekBarChangeListener {
+
     private var view: CustomControls? = null
     private var episode: Episode? = null
     private val transportControls: MediaControllerCompat.TransportControls?
@@ -28,6 +34,15 @@ class CustomControlsPresenter(
     private var supportMediaController: MediaControllerCompat? = null
     private val TAG: String? = "CustomControlsPresenter"
     private val simpleMediaControllerCompatCallback = SimpleMediaControllerCompatCallback(this)
+    private val aHandler = Handler()
+    private val executorService = Executors.newSingleThreadScheduledExecutor()
+    private var scheduleFuture: ScheduledFuture<*>? = null
+    private var lastPlaybackState: PlaybackStateCompat? = null
+
+    companion object {
+        private val PROGRESS_UPDATE_INTERNAL: Long = 1000
+        private val PROGRESS_UPDATE_INITIAL_INTERVAL: Long = 100
+    }
 
     fun bindView(customControls: CustomControls) {
         this.view = customControls
@@ -43,23 +58,47 @@ class CustomControlsPresenter(
 
     @Throws(RemoteException::class)
     private fun connectToSession(token: MediaSessionCompat.Token?) {
-        debugLogger.debug(TAG, "connectToSession")
         supportMediaController = MediaControllerCompat(context, token)
         stateResolver.setMediaController(supportMediaController!!)
         supportMediaController?.registerCallback(simpleMediaControllerCompatCallback)
         val state = supportMediaController?.playbackState
         updatePlaybackState(state)
         onMetadataChanged(supportMediaController?.metadata)
-        view?.updateProgress()
+        updateProgress()
         if (state?.state == PlaybackStateCompat.STATE_PLAYING || state?.state == PlaybackStateCompat.STATE_BUFFERING) {
-            view?.scheduleSeekbarUpdate()
+            scheduleSeekbarUpdate()
         }
     }
 
+    fun scheduleSeekbarUpdate() {
+        stopSeekbarUpdate()
+        if (!executorService.isShutdown) {
+            scheduleFuture = executorService.scheduleAtFixedRate({ aHandler.post({ updateProgress() }) }, PROGRESS_UPDATE_INITIAL_INTERVAL,
+                    PROGRESS_UPDATE_INTERNAL, TimeUnit.MILLISECONDS)
+        }
+    }
+
+    fun updateProgress() {
+        if (!stateResolver.isPlayingCurrentEpisode()) {
+            return
+        }
+        lastPlaybackState?.let {
+            var currentPosition = it.position
+            if (it.state == PlaybackStateCompat.STATE_PLAYING) {
+                currentPosition += ((SystemClock.elapsedRealtime() - it.lastPositionUpdateTime).toInt() * it.playbackSpeed).toLong()
+            }
+            view?.setProgress(currentPosition.toInt())
+        }
+    }
+
+    fun stopSeekbarUpdate() {
+        scheduleFuture?.cancel(false)
+    }
+
     fun updatePlaybackState(state: PlaybackStateCompat?) {
+        lastPlaybackState = state
         state?.let {
-            view?.setPlaybackState(it)
-            stateResolver.updatePlaybackState(state, this)
+            stateResolver.updatePlaybackState(it, this)
         }
     }
 
@@ -69,22 +108,25 @@ class CustomControlsPresenter(
 
     fun onStateBuffering() {
         view?.onStateBuffering()
+        stopSeekbarUpdate()
     }
 
     fun onStatePaused() {
         view?.onStatePaused()
+        stopSeekbarUpdate()
     }
 
     fun onStateNone() {
         view?.onStateNone()
+        stopSeekbarUpdate()
     }
 
     fun onStatePlaying() {
         view?.onStatePlaying()
+        scheduleSeekbarUpdate()
     }
 
     fun setEpisode(episode: Episode?) {
-        debugLogger.debug(TAG, "setEpisode")
         this.episode = episode
         stateResolver.setEpisode(episode)
     }
@@ -95,12 +137,12 @@ class CustomControlsPresenter(
 
     fun play() {
         transportControls?.play()
-        view?.scheduleSeekbarUpdate()
+        scheduleSeekbarUpdate()
     }
 
     fun pause() {
         transportControls?.pause()
-        view?.stopSeekbarUpdate()
+        stopSeekbarUpdate()
     }
 
     fun skipToNext() {
@@ -116,12 +158,12 @@ class CustomControlsPresenter(
     }
 
     override fun onStartTrackingTouch(seekBar: SeekBar?) {
-        view?.stopSeekbarUpdate()
+        stopSeekbarUpdate()
     }
 
     override fun onStopTrackingTouch(seekBar: SeekBar?) {
         transportControls?.seekTo(seekBar!!.progress.toLong())
-        view?.scheduleSeekbarUpdate()
+        scheduleSeekbarUpdate()
     }
 
     fun onStart() {
@@ -134,10 +176,18 @@ class CustomControlsPresenter(
     }
 
     fun onMetadataChanged(metadata: MediaMetadataCompat?) {
+        if (!stateResolver.isPlayingCurrentEpisode()) {
+            return
+        }
         metadata?.let {
             it.description?.let { view?.updateMediaDescription(it) }
             view?.updateDuration(it.getLong(MediaMetadataCompat.METADATA_KEY_DURATION).toInt())
         }
+    }
+
+    fun onDestroy() {
+        stopSeekbarUpdate()
+        executorService.shutdown()
     }
 }
 

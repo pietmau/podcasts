@@ -5,15 +5,12 @@ import android.support.v4.media.session.PlaybackStateCompat
 
 interface CustomControls {
     fun onError(state: PlaybackStateCompat)
-    fun stopSeekbarUpdate()
-    fun scheduleSeekbarUpdate()
     fun setStartText(text: String?)
     fun onStatePaused()
     fun onStateNone()
     fun onStatePlaying()
     fun onStateBuffering()
-    fun updateProgress()
-    fun setPlaybackState(playbackStateCompat: PlaybackStateCompat)
     fun updateMediaDescription(description: MediaDescriptionCompat)
     fun updateDuration(toInt: Int)
+    fun setProgress(progress: Int)
 }
