@@ -1,6 +1,5 @@
 package com.pietrantuono.podcasts.fullscreenplay.customcontrols
 
-import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.format.DateUtils
@@ -11,11 +10,7 @@ import com.pietrantuono.podcasts.apis.Episode
 class CustomControlsPresenter(private val stateResolver: StateResolver) : SeekBar.OnSeekBarChangeListener {
     private var view: CustomControls? = null
     private var episode: Episode? = null
-    private var supportMediaController: MediaControllerCompat? = null
-    private val currentlyPlayingMediaId
-        get() = supportMediaController?.metadata?.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
-    private val transportControls
-        get() = supportMediaController?.transportControls
+    private var transportControls: MediaControllerCompat.TransportControls? = null
 
     fun bindView(customControls: CustomControls) {
         this.view = customControls
@@ -30,62 +25,43 @@ class CustomControlsPresenter(private val stateResolver: StateResolver) : SeekBa
     }
 
     fun onStateBuffering() {
-        if (!isPlayingCurrentEpisode()) {
-            return
-        }
         view?.onStateBuffering()
     }
 
-    private fun isPlayingCurrentEpisode(): Boolean {
-        if (episode == null || episode?.link == null || currentlyPlayingMediaId == null) {
-            return false
-        }
-        return episode?.link.equals(currentlyPlayingMediaId, true)
-    }
-
     fun onStatePaused() {
-        if (!isPlayingCurrentEpisode()) {
-            return
-        }
         view?.onStatePaused()
     }
 
     fun onStateNone() {
-        if (!isPlayingCurrentEpisode()) {
-            return
-        }
         view?.onStateNone()
     }
 
     fun onStatePlaying() {
-        if (!isPlayingCurrentEpisode()) {
-            return
-        }
         view?.onStatePlaying()
     }
 
     fun setEpisode(episode: Episode?) {
         this.episode = episode
+        stateResolver.setEpisode(episode)
     }
 
     fun setMediaController(supportMediaController: MediaControllerCompat) {
-        this.supportMediaController = supportMediaController
+        this.transportControls = supportMediaController.transportControls
+        stateResolver.setMediaController(supportMediaController)
     }
 
     fun onPlayClicked() {
-        supportMediaController?.playbackState?.let {
-            stateResolver.onPlayClicked(it, this)
-        }
+        stateResolver.onPausePlayClicked(this)
     }
 
-    fun play(): Unit? {
+    fun play() {
         transportControls?.play()
-        return view?.scheduleSeekbarUpdate()
+        view?.scheduleSeekbarUpdate()
     }
 
-    fun pause(): Unit? {
+    fun pause() {
         transportControls?.pause()
-        return view?.stopSeekbarUpdate()
+        view?.stopSeekbarUpdate()
     }
 
     fun skipToNext() {

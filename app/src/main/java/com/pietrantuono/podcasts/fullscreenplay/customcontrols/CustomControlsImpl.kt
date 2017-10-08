@@ -35,7 +35,6 @@ import javax.inject.Inject
 class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs), CustomControls {
     private val pauseDrawable: Drawable
     private val playDrawable: Drawable
-
     @BindView(R.id.prev) lateinit var skipPrev: ImageView
     @BindView(R.id.next) lateinit var skipNext: ImageView
     override @BindView(R.id.play_pause) lateinit var playPause: ImageView
@@ -167,11 +166,10 @@ class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout
     }
 
     private fun updatePlaybackState(state: PlaybackStateCompat?) {
-        if (state == null) {
-            return
+        state?.let {
+            lastPlaybackState = it
+            presenter.updatePlaybackState(it)
         }
-        lastPlaybackState = state
-        presenter.updatePlaybackState(state)
     }
 
     override fun onError(state: PlaybackStateCompat) {
