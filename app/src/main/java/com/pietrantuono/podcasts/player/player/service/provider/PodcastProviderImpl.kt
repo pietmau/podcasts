@@ -26,7 +26,7 @@ class PodcastProviderImpl(
         val source = getSource(episode)
         if (source != null) {
             builder.putString(MusicProviderSource.CUSTOM_METADATA_TRACK_SOURCE, source)
-            builder.putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, source)
+            builder.putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, episode.imageUrl)
         }
         builder.putString(MediaMetadataCompat.METADATA_KEY_ARTIST, episode.author)
         episode?.durationInMills?.let { builder.putLong(MediaMetadataCompat.METADATA_KEY_DURATION, it) }

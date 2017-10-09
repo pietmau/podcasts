@@ -12,7 +12,6 @@ import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
 import java.util.*
 import javax.inject.Inject
 
-
 class IconCache @Inject constructor(private val imageLoader: SimpleImageLoader, private val logger: DebugLogger) {
     val map: HashMap<String?, Bitmap?> = HashMap<String?, Bitmap?>()
     val TAG = this.toString()
