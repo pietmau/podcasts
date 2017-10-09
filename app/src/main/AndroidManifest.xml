@@ -32,13 +32,18 @@
         </activity>
         <activity android:name=".addpodcast.singlepodcast.view.EpisodesListActivity">
         </activity>
-        <activity android:name=".fullscreenplay.FullscreenPlayActivity">
+
+        <activity
+            android:parentActivityName=".main.view.MainActivity"
+            android:name=".fullscreenplay.FullscreenPlayActivity"
+            android:label="@string/app_name"
+            >
         </activity>
 
         <service
-            tools:replace="android:exported"
             android:name=".player.player.service.MusicService"
-            android:exported="false">
+            android:exported="false"
+            tools:replace="android:exported">
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService"/>
             </intent-filter>

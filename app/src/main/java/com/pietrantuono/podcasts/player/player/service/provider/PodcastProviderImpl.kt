@@ -23,12 +23,14 @@ class PodcastProviderImpl(
     private fun mediaMetadataCompatFromEpisode(episode: Episode): MediaMetadataCompat {
         val builder = MediaMetadataCompat.Builder()
         builder.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, episode.link)
-        if (getSource(episode) != null) {
-            builder.putString(MusicProviderSource.CUSTOM_METADATA_TRACK_SOURCE, getSource(episode))
+        val source = getSource(episode)
+        if (source != null) {
+            builder.putString(MusicProviderSource.CUSTOM_METADATA_TRACK_SOURCE, source)
+            builder.putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, source)
         }
         builder.putString(MediaMetadataCompat.METADATA_KEY_ARTIST, episode.author)
         episode?.durationInMills?.let { builder.putLong(MediaMetadataCompat.METADATA_KEY_DURATION, it) }
-        builder.putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, episode.imageUrl)
+        builder.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, episode.link)
         builder.putString(MediaMetadataCompat.METADATA_KEY_TITLE, episode.title)
         return builder.build()
     }

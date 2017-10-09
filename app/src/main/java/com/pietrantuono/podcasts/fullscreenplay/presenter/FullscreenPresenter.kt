@@ -17,8 +17,11 @@ class FullscreenPresenter(
     private var view: FullscreenPlayView? = null
     private var mediaBrowserWrapper: TransportControlsWrapper? = null
 
+    fun bindView(fullscreenPlayActivity: FullscreenPlayView) {
+        this.view = fullscreenPlayActivity
+    }
+
     fun onCreate(context: Context, view: FullscreenPlayView, url: String?, fromSavedState: Boolean) {
-        this.view = view
         if (!fromSavedState) {
             model.getEpisodeByUrlAsync(url)
         }
@@ -51,5 +54,4 @@ class FullscreenPresenter(
     override fun onPlayerError(errorMessage: CharSequence?) {
         view?.onError(errorMessage)
     }
-
 }

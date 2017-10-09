@@ -8,6 +8,7 @@ const val SINGLE_PODCAST_TRACK_ID: String = "track_id"
 const val EPISODE_LINK: String = "episode_link"
 const val ARTWORK: String = "artwork"
 const val BACKGROUND_COLOR: String = "background_color"
+const val STARTED_FROM_NOTIFCATION: String = "from_notification"
 
 fun AppCompatActivity.isInValidState(): Boolean {
     val destroyed = this.isDestroyed
