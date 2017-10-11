@@ -12,10 +12,6 @@ import rx.Observer
 
 class SinglePodcastPresenter(private val model: SinglePodcastModel, private val crashlyticsWrapper:
 CrashlyticsWrapper) : GenericPresenter, ViewModel() {
-    companion object {
-        val TAG = SinglePodcastPresenter::class.java.simpleName
-    }
-
     private var view: SinglePodcastView? = null
     private var podcastFeed: PodcastFeed? = null
     private var startedWithTransition: Boolean? = false
@@ -26,6 +22,8 @@ CrashlyticsWrapper) : GenericPresenter, ViewModel() {
         observer = object : SimpleObserver<Boolean>() {
             override fun onNext(isSubscribedToPodcast: Boolean?) {
                 view?.setSubscribedToPodcast(isSubscribedToPodcast)
+                if (isSubscribedToPodcast == true) {
+                }
             }
         }
     }

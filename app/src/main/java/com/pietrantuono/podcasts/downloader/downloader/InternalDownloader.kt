@@ -4,11 +4,11 @@ import com.tonyodev.fetch.listener.FetchListener
 import com.tonyodev.fetch.request.Request
 import com.tonyodev.fetch.request.RequestInfo
 
-interface Downloader {
+interface InternalDownloader {
     fun addListener(listner: FetchListener)
     fun removeListener(listener: FetchListener)
     fun getById(id: Long): RequestInfo?
     fun enqueueRequest(request: Request): Long
     fun alreadyDownloaded(url: String): Boolean
-    fun  thereIsEnoughSpace(fileSize: Long): Boolean
+    fun thereIsEnoughSpace(fileSize: Long): Boolean
 }

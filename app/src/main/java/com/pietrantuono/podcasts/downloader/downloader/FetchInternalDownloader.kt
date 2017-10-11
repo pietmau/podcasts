@@ -6,7 +6,7 @@ import com.tonyodev.fetch.listener.FetchListener
 import com.tonyodev.fetch.request.Request
 import com.tonyodev.fetch.request.RequestInfo
 
-class FetchDownloader(context: Context, private val provider: DirectoryProvider) : Downloader {
+class FetchInternalDownloader(context: Context, private val provider: DirectoryProvider) : InternalDownloader {
 
     override fun thereIsEnoughSpace(fileSize: Long): Boolean = provider.thereIsEnoughSpace(fileSize)
 

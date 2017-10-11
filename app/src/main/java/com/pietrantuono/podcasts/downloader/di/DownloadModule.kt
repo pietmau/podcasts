@@ -13,8 +13,8 @@ import dagger.Provides
 class DownloadModule(private val context: Context) {
 
     @Provides
-    fun provideDowloader(provider: DirectoryProvider): Downloader {
-        return FetchDownloader(context, provider)
+    fun provideDowloader(provider: DirectoryProvider): InternalDownloader {
+        return FetchInternalDownloader(context, provider)
     }
 
     @Provides

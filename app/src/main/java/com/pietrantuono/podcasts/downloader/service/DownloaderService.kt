@@ -7,9 +7,10 @@ import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.downloader.di.DownloadModule
-import com.pietrantuono.podcasts.downloader.downloader.Downloader
+import com.pietrantuono.podcasts.downloader.downloader.InternalDownloader
 import com.pietrantuono.podcasts.downloader.downloader.RequestGenerator
 import com.pietrantuono.podcasts.repository.EpisodesRepository
+import com.pietrantuono.podcasts.settings.PreferencesManager
 import com.tonyodev.fetch.listener.FetchListener
 import com.tonyodev.fetch.request.Request
 import javax.inject.Inject
@@ -24,11 +25,13 @@ class DownloaderService() : Service(), FetchListener {
         const val DOWNLOAD_COMPLETED: Int = 100
     }
 
-    @Inject lateinit var downloader: Downloader
+    @Inject lateinit var internalDownloader: InternalDownloader
     @Inject lateinit var downloadNotificator: DownloadNotificator
     @Inject lateinit var requestGenerator: RequestGenerator
     @Inject lateinit var debugLogger: DebugLogger
     @Inject lateinit var repository: EpisodesRepository
+    @Inject lateinit var preferencesManager: PreferencesManager
+    @Inject lateinit var networkDetector: NetworkDetector
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
@@ -38,7 +41,7 @@ class DownloaderService() : Service(), FetchListener {
         super.onCreate()
         (application as App).applicationComponent?.with(DownloadModule(this))?.
                 inject(this)
-        downloader.addListener(this@DownloaderService)
+        internalDownloader.addListener(this@DownloaderService)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -61,18 +64,34 @@ class DownloaderService() : Service(), FetchListener {
     }
 
     private fun getAndEnqueueSingleEpisode(url: String) {
-        if (!alreadyDownLoaded(url)) {
-            requestGenerator.createRequest(url)?.let {
-                requests.put(downloader.enqueueRequest(it.first), it)
+        if (rightNetworkIsAvailable())
+            if (!alreadyDownLoaded(url) && !episodeIsDownloaded(url)) {
+                requestGenerator.createRequest(url)?.let {
+                    requests.put(internalDownloader.enqueueRequest(it.first), it)
+                }
             }
-        }
     }
 
-    private fun alreadyDownLoaded(url: String) = downloader.alreadyDownloaded(url)
+    private fun rightNetworkIsAvailable(): Boolean {
+        if (networkDetector.isWiFi) {
+            return true
+        }
+        if (preferencesManager.downloadOnMobileNetwork) {
+            return true
+        }
+        return false
+    }
+
+    fun episodeIsDownloaded(url: String): Boolean {
+        val episode = repository.getEpisodeByUrl(url)
+        return episode != null && episode.downloaded
+    }
+
+    private fun alreadyDownLoaded(url: String) = internalDownloader.alreadyDownloaded(url)
 
     override fun onUpdate(id: Long, status: Int, progress: Int, downloadedBytes: Long, fileSize: Long, error: Int) {
         debugLogger.debug(TAG, "" + progress)
-        if (downloader.thereIsEnoughSpace(fileSize)) {
+        if (internalDownloader.thereIsEnoughSpace(fileSize)) {
             downloadNotificator.notifyProgress(requests[id]?.second, id, progress)
         } else {
             interruptDownloadAndNotifyUser(id, progress)
@@ -90,8 +109,6 @@ class DownloaderService() : Service(), FetchListener {
         repository.onDownloadCompleted(episode)
     }
 
-    private fun interruptDownloadAndNotifyUser(id: Long, progress: Int) {
-
-    }
+    private fun interruptDownloadAndNotifyUser(id: Long, progress: Int) {}
 }
 
