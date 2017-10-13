@@ -4,6 +4,7 @@ import android.content.Context
 import com.pietrantuono.podcasts.downloader.downloader.*
 import com.pietrantuono.podcasts.downloader.service.DownloadNotificator
 import com.pietrantuono.podcasts.downloader.service.DownloadNotificatorImpl
+import com.pietrantuono.podcasts.downloader.service.NetworkDetector
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 import com.pietrantuono.podcasts.settings.PreferencesManager
 import dagger.Module
@@ -13,8 +14,8 @@ import dagger.Provides
 class DownloadModule(private val context: Context) {
 
     @Provides
-    fun provideDowloader(provider: DirectoryProvider): InternalDownloader {
-        return FetchInternalDownloader(context, provider)
+    fun provideDowloader(provider: DirectoryProvider): Fetcher {
+        return FetcherImpl(context, provider)
     }
 
     @Provides
@@ -28,8 +29,11 @@ class DownloadModule(private val context: Context) {
     }
 
     @Provides
-    fun provideDirectoryProvider():DirectoryProvider{
+    fun provideDirectoryProvider(): DirectoryProvider {
         return DirectoryProviderImpl(context)
     }
+
+    @Provides
+    fun providenetworkDetector() = NetworkDetector(context)
 }
 

@@ -9,6 +9,7 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastMod
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SinglePodcastPresenter
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.BitmapColorExtractor
 import com.pietrantuono.podcasts.apis.SinglePodcastApi
+import com.pietrantuono.podcasts.downloader.downloader.Downloader
 import com.pietrantuono.podcasts.main.view.TransitionsHelper
 import com.pietrantuono.podcasts.repository.repository.Repository
 import dagger.Module
@@ -29,8 +30,8 @@ class SinglePodcastModule {
             ViewModelProviders.of(activity!!, factory).get(SinglePodcastPresenter::class.java)
 
     @Provides
-    fun provideSinglePodcastModel(api: SinglePodcastApi, repository: Repository): SinglePodcastModel =
-            SinglePodcastModelImpl(api, repository)
+    fun provideSinglePodcastModel(api: SinglePodcastApi, repository: Repository, dowloader: Downloader): SinglePodcastModel =
+            SinglePodcastModelImpl(api, repository, dowloader)
 
     @Provides
     fun provideTransitionImageLoadingListener(framework: TransitionsHelper) = BitmapColorExtractor()

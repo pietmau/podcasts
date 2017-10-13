@@ -6,10 +6,7 @@ import com.tonyodev.fetch.listener.FetchListener
 import com.tonyodev.fetch.request.Request
 import com.tonyodev.fetch.request.RequestInfo
 
-class FetchInternalDownloader(context: Context, private val provider: DirectoryProvider) : InternalDownloader {
-
-    override fun thereIsEnoughSpace(fileSize: Long): Boolean = provider.thereIsEnoughSpace(fileSize)
-
+class FetcherImpl(context: Context, private val provider: DirectoryProvider) : Fetcher {
     private val fetch: Fetch
 
     init {
@@ -17,6 +14,7 @@ class FetchInternalDownloader(context: Context, private val provider: DirectoryP
         fetch.setConcurrentDownloadsLimit(1)
     }
 
+    override fun thereIsEnoughSpace(fileSize: Long): Boolean = provider.thereIsEnoughSpace(fileSize)
 
     override fun addListener(listner: FetchListener) {
         fetch.addFetchListener(listner)

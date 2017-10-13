@@ -7,7 +7,7 @@ import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.downloader.di.DownloadModule
-import com.pietrantuono.podcasts.downloader.downloader.InternalDownloader
+import com.pietrantuono.podcasts.downloader.downloader.Fetcher
 import com.pietrantuono.podcasts.downloader.downloader.RequestGenerator
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 import com.pietrantuono.podcasts.settings.PreferencesManager
@@ -25,7 +25,7 @@ class DownloaderService() : Service(), FetchListener {
         const val DOWNLOAD_COMPLETED: Int = 100
     }
 
-    @Inject lateinit var internalDownloader: InternalDownloader
+    @Inject lateinit var internalDownloader: Fetcher
     @Inject lateinit var downloadNotificator: DownloadNotificator
     @Inject lateinit var requestGenerator: RequestGenerator
     @Inject lateinit var debugLogger: DebugLogger

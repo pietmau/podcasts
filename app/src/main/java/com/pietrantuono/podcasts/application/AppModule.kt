@@ -5,6 +5,9 @@ import com.google.android.exoplayer2.DefaultLoadControl
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
+import com.pietrantuono.podcasts.downloader.downloader.Downloader
+import com.pietrantuono.podcasts.downloader.downloader.DownloaderImpl
+import com.pietrantuono.podcasts.repository.EpisodesRepository
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -25,4 +28,9 @@ class AppModule(private val context: Context) {
                 context.applicationContext, DefaultTrackSelector(), DefaultLoadControl())
     }
 
+    @Provides
+    fun proovideDownloder(repo: EpisodesRepository):Downloader = DownloaderImpl(context, repo)
+
+
 }
+

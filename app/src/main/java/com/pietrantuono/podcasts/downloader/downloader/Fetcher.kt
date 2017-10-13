@@ -4,7 +4,7 @@ import com.tonyodev.fetch.listener.FetchListener
 import com.tonyodev.fetch.request.Request
 import com.tonyodev.fetch.request.RequestInfo
 
-interface InternalDownloader {
+interface Fetcher {
     fun addListener(listner: FetchListener)
     fun removeListener(listener: FetchListener)
     fun getById(id: Long): RequestInfo?
