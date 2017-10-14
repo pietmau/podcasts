@@ -14,7 +14,7 @@ class PodcastProviderImpl(
 
     /** Used by the player service, in its own process */
     override fun getMusic(mediaId: String?): MediaMetadataCompat? {
-        val episode = repo.getEpisodeByUrl(mediaId)
+        val episode = repo.getEpisodeByUrlSync(mediaId)
         if (episode == null) {
             return null
         }

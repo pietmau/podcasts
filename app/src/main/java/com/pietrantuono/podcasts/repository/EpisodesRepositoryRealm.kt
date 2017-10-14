@@ -8,27 +8,32 @@ import rx.Scheduler
 
 class EpisodesRepositoryRealm(private val realm: Realm, private val ioScheduler: Scheduler) : EpisodesRepository {
     private val LINK = "link"
-    private val cache: MutableMap<String, Episode> = mutableMapOf()
+    private val episodesUrlsMap: MutableMap<String, Episode> = mutableMapOf()
+    private val episodesEnclosuresUrlMap: MutableMap<String, Episode> = mutableMapOf()
 
     override fun getEpisodeByUrlAsync(url: String?): Observable<out Episode> {
-        return realm.where(RealmEpisode::class.java).equalTo(LINK, url).findFirst().asObservable<RealmEpisode>()
+        return realm.where(RealmEpisode::class.java)
+                .equalTo(LINK, url)
+                .findFirst()
+                .asObservable<RealmEpisode>()
     }
 
     override fun onDownloadCompleted(episode: Episode?) {
-        if (episode == null) return
+        episode ?: return
         realm.executeTransaction {
             episode.downloaded = true
         }
     }
 
-    override fun getEpisodeByUrl(url: String?): Episode? = url?.let { url ->
-        cache.get(url) ?: realm
-                .where(RealmEpisode::class.java)
+    /** To be used from another Thread or from a service in another process . */
+    override fun getEpisodeByUrlSync(url: String?): Episode? = url?.let { url ->
+        episodesUrlsMap
+                .get(url) ?: realm.where(RealmEpisode::class.java)
                 .equalTo(LINK, url)
                 .findFirst()
                 ?.also { reamlEpisode ->
                     val episode = realm.copyFromRealm(reamlEpisode)
-                    cache.put(url, episode)
+                    episodesUrlsMap.put(url, episode)
                 }
     }
 
@@ -42,4 +47,15 @@ class EpisodesRepositoryRealm(private val realm: Realm, private val ioScheduler:
                 .filter { it.isLoaded && it.isValid }
                 .map { realm.copyFromRealm(it) }
     }
+
+    /** To be used from another Thread or from a service in another process . */
+    override fun getEpisodeByEnclosureUrlSync(url: String): Episode? =
+            episodesEnclosuresUrlMap.get(url) ?: realm.where(RealmEpisode::class.java)
+                    .contains("syndEnclosures.url", url)
+                    .findFirst()
+                    ?.also { reamlEpisode ->
+                        val episode = realm.copyFromRealm(reamlEpisode)
+                        episodesEnclosuresUrlMap.put(url, episode)
+                    }
+
 }

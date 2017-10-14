@@ -4,7 +4,6 @@ import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
 import com.pietrantuono.podcasts.apis.PodcastFeed
 import com.pietrantuono.podcasts.apis.SinglePodcastApi
-import com.pietrantuono.podcasts.downloader.downloader.Downloader
 import com.pietrantuono.podcasts.repository.repository.Repository
 import rx.Observable
 import rx.Observer
@@ -14,9 +13,7 @@ import rx.subscriptions.CompositeSubscription
 
 class SinglePodcastModelImpl(
         private val singlePodcastApi: SinglePodcastApi,
-        private val repository: Repository,
-        private val downloader: Downloader) :
-        SinglePodcastModel {
+        private val repository: Repository) : SinglePodcastModel {
 
     private var podcastFeedObservable: Observable<PodcastFeed>? = null
     private var podcast: Podcast? = null
@@ -31,7 +28,6 @@ class SinglePodcastModelImpl(
 
     override fun onSubscribeUnsubscribeToPodcastClicked() {
         repository.subscribeUnsubscribeToPodcast(podcast)
-        downloader.downloadIfAppropriate(podcast)
     }
 
     override fun subscribeToFeed(observer: Observer<PodcastFeed>) {

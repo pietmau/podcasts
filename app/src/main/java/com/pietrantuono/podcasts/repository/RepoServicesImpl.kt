@@ -12,16 +12,16 @@ class RepoServicesImpl(private val context: Context, private val realm: Realm) :
         val TAG: String? = "RepoServicesImpl"
     }
 
-    override fun subscribeUnsubscribeToPodcast(podcast: Podcast) {
-        if (podcast.episodes == null || podcast.episodes!!.isEmpty()) {
+    override fun getAndDowloadEpisodes(podcast: Podcast, subscribe: Boolean) {
+        if (podcast.episodes?.isNotEmpty() == true && subscribe) {
             startService(podcast)
         }
     }
 
     private fun startService(singlePodcast: Podcast) {
-        val intent = Intent(context, SaveEpisodeIntentService::class.java)
-        intent.putExtra(SaveEpisodeIntentService.TRACK_ID, singlePodcast.trackId)
-        intent.putExtra(SaveEpisodeIntentService.URL, singlePodcast.feedUrl)
+        val intent = Intent(context, SaveAndDowloandEpisodeIntentService::class.java)
+        intent.putExtra(SaveAndDowloandEpisodeIntentService.TRACK_ID, singlePodcast.trackId)
+        intent.putExtra(SaveAndDowloandEpisodeIntentService.URL, singlePodcast.feedUrl)
         context.startService(intent)
     }
 

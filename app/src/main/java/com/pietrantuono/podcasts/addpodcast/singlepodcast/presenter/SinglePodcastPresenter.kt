@@ -10,8 +10,9 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.SinglePodcastView
 import com.pietrantuono.podcasts.apis.PodcastFeed
 import rx.Observer
 
-class SinglePodcastPresenter(private val model: SinglePodcastModel, private val crashlyticsWrapper:
-CrashlyticsWrapper) : GenericPresenter, ViewModel() {
+class SinglePodcastPresenter(
+        private val model: SinglePodcastModel,
+        private val crashlyticsWrapper: CrashlyticsWrapper) : GenericPresenter, ViewModel() {
     private var view: SinglePodcastView? = null
     private var podcastFeed: PodcastFeed? = null
     private var startedWithTransition: Boolean? = false

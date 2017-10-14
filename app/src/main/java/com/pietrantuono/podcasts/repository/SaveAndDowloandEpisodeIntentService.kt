@@ -7,33 +7,33 @@ import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.apis.SinglePodcastApi
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.application.DebugLogger
+import com.pietrantuono.podcasts.downloader.downloader.Downloader
 import com.pietrantuono.podcasts.providers.PodcastRealm
 import io.realm.Realm
 import javax.inject.Inject
 
-class SaveEpisodeIntentService : IntentService("SaveEpisodeIntentService") {
+class SaveAndDowloandEpisodeIntentService : IntentService("SaveAndDowloandEpisodeIntentService") {
     @Inject lateinit var realm: Realm
     @Inject lateinit var api: SinglePodcastApi
     @Inject lateinit var crashlyticsWrapper: CrashlyticsWrapper
     @Inject lateinit var logger: DebugLogger
+    @Inject lateinit var downloader: Downloader
 
     companion object {
-        val TAG = "SaveEpisodeIntentService"
+        val TAG = "SaveAndDowloandEpisodeIntentService"
         val TRACK_ID = "track_id"
         val URL = "url"
     }
 
     override fun onHandleIntent(intent: Intent?) {
         (application as App).applicationComponent?.inject(this)
-        logger.debug(TAG,"onHandleIntent")
         val podcast: PodcastRealm? = getPodcast(intent!!) ?: return
-        logger.debug(TAG,"got podcast")
         val episodes = getEpisodes(intent) ?: return
-        logger.debug(TAG,"got episodes")
         realm.executeTransaction {
             podcast?.episodes = episodes
             realm.copyToRealmOrUpdate(podcast)
         }
+        downloader.downloadIfAppropriate(podcast)
         realm.close()
     }
 
@@ -42,9 +42,8 @@ class SaveEpisodeIntentService : IntentService("SaveEpisodeIntentService") {
         if (url.isNullOrBlank()) {
             return null
         }
-        val call = api.getFeedSync(url)
         try {
-            return call.execute().body().episodes
+            return api.getFeedSync(url).execute().body().episodes
         } catch (exception: Exception) {
             crashlyticsWrapper.logException(exception)
         }

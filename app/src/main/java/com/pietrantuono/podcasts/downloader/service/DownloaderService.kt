@@ -66,7 +66,7 @@ class DownloaderService() : Service(), FetchListener {
     }
 
     fun episodeIsDownloaded(url: String): Boolean {
-        val episode = repository.getEpisodeByUrl(url)
+        val episode = repository.getEpisodeByUrlSync(url)
         return episode != null && episode.downloaded
     }
 

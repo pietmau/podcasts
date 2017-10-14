@@ -20,7 +20,7 @@ import com.pietrantuono.podcasts.media.MediaModule
 import com.pietrantuono.podcasts.player.player.service.di.ServiceComponent
 import com.pietrantuono.podcasts.player.player.service.di.ServiceModule
 import com.pietrantuono.podcasts.repository.RepositoryModule
-import com.pietrantuono.podcasts.repository.SaveEpisodeIntentService
+import com.pietrantuono.podcasts.repository.SaveAndDowloandEpisodeIntentService
 import com.pietrantuono.podcasts.settings.SettingsModule
 import com.pietrantuono.podcasts.subscribedpodcasts.list.di.SingleSubscribedComponent
 import com.pietrantuono.podcasts.subscribedpodcasts.list.di.SingleSubscribedModule
@@ -40,7 +40,7 @@ interface ApplicationComponent {
 
     fun inject(episodesRecycler: EpisodesRecycler)
 
-    fun inject(saveEpisodeIntentService: SaveEpisodeIntentService)
+    fun inject(saveEpisodeIntentService: SaveAndDowloandEpisodeIntentService)
 
     fun with(mainModule: MainModule): MainComponent
 

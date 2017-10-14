@@ -31,7 +31,7 @@ class SinglePodcastModule {
 
     @Provides
     fun provideSinglePodcastModel(api: SinglePodcastApi, repository: Repository, dowloader: Downloader): SinglePodcastModel =
-            SinglePodcastModelImpl(api, repository, dowloader)
+            SinglePodcastModelImpl(api, repository)
 
     @Provides
     fun provideTransitionImageLoadingListener(framework: TransitionsHelper) = BitmapColorExtractor()

@@ -1,7 +1,5 @@
 package com.pietrantuono.podcasts.downloader.di
 
-
-
 import javax.inject.Scope
 
 @Scope

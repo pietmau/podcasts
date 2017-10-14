@@ -24,7 +24,7 @@ class RequestManagerImpl
 
     /**  Called by the downloader service, in its own process  */
     override fun createRequest(url: String): Request? {
-        val episode = repository.getEpisodeByUrl(url)
+        val episode = repository.getEpisodeByUrlSync(url)
         return getRequest(episode)
     }
 

@@ -11,8 +11,7 @@ import com.tonyodev.fetch.request.RequestInfo
 
 class DownloadNotificatorImpl(
         private val context: Context,
-        private val repo: EpisodesRepository
-) : DownloadNotificator {
+        private val repo: EpisodesRepository) : DownloadNotificator {
 
     companion object {
         const val DOWNLOAD_COMPLETED: Int = 100
@@ -24,9 +23,8 @@ class DownloadNotificatorImpl(
     override fun notifyProgress(requestInfo: RequestInfo?, progress: Int) {
         val url = requestInfo?.url
         url ?: return
-        repo.getEpisodeByUrl(url)?.let {
-            val notification = getNotification(it, progress)
-            notifManager.notify(progress, notification)
+        repo.getEpisodeByEnclosureUrlSync(url)?.let {
+            notifManager.notify(requestInfo.id.toInt(), getNotification(it, progress))
         }
     }
 

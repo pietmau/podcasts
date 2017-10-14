@@ -20,7 +20,7 @@ class PodcastRepoRealm(private val realm: Realm, private val reposServices: Repo
                     ?: RealmUtlis.toSinglePodcastRealm(podcast)
             singlePodcast.isPodcastSubscribed = !singlePodcast.isPodcastSubscribed
             it.copyToRealmOrUpdate(singlePodcast)
-            reposServices.subscribeUnsubscribeToPodcast(singlePodcast)
+            reposServices.getAndDowloadEpisodes(singlePodcast, singlePodcast.isPodcastSubscribed)
             subject?.onNext(singlePodcast.isPodcastSubscribed)
         }
     }

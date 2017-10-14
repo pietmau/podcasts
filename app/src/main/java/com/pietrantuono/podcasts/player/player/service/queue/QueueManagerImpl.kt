@@ -82,7 +82,7 @@ internal class QueueManagerImpl(
         return getEpisodeFromId(mediaId)?.let { MediaSessionCompat.QueueItem(createMediaDescriptionCompatFromEpisode(it), DEAFAULT_ID) }
     }
 
-    private fun getEpisodeFromId(mediaId: String) = episodesRepository.getEpisodeByUrl(mediaId)
+    private fun getEpisodeFromId(mediaId: String) = episodesRepository.getEpisodeByUrlSync(mediaId)
 
     companion object {
         private val DEAFAULT_ID = 0L
