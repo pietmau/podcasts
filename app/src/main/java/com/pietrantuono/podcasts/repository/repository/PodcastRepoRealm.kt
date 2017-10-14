@@ -12,17 +12,14 @@ class PodcastRepoRealm(private val realm: Realm, private val reposServices: Repo
     private var subject: BehaviorSubject<Boolean>? = null
 
     override fun subscribeUnsubscribeToPodcast(podcast: Podcast?) {
-        var singlePodcast = realm.where(PodcastRealm::class.java)
-                .equalTo("trackId", podcast?.trackId)
-                .findFirst()
-        if (singlePodcast == null) {
-            singlePodcast = RealmUtlis.toSinglePodcastRealm(podcast)
-        }
-        realm.executeTransaction {
+        realm.executeTransactionAsync {
+            val singlePodcast = it
+                    .where(PodcastRealm::class.java)
+                    .equalTo("trackId", podcast?.trackId)
+                    .findFirst()
+                    ?: RealmUtlis.toSinglePodcastRealm(podcast)
             singlePodcast.isPodcastSubscribed = !singlePodcast.isPodcastSubscribed
             it.copyToRealmOrUpdate(singlePodcast)
-        }
-        if (singlePodcast != null) {
             reposServices.subscribeUnsubscribeToPodcast(singlePodcast)
             subject?.onNext(singlePodcast.isPodcastSubscribed)
         }

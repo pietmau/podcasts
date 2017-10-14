@@ -14,7 +14,7 @@ import dagger.Provides
 class DownloadModule(private val context: Context) {
 
     @Provides
-    fun provideDowloader(provider: DirectoryProvider): Fetcher {
+    fun provideFetcher(provider: DirectoryProvider): Fetcher {
         return FetcherImpl(context, provider)
     }
 
@@ -34,6 +34,6 @@ class DownloadModule(private val context: Context) {
     }
 
     @Provides
-    fun providenetworkDetector() = NetworkDetector(context)
+    fun provideNetworkDetector() = NetworkDetector(context)
 }
 

@@ -14,8 +14,9 @@ class DownloaderImpl(private val context: Context, private val repo: EpisodesRep
                 filterNotNull()?.
                 toList()
         val tracks = ArrayList(episodes)
-        val intent = Intent(context, DownloaderService::class.java)
-        intent.putStringArrayListExtra(DownloaderService.TRACK_LIST, tracks)
+        val intent = Intent(context, DownloaderService::class.java).apply {
+            putStringArrayListExtra(DownloaderService.TRACK_LIST, tracks)
+        }
         context.startService(intent)
     }
 
