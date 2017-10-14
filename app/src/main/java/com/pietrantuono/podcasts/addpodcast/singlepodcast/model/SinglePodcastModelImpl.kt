@@ -31,7 +31,7 @@ class SinglePodcastModelImpl(
 
     override fun onSubscribeUnsubscribeToPodcastClicked() {
         repository.subscribeUnsubscribeToPodcast(podcast)
-        //downloader.downloadIfAppropriate(podcast)
+        downloader.downloadIfAppropriate(podcast)
     }
 
     override fun subscribeToFeed(observer: Observer<PodcastFeed>) {

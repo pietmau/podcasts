@@ -24,7 +24,7 @@ class DownloadModule(private val context: Context) {
     }
 
     @Provides
-    fun provideRequestGenerator(preferenceManager: PreferencesManager, provider: DirectoryProvider, repository: EpisodesRepository): RequestGenerator {
+    fun provideRequestGenerator(provider: DirectoryProvider, repository: EpisodesRepository): RequestGenerator {
         return RequestGeneratorImpl(provider, repository)
     }
 
@@ -34,6 +34,6 @@ class DownloadModule(private val context: Context) {
     }
 
     @Provides
-    fun provideNetworkDetector() = NetworkDetector(context)
+    fun provideNetworkDetector(preferencesManager: PreferencesManager) = NetworkDetector(context, preferencesManager)
 }
 

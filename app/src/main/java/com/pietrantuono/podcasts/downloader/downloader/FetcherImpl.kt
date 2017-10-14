@@ -6,7 +6,10 @@ import com.tonyodev.fetch.listener.FetchListener
 import com.tonyodev.fetch.request.Request
 import com.tonyodev.fetch.request.RequestInfo
 
-class FetcherImpl(context: Context, private val provider: DirectoryProvider) : Fetcher {
+class FetcherImpl(
+        context: Context,
+        private val provider: DirectoryProvider) : Fetcher {
+
     private val fetch: Fetch
 
     init {
