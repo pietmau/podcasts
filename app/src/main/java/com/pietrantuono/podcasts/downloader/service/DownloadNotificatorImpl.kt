@@ -6,8 +6,13 @@ import android.content.Context
 import android.support.v4.app.NotificationCompat
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.apis.Episode
+import com.pietrantuono.podcasts.repository.EpisodesRepository
+import com.tonyodev.fetch.request.RequestInfo
 
-class DownloadNotificatorImpl(private val context: Context) : DownloadNotificator {
+class DownloadNotificatorImpl(
+        private val context: Context,
+        private val repo: EpisodesRepository
+) : DownloadNotificator {
 
     companion object {
         const val DOWNLOAD_COMPLETED: Int = 100
@@ -16,12 +21,13 @@ class DownloadNotificatorImpl(private val context: Context) : DownloadNotificato
     private val notifManager: NotificationManager
         get() = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-    override fun notifyProgress(episode: Episode?, id: Long, progress: Int) {
-        if (episode == null) {
-            return
+    override fun notifyProgress(requestInfo: RequestInfo?, progress: Int) {
+        val url = requestInfo?.url
+        url ?: return
+        repo.getEpisodeByUrl(url)?.let {
+            val notification = getNotification(it, progress)
+            notifManager.notify(progress, notification)
         }
-        val notification = getNotification(episode, progress)
-        notifManager.notify(id.toInt(), notification)
     }
 
     private fun getNotification(episode: Episode, progress: Int): Notification? {

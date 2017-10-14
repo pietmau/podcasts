@@ -10,22 +10,25 @@ import com.pietrantuono.podcasts.settings.PreferencesManager
 import dagger.Module
 import dagger.Provides
 
+
+@DownloaderServiceScope
 @Module
 class DownloadModule(private val context: Context) {
 
+    @DownloaderServiceScope
     @Provides
     fun provideFetcher(provider: DirectoryProvider): Fetcher {
         return FetcherImpl(context, provider)
     }
 
     @Provides
-    fun provideNotificator(): DownloadNotificator {
-        return DownloadNotificatorImpl(context)
+    fun provideNotificator(repo: EpisodesRepository): DownloadNotificator {
+        return DownloadNotificatorImpl(context, repo)
     }
 
     @Provides
-    fun provideRequestGenerator(provider: DirectoryProvider, repository: EpisodesRepository): RequestGenerator {
-        return RequestGeneratorImpl(provider, repository)
+    fun provideRequestGenerator(provider: DirectoryProvider, repository: EpisodesRepository, fetcher: Fetcher): RequestManager {
+        return RequestManagerImpl(provider, repository, fetcher)
     }
 
     @Provides

@@ -4,12 +4,23 @@ import android.webkit.URLUtil
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 import com.tonyodev.fetch.request.Request
+import com.tonyodev.fetch.request.RequestInfo
 import javax.inject.Inject
 
 
-class RequestGeneratorImpl @Inject constructor(
+class RequestManagerImpl
+@Inject constructor(
         private val directoryProvider: DirectoryProvider,
-        private var repository: EpisodesRepository) : RequestGenerator {
+        private val repository: EpisodesRepository,
+        private val internalDownloader: Fetcher) : RequestManager {
+
+    private val requests: MutableMap<Long, RequestInfo?> = mutableMapOf<Long, RequestInfo?>()
+
+    override fun cacheRequest(pair: Pair<Long, RequestInfo?>) {
+        requests[pair.first] = pair.second
+    }
+
+    override fun getRequestById(id: Long): RequestInfo? = requests[id] ?: internalDownloader.getRequestById(id)
 
     /**  Called by the downloader service, in its own process  */
     override fun createRequest(url: String): Request? {

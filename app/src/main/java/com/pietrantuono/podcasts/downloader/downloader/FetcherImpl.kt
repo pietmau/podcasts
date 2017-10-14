@@ -27,15 +27,15 @@ class FetcherImpl(
         fetch.removeFetchListener(listener)
     }
 
-    override fun getById(id: Long): RequestInfo? {
-        return fetch.get(id)
-    }
-
-    override fun enqueueRequest(request: Request): Long {
-        return fetch.enqueue(request)
+    override fun enqueueRequest(request: Request): Pair<Long, RequestInfo?> {
+        val id = fetch.enqueue(request)
+        val info = fetch[id]
+        return Pair(id,info)
     }
 
     override fun alreadyDownloaded(url: String): Boolean {
         return fetch.get().filter { info -> info.url.equals(url, true) }.size > 0
     }
+
+    override fun getRequestById(id: Long) = fetch[id]
 }

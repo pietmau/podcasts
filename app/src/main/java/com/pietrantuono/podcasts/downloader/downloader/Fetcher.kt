@@ -7,8 +7,8 @@ import com.tonyodev.fetch.request.RequestInfo
 interface Fetcher {
     fun addListener(listner: FetchListener)
     fun removeListener(listener: FetchListener)
-    fun getById(id: Long): RequestInfo?
-    fun enqueueRequest(request: Request): Long
+    fun enqueueRequest(request: Request): Pair<Long, RequestInfo?>
     fun alreadyDownloaded(url: String): Boolean
     fun thereIsEnoughSpace(fileSize: Long): Boolean
+    fun getRequestById(id: Long): RequestInfo?
 }

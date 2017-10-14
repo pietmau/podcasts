@@ -3,15 +3,14 @@ package com.pietrantuono.podcasts.downloader.service
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.downloader.di.DownloadModule
 import com.pietrantuono.podcasts.downloader.downloader.Fetcher
-import com.pietrantuono.podcasts.downloader.downloader.RequestGenerator
+import com.pietrantuono.podcasts.downloader.downloader.RequestManager
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 import com.tonyodev.fetch.listener.FetchListener
-import com.tonyodev.fetch.request.Request
+import com.tonyodev.fetch.request.RequestInfo
 import javax.inject.Inject
 
 class DownloaderService() : Service(), FetchListener {
@@ -24,7 +23,7 @@ class DownloaderService() : Service(), FetchListener {
 
     @Inject lateinit var internalDownloader: Fetcher
     @Inject lateinit var downloadNotificator: DownloadNotificator
-    @Inject lateinit var requestGenerator: RequestGenerator
+    @Inject lateinit var requestManager: RequestManager
     @Inject lateinit var debugLogger: DebugLogger
     @Inject lateinit var repository: EpisodesRepository
     @Inject lateinit var networkDetector: NetworkDetector
@@ -60,8 +59,8 @@ class DownloaderService() : Service(), FetchListener {
     private fun getAndEnqueueSingleEpisode(url: String) {
         if (networkDetector.shouldDownload)
             if (!internalDownloader.alreadyDownloaded(url) && !episodeIsDownloaded(url)) {
-                requestGenerator.createRequest(url)?.let {
-                    internalDownloader.enqueueRequest(it)
+                requestManager.createRequest(url)?.let { request ->
+                    requestManager.cacheRequest(internalDownloader.enqueueRequest(request))
                 }
             }
     }
@@ -73,24 +72,26 @@ class DownloaderService() : Service(), FetchListener {
 
     override fun onUpdate(id: Long, status: Int, progress: Int, downloadedBytes: Long, fileSize: Long, error: Int) {
         debugLogger.debug(TAG, "" + progress)
+        val request = requestManager.getRequestById(id)
         if (internalDownloader.thereIsEnoughSpace(fileSize)) {
-            downloadNotificator.notifyProgress(requests[id]?.second, id, progress)
+            downloadNotificator.notifyProgress(request, progress)
         } else {
-            interruptDownloadAndNotifyUser(id, progress)
+            interruptDownloadAndNotifyUser(request, progress)
         }
         updateEpisodIfAppropriate(progress, id)
     }
 
     private fun updateEpisodIfAppropriate(progress: Int, id: Long) {
         if (progress >= DOWNLOAD_COMPLETED) {
-            onDownloadCompleted(requests[id]?.second)
+            onDownloadCompleted(requestManager.getRequestById(id))
         }
     }
 
-    private fun onDownloadCompleted(episode: Episode?) {
-        repository.onDownloadCompleted(episode)
+    private fun onDownloadCompleted(episode: RequestInfo?) {
+        //repository.onDownloadCompleted()
+        TODO()
     }
 
-    private fun interruptDownloadAndNotifyUser(id: Long, progress: Int) {}
+    private fun interruptDownloadAndNotifyUser(id: RequestInfo?, progress: Int) {}
 }
 
