@@ -9,6 +9,7 @@ import javax.inject.Inject
 
 class RequestGeneratorImpl @Inject constructor(private val directoryProvider: DirectoryProvider,
                                                private var repository: EpisodesRepository) : RequestGenerator {
+    /**  Called by the downloader service, in its own process  */
     override fun createRequest(url: String): Pair<Request, Episode>? {
         val episode = repository.getEpisodeByUrl(url)
         return getRequest(episode)?.let { Pair(it, episode!!) }
@@ -26,10 +27,10 @@ class RequestGeneratorImpl @Inject constructor(private val directoryProvider: Di
         return null
     }
 
-    private fun makeRequest(it: String): Request {
+    private fun makeRequest(url: String): Request {
         val dir = directoryProvider.downloadDir
-        val filname = URLUtil.guessFileName(it, null, null)
-        return Request(it, dir, filname)
+        val filname = URLUtil.guessFileName(url, null, null)
+        return Request(url, dir, filname)
     }
 
 }

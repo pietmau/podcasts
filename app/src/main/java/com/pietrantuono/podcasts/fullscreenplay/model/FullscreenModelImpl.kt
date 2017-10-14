@@ -27,10 +27,6 @@ class FullscreenModelImpl(private val repo: EpisodesRepository, private val mani
         })
     }
 
-    override fun getEpisodeByUrl(mediaId: String?): Episode? {
-        return repo.getEpisodeByUrl(mediaId)
-    }
-
     override fun subscribe(observer: Observer<in Episode>) {
         subscription = cached
                 ?.take(1)

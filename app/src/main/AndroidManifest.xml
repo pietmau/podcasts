@@ -56,7 +56,6 @@
         </service>
 
         <service
-            android:process=":dowloader"
             android:name=".downloader.service.DownloaderService"
             android:exported="false">
         </service>

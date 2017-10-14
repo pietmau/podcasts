@@ -12,6 +12,7 @@ class PodcastProviderImpl(
 
     override fun updateMusicArt(musicId: String?, bitmap: Bitmap?, icon: Bitmap?) {}
 
+    /** Used by the player service, in its own process */
     override fun getMusic(mediaId: String?): MediaMetadataCompat? {
         val episode = repo.getEpisodeByUrl(mediaId)
         if (episode == null) {

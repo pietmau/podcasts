@@ -63,7 +63,8 @@ class DownloaderService() : Service(), FetchListener {
         if (networkDetector.shouldDownload)
             if (!internalDownloader.alreadyDownloaded(url) && !episodeIsDownloaded(url)) {
                 requestGenerator.createRequest(url)?.let {
-                    requests.put(internalDownloader.enqueueRequest(it.first), it)
+                    val key = internalDownloader.enqueueRequest(it.first)
+                    requests.put(key, it)
                 }
             }
     }

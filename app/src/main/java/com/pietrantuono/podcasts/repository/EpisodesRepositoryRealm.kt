@@ -21,14 +21,15 @@ class EpisodesRepositoryRealm(private val realm: Realm, private val ioScheduler:
         }
     }
 
-    override fun getEpisodeByUrl(url: String?): Episode? = url?.let {
-        if (cache.containsKey(it)) {
-            cache.get(it)
-        } else {
-            val episode = realm.copyFromRealm(realm.where(RealmEpisode::class.java).equalTo(LINK, it).findFirst())
-            cache.put(it, episode)
-            episode
-        }
+    override fun getEpisodeByUrl(url: String?): Episode? = url?.let { url ->
+        cache.get(url) ?: realm
+                .where(RealmEpisode::class.java)
+                .equalTo(LINK, url)
+                .findFirst()
+                ?.also { reamlEpisode ->
+                    val episode = realm.copyFromRealm(reamlEpisode)
+                    cache.put(url, episode)
+                }
     }
 
     override fun getEpisodeByUrlAsObservable(url: String?): Observable<out Episode> {

@@ -9,5 +9,4 @@ interface FullscreenModel {
     fun getEpisodeByUrlAsync(urls: String?)
     fun subscribe(observer: Observer<in Episode>)
     fun unSubscribe()
-    fun getEpisodeByUrl(mediaId: String?): Episode?
 }

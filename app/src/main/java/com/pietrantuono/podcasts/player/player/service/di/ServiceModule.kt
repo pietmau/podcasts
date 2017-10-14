@@ -10,8 +10,6 @@ import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayActivity
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
 import com.pietrantuono.podcasts.player.player.service.DelayedStopHandler
 import com.pietrantuono.podcasts.player.player.service.MusicService
-import com.pietrantuono.podcasts.player.player.service.model.PlayerServiceModel
-import com.pietrantuono.podcasts.player.player.service.model.PlayerServiceModelImpl
 import com.pietrantuono.podcasts.player.player.service.playback.LocalPlayback
 import com.pietrantuono.podcasts.player.player.service.playback.Playback
 import com.pietrantuono.podcasts.player.player.service.playbackmanager.PlaybackManager
@@ -29,9 +27,6 @@ import dagger.Provides
 @ServiceScope
 @Module
 class ServiceModule constructor(val musicService: MusicService) {
-
-    @Provides
-    fun providesModel(repo: EpisodesRepository): PlayerServiceModel = PlayerServiceModelImpl(repo)
 
     @ServiceScope
     @Provides

@@ -31,6 +31,7 @@ internal class QueueManagerImpl(
         return false
     }
 
+    /** Used by the player service, in its own process */
     override fun updateMetadata() {
         if (currentMusic == null) {
             listener.onMetadataRetrieveError()
