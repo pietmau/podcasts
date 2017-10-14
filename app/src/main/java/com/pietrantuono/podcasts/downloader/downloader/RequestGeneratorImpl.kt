@@ -7,12 +7,14 @@ import com.tonyodev.fetch.request.Request
 import javax.inject.Inject
 
 
-class RequestGeneratorImpl @Inject constructor(private val directoryProvider: DirectoryProvider,
-                                               private var repository: EpisodesRepository) : RequestGenerator {
+class RequestGeneratorImpl @Inject constructor(
+        private val directoryProvider: DirectoryProvider,
+        private var repository: EpisodesRepository) : RequestGenerator {
+
     /**  Called by the downloader service, in its own process  */
-    override fun createRequest(url: String): Pair<Request, Episode>? {
+    override fun createRequest(url: String): Request? {
         val episode = repository.getEpisodeByUrl(url)
-        return getRequest(episode)?.let { Pair(it, episode!!) }
+        return getRequest(episode)
     }
 
     private fun getRequest(episode: Episode?): Request? {

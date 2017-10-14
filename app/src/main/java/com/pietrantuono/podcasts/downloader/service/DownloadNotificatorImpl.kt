@@ -21,8 +21,7 @@ class DownloadNotificatorImpl(private val context: Context) : DownloadNotificato
             return
         }
         val notification = getNotification(episode, progress)
-        val notificationId: Int = calculateNotificationId(id)
-        notifManager.notify(notificationId, notification)
+        notifManager.notify(id.toInt(), notification)
     }
 
     private fun getNotification(episode: Episode, progress: Int): Notification? {
@@ -56,12 +55,4 @@ class DownloadNotificatorImpl(private val context: Context) : DownloadNotificato
 
     private fun getText(episode: Episode) = episode.title ?: context.getString(R.string.title_not_available)
 
-    private fun calculateNotificationId(id: Long): Int {
-        val diff = id - (Int.MAX_VALUE.toLong())
-        if (diff >= 0) {
-            return calculateNotificationId(diff)
-        } else {
-            return id.toInt()
-        }
-    }
 }

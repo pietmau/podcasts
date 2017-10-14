@@ -15,8 +15,6 @@ import com.tonyodev.fetch.request.Request
 import javax.inject.Inject
 
 class DownloaderService() : Service(), FetchListener {
-    private val requests: MutableMap<Long, Pair<Request, Episode>> = mutableMapOf()
-
     companion object {
         const private val TAG: String = "DownloaderService"
         const val TRACK: String = "track_id"
@@ -63,8 +61,7 @@ class DownloaderService() : Service(), FetchListener {
         if (networkDetector.shouldDownload)
             if (!internalDownloader.alreadyDownloaded(url) && !episodeIsDownloaded(url)) {
                 requestGenerator.createRequest(url)?.let {
-                    val key = internalDownloader.enqueueRequest(it.first)
-                    requests.put(key, it)
+                    internalDownloader.enqueueRequest(it)
                 }
             }
     }
