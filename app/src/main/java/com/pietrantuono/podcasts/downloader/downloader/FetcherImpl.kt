@@ -55,4 +55,8 @@ class FetcherImpl(
         val episode = repository.getEpisodeByUrlSync(url)
         return episode != null && episode.downloaded
     }
+    override fun stopDownload(requestInfo: RequestInfo) {
+        fetch.remove(requestInfo.id)
+    }
+
 }

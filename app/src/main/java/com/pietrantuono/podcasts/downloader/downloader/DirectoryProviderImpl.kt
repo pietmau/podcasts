@@ -8,7 +8,7 @@ class DirectoryProviderImpl(private val context: Context) : DirectoryProvider {
 
     private val gigaByte = 1000 * 1000 * 1000
 
-    override fun thereIsEnoughSpace(fileSize: Long): Boolean = context.filesDir.freeSpace + gigaByte > fileSize
+    override fun thereIsEnoughSpace(fileSize: Long): Boolean = context.filesDir.freeSpace - gigaByte > fileSize
 
 
 }

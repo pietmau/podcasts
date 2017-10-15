@@ -4,9 +4,8 @@ import android.content.Context
 import android.content.Intent
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.downloader.service.DownloaderService
-import com.pietrantuono.podcasts.repository.EpisodesRepository
 
-class DownloaderImpl(private val context: Context, private val repo: EpisodesRepository) : Downloader {
+class DownloaderImpl(private val context: Context) : Downloader {
 
     override fun downloadIfAppropriate(podcast: Podcast?) {
         podcast?.episodes?.

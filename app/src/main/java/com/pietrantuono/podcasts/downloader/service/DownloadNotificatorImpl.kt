@@ -13,9 +13,7 @@ class DownloadNotificatorImpl(
         private val context: Context,
         private val repo: EpisodesRepository) : DownloadNotificator {
 
-    companion object {
-        const val DOWNLOAD_COMPLETED: Int = 100
-    }
+    val DOWNLOAD_COMPLETED: Int = 100
 
     private val notifManager: NotificationManager
         get() = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -37,7 +35,7 @@ class DownloadNotificatorImpl(
     }
 
     private fun createCompleteNotification(episode: Episode): Notification? {
-        val text = getText(episode)
+        val text = getTitle(episode)
         return NotificationCompat
                 .Builder(context)
                 .setContentTitle(context.getString(R.string.download_completed))
@@ -47,7 +45,7 @@ class DownloadNotificatorImpl(
     }
 
     private fun createProgressNotification(episode: Episode, progress: Int): Notification {
-        val text = getText(episode)
+        val text = getTitle(episode)
         return NotificationCompat
                 .Builder(context)
                 .setContentTitle(context.getString(R.string.downloading))
@@ -57,5 +55,22 @@ class DownloadNotificatorImpl(
                 .build()
     }
 
-    private fun getText(episode: Episode) = episode.title ?: context.getString(R.string.title_not_available)
+    override fun notifySpaceUnavailable(requestInfo: RequestInfo) {
+        val url = requestInfo.url
+        repo.getEpisodeByEnclosureUrlSync(url)?.let {
+            notifManager.notify(requestInfo.id.toInt(), getNoSpaceNotification(it))
+        }
+    }
+
+    private fun getNoSpaceNotification(episode: Episode): Notification? {
+        val title = getTitle(episode)
+        return NotificationCompat
+                .Builder(context)
+                .setContentTitle(context.getString(R.string.no_space))
+                .setContentText(title)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .build()
+    }
+
+    private fun getTitle(episode: Episode) = episode.title ?: context.getString(R.string.title_not_available)
 }

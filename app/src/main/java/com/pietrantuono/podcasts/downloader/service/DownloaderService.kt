@@ -46,11 +46,7 @@ class DownloaderService() : Service(), FetchListener {
     }
 
     private fun getTracksUrls(intent: Intent) {
-        intent.getStringArrayListExtra(TRACK_LIST)?.let {
-            for (url in it) {
-                getAndEnqueueSingleEpisode(url)
-            }
-        }
+        intent.getStringArrayListExtra(TRACK_LIST)?.let { list -> list.forEach { url -> getAndEnqueueSingleEpisode(url) } }
     }
 
     private fun getAndEnqueueSingleEpisode(url: String) {
@@ -59,14 +55,12 @@ class DownloaderService() : Service(), FetchListener {
         }
     }
 
-
     override fun onUpdate(id: Long, status: Int, progress: Int, downloadedBytes: Long, fileSize: Long, error: Int) {
-        debugLogger.debug(TAG, "" + progress)
         internalDownloader.getRequestById(id)?.let {
             if (internalDownloader.thereIsEnoughSpace(fileSize)) {
                 downloadNotificator.notifyProgress(it, progress)
             } else {
-                stopDownloadAndNotifyUser(it, progress)
+                stopDownloadAndNotifyUser(it)
             }
         }
         updateEpisodIfAppropriate(progress, id)
@@ -78,12 +72,13 @@ class DownloaderService() : Service(), FetchListener {
         }
     }
 
-    private fun onDownloadCompleted(requestInfo: RequestInfo?) {
-        episodeRepo.getEpisodeByEnclosureUrlSync(requestInfo?.url)?.let { episodeRepo.onDownloadCompleted(it) }
+    private fun onDownloadCompleted(requestInfo: RequestInfo) {
+        episodeRepo.getEpisodeByEnclosureUrlSync(requestInfo.url)?.let { episodeRepo.onDownloadCompleted(it) }
     }
 
-    private fun stopDownloadAndNotifyUser(requestInfo: RequestInfo?, progress: Int) {
-        //internalDownloader.stopDownloadAndNotifyUser()
+    private fun stopDownloadAndNotifyUser(requestInfo: RequestInfo) {
+        internalDownloader.stopDownload(requestInfo)
+        downloadNotificator.notifySpaceUnavailable(requestInfo)
     }
 }
 
