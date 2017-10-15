@@ -60,7 +60,8 @@ class DownloaderService() : Service(), FetchListener {
         if (networkDetector.shouldDownload)
             if (!internalDownloader.alreadyDownloaded(url) && !episodeIsDownloaded(url)) {
                 requestManager.createRequest(url)?.let { request ->
-                    requestManager.cacheRequest(internalDownloader.enqueueRequest(request))
+                    val pair = internalDownloader.enqueueRequest(request)
+                    requestManager.cacheRequest(pair)
                 }
             }
     }
@@ -76,7 +77,7 @@ class DownloaderService() : Service(), FetchListener {
         if (internalDownloader.thereIsEnoughSpace(fileSize)) {
             downloadNotificator.notifyProgress(request, progress)
         } else {
-            interruptDownloadAndNotifyUser(request, progress)
+            stopDownloadAndNotifyUser(request, progress)
         }
         updateEpisodIfAppropriate(progress, id)
     }
@@ -89,9 +90,10 @@ class DownloaderService() : Service(), FetchListener {
 
     private fun onDownloadCompleted(episode: RequestInfo?) {
         //repository.onDownloadCompleted()
-        TODO()
     }
 
-    private fun interruptDownloadAndNotifyUser(id: RequestInfo?, progress: Int) {}
+    private fun stopDownloadAndNotifyUser(requestInfo: RequestInfo?, progress: Int) {
+        //internalDownloader.stopDownloadAndNotifyUser()
+    }
 }
 

@@ -58,5 +58,4 @@ class DownloadNotificatorImpl(
     }
 
     private fun getText(episode: Episode) = episode.title ?: context.getString(R.string.title_not_available)
-
 }

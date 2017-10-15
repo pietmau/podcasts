@@ -5,7 +5,6 @@ import com.pietrantuono.podcasts.repository.repository.*
 import dagger.Module
 import dagger.Provides
 import io.realm.Realm
-import rx.schedulers.Schedulers
 import javax.inject.Singleton
 
 @Singleton
@@ -34,9 +33,13 @@ class RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideEpisodesRepository(realm: Realm): EpisodesRepository {
-        return EpisodesRepositoryRealm(realm, Schedulers.io())
+    fun provideEpisodesRepository(realm: Realm, cache: EpisodeCache): EpisodesRepository {
+        return EpisodesRepositoryRealm(realm, cache)
     }
+
+    @Singleton
+    @Provides
+    fun provideCache(): EpisodeCache = EpisodeCacheImpl()
 
 }
 
