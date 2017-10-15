@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts.repository
 
 import android.content.Context
+import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.repository.repository.*
 import dagger.Module
 import dagger.Provides
@@ -27,8 +28,8 @@ class RepositoryModule {
     }
 
     @Provides
-    fun provideServices(context: Context, realm: Realm): RepoServices {
-        return RepoServicesImpl(context, realm)
+    fun provideServices(context: Context, realm: Realm, logger: DebugLogger): RepoServices {
+        return RepoServicesImpl(context, realm, logger)
     }
 
     @Singleton

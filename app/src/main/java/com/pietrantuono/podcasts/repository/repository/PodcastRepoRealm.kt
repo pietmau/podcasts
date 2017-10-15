@@ -13,13 +13,13 @@ class PodcastRepoRealm(private val realm: Realm, private val reposServices: Repo
 
     override fun subscribeUnsubscribeToPodcast(podcast: Podcast?) {
         realm.executeTransactionAsync {
-            val singlePodcast = it
+            var singlePodcast = it
                     .where(PodcastRealm::class.java)
                     .equalTo("trackId", podcast?.trackId)
                     .findFirst()
                     ?: RealmUtlis.toSinglePodcastRealm(podcast)
             singlePodcast.isPodcastSubscribed = !singlePodcast.isPodcastSubscribed
-            it.copyToRealmOrUpdate(singlePodcast)
+            singlePodcast = it.copyToRealmOrUpdate(singlePodcast)
             reposServices.getAndDowloadEpisodes(singlePodcast, singlePodcast.isPodcastSubscribed)
             subject?.onNext(singlePodcast.isPodcastSubscribed)
         }

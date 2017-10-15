@@ -58,7 +58,7 @@ class DownloaderService() : Service(), FetchListener {
     override fun onUpdate(id: Long, status: Int, progress: Int, downloadedBytes: Long, fileSize: Long, error: Int) {
         internalDownloader.getRequestById(id)?.let {
             if (internalDownloader.thereIsEnoughSpace(fileSize)) {
-                downloadNotificator.notifyProgress(it, progress)
+                downloadNotificator.notifyProgress(this@DownloaderService, it, progress)
             } else {
                 stopDownloadAndNotifyUser(it)
             }
@@ -68,12 +68,16 @@ class DownloaderService() : Service(), FetchListener {
 
     private fun updateEpisodIfAppropriate(progress: Int, id: Long) {
         if (progress >= DOWNLOAD_COMPLETED) {
+            stopForeground(false)
             internalDownloader.getRequestById(id)?.let { onDownloadCompleted(it) }
         }
     }
 
     private fun onDownloadCompleted(requestInfo: RequestInfo) {
-        episodeRepo.getEpisodeByEnclosureUrlSync(requestInfo.url)?.let { episodeRepo.onDownloadCompleted(it) }
+        stopForeground(false)
+        episodeRepo.getEpisodeByEnclosureUrlSync(requestInfo.url)?.let {
+            episodeRepo.onDownloadCompleted(it)
+        }
     }
 
     private fun stopDownloadAndNotifyUser(requestInfo: RequestInfo) {

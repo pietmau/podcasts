@@ -2,27 +2,33 @@ package com.pietrantuono.podcasts.downloader.service
 
 import android.app.Notification
 import android.app.NotificationManager
+import android.app.Service
 import android.content.Context
 import android.support.v4.app.NotificationCompat
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.apis.Episode
+import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 import com.tonyodev.fetch.request.RequestInfo
 
 class DownloadNotificatorImpl(
         private val context: Context,
-        private val repo: EpisodesRepository) : DownloadNotificator {
+        private val repo: EpisodesRepository,
+        private val debugger: DebugLogger) : DownloadNotificator {
 
     val DOWNLOAD_COMPLETED: Int = 100
+    private val TAG: String? = "DownloadNotificatorImpl"
 
     private val notifManager: NotificationManager
         get() = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-    override fun notifyProgress(requestInfo: RequestInfo?, progress: Int) {
+    override fun notifyProgress(service: Service, requestInfo: RequestInfo?, progress: Int) {
         val url = requestInfo?.url
         url ?: return
         repo.getEpisodeByEnclosureUrlSync(url)?.let {
-            notifManager.notify(requestInfo.id.toInt(), getNotification(it, progress))
+            val id = requestInfo.id.toInt()
+            debugger.debug(TAG, "notifyProgress, ID = " + id)
+            service.startForeground(id, getNotification(it, progress))
         }
     }
 
@@ -58,7 +64,9 @@ class DownloadNotificatorImpl(
     override fun notifySpaceUnavailable(requestInfo: RequestInfo) {
         val url = requestInfo.url
         repo.getEpisodeByEnclosureUrlSync(url)?.let {
-            notifManager.notify(requestInfo.id.toInt(), getNoSpaceNotification(it))
+            val id = requestInfo.id.toInt()
+            debugger.debug(TAG, "notifySpaceUnavailable, ID = " + id)
+            notifManager.notify(id, getNoSpaceNotification(it))
         }
     }
 

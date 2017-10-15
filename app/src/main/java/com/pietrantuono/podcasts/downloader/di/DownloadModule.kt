@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts.downloader.di
 
 import android.content.Context
+import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.downloader.downloader.*
 import com.pietrantuono.podcasts.downloader.service.DownloadNotificator
 import com.pietrantuono.podcasts.downloader.service.DownloadNotificatorImpl
@@ -22,8 +23,8 @@ class DownloadModule(private val context: Context) {
     }
 
     @Provides
-    fun provideNotificator(repo: EpisodesRepository): DownloadNotificator {
-        return DownloadNotificatorImpl(context, repo)
+    fun provideNotificator(repo: EpisodesRepository, logger: DebugLogger): DownloadNotificator {
+        return DownloadNotificatorImpl(context, repo, logger)
     }
 
     @Provides

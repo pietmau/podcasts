@@ -28,17 +28,21 @@ class SaveAndDowloandEpisodeIntentService : IntentService("SaveAndDowloandEpisod
 
     override fun onHandleIntent(intent: Intent?) {
         (application as App).applicationComponent?.with(DownloadModule(this))?.inject(this)
-        val podcast: PodcastRealm? = getPodcast(intent!!) ?: return
+        logger.debug(TAG, "onHandleIntent")
+        var podcast: PodcastRealm? = getPodcast(intent!!) ?: return
         val episodes = getEpisodes(intent) ?: return
         realm.executeTransaction {
             podcast?.episodes = episodes
-            realm.copyToRealmOrUpdate(podcast)
+            podcast = realm.copyToRealmOrUpdate(podcast)
+            logger.debug(TAG, "executeTransaction")
         }
+        logger.debug(TAG, "downloadIfAppropriate")
         downloader.downloadIfAppropriate(podcast)
         realm.close()
     }
 
     private fun getEpisodes(intent: Intent): List<Episode>? {
+        logger.debug(TAG, "getEpisodes")
         val url = intent.getStringExtra(URL)
         if (url.isNullOrBlank()) {
             return null
@@ -52,9 +56,12 @@ class SaveAndDowloandEpisodeIntentService : IntentService("SaveAndDowloandEpisod
     }
 
     private fun getPodcast(intent: Intent): PodcastRealm? {
-        return realm.where(PodcastRealm::class.java)
-                .equalTo("trackId", intent.getIntExtra(TRACK_ID, -1))
+        val intExtra = intent.getIntExtra(TRACK_ID, -1)
+        val podcastRealm = realm.where(PodcastRealm::class.java)
+                .equalTo("trackId", intExtra)
                 .findFirst()
+        logger.debug(TAG, "podcastRealm = " + podcastRealm)
+        return podcastRealm
     }
 
 }
