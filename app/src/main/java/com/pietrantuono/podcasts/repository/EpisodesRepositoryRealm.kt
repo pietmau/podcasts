@@ -12,7 +12,7 @@ class EpisodesRepositoryRealm(
     private val LINK = "link"
     private val ENCLOSURE_URL = "syndEnclosures.url"
 
-    override fun getEpisodeByUrlAsync(url: String?): Observable<out Episode> =
+    override fun getEpisodeByUrlAsync(url: String): Observable<out Episode> =
             realm.where(RealmEpisode::class.java)
                     .equalTo(LINK, url)
                     .findFirst()
@@ -38,7 +38,7 @@ class EpisodesRepositoryRealm(
                 }
     }
 
-    override fun getEpisodeByUrlAsObservable(url: String?): Observable<out Episode> =
+    override fun getEpisodeByUrlAsObservable(url: String): Observable<out Episode> =
             realm.where(RealmEpisode::class.java)
                     .equalTo(LINK, url)
                     .findFirst()
@@ -49,12 +49,14 @@ class EpisodesRepositoryRealm(
                     .map { realm.copyFromRealm(it) }
 
     /** To be used from another Thread or from a service in another process . */
-    override fun getEpisodeByEnclosureUrlSync(url: String): Episode? =
-            cache.getEpisodesByEnclosureUrl(url) ?: realm.where(RealmEpisode::class.java)
-                    .contains(ENCLOSURE_URL, url)
-                    .findFirst()
-                    ?.also { reamlEpisode ->
-                        val episode = realm.copyFromRealm(reamlEpisode)
-                        cache.cacheEpisodeByEnclosureUrl(url, episode)
-                    }
+    override fun getEpisodeByEnclosureUrlSync(url: String?): Episode? = url?.let { url ->
+        cache.getEpisodesByEnclosureUrl(url) ?: realm.where(RealmEpisode::class.java)
+                .contains(ENCLOSURE_URL, url)
+                .findFirst()
+                ?.also { reamlEpisode ->
+                    val episode = realm.copyFromRealm(reamlEpisode)
+                    cache.cacheEpisodeByEnclosureUrl(url, episode)
+                }
+    }
+
 }

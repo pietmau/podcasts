@@ -7,6 +7,7 @@ import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.downloader.di.DownloadModule
 import com.pietrantuono.podcasts.downloader.downloader.Fetcher
+import com.pietrantuono.podcasts.repository.EpisodesRepository
 import com.tonyodev.fetch.listener.FetchListener
 import com.tonyodev.fetch.request.RequestInfo
 import javax.inject.Inject
@@ -23,6 +24,7 @@ class DownloaderService() : Service(), FetchListener {
     @Inject lateinit var downloadNotificator: DownloadNotificator
     @Inject lateinit var debugLogger: DebugLogger
     @Inject lateinit var networkAndPreferencesManager: NetworkDetector
+    @Inject lateinit var episodeRepo: EpisodesRepository
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
@@ -60,23 +62,24 @@ class DownloaderService() : Service(), FetchListener {
 
     override fun onUpdate(id: Long, status: Int, progress: Int, downloadedBytes: Long, fileSize: Long, error: Int) {
         debugLogger.debug(TAG, "" + progress)
-        val request = internalDownloader.getRequestById(id)
-        if (internalDownloader.thereIsEnoughSpace(fileSize)) {
-            downloadNotificator.notifyProgress(request, progress)
-        } else {
-            stopDownloadAndNotifyUser(request, progress)
+        internalDownloader.getRequestById(id)?.let {
+            if (internalDownloader.thereIsEnoughSpace(fileSize)) {
+                downloadNotificator.notifyProgress(it, progress)
+            } else {
+                stopDownloadAndNotifyUser(it, progress)
+            }
         }
         updateEpisodIfAppropriate(progress, id)
     }
 
     private fun updateEpisodIfAppropriate(progress: Int, id: Long) {
         if (progress >= DOWNLOAD_COMPLETED) {
-            onDownloadCompleted(internalDownloader.getRequestById(id))
+            internalDownloader.getRequestById(id)?.let { onDownloadCompleted(it) }
         }
     }
 
-    private fun onDownloadCompleted(episode: RequestInfo?) {
-        //repository.onDownloadCompleted()
+    private fun onDownloadCompleted(requestInfo: RequestInfo?) {
+        episodeRepo.getEpisodeByEnclosureUrlSync(requestInfo?.url)?.let { episodeRepo.onDownloadCompleted(it) }
     }
 
     private fun stopDownloadAndNotifyUser(requestInfo: RequestInfo?, progress: Int) {
