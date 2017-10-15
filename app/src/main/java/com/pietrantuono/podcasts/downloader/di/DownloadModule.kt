@@ -17,8 +17,8 @@ class DownloadModule(private val context: Context) {
 
     @DownloaderServiceScope
     @Provides
-    fun provideFetcher(provider: DirectoryProvider): Fetcher {
-        return FetcherImpl(context, provider)
+    fun provideFetcher(provider: DirectoryProvider, repo: EpisodesRepository, manager: RequestManager): Fetcher {
+        return FetcherImpl(context, provider, repo, manager)
     }
 
     @Provides
@@ -27,8 +27,8 @@ class DownloadModule(private val context: Context) {
     }
 
     @Provides
-    fun provideRequestGenerator(provider: DirectoryProvider, repository: EpisodesRepository, fetcher: Fetcher): RequestManager {
-        return RequestManagerImpl(provider, repository, fetcher)
+    fun provideRequestGenerator(provider: DirectoryProvider, repository: EpisodesRepository): RequestManager {
+        return RequestManagerImpl(provider, repository)
     }
 
     @Provides

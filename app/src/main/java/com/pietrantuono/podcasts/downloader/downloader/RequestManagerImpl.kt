@@ -11,8 +11,7 @@ import javax.inject.Inject
 class RequestManagerImpl
 @Inject constructor(
         private val directoryProvider: DirectoryProvider,
-        private val repository: EpisodesRepository,
-        private val internalDownloader: Fetcher) : RequestManager {
+        private val repository: EpisodesRepository) : RequestManager {
 
     private val requests: MutableMap<Long, RequestInfo?> = mutableMapOf<Long, RequestInfo?>()
 
@@ -20,7 +19,7 @@ class RequestManagerImpl
         requests[pair.first] = pair.second
     }
 
-    override fun getRequestById(id: Long): RequestInfo? = requests[id] ?: internalDownloader.getRequestById(id)
+    override fun getRequestById(id: Long): RequestInfo? = requests[id]
 
     /**  Called by the downloader service, in its own process  */
     override fun createRequest(url: String): Request? {
