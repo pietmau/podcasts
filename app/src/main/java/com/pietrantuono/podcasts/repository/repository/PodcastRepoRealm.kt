@@ -12,17 +12,21 @@ class PodcastRepoRealm(Realm, private val reposServices: RepoServices) : Podcast
     private var subject: BehaviorSubject<Boolean>? = null
 
     override fun subscribeUnsubscribeToPodcast(podcast: Podcast?) {
-        Realm.getDefaultInstance().executeTransactionAsync {
-            var singlePodcast = it
-                    .where(PodcastRealm::class.java)
-                    .equalTo("trackId", podcast?.trackId)
-                    .findFirst()
-                    ?: RealmUtlis.toSinglePodcastRealm(podcast)
-            singlePodcast.isPodcastSubscribed = !singlePodcast.isPodcastSubscribed
-            singlePodcast = it.copyToRealmOrUpdate(singlePodcast)
-            reposServices.getAndDowloadEpisodes(singlePodcast, singlePodcast.isPodcastSubscribed)
-            subject?.onNext(singlePodcast.isPodcastSubscribed)
-        }
+        Realm.getDefaultInstance().executeTransactionAsync(object : Realm.Transaction {
+            override fun execute(realm: Realm?) {
+                var singlePodcast = realm?.
+                        where(PodcastRealm::class.java)?.
+                        equalTo("trackId", podcast?.trackId)?.findFirst() ?: RealmUtlis.toSinglePodcastRealm(podcast)
+                singlePodcast.isPodcastSubscribed = !singlePodcast.isPodcastSubscribed
+                singlePodcast = realm?.copyToRealmOrUpdate(singlePodcast)
+
+            }
+        }, object : Realm.Transaction.OnSuccess {
+            override fun onSuccess() {
+                reposServices.getAndDowloadEpisodes(singlePodcast, singlePodcast.isPodcastSubscribed)
+                subject?.onNext(singlePodcast.isPodcastSubscribed)
+            }
+        })
     }
 
     override fun getIfSubscribed(podcast: Podcast?): Observable<Boolean> {
