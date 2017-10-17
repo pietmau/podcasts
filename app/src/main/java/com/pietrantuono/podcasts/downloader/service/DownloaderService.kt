@@ -81,8 +81,9 @@ class DownloaderService() : Service(), FetchListener {
     }
 
     private fun stopDownloadAndNotifyUser(requestInfo: RequestInfo) {
-        internalDownloader.stopDownload(requestInfo)
+        internalDownloader.stopDownload()
         downloadNotificator.notifySpaceUnavailable(requestInfo)
+        stopSelf()
     }
 }
 

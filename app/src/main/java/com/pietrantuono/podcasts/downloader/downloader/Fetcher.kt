@@ -13,4 +13,5 @@ interface Fetcher {
     fun getRequestById(id: Long): RequestInfo?
     fun download(url: String)
     fun stopDownload(requestInfo: RequestInfo)
+    fun stopDownload()
 }

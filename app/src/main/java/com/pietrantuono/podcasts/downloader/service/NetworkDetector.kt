@@ -6,8 +6,8 @@ import com.pietrantuono.podcasts.settings.PreferencesManager
 
 
 class NetworkDetector(private val context: Context, private val preferencesManager: PreferencesManager) {
-    private val isWiFi: Boolean
-        get() = (context.getSystemService(Context.WIFI_SERVICE) as WifiManager).let {
+    private val isWiFi: Boolean?
+        get() = (context.getSystemService(Context.WIFI_SERVICE) as? WifiManager)?.let {
             if (it.isWifiEnabled) {
                 it.connectionInfo.networkId != -1
             } else {
@@ -16,5 +16,5 @@ class NetworkDetector(private val context: Context, private val preferencesManag
         }
 
     val shouldDownload: Boolean
-        get() = isWiFi || preferencesManager.downloadOnMobileNetwork
+        get() = (isWiFi == true) || preferencesManager.downloadOnMobileNetwork
 }

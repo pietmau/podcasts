@@ -14,7 +14,7 @@ import io.realm.Realm
 import javax.inject.Inject
 
 class SaveAndDowloandEpisodeIntentService : IntentService("SaveAndDowloandEpisodeIntentService") {
-    @Inject lateinit var realm: Realm
+
     @Inject lateinit var api: SinglePodcastApi
     @Inject lateinit var crashlyticsWrapper: CrashlyticsWrapper
     @Inject lateinit var logger: DebugLogger
@@ -31,14 +31,13 @@ class SaveAndDowloandEpisodeIntentService : IntentService("SaveAndDowloandEpisod
         logger.debug(TAG, "onHandleIntent")
         var podcast: PodcastRealm? = getPodcast(intent!!) ?: return
         val episodes = getEpisodes(intent) ?: return
-        realm.executeTransaction {
+        Realm.getDefaultInstance().executeTransaction {
             podcast?.episodes = episodes
-            podcast = realm.copyToRealmOrUpdate(podcast)
+            podcast = it.copyToRealmOrUpdate(podcast)
             logger.debug(TAG, "executeTransaction")
+            logger.debug(TAG, "downloadIfAppropriate")
+            downloader.downloadIfAppropriate(podcast)
         }
-        logger.debug(TAG, "downloadIfAppropriate")
-        downloader.downloadIfAppropriate(podcast)
-        realm.close()
     }
 
     private fun getEpisodes(intent: Intent): List<Episode>? {
@@ -57,9 +56,11 @@ class SaveAndDowloandEpisodeIntentService : IntentService("SaveAndDowloandEpisod
 
     private fun getPodcast(intent: Intent): PodcastRealm? {
         val intExtra = intent.getIntExtra(TRACK_ID, -1)
-        val podcastRealm = realm.where(PodcastRealm::class.java)
-                .equalTo("trackId", intExtra)
-                .findFirst()
+        val podcastRealm = Realm.getDefaultInstance().use { realm ->
+            realm.copyFromRealm(realm.where(PodcastRealm::class.java)
+                    .equalTo("trackId", intExtra)
+                    .findFirst())
+        }
         logger.debug(TAG, "podcastRealm = " + podcastRealm)
         return podcastRealm
     }
