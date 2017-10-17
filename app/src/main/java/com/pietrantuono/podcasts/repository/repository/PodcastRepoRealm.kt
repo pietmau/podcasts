@@ -8,23 +8,25 @@ import rx.Observable
 import rx.Observer
 import rx.subjects.BehaviorSubject
 
-class PodcastRepoRealm(Realm, private val reposServices: RepoServices) : PodcastRepo {
+class PodcastRepoRealm(private val reposServices: RepoServices) : PodcastRepo {
     private var subject: BehaviorSubject<Boolean>? = null
 
     override fun subscribeUnsubscribeToPodcast(podcast: Podcast?) {
+        var singlePodcast: PodcastRealm? = null
         Realm.getDefaultInstance().executeTransactionAsync(object : Realm.Transaction {
             override fun execute(realm: Realm?) {
-                var singlePodcast = realm?.
+                singlePodcast = realm?.
                         where(PodcastRealm::class.java)?.
-                        equalTo("trackId", podcast?.trackId)?.findFirst() ?: RealmUtlis.toSinglePodcastRealm(podcast)
-                singlePodcast.isPodcastSubscribed = !singlePodcast.isPodcastSubscribed
+                        equalTo("trackId", podcast?.trackId)?.
+                        findFirst() ?: RealmUtlis.toSinglePodcastRealm(podcast)
+                singlePodcast!!.isPodcastSubscribed = !singlePodcast!!.isPodcastSubscribed
                 singlePodcast = realm?.copyToRealmOrUpdate(singlePodcast)
-
+                singlePodcast = realm?.copyFromRealm(singlePodcast)
             }
         }, object : Realm.Transaction.OnSuccess {
             override fun onSuccess() {
-                reposServices.getAndDowloadEpisodes(singlePodcast, singlePodcast.isPodcastSubscribed)
-                subject?.onNext(singlePodcast.isPodcastSubscribed)
+                reposServices.getAndDowloadEpisodes(singlePodcast, singlePodcast?.isPodcastSubscribed)
+                subject?.onNext(singlePodcast?.isPodcastSubscribed)
             }
         })
     }

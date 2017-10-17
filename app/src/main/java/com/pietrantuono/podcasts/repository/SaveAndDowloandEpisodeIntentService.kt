@@ -31,12 +31,10 @@ class SaveAndDowloandEpisodeIntentService : IntentService("SaveAndDowloandEpisod
         logger.debug(TAG, "onHandleIntent")
         var podcast: PodcastRealm? = getPodcast(intent!!) ?: return
         val episodes = getEpisodes(intent) ?: return
-        Realm.getDefaultInstance().use { realm ->
-            realm.executeTransaction {
-                podcast?.episodes = episodes
-                podcast = realm.copyToRealmOrUpdate(podcast)
-                logger.debug(TAG, "executeTransaction")
-            }
+        Realm.getDefaultInstance().executeTransaction {
+            podcast?.episodes = episodes
+            podcast = it.copyToRealmOrUpdate(podcast)
+            logger.debug(TAG, "executeTransaction")
             logger.debug(TAG, "downloadIfAppropriate")
             downloader.downloadIfAppropriate(podcast)
         }
@@ -59,9 +57,9 @@ class SaveAndDowloandEpisodeIntentService : IntentService("SaveAndDowloandEpisod
     private fun getPodcast(intent: Intent): PodcastRealm? {
         val intExtra = intent.getIntExtra(TRACK_ID, -1)
         val podcastRealm = Realm.getDefaultInstance().use { realm ->
-            realm.where(PodcastRealm::class.java)
+            realm.copyFromRealm(realm.where(PodcastRealm::class.java)
                     .equalTo("trackId", intExtra)
-                    .findFirst()
+                    .findFirst())
         }
         logger.debug(TAG, "podcastRealm = " + podcastRealm)
         return podcastRealm

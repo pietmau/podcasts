@@ -63,7 +63,7 @@ class EpisodesRepositoryRealm(
                     .findFirst()
                     ?.also { reamlEpisode ->
                         val episode = realm.copyFromRealm(reamlEpisode)
-                        cache.cacheEpisodeByEnclosureUrl(url, episode)
+                            cache.cacheEpisodeByEnclosureUrl(url, episode)
                     }
         }
     }

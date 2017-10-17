@@ -14,8 +14,8 @@ class RepoServicesImpl(
         val TAG: String? = "RepoServicesImpl"
     }
 
-    override fun getAndDowloadEpisodes(podcast: Podcast, subscribe: Boolean) {
-        if (subscribe) {
+    override fun getAndDowloadEpisodes(podcast: Podcast?, subscribe: Boolean?) {
+        if (subscribe == true && podcast != null) {
             startService(podcast)
         }
     }

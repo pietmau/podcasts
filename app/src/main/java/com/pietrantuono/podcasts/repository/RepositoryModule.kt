@@ -24,18 +24,18 @@ class RepositoryModule {
 
     @Provides
     fun providePodcastRepo(realm: Realm, services: RepoServices): PodcastRepo {
-        return PodcastRepoRealm(realm, services)
+        return PodcastRepoRealm(services)
     }
 
     @Provides
     fun provideServices(context: Context, realm: Realm, logger: DebugLogger): RepoServices {
-        return RepoServicesImpl(context, realm, logger)
+        return RepoServicesImpl(context, logger)
     }
 
     @Singleton
     @Provides
     fun provideEpisodesRepository(realm: Realm, cache: EpisodeCache): EpisodesRepository {
-        return EpisodesRepositoryRealm(realm, cache)
+        return EpisodesRepositoryRealm(cache)
     }
 
     @Singleton
