@@ -5,9 +5,7 @@ import com.pietrantuono.podcasts.interfaces.RealmEpisode
 import io.realm.Realm
 import rx.Observable
 
-class EpisodesRepositoryRealm(
-        private val cache: EpisodeCache) : EpisodesRepository {
-
+class EpisodesRepositoryRealm(private val cache: EpisodeCache) : EpisodesRepository {
     private val LINK = "link"
     private val ENCLOSURE_URL = "syndEnclosures.url"
 
@@ -18,7 +16,6 @@ class EpisodesRepositoryRealm(
                         .findFirst()
                         .asObservable<RealmEpisode>()
             }
-
 
     override fun onDownloadCompleted(episode: Episode?, filePath: String) {
         episode?.let {
