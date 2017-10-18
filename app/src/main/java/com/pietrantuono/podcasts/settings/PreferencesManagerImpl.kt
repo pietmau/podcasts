@@ -18,7 +18,6 @@ class PreferencesManagerImpl(private val context: Context) : PreferencesManager 
     override val downloadDir: String
         get() = context.getFilesDir().absolutePath
 
-    fun downloadOnMobileNetwork(): Boolean {
-        return sharedPref.getBoolean(DOWNLOAD_ON_MOBILE_NETWORK, false)
-    }
+    fun downloadOnMobileNetwork() = sharedPref.getBoolean(DOWNLOAD_ON_MOBILE_NETWORK, false)
+
 }

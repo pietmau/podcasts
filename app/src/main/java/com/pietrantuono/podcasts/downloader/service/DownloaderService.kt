@@ -14,7 +14,6 @@ import javax.inject.Inject
 
 class DownloaderService() : Service(), FetchListener {
     companion object {
-        const private val TAG: String = "DownloaderService"
         const val TRACK: String = "track_id"
         const val TRACK_LIST: String = "track_list"
         const val DOWNLOAD_COMPLETED: Int = 100
@@ -68,7 +67,6 @@ class DownloaderService() : Service(), FetchListener {
 
     private fun updateEpisodIfAppropriate(progress: Int, id: Long) {
         if (progress >= DOWNLOAD_COMPLETED) {
-            stopForeground(false)
             internalDownloader.getRequestById(id)?.let { onDownloadCompleted(it) }
         }
     }
@@ -76,7 +74,7 @@ class DownloaderService() : Service(), FetchListener {
     private fun onDownloadCompleted(requestInfo: RequestInfo) {
         stopForeground(false)
         episodeRepo.getEpisodeByEnclosureUrlSync(requestInfo.url)?.let {
-            episodeRepo.onDownloadCompleted(it)
+            episodeRepo.onDownloadCompleted(it, requestInfo.filePath)
         }
     }
 

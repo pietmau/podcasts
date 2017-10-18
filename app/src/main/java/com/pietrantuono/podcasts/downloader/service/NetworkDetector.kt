@@ -5,7 +5,9 @@ import android.net.wifi.WifiManager
 import com.pietrantuono.podcasts.settings.PreferencesManager
 
 
-class NetworkDetector(private val context: Context, private val preferencesManager: PreferencesManager) {
+class NetworkDetector(
+        private val context: Context,
+        private val preferencesManager: PreferencesManager) {
     private val isWiFi: Boolean?
         get() = (context.getSystemService(Context.WIFI_SERVICE) as? WifiManager)?.let {
             if (it.isWifiEnabled) {

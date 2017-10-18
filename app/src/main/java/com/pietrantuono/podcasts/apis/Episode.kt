@@ -36,4 +36,6 @@ interface Episode : Parcelable {
     var played: Boolean
 
     val durationInMills: Long?
+
+    var filePath: String?
 }

@@ -20,11 +20,12 @@ class EpisodesRepositoryRealm(
             }
 
 
-    override fun onDownloadCompleted(episode: Episode?) {
+    override fun onDownloadCompleted(episode: Episode?, filePath: String) {
         episode?.let {
             Realm.getDefaultInstance().use { realm ->
-                realm.executeTransaction {
+                realm.executeTransactionAsync {
                     episode.downloaded = true
+                    episode.filePath = filePath
                 }
             }
         }
@@ -63,7 +64,7 @@ class EpisodesRepositoryRealm(
                     .findFirst()
                     ?.also { reamlEpisode ->
                         val episode = realm.copyFromRealm(reamlEpisode)
-                            cache.cacheEpisodeByEnclosureUrl(url, episode)
+                        cache.cacheEpisodeByEnclosureUrl(url, episode)
                     }
         }
     }

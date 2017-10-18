@@ -6,7 +6,7 @@ import rx.Observable
 
 interface EpisodesRepository {
     fun getEpisodeByUrlSync(url: String?): Episode?
-    fun onDownloadCompleted(episode: Episode?)
+    fun onDownloadCompleted(episode: Episode?, filePath: String)
     fun getEpisodeByUrlAsync(url: String): Observable<out Episode>
     fun getEpisodeByUrlAsObservable(url: String): Observable<out Episode?>
     fun getEpisodeByEnclosureUrlSync(url: String?): Episode?

@@ -45,6 +45,7 @@ open class RealmEpisode : RealmObject, Episode {
     @Ignore
     override var enclosures: List<SyndEnclosure>? = null
         get() = syndEnclosures
+    override var filePath: String? = null
 
     constructor(parcel: Parcel) {
         link = parcel.readString()
