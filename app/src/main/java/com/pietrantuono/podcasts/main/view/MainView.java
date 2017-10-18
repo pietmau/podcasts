@@ -7,4 +7,6 @@ public interface MainView {
     void navigateToSubscribedPodcasts();
 
     void navigateToSettings();
+
+    void navigateToDownloads();
 }

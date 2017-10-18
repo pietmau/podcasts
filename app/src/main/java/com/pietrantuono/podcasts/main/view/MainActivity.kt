@@ -21,6 +21,10 @@ import io.fabric.sdk.android.Fabric
 import javax.inject.Inject
 
 class MainActivity : AbstractPlaybackControlsActivity(), MainView {
+    override fun navigateToDownloads() {
+        TODO("not implemented")
+    }
+
     @Inject lateinit var mainPresenter: MainPresenter
     @Inject lateinit var transitions: TransitionsHelper
     @BindView(R.id.drawer) lateinit var drawerLayoutWithToggle: DrawerLayoutWithToggle

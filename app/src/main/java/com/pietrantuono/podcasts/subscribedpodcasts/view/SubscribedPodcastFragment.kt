@@ -35,7 +35,7 @@ class SubscribedPodcastFragment : Fragment(), SubscribedPodcastView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity as MainActivity).mainComponent.with(SubscribedPodcastModule(activity)).inject(this)
+        (activity as MainActivity).mainComponent?.with(SubscribedPodcastModule(activity))?.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {

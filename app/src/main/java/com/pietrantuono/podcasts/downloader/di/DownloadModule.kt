@@ -33,8 +33,8 @@ class DownloadModule(private val context: Context) {
     }
 
     @Provides
-    fun provideDirectoryProvider(): DirectoryProvider {
-        return DirectoryProviderImpl(context)
+    fun provideDirectoryProvider(preferences: PreferencesManager): DirectoryProvider {
+        return DirectoryProviderImpl(context, preferences)
     }
 
     @Provides

@@ -39,5 +39,9 @@ class MainPresenter(private val checker: ApiLevelChecker) : GenericPresenter {
     fun onSettingsSelected() {
         view?.navigateToSettings()
     }
+
+    fun onDownloadsSelected() {
+        view?.navigateToDownloads()
+    }
 }
 

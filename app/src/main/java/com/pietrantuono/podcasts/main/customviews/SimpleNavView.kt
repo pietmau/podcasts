@@ -32,7 +32,7 @@ class SimpleNavView : NavigationView {
                 R.id.add_podcast -> listener?.onAddPodcastSelected()
                 R.id.subscribed -> listener?.onSubscribeSelected()
                 R.id.settings -> listener?.onSettingsSelected()
-                R.id.downloads -> listener?.onSettingsSelected()
+                R.id.downloads -> listener?.onDownloadsSelected()
             }
             true
         }
