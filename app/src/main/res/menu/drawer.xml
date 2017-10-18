@@ -9,5 +9,13 @@
             android:id="@+id/add_podcast"
             android:icon="@android:drawable/ic_menu_search"
             android:title="@string/search" />
+        <item
+            android:id="@+id/settings"
+            android:icon="@drawable/ic_settings_white_24dp"
+            android:title="@string/settings" />
+        <item
+            android:id="@+id/downloads"
+            android:icon="@drawable/ic_settings_white_24dp"
+            android:title="@string/downloads" />
     </group>
 </menu>

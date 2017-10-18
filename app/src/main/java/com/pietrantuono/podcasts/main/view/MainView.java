@@ -5,4 +5,6 @@ public interface MainView {
     void navigateToAddPodcast();
 
     void navigateToSubscribedPodcasts();
+
+    void navigateToSettings();
 }

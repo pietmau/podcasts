@@ -25,7 +25,7 @@ class MainPresenter(private val checker: ApiLevelChecker) : GenericPresenter {
 
     fun onCreate(activityRecreated: Boolean) {
         if (!activityRecreated) {
-            view!!.navigateToSubscribedPodcasts()
+            view?.navigateToSubscribedPodcasts()
         }
         if (checker.isMarshmallowOrHigher) {
 
@@ -34,6 +34,10 @@ class MainPresenter(private val checker: ApiLevelChecker) : GenericPresenter {
 
     fun onSubscribeSelected() {
         view?.navigateToSubscribedPodcasts()
+    }
+
+    fun onSettingsSelected() {
+        view?.navigateToSettings()
     }
 }
 
