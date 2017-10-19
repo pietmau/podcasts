@@ -12,6 +12,7 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.AbstractPlaybackC
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastFragment
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.application.MainComponent
+import com.pietrantuono.podcasts.downloadfragment.view.DownloadFragment
 import com.pietrantuono.podcasts.main.customviews.DrawerLayoutWithToggle
 import com.pietrantuono.podcasts.main.customviews.SimpleNavView
 import com.pietrantuono.podcasts.main.dagger.MainModule
@@ -21,16 +22,12 @@ import io.fabric.sdk.android.Fabric
 import javax.inject.Inject
 
 class MainActivity : AbstractPlaybackControlsActivity(), MainView {
-    override fun navigateToDownloads() {
-        TODO("not implemented")
-    }
-
     @Inject lateinit var mainPresenter: MainPresenter
     @Inject lateinit var transitions: TransitionsHelper
     @BindView(R.id.drawer) lateinit var drawerLayoutWithToggle: DrawerLayoutWithToggle
     @BindView(R.id.maintoolbar) lateinit var mainToolbar: Toolbar
     @BindView(R.id.nav_view) lateinit var simpleNavView: SimpleNavView
-    private var fragmentManager: FragmentManager? = null
+    private var fragmentManager: FragmentManager = supportFragmentManager
     var mainComponent: MainComponent? = null
         private set
 
@@ -40,7 +37,6 @@ class MainActivity : AbstractPlaybackControlsActivity(), MainView {
         Fabric.with(applicationContext, Crashlytics())
         setContentView(R.layout.activity_main)
         ButterKnife.bind(this@MainActivity)
-        fragmentManager = supportFragmentManager
         setUpViews()
         mainPresenter.bindView(this@MainActivity)
         mainPresenter.onCreate(savedInstanceState != null)
@@ -84,10 +80,14 @@ class MainActivity : AbstractPlaybackControlsActivity(), MainView {
     }
 
     override fun navigateToSettings() {
-        var frag: Fragment? = fragmentManager?.findFragmentByTag(SettingsFragment.TAG) as SettingsFragment
+        var frag: Fragment? = fragmentManager.findFragmentByTag(SettingsFragment.TAG)
         if (frag == null) {
             frag = SettingsFragment()
         }
-        fragmentManager?.beginTransaction()?.replace(R.id.fragmentContainer, frag, SettingsFragment.TAG)?.commit()
+        fragmentManager.beginTransaction()?.replace(R.id.fragmentContainer, frag, SettingsFragment.TAG)?.commit()
+    }
+
+    override fun navigateToDownloads() {
+        DownloadFragment.navigateToDownloads(fragmentManager)
     }
 }

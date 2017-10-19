@@ -10,6 +10,8 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.dagger.SinglePodcastMo
 import com.pietrantuono.podcasts.apis.ApiModule
 import com.pietrantuono.podcasts.downloader.DownloadSubComponent
 import com.pietrantuono.podcasts.downloader.di.DownloadModule
+import com.pietrantuono.podcasts.downloadfragment.di.DownloadFragmentComponent
+import com.pietrantuono.podcasts.downloadfragment.di.DownloadFragmentModule
 import com.pietrantuono.podcasts.fullscreenplay.di.FullscreenModule
 import com.pietrantuono.podcasts.fullscreenplay.di.FullscreenSubComponent
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
@@ -58,5 +60,5 @@ interface ApplicationComponent {
 
     fun with(serviceModule: ServiceModule): ServiceComponent
 
-
+    fun with(serviceModule: DownloadFragmentModule): DownloadFragmentComponent
 }
