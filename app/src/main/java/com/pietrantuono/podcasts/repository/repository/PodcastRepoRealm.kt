@@ -5,7 +5,6 @@ import com.pietrantuono.podcasts.providers.PodcastRealm
 import com.pietrantuono.podcasts.providers.RealmUtlis
 import io.realm.Realm
 import rx.Observable
-import rx.Observer
 import rx.subjects.BehaviorSubject
 
 class PodcastRepoRealm(private val reposServices: RepoServices) : PodcastRepo {
@@ -45,7 +44,7 @@ class PodcastRepoRealm(private val reposServices: RepoServices) : PodcastRepo {
         return subject!!.asObservable()
     }
 
-    override fun getSubscribedPodcasts(observer: Observer<List<Podcast>>): Observable<List<Podcast>> {
+    override fun getSubscribedPodcasts(): Observable<List<Podcast>> {
         return Realm.getDefaultInstance().use { realm ->
             realm.where(PodcastRealm::class.java)
                     .equalTo("podcastSubscribed", true)

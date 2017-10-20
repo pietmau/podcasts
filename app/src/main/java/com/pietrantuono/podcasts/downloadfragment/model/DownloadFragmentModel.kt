@@ -1,8 +1,11 @@
 package com.pietrantuono.podcasts.downloadfragment.model
 
-import rx.Observable
+import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
+import rx.Observer
 
 interface DownloadFragmentModel {
-    fun getEpisodesWithDownload():Observable<>
+    fun unsubscribe()
+    fun subscribe(observer: Observer<List<Podcast>>)
+
 
 }

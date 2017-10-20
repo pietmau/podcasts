@@ -72,4 +72,6 @@ interface Podcast : Parcelable {
 
     var isPodcastSubscribed: Boolean
 
+    var numberOfEpisodesDowloaded: Int?
+
 }

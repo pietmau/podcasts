@@ -16,3 +16,4 @@ class DownloadFragmentModule {
     @Provides
     fun provideModel(repo: EpisodesRepository): DownloadFragmentModel = DownloadFragmentModelImpl(repo)
 }
+
