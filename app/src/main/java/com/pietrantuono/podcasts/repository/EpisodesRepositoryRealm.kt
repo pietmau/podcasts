@@ -17,13 +17,11 @@ class EpisodesRepositoryRealm(private val cache: EpisodeCache) : EpisodesReposit
                         .asObservable<RealmEpisode>()
             }
 
-    override fun onDownloadCompleted(episode: Episode?, filePath: String) {
-        episode?.let {
-            Realm.getDefaultInstance().use { realm ->
-                realm.executeTransactionAsync {
-                    episode.downloaded = true
-                    episode.filePath = filePath
-                }
+    /** To be used from another Thread or from a service in another process . */
+    override fun saveEpisodeSync(episode: RealmEpisode) {
+        Realm.getDefaultInstance().use { realm ->
+            realm.executeTransaction {
+                it.copyToRealmOrUpdate(episode)
             }
         }
     }

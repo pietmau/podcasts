@@ -53,6 +53,7 @@ public class PodcastRealm extends RealmObject implements Podcast {
     private RealmList<RealmString> genres = null;
     private RealmList<RealmEpisode> episodes = new RealmList<>();
     private boolean podcastSubscribed;
+    private Integer numberOfEpisodesDowloaded;
 
     public PodcastRealm() {
     }
@@ -612,4 +613,14 @@ public class PodcastRealm extends RealmObject implements Podcast {
         }
     }
 
+    @Nullable
+    @Override
+    public Integer getNumberOfEpisodesDowloaded() {
+        return numberOfEpisodesDowloaded;
+    }
+
+    @Override
+    public void setNumberOfEpisodesDowloaded(@Nullable Integer integer) {
+        this.numberOfEpisodesDowloaded = integer;
+    }
 }

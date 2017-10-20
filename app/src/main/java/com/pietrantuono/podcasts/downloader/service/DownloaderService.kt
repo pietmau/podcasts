@@ -7,7 +7,6 @@ import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.downloader.di.DownloadModule
 import com.pietrantuono.podcasts.downloader.downloader.Fetcher
-import com.pietrantuono.podcasts.repository.EpisodesRepository
 import com.tonyodev.fetch.listener.FetchListener
 import com.tonyodev.fetch.request.RequestInfo
 import javax.inject.Inject
@@ -23,7 +22,7 @@ class DownloaderService() : Service(), FetchListener {
     @Inject lateinit var downloadNotificator: DownloadNotificator
     @Inject lateinit var debugLogger: DebugLogger
     @Inject lateinit var networkAndPreferencesManager: NetworkDetector
-    @Inject lateinit var episodeRepo: EpisodesRepository
+    @Inject lateinit var downloadsManager: CompletedDownloadsManager
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
@@ -73,9 +72,7 @@ class DownloaderService() : Service(), FetchListener {
 
     private fun onDownloadCompleted(requestInfo: RequestInfo) {
         stopForeground(false)
-        episodeRepo.getEpisodeByEnclosureUrlSync(requestInfo.url)?.let {
-            episodeRepo.onDownloadCompleted(it, requestInfo.filePath)
-        }
+        downloadsManager.onDownloadCompleted(requestInfo)
     }
 
     private fun stopDownloadAndNotifyUser(requestInfo: RequestInfo) {
