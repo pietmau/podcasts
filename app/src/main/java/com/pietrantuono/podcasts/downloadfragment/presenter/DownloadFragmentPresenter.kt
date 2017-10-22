@@ -27,6 +27,5 @@ class DownloadFragmentPresenter(private val model: DownloadFragmentModel) {
     fun unbind() {
         model.unsubscribe()
     }
-
 }
 
