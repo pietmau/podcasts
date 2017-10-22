@@ -10,6 +10,7 @@ import com.rometools.rome.feed.synd.SyndEnclosure
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.Ignore
+import io.realm.annotations.PrimaryKey
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -26,6 +27,7 @@ open class RealmEpisode : RealmObject, Episode {
             }
         }
     override var played: Boolean = false
+    @PrimaryKey
     override var link: String? = null
     override var downloaded: Boolean = false
     @Ignore

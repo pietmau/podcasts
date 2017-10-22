@@ -1,7 +1,6 @@
 package com.pietrantuono.podcasts.subscribedpodcasts.model;
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
-import com.pietrantuono.podcasts.repository.repository.Repository;
 
 import org.junit.Before;
 import org.junit.Test;

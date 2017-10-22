@@ -2,7 +2,6 @@ package com.pietrantuono.podcasts.repository.repository
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.apis.Episode
-import com.pietrantuono.podcasts.interfaces.RealmEpisode
 import com.pietrantuono.podcasts.providers.PodcastRealm
 import com.pietrantuono.podcasts.providers.RealmUtlis
 import io.realm.Realm
@@ -13,9 +12,11 @@ class PodcastRepoRealm(private val reposServices: RepoServices) : PodcastRepo {
 
     override fun getPodcastByEpisodeSync(episode: Episode): Podcast? {
         return Realm.getDefaultInstance().use {
-            it?.where(PodcastRealm::class.java)?.
+            var result = it?.where(PodcastRealm::class.java)?.
                     equalTo("episodes.link", episode.link)?.
                     findFirst()
+            result = it.copyFromRealm(result)
+            result
         }
     }
 

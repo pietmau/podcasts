@@ -15,7 +15,7 @@
             android:title="@string/settings" />
         <item
             android:id="@+id/downloads"
-            android:icon="@android:drawable/stat_sys_download_done"
+            android:icon="@drawable/ic_file_download_white_24dp"
             android:title="@string/downloads" />
     </group>
 </menu>

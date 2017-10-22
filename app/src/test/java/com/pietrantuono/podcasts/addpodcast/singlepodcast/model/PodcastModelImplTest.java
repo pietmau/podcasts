@@ -1,6 +1,5 @@
 package com.pietrantuono.podcasts.addpodcast.singlepodcast.model;
 
-import com.pietrantuono.podcasts.repository.repository.Repository;
 import com.pietrantuono.podcasts.apis.SinglePodcastApi;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
 

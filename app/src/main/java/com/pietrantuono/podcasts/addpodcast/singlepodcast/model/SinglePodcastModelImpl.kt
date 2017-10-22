@@ -4,7 +4,7 @@ import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
 import com.pietrantuono.podcasts.apis.PodcastFeed
 import com.pietrantuono.podcasts.apis.SinglePodcastApi
-import com.pietrantuono.podcasts.repository.repository.Repository
+import com.pietrantuono.podcasts.repository.repository.PodcastRepo
 import rx.Observable
 import rx.Observer
 import rx.android.schedulers.AndroidSchedulers
@@ -13,7 +13,7 @@ import rx.subscriptions.CompositeSubscription
 
 class SinglePodcastModelImpl(
         private val singlePodcastApi: SinglePodcastApi,
-        private val repository: Repository) : SinglePodcastModel {
+        private val repository: PodcastRepo) : SinglePodcastModel {
 
     private var podcastFeedObservable: Observable<PodcastFeed>? = null
     private var podcast: Podcast? = null

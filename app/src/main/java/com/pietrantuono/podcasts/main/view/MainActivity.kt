@@ -18,6 +18,7 @@ import com.pietrantuono.podcasts.main.customviews.SimpleNavView
 import com.pietrantuono.podcasts.main.dagger.MainModule
 import com.pietrantuono.podcasts.main.presenter.MainPresenter
 import com.pietrantuono.podcasts.settings.fragment.SettingsFragment
+import com.pietrantuono.podcasts.subscribedpodcasts.view.SubscribedPodcastFragment
 import io.fabric.sdk.android.Fabric
 import javax.inject.Inject
 
@@ -76,7 +77,7 @@ class MainActivity : AbstractPlaybackControlsActivity(), MainView {
     }
 
     override fun navigateToSubscribedPodcasts() {
-
+        SubscribedPodcastFragment.navigateTo(fragmentManager)
     }
 
     override fun navigateToSettings() {

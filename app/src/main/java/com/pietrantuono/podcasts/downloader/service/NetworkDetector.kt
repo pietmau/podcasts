@@ -19,4 +19,6 @@ class NetworkDetector(
 
     val shouldDownload: Boolean
         get() = (isWiFi == true) || preferencesManager.downloadOnMobileNetwork
+
+
 }

@@ -15,9 +15,7 @@ class PodcastImpl : Podcast {
             throw Exception("Unsopported")
         }
 
-    override var episodes: List<Episode>?
-        get() = throw UnsupportedOperationException("Not used")
-        set(value) = throw UnsupportedOperationException("Not used")
+    override var episodes: List<Episode>? = null
 
     override var numberOfEpisodesDowloaded: Int?
         get() = throw UnsupportedOperationException("Not used")

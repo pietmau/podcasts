@@ -4,7 +4,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.support.v4.app.FragmentActivity;
 
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker;
-import com.pietrantuono.podcasts.repository.repository.Repository;
+import com.pietrantuono.podcasts.repository.repository.PodcastRepo;
 import com.pietrantuono.podcasts.subscribedpodcasts.model.SubscribedPodcastModel;
 import com.pietrantuono.podcasts.subscribedpodcasts.model.SubscribedPodcastModelImpl;
 import com.pietrantuono.podcasts.subscribedpodcasts.presenter.SubscribedPodcastPresenter;
@@ -27,7 +27,7 @@ public class SubscribedPodcastModule {
     }
 
     @Provides
-    SubscribedPodcastModel provideSubscribedPodcastModel(Repository repository) {
+    SubscribedPodcastModel provideSubscribedPodcastModel(PodcastRepo repository) {
         return new SubscribedPodcastModelImpl(repository);
     }
 
