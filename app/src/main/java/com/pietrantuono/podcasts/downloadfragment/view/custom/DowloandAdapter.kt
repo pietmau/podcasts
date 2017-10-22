@@ -1,18 +1,28 @@
 package com.pietrantuono.podcasts.downloadfragment.view.custom
 
-import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.pietrantuono.podcasts.R
+import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter
+import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
 
-class DowloandAdapter(private val data: List<PodcastWitDownloads>) : RecyclerView.Adapter<DownloadHolder>() {
+class DowloandAdapter(data: MutableList<DownloadedPodcast>) : ExpandableRecyclerViewAdapter<PodcastDowloadHolder, EpisodeDownloadHolder>(data) {
 
-    override fun getItemCount(): Int = data.size
-
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): DownloadHolder {
-        TODO("not implemented")
+    override fun onCreateChildViewHolder(parent: ViewGroup?, viewType: Int): EpisodeDownloadHolder {
+        return EpisodeDownloadHolder(LayoutInflater.from(parent?.context)?.inflate(R.layout.download_item, parent, false))
     }
 
-    override fun onBindViewHolder(holder: DownloadHolder?, position: Int) {
-        TODO("not implemented")
+    override fun onBindGroupViewHolder(holder: PodcastDowloadHolder?, flatPosition: Int, group: ExpandableGroup<*>?) {
+
+    }
+
+    override fun onBindChildViewHolder(holder: EpisodeDownloadHolder?, flatPosition: Int, group: ExpandableGroup<*>?, childIndex: Int) {
+
+    }
+
+    override fun onCreateGroupViewHolder(parent: ViewGroup?, viewType: Int): PodcastDowloadHolder {
+        return PodcastDowloadHolder(LayoutInflater.from(parent?.context)?.inflate(R.layout.download_item, parent, false))
     }
 
 }
+

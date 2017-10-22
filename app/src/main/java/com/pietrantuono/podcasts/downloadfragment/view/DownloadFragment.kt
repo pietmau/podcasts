@@ -6,17 +6,21 @@ import android.support.v4.app.FragmentManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.downloadfragment.di.DownloadFragmentModule
 import com.pietrantuono.podcasts.downloadfragment.presenter.DownloadFragmentPresenter
+import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadRecycler
+import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
 import javax.inject.Inject
 
 
 class DownloadFragment : Fragment(), DownloadView {
+
     @Inject lateinit var presenter: DownloadFragmentPresenter
+    @BindView(R.id.download_recycler) lateinit var recycler: DownloadRecycler
 
     companion object {
         val TAG = "DownloadFragment"
@@ -48,7 +52,7 @@ class DownloadFragment : Fragment(), DownloadView {
         (activity.applicationContext as? App)?.applicationComponent?.with(DownloadFragmentModule())?.inject(this)
     }
 
-    override fun setPodcasts(feed: List<Podcast>) {
-        TODO("not implemented")
+    override fun setPodcasts(list: List<DownloadedPodcast>) {
+        recycler.setData(list.toMutableList())
     }
 }

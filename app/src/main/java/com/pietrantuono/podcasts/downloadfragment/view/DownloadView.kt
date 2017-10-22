@@ -1,8 +1,8 @@
 package com.pietrantuono.podcasts.downloadfragment.view
 
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
+import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
 
 
 interface DownloadView {
-    fun setPodcasts(feed: List<Podcast>)
+    fun setPodcasts(list: List<DownloadedPodcast>)
 }

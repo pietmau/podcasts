@@ -1,6 +1,9 @@
 package com.pietrantuono.podcasts.downloadfragment.model
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
+import com.pietrantuono.podcasts.apis.Episode
+import com.pietrantuono.podcasts.downloadfragment.view.custom.DowloadedEpisode
+import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
 import com.pietrantuono.podcasts.repository.repository.PodcastRepo
 import rx.Observable
 import rx.Observer
@@ -14,8 +17,18 @@ class DownloadFragmentModelImpl(repo: PodcastRepo) : DownloadFragmentModel {
         subscription?.unsubscribe()
     }
 
-    override fun subscribe(observer: Observer<List<Podcast>>) {
-        subscription = observable.subscribe(observer)
+    //TODO ask
+    override fun subscribe(observer: Observer<List<DownloadedPodcast>?>) {
+        subscription = observable.map { it?.map { toDownloadedPodcast(it) } }.subscribe(observer)
     }
+
+    private fun toDownloadedPodcast(podcast: Podcast): DownloadedPodcast =
+            DownloadedPodcast(podcast, podcast.trackName, makeEpisodes(podcast))
+
+    private fun makeEpisodes(podcast: Podcast): List<DowloadedEpisode>? = podcast.episodes?.map { ff(it) }
+
+
+    fun ff(episode: Episode): DowloadedEpisode = DowloadedEpisode(episode)
+
 
 }

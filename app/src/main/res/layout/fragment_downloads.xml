@@ -5,6 +5,7 @@
               android:orientation="vertical">
 
     <com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadRecycler
+        android:id="@+id/download_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadRecycler>

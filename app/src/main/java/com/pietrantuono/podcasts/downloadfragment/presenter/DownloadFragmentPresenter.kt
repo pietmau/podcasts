@@ -1,10 +1,10 @@
 package com.pietrantuono.podcasts.downloadfragment.presenter
 
 
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
 import com.pietrantuono.podcasts.downloadfragment.model.DownloadFragmentModel
 import com.pietrantuono.podcasts.downloadfragment.view.DownloadView
+import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
 
 
 class DownloadFragmentPresenter(private val model: DownloadFragmentModel) {
@@ -15,8 +15,8 @@ class DownloadFragmentPresenter(private val model: DownloadFragmentModel) {
     }
 
     fun bind() {
-        model.subscribe(object : SimpleObserver<List<Podcast>>() {
-            override fun onNext(feed: List<Podcast>?) {
+        model.subscribe(object : SimpleObserver<List<DownloadedPodcast>>() {
+            override fun onNext(feed: List<DownloadedPodcast>?) {
                 if (feed != null && !feed.isEmpty()) {
                     view?.setPodcasts(feed)
                 }
