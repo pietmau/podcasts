@@ -3,7 +3,7 @@ package com.pietrantuono.podcasts.downloadfragment.di
 import com.pietrantuono.podcasts.downloadfragment.model.DownloadFragmentModel
 import com.pietrantuono.podcasts.downloadfragment.model.DownloadFragmentModelImpl
 import com.pietrantuono.podcasts.downloadfragment.presenter.DownloadFragmentPresenter
-import com.pietrantuono.podcasts.repository.EpisodesRepository
+import com.pietrantuono.podcasts.repository.repository.PodcastRepo
 import dagger.Module
 import dagger.Provides
 
@@ -14,6 +14,6 @@ class DownloadFragmentModule {
     fun providePresenter(model: DownloadFragmentModel) = DownloadFragmentPresenter(model)
 
     @Provides
-    fun provideModel(repo: EpisodesRepository): DownloadFragmentModel = DownloadFragmentModelImpl(repo)
+    fun provideModel(repo: PodcastRepo): DownloadFragmentModel = DownloadFragmentModelImpl(repo)
 }
 

@@ -14,7 +14,7 @@ class RepositoryModule {
 
     @Provides
     fun provideRepository(realm: Realm, podcastRepo: PodcastRepo): Repository {
-        return RealmRepository(realm, podcastRepo)
+        return RealmRepository(podcastRepo)
     }
 
     @Provides

@@ -8,12 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
+import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.downloadfragment.di.DownloadFragmentModule
 import com.pietrantuono.podcasts.settings.fragment.SettingsFragment
 
 
 class DownloadFragment : Fragment(), DownloadView {
+    override fun setPodcasts(feed: List<Podcast>) {
+        TODO("not implemented")
+    }
+
     companion object {
         val TAG = "DownloadFragment"
         fun navigateToDownloads(fragmentManager: FragmentManager) {

@@ -20,6 +20,6 @@ class CompletedDownloadsManager(
     }
 
     private fun updatePodcast(episode: RealmEpisode) {
-        podcastRepo.getPodcastByEpisodeSync(episode)
+        val pdcast = podcastRepo.getPodcastByEpisodeSync(episode)
     }
 }

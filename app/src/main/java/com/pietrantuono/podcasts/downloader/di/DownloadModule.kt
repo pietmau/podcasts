@@ -3,10 +3,12 @@ package com.pietrantuono.podcasts.downloader.di
 import android.content.Context
 import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.downloader.downloader.*
+import com.pietrantuono.podcasts.downloader.service.CompletedDownloadsManager
 import com.pietrantuono.podcasts.downloader.service.DownloadNotificator
 import com.pietrantuono.podcasts.downloader.service.DownloadNotificatorImpl
 import com.pietrantuono.podcasts.downloader.service.NetworkDetector
 import com.pietrantuono.podcasts.repository.EpisodesRepository
+import com.pietrantuono.podcasts.repository.repository.PodcastRepo
 import com.pietrantuono.podcasts.settings.PreferencesManager
 import dagger.Module
 import dagger.Provides
@@ -39,5 +41,8 @@ class DownloadModule(private val context: Context) {
 
     @Provides
     fun provideNetworkDetector(preferencesManager: PreferencesManager) = NetworkDetector(context, preferencesManager)
+
+    @Provides
+    fun provideDownloadManager(episodeRepo: EpisodesRepository, podcastRepo: PodcastRepo) = CompletedDownloadsManager(episodeRepo, podcastRepo)
 }
 
