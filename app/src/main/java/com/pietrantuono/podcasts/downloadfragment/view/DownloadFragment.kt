@@ -13,11 +13,28 @@ import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.downloadfragment.di.DownloadFragmentModule
 import com.pietrantuono.podcasts.downloadfragment.presenter.DownloadFragmentPresenter
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadRecycler
+import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedEpisode
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
 import javax.inject.Inject
 
 
 class DownloadFragment : Fragment(), DownloadView {
+    override fun confirmDownloadEpisode(episode: DownloadedEpisode?) {
+        TODO("not implemented")
+    }
+
+    override fun confirmDownloadEpisodes(episodes: List<DownloadedEpisode>?) {
+        TODO("not implemented")
+    }
+
+    override fun confirmDeleteEpisode(episode: DownloadedEpisode?) {
+        TODO("not implemented")
+    }
+
+    override fun confirmDeleteEpisodes(episodes: List<DownloadedEpisode>?) {
+        TODO("not implemented")
+    }
+
     @Inject lateinit var presenter: DownloadFragmentPresenter
     @BindView(R.id.download_recycler) lateinit var recycler: DownloadRecycler
 
@@ -33,6 +50,7 @@ class DownloadFragment : Fragment(), DownloadView {
         val view = inflater!!.inflate(R.layout.fragment_downloads, container, false)
         ButterKnife.bind(this, view)
         presenter.bindView(this)
+        recycler.callback = presenter
         return view
     }
 

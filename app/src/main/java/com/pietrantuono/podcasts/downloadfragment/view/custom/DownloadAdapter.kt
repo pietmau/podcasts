@@ -9,7 +9,7 @@ import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
 
 class DownloadAdapter(
         data: MutableList<DownloadedPodcast>,
-        private val callback: Callback?) : ExpandableRecyclerViewAdapter<PodcastDowloadHolder, EpisodeDownloadHolder>(data) {
+        var callback: Callback?) : ExpandableRecyclerViewAdapter<PodcastDowloadHolder, EpisodeDownloadHolder>(data) {
 
     override fun onCreateChildViewHolder(parent: ViewGroup?, viewType: Int): EpisodeDownloadHolder {
         val inflater = LayoutInflater.from(parent?.context)

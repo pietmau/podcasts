@@ -4,10 +4,29 @@ package com.pietrantuono.podcasts.downloadfragment.presenter
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
 import com.pietrantuono.podcasts.downloadfragment.model.DownloadFragmentModel
 import com.pietrantuono.podcasts.downloadfragment.view.DownloadView
+import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadAdapter
+import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedEpisode
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
 
 
-class DownloadFragmentPresenter(private val model: DownloadFragmentModel) {
+class DownloadFragmentPresenter(private val model: DownloadFragmentModel) : DownloadAdapter.Callback {
+
+    override fun downloadEpisode(episode: DownloadedEpisode?) {
+        view?.confirmDownloadEpisode(episode)
+    }
+
+    override fun downloadEpisodes(episodes: List<DownloadedEpisode>?) {
+        view?.confirmDownloadEpisodes(episodes)
+    }
+
+    override fun deleteEpisode(episode: DownloadedEpisode?) {
+        view?.confirmDeleteEpisode(episode)
+    }
+
+    override fun deleteEpisodes(episodes: List<DownloadedEpisode>?) {
+        view?.confirmDeleteEpisodes(episodes)
+    }
+
     private var view: DownloadView? = null
 
     fun bindView(view: DownloadView) {
