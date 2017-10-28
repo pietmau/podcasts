@@ -18,7 +18,6 @@ import javax.inject.Inject
 
 
 class DownloadFragment : Fragment(), DownloadView {
-
     @Inject lateinit var presenter: DownloadFragmentPresenter
     @BindView(R.id.download_recycler) lateinit var recycler: DownloadRecycler
 

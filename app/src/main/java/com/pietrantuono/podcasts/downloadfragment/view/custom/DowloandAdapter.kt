@@ -9,7 +9,7 @@ import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
 class DowloandAdapter(data: MutableList<DownloadedPodcast>) : ExpandableRecyclerViewAdapter<PodcastDowloadHolder, EpisodeDownloadHolder>(data) {
 
     override fun onCreateChildViewHolder(parent: ViewGroup?, viewType: Int): EpisodeDownloadHolder {
-        return EpisodeDownloadHolder(LayoutInflater.from(parent?.context)?.inflate(R.layout.download_item, parent, false))
+        return EpisodeDownloadHolder(LayoutInflater.from(parent?.context)?.inflate(R.layout.download_group_item, parent, false))
     }
 
     override fun onBindGroupViewHolder(holder: PodcastDowloadHolder?, flatPosition: Int, group: ExpandableGroup<*>?) {
@@ -21,7 +21,7 @@ class DowloandAdapter(data: MutableList<DownloadedPodcast>) : ExpandableRecycler
     }
 
     override fun onCreateGroupViewHolder(parent: ViewGroup?, viewType: Int): PodcastDowloadHolder {
-        return PodcastDowloadHolder(LayoutInflater.from(parent?.context)?.inflate(R.layout.download_item, parent, false))
+        return PodcastDowloadHolder(LayoutInflater.from(parent?.context)?.inflate(R.layout.download_group_item, parent, false))
     }
 
 }

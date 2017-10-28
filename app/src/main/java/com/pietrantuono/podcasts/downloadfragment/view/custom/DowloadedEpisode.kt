@@ -5,6 +5,7 @@ import android.os.Parcelable
 import com.pietrantuono.podcasts.apis.Episode
 
 class DowloadedEpisode(private val episode: Episode) : Parcelable {
+    val downloaded = episode.downloaded
 
     constructor(parcel: Parcel) : this(parcel.readParcelable<Episode>(Episode::class.java.classLoader) as Episode) {
     }
