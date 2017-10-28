@@ -20,18 +20,15 @@ class DownloadFragmentModelImpl(
         subscription?.unsubscribe()
     }
 
-    //TODO ask
     override fun subscribe(observer: Observer<List<DownloadedPodcast>?>) {
         subscription = observable.map { it?.map { toDownloadedPodcast(it) } }.subscribe(observer)
     }
 
-    private fun toDownloadedPodcast(podcast: Podcast): DownloadedPodcast =
-            DownloadedPodcast(podcast, podcast.trackName, makeEpisodes(podcast), resources)
+    private fun toDownloadedPodcast(podcast: Podcast): DownloadedPodcast = DownloadedPodcast(podcast, podcast.trackName, makeEpisodes(podcast), resources)
 
     private fun makeEpisodes(podcast: Podcast): List<DowloadedEpisode>? = podcast.episodes?.map { toDownloadedEpisode(it) }
 
-
-    fun toDownloadedEpisode(episode: Episode): DowloadedEpisode = DowloadedEpisode(episode)
+    fun toDownloadedEpisode(episode: Episode): DowloadedEpisode = DowloadedEpisode(episode, resources)
 
 
 }

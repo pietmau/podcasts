@@ -38,8 +38,8 @@ class EpisodeViewModel(episode: Episode, private val resourcesProvider: Resource
 
     private fun getImageResouce(type: String): Drawable? =
             when {
-                type.contains(Constants.AUDIO, true) -> resourcesProvider.ContextCompatgetDrawable(R.drawable.ic_audio_icon)
-                type.contains(Constants.VIDEO, true) -> resourcesProvider.ContextCompatgetDrawable(R.drawable.ic_video_icon)
+                type.contains(Constants.AUDIO, true) -> resourcesProvider.getDrawable(R.drawable.ic_audio_icon)
+                type.contains(Constants.VIDEO, true) -> resourcesProvider.getDrawable(R.drawable.ic_video_icon)
                 else -> null
             }
 

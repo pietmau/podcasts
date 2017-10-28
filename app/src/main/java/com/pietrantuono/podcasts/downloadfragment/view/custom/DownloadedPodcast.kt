@@ -15,16 +15,16 @@ class DownloadedPodcast(
     private val notDownloadedCount: Int
 
     val downloadedCountText: String
-        get() = downloadedCount.toString() + " " + resources.getString(R.string.downloadedLowercase) + " "
+        get() = " " + downloadedCount.toString() + " " + resources.getString(R.string.downloadedLowercase) + " "
     val notDownloadedCountText: String
-        get() = notDownloadedCount.toString() + " " + resources.getString(R.string.not_downlaoded) + " "
+        get() = " " + notDownloadedCount.toString() + " " + resources.getString(R.string.not_downlaoded) + " "
 
     val totalNumberofEpisodes: String
         get() = (podcast.episodes?.count() ?: 0).toString() + " " + resources.getString(R.string.episodes) + ": "
 
     init {
-        downloadedCount = podcast.episodes?.filter { !it.downloaded }?.count() ?: 0
-        notDownloadedCount = podcast.episodes?.filter { it.downloaded }?.count() ?: 0
+        downloadedCount = podcast.episodes?.filter { it.downloaded }?.count() ?: 0
+        notDownloadedCount = podcast.episodes?.filter { !it.downloaded }?.count() ?: 0
     }
 
 

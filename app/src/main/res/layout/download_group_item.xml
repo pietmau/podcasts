@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_below="@+id/title"
-                android:drawableRight="@drawable/ic_cloud_done_white_24dp"
+                android:drawableLeft="@drawable/ic_cloud_done_white_24dp"
                 android:text="@{podcast.downloadedCountText}"
                 android:textAppearance="?android:textAppearanceSmall"/>
 
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_below="@+id/downloaded"
-                android:drawableRight="@drawable/ic_cloud_download_white_24dp"
+                android:drawableLeft="@drawable/ic_cloud_download_white_24dp"
                 android:text="@{podcast.notDownloadedCountText}"
                 android:textAppearance="?android:textAppearanceSmall"/>
 
