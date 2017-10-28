@@ -7,9 +7,11 @@ import android.util.AttributeSet
 
 class DownloadRecycler(context: Context, attrs: AttributeSet) : RecyclerView(context, attrs) {
 
+    private val callback: DownloadAdapter.Callback? = null
+
     fun setData(data: MutableList<DownloadedPodcast>) {
         layoutManager = LinearLayoutManager(context)
-        adapter = DowloandAdapter(data)
+        adapter = DownloadAdapter(data, callback)
     }
 }
 

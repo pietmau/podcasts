@@ -7,7 +7,9 @@ import com.pietrantuono.podcasts.databinding.DownloadGroupItemBinding
 import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
 
-class DowloandAdapter(data: MutableList<DownloadedPodcast>) : ExpandableRecyclerViewAdapter<PodcastDowloadHolder, EpisodeDownloadHolder>(data) {
+class DownloadAdapter(
+        data: MutableList<DownloadedPodcast>,
+        private val callback: Callback?) : ExpandableRecyclerViewAdapter<PodcastDowloadHolder, EpisodeDownloadHolder>(data) {
 
     override fun onCreateChildViewHolder(parent: ViewGroup?, viewType: Int): EpisodeDownloadHolder {
         val inflater = LayoutInflater.from(parent?.context)
@@ -16,11 +18,11 @@ class DowloandAdapter(data: MutableList<DownloadedPodcast>) : ExpandableRecycler
     }
 
     override fun onBindGroupViewHolder(holder: PodcastDowloadHolder?, flatPosition: Int, group: ExpandableGroup<*>?) {
-        holder?.bind(group)
+        holder?.bind(group, callback)
     }
 
     override fun onBindChildViewHolder(holder: EpisodeDownloadHolder?, flatPosition: Int, group: ExpandableGroup<*>?, childIndex: Int) {
-        holder?.bind(group, childIndex)
+        holder?.bind(group, childIndex, callback)
     }
 
     override fun onCreateGroupViewHolder(parent: ViewGroup?, viewType: Int): PodcastDowloadHolder {
@@ -29,5 +31,14 @@ class DowloandAdapter(data: MutableList<DownloadedPodcast>) : ExpandableRecycler
         return PodcastDowloadHolder(binding)
     }
 
+    interface Callback {
+        fun downloadEpisode(episode: DownloadedEpisode?)
+
+        fun downloadEpisodes(episodes: List<DownloadedEpisode>?)
+
+        fun deleteEpisode(episode: DownloadedEpisode?)
+
+        fun deleteEpisodes(episodes: List<DownloadedEpisode>?)
+    }
 }
 

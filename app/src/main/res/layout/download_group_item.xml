@@ -25,6 +25,10 @@
             android:orientation="vertical">
 
             <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
                 app:srcCompat="@drawable/ic_more_vert_white_24dp"
                 android:id="@+id/overflow"
                 android:layout_alignParentRight="true"

@@ -47,5 +47,7 @@
     <string name="downloads">Downloads</string>
     <string name="downloadedLowercase">downloaded</string>
     <string name="not_downlaoded">not downloaded</string>
+    <string name="delete_all">Delete all</string>
+    <string name="delete">Delete</string>
 
 </resources>

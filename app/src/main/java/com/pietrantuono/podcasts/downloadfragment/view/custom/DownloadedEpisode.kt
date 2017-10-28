@@ -7,12 +7,12 @@ import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
 import com.pietrantuono.podcasts.apis.Episode
 
-class DowloadedEpisode(
+class DownloadedEpisode(
         episode: Episode,
         private val resources: ResourcesProvider?) : Parcelable {
 
     val title = episode.title
-    private val downloaded = episode.downloaded
+    val downloaded = episode.downloaded
 
     val downloadedAsText: String?
         get() = if (downloaded) {
@@ -40,12 +40,12 @@ class DowloadedEpisode(
         throw UnsupportedOperationException("Not supported")
     }
 
-    companion object CREATOR : Parcelable.Creator<DowloadedEpisode> {
-        override fun createFromParcel(parcel: Parcel): DowloadedEpisode {
+    companion object CREATOR : Parcelable.Creator<DownloadedEpisode> {
+        override fun createFromParcel(parcel: Parcel): DownloadedEpisode {
             throw UnsupportedOperationException("Not supported")
         }
 
-        override fun newArray(size: Int): Array<DowloadedEpisode?> {
+        override fun newArray(size: Int): Array<DownloadedEpisode?> {
             throw UnsupportedOperationException("Not supported")
         }
     }
