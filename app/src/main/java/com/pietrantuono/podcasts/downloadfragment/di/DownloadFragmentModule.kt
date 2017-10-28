@@ -1,5 +1,6 @@
 package com.pietrantuono.podcasts.downloadfragment.di
 
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
 import com.pietrantuono.podcasts.downloadfragment.model.DownloadFragmentModel
 import com.pietrantuono.podcasts.downloadfragment.model.DownloadFragmentModelImpl
 import com.pietrantuono.podcasts.downloadfragment.presenter.DownloadFragmentPresenter
@@ -14,6 +15,7 @@ class DownloadFragmentModule {
     fun providePresenter(model: DownloadFragmentModel) = DownloadFragmentPresenter(model)
 
     @Provides
-    fun provideModel(repo: PodcastRepo): DownloadFragmentModel = DownloadFragmentModelImpl(repo)
+    fun provideModel(repo: PodcastRepo, resources: ResourcesProvider): DownloadFragmentModel
+            = DownloadFragmentModelImpl(repo, resources)
 }
 

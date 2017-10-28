@@ -1,8 +1,8 @@
 package com.pietrantuono.podcasts.downloadfragment.view.custom
 
-import android.view.View
+import com.pietrantuono.podcasts.databinding.DownloadGroupItemBinding
 import com.thoughtbot.expandablerecyclerview.viewholders.ChildViewHolder
 
-class EpisodeDownloadHolder(item: View?) : ChildViewHolder(item) {
+class EpisodeDownloadHolder(item: DownloadGroupItemBinding) : ChildViewHolder(item.root) {
 
 }
