@@ -7,7 +7,7 @@ import rx.Observable
 
 
 interface PodcastRepo {
-    fun getPodcastById(trackId: Int): Observable<out Podcast>
+    fun getPodcastByIdAsync(trackId: Int): Observable<out Podcast>
     fun getSubscribedPodcasts(): Observable<List<Podcast>>
     fun getIfSubscribed(podcast: Podcast?): Observable<Boolean>
     fun subscribeUnsubscribeToPodcast(podcast: Podcast?)

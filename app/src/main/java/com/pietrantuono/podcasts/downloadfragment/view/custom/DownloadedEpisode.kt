@@ -8,10 +8,11 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesPro
 import com.pietrantuono.podcasts.apis.Episode
 
 class DownloadedEpisode(
-        episode: Episode,
+        val episode: Episode,
         private val resources: ResourcesProvider?) : Parcelable {
 
     val title = episode.title
+    val link = episode.link
     val downloaded = episode.downloaded
 
     val downloadedAsText: String?

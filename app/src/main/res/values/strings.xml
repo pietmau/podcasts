@@ -49,5 +49,6 @@
     <string name="not_downlaoded">not downloaded</string>
     <string name="delete_all">Delete all</string>
     <string name="delete">Delete</string>
+    <string name="confirm_download_episode">Do you want to download</string>
 
 </resources>

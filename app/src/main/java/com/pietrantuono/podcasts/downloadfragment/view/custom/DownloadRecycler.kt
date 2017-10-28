@@ -9,7 +9,7 @@ class DownloadRecycler(context: Context, attrs: AttributeSet) : RecyclerView(con
 
     var callback: DownloadAdapter.Callback? = null
         set(value) {
-            callback = value
+            field = value
             (adapter as? DownloadAdapter)?.callback = value
         }
 

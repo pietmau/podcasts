@@ -12,29 +12,16 @@ import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.downloadfragment.di.DownloadFragmentModule
 import com.pietrantuono.podcasts.downloadfragment.presenter.DownloadFragmentPresenter
+import com.pietrantuono.podcasts.downloadfragment.presenter.MessageCreator
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadRecycler
-import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedEpisode
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
+import org.jetbrains.anko.noButton
+import org.jetbrains.anko.support.v4.alert
+import org.jetbrains.anko.yesButton
 import javax.inject.Inject
 
 
 class DownloadFragment : Fragment(), DownloadView {
-    override fun confirmDownloadEpisode(episode: DownloadedEpisode?) {
-        TODO("not implemented")
-    }
-
-    override fun confirmDownloadEpisodes(episodes: List<DownloadedEpisode>?) {
-        TODO("not implemented")
-    }
-
-    override fun confirmDeleteEpisode(episode: DownloadedEpisode?) {
-        TODO("not implemented")
-    }
-
-    override fun confirmDeleteEpisodes(episodes: List<DownloadedEpisode>?) {
-        TODO("not implemented")
-    }
-
     @Inject lateinit var presenter: DownloadFragmentPresenter
     @BindView(R.id.download_recycler) lateinit var recycler: DownloadRecycler
 
@@ -71,5 +58,24 @@ class DownloadFragment : Fragment(), DownloadView {
 
     override fun setPodcasts(list: List<DownloadedPodcast>) {
         recycler.setData(list.toMutableList())
+    }
+
+    override fun confirmDownloadEpisode(message: MessageCreator.AlertMessage, link: String) {
+        alert(message.message, message.title) {
+            yesButton { presenter.onConfirmDownloadEpisode(link) }
+            noButton { }
+        }.show()
+    }
+
+    override fun confirmDownloadEpisodes(episodes: String) {
+        TODO("not implemented")
+    }
+
+    override fun confirmDeleteEpisode(episode: String) {
+        TODO("not implemented")
+    }
+
+    override fun confirmDeleteEpisodes(episodes: String) {
+        TODO("not implemented")
     }
 }

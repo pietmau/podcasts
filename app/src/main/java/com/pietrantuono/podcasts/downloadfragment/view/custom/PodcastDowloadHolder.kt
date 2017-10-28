@@ -26,11 +26,11 @@ class PodcastDowloadHolder(private val binding: DownloadGroupItemBinding) : Grou
     }
 
     private fun downloadEpisodes() {
-        callback?.downloadEpisodes(binding.podcast?.items)
+        callback?.downloadEpisodes(binding.podcast)
     }
 
     private fun deleteEpisodes() {
-        callback?.deleteEpisodes(binding.podcast?.items)
+        callback?.deleteEpisodes(binding.podcast)
     }
 
     private fun showPopup(view: View?) {

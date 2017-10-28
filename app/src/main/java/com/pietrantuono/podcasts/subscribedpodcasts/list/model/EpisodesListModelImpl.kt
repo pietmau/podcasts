@@ -24,7 +24,7 @@ PodcastDownLoadManager) : EpisodesListModel() {
     }
 
     override fun subscribe(trackId: Int, observer: Observer<in Podcast>) {
-        val observable = repository.getPodcastById(trackId)
+        val observable = repository.getPodcastByIdAsync(trackId)
         compositeSubscription.add(observable.subscribe(observer))
         compositeSubscription.add(observable.subscribe(object : SimpleObserver<Podcast>() {
             override fun onNext(feed: Podcast?) {

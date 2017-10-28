@@ -7,13 +7,14 @@ import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
 
 class DownloadedPodcast(
         private val podcast: Podcast,
-        tile: String?,
+        title: String?,
         items: List<DownloadedEpisode>?,
-        private val resources: ResourcesProvider) : ExpandableGroup<DownloadedEpisode>(tile, items) {
+        private val resources: ResourcesProvider) : ExpandableGroup<DownloadedEpisode>(title, items) {
 
     val downloadedCount: Int
     val notDownloadedCount: Int
     val total = podcast.episodes?.count()
+    val trackId = podcast.trackId
 
     val downloadedCountText: String
         get() = " " + downloadedCount.toString() + " " + resources.getString(R.string.downloadedLowercase) + " "
@@ -27,7 +28,6 @@ class DownloadedPodcast(
         downloadedCount = podcast.episodes?.filter { it.downloaded }?.count() ?: 0
         notDownloadedCount = podcast.episodes?.filter { !it.downloaded }?.count() ?: 0
     }
-
 
 }
 

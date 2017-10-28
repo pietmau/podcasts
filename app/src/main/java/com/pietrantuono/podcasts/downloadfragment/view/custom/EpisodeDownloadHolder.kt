@@ -33,7 +33,7 @@ class EpisodeDownloadHolder(private val binding: DownloadEpisodeItemBinding) : C
         view?.let {
             PopupMenu(it.context, it).apply {
                 setOnMenuItemClickListener { menuItem -> onMenuItemClicked(menuItem) };
-                getMenuInflater().inflate(R.menu.downloaded_podcast_popup, menu)
+                getMenuInflater().inflate(R.menu.downloaded_episode_popup, menu)
                 removeUnusedItem(menu)
                 show()
             }

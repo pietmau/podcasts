@@ -2,6 +2,7 @@ package com.pietrantuono.podcasts.downloadfragment.presenter
 
 
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
+import com.pietrantuono.podcasts.downloader.downloader.Downloader
 import com.pietrantuono.podcasts.downloadfragment.model.DownloadFragmentModel
 import com.pietrantuono.podcasts.downloadfragment.view.DownloadView
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadAdapter
@@ -9,24 +10,11 @@ import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedEpisode
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
 
 
-class DownloadFragmentPresenter(private val model: DownloadFragmentModel) : DownloadAdapter.Callback {
-
-    override fun downloadEpisode(episode: DownloadedEpisode?) {
-        view?.confirmDownloadEpisode(episode)
-    }
-
-    override fun downloadEpisodes(episodes: List<DownloadedEpisode>?) {
-        view?.confirmDownloadEpisodes(episodes)
-    }
-
-    override fun deleteEpisode(episode: DownloadedEpisode?) {
-        view?.confirmDeleteEpisode(episode)
-    }
-
-    override fun deleteEpisodes(episodes: List<DownloadedEpisode>?) {
-        view?.confirmDeleteEpisodes(episodes)
-    }
-
+class DownloadFragmentPresenter(
+        private val model: DownloadFragmentModel,
+        private val messageCreator: MessageCreator,
+        private val downloader: Downloader
+) : DownloadAdapter.Callback {
     private var view: DownloadView? = null
 
     fun bindView(view: DownloadView) {
@@ -45,6 +33,36 @@ class DownloadFragmentPresenter(private val model: DownloadFragmentModel) : Down
 
     fun unbind() {
         model.unsubscribe()
+    }
+
+    override fun downloadEpisode(downloadedEpisode: DownloadedEpisode?) {
+        if (downloadedEpisode?.title == null || downloadedEpisode?.link == null) {
+            return
+        }
+        val message = messageCreator.confirmDownloadEpisode(downloadedEpisode.title)
+        view?.confirmDownloadEpisode(message, downloadedEpisode.link)
+    }
+
+    override fun downloadEpisodes(downloadedPodcast: DownloadedPodcast?) {
+        downloadedPodcast?.trackId?.let {
+            model.getPodcastTitleAsync(object : SimpleObserver<String?>() {
+                override fun onNext(title: String?) {
+                    //title?.let { view?.confirmDownloadEpisode(it) }
+                }
+            }, it)
+        }
+    }
+
+    override fun deleteEpisode(link: DownloadedEpisode?) {
+        //episode?.let { view?.confirmDeleteEpisode(it.title) }
+    }
+
+    override fun deleteEpisodes(trackId: DownloadedPodcast?) {
+        //podcast?.let { view?.confirmDeleteEpisodes(it.title) }
+    }
+
+    fun onConfirmDownloadEpisode(link: String) {
+        downloader.downloadEpisodeFromLink(link)
     }
 }
 

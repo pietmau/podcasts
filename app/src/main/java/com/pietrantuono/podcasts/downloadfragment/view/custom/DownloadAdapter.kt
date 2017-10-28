@@ -32,13 +32,13 @@ class DownloadAdapter(
     }
 
     interface Callback {
-        fun downloadEpisode(episode: DownloadedEpisode?)
+        fun downloadEpisode(link: DownloadedEpisode?)
 
-        fun downloadEpisodes(episodes: List<DownloadedEpisode>?)
+        fun downloadEpisodes(trackId: DownloadedPodcast?)
 
-        fun deleteEpisode(episode: DownloadedEpisode?)
+        fun deleteEpisode(link: DownloadedEpisode?)
 
-        fun deleteEpisodes(episodes: List<DownloadedEpisode>?)
+        fun deleteEpisodes(trackId: DownloadedPodcast?)
     }
 }
 

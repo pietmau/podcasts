@@ -13,8 +13,11 @@ class EpisodesRepositoryRealm(private val cache: EpisodeCache) : EpisodesReposit
             Realm.getDefaultInstance().use { realm ->
                 realm.where(RealmEpisode::class.java)
                         .equalTo(LINK, url)
-                        .findFirst()
+                        .findFirstAsync()//TODO dio can
                         .asObservable<RealmEpisode>()
+                        .filter { it.isLoaded && it.isValid }
+                        .filter { it != null }
+                        .map { realm.copyFromRealm(it) }
             }
 
     /** To be used from another Thread or from a service in another process . */

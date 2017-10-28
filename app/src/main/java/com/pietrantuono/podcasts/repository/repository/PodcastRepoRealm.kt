@@ -2,7 +2,6 @@ package com.pietrantuono.podcasts.repository.repository
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.apis.Episode
-import com.pietrantuono.podcasts.interfaces.RealmEpisode
 import com.pietrantuono.podcasts.providers.PodcastRealm
 import com.pietrantuono.podcasts.providers.RealmUtlis
 import io.realm.Realm
@@ -79,13 +78,13 @@ class PodcastRepoRealm(private val reposServices: RepoServices) : PodcastRepo {
         }
     }
 
-    override fun getPodcastById(trackId: Int): Observable<out Podcast> {
+    override fun getPodcastByIdAsync(trackId: Int): Observable<out Podcast> {
         return Realm.getDefaultInstance().use { realm ->
             realm.where(PodcastRealm::class.java)
                     .equalTo("trackId", trackId)
                     .findFirstAsync()
                     .asObservable<PodcastRealm>()
-                    .filter(PodcastRealm::isLoaded)
+                    .filter { it.isLoaded && it.isValid }
                     .map(realm::copyFromRealm)
                     .cache()
         }
