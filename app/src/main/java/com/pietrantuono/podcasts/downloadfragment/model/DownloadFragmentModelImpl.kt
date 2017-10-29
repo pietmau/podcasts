@@ -6,8 +6,10 @@ import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedEpisode
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
+import com.pietrantuono.podcasts.providers.PodcastRealm
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 import com.pietrantuono.podcasts.repository.repository.PodcastRepo
+import io.realm.Realm
 import rx.Observable
 import rx.Observer
 import rx.Scheduler
@@ -23,24 +25,44 @@ class DownloadFragmentModelImpl(
 
     private val TAG = "DownloadFragmentModelImpl"
 
-    private val observable: Observable<List<Podcast>> by lazy { podcastRepo.getSubscribedPodcasts() }
     private var compositeSubscription: CompositeSubscription = CompositeSubscription()
 
     override fun unsubscribe() {
         compositeSubscription.unsubscribe()
     }
 
+    private val observable: Observable<List<Podcast>> by lazy { podcastRepo.getSubscribedPodcasts() }
+
     // TODO this is ugly
     override fun subscribe(observer: Observer<List<DownloadedPodcast>?>) {
-        val subscription = observable
-                .doOnNext { logger.debug(TAG, Thread.currentThread().name) }
-                .subscribeOn(workerScheduler)
-                .doOnNext { logger.debug(TAG, Thread.currentThread().name) }
-                .map { it?.map { toDownloadedPodcast(it) } }
-                .observeOn(mainThreadScheduler)
-                .doOnNext { logger.debug(TAG, Thread.currentThread().name) }
-                .subscribe(observer)
-        compositeSubscription.add(subscription)
+        logger.debug(TAG, "prima " + Thread.currentThread().name+" "+System.currentTimeMillis())
+        val subscription = Realm.getDefaultInstance().use { realm ->
+            realm.where(PodcastRealm::class.java)
+                    .equalTo("podcastSubscribed", true)
+                    .findAllAsync()
+                    .asObservable()
+                    .doOnNext { logger.debug(TAG, "0 " + Thread.currentThread().name+" "+System.currentTimeMillis()) }
+                    .subscribeOn(mainThreadScheduler)
+                    .doOnNext { logger.debug(TAG, "1 " + Thread.currentThread().name+" "+System.currentTimeMillis()) }
+                    //.filter { it.isLoaded && it.isValid }
+                    //.map { realm.copyFromRealm(it) }
+                    //.map { it as List<Podcast> }
+                    .doOnNext { logger.debug(TAG, "2 " + Thread.currentThread().name+" "+System.currentTimeMillis()) }
+                    .observeOn(workerScheduler)
+                    .doOnNext { logger.debug(TAG, "3 " + Thread.currentThread().name+" "+System.currentTimeMillis()) }
+                    .map {
+                        Realm.getDefaultInstance().use {
+                            it.copyFromRealm(it.where(PodcastRealm::class.java).equalTo("podcastSubscribed", true).findAll())
+                        }
+                    }
+                    .map { it?.map { toDownloadedPodcast(it) } }
+                    .doOnNext { logger.debug(TAG, "4 " + Thread.currentThread().name+" "+System.currentTimeMillis()) }
+                    .observeOn(mainThreadScheduler)
+                    .doOnNext { logger.debug(TAG, "5 " + Thread.currentThread().name+" "+System.currentTimeMillis()) }
+                    .subscribe(observer)
+            //compositeSubscription.add(subscription)
+        }
+        logger.debug(TAG, "dopo " + Thread.currentThread().name+" "+System.currentTimeMillis())
     }
 
     private fun toDownloadedPodcast(podcast: Podcast): DownloadedPodcast = DownloadedPodcast(podcast, podcast.trackName, makeEpisodes(podcast), resources)

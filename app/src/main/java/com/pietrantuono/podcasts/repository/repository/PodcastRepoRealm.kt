@@ -78,7 +78,7 @@ class PodcastRepoRealm(
                     .findAllAsync()
                     .asObservable()
                     .doOnNext { logger.debug(TAG, Thread.currentThread().name) }
-                    .filter { it.isLoaded && it.isValid }
+                    //.filter { it.isLoaded && it.isValid }
                     .map { realm.copyFromRealm(it) }
                     .map { it as List<Podcast> }
                     .cache()
