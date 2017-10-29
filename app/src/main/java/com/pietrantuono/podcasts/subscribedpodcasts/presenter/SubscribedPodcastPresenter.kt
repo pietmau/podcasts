@@ -6,7 +6,7 @@ import android.widget.LinearLayout
 import com.pietrantuono.podcasts.GenericPresenter
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsAdapter
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SimpleDisposableObserver
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
 import com.pietrantuono.podcasts.subscribedpodcasts.model.SubscribedPodcastModel
 import com.pietrantuono.podcasts.subscribedpodcasts.view.SubscribedPodcastView
@@ -27,12 +27,12 @@ ApiLevelChecker) : GenericPresenter, PodcastsAdapter.OnItemClickedClickedListene
     }
 
     override fun onStart() {
-        model.subscribeToSubscribedPodcasts(object : SimpleObserver<List<Podcast>>() {
+        model.subscribeToSubscribedPodcasts(object : SimpleDisposableObserver<List<Podcast>>() {
             override fun onError(throwable: Throwable) {
                 view?.onError(throwable)
             }
 
-            override fun onNext(podcasts: List<Podcast>?) {
+            override fun onNext(podcasts: List<Podcast>) {
                 if (podcasts != null || !podcasts!!.isEmpty()) {
                     view?.setPodcasts(podcasts)
                 }

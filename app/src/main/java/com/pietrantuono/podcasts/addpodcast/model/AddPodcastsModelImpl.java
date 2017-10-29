@@ -1,17 +1,13 @@
 package com.pietrantuono.podcasts.addpodcast.model;
 
-import com.pietrantuono.podcasts.addpodcast.model.AddPodcastsModel;
-import com.pietrantuono.podcasts.addpodcast.model.SearchResult;
-import com.pietrantuono.podcasts.addpodcast.model.SearchApi;
-
-import rx.Observable;
-import rx.Observer;
-import rx.Subscription;
+import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 
 public class AddPodcastsModelImpl implements AddPodcastsModel {
     private final SearchApi searchApi;
-    Subscription subscription;
-    private Observer<SearchResult> observer;
+    Disposable subscription;
+    private DisposableObserver<SearchResult> observer;
     Observable<SearchResult> cachedRequest;
 
     public AddPodcastsModelImpl(SearchApi searchApi) {
@@ -19,24 +15,24 @@ public class AddPodcastsModelImpl implements AddPodcastsModel {
     }
 
     @Override
-    public void subscribeToSearch(Observer<SearchResult> observer) {
+    public void subscribeToSearch(DisposableObserver<SearchResult> observer) {
         this.observer = observer;
         if (cachedRequest != null) {
-            subscription = cachedRequest.subscribe(observer);
+            subscription = cachedRequest.subscribeWith(observer);
         }
     }
 
     @Override
     public void unsubscribeFromSearch() {
-        if (subscription != null && !subscription.isUnsubscribed()) {
-            subscription.unsubscribe();
+        if (subscription != null && !subscription.isDisposed()) {
+            subscription.dispose();
         }
     }
 
     @Override
     public void searchPodcasts(String query) {
         cachedRequest = searchApi.search(query);
-        subscription = cachedRequest.subscribe(observer);
+        subscription = cachedRequest.subscribeWith(observer);
     }
 
 }

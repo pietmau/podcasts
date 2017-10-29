@@ -5,10 +5,12 @@ import com.pietrantuono.podcasts.CrashlyticsWrapper
 import com.pietrantuono.podcasts.GenericPresenter
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SimpleDisposableObserver
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastModel
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.SinglePodcastView
 import com.pietrantuono.podcasts.apis.PodcastFeed
-import rx.Observer
+import io.reactivex.observers.DisposableObserver
+
 
 class SinglePodcastPresenter(
         private val model: SinglePodcastModel,
@@ -16,12 +18,12 @@ class SinglePodcastPresenter(
     private var view: SinglePodcastView? = null
     private var podcastFeed: PodcastFeed? = null
     private var startedWithTransition: Boolean? = false
-    private val observer: SimpleObserver<Boolean>
+    private val observer: SimpleDisposableObserver<Boolean>
     private var fromSavedState: Boolean = false
 
     init {
-        observer = object : SimpleObserver<Boolean>() {
-            override fun onNext(isSubscribedToPodcast: Boolean?) {
+        observer = object : SimpleDisposableObserver<Boolean>() {
+            override fun onNext(isSubscribedToPodcast: Boolean) {
                 view?.setSubscribedToPodcast(isSubscribedToPodcast)
                 if (isSubscribedToPodcast == true) {
                 }
@@ -38,17 +40,17 @@ class SinglePodcastPresenter(
     }
 
     override fun onStart() {
-        model.subscribeToFeed(object : Observer<PodcastFeed> {
-            override fun onCompleted() {
+        model.subscribeToFeed(object : DisposableObserver<PodcastFeed>() {
+            override fun onComplete() {
                 view?.showProgress(false)
             }
 
-            override fun onError(throwable: Throwable?) {
+            override fun onError(throwable: Throwable) {
                 crashlyticsWrapper.logException(throwable)
                 view?.showProgress(false)
             }
 
-            override fun onNext(podcastFeed: PodcastFeed?) {
+            override fun onNext(podcastFeed: PodcastFeed) {
                 if (this@SinglePodcastPresenter.podcastFeed == null) {
                     this@SinglePodcastPresenter.podcastFeed = podcastFeed
                     setEpisodes()

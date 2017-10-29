@@ -1,10 +1,10 @@
 package com.pietrantuono.podcasts.addpodcast.model;
 
 
-import rx.Observer;
+import io.reactivex.observers.DisposableObserver;
 
 public interface AddPodcastsModel {
-    void subscribeToSearch(Observer<SearchResult> observer);
+    void subscribeToSearch(DisposableObserver<SearchResult> observer);
 
     void unsubscribeFromSearch();
 

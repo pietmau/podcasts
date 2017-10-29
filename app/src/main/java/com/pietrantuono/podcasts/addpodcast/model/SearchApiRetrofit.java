@@ -6,12 +6,13 @@ import com.pietrantuono.podcasts.addpodcast.model.retrofitconverters.PodcastSear
 import java.util.List;
 import java.util.Map;
 
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+
 
 public class SearchApiRetrofit implements SearchApi {
     private static final String ITUNES = "https://itunes.apple.com";
@@ -21,7 +22,7 @@ public class SearchApiRetrofit implements SearchApi {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(ITUNES)
                 .addConverterFactory(new PodcastSearchResultConverterFactory(GsonConverterFactory.create()))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
 
         api = retrofit.create(SearchApi.class);

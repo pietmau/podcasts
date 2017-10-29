@@ -5,41 +5,41 @@ import android.support.annotation.Nullable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.pietrantuono.podcasts.GenericPresenter;
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsAdapter;
 import com.pietrantuono.podcasts.addpodcast.model.AddPodcastsModel;
 import com.pietrantuono.podcasts.addpodcast.model.SearchResult;
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SimpleDisposableObserver;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastFragmentMemento;
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastView;
-import com.pietrantuono.podcasts.GenericPresenter;
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker;
 
-import rx.Observer;
+import io.reactivex.observers.DisposableObserver;
 
 public class AddPodcastPresenter extends ViewModel implements GenericPresenter, PodcastsAdapter.OnSunscribeClickedListener, PodcastsAdapter.OnItemClickedClickedListener {
     public static final String TAG = (AddPodcastPresenter.class).getSimpleName();
     private final AddPodcastsModel addPodcastsModel;
-    private final Observer<SearchResult> observer;
+    private final DisposableObserver<SearchResult> observer;
     private final ApiLevelChecker apiLevelChecker;
     @Nullable private AddPodcastView addPodcastView;
     private SearchResult cachedResult;
 
-
     public AddPodcastPresenter(final AddPodcastsModel addPodcastsModel, ApiLevelChecker apiLevelChecker) {
         this.addPodcastsModel = addPodcastsModel;
         this.apiLevelChecker = apiLevelChecker;
-        observer = new Observer<SearchResult>() {
-
-            @Override
-            public void onCompleted() {
-                showProgressBar(false);
-            }
+        observer = new SimpleDisposableObserver<SearchResult>() {
 
             @Override
             public void onError(Throwable throwable) {
                 if (addPodcastView != null) {
                     addPodcastView.onError(throwable);
                 }
+                showProgressBar(false);
+            }
+
+            @Override
+            public void onComplete() {
                 showProgressBar(false);
             }
 

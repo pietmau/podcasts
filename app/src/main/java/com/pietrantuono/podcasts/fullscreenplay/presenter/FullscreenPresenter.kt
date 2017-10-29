@@ -2,7 +2,7 @@ package com.pietrantuono.podcasts.fullscreenplay.presenter
 
 import android.arch.lifecycle.ViewModel
 import android.content.Context
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SimpleDisposableObserver
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayView
 import com.pietrantuono.podcasts.fullscreenplay.custom.ColorizedPlaybackControlView
@@ -30,7 +30,7 @@ class FullscreenPresenter(
 
     fun onStart() {
         mediaBrowserWrapper?.onStart()
-        model.subscribe(object : SimpleObserver<Episode>() {
+        model.subscribe(object : SimpleDisposableObserver<Episode>() {
             override fun onNext(episode: Episode) {
                 onEpisodeAvailable(episode)
             }

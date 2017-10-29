@@ -2,15 +2,15 @@ package com.pietrantuono.podcasts.subscribedpodcasts.list.model
 
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SimpleDisposableObserver
 import com.pietrantuono.podcasts.downloader.PodcastDownLoadManager
 import com.pietrantuono.podcasts.repository.repository.PodcastRepo
-import rx.Observer
-import rx.subscriptions.CompositeSubscription
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.observers.DisposableObserver
 
 class EpisodesListModelImpl(private val repository: PodcastRepo, private val downLoadManager:
 PodcastDownLoadManager) : EpisodesListModel() {
-    private val compositeSubscription: CompositeSubscription = CompositeSubscription()
+    private val compositeSubscription: CompositeDisposable = CompositeDisposable()
     private var feed: Podcast? = null
 
     override fun onDownLoadAllSelected() {
@@ -23,11 +23,11 @@ PodcastDownLoadManager) : EpisodesListModel() {
         repository.subscribeUnsubscribeToPodcast(feed)
     }
 
-    override fun subscribe(trackId: Int, observer: Observer<in Podcast>) {
+    override fun subscribe(trackId: Int, observer: DisposableObserver<in Podcast>) {
         val observable = repository.getPodcastByIdAsync(trackId)
-        compositeSubscription.add(observable.subscribe(observer))
-        compositeSubscription.add(observable.subscribe(object : SimpleObserver<Podcast>() {
-            override fun onNext(feed: Podcast?) {
+        compositeSubscription.add(observable.subscribeWith(observer))
+        compositeSubscription.add(observable.subscribeWith(object : SimpleDisposableObserver<Podcast>() {
+            override fun onNext(feed: Podcast) {
                 this@EpisodesListModelImpl.feed = feed
             }
         }))

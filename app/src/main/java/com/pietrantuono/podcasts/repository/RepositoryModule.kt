@@ -1,7 +1,9 @@
 package com.pietrantuono.podcasts.repository
 
+import android.arch.persistence.room.Room
 import android.content.Context
 import com.pietrantuono.podcasts.application.DebugLogger
+import com.pietrantuono.podcasts.repository.repository.AppDatabase
 import com.pietrantuono.podcasts.repository.repository.PodcastRepo
 import com.pietrantuono.podcasts.repository.repository.RepoServices
 import dagger.Module
@@ -13,14 +15,16 @@ import javax.inject.Singleton
 class RepositoryModule {
 
     @Provides
-    fun providePodcastRepo(): PodcastRepo {
-        return PodcastRepoRoom()
-    }
+    fun providePodcastRepo(dao: PodcastDao): PodcastRepo = PodcastRepoRoom(dao)
 
     @Provides
     fun provideServices(context: Context, logger: DebugLogger): RepoServices {
         return RepoServicesImpl(context, logger)
     }
+
+    @Provides
+    fun providePodcastDao(context: Context): PodcastDao =
+            Room.databaseBuilder(context, AppDatabase::class.java, AppDatabase.PODCAST_DATABASE).build().podcastDao()
 
     @Singleton
     @Provides

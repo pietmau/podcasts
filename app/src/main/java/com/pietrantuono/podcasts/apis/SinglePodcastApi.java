@@ -1,9 +1,10 @@
 package com.pietrantuono.podcasts.apis;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Url;
-import rx.Observable;
+
 
 public interface SinglePodcastApi {
 

@@ -1,15 +1,16 @@
 package com.pietrantuono.podcasts.addpodcast.singlepodcast.model
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
 import com.pietrantuono.podcasts.apis.PodcastFeed
 import com.pietrantuono.podcasts.apis.SinglePodcastApi
 import com.pietrantuono.podcasts.repository.repository.PodcastRepo
-import rx.Observable
-import rx.Observer
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
-import rx.subscriptions.CompositeSubscription
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.schedulers.Schedulers
+
 
 class SinglePodcastModelImpl(
         private val singlePodcastApi: SinglePodcastApi,
@@ -17,7 +18,7 @@ class SinglePodcastModelImpl(
 
     private var podcastFeedObservable: Observable<PodcastFeed>? = null
     private var podcast: Podcast? = null
-    private var compositeSubscription: CompositeSubscription = CompositeSubscription()
+    private var compositeSubscription: CompositeDisposable = CompositeDisposable()
 
     override fun startModel(podcast: Podcast?) {
         this.podcast = podcast
@@ -30,14 +31,14 @@ class SinglePodcastModelImpl(
         repository.subscribeUnsubscribeToPodcast(podcast)
     }
 
-    override fun subscribeToFeed(observer: Observer<PodcastFeed>) {
+    override fun subscribeToFeed(observer: DisposableObserver<PodcastFeed>) {
         podcastFeedObservable?.let {
-            compositeSubscription.add(it.subscribe(observer))
+            compositeSubscription.add(it.subscribeWith(observer))
         }
     }
 
-    override fun subscribeToIsSubscribedToPodcast(isSubscribedObserver: Observer<Boolean>) {
-        compositeSubscription.add(repository.getIfSubscribed(podcast).subscribe(isSubscribedObserver))
+    override fun subscribeToIsSubscribedToPodcast(isSubscribedObserver: DisposableObserver<Boolean>) {
+        compositeSubscription.add(repository.getIfSubscribed(podcast).subscribeWith(isSubscribedObserver))
     }
 
     override fun unsubscribe() {
@@ -47,8 +48,8 @@ class SinglePodcastModelImpl(
     private fun getFeed(url: String) {
         podcastFeedObservable = singlePodcastApi.getFeed(url).subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread()).cache()
-        val subscription = podcastFeedObservable!!.subscribe(object : SimpleObserver<PodcastFeed>() {
-            override fun onNext(feed: PodcastFeed?) {
+        val subscription = podcastFeedObservable!!.subscribeWith(object : SimpleDisposableObserver<PodcastFeed>() {
+            override fun onNext(feed: PodcastFeed) {
                 podcast?.episodes = feed?.episodes
             }
         })
@@ -56,3 +57,4 @@ class SinglePodcastModelImpl(
     }
 
 }
+

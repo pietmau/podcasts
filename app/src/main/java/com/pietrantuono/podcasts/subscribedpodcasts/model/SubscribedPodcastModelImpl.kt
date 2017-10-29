@@ -3,22 +3,21 @@ package com.pietrantuono.podcasts.subscribedpodcasts.model
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.repository.repository.PodcastRepo
-import rx.Observable
-import rx.Observer
-import rx.Subscription
+import io.reactivex.Observable
+import io.reactivex.observers.DisposableObserver
 
 class SubscribedPodcastModelImpl(private val repository: PodcastRepo) : SubscribedPodcastModel {
-    private var subscription: Subscription? = null
     private var observable: Observable<List<Podcast>>? = null
+    private var subscription: DisposableObserver<List<Podcast>>? = null
 
-    override fun subscribeToSubscribedPodcasts(observer: Observer<List<Podcast>>) {
+    override fun subscribeToSubscribedPodcasts(observer: DisposableObserver<List<Podcast>>) {
         if (observable == null) {
             observable = repository.getSubscribedPodcasts()
         }
-        subscription = observable?.subscribe(observer)
+        subscription = observable?.subscribeWith(observer)
     }
 
     override fun unsubscribe() {
-        subscription?.unsubscribe()
+        subscription?.dispose()
     }
 }

@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts.downloadfragment.model
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SimpleDisposableObserver
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.DebugLogger
@@ -8,10 +9,10 @@ import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedEpisode
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 import com.pietrantuono.podcasts.repository.repository.PodcastRepo
-import rx.Observable
-import rx.Observer
-import rx.Scheduler
-import rx.subscriptions.CompositeSubscription
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.Scheduler
+import io.reactivex.disposables.CompositeDisposable
 
 class DownloadFragmentModelImpl(
         private val podcastRepo: PodcastRepo,
@@ -24,14 +25,14 @@ class DownloadFragmentModelImpl(
     private val TAG = "DownloadFragmentModelImpl"
 
     private val observable: Observable<List<Podcast>> by lazy { podcastRepo.getSubscribedPodcasts() }
-    private var compositeSubscription: CompositeSubscription = CompositeSubscription()
+    private var compositeSubscription: CompositeDisposable = CompositeDisposable()
 
     override fun unsubscribe() {
-        compositeSubscription.unsubscribe()
+        compositeSubscription.dispose()
     }
 
     // TODO this is ugly
-    override fun subscribe(observer: Observer<List<DownloadedPodcast>?>) {
+    override fun subscribe(observer: SimpleDisposableObserver<List<DownloadedPodcast>>) {
         val subscription = observable
                 .doOnNext { logger.debug(TAG, Thread.currentThread().name) }
                 .subscribeOn(workerScheduler)
@@ -39,7 +40,7 @@ class DownloadFragmentModelImpl(
                 .map { it?.map { toDownloadedPodcast(it) } }
                 .observeOn(mainThreadScheduler)
                 .doOnNext { logger.debug(TAG, Thread.currentThread().name) }
-                .subscribe(observer)
+                .subscribeWith(observer)
         compositeSubscription.add(subscription)
     }
 

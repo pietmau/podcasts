@@ -3,16 +3,15 @@ package com.pietrantuono.podcasts.addpodcast.singlepodcast.model
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.apis.PodcastFeed
-
-import rx.Observer
+import io.reactivex.observers.DisposableObserver
 
 interface SinglePodcastModel {
 
-    fun subscribeToFeed(observer: Observer<PodcastFeed>)
+    fun subscribeToFeed(observer: DisposableObserver<PodcastFeed>)
 
     fun unsubscribe()
 
-    fun subscribeToIsSubscribedToPodcast(observer: Observer<Boolean>)
+    fun subscribeToIsSubscribedToPodcast(observer: DisposableObserver<Boolean>)
 
     fun startModel(podcast: Podcast?)
 

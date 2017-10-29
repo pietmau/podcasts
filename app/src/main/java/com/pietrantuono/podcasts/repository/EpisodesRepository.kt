@@ -1,7 +1,7 @@
 package com.pietrantuono.podcasts.repository
 
 import com.pietrantuono.podcasts.apis.Episode
-import rx.Observable
+import io.reactivex.Observable
 
 
 interface EpisodesRepository {

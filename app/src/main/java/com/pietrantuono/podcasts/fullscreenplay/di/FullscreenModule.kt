@@ -17,7 +17,7 @@ import com.pietrantuono.podcasts.main.view.TransitionsHelper
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 import dagger.Module
 import dagger.Provides
-import rx.android.schedulers.AndroidSchedulers
+import io.reactivex.android.schedulers.AndroidSchedulers
 
 @Module
 class FullscreenModule(private val activity: FragmentActivity) {

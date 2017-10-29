@@ -1,12 +1,12 @@
 package com.pietrantuono.podcasts.fullscreenplay.model
 
 import com.pietrantuono.podcasts.apis.Episode
-import rx.Observer
+import io.reactivex.observers.DisposableObserver
 
 
 interface FullscreenModel {
     var episode: Episode?
     fun getEpisodeByUrlAsync(urls: String?)
-    fun subscribe(observer: Observer<in Episode>)
+    fun subscribe(observer: DisposableObserver<in Episode>)
     fun unSubscribe()
 }

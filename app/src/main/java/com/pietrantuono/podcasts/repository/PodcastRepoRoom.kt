@@ -1,10 +1,9 @@
 package com.pietrantuono.podcasts.repository
 
-import android.arch.persistence.room.Dao
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.repository.repository.PodcastRepo
-import rx.Observable
+import io.reactivex.Observable
 
 class PodcastRepoRoom(private val dao: PodcastDao) : PodcastRepo {
 
@@ -21,7 +20,7 @@ class PodcastRepoRoom(private val dao: PodcastDao) : PodcastRepo {
     }
 
     override fun subscribeUnsubscribeToPodcast(podcast: Podcast?) {
-        podcast?.trackId?.let { dao.findBytrackId(it) }
+        podcast?.trackId?.let { dao?.findBytrackId(it) }
     }
 
     override fun getPodcastByEpisodeSync(episode: Episode): Podcast? {
@@ -34,8 +33,3 @@ class PodcastRepoRoom(private val dao: PodcastDao) : PodcastRepo {
 
 }
 
-@Dao
-interface PodcastDao {
-    fun findBytrackId(trackId: Int): Any
-
-}

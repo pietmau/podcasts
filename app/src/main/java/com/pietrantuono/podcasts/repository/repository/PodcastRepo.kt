@@ -2,7 +2,7 @@ package com.pietrantuono.podcasts.repository.repository
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.apis.Episode
-import rx.Observable
+import io.reactivex.Observable
 
 
 interface PodcastRepo {

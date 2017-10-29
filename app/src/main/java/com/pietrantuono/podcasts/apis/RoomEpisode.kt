@@ -1,14 +1,21 @@
 package com.pietrantuono.podcasts.apis
 
+import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
+import android.arch.persistence.room.ForeignKey
 import android.arch.persistence.room.PrimaryKey
 import android.os.Parcel
 import android.os.Parcelable
+import com.pietrantuono.podcasts.addpodcast.model.pojos.PodcastImpl
+import com.pietrantuono.podcasts.addpodcast.model.pojos.TRACK_ID
 import com.rometools.rome.feed.synd.SyndEnclosure
 import java.text.SimpleDateFormat
 import java.util.*
 
-@Entity
+const val PODCAST_ID = "podcastId"
+
+@Entity(foreignKeys =
+arrayOf(ForeignKey(entity = PodcastImpl::class, parentColumns = arrayOf(TRACK_ID), childColumns = arrayOf(PODCAST_ID))))
 class RoomEpisode(
         override var duration: String? = null,
         override var author: String? = null,
@@ -25,6 +32,9 @@ class RoomEpisode(
         override var enclosures: List<SyndEnclosure>?) : Episode {
     private val FORMAT = "HH:mm:ss"
     private val EPOCH = "00:00:00"
+
+    @ColumnInfo(name = PODCAST_ID)
+    private var podcastId: Int? = null
 
     override var downloaded: Boolean = false
     override var played: Boolean = false
@@ -75,6 +85,7 @@ class RoomEpisode(
     }
 
     companion object CREATOR : Parcelable.Creator<RoomEpisode> {
+
         override fun createFromParcel(parcel: Parcel): RoomEpisode {
             return RoomEpisode(parcel)
         }

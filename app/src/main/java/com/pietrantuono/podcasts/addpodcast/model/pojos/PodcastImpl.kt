@@ -1,5 +1,7 @@
 package com.pietrantuono.podcasts.addpodcast.model.pojos
 
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
@@ -7,7 +9,11 @@ import com.google.gson.annotations.SerializedName
 import com.pietrantuono.podcasts.apis.Episode
 import java.util.*
 
+const val TRACK_ID = "trackId"
+
+@Entity
 class PodcastImpl : Podcast {
+
     override var isPodcastSubscribed: Boolean
         get() = throw Exception("Unsopported")
         set(value) {
@@ -32,7 +38,8 @@ class PodcastImpl : Podcast {
     @Expose
     override var collectionId: Int? = null
 
-    @SerializedName("trackId")
+    @PrimaryKey
+    @SerializedName(TRACK_ID)
     @Expose
     override var trackId: Int? = null
 
@@ -288,6 +295,7 @@ class PodcastImpl : Podcast {
     }
 
     companion object {
+
         @JvmField final val CREATOR: Parcelable.Creator<Podcast> = object : Parcelable.Creator<Podcast> {
             override fun createFromParcel(`in`: Parcel): Podcast {
                 return PodcastImpl(`in`)

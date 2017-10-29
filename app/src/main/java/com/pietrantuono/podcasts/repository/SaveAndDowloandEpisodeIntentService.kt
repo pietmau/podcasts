@@ -47,7 +47,7 @@ class SaveAndDowloandEpisodeIntentService : IntentService("SaveAndDowloandEpisod
             return null
         }
         try {
-            return api.getFeedSync(url).execute().body().episodes
+            return api.getFeedSync(url).execute().body()?.episodes
         } catch (exception: Exception) {
             crashlyticsWrapper.logException(exception)
         }

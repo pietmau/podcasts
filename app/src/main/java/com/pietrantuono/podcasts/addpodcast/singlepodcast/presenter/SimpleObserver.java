@@ -1,16 +1,22 @@
 package com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter;
 
-import rx.Observer;
 
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 public class SimpleObserver<T> implements Observer<T> {
     @Override
-    public void onCompleted() {
+    public void onError(Throwable throwable) {
 
     }
 
     @Override
-    public void onError(Throwable throwable) {
+    public void onComplete() {
+
+    }
+
+    @Override
+    public void onSubscribe(Disposable d) {
 
     }
 

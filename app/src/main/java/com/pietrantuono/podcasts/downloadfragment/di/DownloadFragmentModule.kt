@@ -11,8 +11,8 @@ import com.pietrantuono.podcasts.repository.EpisodesRepository
 import com.pietrantuono.podcasts.repository.repository.PodcastRepo
 import dagger.Module
 import dagger.Provides
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 @Module
 class DownloadFragmentModule {
