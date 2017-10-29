@@ -35,9 +35,9 @@ class SaveAndDowloandEpisodeIntentService : IntentService("SaveAndDowloandEpisod
             podcast?.episodes = episodes
             podcast = it.copyToRealmOrUpdate(podcast)
             logger.debug(TAG, "executeTransaction")
-            logger.debug(TAG, "downloadIfAppropriate")
-            downloader.downloadIfAppropriate(podcast)
         }
+        logger.debug(TAG, "downloadIfAppropriate")
+        downloader.downloadIfAppropriate(podcast)
     }
 
     private fun getEpisodes(intent: Intent): List<Episode>? {

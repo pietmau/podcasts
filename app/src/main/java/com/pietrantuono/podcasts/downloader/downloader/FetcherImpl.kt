@@ -42,13 +42,15 @@ class FetcherImpl(
 
     override fun getRequestById(id: Long) = requestManager.getRequestById(id) ?: fetch[id]
 
-    override fun download(url: String) {
+    override fun download(url: String): Pair<Long, RequestInfo?>? {
         if (!alreadyDownloaded(url) && !episodeIsDownloaded(url)) {
             requestManager.createRequest(url)?.let { request ->
                 val pair = enqueueRequest(request)
                 requestManager.cacheRequest(pair)
+                return pair
             }
         }
+        return null
     }
 
     fun episodeIsDownloaded(url: String): Boolean {

@@ -18,6 +18,7 @@ class DownloadNotificatorImpl(
 
     val DOWNLOAD_COMPLETED: Int = 100
     private val TAG: String? = "DownloadNotificatorImpl"
+    private val GENERIC_NOTIFICATION = 1
 
     private val notifManager: NotificationManager
         get() = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -65,8 +66,18 @@ class DownloadNotificatorImpl(
         val url = requestInfo.url
         repo.getEpisodeByEnclosureUrlSync(url)?.let {
             val id = requestInfo.id.toInt()
-            debugger.debug(TAG, "notifySpaceUnavailable, ID = " + id)
             notifManager.notify(id, getNoSpaceNotification(it))
+        }
+    }
+
+
+
+    override fun notifySpaceUnavailable(url: String) {
+        debugger.debug(TAG,"notifySpaceUnavailable")
+        repo.getEpisodeByUrlSync(url)?.let {
+            val noSpaceNotification = getNoSpaceNotification(it)
+            debugger.debug(TAG,"notify")
+            notifManager.notify(GENERIC_NOTIFICATION, noSpaceNotification)
         }
     }
 

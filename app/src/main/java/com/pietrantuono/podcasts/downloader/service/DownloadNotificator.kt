@@ -6,4 +6,5 @@ import com.tonyodev.fetch.request.RequestInfo
 interface DownloadNotificator {
     fun notifyProgress(service: Service, request: RequestInfo?, progress: Int)
     fun notifySpaceUnavailable(requestInfo: RequestInfo)
+    fun notifySpaceUnavailable(requestInfo: String)
 }

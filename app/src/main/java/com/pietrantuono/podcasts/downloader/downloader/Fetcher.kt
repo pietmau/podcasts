@@ -11,7 +11,7 @@ interface Fetcher {
     fun alreadyDownloaded(url: String): Boolean
     fun thereIsEnoughSpace(fileSize: Long): Boolean
     fun getRequestById(id: Long): RequestInfo?
-    fun download(url: String)
+    fun download(url: String): Pair<Long, RequestInfo?>?
     fun stopDownload(requestInfo: RequestInfo)
     fun stopDownload()
 }
