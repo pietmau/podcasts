@@ -1,33 +1,41 @@
 package com.pietrantuono.podcasts.repository
 
+import android.arch.persistence.room.Dao
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.repository.repository.PodcastRepo
 import rx.Observable
 
-class PodcastRepoRoom : PodcastRepo {
+class PodcastRepoRoom(private val dao: PodcastDao) : PodcastRepo {
+
     override fun getPodcastByIdAsync(trackId: Int): Observable<out Podcast> {
-        TODO("not implemented")
+        return Observable.empty()
     }
 
     override fun getSubscribedPodcasts(): Observable<List<Podcast>> {
-        TODO("not implemented")
+        return Observable.empty()
     }
 
     override fun getIfSubscribed(podcast: Podcast?): Observable<Boolean> {
-        TODO("not implemented")
+        return Observable.empty()
     }
 
     override fun subscribeUnsubscribeToPodcast(podcast: Podcast?) {
-        TODO("not implemented")
+        podcast?.trackId?.let { dao.findBytrackId(it) }
     }
 
     override fun getPodcastByEpisodeSync(episode: Episode): Podcast? {
-        TODO("not implemented")
+        return null
     }
 
     override fun savePodcastSync(podcast: Podcast) {
-        TODO("not implemented")
+
     }
+
+}
+
+@Dao
+interface PodcastDao {
+    fun findBytrackId(trackId: Int): Any
 
 }

@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts.interfaces
 
 import com.pietrantuono.podcasts.apis.Episode
+import com.pietrantuono.podcasts.apis.RoomEpisode
 import com.rometools.rome.feed.synd.SyndEnclosure
 import java.util.*
 
@@ -79,7 +80,7 @@ class ROMEPodcastEpisodeBuilder {
     }
 
     fun createROMEPodcastEpisode(): Episode {
-        TODO("not implemented")
+        return RoomEpisode(duration, author, isExplicit, imageUrl, keywords, subtitle, summary, pubDate, title, description, link, syndEnclosures)
     }
 
 }
