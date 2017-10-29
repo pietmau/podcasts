@@ -49,7 +49,7 @@ class CustomControlsPresenter(
         mediaBrowser = MediaBrowserCompat(context, ComponentName(context, MusicService::class.java), object : MediaBrowserCompat.ConnectionCallback() {
             override fun onConnected() {
                 try {
-                    connectToSession(mediaBrowser?.sessionToken)
+                    mediaBrowser?.sessionToken?.let { connectToSession(it) }
                 } catch (e: RemoteException) {
                 }
             }
@@ -57,7 +57,7 @@ class CustomControlsPresenter(
     }
 
     @Throws(RemoteException::class)
-    private fun connectToSession(token: MediaSessionCompat.Token?) {
+    private fun connectToSession(token: MediaSessionCompat.Token) {
         supportMediaController = MediaControllerCompat(context, token)
         stateResolver.setMediaController(supportMediaController!!)
         supportMediaController?.registerCallback(simpleMediaControllerCompatCallback)

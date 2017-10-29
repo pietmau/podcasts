@@ -10,8 +10,7 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SinglePodcas
 class SinglePodcastPresenterFactory(private val model: SinglePodcastModel,
                                     private val crashlyticsWrapper: CrashlyticsWrapper
 ) : ViewModelProvider.Factory {
-
-    override fun <T : ViewModel?> create(modelClass: Class<T>?): T {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return SinglePodcastPresenter(model, crashlyticsWrapper) as T
     }
 

@@ -17,8 +17,11 @@ class TransportControlsWrapper(context: Context) {
         mediaBrowser = MediaBrowserCompat(context, ComponentName(context, MusicService::class.java),
                 object : MediaBrowserCompat.ConnectionCallback() {
                     override fun onConnected() {
-                        mediaControllerCompat = MediaControllerCompat(context, mediaBrowser?.sessionToken)
-                        transportControls = mediaControllerCompat?.transportControls
+                        mediaBrowser?.sessionToken?.let {
+                            mediaControllerCompat = MediaControllerCompat(context, it)
+                            transportControls = mediaControllerCompat?.transportControls
+                        }
+
                     }
                 }, null)
     }

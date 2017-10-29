@@ -29,7 +29,7 @@ abstract class AbstractBaseDetailActivty : AbstractPlaybackControlsActivity(), B
         }
 
     protected fun setUpActionBar() {
-        toolbar = (findViewById(R.id.toolbar) as? Toolbar)
+        toolbar = (findViewById<Toolbar>(R.id.toolbar) as? Toolbar)
         toolbar?.let {
             setSupportActionBar(it)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -39,7 +39,7 @@ abstract class AbstractBaseDetailActivty : AbstractPlaybackControlsActivity(), B
     }
 
     fun initProgress() {
-        progressBar = findViewById(R.id.progress) as SimpleProgressBar?
+        progressBar = findViewById<SimpleProgressBar>(R.id.progress) as SimpleProgressBar?
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

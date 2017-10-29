@@ -9,8 +9,8 @@ import com.pietrantuono.podcasts.subscribedpodcasts.presenter.SubscribedPodcastP
 
 class SubscribedPodcastPresenterFactory(private val model: SubscribedPodcastModel,
                                         private val apiLevelChecker: ApiLevelChecker) : ViewModelProvider.Factory {
-
-    override fun <T : ViewModel?> create(modelClass: Class<T>?): T {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return SubscribedPodcastPresenter(model, apiLevelChecker) as T
     }
+
 }

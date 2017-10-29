@@ -10,7 +10,7 @@ open class AbstractPlaybackControlsActivity : AppCompatActivity() { //TODO remov
     var playbackControls: SimpleControlView? = null
 
     fun initPlaybackControls() {
-        playbackControls = findViewById(R.id.playbackcontrols) as SimpleControlView?
+        playbackControls = findViewById<SimpleControlView>(R.id.playbackcontrols) as SimpleControlView?
     }
 
     override fun onStop() {

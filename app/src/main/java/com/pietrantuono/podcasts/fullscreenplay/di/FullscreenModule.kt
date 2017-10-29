@@ -52,8 +52,8 @@ class FullscreenModule(private val activity: FragmentActivity) {
 class FullscreenPresenterFactory(private val model: FullscreenModel
                                  , val apiLevelChecker: ApiLevelChecker)
     : ViewModelProvider.Factory {
-
-    override fun <T : ViewModel?> create(modelClass: Class<T>?): T {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return FullscreenPresenter(model) as T
     }
+
 }

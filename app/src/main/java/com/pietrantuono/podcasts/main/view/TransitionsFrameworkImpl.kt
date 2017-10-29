@@ -18,15 +18,17 @@ import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
 
 class TransitionsHelper(private val apiLevelChecker: ApiLevelChecker) {
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP) fun initMainActivityTransitions(activity: AppCompatActivity) {
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    fun initMainActivityTransitions(activity: AppCompatActivity) {
         if (!apiLevelChecker.isLollipopOrHigher) {
             return
         }
         activity.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP) fun initDetailTransitions(
-            activity: AppCompatActivity, target: View?, listener: Transition.TransitionListener?){
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    fun initDetailTransitions(
+            activity: AppCompatActivity, target: View?, listener: Transition.TransitionListener?) {
         if (!apiLevelChecker.isLollipopOrHigher) {
             return
         }
@@ -40,7 +42,8 @@ class TransitionsHelper(private val apiLevelChecker: ApiLevelChecker) {
         activity.postponeEnterTransition()
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP) fun initDetailTransitions(activity: AppCompatActivity) {
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    fun initDetailTransitions(activity: AppCompatActivity) {
         if (!apiLevelChecker.isLollipopOrHigher) {
             return
         }
@@ -48,7 +51,8 @@ class TransitionsHelper(private val apiLevelChecker: ApiLevelChecker) {
         activity.postponeEnterTransition()
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP) fun startPostponedEnterTransition(activity: AppCompatActivity) {
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    fun startPostponedEnterTransition(activity: AppCompatActivity) {
         if (!apiLevelChecker.isLollipopOrHigher) {
             return
         }
@@ -76,7 +80,8 @@ class TransitionsHelper(private val apiLevelChecker: ApiLevelChecker) {
     }
 
     fun getNavigationBar(activity: Activity): Array<Pair<View, String>?> {
-        val navBar = activity.window?.decorView?.findViewById(android.R.id.navigationBarBackground)
+        val decorView = activity.window?.decorView
+        val navBar: View? = decorView?.findViewById(android.R.id.navigationBarBackground)
         val pairs: Array<Pair<View, String>?>
         if (navBar != null) {
             pairs = arrayOfNulls<Pair<View, String>>(3)

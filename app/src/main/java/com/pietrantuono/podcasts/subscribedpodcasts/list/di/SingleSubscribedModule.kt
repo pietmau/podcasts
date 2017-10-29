@@ -57,9 +57,10 @@ class SingleSubscribedModule(private val activity: AppCompatActivity) {
                                         menuProvider: EpisodesListMenuProviderImpl
     ): ViewModelProvider.Factory {
         return object : ViewModelProvider.Factory {
-            override fun <T : ViewModel?> create(modelClass: Class<T>?): T {
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return EpisodesListPresenter(model, menuProvider, checker) as T
             }
+
         }
     }
 }
