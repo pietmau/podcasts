@@ -3,6 +3,7 @@ package com.pietrantuono.podcasts.downloadfragment.model
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
 import com.pietrantuono.podcasts.apis.Episode
+import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedEpisode
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
 import com.pietrantuono.podcasts.repository.EpisodesRepository
@@ -16,17 +17,30 @@ class DownloadFragmentModelImpl(
         private val podcastRepo: PodcastRepo,
         private val episodesRepository: EpisodesRepository,
         private val resources: ResourcesProvider,
-        val mainThreadScheduler: Scheduler) : DownloadFragmentModel {
+        private val mainThreadScheduler: Scheduler,
+        private val workerScheduler: Scheduler,
+        private val logger: DebugLogger) : DownloadFragmentModel {
+
+    private val TAG = "DownloadFragmentModelImpl"
+
     private val observable: Observable<List<Podcast>> by lazy { podcastRepo.getSubscribedPodcasts() }
-    private var subscription: CompositeSubscription = CompositeSubscription()
+    private var compositeSubscription: CompositeSubscription = CompositeSubscription()
 
     override fun unsubscribe() {
-        subscription.unsubscribe()
+        compositeSubscription.unsubscribe()
     }
 
     // TODO this is ugly
     override fun subscribe(observer: Observer<List<DownloadedPodcast>?>) {
-        subscription.add(observable.map { it?.map { toDownloadedPodcast(it) } }.subscribe(observer))
+        val subscription = observable
+                .doOnNext { logger.debug(TAG, Thread.currentThread().name) }
+                .subscribeOn(workerScheduler)
+                .doOnNext { logger.debug(TAG, Thread.currentThread().name) }
+                .map { it?.map { toDownloadedPodcast(it) } }
+                .observeOn(mainThreadScheduler)
+                .doOnNext { logger.debug(TAG, Thread.currentThread().name) }
+                .subscribe(observer)
+        compositeSubscription.add(subscription)
     }
 
     private fun toDownloadedPodcast(podcast: Podcast): DownloadedPodcast = DownloadedPodcast(podcast, podcast.trackName, makeEpisodes(podcast), resources)

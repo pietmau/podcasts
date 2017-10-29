@@ -20,8 +20,8 @@ class RepositoryModule {
     }
 
     @Provides
-    fun providePodcastRepo(realm: Realm, services: RepoServices): PodcastRepo {
-        return PodcastRepoRealm(services)
+    fun providePodcastRepo(realm: Realm, services: RepoServices, logger: DebugLogger): PodcastRepo {
+        return PodcastRepoRealm(services, logger)
     }
 
     @Provides

@@ -2,13 +2,19 @@ package com.pietrantuono.podcasts.repository.repository
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.apis.Episode
+import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.providers.PodcastRealm
 import com.pietrantuono.podcasts.providers.RealmUtlis
 import io.realm.Realm
 import rx.Observable
 import rx.subjects.BehaviorSubject
 
-class PodcastRepoRealm(private val reposServices: RepoServices) : PodcastRepo {
+class PodcastRepoRealm(
+        private val reposServices: RepoServices,
+        private val logger: DebugLogger
+) : PodcastRepo {
+
+    private val TAG = "PodcastRepoRealm"
 
     /** To be used from another Thread or from a service in another process . */
     override fun savePodcastSync(podcast: PodcastRealm) {
@@ -71,6 +77,7 @@ class PodcastRepoRealm(private val reposServices: RepoServices) : PodcastRepo {
                     .equalTo("podcastSubscribed", true)
                     .findAllAsync()
                     .asObservable()
+                    .doOnNext { logger.debug(TAG, Thread.currentThread().name) }
                     .filter { it.isLoaded && it.isValid }
                     .map { realm.copyFromRealm(it) }
                     .map { it as List<Podcast> }
