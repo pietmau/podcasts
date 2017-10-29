@@ -6,7 +6,7 @@ import com.pietrantuono.podcasts.downloader.downloader.*
 import com.pietrantuono.podcasts.downloader.service.CompletedDownloadsManager
 import com.pietrantuono.podcasts.downloader.service.DownloadNotificator
 import com.pietrantuono.podcasts.downloader.service.DownloadNotificatorImpl
-import com.pietrantuono.podcasts.downloader.service.NetworkDetector
+import com.pietrantuono.podcasts.downloader.service.NetworkDiskAndPreferenceManager
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 import com.pietrantuono.podcasts.repository.repository.PodcastRepo
 import com.pietrantuono.podcasts.settings.PreferencesManager
@@ -20,8 +20,8 @@ class DownloadModule(private val context: Context) {
 
     @DownloaderServiceScope
     @Provides
-    fun provideFetcher(provider: DirectoryProvider, repo: EpisodesRepository, manager: RequestManager): Fetcher {
-        return FetcherImpl(context, provider, repo, manager)
+    fun provideFetcher(provider: DirectoryProvider, repo: EpisodesRepository, manager: RequestManager, completemanager: CompletedDownloadsManager): Fetcher {
+        return FetcherImpl(context, repo, manager, completemanager)
     }
 
     @Provides
@@ -40,9 +40,11 @@ class DownloadModule(private val context: Context) {
     }
 
     @Provides
-    fun provideNetworkDetector(preferencesManager: PreferencesManager) = NetworkDetector(context, preferencesManager)
+    fun provideNetworkDetector(preferencesManager: PreferencesManager, provider: DirectoryProvider)
+            = NetworkDiskAndPreferenceManager(context, preferencesManager, provider)
 
     @Provides
-    fun provideDownloadManager(episodeRepo: EpisodesRepository, podcastRepo: PodcastRepo) = CompletedDownloadsManager(episodeRepo, podcastRepo)
+    fun provideDownloadManager(episodeRepo: EpisodesRepository, podcastRepo: PodcastRepo)
+            = CompletedDownloadsManager(episodeRepo, podcastRepo)
 }
 

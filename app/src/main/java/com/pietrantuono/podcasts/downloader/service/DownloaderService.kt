@@ -22,8 +22,7 @@ class DownloaderService() : Service(), FetchListener {
     @Inject lateinit var internalDownloader: Fetcher
     @Inject lateinit var downloadNotificator: DownloadNotificator
     @Inject lateinit var debugLogger: DebugLogger
-    @Inject lateinit var networkAndPreferencesManager: NetworkDetector
-    @Inject lateinit var downloadsManager: CompletedDownloadsManager
+    @Inject lateinit var networkAndPreferencesManager: NetworkDiskAndPreferenceManager
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
@@ -32,18 +31,18 @@ class DownloaderService() : Service(), FetchListener {
     override fun onCreate() {
         super.onCreate()
         (application as App).applicationComponent?.with(DownloadModule(this))?.inject(this)
-        debugLogger.debug(TAG,"onCreate")
+        debugLogger.debug(TAG, "onCreate")
         internalDownloader.addListener(this@DownloaderService)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        debugLogger.debug(TAG,"onStartCommand")
+        debugLogger.debug(TAG, "onStartCommand")
         intent?.let { startDownload(intent) }
         return START_STICKY
     }
 
     private fun startDownload(intent: Intent) {
-        debugLogger.debug(TAG,"startDownload")
+        debugLogger.debug(TAG, "startDownload")
         if (!shouldDownload()) {
             return
         }
@@ -52,15 +51,19 @@ class DownloaderService() : Service(), FetchListener {
             getAndEnqueueSingleEpisode(url)
             return
         }
-        getTracksUrls(intent)
+        getUrls(intent)
     }
 
-    private fun getTracksUrls(intent: Intent) {
-        debugLogger.debug(TAG,"getTracksUrls")
+    private fun getUrls(intent: Intent) {
+        debugLogger.debug(TAG, "getUrls")
         val list = intent.getStringArrayListExtra(TRACK_LIST)
         if (list == null) {
             return
         }
+        enqueueEpisodes(list)
+    }
+
+    private fun enqueueEpisodes(list: List<String>) {
         for (url in list) {
             if (!thereIsEnoughSpace(0)) {
                 notifySpaceUnavailable(url)
@@ -71,12 +74,12 @@ class DownloaderService() : Service(), FetchListener {
     }
 
     private fun getAndEnqueueSingleEpisode(url: String) {
-        debugLogger.debug(TAG,"getAndEnqueueSingleEpisode")
+        debugLogger.debug(TAG, "getAndEnqueueSingleEpisode")
         internalDownloader.download(url)
     }
 
     override fun onUpdate(id: Long, status: Int, progress: Int, downloadedBytes: Long, fileSize: Long, error: Int) {
-        debugLogger.debug(TAG,"onUpdate")
+        debugLogger.debug(TAG, "onUpdate")
         internalDownloader.getRequestById(id)?.let {
             if (thereIsEnoughSpace(fileSize)) {
                 downloadNotificator.notifyProgress(this@DownloaderService, it, progress)
@@ -84,40 +87,40 @@ class DownloaderService() : Service(), FetchListener {
                 stopDownloadAndNotifyUser(it)
             }
         }
-        updateEpisodIfAppropriate(progress, id)
+        checkIfComplete(progress, id)
     }
 
-    private fun updateEpisodIfAppropriate(progress: Int, id: Long) {
-        debugLogger.debug(TAG,"updateEpisodIfAppropriate")
+    private fun checkIfComplete(progress: Int, id: Long) {
+        debugLogger.debug(TAG, "checkIfComplete")
         if (progress >= DOWNLOAD_COMPLETED) {
-            internalDownloader.getRequestById(id)?.let { onDownloadCompleted(it) }
+            onDownloadCompleted(id)
         }
     }
 
-    private fun onDownloadCompleted(requestInfo: RequestInfo) {
-        debugLogger.debug(TAG,"onDownloadCompleted")
+    private fun onDownloadCompleted(requestInfo: Long) {
+        debugLogger.debug(TAG, "onDownloadCompleted")
         stopForeground(false)
-        downloadsManager.onDownloadCompleted(requestInfo)
+        internalDownloader.onDownloadCompleted(requestInfo)
     }
 
     private fun stopDownloadAndNotifyUser(requestInfo: RequestInfo) {
-        debugLogger.debug(TAG,"stopDownloadAndNotifyUser")
+        debugLogger.debug(TAG, "stopDownloadAndNotifyUser")
         internalDownloader.stopDownload()
         notifySpaceUnavailable(requestInfo)
         stopSelf()
     }
 
-    private fun thereIsEnoughSpace(fileSize: Long) = internalDownloader.thereIsEnoughSpace(fileSize)
+    private fun thereIsEnoughSpace(fileSize: Long) = networkAndPreferencesManager.thereIsEnoughSpace(fileSize)
 
     private fun shouldDownload() = networkAndPreferencesManager.shouldDownload
 
     private fun notifySpaceUnavailable(requestInfo: RequestInfo) {
-        debugLogger.debug(TAG,"notifySpaceUnavailable")
+        debugLogger.debug(TAG, "notifySpaceUnavailable")
         downloadNotificator.notifySpaceUnavailable(requestInfo)
     }
 
     private fun notifySpaceUnavailable(url: String) {
-        debugLogger.debug(TAG,"notifySpaceUnavailable")
+        debugLogger.debug(TAG, "notifySpaceUnavailable")
         downloadNotificator.notifySpaceUnavailable(url)
     }
 }

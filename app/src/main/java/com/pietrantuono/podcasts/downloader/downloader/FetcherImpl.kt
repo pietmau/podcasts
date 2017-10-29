@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts.downloader.downloader
 
 import android.content.Context
+import com.pietrantuono.podcasts.downloader.service.CompletedDownloadsManager
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 import com.tonyodev.fetch.Fetch
 import com.tonyodev.fetch.listener.FetchListener
@@ -9,9 +10,9 @@ import com.tonyodev.fetch.request.RequestInfo
 
 class FetcherImpl(
         context: Context,
-        private val provider: DirectoryProvider,
         private val repository: EpisodesRepository,
-        private val requestManager: RequestManager) : Fetcher {
+        private val requestManager: RequestManager,
+        private var completedDownloadsManager: CompletedDownloadsManager) : Fetcher {
 
     private val fetch: Fetch
 
@@ -19,8 +20,6 @@ class FetcherImpl(
         fetch = Fetch.newInstance(context)
         fetch.setConcurrentDownloadsLimit(1)
     }
-
-    override fun thereIsEnoughSpace(fileSize: Long): Boolean = provider.thereIsEnoughSpace(fileSize)
 
     override fun addListener(listner: FetchListener) {
         fetch.addFetchListener(listner)
@@ -64,5 +63,9 @@ class FetcherImpl(
 
     override fun stopDownload() {
         fetch.removeAll()
+    }
+
+    override fun onDownloadCompleted(id: Long) {
+        getRequestById(id)?.let { completedDownloadsManager.onDownloadCompleted(it) }
     }
 }
