@@ -5,7 +5,6 @@ import android.content.ServiceConnection
 import android.os.IBinder
 import android.support.multidex.MultiDexApplication
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule
-import io.realm.Realm
 import javax.inject.Inject
 
 class App : MultiDexApplication(), ServiceConnection {
@@ -19,7 +18,6 @@ class App : MultiDexApplication(), ServiceConnection {
 //            return;
 //        }
 //        LeakCanary.install(this);
-        Realm.init(this)
         applicationComponent = DaggerApplicationComponent.builder().appModule(AppModule(this))
                 .imageLoaderModule(ImageLoaderModule(this)).build()
         applicationComponent?.inject(this)

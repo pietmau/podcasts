@@ -3,11 +3,9 @@ package com.pietrantuono.podcasts.repository
 import android.content.Context
 import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.repository.repository.PodcastRepo
-import com.pietrantuono.podcasts.repository.repository.PodcastRepoRealm
 import com.pietrantuono.podcasts.repository.repository.RepoServices
 import dagger.Module
 import dagger.Provides
-import io.realm.Realm
 import javax.inject.Singleton
 
 @Singleton
@@ -15,24 +13,19 @@ import javax.inject.Singleton
 class RepositoryModule {
 
     @Provides
-    fun provideRealm(): Realm {
-        return Realm.getDefaultInstance()
+    fun providePodcastRepo(): PodcastRepo {
+        return PodcastRepoRoom()
     }
 
     @Provides
-    fun providePodcastRepo(realm: Realm, services: RepoServices, logger: DebugLogger): PodcastRepo {
-        return PodcastRepoRealm(services, logger)
-    }
-
-    @Provides
-    fun provideServices(context: Context, realm: Realm, logger: DebugLogger): RepoServices {
+    fun provideServices(context: Context, logger: DebugLogger): RepoServices {
         return RepoServicesImpl(context, logger)
     }
 
     @Singleton
     @Provides
-    fun provideEpisodesRepository(realm: Realm, cache: EpisodeCache): EpisodesRepository {
-        return EpisodesRepositoryRealm(cache)
+    fun provideEpisodesRepository(cache: EpisodeCache): EpisodesRepository {
+        return EpisodesRepositoryRoom(cache)
     }
 
     @Singleton

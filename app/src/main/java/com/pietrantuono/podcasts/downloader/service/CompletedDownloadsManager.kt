@@ -1,7 +1,6 @@
 package com.pietrantuono.podcasts.downloader.service
 
-import com.pietrantuono.podcasts.interfaces.RealmEpisode
-import com.pietrantuono.podcasts.providers.PodcastRealm
+import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 import com.pietrantuono.podcasts.repository.repository.PodcastRepo
 import com.tonyodev.fetch.request.RequestInfo
@@ -15,13 +14,13 @@ class CompletedDownloadsManager(
         episodesRepo.getEpisodeByEnclosureUrlSync(requestInfo.url)?.let {
             it.downloaded = true
             it.filePath = requestInfo.filePath
-            episodesRepo.saveEpisodeSync(it as RealmEpisode)
+            episodesRepo.saveEpisodeSync(it)
             updatePodcast(it)
         }
     }
 
-    private fun updatePodcast(episode: RealmEpisode) {
-        val podcast = podcastRepo.getPodcastByEpisodeSync(episode) as? PodcastRealm
+    private fun updatePodcast(episode: Episode) {
+        val podcast = podcastRepo.getPodcastByEpisodeSync(episode)
         // Nice!
         val dowloadedCount = podcast?.episodes?.count { it.downloaded }
         dowloadedCount?.let {

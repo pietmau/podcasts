@@ -3,14 +3,13 @@ package com.pietrantuono.podcasts.repository
 import android.app.IntentService
 import android.content.Intent
 import com.pietrantuono.podcasts.CrashlyticsWrapper
+import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.apis.SinglePodcastApi
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.downloader.di.DownloadModule
 import com.pietrantuono.podcasts.downloader.downloader.Downloader
-import com.pietrantuono.podcasts.providers.PodcastRealm
-import io.realm.Realm
 import javax.inject.Inject
 
 class SaveAndDowloandEpisodeIntentService : IntentService("SaveAndDowloandEpisodeIntentService") {
@@ -29,13 +28,14 @@ class SaveAndDowloandEpisodeIntentService : IntentService("SaveAndDowloandEpisod
     override fun onHandleIntent(intent: Intent?) {
         (application as App).applicationComponent?.with(DownloadModule(this))?.inject(this)
         logger.debug(TAG, "onHandleIntent")
-        var podcast: PodcastRealm? = getPodcast(intent!!) ?: return
+        var podcast: Podcast? = getPodcast(intent!!) ?: return
         val episodes = getEpisodes(intent) ?: return
-        Realm.getDefaultInstance().executeTransaction {
-            podcast?.episodes = episodes
-            podcast = it.copyToRealmOrUpdate(podcast)
-            logger.debug(TAG, "executeTransaction")
-        }
+        TODO()
+//        Realm.getDefaultInstance().executeTransaction {
+//            podcast?.episodes = episodes
+//            podcast = it.copyToRealmOrUpdate(podcast)
+//            logger.debug(TAG, "executeTransaction")
+//        }
         logger.debug(TAG, "downloadIfAppropriate")
         downloader.downloadIfAppropriate(podcast)
     }
@@ -54,15 +54,16 @@ class SaveAndDowloandEpisodeIntentService : IntentService("SaveAndDowloandEpisod
         return null
     }
 
-    private fun getPodcast(intent: Intent): PodcastRealm? {
-        val intExtra = intent.getIntExtra(TRACK_ID, -1)
-        val podcastRealm = Realm.getDefaultInstance().use { realm ->
-            realm.copyFromRealm(realm.where(PodcastRealm::class.java)
-                    .equalTo("trackId", intExtra)
-                    .findFirst())
-        }
-        logger.debug(TAG, "podcastRealm = " + podcastRealm)
-        return podcastRealm
+    private fun getPodcast(intent: Intent): Podcast? {
+        TODO()
+//        val intExtra = intent.getIntExtra(TRACK_ID, -1)
+//        val podcastRealm = Realm.getDefaultInstance().use { realm ->
+//            realm.copyFromRealm(realm.where(PodcastRealm::class.java)
+//                    .equalTo("trackId", intExtra)
+//                    .findFirst())
+//        }
+//        logger.debug(TAG, "podcastRealm = " + podcastRealm)
+//        return podcastRealm
     }
 
 }

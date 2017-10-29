@@ -5,7 +5,6 @@ import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.pietrantuono.podcasts.apis.Episode
-import com.pietrantuono.podcasts.providers.RealmUtlis
 import java.util.*
 
 class PodcastImpl : Podcast {
@@ -298,9 +297,5 @@ class PodcastImpl : Podcast {
                 return arrayOfNulls<Podcast>(size)
             }
         }
-    }
-
-    fun toRealm() {
-        RealmUtlis.toSinglePodcastRealm(this)
     }
 }

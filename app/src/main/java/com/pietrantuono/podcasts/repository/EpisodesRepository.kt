@@ -1,7 +1,6 @@
 package com.pietrantuono.podcasts.repository
 
 import com.pietrantuono.podcasts.apis.Episode
-import com.pietrantuono.podcasts.interfaces.RealmEpisode
 import rx.Observable
 
 
@@ -10,5 +9,5 @@ interface EpisodesRepository {
     fun getEpisodeByUrlAsync(url: String): Observable<out Episode>
     fun getEpisodeByUrlAsObservable(url: String): Observable<out Episode?>
     fun getEpisodeByEnclosureUrlSync(url: String?): Episode?
-    fun saveEpisodeSync(episode: RealmEpisode)
+    fun saveEpisodeSync(episode: Episode)
 }
