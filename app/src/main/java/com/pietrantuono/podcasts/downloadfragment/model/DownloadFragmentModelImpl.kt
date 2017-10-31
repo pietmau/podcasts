@@ -33,36 +33,24 @@ class DownloadFragmentModelImpl(
 
     private val observable: Observable<List<Podcast>> by lazy { podcastRepo.getSubscribedPodcasts() }
 
-    // TODO this is ugly
     override fun subscribe(observer: Observer<List<DownloadedPodcast>?>) {
-        logger.debug(TAG, "prima " + Thread.currentThread().name+" "+System.currentTimeMillis())
-        val subscription = Realm.getDefaultInstance().use { realm ->
-            realm.where(PodcastRealm::class.java)
-                    .equalTo("podcastSubscribed", true)
-                    .findAllAsync()
-                    .asObservable()
-                    .doOnNext { logger.debug(TAG, "0 " + Thread.currentThread().name+" "+System.currentTimeMillis()) }
-                    .subscribeOn(mainThreadScheduler)
-                    .doOnNext { logger.debug(TAG, "1 " + Thread.currentThread().name+" "+System.currentTimeMillis()) }
-                    //.filter { it.isLoaded && it.isValid }
-                    //.map { realm.copyFromRealm(it) }
-                    //.map { it as List<Podcast> }
-                    .doOnNext { logger.debug(TAG, "2 " + Thread.currentThread().name+" "+System.currentTimeMillis()) }
-                    .observeOn(workerScheduler)
-                    .doOnNext { logger.debug(TAG, "3 " + Thread.currentThread().name+" "+System.currentTimeMillis()) }
-                    .map {
-                        Realm.getDefaultInstance().use {
-                            it.copyFromRealm(it.where(PodcastRealm::class.java).equalTo("podcastSubscribed", true).findAll())
+        val subscription =
+                observable
+                        .subscribeOn(mainThreadScheduler)
+                        .observeOn(workerScheduler)
+                        .map {
+                            Realm.getDefaultInstance().use {
+                                it.copyFromRealm(it.where(PodcastRealm::class.java).equalTo("podcastSubscribed", true).findAll())
+                            }
                         }
-                    }
-                    .map { it?.map { toDownloadedPodcast(it) } }
-                    .doOnNext { logger.debug(TAG, "4 " + Thread.currentThread().name+" "+System.currentTimeMillis()) }
-                    .observeOn(mainThreadScheduler)
-                    .doOnNext { logger.debug(TAG, "5 " + Thread.currentThread().name+" "+System.currentTimeMillis()) }
-                    .subscribe(observer)
-            //compositeSubscription.add(subscription)
-        }
-        logger.debug(TAG, "dopo " + Thread.currentThread().name+" "+System.currentTimeMillis())
+                        .flatMap { list ->
+                            Observable.from(list)
+                                    .map { toDownloadedPodcast(it) }
+                                    .toList()
+                        }
+                        .observeOn(mainThreadScheduler)
+                        .subscribe(observer)
+        compositeSubscription.add(subscription)
     }
 
     private fun toDownloadedPodcast(podcast: Podcast): DownloadedPodcast = DownloadedPodcast(podcast, podcast.trackName, makeEpisodes(podcast), resources)
