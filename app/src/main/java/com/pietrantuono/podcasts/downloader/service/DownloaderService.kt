@@ -87,20 +87,20 @@ class DownloaderService() : Service(), FetchListener {
                 stopDownloadAndNotifyUser(it)
             }
         }
-        checkIfComplete(progress, id)
+        checkIfComplete(progress, id, downloadedBytes)
     }
 
-    private fun checkIfComplete(progress: Int, id: Long) {
+    private fun checkIfComplete(progress: Int, id: Long, downloadedBytes: Long) {
         debugLogger.debug(TAG, "checkIfComplete")
         if (progress >= DOWNLOAD_COMPLETED) {
-            onDownloadCompleted(id)
+            onDownloadCompleted(id, downloadedBytes)
         }
     }
 
-    private fun onDownloadCompleted(requestInfo: Long) {
+    private fun onDownloadCompleted(requestInfo: Long, downloadedBytes: Long) {
         debugLogger.debug(TAG, "onDownloadCompleted")
         stopForeground(false)
-        internalDownloader.onDownloadCompleted(requestInfo)
+        internalDownloader.onDownloadCompleted(requestInfo, downloadedBytes)
     }
 
     private fun stopDownloadAndNotifyUser(requestInfo: RequestInfo) {

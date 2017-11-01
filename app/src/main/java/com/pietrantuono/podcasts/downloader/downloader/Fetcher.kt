@@ -13,5 +13,5 @@ interface Fetcher {
     fun download(url: String): Pair<Long, RequestInfo?>?
     fun stopDownload(requestInfo: RequestInfo)
     fun stopDownload()
-    fun onDownloadCompleted(requestInfo: Long)
+    fun onDownloadCompleted(requestInfo: Long, downloadedBytes: Long)
 }

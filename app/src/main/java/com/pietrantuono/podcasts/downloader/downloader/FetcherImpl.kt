@@ -65,7 +65,7 @@ class FetcherImpl(
         fetch.removeAll()
     }
 
-    override fun onDownloadCompleted(id: Long) {
-        getRequestById(id)?.let { completedDownloadsManager.onDownloadCompleted(it) }
+    override fun onDownloadCompleted(id: Long, downloadedBytes: Long) {
+        getRequestById(id)?.let { completedDownloadsManager.onDownloadCompleted(it, downloadedBytes) }
     }
 }

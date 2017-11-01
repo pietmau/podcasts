@@ -118,7 +118,7 @@ www.aaa2040.com<div class="feedflare">
 www.aaa2040.com</itunes:summary>
             <itunes:subtitle>Pastor A.C. Williams II
 www.aaa2040.com</itunes:subtitle>
-            <media:content url="http://feedproxy.google.com/~r/AAA/podcast/~5/n8sdKxULG0M/2012-02-03T18_09_07-08_00.mp3" fileSize="40982286" type="audio/mpeg" />
+            <media:content url="http://feedproxy.google.com/~r/AAA/podcast/~5/n8sdKxULG0M/2012-02-03T18_09_07-08_00.mp3" fileSizeInBytes="40982286" type="audio/mpeg" />
             <itunes:author>Pastor A.C. Williams II</itunes:author>
             <feedburner:origLink>http://aaapodcast.podomatic.com/entry/2012-02-03T18_09_07-08_00</feedburner:origLink>
             <enclosure url="http://feedproxy.google.com/~r/AAA/podcast/~5/n8sdKxULG0M/2012-02-03T18_09_07-08_00.mp3" length="40982286" type="audio/mpeg" />
@@ -148,7 +148,7 @@ www.aaa2040.com</itunes:summary>
             <itunes:subtitle>JOHN 11:39
 @ Lily Of The Valley COGIC
 www.aaa2040.com</itunes:subtitle>
-            <media:content url="http://feedproxy.google.com/~r/AAA/podcast/~5/BDsEQvYErjo/2010-09-01T02_40_31-07_00.mp3" fileSize="43446365" type="audio/mpeg" />
+            <media:content url="http://feedproxy.google.com/~r/AAA/podcast/~5/BDsEQvYErjo/2010-09-01T02_40_31-07_00.mp3" fileSizeInBytes="43446365" type="audio/mpeg" />
             <itunes:author>Pastor A.C. Williams II</itunes:author>
             <feedburner:origLink>http://aaapodcast.podomatic.com/entry/2010-09-01T02_40_31-07_00</feedburner:origLink>
             <enclosure url="http://feedproxy.google.com/~r/AAA/podcast/~5/BDsEQvYErjo/2010-09-01T02_40_31-07_00.mp3" length="43446365" type="audio/mpeg" />
@@ -181,7 +181,7 @@ www.aaa2040.com</itunes:summary>
 John 10
 @ Lily Of The Valley COGIC
 www.aaa2040.com</itunes:subtitle>
-            <media:content url="http://feedproxy.google.com/~r/AAA/podcast/~5/-18mr_QuvRE/2010-08-23T09_07_26-07_00.mp3" fileSize="39177286" type="audio/mpeg" />
+            <media:content url="http://feedproxy.google.com/~r/AAA/podcast/~5/-18mr_QuvRE/2010-08-23T09_07_26-07_00.mp3" fileSizeInBytes="39177286" type="audio/mpeg" />
             <itunes:author>Pastor A.C. Williams II</itunes:author>
             <feedburner:origLink>http://aaapodcast.podomatic.com/entry/2010-08-23T09_07_26-07_00</feedburner:origLink>
             <enclosure url="http://feedproxy.google.com/~r/AAA/podcast/~5/-18mr_QuvRE/2010-08-23T09_07_26-07_00.mp3" length="39177286" type="audio/mpeg" />
@@ -214,7 +214,7 @@ www.aaa2040.com</itunes:summary>
 Joel 1:13
 @ Lily Of The Valley COGIC
 www.aaa2040.com</itunes:subtitle>
-            <media:content url="http://feedproxy.google.com/~r/AAA/podcast/~5/V8SotfsI8mo/2010-08-20T18_39_12-07_00.mp3" fileSize="51984262" type="audio/mpeg" />
+            <media:content url="http://feedproxy.google.com/~r/AAA/podcast/~5/V8SotfsI8mo/2010-08-20T18_39_12-07_00.mp3" fileSizeInBytes="51984262" type="audio/mpeg" />
             <itunes:author>Pastor A.C. Williams II</itunes:author>
             <feedburner:origLink>http://aaapodcast.podomatic.com/entry/2010-08-20T18_39_12-07_00</feedburner:origLink>
             <enclosure url="http://feedproxy.google.com/~r/AAA/podcast/~5/V8SotfsI8mo/2010-08-20T18_39_12-07_00.mp3" length="51984262" type="audio/mpeg" />
@@ -238,7 +238,7 @@ www.aaa2040.com</itunes:subtitle>
             <itunes:explicit>clean</itunes:explicit>
             <itunes:summary>Proverbs 18:21 // www.aaa2040.com</itunes:summary>
             <itunes:subtitle>Proverbs 18:21 // www.aaa2040.com</itunes:subtitle>
-            <media:content url="http://feedproxy.google.com/~r/AAA/podcast/~5/SFPTpKt0wh8/2010-05-12T08_38_14-07_00.mp3" fileSize="35830549" type="audio/mpeg" />
+            <media:content url="http://feedproxy.google.com/~r/AAA/podcast/~5/SFPTpKt0wh8/2010-05-12T08_38_14-07_00.mp3" fileSizeInBytes="35830549" type="audio/mpeg" />
             <itunes:author>Pastor A.C. Williams II</itunes:author>
             <feedburner:origLink>http://aaapodcast.podomatic.com/entry/2010-05-12T08_38_14-07_00</feedburner:origLink>
             <enclosure url="http://feedproxy.google.com/~r/AAA/podcast/~5/SFPTpKt0wh8/2010-05-12T08_38_14-07_00.mp3" length="35830549" type="audio/mpeg" />
@@ -262,7 +262,7 @@ www.aaa2040.com</itunes:subtitle>
             <itunes:explicit>clean</itunes:explicit>
             <itunes:summary>John 1:14 // www.aaa2020.com</itunes:summary>
             <itunes:subtitle>John 1:14 // www.aaa2020.com</itunes:subtitle>
-            <media:content url="http://feedproxy.google.com/~r/AAA/podcast/~5/ueNyrqbRLfQ/2010-05-12T08_22_57-07_00.mp3" fileSize="30490608" type="audio/mpeg" />
+            <media:content url="http://feedproxy.google.com/~r/AAA/podcast/~5/ueNyrqbRLfQ/2010-05-12T08_22_57-07_00.mp3" fileSizeInBytes="30490608" type="audio/mpeg" />
             <itunes:author>Pastor A.C. Williams II</itunes:author>
             <feedburner:origLink>http://aaapodcast.podomatic.com/entry/2010-05-12T08_22_57-07_00</feedburner:origLink>
             <enclosure url="http://feedproxy.google.com/~r/AAA/podcast/~5/ueNyrqbRLfQ/2010-05-12T08_22_57-07_00.mp3" length="30490608" type="audio/mpeg" />
@@ -286,7 +286,7 @@ www.aaa2040.com</itunes:subtitle>
             <itunes:explicit>clean</itunes:explicit>
             <itunes:summary>Ephesians 5:6 // www.aaa2040.com</itunes:summary>
             <itunes:subtitle>Ephesians 5:6 // www.aaa2040.com</itunes:subtitle>
-            <media:content url="http://feedproxy.google.com/~r/AAA/podcast/~5/Iut9QWB-LC4/2010-05-02T21_02_44-07_00.mp3" fileSize="39654881" type="audio/mpeg" />
+            <media:content url="http://feedproxy.google.com/~r/AAA/podcast/~5/Iut9QWB-LC4/2010-05-02T21_02_44-07_00.mp3" fileSizeInBytes="39654881" type="audio/mpeg" />
             <itunes:author>Pastor A.C. Williams II</itunes:author>
             <feedburner:origLink>http://aaapodcast.podomatic.com/entry/2010-05-02T21_02_44-07_00</feedburner:origLink>
             <enclosure url="http://feedproxy.google.com/~r/AAA/podcast/~5/Iut9QWB-LC4/2010-05-02T21_02_44-07_00.mp3" length="39654881" type="audio/mpeg" />
@@ -310,7 +310,7 @@ www.aaa2040.com</itunes:subtitle>
             <itunes:explicit>clean</itunes:explicit>
             <itunes:summary>Pastor A.C. Williams II // www.AAA2040.com</itunes:summary>
             <itunes:subtitle>Pastor A.C. Williams II // www.AAA2040.com</itunes:subtitle>
-            <media:content url="http://feedproxy.google.com/~r/AAA/podcast/~5/eG31d90vp8c/2010-04-30T15_48_49-07_00.mp3" fileSize="36852113" type="audio/mpeg" />
+            <media:content url="http://feedproxy.google.com/~r/AAA/podcast/~5/eG31d90vp8c/2010-04-30T15_48_49-07_00.mp3" fileSizeInBytes="36852113" type="audio/mpeg" />
             <itunes:author>Pastor A.C. Williams II</itunes:author>
             <feedburner:origLink>http://aaapodcast.podomatic.com/entry/2010-04-30T15_48_49-07_00</feedburner:origLink>
             <enclosure url="http://feedproxy.google.com/~r/AAA/podcast/~5/eG31d90vp8c/2010-04-30T15_48_49-07_00.mp3" length="36852113" type="audio/mpeg" />
@@ -334,7 +334,7 @@ www.aaa2040.com</itunes:subtitle>
             <itunes:explicit>clean</itunes:explicit>
             <itunes:summary>Pastor A.C. Williams II // wwww.AAA2040.com</itunes:summary>
             <itunes:subtitle>Pastor A.C. Williams II // wwww.AAA2040.com</itunes:subtitle>
-            <media:content url="http://feedproxy.google.com/~r/AAA/podcast/~5/5BLi5sS-Gk4/2010-04-30T15_46_52-07_00.mp3" fileSize="41257925" type="audio/mpeg" />
+            <media:content url="http://feedproxy.google.com/~r/AAA/podcast/~5/5BLi5sS-Gk4/2010-04-30T15_46_52-07_00.mp3" fileSizeInBytes="41257925" type="audio/mpeg" />
             <itunes:author>Pastor A.C. Williams II</itunes:author>
             <feedburner:origLink>http://aaapodcast.podomatic.com/entry/2010-04-30T15_46_52-07_00</feedburner:origLink>
             <enclosure url="http://feedproxy.google.com/~r/AAA/podcast/~5/5BLi5sS-Gk4/2010-04-30T15_46_52-07_00.mp3" length="41257925" type="audio/mpeg" />
@@ -358,7 +358,7 @@ www.aaa2040.com</itunes:subtitle>
             <itunes:explicit>clean</itunes:explicit>
             <itunes:summary>Revelation 2:20 // www.aaa2040.com</itunes:summary>
             <itunes:subtitle>Revelation 2:20 // www.aaa2040.com</itunes:subtitle>
-            <media:content url="http://feedproxy.google.com/~r/AAA/podcast/~5/bfVzSTfnjRg/2010-04-28T21_30_56-07_00.mp3" fileSize="50550386" type="audio/mpeg" />
+            <media:content url="http://feedproxy.google.com/~r/AAA/podcast/~5/bfVzSTfnjRg/2010-04-28T21_30_56-07_00.mp3" fileSizeInBytes="50550386" type="audio/mpeg" />
             <itunes:author>Pastor A.C. Williams II</itunes:author>
             <feedburner:origLink>http://aaapodcast.podomatic.com/entry/2010-04-28T21_30_56-07_00</feedburner:origLink>
             <enclosure url="http://feedproxy.google.com/~r/AAA/podcast/~5/bfVzSTfnjRg/2010-04-28T21_30_56-07_00.mp3" length="50550386" type="audio/mpeg" />
@@ -382,7 +382,7 @@ www.aaa2040.com</itunes:subtitle>
             <itunes:explicit>clean</itunes:explicit>
             <itunes:summary>4.25.10. // Reference: John 20</itunes:summary>
             <itunes:subtitle>4.25.10. // Reference: John 20</itunes:subtitle>
-            <media:content url="http://feedproxy.google.com/~r/AAA/podcast/~5/eSEZ_M-WfW4/2010-04-25T23_38_56-07_00.mp3" fileSize="31698338" type="audio/mpeg" />
+            <media:content url="http://feedproxy.google.com/~r/AAA/podcast/~5/eSEZ_M-WfW4/2010-04-25T23_38_56-07_00.mp3" fileSizeInBytes="31698338" type="audio/mpeg" />
             <itunes:author>Pastor A.C. Williams II</itunes:author>
             <feedburner:origLink>http://aaapodcast.podomatic.com/entry/2010-04-25T23_38_56-07_00</feedburner:origLink>
             <enclosure url="http://feedproxy.google.com/~r/AAA/podcast/~5/eSEZ_M-WfW4/2010-04-25T23_38_56-07_00.mp3" length="31698338" type="audio/mpeg" />
@@ -406,7 +406,7 @@ www.aaa2040.com</itunes:subtitle>
             <itunes:explicit>clean</itunes:explicit>
             <itunes:summary>Bible Study; Proverbs 10:19</itunes:summary>
             <itunes:subtitle>Bible Study; Proverbs 10:19</itunes:subtitle>
-            <media:content url="http://feedproxy.google.com/~r/AAA/podcast/~5/igwgRa_48is/2010-04-25T10_44_02-07_00.mp3" fileSize="41555069" type="audio/mpeg" />
+            <media:content url="http://feedproxy.google.com/~r/AAA/podcast/~5/igwgRa_48is/2010-04-25T10_44_02-07_00.mp3" fileSizeInBytes="41555069" type="audio/mpeg" />
             <itunes:author>Pastor A.C. Williams II</itunes:author>
             <feedburner:origLink>http://aaapodcast.podomatic.com/entry/2010-04-25T10_44_02-07_00</feedburner:origLink>
             <enclosure url="http://feedproxy.google.com/~r/AAA/podcast/~5/igwgRa_48is/2010-04-25T10_44_02-07_00.mp3" length="41555069" type="audio/mpeg" />
@@ -439,7 +439,7 @@ Pastor Williams speaks on discrimination and hypocrisy in the Body of Christ, as
 John 3:1-8
 
 Pastor Williams speaks on discrimination and hypocrisy in the Body of Ch...</itunes:subtitle>
-            <media:content url="http://feedproxy.google.com/~r/AAA/podcast/~5/f6_m6RH4XOY/2010-04-21T19_06_18-07_00.mp3" fileSize="38164271" type="audio/mpeg" />
+            <media:content url="http://feedproxy.google.com/~r/AAA/podcast/~5/f6_m6RH4XOY/2010-04-21T19_06_18-07_00.mp3" fileSizeInBytes="38164271" type="audio/mpeg" />
             <itunes:author>Pastor A.C. Williams II</itunes:author>
             <feedburner:origLink>http://aaapodcast.podomatic.com/entry/2010-04-21T19_06_18-07_00</feedburner:origLink>
             <enclosure url="http://feedproxy.google.com/~r/AAA/podcast/~5/f6_m6RH4XOY/2010-04-21T19_06_18-07_00.mp3" length="38164271" type="audio/mpeg" />
@@ -463,7 +463,7 @@ Pastor Williams speaks on discrimination and hypocrisy in the Body of Ch...</itu
             <itunes:explicit>clean</itunes:explicit>
             <itunes:summary>Pastor Williams speaks on peace in the midst of suffering</itunes:summary>
             <itunes:subtitle>Pastor Williams speaks on peace in the midst of suffering</itunes:subtitle>
-            <media:content url="http://feedproxy.google.com/~r/AAA/podcast/~5/1nmT97QQe98/2010-04-21T20_00_49-07_00.mp3" fileSize="35016184" type="audio/mpeg" />
+            <media:content url="http://feedproxy.google.com/~r/AAA/podcast/~5/1nmT97QQe98/2010-04-21T20_00_49-07_00.mp3" fileSizeInBytes="35016184" type="audio/mpeg" />
             <itunes:author>Pastor A.C. Williams II</itunes:author>
             <feedburner:origLink>http://aaapodcast.podomatic.com/entry/2010-04-21T20_00_49-07_00</feedburner:origLink>
             <enclosure url="http://feedproxy.google.com/~r/AAA/podcast/~5/1nmT97QQe98/2010-04-21T20_00_49-07_00.mp3" length="35016184" type="audio/mpeg" />
@@ -490,7 +490,7 @@ Pastor A.C. Williams II speaks on clairvoyance, clairaudience, ESP, and those wh
 Pastor A.C. Williams II speaks on clairvoyance, clairaudience, ESP, and those who possess the gifts to see things "things which are not as though they were." </itunes:summary>
             <itunes:subtitle>April 10th, 2010.
 Pastor A.C. Williams II speaks on clairvoyance, clairaudience, ESP, and those ...</itunes:subtitle>
-            <media:content url="http://feedproxy.google.com/~r/AAA/podcast/~5/M5Y8u3X7hNY/2010-04-21T18_46_35-07_00.mp3" fileSize="50419043" type="audio/mpeg" />
+            <media:content url="http://feedproxy.google.com/~r/AAA/podcast/~5/M5Y8u3X7hNY/2010-04-21T18_46_35-07_00.mp3" fileSizeInBytes="50419043" type="audio/mpeg" />
             <itunes:author>Pastor A.C. Williams II</itunes:author>
             <feedburner:origLink>http://aaapodcast.podomatic.com/entry/2010-04-21T18_46_35-07_00</feedburner:origLink>
             <enclosure url="http://feedproxy.google.com/~r/AAA/podcast/~5/M5Y8u3X7hNY/2010-04-21T18_46_35-07_00.mp3" length="50419043" type="audio/mpeg" />

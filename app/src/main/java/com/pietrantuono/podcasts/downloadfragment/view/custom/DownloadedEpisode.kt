@@ -14,6 +14,7 @@ class DownloadedEpisode(
     val title = episode.title
     val link = episode.link
     val downloaded = episode.downloaded
+    val fileSizeInKb = episode.fileSizeInBytes /(1024)
 
     val downloadedAsText: String?
         get() = if (downloaded) {
@@ -50,6 +51,5 @@ class DownloadedEpisode(
             throw UnsupportedOperationException("Not supported")
         }
     }
-
 
 }

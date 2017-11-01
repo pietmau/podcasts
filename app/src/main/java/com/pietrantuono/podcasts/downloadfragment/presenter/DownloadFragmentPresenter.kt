@@ -27,6 +27,7 @@ class DownloadFragmentPresenter(
                 if (feed != null && !feed.isEmpty()) {
                     view?.setPodcasts(feed)
                 }
+                model.unsubscribe()
             }
         })
     }

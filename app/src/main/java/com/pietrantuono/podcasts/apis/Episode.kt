@@ -38,4 +38,6 @@ interface Episode : Parcelable {
     val durationInMills: Long?
 
     var filePath: String?
+
+    var fileSizeInBytes: Long
 }

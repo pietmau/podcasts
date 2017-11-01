@@ -48,6 +48,7 @@ open class RealmEpisode : RealmObject, Episode {
     override var enclosures: List<SyndEnclosure>? = null
         get() = syndEnclosures
     override var filePath: String? = null
+    override var fileSizeInBytes: Long = 0
 
     constructor(parcel: Parcel) {
         link = parcel.readString()
@@ -60,6 +61,7 @@ open class RealmEpisode : RealmObject, Episode {
         summary = parcel.readString()
         title = parcel.readString()
         description = parcel.readString()
+        fileSizeInBytes = parcel.readLong()
     }
 
     constructor()
@@ -123,6 +125,7 @@ open class RealmEpisode : RealmObject, Episode {
         parcel.writeString(summary)
         parcel.writeString(title)
         parcel.writeString(description)
+        parcel.writeLong(fileSizeInBytes)
     }
 
     override fun describeContents(): Int {

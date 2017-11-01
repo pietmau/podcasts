@@ -25,33 +25,42 @@
             android:orientation="vertical">
 
             <ImageView
-                app:srcCompat="@drawable/ic_more_vert_white_24dp"
                 android:id="@+id/overflow"
-                android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                app:srcCompat="@drawable/ic_more_vert_white_24dp"/>
 
             <TextView
-                android:text="@{episode.title}"
-                android:lines="1"
-                android:ellipsize="end"
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_toLeftOf="@+id/overflow"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="@{episode.title}"
                 android:textAppearance="?android:textAppearanceMedium"/>
 
             <TextView
-                android:layout_below="@+id/title"
-                android:layout_alignParentStart="true"
                 android:id="@+id/downloaded"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/title"
                 android:drawableLeft="@{episode.icon}"
                 android:text="@{episode.downloadedAsText}"
+                android:textAppearance="?android:textAppearanceSmall"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/downloaded"
+                android:drawableRight="@drawable/ic_save_white_24dp"
+                android:text="@{String.valueOf(episode.fileSizeInKb)+ ` KB `}"
                 android:textAppearance="?android:textAppearanceSmall"/>
 
         </RelativeLayout>

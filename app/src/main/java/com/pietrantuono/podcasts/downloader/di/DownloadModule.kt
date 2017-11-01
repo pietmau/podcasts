@@ -12,7 +12,9 @@ import com.pietrantuono.podcasts.repository.repository.PodcastRepo
 import com.pietrantuono.podcasts.settings.PreferencesManager
 import dagger.Module
 import dagger.Provides
+import javax.inject.Named
 
+private const val SLACK_IN_BYTES = "slack_in_bytes"
 
 @DownloaderServiceScope
 @Module
@@ -35,9 +37,13 @@ class DownloadModule(private val context: Context) {
     }
 
     @Provides
-    fun provideDirectoryProvider(preferences: PreferencesManager): DirectoryProvider {
-        return DirectoryProviderImpl(context, preferences)
+    fun provideDirectoryProvider(preferences: PreferencesManager, @Named(SLACK_IN_BYTES) slack: Int): DirectoryProvider {
+        return DirectoryProviderImpl(context, preferences, slack)
     }
+
+    @Provides
+    @Named(SLACK_IN_BYTES)
+    fun provideSlackInBytes(): Int = 1 * 1024 * 1024
 
     @Provides
     fun provideNetworkDetector(preferencesManager: PreferencesManager, provider: DirectoryProvider)
