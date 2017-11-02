@@ -6,6 +6,8 @@ import android.preference.PreferenceManager
 
 
 class PreferencesManagerImpl(private val context: Context) : PreferencesManager {
+    override val saveOnSdCard: Boolean
+        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
     private val DOWNLOAD_ON_MOBILE_NETWORK: String? = "download_on_mobile_network"
     val sharedPref: SharedPreferences
 

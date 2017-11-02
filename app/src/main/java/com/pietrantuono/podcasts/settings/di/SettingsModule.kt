@@ -1,6 +1,8 @@
-package com.pietrantuono.podcasts.settings
+package com.pietrantuono.podcasts.settings.di
 
 import android.content.Context
+import com.pietrantuono.podcasts.settings.PreferencesManager
+import com.pietrantuono.podcasts.settings.PreferencesManagerImpl
 import dagger.Module
 import dagger.Provides
 

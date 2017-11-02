@@ -50,5 +50,14 @@
     <string name="delete_all">Delete all</string>
     <string name="delete">Delete</string>
     <string name="confirm_download_episode">Do you want to download</string>
+    <string name="listen_wifi_title">Listen over WiFi only</string>
+    <string name="listen_wifi_title_summary">Listen to not downloaded episodes over wiFi only (RECOMMENDED)</string>
+    <string name="download_wifi_title">Download over WiFi only</string>
+    <string name="download_wifi_title_summary">Download episodes over wiFi only (RECOMMENDED)</string>
+    <string name="listen_wifi">listen_wifi</string>
+    <string name="download_wifi">download_wifi</string>
+    <string name="external_storage">external_storage</string>
+    <string name="external_storage_title">Download to SD card</string>
+
 
 </resources>

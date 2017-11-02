@@ -23,7 +23,9 @@ import com.pietrantuono.podcasts.player.player.service.di.ServiceComponent
 import com.pietrantuono.podcasts.player.player.service.di.ServiceModule
 import com.pietrantuono.podcasts.repository.RepositoryModule
 import com.pietrantuono.podcasts.repository.SaveAndDowloandEpisodeIntentService
-import com.pietrantuono.podcasts.settings.SettingsModule
+import com.pietrantuono.podcasts.settings.di.SettingsFragmentComponent
+import com.pietrantuono.podcasts.settings.di.SettingsFragmentModule
+import com.pietrantuono.podcasts.settings.di.SettingsModule
 import com.pietrantuono.podcasts.subscribedpodcasts.list.di.SingleSubscribedComponent
 import com.pietrantuono.podcasts.subscribedpodcasts.list.di.SingleSubscribedModule
 import dagger.Component
@@ -61,4 +63,6 @@ interface ApplicationComponent {
     fun with(serviceModule: ServiceModule): ServiceComponent
 
     fun with(serviceModule: DownloadFragmentModule): DownloadFragmentComponent
+
+    fun with(serviceModule: SettingsFragmentModule): SettingsFragmentComponent
 }
