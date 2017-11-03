@@ -6,7 +6,7 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesPro
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
 
 class DownloadedPodcast(
-        private val podcast: Podcast,
+        val podcast: Podcast,
         title: String?,
         items: List<DownloadedEpisode>?,
         private val resources: ResourcesProvider) : ExpandableGroup<DownloadedEpisode>(title, items) {

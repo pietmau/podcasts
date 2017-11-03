@@ -3,9 +3,12 @@ package com.pietrantuono.podcasts.downloader.downloader
 import android.content.Context
 import android.content.Intent
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
+import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.downloader.service.DownloaderService
 
-class DownloaderImpl(private val context: Context) : Downloader {
+class DownloaderImpl(
+        private val context: Context,
+        private val fetcher: Fetcher) : Downloader {
 
     override fun downloadEpisodeFromLink(link: String) {
         val intent = Intent(context, DownloaderService::class.java)
@@ -25,5 +28,8 @@ class DownloaderImpl(private val context: Context) : Downloader {
 
     }
 
+    override fun deleteEpisode(episode: Episode) {
+        TODO("not implemented")
+    }
 
 }

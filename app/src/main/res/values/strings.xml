@@ -59,6 +59,8 @@
     <string name="external_storage">external_storage</string>
     <string name="external_storage_title">Download to SD card</string>
     <string name="external_storage_unavailable">External storage unavailable</string>
+    <string name="confirm_download_all">Do you want to download all episodes of</string>
+    <string name="confirm_delete_episode">Do you want to delete</string>
 
 
 </resources>

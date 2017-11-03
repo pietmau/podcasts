@@ -1,7 +1,9 @@
 package com.pietrantuono.podcasts.downloadfragment.presenter
 
 
+import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
+import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.downloader.downloader.Downloader
 import com.pietrantuono.podcasts.downloadfragment.model.DownloadFragmentModel
 import com.pietrantuono.podcasts.downloadfragment.view.DownloadView
@@ -44,26 +46,36 @@ class DownloadFragmentPresenter(
         view?.confirmDownloadEpisode(message, downloadedEpisode.link)
     }
 
-    override fun downloadEpisodes(downloadedPodcast: DownloadedPodcast?) {
-        downloadedPodcast?.trackId?.let {
-            model.getPodcastTitleAsync(object : SimpleObserver<String?>() {
-                override fun onNext(title: String?) {
-                    //title?.let { view?.confirmDownloadEpisode(it) }
-                }
-            }, it)
+    override fun downloadAllEpisodes(downloadedPodcast: DownloadedPodcast?) {
+        if (downloadedPodcast?.title == null || downloadedPodcast?.trackId == null) {
+            return
         }
+        val message = messageCreator.confirmDownloadAllEpisodes(downloadedPodcast.title)
+        view?.confirmDownloadAllEpisodes(message, downloadedPodcast.podcast)
     }
 
-    override fun deleteEpisode(link: DownloadedEpisode?) {
-        //episode?.let { view?.confirmDeleteEpisode(it.title) }
+    override fun deleteEpisode(downloadedEpisode: DownloadedEpisode?) {
+        if (downloadedEpisode?.title == null || downloadedEpisode?.link == null) {
+            return
+        }
+        val message = messageCreator.confirmDeleteEpisode(downloadedEpisode.title)
+        view?.confirmDeleteEpisode(message, downloadedEpisode.episode)
     }
 
-    override fun deleteEpisodes(trackId: DownloadedPodcast?) {
+    override fun deleteAllEpisodes(trackId: DownloadedPodcast?) {
         //podcast?.let { view?.confirmDeleteEpisodes(it.title) }
     }
 
     fun onConfirmDownloadEpisode(link: String) {
         downloader.downloadEpisodeFromLink(link)
+    }
+
+    fun onConfirmDownloadAllEpisodes(podcast: Podcast) {
+        downloader.downloadIfAppropriate(podcast)
+    }
+
+    fun onConfirmDeleteEpisode(episode: Episode) {
+        downloader.deleteEpisode(episode)
     }
 }
 

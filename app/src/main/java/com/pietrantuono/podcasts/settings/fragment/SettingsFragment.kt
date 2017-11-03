@@ -7,10 +7,11 @@ import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.settings.di.SettingsFragmentModule
 import com.pietrantuono.podcasts.settings.presenter.SettingsPresenter
+import com.pietrantuono.podcasts.settings.presenter.SettingsView
 import javax.inject.Inject
 
 
-class SettingsFragment : PreferenceFragmentCompat() {
+class SettingsFragment : PreferenceFragmentCompat(), SettingsView {
     companion object {
         val TAG = "SettingsFragment"
     }
@@ -20,13 +21,21 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.preferences)
         (activity.application as? App)?.applicationComponent?.with(SettingsFragmentModule())?.inject(this)
-        setSdCardPreferenceText()
+        presenter.bindView(this)
     }
 
-    private fun setSdCardPreferenceText() {
+    override fun setSdCardPreferenceText(summary: String) {
         val sdPreference = findPreference(context.getString(R.string.external_storage))
-        presenter.setSdCardPreferenceText(sdPreference)
+        sdPreference?.summary = summary
     }
 
+    override fun onPause() {
+        super.onPause()
+        presenter.onPause()
+    }
 
+    override fun onResume() {
+        super.onResume()
+        presenter.onResume()
+    }
 }

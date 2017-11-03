@@ -7,7 +7,6 @@ import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.apis.SinglePodcastApi
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.application.DebugLogger
-import com.pietrantuono.podcasts.downloader.di.DownloadModule
 import com.pietrantuono.podcasts.downloader.downloader.Downloader
 import com.pietrantuono.podcasts.providers.PodcastRealm
 import io.realm.Realm
@@ -27,7 +26,7 @@ class SaveAndDowloandEpisodeIntentService : IntentService("SaveAndDowloandEpisod
     }
 
     override fun onHandleIntent(intent: Intent?) {
-        (application as App).applicationComponent?.with(DownloadModule(this))?.inject(this)
+        (application as App).applicationComponent?.with()?.inject(this)
         logger.debug(TAG, "onHandleIntent")
         var podcast: PodcastRealm? = getPodcast(intent!!) ?: return
         val episodes = getEpisodes(intent) ?: return

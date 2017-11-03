@@ -13,21 +13,22 @@ import com.pietrantuono.podcasts.settings.PreferencesManager
 import dagger.Module
 import dagger.Provides
 import javax.inject.Named
+import javax.inject.Singleton
 
 private const val SLACK_IN_BYTES = "slack_in_bytes"
 
-@DownloaderServiceScope
+@Singleton
 @Module
-class DownloadModule(private val context: Context) {
+class DownloadModule() {
 
-    @DownloaderServiceScope
+    @Singleton
     @Provides
-    fun provideFetcher(provider: DirectoryProvider, repo: EpisodesRepository, manager: RequestManager, completemanager: CompletedDownloadsManager): Fetcher {
+    fun provideFetcher(provider: DirectoryProvider, repo: EpisodesRepository, manager: RequestManager, completemanager: CompletedDownloadsManager, context: Context): Fetcher {
         return FetcherImpl(context, repo, manager, completemanager)
     }
 
     @Provides
-    fun provideNotificator(repo: EpisodesRepository, logger: DebugLogger): DownloadNotificator {
+    fun provideNotificator(repo: EpisodesRepository, logger: DebugLogger, context: Context): DownloadNotificator {
         return DownloadNotificatorImpl(context, repo, logger)
     }
 
@@ -37,7 +38,7 @@ class DownloadModule(private val context: Context) {
     }
 
     @Provides
-    fun provideDirectoryProvider(preferences: PreferencesManager, @Named(SLACK_IN_BYTES) slack: Int): DirectoryProvider {
+    fun provideDirectoryProvider(preferences: PreferencesManager, @Named(SLACK_IN_BYTES) slack: Int, context: Context): DirectoryProvider {
         return DirectoryProviderImpl(context, preferences, slack)
     }
 
@@ -46,7 +47,7 @@ class DownloadModule(private val context: Context) {
     fun provideSlackInBytes(): Int = 1 * 1024 * 1024
 
     @Provides
-    fun provideNetworkDetector(preferencesManager: PreferencesManager, provider: DirectoryProvider)
+    fun provideNetworkDetector(preferencesManager: PreferencesManager, provider: DirectoryProvider, context: Context)
             = NetworkDiskAndPreferenceManager(context, preferencesManager, provider)
 
     @Provides

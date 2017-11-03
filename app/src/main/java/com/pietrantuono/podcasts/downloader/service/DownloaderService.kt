@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.IBinder
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.application.DebugLogger
-import com.pietrantuono.podcasts.downloader.di.DownloadModule
 import com.pietrantuono.podcasts.downloader.downloader.Fetcher
 import com.tonyodev.fetch.listener.FetchListener
 import com.tonyodev.fetch.request.RequestInfo
@@ -30,7 +29,7 @@ class DownloaderService() : Service(), FetchListener {
 
     override fun onCreate() {
         super.onCreate()
-        (application as App).applicationComponent?.with(DownloadModule(this))?.inject(this)
+        (application as App).applicationComponent?.with()?.inject(this)
         debugLogger.debug(TAG, "onCreate")
         internalDownloader.addListener(this@DownloaderService)
     }

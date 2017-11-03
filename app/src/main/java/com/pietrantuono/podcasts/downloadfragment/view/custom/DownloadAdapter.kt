@@ -34,11 +34,11 @@ class DownloadAdapter(
     interface Callback {
         fun downloadEpisode(link: DownloadedEpisode?)
 
-        fun downloadEpisodes(trackId: DownloadedPodcast?)
+        fun downloadAllEpisodes(trackId: DownloadedPodcast?)
 
         fun deleteEpisode(link: DownloadedEpisode?)
 
-        fun deleteEpisodes(trackId: DownloadedPodcast?)
+        fun deleteAllEpisodes(trackId: DownloadedPodcast?)
     }
 }
 

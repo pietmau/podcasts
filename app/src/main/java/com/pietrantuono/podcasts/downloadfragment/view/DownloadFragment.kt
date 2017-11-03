@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
+import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
+import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.downloadfragment.di.DownloadFragmentModule
 import com.pietrantuono.podcasts.downloadfragment.presenter.DownloadFragmentPresenter
@@ -67,12 +69,18 @@ class DownloadFragment : Fragment(), DownloadView {
         }.show()
     }
 
-    override fun confirmDownloadEpisodes(episodes: String) {
-        TODO("not implemented")
+    override fun confirmDownloadAllEpisodes(message: MessageCreator.AlertMessage, podcast: Podcast) {
+        alert(message.message, message.title) {
+            yesButton { presenter.onConfirmDownloadAllEpisodes(podcast) }
+            noButton { }
+        }.show()
     }
 
-    override fun confirmDeleteEpisode(episode: String) {
-        TODO("not implemented")
+    override fun confirmDeleteEpisode(message: MessageCreator.AlertMessage, episode: Episode) {
+        alert(message.message, message.title) {
+            yesButton { presenter.onConfirmDeleteEpisode(episode) }
+            noButton { }
+        }.show()
     }
 
     override fun confirmDeleteEpisodes(episodes: String) {

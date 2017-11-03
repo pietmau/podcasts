@@ -1,28 +1,41 @@
 package com.pietrantuono.podcasts.settings.presenter
 
-import android.support.v7.preference.Preference
+import android.content.SharedPreferences
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
 import com.pietrantuono.podcasts.downloader.downloader.DirectoryProvider
+import com.pietrantuono.podcasts.settings.PreferencesManager
 
 
 class SettingsPresenter(
         private val resources: ResourcesProvider,
-        private val directories: DirectoryProvider) {
+        private val directories: DirectoryProvider,
+        private val preferencesManager: PreferencesManager) {
 
-    fun setSdCardPreferenceText(sdPreference: Preference?) {
-        if (sdPreference == null) {
-            return
-        }
+    private lateinit var settingsView: SettingsView
+
+    private val listener: (sharedPreferences: SharedPreferences, key: String) -> Unit =
+            { sharedPreferences, key ->setSdCardPreferenceText() }
+
+    private fun setSdCardPreferenceText() {
         if (!directories.externalStorageIsAvailable) {
-            externalStorageNotAvailable(sdPreference)
+            settingsView.setSdCardPreferenceText(resources.getString(R.string.external_storage_unavailable))
             return
         }
-        sdPreference.summary = directories.downloadDir
+        settingsView.setSdCardPreferenceText(directories.downloadDir)
     }
 
-    private fun externalStorageNotAvailable(sdPreference: Preference) {
-        sdPreference.summary = resources.getString(R.string.external_storage_unavailable)
+    fun bindView(settingsView: SettingsView) {
+        this.settingsView = settingsView
+    }
+
+    fun onResume() {
+        preferencesManager.registerListener(listener)
+        setSdCardPreferenceText()
+    }
+
+    fun onPause() {
+        preferencesManager.unRegisterListener(listener)
     }
 
 }

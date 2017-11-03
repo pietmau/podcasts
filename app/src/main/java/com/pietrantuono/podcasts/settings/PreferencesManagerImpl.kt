@@ -18,4 +18,11 @@ class PreferencesManagerImpl(
     override val downloadOnMobileNetwork: Boolean
         get() = !sharedPref.getBoolean(resourcesProvider.getString(R.string.download_wifi), false)
 
+    override fun registerListener(listener: (sharedPreferences: SharedPreferences, key: String) -> Unit) {
+        sharedPref.registerOnSharedPreferenceChangeListener(listener)
+    }
+
+    override fun unRegisterListener(listener: (sharedPreferences: SharedPreferences, key: String) -> Unit) {
+        sharedPref.unregisterOnSharedPreferenceChangeListener(listener)
+    }
 }

@@ -35,7 +35,7 @@ import javax.inject.Singleton
 @Component(modules = arrayOf(AppModule::class, ApiLevelCheckerlModule::class,
         SearchModelsModule::class, ImageLoaderModule::class, TransitionsModule::class,
         MediaModule::class, RepositoryModule::class, ApiModule::class, SettingsModule::class,
-        PlayerModule::class))
+        PlayerModule::class, DownloadModule::class))
 interface ApplicationComponent {
 
     fun inject(app: App)
@@ -52,7 +52,7 @@ interface ApplicationComponent {
 
     fun with(mainModule: SingleSubscribedModule): SingleSubscribedComponent
 
-    fun with(downloadModule: DownloadModule): DownloadSubComponent
+    fun with(): DownloadSubComponent
 
     fun simpleExoPlayer(): SimpleExoPlayer?
 
