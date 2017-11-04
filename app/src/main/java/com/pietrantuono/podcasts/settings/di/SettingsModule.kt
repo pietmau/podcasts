@@ -13,12 +13,12 @@ import dagger.Provides
 class SettingsModule {
 
     @Provides
-    fun providePreferencesManager(prefs: SharedPreferences, resources: ResourcesProvider): PreferencesManager {
-        return PreferencesManagerImpl(prefs, resources)
+    fun providePreferencesManager(prefs: SharedPreferences, resources: ResourcesProvider, context: Context): PreferencesManager {
+        return PreferencesManagerImpl(context, prefs, resources)
     }
 
     @Provides
-    fun provideSharedPreferences(context: Context) =  PreferenceManager.getDefaultSharedPreferences(context)
+    fun provideSharedPreferences(context: Context) = PreferenceManager.getDefaultSharedPreferences(context)
 
 }
 

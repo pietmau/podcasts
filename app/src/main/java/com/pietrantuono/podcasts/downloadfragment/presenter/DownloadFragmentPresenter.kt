@@ -63,7 +63,7 @@ class DownloadFragmentPresenter(
     }
 
     override fun deleteAllEpisodes(trackId: DownloadedPodcast?) {
-        //podcast?.let { view?.confirmDeleteEpisodes(it.title) }
+        //podcast?.let { view?.confirmDeleteAllEpisodes(it.title) }
     }
 
     fun onConfirmDownloadEpisode(link: String) {

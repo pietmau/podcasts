@@ -22,7 +22,7 @@ class RequestManagerImpl
     override fun getRequestById(id: Long): RequestInfo? = requests[id]
 
     /**  Called by the downloader service, in its own process  */
-    override fun createRequest(url: String): Request? {
+    override fun createRequestForDownload(url: String): Request? {
         val episode = repository.getEpisodeByUrlSync(url)
         return getRequest(episode)
     }
@@ -43,6 +43,15 @@ class RequestManagerImpl
         val dir = directoryProvider.downloadDir
         val filname = URLUtil.guessFileName(url, null, null)
         return Request(url, dir, filname)
+    }
+
+    override fun createRequestForDeletion(episode: Episode): Request? {
+        val link = episode.link
+        val path = episode.filePathIncludingFileName
+        if (link == null || path == null) {
+            return null
+        }
+        return Request(link, path)
     }
 
 }

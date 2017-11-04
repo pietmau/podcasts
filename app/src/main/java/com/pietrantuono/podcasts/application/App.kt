@@ -4,7 +4,9 @@ import android.content.ComponentName
 import android.content.ServiceConnection
 import android.os.IBinder
 import android.support.multidex.MultiDexApplication
+import com.facebook.stetho.Stetho
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule
+import com.squareup.leakcanary.LeakCanary
 import io.realm.Realm
 import javax.inject.Inject
 
@@ -15,10 +17,11 @@ class App : MultiDexApplication(), ServiceConnection {
 
     override fun onCreate() {
         super.onCreate()
-//        if (LeakCanary.isInAnalyzerProcess(this)) {
-//            return;
-//        }
-//        LeakCanary.install(this);
+        Stetho.initializeWithDefaults(this);
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            return;
+        }
+        LeakCanary.install(this);
         Realm.init(this)
         applicationComponent = DaggerApplicationComponent.builder().appModule(AppModule(this))
                 .imageLoaderModule(ImageLoaderModule(this)).build()

@@ -20,7 +20,6 @@ class FetcherImpl(
     init {
         fetch = Fetch.newInstance(context)
         fetch.setConcurrentDownloadsLimit(1)
-        fetch.g
     }
 
     override fun addListener(listner: FetchListener) {
@@ -45,7 +44,7 @@ class FetcherImpl(
 
     override fun download(url: String): Pair<Long, RequestInfo?>? {
         if (!alreadyDownloaded(url) && !episodeIsDownloaded(url)) {
-            requestManager.createRequest(url)?.let { request ->
+            requestManager.createRequestForDownload(url)?.let { request ->
                 val pair = enqueueRequest(request)
                 requestManager.cacheRequest(pair)
                 return pair
@@ -72,6 +71,6 @@ class FetcherImpl(
     }
 
     override fun deleteEpisode(episode: Episode) {
-        TODO("not implemented")
+        fetch.remove(episode.downloadRequestId)
     }
 }

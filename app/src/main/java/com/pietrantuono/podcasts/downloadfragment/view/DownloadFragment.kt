@@ -83,7 +83,7 @@ class DownloadFragment : Fragment(), DownloadView {
         }.show()
     }
 
-    override fun confirmDeleteEpisodes(episodes: String) {
+    override fun confirmDeleteAllEpisodes(episodes: String) {
         TODO("not implemented")
     }
 }
