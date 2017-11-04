@@ -14,7 +14,7 @@ class PodcastDownLoadManager @Inject constructor(private val context: Context) {
             episode.link?.let { tracks.add(it) }
         }
         val intent = Intent(context, DownloaderService::class.java)
-        intent.putStringArrayListExtra(DownloaderService.TRACK_LIST, tracks)
+        intent.putStringArrayListExtra(DownloaderService.EXTRA_TRACK_LIST, tracks)
         context.startService(intent)
     }
 }

@@ -12,7 +12,7 @@ class DownloaderImpl(
 
     override fun downloadEpisodeFromLink(link: String) {
         val intent = Intent(context, DownloaderService::class.java)
-        intent.putExtra(DownloaderService.TRACK, link)
+        intent.putExtra(DownloaderService.EXTRA_TRACK, link)
         context.startService(intent)
     }
 
@@ -22,7 +22,7 @@ class DownloaderImpl(
                 filterNotNull()?.
                 toList()?.let {
             val intent = Intent(context, DownloaderService::class.java)
-            intent.putStringArrayListExtra(DownloaderService.TRACK_LIST, ArrayList(it))
+            intent.putStringArrayListExtra(DownloaderService.EXTRA_TRACK_LIST, ArrayList(it))
             context.startService(intent)
         }
     }

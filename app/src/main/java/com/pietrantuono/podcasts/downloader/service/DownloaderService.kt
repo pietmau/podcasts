@@ -12,8 +12,16 @@ import javax.inject.Inject
 
 class DownloaderService() : Service(), FetchListener {
     companion object {
-        const val TRACK: String = "track_id"
-        const val TRACK_LIST: String = "track_list"
+        const val COMMAND_DOWNLOAD_EPISODE: String = "download_episode"
+        const val COMMAND_DOWNLOAD_ALL_EPISODES: String = "download_all_episodes"
+        const val COMMAND_DELETE_EPISODE: String = "delete_episode"
+        const val COMMAND_DELETE_ALL_EPISODES: String = "delete_episode_all_episodes"
+
+        const val EXTRA_COMMAND: String = "command"
+        const val EXTRA_TRACK: String = "track_id"
+        const val EXTRA_TRACK_LIST: String = "track_list"
+        const val EXTRA_DOWNLOAD_REQUEST_ID: String = "download_request_id"
+
         const val DOWNLOAD_COMPLETED: Int = 100
         const val TAG = "DownloaderService"
     }
@@ -21,7 +29,7 @@ class DownloaderService() : Service(), FetchListener {
     @Inject lateinit var internalDownloader: Fetcher
     @Inject lateinit var downloadNotificator: DownloadNotificator
     @Inject lateinit var debugLogger: DebugLogger
-    @Inject lateinit var networkAndPreferencesManager: NetworkDiskAndPreferenceManager
+    @Inject lateinit var networkDiskAndPreferenceManager: NetworkDiskAndPreferenceManager
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
@@ -34,28 +42,37 @@ class DownloaderService() : Service(), FetchListener {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        intent?.let { startDownload(intent) }
+        intent?.getStringExtra(EXTRA_COMMAND)?.let {
+            when (it) {
+                COMMAND_DOWNLOAD_ALL_EPISODES -> downloadAllEpisodes(intent)
+                COMMAND_DOWNLOAD_EPISODE -> downloadEpisode(intent)
+                COMMAND_DELETE_ALL_EPISODES -> deleteAllEpisodes(intent)
+                COMMAND_DELETE_EPISODE -> deleteEpisode(intent)
+            }
+        }
         return START_STICKY
     }
 
-    private fun startDownload(intent: Intent) {
+    private fun deleteEpisode(intent: Intent) {
+        TODO("not implemented")
+    }
+
+    private fun deleteAllEpisodes(intent: Intent) {
+        TODO("not implemented")
+    }
+
+    private fun downloadEpisode(intent: Intent) {
         if (!shouldDownload()) {
             return
         }
-        val url = intent.getStringExtra(TRACK)
-        if (url != null) {
-            getAndEnqueueSingleEpisode(url)
-            return
-        }
-        getUrls(intent)
+        intent.getStringExtra(EXTRA_TRACK)?.let { getAndEnqueueSingleEpisode(it) }
     }
 
-    private fun getUrls(intent: Intent) {
-        val list = intent.getStringArrayListExtra(TRACK_LIST)
-        if (list == null) {
+    private fun downloadAllEpisodes(intent: Intent) {
+        if (!shouldDownload()) {
             return
         }
-        enqueueEpisodes(list)
+        intent.getStringArrayListExtra(EXTRA_TRACK_LIST)?.let { enqueueEpisodes(it) }
     }
 
     private fun enqueueEpisodes(list: List<String>) {
@@ -100,9 +117,9 @@ class DownloaderService() : Service(), FetchListener {
         stopSelf()
     }
 
-    private fun thereIsEnoughSpace(fileSize: Long) = networkAndPreferencesManager.thereIsEnoughSpace(fileSize)
+    private fun thereIsEnoughSpace(fileSize: Long) = networkDiskAndPreferenceManager.thereIsEnoughSpace(fileSize)
 
-    private fun shouldDownload() = networkAndPreferencesManager.shouldDownload
+    private fun shouldDownload() = networkDiskAndPreferenceManager.shouldDownload
 
     private fun notifySpaceUnavailable(requestInfo: RequestInfo) {
         downloadNotificator.notifySpaceUnavailable(requestInfo)
