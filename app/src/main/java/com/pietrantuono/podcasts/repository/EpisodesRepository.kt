@@ -12,4 +12,5 @@ interface EpisodesRepository {
     fun getEpisodeByEnclosureUrlSync(url: String?): Episode?
     fun saveEpisodeSync(episode: RealmEpisode)
     fun setEpisodeNotDownloadedSync(id: Long)
+    fun getEpisodeByDownloadIdSync(id: Long): Episode?
 }

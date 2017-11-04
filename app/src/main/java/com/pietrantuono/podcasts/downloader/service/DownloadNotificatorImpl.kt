@@ -1,95 +1,67 @@
 package com.pietrantuono.podcasts.downloader.service
 
 import android.app.Notification
-import android.app.NotificationManager
 import android.app.Service
-import android.content.Context
-import android.support.v4.app.NotificationCompat
-import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 import com.tonyodev.fetch.request.RequestInfo
 
 class DownloadNotificatorImpl(
-        private val context: Context,
         private val repo: EpisodesRepository,
-        private val debugger: DebugLogger) : DownloadNotificator {
+        private val debugger: DebugLogger,
+        private val notificationCreator: DownloadNotificationCreator,
+        private val notifManager: Communicator
+) : DownloadNotificator {
 
     val DOWNLOAD_COMPLETED: Int = 100
     private val TAG: String? = "DownloadNotificatorImpl"
     private val GENERIC_NOTIFICATION = 1
 
-    private val notifManager: NotificationManager
-        get() = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
     override fun notifyProgress(service: Service, requestInfo: RequestInfo?, progress: Int) {
         val url = requestInfo?.url
-        url ?: return
+        url ?: return //TODO nice!!
         repo.getEpisodeByEnclosureUrlSync(url)?.let {
             val id = requestInfo.id.toInt()
-            debugger.debug(TAG, "notifyProgress, ID = " + id)
             service.startForeground(id, getNotification(it, progress))
         }
     }
 
-    private fun getNotification(episode: Episode, progress: Int): Notification? {
-        if (progress < DOWNLOAD_COMPLETED) {
-            return createProgressNotification(episode, progress)
-        } else {
-            return createCompleteNotification(episode)
-        }
-    }
-
-    private fun createCompleteNotification(episode: Episode): Notification? {
-        val text = getTitle(episode)
-        return NotificationCompat
-                .Builder(context)
-                .setContentTitle(context.getString(R.string.download_completed))
-                .setContentText(text)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .build()
-    }
-
-    private fun createProgressNotification(episode: Episode, progress: Int): Notification {
-        val text = getTitle(episode)
-        return NotificationCompat
-                .Builder(context)
-                .setContentTitle(context.getString(R.string.downloading))
-                .setContentText(text)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setProgress(DOWNLOAD_COMPLETED, progress, false)
-                .build()
-    }
+    private fun getNotification(episode: Episode, progress: Int): Notification? =
+            if (progress < DOWNLOAD_COMPLETED) {
+                notificationCreator.createProgressNotification(episode, progress)
+            } else {
+                notificationCreator.createCompleteNotification(episode)
+            }
 
     override fun notifySpaceUnavailable(requestInfo: RequestInfo) {
         val url = requestInfo.url
         repo.getEpisodeByEnclosureUrlSync(url)?.let {
             val id = requestInfo.id.toInt()
-            notifManager.notify(id, getNoSpaceNotification(it))
+            notifManager.notify(id, notificationCreator.getNoSpaceNotification(it))
         }
     }
 
-
-
     override fun notifySpaceUnavailable(url: String) {
-        debugger.debug(TAG,"notifySpaceUnavailable")
         repo.getEpisodeByUrlSync(url)?.let {
-            val noSpaceNotification = getNoSpaceNotification(it)
-            debugger.debug(TAG,"notify")
+            val noSpaceNotification = notificationCreator.getNoSpaceNotification(it)
+            debugger.debug(TAG, "notify")
             notifManager.notify(GENERIC_NOTIFICATION, noSpaceNotification)
         }
     }
 
-    private fun getNoSpaceNotification(episode: Episode): Notification? {
-        val title = getTitle(episode)
-        return NotificationCompat
-                .Builder(context)
-                .setContentTitle(context.getString(R.string.no_space))
-                .setContentText(title)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .build()
+    override fun broadcastUpdate(info: RequestInfo, progress: Int, fileSize: Long) {
+        notifManager.sendBoroadcast(notificationCreator.makeUpdateBroadcast(info, progress, fileSize))
     }
 
-    private fun getTitle(episode: Episode) = episode.title ?: context.getString(R.string.title_not_available)
+    override fun broadcastOnDownloadCompleted(requestInfo: RequestInfo) {
+        notifManager.sendBoroadcast(notificationCreator.makeOnDownloadCompletedBroadcast(requestInfo))
+    }
+    override fun broadcastDeleteEpisode(id: Long) {
+        repo.getEpisodeByDownloadIdSync(id)?.let {
+            val intent = notificationCreator.makeOnDeleteEpisode(it)
+            notifManager.sendBoroadcast(intent)
+        }
+    }
+
 }

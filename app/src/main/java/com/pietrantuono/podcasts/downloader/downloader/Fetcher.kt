@@ -12,7 +12,7 @@ interface Fetcher {
     fun addCallback(downloaderService: Callback)
 
     interface Callback {
-        fun onDownloadCompleted()
+        fun onDownloadCompleted(it: RequestInfo)
         fun onUpdate(requestInfo: RequestInfo, progress: Int, fileSize: Long)
     }
 

@@ -49,13 +49,18 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
     }
 
     private fun deleteEpisode(intent: Intent) {
-        internalDownloader.deleteEpisode(intent.getLongExtra(EXTRA_DOWNLOAD_REQUEST_ID, -1))
+        delete(intent.getLongExtra(EXTRA_DOWNLOAD_REQUEST_ID, -1))
     }
 
     private fun deleteAllEpisodes(intent: Intent) {
         (intent.getSerializableExtra(EXTRA_DOWNLOAD_REQUEST_ID_LIST) as? ArrayList<Long>)?.forEach {
-            internalDownloader.deleteEpisode(it)
+            delete(it)
         }
+    }
+
+    private fun delete(id: Long) {
+        internalDownloader.deleteEpisode(id)
+        notificator.broadcastDeleteEpisode(id)
     }
 
     private fun downloadEpisode(intent: Intent) {
@@ -87,7 +92,7 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
     }
 
     override fun onUpdate(info: RequestInfo, progress: Int, fileSize: Long) {
-        debugLogger.debug(TAG, "onUpdate " + info.id)
+        notificator.broadcastUpdate(info, progress, fileSize)
         if (thereIsEnoughSpace(fileSize)) {
             notificator.notifyProgress(this@DownloaderService, info, progress)
         } else {
@@ -95,7 +100,8 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
         }
     }
 
-    override fun onDownloadCompleted() {
+    override fun onDownloadCompleted(requestInfo: RequestInfo) {
+        notificator.broadcastOnDownloadCompleted(requestInfo)
         stopForeground(false)
     }
 
@@ -105,9 +111,9 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
         stopSelf()
     }
 
-    private fun thereIsEnoughSpace(fileSize: Long) = networkDiskAndPreferenceManager.thereIsEnoughSpace(fileSize)
+    internal fun thereIsEnoughSpace(fileSize: Long) = networkDiskAndPreferenceManager.thereIsEnoughSpace(fileSize)
 
-    private fun shouldDownload() = networkDiskAndPreferenceManager.shouldDownload
+    internal fun shouldDownload() = networkDiskAndPreferenceManager.shouldDownload
 
     private fun notifySpaceUnavailable(url: String) {
         notificator.notifySpaceUnavailable(url)
@@ -120,6 +126,5 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
     private fun shutDownDownloader() {
         internalDownloader.shutDown()
     }
-
 }
 

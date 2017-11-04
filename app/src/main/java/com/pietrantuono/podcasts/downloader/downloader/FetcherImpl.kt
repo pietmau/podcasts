@@ -61,8 +61,10 @@ class FetcherImpl(
     }
 
     override fun onDownloadCompleted(id: Long, downloadedBytes: Long) {
-        getRequestById(id)?.let { completedDownloadsManager.onDownloadCompleted(it, downloadedBytes) }
-        callback?.onDownloadCompleted()
+        getRequestById(id)?.let {
+            completedDownloadsManager.onDownloadCompleted(it, downloadedBytes)
+            callback?.onDownloadCompleted(it)
+        }
     }
 
     override fun deleteEpisode(id: Long) {

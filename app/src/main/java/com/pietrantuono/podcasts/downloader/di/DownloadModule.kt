@@ -1,12 +1,11 @@
 package com.pietrantuono.podcasts.downloader.di
 
+import android.app.NotificationManager
 import android.content.Context
+import android.support.v4.content.LocalBroadcastManager
 import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.downloader.downloader.*
-import com.pietrantuono.podcasts.downloader.service.CompletedDownloadsManager
-import com.pietrantuono.podcasts.downloader.service.DownloadNotificator
-import com.pietrantuono.podcasts.downloader.service.DownloadNotificatorImpl
-import com.pietrantuono.podcasts.downloader.service.NetworkDiskAndPreferenceManager
+import com.pietrantuono.podcasts.downloader.service.*
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 import com.pietrantuono.podcasts.repository.repository.PodcastRepo
 import com.pietrantuono.podcasts.settings.PreferencesManager
@@ -28,13 +27,19 @@ class DownloadModule() {
     }
 
     @Provides
-    fun provideNotificator(repo: EpisodesRepository, logger: DebugLogger, context: Context): DownloadNotificator {
-        return DownloadNotificatorImpl(context, repo, logger)
-    }
+    fun provideNotificator(repo: EpisodesRepository, logger: DebugLogger, context: Context, creator: DownloadNotificationCreator, communicator: Communicator): DownloadNotificator =
+            DownloadNotificatorImpl(repo, logger, creator, communicator)
 
     @Provides
     fun provideRequestGenerator(provider: DirectoryProvider, repository: EpisodesRepository): RequestManager {
         return RequestManagerImpl(provider, repository)
+    }
+
+    @Provides
+    fun provideCommunicator(context: Context): Communicator {
+        val notifmanager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val localBrodcastManager = LocalBroadcastManager.getInstance(context)
+        return CommunicatorImpl(notifmanager, localBrodcastManager)
     }
 
     @Provides

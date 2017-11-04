@@ -21,6 +21,13 @@ class EpisodesRepositoryRealm(private val cache: EpisodeCache) : EpisodesReposit
         }
     }
 
+    override fun getEpisodeByDownloadIdSync(id: Long):Episode =
+        Realm.getDefaultInstance().use {
+            it.where(RealmEpisode::class.java)
+                    .equalTo(DOWNLOAD_REQUEST_ID, id)
+                    .findFirst()
+        }
+
     override fun getEpisodeByUrlAsync(url: String): Observable<out Episode> =
             Realm.getDefaultInstance().use { realm ->
                 realm.where(RealmEpisode::class.java)
