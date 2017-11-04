@@ -6,8 +6,20 @@ import io.realm.Realm
 import rx.Observable
 
 class EpisodesRepositoryRealm(private val cache: EpisodeCache) : EpisodesRepository {
+    val DOWNLOAD_REQUEST_ID = "downloadRequestId"
     private val LINK = "link"
     private val ENCLOSURE_URL = "syndEnclosures.url"
+
+    override fun setEpisodeNotDownloadedSync(id: Long) {
+        Realm.getDefaultInstance().use { realm ->
+            realm.executeTransaction {
+                val episode = it.where(RealmEpisode::class.java)
+                        .equalTo(DOWNLOAD_REQUEST_ID, id)
+                        .findFirst()
+                episode.downloaded = false
+            }
+        }
+    }
 
     override fun getEpisodeByUrlAsync(url: String): Observable<out Episode> =
             Realm.getDefaultInstance().use { realm ->
@@ -41,6 +53,7 @@ class EpisodesRepositoryRealm(private val cache: EpisodeCache) : EpisodesReposit
                     }
         }
     }
+
 
     override fun getEpisodeByUrlAsObservable(url: String): Observable<out Episode> =
             Realm.getDefaultInstance().use { realm ->

@@ -5,7 +5,6 @@ import com.pietrantuono.podcasts.downloader.service.CompletedDownloadsManager
 import com.pietrantuono.podcasts.downloader.service.DownloaderService
 import com.tonyodev.fetch.Fetch
 import com.tonyodev.fetch.listener.FetchListener
-import com.tonyodev.fetch.request.Request
 import com.tonyodev.fetch.request.RequestInfo
 
 class FetcherImpl(
@@ -37,16 +36,12 @@ class FetcherImpl(
         }
     }
 
-    override fun enqueueRequest(request: Request): Pair<Long, RequestInfo?> = fetch.enqueueRequest(request)
-
-    override fun alreadyDownloaded(url: String) = fetch.alreadyDownloaded(url)
-
     override fun getRequestById(id: Long) = requestManager.getRequestById(id) ?: fetch[id]
 
     override fun download(url: String): Pair<Long, RequestInfo?>? {
-        if (!alreadyDownloaded(url) && !episodeIsDownloaded(url)) {
+        if (!alreadyDowloanded(url)) {
             requestManager.createRequestForDownload(url)?.let { request ->
-                val pair = enqueueRequest(request)
+                val pair = fetch.enqueueRequest(request)
                 requestManager.cacheRequest(pair)
                 return pair
             }
@@ -54,7 +49,7 @@ class FetcherImpl(
         return null
     }
 
-    private fun episodeIsDownloaded(url: String): Boolean = fetcherModel.episodeIsDownloadedSync(url)
+    private fun alreadyDowloanded(url: String) = fetch.alreadyDownloaded(url) || fetcherModel.episodeIsDownloadedSync(url)
 
     override fun stopDownload(requestInfo: RequestInfo) {
         fetch.removeRequest(requestInfo.id)
@@ -72,6 +67,7 @@ class FetcherImpl(
 
     override fun deleteEpisode(id: Long) {
         fetch.remove(id)
+        fetcherModel.setEpisodeNotDownloaded(id)
     }
 }
 

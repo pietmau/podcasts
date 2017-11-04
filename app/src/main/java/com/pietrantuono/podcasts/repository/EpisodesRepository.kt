@@ -11,4 +11,5 @@ interface EpisodesRepository {
     fun getEpisodeByUrlAsObservable(url: String): Observable<out Episode?>
     fun getEpisodeByEnclosureUrlSync(url: String?): Episode?
     fun saveEpisodeSync(episode: RealmEpisode)
+    fun setEpisodeNotDownloadedSync(id: Long)
 }
