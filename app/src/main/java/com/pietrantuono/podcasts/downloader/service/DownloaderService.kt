@@ -1,16 +1,14 @@
 package com.pietrantuono.podcasts.downloader.service
 
-import android.app.Service
 import android.content.Intent
-import android.os.IBinder
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.downloader.downloader.Fetcher
-import com.tonyodev.fetch.listener.FetchListener
 import com.tonyodev.fetch.request.RequestInfo
 import javax.inject.Inject
 
-class DownloaderService() : Service(), FetchListener {
+class DownloaderService() : SimpleService(), Fetcher.Callback {
+
     companion object {
         const val COMMAND_DOWNLOAD_EPISODE: String = "download_episode"
         const val COMMAND_DOWNLOAD_ALL_EPISODES: String = "download_all_episodes"
@@ -27,18 +25,14 @@ class DownloaderService() : Service(), FetchListener {
     }
 
     @Inject lateinit var internalDownloader: Fetcher
-    @Inject lateinit var downloadNotificator: DownloadNotificator
+    @Inject lateinit var notificator: DownloadNotificator
     @Inject lateinit var debugLogger: DebugLogger
     @Inject lateinit var networkDiskAndPreferenceManager: NetworkDiskAndPreferenceManager
-
-    override fun onBind(intent: Intent?): IBinder? {
-        return null
-    }
 
     override fun onCreate() {
         super.onCreate()
         (application as App).applicationComponent?.with()?.inject(this)
-        internalDownloader.addListener(this@DownloaderService)
+        internalDownloader.addCallback(this@DownloaderService)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -89,31 +83,22 @@ class DownloaderService() : Service(), FetchListener {
         internalDownloader.download(url)
     }
 
-    override fun onUpdate(id: Long, status: Int, progress: Int, downloadedBytes: Long, fileSize: Long, error: Int) {
-        internalDownloader.getRequestById(id)?.let {
-            if (thereIsEnoughSpace(fileSize)) {
-                downloadNotificator.notifyProgress(this@DownloaderService, it, progress)
-            } else {
-                stopDownloadAndNotifyUser(it)
-            }
-        }
-        checkIfComplete(progress, id, downloadedBytes)
-    }
-
-    private fun checkIfComplete(progress: Int, id: Long, downloadedBytes: Long) {
-        if (progress >= DOWNLOAD_COMPLETED) {
-            onDownloadCompleted(id, downloadedBytes)
+    override fun onUpdate(info: RequestInfo, progress: Int, fileSize: Long) {
+        debugLogger.debug(TAG, "onUpdate " + info.id)
+        if (thereIsEnoughSpace(fileSize)) {
+            notificator.notifyProgress(this@DownloaderService, info, progress)
+        } else {
+            stopDownloadAndNotifyUser(info)
         }
     }
 
-    private fun onDownloadCompleted(requestInfo: Long, downloadedBytes: Long) {
+    override fun onDownloadCompleted() {
         stopForeground(false)
-        internalDownloader.onDownloadCompleted(requestInfo, downloadedBytes)
     }
 
     private fun stopDownloadAndNotifyUser(requestInfo: RequestInfo) {
-        internalDownloader.stopDownload()
-        notifySpaceUnavailable(requestInfo)
+        notificator.notifySpaceUnavailable(requestInfo)
+        shutDownDownloader()
         stopSelf()
     }
 
@@ -121,12 +106,17 @@ class DownloaderService() : Service(), FetchListener {
 
     private fun shouldDownload() = networkDiskAndPreferenceManager.shouldDownload
 
-    private fun notifySpaceUnavailable(requestInfo: RequestInfo) {
-        downloadNotificator.notifySpaceUnavailable(requestInfo)
+    private fun notifySpaceUnavailable(url: String) {
+        notificator.notifySpaceUnavailable(url)
     }
 
-    private fun notifySpaceUnavailable(url: String) {
-        downloadNotificator.notifySpaceUnavailable(url)
+    override fun onDestroy() {
+        shutDownDownloader()
     }
+
+    private fun shutDownDownloader() {
+        internalDownloader.shutDown()
+    }
+
 }
 

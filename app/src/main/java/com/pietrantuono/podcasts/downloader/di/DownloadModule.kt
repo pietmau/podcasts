@@ -23,8 +23,8 @@ class DownloadModule() {
 
     @Singleton
     @Provides
-    fun provideFetcher(provider: DirectoryProvider, repo: EpisodesRepository, manager: RequestManager, completemanager: CompletedDownloadsManager, context: Context): Fetcher {
-        return FetcherImpl(context, repo, manager, completemanager)
+    fun provideFetcher(provider: DirectoryProvider, fetcherModel: FetcherModel, manager: RequestManager, completemanager: CompletedDownloadsManager, context: Context): Fetcher {
+        return FetcherImpl(context, fetcherModel, manager, completemanager)
     }
 
     @Provides

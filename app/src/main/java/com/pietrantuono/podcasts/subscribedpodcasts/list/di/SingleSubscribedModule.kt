@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.BitmapColorExtractor
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
-import com.pietrantuono.podcasts.downloader.PodcastDownLoadManager
+import com.pietrantuono.podcasts.downloader.downloader.Downloader
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
 import com.pietrantuono.podcasts.main.view.TransitionsHelper
 import com.pietrantuono.podcasts.repository.repository.PodcastRepo
@@ -41,7 +41,7 @@ class SingleSubscribedModule(private val activity: AppCompatActivity) {
 
     @SubscribedPodcastScope
     @Provides
-    fun provideSingleSubscribedModel(repository: PodcastRepo, downloadManager: PodcastDownLoadManager): EpisodesListModel {
+    fun provideSingleSubscribedModel(repository: PodcastRepo, downloadManager: Downloader): EpisodesListModel {
         return EpisodesListModelImpl(repository, downloadManager)
     }
 

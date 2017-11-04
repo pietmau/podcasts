@@ -12,6 +12,7 @@ class DownloaderImpl(
 
     override fun downloadEpisodeFromLink(link: String) {
         val intent = Intent(context, DownloaderService::class.java)
+        intent.putExtra(DownloaderService.EXTRA_COMMAND, DownloaderService.COMMAND_DOWNLOAD_EPISODE)
         intent.putExtra(DownloaderService.EXTRA_TRACK, link)
         context.startService(intent)
     }
@@ -22,6 +23,7 @@ class DownloaderImpl(
                 filterNotNull()?.
                 toList()?.let {
             val intent = Intent(context, DownloaderService::class.java)
+            intent.putExtra(DownloaderService.EXTRA_COMMAND, DownloaderService.COMMAND_DOWNLOAD_ALL_EPISODES)
             intent.putStringArrayListExtra(DownloaderService.EXTRA_TRACK_LIST, ArrayList(it))
             context.startService(intent)
         }
@@ -29,6 +31,17 @@ class DownloaderImpl(
 
     override fun deleteEpisode(episode: Episode) {
         fetcher.deleteEpisode(episode)
+    }
+
+    override fun downLoadAll(episodes: List<Episode>) {
+        val tracks = arrayListOf<String>()
+        for (episode in episodes) {
+            episode.link?.let { tracks.add(it) }
+        }
+        val intent = Intent(context, DownloaderService::class.java)
+        intent.putExtra(DownloaderService.EXTRA_COMMAND, DownloaderService.COMMAND_DOWNLOAD_ALL_EPISODES)
+        intent.putStringArrayListExtra(DownloaderService.EXTRA_TRACK_LIST, tracks)
+        context.startService(intent)
     }
 
 }

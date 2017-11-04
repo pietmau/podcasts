@@ -8,4 +8,5 @@ interface Downloader {
     fun downloadIfAppropriate(podcast: Podcast?)
     fun downloadEpisodeFromLink(link: String)
     fun deleteEpisode(episode: Episode)
+    fun downLoadAll(episodes: List<Episode>)
 }
