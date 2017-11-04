@@ -1,6 +1,8 @@
 package com.pietrantuono.podcasts.downloader.downloader
 
 import com.tonyodev.fetch.Fetch
+import com.tonyodev.fetch.request.Request
+import com.tonyodev.fetch.request.RequestInfo
 
 
 internal fun Fetch.shutDown() {
@@ -11,4 +13,14 @@ internal fun Fetch.shutDown() {
 
 
 internal fun Fetch.alreadyDownloaded(url: String): Boolean =
-        get().filter { info -> info.url.equals(url, true) }.size > 0
+        get().filter { it.url.equals(url, true) }.size > 0
+
+
+internal fun Fetch.enqueueRequest(request: Request): Pair<Long, RequestInfo?> {
+    val id = enqueue(request)
+    return Pair(id, get(id))
+}
+
+internal fun Fetch.removeAll(ids: List<Long>) {
+    ids.forEach { remove(it) }
+}

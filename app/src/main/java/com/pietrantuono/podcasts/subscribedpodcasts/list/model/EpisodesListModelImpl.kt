@@ -15,7 +15,7 @@ Downloader) : EpisodesListModel() {
 
     override fun onDownLoadAllSelected() {
         if (feed != null && feed!!.episodes != null) {
-            downLoadManager.downLoadAll(feed!!.episodes!!)
+            downLoadManager.downLoadAllEpisodes(feed!!.episodes!!)
         }
     }
 

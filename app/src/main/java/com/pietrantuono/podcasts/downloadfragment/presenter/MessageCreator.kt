@@ -14,15 +14,21 @@ class MessageCreator(private val resources: ResourcesProvider) {
 
     class AlertMessage(val title: String, val message: String)
 
-    fun confirmDownloadAllEpisodes(title: String): AlertMessage {
-        val title = resources.getString(R.string.download_all)
-        val message = resources.getString(R.string.confirm_download_all) + " \"" + title + "\"?"
-        return AlertMessage(title, message)
+    fun confirmDownloadAllEpisodes(podcastTitle: String): AlertMessage {
+        val alertTitle = resources.getString(R.string.download_all)
+        val alertMessage = resources.getString(R.string.confirm_download_all) + " \"" + podcastTitle + "\"?"
+        return AlertMessage(alertTitle, alertMessage)
     }
 
-    fun confirmDeleteEpisode(title: String): AlertMessage {
-        val title = resources.getString(R.string.delete)
-        val message = resources.getString(R.string.confirm_delete_episode) + " \"" + title + "\"?"
-        return AlertMessage(title, message)
+    fun confirmDeleteEpisode(episodeTitle: String): AlertMessage {
+        val alertTitle = resources.getString(R.string.delete)
+        val alertMessage = resources.getString(R.string.confirm_delete_episode) + " \"" + episodeTitle + "\"?"
+        return AlertMessage(alertTitle, alertMessage)
+    }
+
+    fun confirmDeleteAllEpisode(podcastTitle: String): AlertMessage {
+        val alertTitle = resources.getString(R.string.delete)
+        val alertMessage = resources.getString(R.string.confirm_delete_all_episodes) + " \"" + podcastTitle + "\"?"
+        return AlertMessage(alertTitle, alertMessage)
     }
 }

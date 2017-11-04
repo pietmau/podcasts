@@ -1,7 +1,6 @@
 package com.pietrantuono.podcasts.downloader.downloader
 
 import android.content.Context
-import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.downloader.service.CompletedDownloadsManager
 import com.pietrantuono.podcasts.downloader.service.DownloaderService
 import com.tonyodev.fetch.Fetch
@@ -38,10 +37,7 @@ class FetcherImpl(
         }
     }
 
-    override fun enqueueRequest(request: Request): Pair<Long, RequestInfo?> {
-        val id = fetch.enqueue(request)
-        return Pair(id, fetch[id])
-    }
+    override fun enqueueRequest(request: Request): Pair<Long, RequestInfo?> = fetch.enqueueRequest(request)
 
     override fun alreadyDownloaded(url: String) = fetch.alreadyDownloaded(url)
 
@@ -74,9 +70,8 @@ class FetcherImpl(
         callback?.onDownloadCompleted()
     }
 
-    override fun deleteEpisode(episode: Episode) {
-        fetch.remove(episode.downloadRequestId)
+    override fun deleteEpisode(id: Long) {
+        fetch.remove(id)
     }
-
 }
 

@@ -83,7 +83,10 @@ class DownloadFragment : Fragment(), DownloadView {
         }.show()
     }
 
-    override fun confirmDeleteAllEpisodes(episodes: String) {
-        TODO("not implemented")
+    override fun confirmDeleteAllEpisodes(message: MessageCreator.AlertMessage, podcast: Podcast) {
+        alert(message.message, message.title) {
+            yesButton { presenter.onConfirmDeleteAllEpisodes(podcast) }
+            noButton { }
+        }.show()
     }
 }

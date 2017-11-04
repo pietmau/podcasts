@@ -30,7 +30,7 @@ class AppModule(private val context: Context) {
     }
 
     @Provides
-    fun provideDownloader(repo: EpisodesRepository, fetcher: Fetcher): Downloader = DownloaderImpl(context, fetcher)
+    fun provideDownloader(repo: EpisodesRepository, fetcher: Fetcher): Downloader = DownloaderImpl(context)
 
 }
 

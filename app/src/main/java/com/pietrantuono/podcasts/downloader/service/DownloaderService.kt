@@ -19,6 +19,7 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
         const val EXTRA_TRACK: String = "track_id"
         const val EXTRA_TRACK_LIST: String = "track_list"
         const val EXTRA_DOWNLOAD_REQUEST_ID: String = "download_request_id"
+        const val EXTRA_DOWNLOAD_REQUEST_ID_LIST: String = "download_request_id_list"
 
         const val DOWNLOAD_COMPLETED: Int = 100
         const val TAG = "DownloaderService"
@@ -48,11 +49,13 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
     }
 
     private fun deleteEpisode(intent: Intent) {
-        TODO("not implemented")
+        internalDownloader.deleteEpisode(intent.getLongExtra(EXTRA_DOWNLOAD_REQUEST_ID, -1))
     }
 
     private fun deleteAllEpisodes(intent: Intent) {
-        TODO("not implemented")
+        (intent.getSerializableExtra(EXTRA_DOWNLOAD_REQUEST_ID_LIST) as? ArrayList<Long>)?.forEach {
+            internalDownloader.deleteEpisode(it)
+        }
     }
 
     private fun downloadEpisode(intent: Intent) {
