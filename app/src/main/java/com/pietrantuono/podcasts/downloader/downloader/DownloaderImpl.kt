@@ -25,11 +25,10 @@ class DownloaderImpl(
             intent.putStringArrayListExtra(DownloaderService.TRACK_LIST, ArrayList(it))
             context.startService(intent)
         }
-
     }
 
     override fun deleteEpisode(episode: Episode) {
-        TODO("not implemented")
+        fetcher.deleteEpisode(episode)
     }
 
 }

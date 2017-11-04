@@ -1,5 +1,6 @@
 package com.pietrantuono.podcasts.downloader.downloader
 
+import com.pietrantuono.podcasts.apis.Episode
 import com.tonyodev.fetch.listener.FetchListener
 import com.tonyodev.fetch.request.Request
 import com.tonyodev.fetch.request.RequestInfo
@@ -14,4 +15,5 @@ interface Fetcher {
     fun stopDownload(requestInfo: RequestInfo)
     fun stopDownload()
     fun onDownloadCompleted(requestInfo: Long, downloadedBytes: Long)
+    fun deleteEpisode(episode: Episode)
 }

@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts.downloader.downloader
 
 import android.content.Context
+import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.downloader.service.CompletedDownloadsManager
 import com.pietrantuono.podcasts.repository.EpisodesRepository
 import com.tonyodev.fetch.Fetch
@@ -19,6 +20,7 @@ class FetcherImpl(
     init {
         fetch = Fetch.newInstance(context)
         fetch.setConcurrentDownloadsLimit(1)
+        fetch.g
     }
 
     override fun addListener(listner: FetchListener) {
@@ -58,14 +60,18 @@ class FetcherImpl(
     }
 
     override fun stopDownload(requestInfo: RequestInfo) {
-        fetch.remove(requestInfo.id)
+        fetch.removeRequest(requestInfo.id)
     }
 
     override fun stopDownload() {
-        fetch.removeAll()
+        fetch.removeRequests()
     }
 
     override fun onDownloadCompleted(id: Long, downloadedBytes: Long) {
         getRequestById(id)?.let { completedDownloadsManager.onDownloadCompleted(it, downloadedBytes) }
+    }
+
+    override fun deleteEpisode(episode: Episode) {
+        TODO("not implemented")
     }
 }
