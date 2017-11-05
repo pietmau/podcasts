@@ -34,6 +34,15 @@ import com.pietrantuono.podcasts.player.player.service.queue.QueueManager
 import javax.inject.Inject
 
 class MusicService() : MediaBrowserServiceCompat(), PlaybackManager.PlaybackServiceCallback, QueueManager.MetadataUpdateListener {
+
+    companion object {
+        val ACTION_CMD = "com.pietrantuono.podcasts.ACTION_CMD"
+        val CMD_NAME = "CMD_NAME"
+        val CMD_PAUSE = "CMD_PAUSE"
+        private val STOP_DELAY = 30000
+        private val MEDIA_ID_ROOT: String = "ROOT"
+    }
+
     @Inject lateinit var playbackManager: PlaybackManager
     @Inject lateinit var session: MediaSessionCompat
     @Inject lateinit var mediaNotificator: Notificator
@@ -114,16 +123,5 @@ class MusicService() : MediaBrowserServiceCompat(), PlaybackManager.PlaybackServ
     override fun onQueueUpdated(title: String?, newQueue: List<MediaSessionCompat.QueueItem?>?) {
         session.setQueue(newQueue)
         session.setQueueTitle(title)
-    }
-
-
-    companion object {
-        val EXTRA_CONNECTED_CAST = "com.pietrantuono.podcasts.CAST_NAME"
-        val ACTION_CMD = "com.pietrantuono.podcasts.ACTION_CMD"
-        val CMD_NAME = "CMD_NAME"
-        val CMD_PAUSE = "CMD_PAUSE"
-        val CMD_STOP_CASTING = "CMD_STOP_CASTING"
-        private val STOP_DELAY = 30000
-        private val MEDIA_ID_ROOT: String = "ROOT"
     }
 }

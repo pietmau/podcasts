@@ -23,11 +23,10 @@ import android.support.v4.media.session.PlaybackStateCompat
 import com.pietrantuono.podcasts.player.player.service.playback.Playback
 import com.pietrantuono.podcasts.player.player.service.queue.QueueManager
 
-/**
- * Manage the interactions among the container service, the queue manager and the actual playback.
- */
-class PlaybackManager(private val mServiceCallback: PlaybackServiceCallback, private val mQueueManager: QueueManager,
-                      val playback: Playback) : Playback.Callback {
+class PlaybackManager(
+        private val mServiceCallback: PlaybackServiceCallback,
+        private val mQueueManager: QueueManager,
+        val playback: Playback) : Playback.Callback {
     val mediaSessionCallback: MediaSessionCallback
 
     init {
@@ -35,9 +34,6 @@ class PlaybackManager(private val mServiceCallback: PlaybackServiceCallback, pri
         this.playback.setCallback(this)
     }
 
-    /**
-     * Handle a request to play music
-     */
     fun handlePlayRequest() {
         val currentMusic = mQueueManager.currentMusic
         if (currentMusic != null) {
@@ -60,12 +56,8 @@ class PlaybackManager(private val mServiceCallback: PlaybackServiceCallback, pri
     }
 
     fun updatePlaybackState(error: String?) {
-        var position = PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN
-        if (playback.isConnected) {
-            position = playback.currentStreamPosition
-        }
-        val stateBuilder = PlaybackStateCompat.Builder()
-                .setActions(availableActions)
+        var position = getCurrentPosition()
+        val stateBuilder = PlaybackStateCompat.Builder().setActions(availableActions)
         setCustomAction(stateBuilder)
         var state = playback.state
         if (error != null) {
@@ -81,6 +73,14 @@ class PlaybackManager(private val mServiceCallback: PlaybackServiceCallback, pri
         if (state == PlaybackStateCompat.STATE_PLAYING || state == PlaybackStateCompat.STATE_PAUSED) {
             mServiceCallback.onNotificationRequired()
         }
+    }
+
+    private fun getCurrentPosition(): Long {
+        var position = PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN
+        if (playback.isConnected) {
+            position = playback.currentStreamPosition
+        }
+        return position
     }
 
     private fun setCustomAction(stateBuilder: PlaybackStateCompat.Builder) {
@@ -102,17 +102,11 @@ class PlaybackManager(private val mServiceCallback: PlaybackServiceCallback, pri
             return actions
         }
 
-    /**
-     * Implementation of the Playback.Callback interface
-     */
     override fun onCompletion() {
-        // The media player finished playing the current song, so we go ahead
-        // and start the next.
         if (mQueueManager.skipQueuePosition(1)) {
             handlePlayRequest()
             mQueueManager.updateMetadata()
         } else {
-            // If skipping was not possible, we stop and release the resources:
             handleStopRequest(null)
         }
     }

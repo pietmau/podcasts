@@ -9,11 +9,6 @@ class StateResolver {
     private val currentlyPlayingMediaId
         get() = supportMediaController?.metadata?.getString(android.support.v4.media.MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
     private var supportMediaController: MediaControllerCompat? = null
-    private val transportControls
-        get() = supportMediaController?.transportControls
-
-    private val playbackState
-        get() = supportMediaController?.playbackState
 
     fun updatePlaybackState(state: PlaybackStateCompat, presenter: CustomControlsPresenter) {
         when (state.state) {
@@ -62,7 +57,7 @@ class StateResolver {
     }
 
     fun onPausePlayClicked(presenter: CustomControlsPresenter) {
-        playbackState?.let {
+        supportMediaController?.playbackState?.let {
             when (it.state) {
                 PlaybackStateCompat.STATE_PLAYING, PlaybackStateCompat.STATE_BUFFERING -> {
                     onPauseClicked(presenter)
@@ -94,6 +89,7 @@ class StateResolver {
     }
 
     private fun startNewPodcast() {
+        val transportControls = supportMediaController?.transportControls
         transportControls?.stop()
         transportControls?.playFromMediaId(episode?.link, null)
     }

@@ -2,7 +2,6 @@ package com.pietrantuono.podcasts.fullscreenplay.customcontrols
 
 import android.content.ComponentName
 import android.content.Context
-import android.os.Handler
 import android.os.RemoteException
 import android.os.SystemClock
 import android.support.v4.media.MediaBrowserCompat
@@ -15,34 +14,20 @@ import android.widget.SeekBar
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.player.player.service.MusicService
-import java.util.concurrent.Executors
-import java.util.concurrent.ScheduledFuture
-import java.util.concurrent.TimeUnit
 
 
 class CustomControlsPresenter(
         private val context: Context,
         private val stateResolver: StateResolver,
-        private val debugLogger: DebugLogger)
-    : SeekBar.OnSeekBarChangeListener {
+        private val debugLogger: DebugLogger,
+        private val executorService: SimpleExecutor)
+    : SeekBar.OnSeekBarChangeListener, MediaControllerCompat.Callback() {
 
     private var view: CustomControls? = null
-    private var episode: Episode? = null
-    private val transportControls: MediaControllerCompat.TransportControls?
-        get() = supportMediaController?.transportControls
+    private var transportControls: MediaControllerCompat.TransportControls? = null
     private var mediaBrowser: MediaBrowserCompat? = null
     private var supportMediaController: MediaControllerCompat? = null
-    private val TAG: String? = "CustomControlsPresenter"
-    private val simpleMediaControllerCompatCallback = SimpleMediaControllerCompatCallback(this)
-    private val aHandler = Handler()
-    private val executorService = Executors.newSingleThreadScheduledExecutor()
-    private var scheduleFuture: ScheduledFuture<*>? = null
     private var lastPlaybackState: PlaybackStateCompat? = null
-
-    companion object {
-        private val PROGRESS_UPDATE_INTERNAL: Long = 1000
-        private val PROGRESS_UPDATE_INITIAL_INTERVAL: Long = 100
-    }
 
     fun bindView(customControls: CustomControls) {
         this.view = customControls
@@ -59,10 +44,11 @@ class CustomControlsPresenter(
     @Throws(RemoteException::class)
     private fun connectToSession(token: MediaSessionCompat.Token?) {
         supportMediaController = MediaControllerCompat(context, token)
+        transportControls = supportMediaController?.transportControls
         stateResolver.setMediaController(supportMediaController!!)
-        supportMediaController?.registerCallback(simpleMediaControllerCompatCallback)
+        supportMediaController?.registerCallback(this)
         val state = supportMediaController?.playbackState
-        updatePlaybackState(state)
+        onPlaybackStateChanged(state)
         onMetadataChanged(supportMediaController?.metadata)
         updateProgress()
         if (state?.state == PlaybackStateCompat.STATE_PLAYING || state?.state == PlaybackStateCompat.STATE_BUFFERING) {
@@ -72,10 +58,7 @@ class CustomControlsPresenter(
 
     fun scheduleSeekbarUpdate() {
         stopSeekbarUpdate()
-        if (!executorService.isShutdown) {
-            scheduleFuture = executorService.scheduleAtFixedRate({ aHandler.post({ updateProgress() }) }, PROGRESS_UPDATE_INITIAL_INTERVAL,
-                    PROGRESS_UPDATE_INTERNAL, TimeUnit.MILLISECONDS)
-        }
+        executorService.scheduleAtFixedRate { updateProgress() }
     }
 
     fun updateProgress() {
@@ -92,10 +75,10 @@ class CustomControlsPresenter(
     }
 
     fun stopSeekbarUpdate() {
-        scheduleFuture?.cancel(false)
+        executorService.cancel(false)
     }
 
-    fun updatePlaybackState(state: PlaybackStateCompat?) {
+    override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
         lastPlaybackState = state
         state?.let {
             stateResolver.updatePlaybackState(it, this)
@@ -127,7 +110,6 @@ class CustomControlsPresenter(
     }
 
     fun setEpisode(episode: Episode?) {
-        this.episode = episode
         stateResolver.setEpisode(episode)
     }
 
@@ -172,10 +154,10 @@ class CustomControlsPresenter(
 
     fun onStop() {
         mediaBrowser?.disconnect()
-        supportMediaController?.unregisterCallback(simpleMediaControllerCompatCallback)
+        supportMediaController?.unregisterCallback(this)
     }
 
-    fun onMetadataChanged(metadata: MediaMetadataCompat?) {
+    override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
         if (!stateResolver.isPlayingCurrentEpisode()) {
             return
         }
