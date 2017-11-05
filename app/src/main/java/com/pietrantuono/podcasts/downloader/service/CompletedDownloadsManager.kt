@@ -12,14 +12,7 @@ class CompletedDownloadsManager(
         private var podcastRepo: PodcastRepo) {
 
     fun onDownloadCompleted(requestInfo: RequestInfo, downloadedBytes: Long) {
-        episodesRepo.getEpisodeByEnclosureUrlSync(requestInfo.url)?.let {
-            it.downloaded = true
-            it.filePathIncludingFileName = requestInfo.filePath
-            it.fileSizeInBytes = downloadedBytes
-            it.downloadRequestId = requestInfo.id
-            episodesRepo.saveEpisodeSync(it as RealmEpisode)
-            updatePodcast(it)
-        }
+        episodesRepo.onDownloadCompleted(requestInfo,downloadedBytes)
     }
 
     private fun updatePodcast(episode: RealmEpisode) {

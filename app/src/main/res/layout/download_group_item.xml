@@ -45,7 +45,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:text="@{podcast.title}"
-                android:textAppearance="?android:textAppearanceMedium"/>
+                android:textAppearance="?android:textAppearanceSmall"/>
 
             <TextView
                 android:id="@+id/downloaded"

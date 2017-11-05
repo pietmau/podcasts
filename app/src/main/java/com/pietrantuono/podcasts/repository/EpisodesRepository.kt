@@ -2,6 +2,7 @@ package com.pietrantuono.podcasts.repository
 
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.interfaces.RealmEpisode
+import com.tonyodev.fetch.request.RequestInfo
 import rx.Observable
 
 
@@ -13,4 +14,5 @@ interface EpisodesRepository {
     fun saveEpisodeSync(episode: RealmEpisode)
     fun setEpisodeNotDownloadedSync(id: Long)
     fun getEpisodeByDownloadIdSync(id: Long): Episode?
+    fun onDownloadCompleted(requestInfo: RequestInfo, downloadedBytes: Long)
 }

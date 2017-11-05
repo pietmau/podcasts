@@ -18,7 +18,7 @@ class DrawableHelper(private val resources: Resources) {
 
     companion object {
         private val RADIUS = 32f
-        private val TRANSPARENCY: Float = 80f
+        val TRANSPARENCY: Float = 80f
     }
 
     private fun getDownloadedDrawbale(): Int? {
@@ -63,8 +63,7 @@ class DrawableHelper(private val resources: Resources) {
                            downloadedDrawbale: ImageView, durationView: ImageView) {
         this.colorForBackgroundAndText = colorForBackgroundAndText
         colorForBackgroundAndText.backgroundColor?.let {
-            container.setBackgroundDrawable(getBackgroundDrawable(ColorUtils.setAlphaComponent(it,
-                    ((TRANSPARENCY / 100) * 255).toInt())))
+            container.setBackgroundDrawable(getBackgroundDrawable(ColorUtils.setAlphaComponent(it, ((TRANSPARENCY / 100) * 255).toInt())))
         }
         tintDrawables(downloadedDrawbale, durationView)
     }

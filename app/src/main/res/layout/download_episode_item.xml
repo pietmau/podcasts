@@ -41,7 +41,7 @@
                 android:ellipsize="end"
                 android:lines="1"
                 android:text="@{episode.title}"
-                android:textAppearance="?android:textAppearanceMedium"/>
+                android:textAppearance="?android:textAppearanceSmall"/>
 
             <TextView
                 android:id="@+id/downloaded"

@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
+import android.support.v4.graphics.ColorUtils
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.format.DateUtils
@@ -14,10 +15,12 @@ import android.widget.*
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.ColorForBackgroundAndText
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.fullscreenplay.custom.ColorizedPlaybackControlView
 import com.pietrantuono.podcasts.fullscreenplay.di.FullscreenModule
+import com.pietrantuono.podcasts.fullscreenplay.view.custom.DrawableHelper
 import javax.inject.Inject
 
 class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs), CustomControls {
@@ -34,7 +37,7 @@ class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout
     @BindView(R.id.line3) lateinit var line3: TextView
     @BindView(R.id.progressBar1) lateinit var loading: ProgressBar
     @BindView(R.id.controllers) lateinit var controllers: View
-    @BindView(R.id.background_image) lateinit var backgroundImage: ImageView
+    @BindView(R.id.container) lateinit var container: View
     var callback: ColorizedPlaybackControlView.Callback? = null
     @Inject lateinit var presenter: CustomControlsPresenter
 
@@ -119,6 +122,14 @@ class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout
 
     override fun setProgress(progress: Int) {
         seekbar.progress = progress
+    }
+
+    fun setColors(colorForBackgroundAndText: ColorForBackgroundAndText?) {
+        colorForBackgroundAndText?.backgroundColor?.let {
+            val color = ColorUtils.setAlphaComponent(it, ((DrawableHelper.TRANSPARENCY / 100) * 255).toInt())
+            setBackgroundColor(color)
+        }
+
     }
 }
 

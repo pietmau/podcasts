@@ -2,10 +2,13 @@ package com.pietrantuono.podcasts.repository
 
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.interfaces.RealmEpisode
+import com.tonyodev.fetch.request.RequestInfo
 import io.realm.Realm
 import rx.Observable
 
 class EpisodesRepositoryRealm(private val cache: EpisodeCache) : EpisodesRepository {
+
+
     val DOWNLOAD_REQUEST_ID = "downloadRequestId"
     private val LINK = "link"
     private val ENCLOSURE_URL = "syndEnclosures.url"
@@ -21,12 +24,27 @@ class EpisodesRepositoryRealm(private val cache: EpisodeCache) : EpisodesReposit
         }
     }
 
-    override fun getEpisodeByDownloadIdSync(id: Long):Episode =
+    override fun onDownloadCompleted(requestInfo: RequestInfo, downloadedBytes: Long) {
         Realm.getDefaultInstance().use {
-            it.where(RealmEpisode::class.java)
-                    .equalTo(DOWNLOAD_REQUEST_ID, id)
-                    .findFirst()
+            it.executeTransaction { realm ->
+                realm.where(RealmEpisode::class.java)
+                        .contains(ENCLOSURE_URL, requestInfo.url)
+                        .findFirst()?.let {
+                    it.downloaded = true
+                    it.filePathIncludingFileName = requestInfo.filePath
+                    it.fileSizeInBytes = downloadedBytes
+                    it.downloadRequestId = requestInfo.id
+                }
+            }
         }
+    }
+
+    override fun getEpisodeByDownloadIdSync(id: Long): Episode =
+            Realm.getDefaultInstance().use {
+                it.where(RealmEpisode::class.java)
+                        .equalTo(DOWNLOAD_REQUEST_ID, id)
+                        .findFirst()
+            }
 
     override fun getEpisodeByUrlAsync(url: String): Observable<out Episode> =
             Realm.getDefaultInstance().use { realm ->
