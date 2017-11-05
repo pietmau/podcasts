@@ -16,11 +16,11 @@ class KillSwitch(private val packageManager: PackageManager) {
 //        if (isDebug()) {
 //            return
 //        }
-//        if (installedOutsideGooglePlay()) {
-//            showInstalledOutsideGooglePlay(view)
-//            view.finish()
-//            return
-//        }
+        if (installedOutsideGooglePlay()) {
+            showInstalledOutsideGooglePlay(view)
+            view.finish()
+            return
+        }
         if (killSwitchIsTurnedOn()) {
             showkillSwitchIsTurnedOn(view)
             view.finish()
