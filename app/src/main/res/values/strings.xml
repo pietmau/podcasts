@@ -64,6 +64,10 @@
     <string name="confirm_delete_all_episodes">Do you want to delete all episodes of</string>
     <string name="install_outside_google_play_title">Unauthorized installation detected</string>
     <string name="install_outside_google_play_messagge">The developer supports only installation via Google Play, this application will not run</string>
+    <string name="app_not_supported_title">Application not supported anymore</string>
+    <string name="app_not_supported_messagge">This app is not supported anymore by the developers. Now it will terminate</string>
+    <string name="please_upgrade_message">Please upgrade the application via Google Play. This instance will now terminate</string>
+    <string name="please_upgrade__title">Upgrade needed</string>
 
 
 </resources>

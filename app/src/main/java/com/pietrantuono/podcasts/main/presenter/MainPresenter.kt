@@ -11,7 +11,6 @@ class MainPresenter(
 
     fun bindView(view: MainView) {
         this.view = view
-        killSwich.checkIfNeedsToBeKilled(view)
     }
 
     override fun onDestroy() {}
@@ -20,10 +19,12 @@ class MainPresenter(
         view?.navigateToAddPodcast()
     }
 
-    override fun onStop() {}
+    override fun onStop() {
+        killSwich.unsubscribe()
+    }
 
     override fun onStart() {
-
+        killSwich.checkIfNeedsToBeKilled(view)
     }
 
     fun onCreate(activityRecreated: Boolean) {

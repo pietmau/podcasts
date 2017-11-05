@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "103648744766",
+    "firebase_url": "https://podcast-a115a.firebaseio.com",
+    "project_id": "podcast-a115a",
+    "storage_bucket": "podcast-a115a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:103648744766:android:68a8c08fbf211253",
+        "android_client_info": {
+          "package_name": "com.pppp.podcasts"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "103648744766-ms3qpndoiduf8j5ecesmrphib8s66dnr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pppp.podcasts",
+            "certificate_hash": "fe7bb77878bd94dc06a2585a145bbad13b548d67"
+          }
+        },
+        {
+          "client_id": "103648744766-m8fc76nf7str61n0nijl5c4ge9i7j6eg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5Pxo6xCqJdKJYTvI2U0Mi4iinLI_1vl8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "103648744766-m8fc76nf7str61n0nijl5c4ge9i7j6eg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
