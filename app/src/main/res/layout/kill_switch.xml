@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_margin="@dimen/big_margin"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:gravity="center_horizontal"
+        android:id="@+id/kill_switch_title"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/image"
+        app:srcCompat="@drawable/ic_do_not_disturb_red"
+        android:layout_width="256dp"
+        android:layout_height="256dp"/>
+
+    <TextView
+        android:gravity="center_horizontal"
+        android:id="@+id/kill_switch_message"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

@@ -36,9 +36,14 @@
         </activity>
 
         <activity
-            android:parentActivityName=".main.view.MainActivity"
+            android:name=".main.killswitchactivity.KillSwitchActivity"
+            android:theme="@style/KillSwitch">
+        </activity>
+
+        <activity
             android:name=".fullscreenplay.FullscreenPlayActivity"
             android:label="@string/app_name"
+            android:parentActivityName=".main.view.MainActivity"
             >
         </activity>
 

@@ -62,6 +62,8 @@
     <string name="confirm_download_all">Do you want to download all episodes of</string>
     <string name="confirm_delete_episode">Do you want to delete</string>
     <string name="confirm_delete_all_episodes">Do you want to delete all episodes of</string>
+    <string name="install_outside_google_play_title">Unauthorized installation detected</string>
+    <string name="install_outside_google_play_messagge">The developer supports only installation via Google Play, this application will not run</string>
 
 
 </resources>

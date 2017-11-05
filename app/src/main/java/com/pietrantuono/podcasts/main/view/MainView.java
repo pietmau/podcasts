@@ -9,4 +9,6 @@ public interface MainView {
     void navigateToSettings();
 
     void navigateToDownloads();
+
+    void finish();
 }

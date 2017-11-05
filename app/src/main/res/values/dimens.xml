@@ -27,4 +27,5 @@
     <dimen name="text_view_margin">16dp</dimen>
     <dimen name="end_text_margin">16dp</dimen>
     <dimen name="images_size">20dp</dimen>
+    <dimen name="big_margin">32dp</dimen>
 </resources>

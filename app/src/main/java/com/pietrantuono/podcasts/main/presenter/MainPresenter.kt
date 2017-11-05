@@ -4,11 +4,14 @@ import com.pietrantuono.podcasts.GenericPresenter
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
 import com.pietrantuono.podcasts.main.view.MainView
 
-class MainPresenter(private val checker: ApiLevelChecker) : GenericPresenter {
+class MainPresenter(
+        private val checker: ApiLevelChecker,
+        private val killSwich: KillSwitch) : GenericPresenter {
     private var view: MainView? = null
 
     fun bindView(view: MainView) {
         this.view = view
+        killSwich.checkIfNeedsToBeKilled(view)
     }
 
     override fun onDestroy() {}
@@ -30,6 +33,7 @@ class MainPresenter(private val checker: ApiLevelChecker) : GenericPresenter {
         if (checker.isMarshmallowOrHigher) {
 
         }
+
     }
 
     fun onSubscribeSelected() {
@@ -43,5 +47,6 @@ class MainPresenter(private val checker: ApiLevelChecker) : GenericPresenter {
     fun onDownloadsSelected() {
         view?.navigateToDownloads()
     }
+
 }
 
