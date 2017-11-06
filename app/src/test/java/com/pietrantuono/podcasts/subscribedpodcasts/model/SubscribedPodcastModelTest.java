@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts.subscribedpodcasts.model;
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
+import com.pietrantuono.podcasts.repository.repository.PodcastRepo;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,25 +16,23 @@ import java.util.List;
 import rx.Observable;
 import rx.observers.TestObserver;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SubscribedPodcastModelTest {
-    @Mock Repository repository;
+    @Mock PodcastRepo repository;
     @InjectMocks SubscribedPodcastModelImpl model;
     private Observable<List<Podcast>> observable;
     private List<Podcast> result = new ArrayList<>();
 
     @Before
     public void setUp() throws Exception {
-
         observable = Observable.just(result);
     }
 
     @Test
     public void when_subscribeToSubscribedPodcasts_then_repositorySubscribeToSubscribedPodcasts() {
-        when(repository.getSubscribedPodcasts(any())).thenReturn(observable);
+        when(repository.getSubscribedPodcasts()).thenReturn(observable);
         //WHEN
         TestObserver<List<Podcast>> observer = new TestObserver<>();
         model.subscribeToSubscribedPodcasts(observer);

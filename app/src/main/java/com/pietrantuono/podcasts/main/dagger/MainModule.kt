@@ -5,6 +5,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.pietrantuono.podcasts.BuildConfig
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
 import com.pietrantuono.podcasts.main.presenter.KillSwitch
+import com.pietrantuono.podcasts.main.presenter.KillSwitchFirebase
 import com.pietrantuono.podcasts.main.presenter.MainPresenter
 
 import dagger.Module
@@ -19,6 +20,6 @@ class MainModule {
     internal fun provideMainPresenter(checker: ApiLevelChecker, killSwitch: KillSwitch): MainPresenter = MainPresenter(checker, killSwitch)
 
     @Provides
-    internal fun provideKillSwitch(context: Context)
-            = KillSwitch(context.packageManager, FirebaseDatabase.getInstance().reference, BuildConfig.VERSION_CODE, Schedulers.io(), AndroidSchedulers.mainThread())
+    internal fun provideKillSwitch(context: Context):KillSwitch
+            = KillSwitchFirebase(context.packageManager, FirebaseDatabase.getInstance().reference, BuildConfig.VERSION_CODE, Schedulers.io(), AndroidSchedulers.mainThread())
 }

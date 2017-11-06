@@ -14,6 +14,8 @@ import com.pietrantuono.podcasts.main.view.TransitionsHelper
 import com.pietrantuono.podcasts.repository.repository.PodcastRepo
 import dagger.Module
 import dagger.Provides
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 
 @Module
 class SinglePodcastModule {
@@ -31,7 +33,7 @@ class SinglePodcastModule {
 
     @Provides
     fun provideSinglePodcastModel(api: SinglePodcastApi, repository: PodcastRepo, dowloader: Downloader): SinglePodcastModel =
-            SinglePodcastModelImpl(api, repository)
+            SinglePodcastModelImpl(api, repository, Schedulers.io(), AndroidSchedulers.mainThread())
 
     @Provides
     fun provideTransitionImageLoadingListener(framework: TransitionsHelper) = BitmapColorExtractor()

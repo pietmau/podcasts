@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts.subscribedpodcasts.presenter;
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
+import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker;
 import com.pietrantuono.podcasts.subscribedpodcasts.model.SubscribedPodcastModel;
 import com.pietrantuono.podcasts.subscribedpodcasts.view.SubscribedPodcastView;
 
@@ -25,6 +26,7 @@ import static org.mockito.Mockito.verify;
 public class SubscribedPodcastPresenterTest {
     private static final String TEXT = "text";
     @Mock SubscribedPodcastModel model;
+    @Mock ApiLevelChecker apiLevelChecker;
     @InjectMocks SubscribedPodcastPresenter presenter;
     @Mock SubscribedPodcastView view;
     @Captor ArgumentCaptor<Observer<List<Podcast>>> captor;

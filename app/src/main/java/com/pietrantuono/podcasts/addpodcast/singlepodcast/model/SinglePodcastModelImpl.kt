@@ -7,13 +7,12 @@ import com.pietrantuono.podcasts.apis.SinglePodcastApi
 import com.pietrantuono.podcasts.repository.repository.PodcastRepo
 import rx.Observable
 import rx.Observer
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
+import rx.Scheduler
 import rx.subscriptions.CompositeSubscription
 
 class SinglePodcastModelImpl(
         private val singlePodcastApi: SinglePodcastApi,
-        private val repository: PodcastRepo) : SinglePodcastModel {
+        private val repository: PodcastRepo, val io: Scheduler, val mainThread: Scheduler) : SinglePodcastModel {
 
     private var podcastFeedObservable: Observable<PodcastFeed>? = null
     private var podcast: Podcast? = null
@@ -45,8 +44,8 @@ class SinglePodcastModelImpl(
     }
 
     private fun getFeed(url: String) {
-        podcastFeedObservable = singlePodcastApi.getFeed(url).subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread()).cache()
+        podcastFeedObservable = singlePodcastApi.getFeed(url).subscribeOn(io)
+                .observeOn(mainThread).cache()
         val subscription = podcastFeedObservable!!.subscribe(object : SimpleObserver<PodcastFeed>() {
             override fun onNext(feed: PodcastFeed?) {
                 podcast?.episodes = feed?.episodes

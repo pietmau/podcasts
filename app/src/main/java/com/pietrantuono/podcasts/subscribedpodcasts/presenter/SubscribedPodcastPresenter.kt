@@ -11,8 +11,10 @@ import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
 import com.pietrantuono.podcasts.subscribedpodcasts.model.SubscribedPodcastModel
 import com.pietrantuono.podcasts.subscribedpodcasts.view.SubscribedPodcastView
 
-class SubscribedPodcastPresenter(private val model: SubscribedPodcastModel, private val apiLevelChecker:
-ApiLevelChecker) : GenericPresenter, PodcastsAdapter.OnItemClickedClickedListener, ViewModel() {
+class SubscribedPodcastPresenter(
+        private val model: SubscribedPodcastModel,
+        private val apiLevelChecker: ApiLevelChecker) :
+        GenericPresenter, PodcastsAdapter.OnItemClickedClickedListener, ViewModel() {
 
     override fun onDestroy() {}
 
