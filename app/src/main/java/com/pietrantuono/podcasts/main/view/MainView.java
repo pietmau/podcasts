@@ -11,4 +11,6 @@ public interface MainView {
     void navigateToDownloads();
 
     void finish();
+
+    void startKillSwitchActivity(int title, int messagge);
 }

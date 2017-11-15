@@ -124,7 +124,7 @@ class AddPodcastPresenterTest {
     }
 
     companion object {
-        private val QUERY = "query"
+        private val QUERY = "supportedVersionsQuery"
     }
 
 

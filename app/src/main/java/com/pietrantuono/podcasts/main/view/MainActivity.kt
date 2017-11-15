@@ -1,5 +1,6 @@
 package com.pietrantuono.podcasts.main.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -16,6 +17,7 @@ import com.pietrantuono.podcasts.downloadfragment.view.DownloadFragment
 import com.pietrantuono.podcasts.main.customviews.DrawerLayoutWithToggle
 import com.pietrantuono.podcasts.main.customviews.SimpleNavView
 import com.pietrantuono.podcasts.main.dagger.MainModule
+import com.pietrantuono.podcasts.main.killswitchactivity.KillSwitchActivity
 import com.pietrantuono.podcasts.main.presenter.MainPresenter
 import com.pietrantuono.podcasts.settings.fragment.SettingsFragment
 import com.pietrantuono.podcasts.subscribedpodcasts.view.SubscribedPodcastFragment
@@ -91,4 +93,12 @@ class MainActivity : AbstractPlaybackControlsActivity(), MainView {
     override fun navigateToDownloads() {
         DownloadFragment.navigateToDownloads(fragmentManager)
     }
+
+    override fun startKillSwitchActivity(title: Int, messagge: Int) {
+        val intent = Intent(this, KillSwitchActivity::class.java)
+        intent.putExtra(KillSwitchActivity.TITLE, title)
+        intent.putExtra(KillSwitchActivity.MESSAGE, messagge)
+        startActivity(intent)
+    }
+
 }

@@ -1,6 +1,9 @@
 package com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter
 
 
+import com.nhaarman.mockito_kotlin.KArgumentCaptor
+import com.nhaarman.mockito_kotlin.argumentCaptor
+import com.nhaarman.mockito_kotlin.isA
 import com.pietrantuono.podcasts.CrashlyticsWrapper
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
@@ -10,9 +13,6 @@ import com.pietrantuono.podcasts.apis.PodcastFeed
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.ArgumentCaptor
-import org.mockito.ArgumentMatchers.isA
-import org.mockito.Captor
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.verify
@@ -25,12 +25,13 @@ class PodcastPresenterTest {
     @Mock lateinit var model: SinglePodcastModel
     @Mock lateinit var crashlyticsWrapper: CrashlyticsWrapper
     @InjectMocks lateinit var presenter: SinglePodcastPresenter
-    @Captor lateinit var captor: ArgumentCaptor<Observer<Boolean>>
+    lateinit var captor: KArgumentCaptor<Observer<Boolean>>
     @Mock lateinit var podcast: Podcast
 
     @Before
     @Throws(Exception::class)
     fun setUp() {
+        captor = argumentCaptor()
         presenter.bindView(view)
     }
 
@@ -39,7 +40,7 @@ class PodcastPresenterTest {
         // WHEN
         presenter.onStart()
         // THEN
-        verify<SinglePodcastModel>(model).subscribeToFeed(isA(Observer::class.java) as Observer<PodcastFeed> )
+        verify<SinglePodcastModel>(model).subscribeToFeed(isA<Observer<PodcastFeed>>())
     }
 
     @Test
@@ -47,7 +48,7 @@ class PodcastPresenterTest {
         // WHEN
         presenter.onStart()
         // THEN
-        verify<SinglePodcastModel>(model).subscribeToIsSubscribedToPodcast(isA(Observer::class.java) as Observer<Boolean>)
+        verify<SinglePodcastModel>(model).subscribeToIsSubscribedToPodcast(isA<Observer<Boolean>>())
     }
 
     @Test
@@ -78,12 +79,12 @@ class PodcastPresenterTest {
     private fun isSubscribedToPodcast(t: Boolean) {
         presenter.onOptionsItemSelected(R.id.subscribe_unsubscribe)
         verify<SinglePodcastModel>(model).onSubscribeUnsubscribeToPodcastClicked()
-        captor.value.onNext(t)
+        captor.firstValue.onNext(t)
     }
 
     private fun subscribeToSubscribedToPodcast() {
         verify<SinglePodcastModel>(model).subscribeToIsSubscribedToPodcast(captor.capture())
-        captor.value.onNext(true)
+        captor.firstValue.onNext(true)
     }
 
     companion object {

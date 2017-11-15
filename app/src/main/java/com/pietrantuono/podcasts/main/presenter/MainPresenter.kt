@@ -1,12 +1,10 @@
 package com.pietrantuono.podcasts.main.presenter
 
 import com.pietrantuono.podcasts.GenericPresenter
-import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
 import com.pietrantuono.podcasts.main.view.MainView
 
-class MainPresenter(
-        private val checker: ApiLevelChecker,
-        private val killSwich: KillSwitch) : GenericPresenter {
+class MainPresenter(private val killSwich: KillSwitch) : GenericPresenter {
+
     private var view: MainView? = null
 
     fun bindView(view: MainView) {
@@ -31,10 +29,6 @@ class MainPresenter(
         if (!activityRecreated) {
             view?.navigateToSubscribedPodcasts()
         }
-        if (checker.isMarshmallowOrHigher) {
-
-        }
-
     }
 
     fun onSubscribeSelected() {

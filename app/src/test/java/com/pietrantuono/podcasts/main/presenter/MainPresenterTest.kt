@@ -1,6 +1,6 @@
 package com.pietrantuono.podcasts.main.presenter
 
-import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
+import com.nhaarman.mockito_kotlin.any
 import com.pietrantuono.podcasts.main.view.MainView
 import org.junit.Before
 import org.junit.Test
@@ -15,8 +15,7 @@ import org.mockito.junit.MockitoJUnitRunner
 class MainPresenterTest {
     @Mock lateinit var view: MainView
     @Mock lateinit var killswitch: KillSwitch
-    @Mock lateinit var apiLevelChecker: ApiLevelChecker
-    @InjectMocks lateinit  var mainPresenter: MainPresenter
+    @InjectMocks lateinit var mainPresenter: MainPresenter
 
     @Before
     fun setUp() {
@@ -45,5 +44,54 @@ class MainPresenterTest {
         mainPresenter.onCreate(true)
         // THEN
         verify<MainView>(view, never()).navigateToSubscribedPodcasts()
+    }
+
+    @Test
+    fun when_starts_then_startsTheKillswitch() {
+        //WHEN
+        mainPresenter.onStart()
+        //THEN
+        verify(killswitch).checkIfNeedsToBeKilled(any())
+    }
+
+    @Test
+    fun when_stop_then_unsubscribes() {
+        //WHEN
+        mainPresenter.onStop()
+        //THEN
+        verify(killswitch).unsubscribe()
+    }
+
+    @Test
+    fun when_onAddPodcastSelected_then_navigateToAddPodcast() {
+        //WHEN
+        mainPresenter.onAddPodcastSelected()
+        //THEN
+        verify(view).navigateToAddPodcast()
+    }
+
+    @Test
+    fun when_onSubscribeSelected_then_navigateToSubscribedPodcasts() {
+        //WHEN
+        mainPresenter.onSubscribeSelected()
+        //THEN
+        verify(view).navigateToSubscribedPodcasts()
+    }
+
+    @Test
+    fun when_onSettingsSelected_then_navigateToSettings() {
+        //WHEN
+        mainPresenter.onSettingsSelected()
+        //THEN
+        verify(view).navigateToSettings()
+    }
+
+
+    @Test
+    fun when_onDownloadsSelected_then_navigateToDownloads() {
+        //WHEN
+        mainPresenter.onDownloadsSelected()
+        //THEN
+        verify(view).navigateToDownloads()
     }
 }
