@@ -38,7 +38,7 @@ class PodcastPresenterTest {
     @Test
     fun when_resume_subscribesToFeed() {
         // WHEN
-        presenter.onStart()
+        presenter.onResume()
         // THEN
         verify<SinglePodcastModel>(model).subscribeToFeed(isA<Observer<PodcastFeed>>())
     }
@@ -46,7 +46,7 @@ class PodcastPresenterTest {
     @Test
     fun when_resume_subscribesToIsSubscribedToPodcast() {
         // WHEN
-        presenter.onStart()
+        presenter.onResume()
         // THEN
         verify<SinglePodcastModel>(model).subscribeToIsSubscribedToPodcast(isA<Observer<Boolean>>())
     }
@@ -54,7 +54,7 @@ class PodcastPresenterTest {
     @Test
     fun when_pause_then_unsubscribes() {
         // WHEN
-        presenter.onStop()
+        presenter.onPause()
         // THEN
         verify<SinglePodcastModel>(model).unsubscribe()
     }
@@ -62,7 +62,7 @@ class PodcastPresenterTest {
     @Test
     fun when_subscribedToPodcast_then_setsSubscribedToPodcastInTheView() {
         //WHEN
-        presenter.onStart()
+        presenter.onResume()
         subscribeToSubscribedToPodcast()
         //THEN
         verify<SinglePodcastView>(view).setSubscribedToPodcast(true)

@@ -56,12 +56,12 @@ class SubscribedPodcastFragment : Fragment(), SubscribedPodcastView {
         super.onStart()
         presenter.bindView(this)
         recycler.setListeners(presenter)
-        presenter.onStart()
+        presenter.onResume()
     }
 
     override fun onStop() {
         super.onStop()
-        presenter.onStop()
+        presenter.onPause()
         presenter.bindView(null)
     }
 

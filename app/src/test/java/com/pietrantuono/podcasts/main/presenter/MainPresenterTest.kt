@@ -49,7 +49,7 @@ class MainPresenterTest {
     @Test
     fun when_starts_then_startsTheKillswitch() {
         //WHEN
-        mainPresenter.onStart()
+        mainPresenter.onResume()
         //THEN
         verify(killswitch).checkIfNeedsToBeKilled(any())
     }
@@ -57,7 +57,7 @@ class MainPresenterTest {
     @Test
     fun when_stop_then_unsubscribes() {
         //WHEN
-        mainPresenter.onStop()
+        mainPresenter.onPause()
         //THEN
         verify(killswitch).unsubscribe()
     }

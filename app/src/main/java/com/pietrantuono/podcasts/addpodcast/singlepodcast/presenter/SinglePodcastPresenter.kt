@@ -33,11 +33,11 @@ class SinglePodcastPresenter(
         view = null
     }
 
-    override fun onStop() {
+    override fun onPause() {
         model.unsubscribe()
     }
 
-    override fun onStart() {
+    override fun onResume() {
         model.subscribeToFeed(object : Observer<PodcastFeed> {
             override fun onCompleted() {
                 view?.showProgress(false)

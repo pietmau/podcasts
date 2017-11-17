@@ -62,12 +62,12 @@ class AddSinglePodcastActivity : AbstractBaseDetailActivty(), SinglePodcastView 
 
     override fun onStop() {
         super.onStop()
-        presenter.onStop()
+        presenter.onPause()
     }
 
     override fun onStart() {
         super.onStart()
-        presenter.onStart()
+        presenter.onResume()
     }
 
     override fun onDestroy() {

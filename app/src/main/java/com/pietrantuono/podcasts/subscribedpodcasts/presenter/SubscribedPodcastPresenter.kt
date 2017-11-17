@@ -18,7 +18,7 @@ class SubscribedPodcastPresenter(
 
     override fun onDestroy() {}
 
-    override fun onStop() {
+    override fun onPause() {
         model.unsubscribe()
     }
 
@@ -28,7 +28,7 @@ class SubscribedPodcastPresenter(
         this.view = view
     }
 
-    override fun onStart() {
+    override fun onResume() {
         model.subscribeToSubscribedPodcasts(object : SimpleObserver<List<Podcast>>() {
             override fun onError(throwable: Throwable) {
                 view?.onError(throwable)

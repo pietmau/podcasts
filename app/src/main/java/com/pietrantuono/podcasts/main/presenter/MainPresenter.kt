@@ -17,11 +17,11 @@ class MainPresenter(private val killSwich: KillSwitch) : GenericPresenter {
         view?.navigateToAddPodcast()
     }
 
-    override fun onStop() {
+    override fun onPause() {
         killSwich.unsubscribe()
     }
 
-    override fun onStart() {
+    override fun onResume() {
         killSwich.checkIfNeedsToBeKilled(view)
     }
 

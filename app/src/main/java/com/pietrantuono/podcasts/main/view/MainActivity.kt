@@ -61,12 +61,12 @@ class MainActivity : AbstractPlaybackControlsActivity(), MainView {
 
     override fun onPause() {
         super.onPause()
-        mainPresenter.onStop()
+        mainPresenter.onPause()
     }
 
     override fun onResume() {
         super.onResume()
-        mainPresenter.onStart()
+        mainPresenter.onResume()
     }
 
     override fun onDestroy() {

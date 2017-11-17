@@ -41,7 +41,7 @@ class AddPodcastPresenterTest {
         /*
         * WHEN
         */
-        addPodcastPresenter.onStop()
+        addPodcastPresenter.onPause()
         /*
         * THEN
         */
@@ -50,7 +50,7 @@ class AddPodcastPresenterTest {
 
     @Test
     fun given_Presenter_when_bound_then_Subscribes() {
-        addPodcastPresenter.onStart()
+        addPodcastPresenter.onResume()
         verify<AddPodcastsModel>(addPodcastsModel).subscribeToSearch(isA(Observer::class.java) as Observer<SearchResult>?)
     }
 
@@ -72,7 +72,7 @@ class AddPodcastPresenterTest {
         /*
         * WHEN
         */
-        addPodcastPresenter.onStart()
+        addPodcastPresenter.onResume()
         verify<AddPodcastsModel>(addPodcastsModel).subscribeToSearch(observerCaptor.capture())
         observerCaptor.value.onError(error)
         /*
@@ -87,7 +87,7 @@ class AddPodcastPresenterTest {
         /*
         * WHEN
         */
-        addPodcastPresenter.onStart()
+        addPodcastPresenter.onResume()
         verify<AddPodcastsModel>(addPodcastsModel).subscribeToSearch(observerCaptor.capture())
         observerCaptor.value.onNext(result)
         /*
@@ -101,7 +101,7 @@ class AddPodcastPresenterTest {
         /*
         * WHEN
         */
-        addPodcastPresenter.onStart()
+        addPodcastPresenter.onResume()
         verify<AddPodcastsModel>(addPodcastsModel).subscribeToSearch(observerCaptor.capture())
         observerCaptor.value.onCompleted()
         /*

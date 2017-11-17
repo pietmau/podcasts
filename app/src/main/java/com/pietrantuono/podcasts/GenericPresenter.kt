@@ -5,8 +5,8 @@ interface GenericPresenter {
 
     fun onDestroy()
 
-    fun onStop()
+    fun onPause()
 
-    fun onStart()
+    fun onResume()
 
 }
