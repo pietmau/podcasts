@@ -43,9 +43,10 @@ import java.util.List;
 public class QueueManager {
     private static final String TAG = LogHelper.makeLogTag(QueueManager.class);
 
-    private MusicProvider mMusicProvider;
-    private MetadataUpdateListener mListener;
-    private Resources mResources;
+    private final MusicProvider mMusicProvider;
+    private final MetadataUpdateListener mListener;
+    private final Resources mResources;
+    private final QueueHelper queueHelper;
 
     // "Now playing" queue:
     private List<MediaSessionCompat.QueueItem> mPlayingQueue;
@@ -53,10 +54,13 @@ public class QueueManager {
 
     public QueueManager(@NonNull MusicProvider musicProvider,
                         @NonNull Resources resources,
-                        @NonNull MetadataUpdateListener listener) {
+                        @NonNull MetadataUpdateListener listener,
+                        @NonNull QueueHelper queueHelper
+    ) {
         this.mMusicProvider = musicProvider;
         this.mListener = listener;
         this.mResources = resources;
+        this.queueHelper = queueHelper;
 
         mPlayingQueue = Collections.synchronizedList(new ArrayList<MediaSessionCompat.QueueItem>());
         mCurrentIndex = 0;
@@ -83,14 +87,14 @@ public class QueueManager {
 
     public boolean setCurrentQueueItem(long queueId) {
         // set the current index on queue from the queue Id:
-        int index = QueueHelper.getMusicIndexOnQueue(mPlayingQueue, queueId);
+        int index = queueHelper.getMusicIndexOnQueue(mPlayingQueue, queueId);
         setCurrentQueueIndex(index);
         return index >= 0;
     }
 
     public boolean setCurrentQueueItem(String mediaId) {
         // set the current index on queue from the music Id:
-        int index = QueueHelper.getMusicIndexOnQueue(mPlayingQueue, mediaId);
+        int index = queueHelper.getMusicIndexOnQueue(mPlayingQueue, mediaId);
         setCurrentQueueIndex(index);
         return index >= 0;
     }
@@ -104,7 +108,7 @@ public class QueueManager {
             // skip forwards when in last song will cycle back to start of the queue
             index %= mPlayingQueue.size();
         }
-        if (!QueueHelper.isIndexPlayable(index, mPlayingQueue)) {
+        if (!queueHelper.isIndexPlayable(index, mPlayingQueue)) {
             LogHelper.e(TAG, "Cannot increment queue index by ", amount,
                     ". Current=", mCurrentIndex, " queue length=", mPlayingQueue.size());
             return false;
@@ -115,7 +119,7 @@ public class QueueManager {
 
     public boolean setQueueFromSearch(String query, Bundle extras) {
         List<MediaSessionCompat.QueueItem> queue =
-                QueueHelper.getPlayingQueueFromSearch(query, extras, mMusicProvider);
+                queueHelper.getPlayingQueueFromSearch(query, extras, mMusicProvider);
         setCurrentQueue(mResources.getString(R.string.search_queue_title), queue);
         updateMetadata();
         return queue != null && !queue.isEmpty();
@@ -123,7 +127,7 @@ public class QueueManager {
 
     public void setRandomQueue() {
         setCurrentQueue(mResources.getString(R.string.random_queue_title),
-                QueueHelper.getRandomQueue(mMusicProvider));
+                queueHelper.getRandomQueue(mMusicProvider));
         updateMetadata();
     }
 
@@ -143,13 +147,13 @@ public class QueueManager {
             String queueTitle = mResources.getString(R.string.browse_musics_by_genre_subtitle,
                     MediaIDHelper.extractBrowseCategoryValueFromMediaID(mediaId));
             setCurrentQueue(queueTitle,
-                    QueueHelper.getPlayingQueue(mediaId, mMusicProvider), mediaId);
+                    queueHelper.getPlayingQueue(mediaId, mMusicProvider), mediaId);
         }
         updateMetadata();
     }
 
     public MediaSessionCompat.QueueItem getCurrentMusic() {
-        if (!QueueHelper.isIndexPlayable(mCurrentIndex, mPlayingQueue)) {
+        if (!queueHelper.isIndexPlayable(mCurrentIndex, mPlayingQueue)) {
             return null;
         }
         return mPlayingQueue.get(mCurrentIndex);
@@ -171,7 +175,7 @@ public class QueueManager {
         mPlayingQueue = newQueue;
         int index = 0;
         if (initialMediaId != null) {
-            index = QueueHelper.getMusicIndexOnQueue(mPlayingQueue, initialMediaId);
+            index = queueHelper.getMusicIndexOnQueue(mPlayingQueue, initialMediaId);
         }
         mCurrentIndex = Math.max(index, 0);
         mListener.onQueueUpdated(title, newQueue);
@@ -219,8 +223,11 @@ public class QueueManager {
 
     public interface MetadataUpdateListener {
         void onMetadataChanged(MediaMetadataCompat metadata);
+
         void onMetadataRetrieveError();
+
         void onCurrentQueueIndexUpdated(int queueIndex);
+
         void onQueueUpdated(String title, List<MediaSessionCompat.QueueItem> newQueue);
     }
 }

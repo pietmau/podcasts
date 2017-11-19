@@ -79,6 +79,8 @@ public class TvBrowseFragment extends BrowseSupportFragment {
     private MediaBrowserCompat mMediaBrowser;
     private HashSet<String> mSubscribedMediaIds;
 
+    private final QueueHelper queueHelper = new QueueHelper();
+
     // Receive callbacks from the MediaController. Here we update our state such as which queue
     // is being shown, the current title and description and the PlaybackState.
     private final MediaControllerCompat.Callback mMediaControllerCallback =
@@ -256,7 +258,7 @@ public class TvBrowseFragment extends BrowseSupportFragment {
                     MediaControllerCompat mediaController = getActivity()
                             .getSupportMediaController();
 
-                    if (!QueueHelper.isQueueItemPlaying(getActivity(), item)) {
+                    if (!queueHelper.isQueueItemPlaying(getActivity(), item)) {
                         mediaController.getTransportControls()
                                 .skipToQueueItem(item.getQueueId());
                     }

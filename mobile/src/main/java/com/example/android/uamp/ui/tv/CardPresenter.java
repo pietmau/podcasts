@@ -32,6 +32,7 @@ public class CardPresenter extends Presenter {
     private static final String TAG = LogHelper.makeLogTag(CardPresenter.class);
 
     private static Context mContext;
+    private final QueueHelper queueHelper = new QueueHelper();
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent) {
@@ -61,7 +62,7 @@ public class CardPresenter extends Presenter {
             MediaSessionCompat.QueueItem queueItem = (MediaSessionCompat.QueueItem) item;
             LogHelper.d(TAG, "onBindViewHolder QueueItem: ", queueItem.toString());
             description = queueItem.getDescription();
-            if (QueueHelper.isQueueItemPlaying(mContext, queueItem)) {
+            if (queueHelper.isQueueItemPlaying(mContext, queueItem)) {
                 cardViewHolder.setState(MediaItemViewHolder.getStateFromController(mContext));
             }
         } else {

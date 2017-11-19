@@ -70,7 +70,7 @@ public class TvPlaybackFragment extends PlaybackOverlaySupportFragment {
     private SkipNextAction mSkipNextAction;
     private SkipPreviousAction mSkipPreviousAction;
     private PlaybackControlsRow mPlaybackControlsRow;
-    private List <MediaSessionCompat.QueueItem> mPlaylistQueue;
+    private List<MediaSessionCompat.QueueItem> mPlaylistQueue;
     private int mDuration;
     private Handler mHandler;
     private Runnable mRunnable;
@@ -83,6 +83,7 @@ public class TvPlaybackFragment extends PlaybackOverlaySupportFragment {
     private ListRow mListRow;
 
     private ClassPresenterSelector mPresenterSelector;
+    private QueueHelper queueHelper = new QueueHelper();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -168,7 +169,7 @@ public class TvPlaybackFragment extends PlaybackOverlaySupportFragment {
     }
 
     protected void updatePlayListRow(List<MediaSessionCompat.QueueItem> playlistQueue) {
-        if (QueueHelper.equals(mPlaylistQueue, playlistQueue)) {
+        if (queueHelper.equals(mPlaylistQueue, playlistQueue)) {
             // if the playlist queue hasn't changed, we don't need to update it
             return;
         }
@@ -324,7 +325,7 @@ public class TvPlaybackFragment extends PlaybackOverlaySupportFragment {
 
                 MediaControllerCompat controller = getActivity().getSupportMediaController();
                 MediaSessionCompat.QueueItem item = (MediaSessionCompat.QueueItem) clickedItem;
-                if (!QueueHelper.isQueueItemPlaying(getActivity(), item)
+                if (!queueHelper.isQueueItemPlaying(getActivity(), item)
                         || controller.getPlaybackState().getState()
                         != PlaybackStateCompat.STATE_PLAYING) {
                     controller.getTransportControls().skipToQueueItem(item.getQueueId());
@@ -335,6 +336,7 @@ public class TvPlaybackFragment extends PlaybackOverlaySupportFragment {
 
     private static final class MutableMediaMetadataHolder {
         MediaMetadataCompat metadata;
+
         public MutableMediaMetadataHolder(MediaMetadataCompat metadata) {
             this.metadata = metadata;
         }

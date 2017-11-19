@@ -1,18 +1,18 @@
- /*
- * Copyright (C) 2014 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+/*
+* Copyright (C) 2014 The Android Open Source Project
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*      http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 
 package com.example.android.uamp;
 
@@ -43,6 +43,7 @@ import com.example.android.uamp.playback.QueueManager;
 import com.example.android.uamp.ui.NowPlayingActivity;
 import com.example.android.uamp.utils.CarHelper;
 import com.example.android.uamp.utils.LogHelper;
+import com.example.android.uamp.utils.QueueHelper;
 import com.example.android.uamp.utils.TvHelper;
 import com.example.android.uamp.utils.WearHelper;
 import com.google.android.gms.cast.framework.CastContext;
@@ -67,53 +68,52 @@ import static com.example.android.uamp.utils.MediaIDHelper.MEDIA_ID_ROOT;
  * user interfaces that need to interact with your media session, like Android Auto. You can
  * (should) also use the same service from your app's UI, which gives a seamless playback
  * experience to the user.
- *
+ * <p>
  * To implement a MediaBrowserService, you need to:
- *
+ * <p>
  * <ul>
- *
+ * <p>
  * <li> Extend {@link android.service.media.MediaBrowserService}, implementing the media browsing
- *      related methods {@link android.service.media.MediaBrowserService#onGetRoot} and
- *      {@link android.service.media.MediaBrowserService#onLoadChildren};
+ * related methods {@link android.service.media.MediaBrowserService#onGetRoot} and
+ * {@link android.service.media.MediaBrowserService#onLoadChildren};
  * <li> In onCreate, start a new {@link android.media.session.MediaSession} and notify its parent
- *      with the session's token {@link android.service.media.MediaBrowserService#setSessionToken};
- *
+ * with the session's token {@link android.service.media.MediaBrowserService#setSessionToken};
+ * <p>
  * <li> Set a callback on the
- *      {@link android.media.session.MediaSession#setCallback(android.media.session.MediaSession.Callback)}.
- *      The callback will receive all the user's actions, like play, pause, etc;
- *
+ * {@link android.media.session.MediaSession#setCallback(android.media.session.MediaSession.Callback)}.
+ * The callback will receive all the user's actions, like play, pause, etc;
+ * <p>
  * <li> Handle all the actual music playing using any method your app prefers (for example,
- *      {@link android.media.MediaPlayer})
- *
+ * {@link android.media.MediaPlayer})
+ * <p>
  * <li> Update playbackState, "now playing" metadata and queue, using MediaSession proper methods
- *      {@link android.media.session.MediaSession#setPlaybackState(android.media.session.PlaybackState)}
- *      {@link android.media.session.MediaSession#setMetadata(android.media.MediaMetadata)} and
- *      {@link android.media.session.MediaSession#setQueue(java.util.List)})
- *
+ * {@link android.media.session.MediaSession#setPlaybackState(android.media.session.PlaybackState)}
+ * {@link android.media.session.MediaSession#setMetadata(android.media.MediaMetadata)} and
+ * {@link android.media.session.MediaSession#setQueue(java.util.List)})
+ * <p>
  * <li> Declare and export the service in AndroidManifest with an intent receiver for the action
- *      android.media.browse.MediaBrowserService
- *
+ * android.media.browse.MediaBrowserService
+ * <p>
  * </ul>
- *
+ * <p>
  * To make your app compatible with Android Auto, you also need to:
- *
+ * <p>
  * <ul>
- *
+ * <p>
  * <li> Declare a meta-data tag in AndroidManifest.xml linking to a xml resource
- *      with a &lt;automotiveApp&gt; root element. For a media app, this must include
- *      an &lt;uses name="media"/&gt; element as a child.
- *      For example, in AndroidManifest.xml:
- *          &lt;meta-data android:name="com.google.android.gms.car.application"
- *              android:resource="@xml/automotive_app_desc"/&gt;
- *      And in res/values/automotive_app_desc.xml:
- *          &lt;automotiveApp&gt;
- *              &lt;uses name="media"/&gt;
- *          &lt;/automotiveApp&gt;
- *
+ * with a &lt;automotiveApp&gt; root element. For a media app, this must include
+ * an &lt;uses name="media"/&gt; element as a child.
+ * For example, in AndroidManifest.xml:
+ * &lt;meta-data android:name="com.google.android.gms.car.application"
+ * android:resource="@xml/automotive_app_desc"/&gt;
+ * And in res/values/automotive_app_desc.xml:
+ * &lt;automotiveApp&gt;
+ * &lt;uses name="media"/&gt;
+ * &lt;/automotiveApp&gt;
+ * <p>
  * </ul>
-
- * @see <a href="README.md">README.md</a> for more details.
  *
+ * @see <a href="README.md">README.md</a> for more details.
  */
 public class MusicService extends MediaBrowserServiceCompat implements
         PlaybackManager.PlaybackServiceCallback {
@@ -194,7 +194,7 @@ public class MusicService extends MediaBrowserServiceCompat implements
                         mSession.setQueue(newQueue);
                         mSession.setQueueTitle(title);
                     }
-                });
+                }, new QueueHelper());
 
         LocalPlayback playback = new LocalPlayback(this, mMusicProvider);
         mPlaybackManager = new PlaybackManager(this, getResources(), mMusicProvider, queueManager,
@@ -244,6 +244,7 @@ public class MusicService extends MediaBrowserServiceCompat implements
 
     /**
      * (non-Javadoc)
+     *
      * @see android.app.Service#onStartCommand(android.content.Intent, int, int)
      */
     @Override
@@ -271,6 +272,7 @@ public class MusicService extends MediaBrowserServiceCompat implements
 
     /**
      * (non-Javadoc)
+     *
      * @see android.app.Service#onDestroy()
      */
     @Override
