@@ -30,7 +30,7 @@ class CustomControlsPresenter(
 
     fun bindView(customControls: CustomControls) {
         this.view = customControls
-        mediaBrowser = MediaBrowserCompat(context, ComponentName(context, MusicService::class.java), object : MediaBrowserCompat.ConnectionCallback() {
+        mediaBrowser = MediaBrowserCompat(context, ComponentName(context, com.example.android.uamp.MusicService::class.java), object : MediaBrowserCompat.ConnectionCallback() {
             override fun onConnected() {
                 try {
                     connectToSession(mediaBrowser?.sessionToken)
