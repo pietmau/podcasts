@@ -51,6 +51,7 @@ import android.support.v4.media.session.PlaybackStateCompat;
 import com.example.android.uamp.AlbumArtCache;
 import com.example.android.uamp.utils.LogHelper;
 import com.example.android.uamp.utils.QueueHelper;
+import com.example.android.uamp.utils.QueueHelperImpl;
 
 import java.util.List;
 
@@ -83,7 +84,7 @@ public class TvPlaybackFragment extends PlaybackOverlaySupportFragment {
     private ListRow mListRow;
 
     private ClassPresenterSelector mPresenterSelector;
-    private QueueHelper queueHelper = new QueueHelper();
+    private QueueHelper queueHelper = new QueueHelperImpl();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

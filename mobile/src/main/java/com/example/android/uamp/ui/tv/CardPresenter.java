@@ -27,12 +27,13 @@ import com.example.android.uamp.R;
 import com.example.android.uamp.ui.MediaItemViewHolder;
 import com.example.android.uamp.utils.LogHelper;
 import com.example.android.uamp.utils.QueueHelper;
+import com.example.android.uamp.utils.QueueHelperImpl;
 
 public class CardPresenter extends Presenter {
     private static final String TAG = LogHelper.makeLogTag(CardPresenter.class);
 
     private static Context mContext;
-    private final QueueHelper queueHelper = new QueueHelper();
+    private final QueueHelper queueHelper = new QueueHelperImpl();
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent) {

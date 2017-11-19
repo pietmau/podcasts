@@ -44,6 +44,7 @@ import com.example.android.uamp.ui.NowPlayingActivity;
 import com.example.android.uamp.utils.CarHelper;
 import com.example.android.uamp.utils.LogHelper;
 import com.example.android.uamp.utils.QueueHelper;
+import com.example.android.uamp.utils.QueueHelperImpl;
 import com.example.android.uamp.utils.TvHelper;
 import com.example.android.uamp.utils.WearHelper;
 import com.google.android.gms.cast.framework.CastContext;
@@ -151,6 +152,7 @@ public class MusicService extends MediaBrowserServiceCompat implements
 
     private boolean mIsConnectedToCar;
     private BroadcastReceiver mCarConnectionReceiver;
+    private QueueHelper queueHelper = new QueueHelperRealm();
 
     /*
      * (non-Javadoc)
@@ -194,7 +196,7 @@ public class MusicService extends MediaBrowserServiceCompat implements
                         mSession.setQueue(newQueue);
                         mSession.setQueueTitle(title);
                     }
-                }, new QueueHelper());
+                }, queueHelper);
 
         LocalPlayback playback = new LocalPlayback(this, mMusicProvider);
         mPlaybackManager = new PlaybackManager(this, getResources(), mMusicProvider, queueManager,

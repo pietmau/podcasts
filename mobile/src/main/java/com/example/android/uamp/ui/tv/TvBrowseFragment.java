@@ -37,6 +37,7 @@ import android.view.View;
 import com.example.android.uamp.R;
 import com.example.android.uamp.utils.LogHelper;
 import com.example.android.uamp.utils.QueueHelper;
+import com.example.android.uamp.utils.QueueHelperImpl;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -79,7 +80,7 @@ public class TvBrowseFragment extends BrowseSupportFragment {
     private MediaBrowserCompat mMediaBrowser;
     private HashSet<String> mSubscribedMediaIds;
 
-    private final QueueHelper queueHelper = new QueueHelper();
+    private final QueueHelper queueHelper = new QueueHelperImpl();
 
     // Receive callbacks from the MediaController. Here we update our state such as which queue
     // is being shown, the current title and description and the PlaybackState.
