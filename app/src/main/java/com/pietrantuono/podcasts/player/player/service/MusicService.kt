@@ -22,7 +22,6 @@ import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat.MediaItem
 import android.support.v4.media.MediaBrowserServiceCompat
 import android.support.v4.media.MediaMetadataCompat
-import android.support.v4.media.session.MediaButtonReceiver
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import com.pietrantuono.podcasts.R
@@ -61,8 +60,6 @@ class MusicService() : MediaBrowserServiceCompat(), PlaybackManager.PlaybackServ
                 if (CMD_PAUSE == command) {
                     playbackManager.handlePauseRequest()
                 }
-            } else {
-                MediaButtonReceiver.handleIntent(session, startIntent)
             }
         }
         delayedStopHandler.removeCallbacksAndMessages(null)
