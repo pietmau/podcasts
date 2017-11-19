@@ -64,6 +64,16 @@ android {
     }
 }
 
+configurations.all {
+    resolutionStrategy {
+        force 'com.google.android.gms:play-services-cast-framework:11.4.2'
+        force 'com.google.android.gms:play-services-cast:11.4.2'
+        force 'com.google.android.gms:play-services-base:11.4.2'
+        force 'com.google.android.gms:play-services-tasks:11.4.2'
+        force 'com.google.android.gms:play-services-basement:11.4.2'
+    }
+}
+
 dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.rometools:rome:1.7.0'
@@ -115,7 +125,8 @@ dependencies {
     compile 'com.facebook.stetho:stetho:1.5.0'
     compile 'com.google.firebase:firebase-database:11.4.2'
     compile 'com.kelvinapps:rxfirebase:0.0.15'
-    compile project(path: ':mobile', configuration: 'default')
+    compile project(path: ':mobile')
 }
 
 apply plugin: 'com.google.gms.google-services'
+

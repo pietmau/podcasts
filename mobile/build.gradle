@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 25
     buildToolsVersion '26.0.2'
 
     defaultConfig {
-        applicationId "com.example.android.uamp"
         minSdkVersion 17
         targetSdkVersion 25
         versionCode 2
@@ -53,10 +52,20 @@ repositories {
     }
 }
 
+configurations.all {
+    resolutionStrategy {
+        force 'com.google.android.gms:play-services-cast-framework:11.4.2'
+        force 'com.google.android.gms:play-services-cast:11.4.2'
+        force 'com.google.android.gms:play-services-base:11.4.2'
+        force 'com.google.android.gms:play-services-tasks:11.4.2'
+        force 'com.google.android.gms:play-services-basement:11.4.2'
+    }
+}
+
 dependencies {
     provided 'com.google.android.wearable:wearable:2.0.1'
 
-    compile 'com.google.android.gms:play-services-cast-framework:10.2.4'
+    compile 'com.google.android.gms:play-services-cast-framework:11.4.2'
     compile 'com.google.android.support:wearable:2.0.1'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:cardview-v7:25.3.1'
@@ -73,3 +82,4 @@ dependencies {
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'
 }
+

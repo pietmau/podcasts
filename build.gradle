@@ -43,7 +43,6 @@ allprojects {
         maven { url 'https://maven.fabric.io/public' }
         mavenCentral()
     }
-
 }
 
 task clean(type: Delete) {
