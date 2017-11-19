@@ -1,6 +1,5 @@
 package com.pietrantuono.podcasts.player.player.service.di
 
-import com.pietrantuono.podcasts.player.player.service.MusicService
 import dagger.Subcomponent
 
 @ServiceScope

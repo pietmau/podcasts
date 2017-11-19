@@ -5,7 +5,6 @@ import android.content.Context
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.session.MediaControllerCompat
 import com.pietrantuono.podcasts.apis.Episode
-import com.pietrantuono.podcasts.player.player.service.MusicService
 
 
 class TransportControlsWrapper(context: Context) {

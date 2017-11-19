@@ -19,7 +19,6 @@ import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import com.pietrantuono.podcasts.player.player.LogHelper
-import com.pietrantuono.podcasts.player.player.service.MusicService
 import com.pietrantuono.podcasts.player.player.service.provider.MusicProviderSource
 import com.pietrantuono.podcasts.player.player.service.provider.PodcastProvider
 

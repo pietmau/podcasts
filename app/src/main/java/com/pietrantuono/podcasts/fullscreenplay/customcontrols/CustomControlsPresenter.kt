@@ -13,7 +13,6 @@ import android.text.format.DateUtils
 import android.widget.SeekBar
 import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.DebugLogger
-import com.pietrantuono.podcasts.player.player.service.MusicService
 
 
 class CustomControlsPresenter(
