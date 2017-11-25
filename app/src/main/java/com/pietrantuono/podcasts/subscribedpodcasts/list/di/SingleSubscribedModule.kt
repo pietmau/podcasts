@@ -12,7 +12,6 @@ import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
 import com.pietrantuono.podcasts.downloader.downloader.Downloader
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
 import com.pietrantuono.podcasts.main.view.TransitionsHelper
-import com.pietrantuono.podcasts.repository.repository.PodcastRepo
 import com.pietrantuono.podcasts.subscribedpodcasts.list.menu.EpisodesListMenuProviderImpl
 import com.pietrantuono.podcasts.subscribedpodcasts.list.model.EpisodesListModel
 import com.pietrantuono.podcasts.subscribedpodcasts.list.model.EpisodesListModelImpl
@@ -20,6 +19,7 @@ import com.pietrantuono.podcasts.subscribedpodcasts.list.presenter.EpisodesListP
 import com.pietrantuono.podcasts.subscribedpodcasts.list.views.EpisodesListAdapter
 import dagger.Module
 import dagger.Provides
+import repo.repository.PodcastRepo
 
 @Module
 class SingleSubscribedModule(private val activity: AppCompatActivity) {

@@ -17,7 +17,6 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.EpisodesListActivity
 import com.pietrantuono.podcasts.main.view.MainActivity
 import com.pietrantuono.podcasts.main.view.TransitionsHelper
@@ -26,6 +25,7 @@ import com.pietrantuono.podcasts.subscribedpodcasts.presenter.SubscribedPodcastP
 import com.pietrantuono.podcasts.utils.ARTWORK
 import com.pietrantuono.podcasts.utils.SINGLE_PODCAST_TRACK_ID
 import com.pietrantuono.podcasts.utils.STARTED_WITH_TRANSITION
+import pojos.Podcast
 import javax.inject.Inject
 
 class SubscribedPodcastFragment : Fragment(), SubscribedPodcastView {

@@ -1,10 +1,9 @@
 package com.pietrantuono.podcasts.subscribedpodcasts.list.model
 
-
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
 import com.pietrantuono.podcasts.downloader.downloader.Downloader
-import com.pietrantuono.podcasts.repository.repository.PodcastRepo
+import pojos.Podcast
+import repo.repository.PodcastRepo
 import rx.Observer
 import rx.subscriptions.CompositeSubscription
 

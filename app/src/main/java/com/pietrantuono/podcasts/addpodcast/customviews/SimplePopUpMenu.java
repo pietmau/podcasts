@@ -6,7 +6,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.pietrantuono.podcasts.R;
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
+
+import pojos.Podcast;
+
 
 class SimplePopUpMenu extends PopupMenu {
 

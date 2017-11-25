@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts.interfaces
 
 import com.rometools.rome.feed.synd.SyndEnclosure
+import pojos.RealmEpisode
 import java.util.*
 
 class ROMEPodcastEpisodeBuilder {

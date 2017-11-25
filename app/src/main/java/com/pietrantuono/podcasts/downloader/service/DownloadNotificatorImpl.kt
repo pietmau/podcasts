@@ -2,10 +2,10 @@ package com.pietrantuono.podcasts.downloader.service
 
 import android.app.Notification
 import android.app.Service
-import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.DebugLogger
-import com.pietrantuono.podcasts.repository.EpisodesRepository
 import com.tonyodev.fetch.request.RequestInfo
+import pojos.Episode
+import repo.repository.EpisodesRepository
 
 class DownloadNotificatorImpl(
         private val repo: EpisodesRepository,

@@ -12,8 +12,9 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.text.format.DateUtils
 import android.widget.SeekBar
 import com.example.android.uamp.MusicService
-import com.pietrantuono.podcasts.apis.Episode
+
 import com.pietrantuono.podcasts.application.DebugLogger
+import pojos.Episode
 
 
 class CustomControlsPresenter(

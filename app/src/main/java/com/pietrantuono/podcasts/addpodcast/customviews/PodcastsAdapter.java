@@ -9,12 +9,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.pietrantuono.podcasts.R;
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider;
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import pojos.Podcast;
 
 public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> {
     private final List<Podcast> items;

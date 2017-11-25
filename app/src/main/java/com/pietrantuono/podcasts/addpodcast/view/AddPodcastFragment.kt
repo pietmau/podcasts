@@ -21,12 +21,12 @@ import com.pietrantuono.podcasts.addpodcast.SimpleOnQueryTextListener
 import com.pietrantuono.podcasts.addpodcast.customviews.CustomProgressBar
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler
 import com.pietrantuono.podcasts.addpodcast.dagger.AddPodcastModule
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.presenter.AddPodcastPresenter
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.AddSinglePodcastActivity
 import com.pietrantuono.podcasts.main.view.MainActivity
 import com.pietrantuono.podcasts.main.view.TransitionsHelper
 import hugo.weaving.DebugLog
+import pojos.Podcast
 import javax.inject.Inject
 
 class AddPodcastFragment : Fragment(), AddPodcastView {

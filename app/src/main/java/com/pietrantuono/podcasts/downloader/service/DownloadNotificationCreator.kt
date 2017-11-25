@@ -4,9 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.support.v4.app.NotificationCompat
 import com.pietrantuono.podcasts.R
-import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.downloader.service.DownloaderService.Companion.DOWNLOAD_COMPLETED
 import com.tonyodev.fetch.request.RequestInfo
+import pojos.Episode
 import javax.inject.Inject
 
 class DownloadNotificationCreator

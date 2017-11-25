@@ -1,7 +1,6 @@
 package com.pietrantuono.podcasts.addpodcast.model.retrofitconverters;
 
 import com.pietrantuono.podcasts.addpodcast.model.pojos.PodcastSearchResultEnvelope;
-import com.pietrantuono.podcasts.addpodcast.model.pojos.PodcastImpl;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -10,7 +9,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import okhttp3.ResponseBody;
-
+import pojos.PodcastImpl;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

@@ -9,7 +9,7 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
 import com.pietrantuono.podcasts.player.player.service.MediaIDHelper
 import com.pietrantuono.podcasts.player.player.service.provider.PodcastProvider
-import com.pietrantuono.podcasts.repository.EpisodesRepository
+import repo.repository.EpisodesRepository
 
 /**
  *

@@ -1,6 +1,6 @@
 package com.pietrantuono.podcasts.downloader.downloader
 
-import com.pietrantuono.podcasts.repository.EpisodesRepository
+import repo.repository.EpisodesRepository
 import javax.inject.Inject
 
 

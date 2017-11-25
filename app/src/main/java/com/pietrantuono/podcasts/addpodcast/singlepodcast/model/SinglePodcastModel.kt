@@ -1,8 +1,9 @@
 package com.pietrantuono.podcasts.addpodcast.singlepodcast.model
 
 
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
+
 import com.pietrantuono.podcasts.apis.PodcastFeed
+import pojos.Podcast
 
 import rx.Observer
 

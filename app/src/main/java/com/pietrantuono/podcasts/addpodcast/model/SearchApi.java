@@ -1,10 +1,9 @@
 package com.pietrantuono.podcasts.addpodcast.model;
 
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
-
 import java.util.List;
 import java.util.Map;
 
+import pojos.Podcast;
 import retrofit2.http.GET;
 import retrofit2.http.QueryMap;
 import rx.Observable;

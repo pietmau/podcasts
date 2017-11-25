@@ -7,7 +7,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.AbstractBaseDetailActivty
-import com.pietrantuono.podcasts.apis.Episode
+
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.fullscreenplay.customcontrols.CustomControlsImpl
 import com.pietrantuono.podcasts.fullscreenplay.di.FullscreenModule
@@ -15,6 +15,7 @@ import com.pietrantuono.podcasts.fullscreenplay.presenter.FullscreenPresenter
 import com.pietrantuono.podcasts.fullscreenplay.view.custom.EpisodeView
 import com.pietrantuono.podcasts.utils.ARTWORK
 import com.pietrantuono.podcasts.utils.EPISODE_LINK
+import pojos.Episode
 import javax.inject.Inject
 
 class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {

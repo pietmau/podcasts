@@ -10,8 +10,8 @@ import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.ColorForBackgroundAndText
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.EpisodeViewModel
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
-import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.databinding.EpisodeViewBinding
+import pojos.Episode
 
 class EpisodeView : RelativeLayout {
     private val binding: EpisodeViewBinding

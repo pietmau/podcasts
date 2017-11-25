@@ -3,9 +3,9 @@ package com.pietrantuono.podcasts.player.player.service.provider
 
 import android.graphics.Bitmap
 import android.support.v4.media.MediaMetadataCompat
+import pojos.Episode
+import repo.repository.EpisodesRepository
 
-import com.pietrantuono.podcasts.apis.Episode
-import com.pietrantuono.podcasts.repository.EpisodesRepository
 
 class PodcastProviderImpl(
         private val repo: EpisodesRepository) : PodcastProvider {

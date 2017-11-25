@@ -1,6 +1,6 @@
 package com.pietrantuono.podcasts.addpodcast.singlepodcast.view
 
-import com.pietrantuono.podcasts.apis.Episode
+import pojos.Episode
 
 interface SinglePodcastView {
 

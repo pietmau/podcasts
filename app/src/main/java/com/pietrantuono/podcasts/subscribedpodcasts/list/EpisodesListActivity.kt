@@ -8,7 +8,6 @@ import android.view.MenuItem
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
-import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayActivity
 import com.pietrantuono.podcasts.subscribedpodcasts.list.di.SingleSubscribedModule
@@ -16,6 +15,7 @@ import com.pietrantuono.podcasts.subscribedpodcasts.list.presenter.EpisodesListP
 import com.pietrantuono.podcasts.subscribedpodcasts.list.views.EpisodedListRecycler
 import com.pietrantuono.podcasts.subscribedpodcasts.list.views.EpisodesListView
 import com.pietrantuono.podcasts.utils.*
+import pojos.Episode
 import javax.inject.Inject
 
 class EpisodesListActivity : AbstractBaseDetailActivty(), EpisodesListView {

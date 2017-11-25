@@ -1,10 +1,11 @@
 package com.pietrantuono.podcasts.addpodcast.singlepodcast.model
 
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
+
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
 import com.pietrantuono.podcasts.apis.PodcastFeed
 import com.pietrantuono.podcasts.apis.SinglePodcastApi
-import com.pietrantuono.podcasts.repository.repository.PodcastRepo
+import pojos.Podcast
+import repo.repository.PodcastRepo
 import rx.Observable
 import rx.Observer
 import rx.Scheduler

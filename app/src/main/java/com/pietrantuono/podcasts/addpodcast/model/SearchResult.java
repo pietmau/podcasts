@@ -1,8 +1,9 @@
 package com.pietrantuono.podcasts.addpodcast.model;
 
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
 
 import java.util.List;
+
+import pojos.Podcast;
 
 public class SearchResult {
     private final List<Podcast> list;

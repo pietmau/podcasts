@@ -5,9 +5,9 @@ import android.os.Build;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
-
 import java.util.List;
+
+import pojos.Podcast;
 
 public interface AddPodcastView {
     void onError(Throwable €e);

@@ -5,11 +5,11 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.pietrantuono.podcasts.GenericPresenter
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsAdapter
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
 import com.pietrantuono.podcasts.subscribedpodcasts.model.SubscribedPodcastModel
 import com.pietrantuono.podcasts.subscribedpodcasts.view.SubscribedPodcastView
+import pojos.Podcast
 
 class SubscribedPodcastPresenter(
         private val model: SubscribedPodcastModel,

@@ -1,7 +1,7 @@
 package com.pietrantuono.podcasts.downloader.downloader
 
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
-import com.pietrantuono.podcasts.apis.Episode
+import pojos.Episode
+import pojos.Podcast
 
 
 interface Downloader {

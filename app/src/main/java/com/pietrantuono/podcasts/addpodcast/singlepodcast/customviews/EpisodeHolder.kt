@@ -7,7 +7,8 @@ import android.view.View
 import com.pietrantuono.podcasts.BR
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.EpisodeViewModel
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
-import com.pietrantuono.podcasts.apis.Episode
+import pojos.Episode
+
 
 class EpisodeHolder(itemView: View, private val resourcesProvider: ResourcesProvider) : RecyclerView.ViewHolder(itemView) {
     private val dataBinding: ViewDataBinding

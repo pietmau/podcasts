@@ -1,11 +1,10 @@
 package com.pietrantuono.podcasts.addpodcast.customviews;
 
 import android.widget.Filter;
-
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import pojos.Podcast;
 
 class PodcastsFilter extends Filter {
     private final PodcastsAdapter podcastsAdapter;

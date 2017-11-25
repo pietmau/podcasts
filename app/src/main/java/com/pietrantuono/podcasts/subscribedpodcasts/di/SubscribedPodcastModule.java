@@ -4,13 +4,13 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.support.v4.app.FragmentActivity;
 
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker;
-import com.pietrantuono.podcasts.repository.repository.PodcastRepo;
 import com.pietrantuono.podcasts.subscribedpodcasts.model.SubscribedPodcastModel;
 import com.pietrantuono.podcasts.subscribedpodcasts.model.SubscribedPodcastModelImpl;
 import com.pietrantuono.podcasts.subscribedpodcasts.presenter.SubscribedPodcastPresenter;
 
 import dagger.Module;
 import dagger.Provides;
+import repo.repository.PodcastRepo;
 
 @Module
 public class SubscribedPodcastModule {

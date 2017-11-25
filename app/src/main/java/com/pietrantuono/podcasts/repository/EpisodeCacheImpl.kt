@@ -1,9 +1,11 @@
 package com.pietrantuono.podcasts.repository
 
-import com.pietrantuono.podcasts.apis.Episode
-import com.pietrantuono.podcasts.interfaces.RealmEpisode
+import pojos.Episode
+import pojos.RealmEpisode
+import repo.repository.EpisodeCache
 
-class EpisodeCacheImpl : EpisodeCache {
+
+class EpisodeCacheImpl:EpisodeCache {
     private val episodesUrlsMap: MutableMap<String, Episode> = mutableMapOf()
     private val episodesEnclosuresUrlMap: MutableMap<String, Episode> = mutableMapOf()
 

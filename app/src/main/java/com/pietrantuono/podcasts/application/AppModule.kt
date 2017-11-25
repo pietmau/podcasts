@@ -8,9 +8,9 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.pietrantuono.podcasts.downloader.downloader.Downloader
 import com.pietrantuono.podcasts.downloader.downloader.DownloaderImpl
 import com.pietrantuono.podcasts.downloader.downloader.Fetcher
-import com.pietrantuono.podcasts.repository.EpisodesRepository
 import dagger.Module
 import dagger.Provides
+import repo.repository.EpisodesRepository
 import javax.inject.Singleton
 
 @Singleton

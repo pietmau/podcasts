@@ -2,9 +2,9 @@ package com.pietrantuono.podcasts.repository
 
 import android.content.Context
 import android.content.Intent
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.application.DebugLogger
-import com.pietrantuono.podcasts.repository.repository.RepoServices
+import pojos.Podcast
+import repo.repository.RepoServices
 
 class RepoServicesImpl(
         private val context: Context,

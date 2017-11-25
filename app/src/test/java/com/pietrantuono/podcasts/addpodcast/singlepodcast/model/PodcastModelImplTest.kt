@@ -3,7 +3,6 @@ package com.pietrantuono.podcasts.addpodcast.singlepodcast.model
 import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.apis.PodcastFeed
 import com.pietrantuono.podcasts.apis.SinglePodcastApi
-import com.pietrantuono.podcasts.repository.repository.PodcastRepo
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

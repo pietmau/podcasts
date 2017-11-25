@@ -6,11 +6,11 @@ import android.support.v4.content.LocalBroadcastManager
 import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.downloader.downloader.*
 import com.pietrantuono.podcasts.downloader.service.*
-import com.pietrantuono.podcasts.repository.EpisodesRepository
-import com.pietrantuono.podcasts.repository.repository.PodcastRepo
 import com.pietrantuono.podcasts.settings.PreferencesManager
 import dagger.Module
 import dagger.Provides
+import repo.repository.EpisodesRepository
+import repo.repository.PodcastRepo
 import javax.inject.Named
 import javax.inject.Singleton
 
