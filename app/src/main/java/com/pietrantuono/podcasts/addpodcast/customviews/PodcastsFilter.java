@@ -4,7 +4,7 @@ import android.widget.Filter;
 import java.util.ArrayList;
 import java.util.List;
 
-import diocan.pojos.Podcast;
+import models.pojos.Podcast;
 
 class PodcastsFilter extends Filter {
     private final PodcastsAdapter podcastsAdapter;

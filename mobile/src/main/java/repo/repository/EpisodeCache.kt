@@ -1,7 +1,7 @@
 package repo.repository
 
-import diocan.pojos.Episode
-import diocan.pojos.RealmEpisode
+import models.pojos.Episode
+import models.pojos.RealmEpisode
 
 interface EpisodeCache {
     fun getEpisodeByUrls(url: String): Episode?

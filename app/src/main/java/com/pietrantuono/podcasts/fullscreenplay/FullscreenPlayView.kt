@@ -1,6 +1,6 @@
 package com.pietrantuono.podcasts.fullscreenplay
 
-import diocan.pojos.Episode
+import models.pojos.Episode
 
 
 interface FullscreenPlayView {

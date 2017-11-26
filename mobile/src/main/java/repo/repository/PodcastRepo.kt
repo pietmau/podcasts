@@ -1,8 +1,8 @@
 package repo.repository
 
-import diocan.pojos.Episode
-import diocan.pojos.Podcast
-import diocan.pojos.PodcastRealm
+import models.pojos.Episode
+import models.pojos.Podcast
+import models.pojos.PodcastRealm
 import rx.Observable
 
 

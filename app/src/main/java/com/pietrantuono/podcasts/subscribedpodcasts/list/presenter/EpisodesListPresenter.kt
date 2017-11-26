@@ -11,8 +11,8 @@ import com.pietrantuono.podcasts.subscribedpodcasts.list.menu.EpisodesListMenuPr
 import com.pietrantuono.podcasts.subscribedpodcasts.list.model.EpisodesListModel
 import com.pietrantuono.podcasts.subscribedpodcasts.list.views.EpisodedListRecycler
 import com.pietrantuono.podcasts.subscribedpodcasts.list.views.EpisodesListView
-import diocan.pojos.Episode
-import diocan.pojos.Podcast
+import models.pojos.Episode
+import models.pojos.Podcast
 
 class EpisodesListPresenter(private val model: EpisodesListModel, private val menuProvider: EpisodesListMenuProviderImpl,
                             private val apiLevelChecker: ApiLevelChecker)

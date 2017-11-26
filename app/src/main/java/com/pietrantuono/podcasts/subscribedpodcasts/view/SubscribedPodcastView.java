@@ -7,7 +7,7 @@ import android.widget.LinearLayout;
 
 import java.util.List;
 
-import diocan.pojos.Podcast;
+import models.pojos.Podcast;
 
 public interface SubscribedPodcastView {
     void onError(Throwable throwable);

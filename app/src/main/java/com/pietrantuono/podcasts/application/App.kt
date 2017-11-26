@@ -7,7 +7,9 @@ import android.support.multidex.MultiDexApplication
 import com.facebook.stetho.Stetho
 import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule
 import com.squareup.leakcanary.LeakCanary
+import models.pojos.DataRealmLibraryModule
 import io.realm.Realm
+import io.realm.RealmConfiguration
 import javax.inject.Inject
 
 
@@ -27,10 +29,10 @@ class App : MultiDexApplication(), ServiceConnection {
         applicationComponent = DaggerApplicationComponent.builder().appModule(AppModule(this))
                 .imageLoaderModule(ImageLoaderModule(this)).build()
         applicationComponent?.inject(this)
-//        val config = RealmConfiguration.Builder()
-//                .name("app.realm")
-//                .modules(Realm.getDefaultModule(), DataRealmLibraryModule())
-//                .build()
+        Realm.setDefaultConfiguration(RealmConfiguration.Builder()
+                .name("app.realm")
+                .modules(Realm.getDefaultModule(), DataRealmLibraryModule())
+                .build())
         startService()
     }
 

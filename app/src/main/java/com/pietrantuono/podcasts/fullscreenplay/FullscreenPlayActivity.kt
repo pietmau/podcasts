@@ -15,7 +15,7 @@ import com.pietrantuono.podcasts.fullscreenplay.presenter.FullscreenPresenter
 import com.pietrantuono.podcasts.fullscreenplay.view.custom.EpisodeView
 import com.pietrantuono.podcasts.utils.ARTWORK
 import com.pietrantuono.podcasts.utils.EPISODE_LINK
-import diocan.pojos.Episode
+import models.pojos.Episode
 import javax.inject.Inject
 
 class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {

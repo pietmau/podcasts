@@ -20,7 +20,7 @@ import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.fullscreenplay.custom.ColorizedPlaybackControlView
 import com.pietrantuono.podcasts.fullscreenplay.di.FullscreenModule
 import com.pietrantuono.podcasts.fullscreenplay.view.custom.DrawableHelper
-import diocan.pojos.Episode
+import models.pojos.Episode
 import javax.inject.Inject
 
 class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs), CustomControls {

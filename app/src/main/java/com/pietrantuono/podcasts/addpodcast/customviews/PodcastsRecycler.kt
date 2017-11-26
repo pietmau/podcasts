@@ -10,7 +10,7 @@ import android.util.AttributeSet
 
 
 import com.pietrantuono.podcasts.application.App
-import diocan.pojos.Podcast
+import models.pojos.Podcast
 
 import javax.inject.Inject
 

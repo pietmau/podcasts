@@ -4,7 +4,7 @@ import com.pietrantuono.podcasts.R
 
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
-import diocan.pojos.Podcast
+import models.pojos.Podcast
 
 class DownloadedPodcast(
         val podcast: Podcast,

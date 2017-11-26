@@ -9,7 +9,7 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.EpisodeViewM
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
 import com.pietrantuono.podcasts.databinding.EpisodeItemBinding
 import com.pietrantuono.podcasts.subscribedpodcasts.list.views.EpisodedListRecycler
-import diocan.pojos.Episode
+import models.pojos.Episode
 
 
 class EpisodesListHolder(itemView: View, private val resourcesProvider: ResourcesProvider) : RecyclerView.ViewHolder(itemView) {

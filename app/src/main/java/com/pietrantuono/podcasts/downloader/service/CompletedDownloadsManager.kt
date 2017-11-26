@@ -1,8 +1,8 @@
 package com.pietrantuono.podcasts.downloader.service
 
 import com.tonyodev.fetch.request.RequestInfo
-import diocan.pojos.PodcastRealm
-import diocan.pojos.RealmEpisode
+import models.pojos.PodcastRealm
+import models.pojos.RealmEpisode
 import repo.repository.EpisodesRepository
 import repo.repository.PodcastRepo
 

@@ -1,7 +1,7 @@
 package com.pietrantuono.podcasts.subscribedpodcasts.list.views
 
 import android.view.MenuInflater
-import diocan.pojos.Episode
+import models.pojos.Episode
 
 interface EpisodesListView {
     var title: String?

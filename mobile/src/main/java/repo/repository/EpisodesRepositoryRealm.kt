@@ -2,8 +2,8 @@ package repo.repository
 
 import com.tonyodev.fetch.request.RequestInfo
 import io.realm.Realm
-import diocan.pojos.Episode
-import diocan.pojos.RealmEpisode
+import models.pojos.Episode
+import models.pojos.RealmEpisode
 import rx.Observable
 
 class EpisodesRepositoryRealm(private val cache: EpisodeCache) : EpisodesRepository {

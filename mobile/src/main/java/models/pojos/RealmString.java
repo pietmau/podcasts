@@ -1,4 +1,4 @@
-package diocan.pojos;
+package models.pojos;
 
 import android.os.Parcel;
 import android.os.Parcelable;

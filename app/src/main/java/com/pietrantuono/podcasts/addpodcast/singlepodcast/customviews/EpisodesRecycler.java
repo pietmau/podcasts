@@ -14,7 +14,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import diocan.pojos.Episode;
+import models.pojos.Episode;
 
 public class EpisodesRecycler extends RecyclerView {
     @Inject EpisodesAdapter adapter;

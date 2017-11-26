@@ -9,8 +9,8 @@ import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.downloader.downloader.Downloader
 import io.realm.Realm
-import diocan.pojos.Episode
-import diocan.pojos.PodcastRealm
+import models.pojos.Episode
+import models.pojos.PodcastRealm
 import javax.inject.Inject
 
 class SaveAndDowloandEpisodeIntentService : IntentService("SaveAndDowloandEpisodeIntentService") {

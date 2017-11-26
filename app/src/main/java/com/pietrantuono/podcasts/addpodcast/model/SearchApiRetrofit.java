@@ -6,7 +6,7 @@ import com.pietrantuono.podcasts.addpodcast.model.retrofitconverters.PodcastSear
 import java.util.List;
 import java.util.Map;
 
-import diocan.pojos.Podcast;
+import models.pojos.Podcast;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;

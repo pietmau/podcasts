@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import diocan.pojos.PodcastImpl;
+import models.pojos.PodcastImpl;
 
 public class PodcastSearchResultEnvelope {
 

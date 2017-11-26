@@ -5,7 +5,7 @@ import android.content.Context
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.session.MediaControllerCompat
 import com.example.android.uamp.MusicService
-import diocan.pojos.Episode
+import models.pojos.Episode
 
 
 class TransportControlsWrapper(context: Context) {

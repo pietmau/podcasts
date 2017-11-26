@@ -14,7 +14,7 @@ import android.widget.SeekBar
 import com.example.android.uamp.MusicService
 
 import com.pietrantuono.podcasts.application.DebugLogger
-import diocan.pojos.Episode
+import models.pojos.Episode
 
 
 class CustomControlsPresenter(

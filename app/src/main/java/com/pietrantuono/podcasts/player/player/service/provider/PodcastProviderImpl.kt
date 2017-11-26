@@ -3,7 +3,7 @@ package com.pietrantuono.podcasts.player.player.service.provider
 
 import android.graphics.Bitmap
 import android.support.v4.media.MediaMetadataCompat
-import diocan.pojos.Episode
+import models.pojos.Episode
 import repo.repository.EpisodesRepository
 
 

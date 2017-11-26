@@ -2,13 +2,13 @@ package repo.repository
 
 import io.realm.Realm
 import io.realm.RealmConfiguration
-import diocan.pojos.DataRealmLibraryModule
-import diocan.pojos.Episode
-import diocan.pojos.Podcast
-import diocan.pojos.PodcastRealm
+import models.pojos.DataRealmLibraryModule
+import models.pojos.Episode
+import models.pojos.Podcast
+import models.pojos.PodcastRealm
 import rx.Observable
 import rx.subjects.BehaviorSubject
-import diocan.utils.RealmUtlis
+import models.utils.RealmUtlis
 
 class PodcastRepoRealm(
         private val reposServices: RepoServices

@@ -1,7 +1,7 @@
 package com.pietrantuono.podcasts.repository
 
-import diocan.pojos.Episode
-import diocan.pojos.RealmEpisode
+import models.pojos.Episode
+import models.pojos.RealmEpisode
 import repo.repository.EpisodeCache
 
 

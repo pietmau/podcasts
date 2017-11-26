@@ -1,7 +1,7 @@
 package com.pietrantuono.podcasts.fullscreenplay.model
 
 
-import diocan.pojos.Episode
+import models.pojos.Episode
 import rx.Observer
 
 

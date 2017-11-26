@@ -10,8 +10,8 @@ import com.pietrantuono.podcasts.downloader.service.DownloaderService.Companion.
 import com.pietrantuono.podcasts.downloader.service.DownloaderService.Companion.EXTRA_DOWNLOAD_REQUEST_ID_LIST
 import com.pietrantuono.podcasts.downloader.service.DownloaderService.Companion.EXTRA_TRACK
 import com.pietrantuono.podcasts.downloader.service.DownloaderService.Companion.EXTRA_TRACK_LIST
-import diocan.pojos.Episode
-import diocan.pojos.Podcast
+import models.pojos.Episode
+import models.pojos.Podcast
 
 class DownloaderImpl(context: Context) : SimpleDownloader(context) {
 

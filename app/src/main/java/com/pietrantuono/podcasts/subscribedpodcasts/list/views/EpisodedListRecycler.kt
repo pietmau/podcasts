@@ -10,7 +10,7 @@ import android.util.AttributeSet
 import android.widget.ImageView
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.subscribedpodcasts.list.di.SingleSubscribedModule
-import diocan.pojos.Episode
+import models.pojos.Episode
 import javax.inject.Inject
 
 class EpisodedListRecycler : RecyclerView {

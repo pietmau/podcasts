@@ -1,4 +1,4 @@
-package diocan.pojos;
+package models.pojos;
 
 
 import android.os.Parcel;
@@ -12,7 +12,7 @@ import java.util.List;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
-import diocan.utils.RealmUtlis;
+import models.utils.RealmUtlis;
 
 public class PodcastRealm extends RealmObject implements Podcast {
     private String wrapperType;

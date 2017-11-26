@@ -1,8 +1,8 @@
 package repo.repository
 
 import com.tonyodev.fetch.request.RequestInfo
-import diocan.pojos.Episode
-import diocan.pojos.RealmEpisode
+import models.pojos.Episode
+import models.pojos.RealmEpisode
 import rx.Observable
 
 

@@ -26,7 +26,7 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.AddSinglePodcastA
 import com.pietrantuono.podcasts.main.view.MainActivity
 import com.pietrantuono.podcasts.main.view.TransitionsHelper
 import hugo.weaving.DebugLog
-import diocan.pojos.Podcast
+import models.pojos.Podcast
 import javax.inject.Inject
 
 class AddPodcastFragment : Fragment(), AddPodcastView {

@@ -7,7 +7,7 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesPro
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import diocan.pojos.Podcast;
+import models.pojos.Podcast;
 
 public class SinlglePodcastViewModel {
     private ResourcesProvider resourcesProvider;

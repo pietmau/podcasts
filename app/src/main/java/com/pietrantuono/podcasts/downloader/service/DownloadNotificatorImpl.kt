@@ -4,7 +4,7 @@ import android.app.Notification
 import android.app.Service
 import com.pietrantuono.podcasts.application.DebugLogger
 import com.tonyodev.fetch.request.RequestInfo
-import diocan.pojos.Episode
+import models.pojos.Episode
 import repo.repository.EpisodesRepository
 
 class DownloadNotificatorImpl(
