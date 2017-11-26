@@ -1,4 +1,4 @@
-package com.pietrantuono.podcasts.repository
+package repo.repository
 
 import models.pojos.Episode
 import models.pojos.RealmEpisode
