@@ -4,9 +4,9 @@ import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedEpisode
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
 import io.realm.Realm
-import pojos.Episode
-import pojos.Podcast
-import pojos.PodcastRealm
+import diocan.pojos.Episode
+import diocan.pojos.Podcast
+import diocan.pojos.PodcastRealm
 import repo.repository.EpisodesRepository
 import repo.repository.PodcastRepo
 import rx.Observable

@@ -7,7 +7,7 @@ import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastModel
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.SinglePodcastView
 import com.pietrantuono.podcasts.apis.PodcastFeed
-import pojos.Podcast
+import diocan.pojos.Podcast
 import rx.Observer
 
 class SinglePodcastPresenter(

@@ -11,7 +11,7 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.ColorForBackgroun
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.EpisodeViewModel
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
 import com.pietrantuono.podcasts.databinding.EpisodeViewBinding
-import pojos.Episode
+import diocan.pojos.Episode
 
 class EpisodeView : RelativeLayout {
     private val binding: EpisodeViewBinding

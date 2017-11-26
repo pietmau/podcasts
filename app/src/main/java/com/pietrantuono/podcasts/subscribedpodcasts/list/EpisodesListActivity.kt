@@ -15,7 +15,7 @@ import com.pietrantuono.podcasts.subscribedpodcasts.list.presenter.EpisodesListP
 import com.pietrantuono.podcasts.subscribedpodcasts.list.views.EpisodedListRecycler
 import com.pietrantuono.podcasts.subscribedpodcasts.list.views.EpisodesListView
 import com.pietrantuono.podcasts.utils.*
-import pojos.Episode
+import diocan.pojos.Episode
 import javax.inject.Inject
 
 class EpisodesListActivity : AbstractBaseDetailActivty(), EpisodesListView {

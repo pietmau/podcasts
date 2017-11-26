@@ -1,12 +1,10 @@
-package pojos
+package diocan.pojos
 
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import pojos.Episode
-import pojos.Podcast
-import utils.RealmUtlis
+import diocan.utils.RealmUtlis
 import java.lang.Exception
 import java.lang.UnsupportedOperationException
 import java.util.*

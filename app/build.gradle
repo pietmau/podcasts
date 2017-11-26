@@ -126,7 +126,7 @@ dependencies {
     compile 'com.google.firebase:firebase-database:11.4.2'
     compile 'com.kelvinapps:rxfirebase:0.0.15'
     compile project(path: ':mobile')
-    implementation project(':data')
+
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -3,7 +3,7 @@ package com.pietrantuono.podcasts.repository
 import android.content.Context
 import android.content.Intent
 import com.pietrantuono.podcasts.application.DebugLogger
-import pojos.Podcast
+import diocan.pojos.Podcast
 import repo.repository.RepoServices
 
 class RepoServicesImpl(

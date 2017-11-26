@@ -7,7 +7,7 @@ import com.rometools.modules.mediarss.MediaEntryModule
 import com.rometools.modules.mediarss.MediaModule
 import com.rometools.rome.feed.synd.SyndEntry
 import com.rometools.rome.feed.synd.SyndFeed
-import pojos.Episode
+import diocan.pojos.Episode
 import java.util.*
 import javax.inject.Inject
 

@@ -1,7 +1,7 @@
 package com.pietrantuono.podcasts.fullscreenplay.model
 
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
-import pojos.Episode
+import diocan.pojos.Episode
 
 import rx.Observable
 import rx.Observer

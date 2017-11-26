@@ -7,8 +7,8 @@ import com.pietrantuono.podcasts.downloadfragment.view.DownloadView
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadAdapter
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedEpisode
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
-import pojos.Episode
-import pojos.Podcast
+import diocan.pojos.Episode
+import diocan.pojos.Podcast
 
 
 class DownloadFragmentPresenter(

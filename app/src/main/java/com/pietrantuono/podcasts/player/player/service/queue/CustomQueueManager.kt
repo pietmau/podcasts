@@ -2,7 +2,7 @@ package com.pietrantuono.podcasts.player.player.service.queue
 
 import android.net.Uri
 import android.support.v4.media.MediaDescriptionCompat
-import pojos.Episode
+import diocan.pojos.Episode
 
 fun createMediaDescriptionCompatFromEpisode(episode: Episode): MediaDescriptionCompat {
     val builder = MediaDescriptionCompat.Builder()

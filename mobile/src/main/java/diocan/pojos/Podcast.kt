@@ -1,8 +1,6 @@
-package pojos
+package diocan.pojos
 
 import android.os.Parcelable
-
-import pojos.Episode
 
 interface Podcast : Parcelable {
     var wrapperType: String?

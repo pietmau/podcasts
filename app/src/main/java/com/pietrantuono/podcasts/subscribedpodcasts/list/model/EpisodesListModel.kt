@@ -1,6 +1,6 @@
 package com.pietrantuono.podcasts.subscribedpodcasts.list.model
 
-import pojos.Podcast
+import diocan.pojos.Podcast
 import rx.Observer
 
 abstract class EpisodesListModel {

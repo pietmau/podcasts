@@ -11,7 +11,7 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.ImageLoadingListe
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
 import com.pietrantuono.podcasts.databinding.FindPodcastItemBinding
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
-import pojos.Podcast
+import diocan.pojos.Podcast
 
 class PodcastHolder(itemView: View, private val resources: ResourcesProvider,
                     private val loader: SimpleImageLoader) : RecyclerView.ViewHolder(itemView) {

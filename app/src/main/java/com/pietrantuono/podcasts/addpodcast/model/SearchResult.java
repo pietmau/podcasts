@@ -3,7 +3,7 @@ package com.pietrantuono.podcasts.addpodcast.model;
 
 import java.util.List;
 
-import pojos.Podcast;
+import diocan.pojos.Podcast;
 
 public class SearchResult {
     private final List<Podcast> list;

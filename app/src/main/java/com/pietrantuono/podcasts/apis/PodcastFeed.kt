@@ -1,6 +1,6 @@
 package com.pietrantuono.podcasts.apis
 
-import pojos.Episode
+import diocan.pojos.Episode
 
 interface PodcastFeed {
 

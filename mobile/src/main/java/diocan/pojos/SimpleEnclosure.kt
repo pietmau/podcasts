@@ -1,4 +1,4 @@
-package pojos
+package diocan.pojos
 
 import com.rometools.rome.feed.CopyFrom
 import com.rometools.rome.feed.synd.SyndEnclosure

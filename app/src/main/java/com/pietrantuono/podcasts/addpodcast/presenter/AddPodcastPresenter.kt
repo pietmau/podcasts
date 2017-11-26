@@ -10,7 +10,7 @@ import com.pietrantuono.podcasts.addpodcast.model.SearchResult
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastFragmentMemento
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastView
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
-import pojos.Podcast
+import diocan.pojos.Podcast
 import rx.Observer
 
 class AddPodcastPresenter(

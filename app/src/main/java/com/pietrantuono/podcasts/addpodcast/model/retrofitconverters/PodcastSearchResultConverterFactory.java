@@ -9,7 +9,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import okhttp3.ResponseBody;
-import pojos.PodcastImpl;
+import diocan.pojos.PodcastImpl;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

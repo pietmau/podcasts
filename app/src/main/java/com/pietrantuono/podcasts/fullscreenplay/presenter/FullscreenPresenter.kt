@@ -8,7 +8,7 @@ import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayView
 import com.pietrantuono.podcasts.fullscreenplay.custom.ColorizedPlaybackControlView
 import com.pietrantuono.podcasts.fullscreenplay.model.FullscreenModel
 import com.pietrantuono.podcasts.fullscreenplay.view.custom.TransportControlsWrapper
-import pojos.Episode
+import diocan.pojos.Episode
 
 
 class FullscreenPresenter(

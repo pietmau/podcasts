@@ -3,7 +3,7 @@ package com.pietrantuono.podcasts.addpodcast.singlepodcast.model
 
 
 import com.pietrantuono.podcasts.apis.PodcastFeed
-import pojos.Podcast
+import diocan.pojos.Podcast
 
 import rx.Observer
 

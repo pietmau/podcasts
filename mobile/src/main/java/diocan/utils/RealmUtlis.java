@@ -1,4 +1,4 @@
-package utils;
+package diocan.utils;
 
 import com.rometools.rome.feed.synd.SyndEnclosure;
 
@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.RealmList;
-import pojos.Episode;
-import pojos.Podcast;
-import pojos.PodcastRealm;
-import pojos.RealmString;
-import pojos.SimpleEnclosure;
+import diocan.pojos.Episode;
+import diocan.pojos.Podcast;
+import diocan.pojos.PodcastRealm;
+import diocan.pojos.RealmString;
+import diocan.pojos.SimpleEnclosure;
 
 public class RealmUtlis {
 

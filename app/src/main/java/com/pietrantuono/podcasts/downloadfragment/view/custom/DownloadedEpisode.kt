@@ -5,7 +5,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
-import pojos.Episode
+import diocan.pojos.Episode
 
 
 class DownloadedEpisode(

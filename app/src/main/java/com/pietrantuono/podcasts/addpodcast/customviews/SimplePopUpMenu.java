@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.pietrantuono.podcasts.R;
 
-import pojos.Podcast;
+import diocan.pojos.Podcast;
 
 
 class SimplePopUpMenu extends PopupMenu {

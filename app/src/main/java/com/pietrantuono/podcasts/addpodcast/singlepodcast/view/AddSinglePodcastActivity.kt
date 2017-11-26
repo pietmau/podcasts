@@ -12,8 +12,8 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.EpisodesRe
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.dagger.SinglePodcastModule
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SinglePodcastPresenter
 import com.pietrantuono.podcasts.application.App
-import pojos.Episode
-import pojos.Podcast
+import diocan.pojos.Episode
+import diocan.pojos.Podcast
 import javax.inject.Inject
 
 class AddSinglePodcastActivity : AbstractBaseDetailActivty(), SinglePodcastView {

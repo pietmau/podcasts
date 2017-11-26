@@ -15,7 +15,7 @@ import com.pietrantuono.podcasts.imageloader.SimpleImageLoader;
 import java.util.ArrayList;
 import java.util.List;
 
-import pojos.Podcast;
+import diocan.pojos.Podcast;
 
 public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> {
     private final List<Podcast> items;

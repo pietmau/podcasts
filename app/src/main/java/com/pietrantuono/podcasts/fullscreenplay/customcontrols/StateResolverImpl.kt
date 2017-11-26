@@ -2,7 +2,7 @@ package com.pietrantuono.podcasts.fullscreenplay.customcontrols
 
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import pojos.Episode
+import diocan.pojos.Episode
 
 
 class StateResolver {

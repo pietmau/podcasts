@@ -1,4 +1,4 @@
-package pojos;
+package diocan.pojos;
 
 import io.realm.annotations.RealmModule;
 

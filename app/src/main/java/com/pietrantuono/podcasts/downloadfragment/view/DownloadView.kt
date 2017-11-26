@@ -2,8 +2,8 @@ package com.pietrantuono.podcasts.downloadfragment.view
 
 import com.pietrantuono.podcasts.downloadfragment.presenter.MessageCreator
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
-import pojos.Episode
-import pojos.Podcast
+import diocan.pojos.Episode
+import diocan.pojos.Podcast
 
 
 interface DownloadView {

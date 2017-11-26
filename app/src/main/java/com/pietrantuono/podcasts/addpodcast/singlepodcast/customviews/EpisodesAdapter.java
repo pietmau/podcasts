@@ -11,7 +11,7 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesPro
 import java.util.ArrayList;
 import java.util.List;
 
-import pojos.Episode;
+import diocan.pojos.Episode;
 
 public class EpisodesAdapter extends RecyclerView.Adapter<EpisodeHolder> {
     private final List<Episode> items;

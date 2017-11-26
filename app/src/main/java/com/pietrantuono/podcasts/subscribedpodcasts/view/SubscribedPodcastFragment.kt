@@ -25,7 +25,7 @@ import com.pietrantuono.podcasts.subscribedpodcasts.presenter.SubscribedPodcastP
 import com.pietrantuono.podcasts.utils.ARTWORK
 import com.pietrantuono.podcasts.utils.SINGLE_PODCAST_TRACK_ID
 import com.pietrantuono.podcasts.utils.STARTED_WITH_TRANSITION
-import pojos.Podcast
+import diocan.pojos.Podcast
 import javax.inject.Inject
 
 class SubscribedPodcastFragment : Fragment(), SubscribedPodcastView {

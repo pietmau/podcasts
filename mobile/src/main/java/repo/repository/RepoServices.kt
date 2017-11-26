@@ -1,6 +1,6 @@
 package repo.repository
 
-import pojos.Podcast
+import diocan.pojos.Podcast
 
 interface RepoServices {
     fun getAndDowloadEpisodes(podcast: Podcast?, podcastSubscribed: Boolean?)

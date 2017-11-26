@@ -1,4 +1,4 @@
-package pojos
+package diocan.pojos
 
 import android.os.Parcelable
 import com.rometools.rome.feed.synd.SyndEnclosure

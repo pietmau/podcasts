@@ -19,8 +19,8 @@ import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
 import org.jetbrains.anko.noButton
 import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.yesButton
-import pojos.Episode
-import pojos.Podcast
+import diocan.pojos.Episode
+import diocan.pojos.Podcast
 import javax.inject.Inject
 
 

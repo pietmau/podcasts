@@ -3,7 +3,7 @@ package com.pietrantuono.podcasts.downloader.downloader
 
 import com.tonyodev.fetch.request.Request
 import com.tonyodev.fetch.request.RequestInfo
-import pojos.Episode
+import diocan.pojos.Episode
 
 interface RequestManager {
     fun createRequestForDownload(url: String): Request?

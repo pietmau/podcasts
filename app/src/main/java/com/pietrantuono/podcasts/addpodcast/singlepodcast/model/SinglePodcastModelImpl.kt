@@ -4,7 +4,7 @@ package com.pietrantuono.podcasts.addpodcast.singlepodcast.model
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
 import com.pietrantuono.podcasts.apis.PodcastFeed
 import com.pietrantuono.podcasts.apis.SinglePodcastApi
-import pojos.Podcast
+import diocan.pojos.Podcast
 import repo.repository.PodcastRepo
 import rx.Observable
 import rx.Observer

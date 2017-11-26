@@ -9,7 +9,7 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserv
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
 import com.pietrantuono.podcasts.subscribedpodcasts.model.SubscribedPodcastModel
 import com.pietrantuono.podcasts.subscribedpodcasts.view.SubscribedPodcastView
-import pojos.Podcast
+import diocan.pojos.Podcast
 
 class SubscribedPodcastPresenter(
         private val model: SubscribedPodcastModel,
