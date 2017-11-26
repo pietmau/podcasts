@@ -35,6 +35,8 @@ import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.media.MediaRouter;
 
 import com.example.android.uamp.model.MusicProvider;
+import com.example.android.uamp.model.MusicProviderImpl;
+import com.example.android.uamp.model.MusicProviderRealm;
 import com.example.android.uamp.playback.CastPlayback;
 import com.example.android.uamp.playback.LocalPlayback;
 import com.example.android.uamp.playback.Playback;
@@ -44,7 +46,6 @@ import com.example.android.uamp.ui.NowPlayingActivity;
 import com.example.android.uamp.utils.CarHelper;
 import com.example.android.uamp.utils.LogHelper;
 import com.example.android.uamp.utils.QueueHelper;
-import com.example.android.uamp.utils.QueueHelperImpl;
 import com.example.android.uamp.utils.TvHelper;
 import com.example.android.uamp.utils.WearHelper;
 import com.google.android.gms.cast.framework.CastContext;
@@ -163,7 +164,7 @@ public class MusicService extends MediaBrowserServiceCompat implements
         super.onCreate();
         LogHelper.d(TAG, "onCreate");
 
-        mMusicProvider = new MusicProvider();
+        mMusicProvider = new MusicProviderRealm();
 
         // To make the app more responsive, fetch and cache catalog information now.
         // This can help improve the response time in the method
@@ -340,7 +341,7 @@ public class MusicService extends MediaBrowserServiceCompat implements
         } else {
             // otherwise, only return results when the music library is retrieved
             result.detach();
-            mMusicProvider.retrieveMediaAsync(new MusicProvider.Callback() {
+            mMusicProvider.retrieveMediaAsync(new MusicProviderImpl.Callback() {
                 @Override
                 public void onMusicCatalogReady(boolean success) {
                     result.sendResult(mMusicProvider.getChildren(parentMediaId, getResources()));

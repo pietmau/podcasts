@@ -42,7 +42,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Android instrumentation unit tests for {@link MusicProvider} and related classes.
+ * Android instrumentation unit tests for {@link MusicProviderImpl} and related classes.
  */
 @RunWith(AndroidJUnit4.class)
 public class MusicProviderTest {

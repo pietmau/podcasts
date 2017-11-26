@@ -3,22 +3,31 @@ package com.example.android.uamp;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 
 import com.example.android.uamp.model.MusicProvider;
 import com.example.android.uamp.utils.QueueHelper;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 class QueueHelperRealm implements QueueHelper {
+    private List<MediaSessionCompat.QueueItem> playingQueue = new ArrayList<MediaSessionCompat.QueueItem>();
+
     @Override
+
     public List<MediaSessionCompat.QueueItem> getPlayingQueue(String mediaId, MusicProvider musicProvider) {
-        return null;
+        MediaMetadataCompat metadataCompat = musicProvider.getMusic(mediaId);
+        MediaSessionCompat.QueueItem item = new MediaSessionCompat.QueueItem(metadataCompat.getDescription(), playingQueue.size() + 1);
+        playingQueue.add(item);
+        return Collections.unmodifiableList(playingQueue);
     }
 
     @Override
     public List<MediaSessionCompat.QueueItem> getPlayingQueueFromSearch(String query, Bundle queryParams, MusicProvider musicProvider) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override

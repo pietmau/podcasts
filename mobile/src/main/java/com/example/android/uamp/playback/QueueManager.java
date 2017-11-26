@@ -133,22 +133,9 @@ public class QueueManager {
 
     public void setQueueFromMusic(String mediaId) {
         LogHelper.d(TAG, "setQueueFromMusic", mediaId);
-
-        // The mediaId used here is not the unique musicId. This one comes from the
-        // MediaBrowser, and is actually a "hierarchy-aware mediaID": a concatenation of
-        // the hierarchy in MediaBrowser and the actual unique musicID. This is necessary
-        // so we can build the correct playing queue, based on where the track was
-        // selected from.
-        boolean canReuseQueue = false;
-        if (isSameBrowsingCategory(mediaId)) {
-            canReuseQueue = setCurrentQueueItem(mediaId);
-        }
-        if (!canReuseQueue) {
-            String queueTitle = mResources.getString(R.string.browse_musics_by_genre_subtitle,
-                    MediaIDHelper.extractBrowseCategoryValueFromMediaID(mediaId));
-            setCurrentQueue(queueTitle,
-                    queueHelper.getPlayingQueue(mediaId, mMusicProvider), mediaId);
-        }
+        String queueTitle = "Diocan ";
+        setCurrentQueue(queueTitle,
+                queueHelper.getPlayingQueue(mediaId, mMusicProvider), mediaId);
         updateMetadata();
     }
 
