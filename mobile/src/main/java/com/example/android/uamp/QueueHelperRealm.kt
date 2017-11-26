@@ -23,15 +23,29 @@ internal class QueueHelperRealm : QueueHelper {
     }
 
     override fun getMusicIndexOnQueue(queue: Iterable<MediaSessionCompat.QueueItem>, mediaId: String): Int {
-        return 0
+        var result = 0
+        for ((index, item) in queue.withIndex()) {
+            if (item.description?.mediaId?.equals(mediaId, true) == true) {
+                result = index
+                break
+            }
+        }
+        return result
     }
 
     override fun getMusicIndexOnQueue(queue: Iterable<MediaSessionCompat.QueueItem>, queueId: Long): Int {
-        return 0
+        var result = 0
+        for ((index, item) in queue.withIndex()) {
+            if (item.queueId == queueId) {
+                result = index
+                break
+            }
+        }
+        return result
     }
 
     override fun getRandomQueue(musicProvider: MusicProvider): List<MediaSessionCompat.QueueItem>? {
-        return null
+        throw UnsupportedOperationException()
     }
 
     override fun isIndexPlayable(index: Int, queue: List<MediaSessionCompat.QueueItem>): Boolean {
