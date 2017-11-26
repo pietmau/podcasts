@@ -15,7 +15,7 @@ public class MusicServicePresenter {
     private static final int STOP_DELAY = 30000;
     private CustomMediaService service;
     private final MediaSessionCompat mSession;
-    private final PlaybackManager mPlaybackManager;
+    final PlaybackManager mPlaybackManager;
     private final DelayedStopHandler mDelayedStopHandler;
     private MediaNotificationManager mMediaNotificationManager;
 
@@ -23,6 +23,7 @@ public class MusicServicePresenter {
         this.mSession = mSession;
         this.mPlaybackManager = mPlaybackManager;
         this.mDelayedStopHandler = mDelayedStopHandler;
+        this.mDelayedStopHandler.setPresenter(this);
     }
 
     public void setService(CustomMediaService service) {
@@ -84,5 +85,9 @@ public class MusicServicePresenter {
 
     public void onPlaybackStateUpdated(PlaybackStateCompat newState) {
         mSession.setPlaybackState(newState);
+    }
+
+    public void stopSelf() {
+        service.stopSelf();
     }
 }

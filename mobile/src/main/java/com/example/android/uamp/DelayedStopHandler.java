@@ -7,20 +7,20 @@ import android.os.Message;
 import java.lang.ref.WeakReference;
 
 public class DelayedStopHandler extends Handler {
-    private final WeakReference<MusicService> mWeakReference;
-
-    DelayedStopHandler(MusicService service) {
-        mWeakReference = new WeakReference<>(service);
-    }
+    private WeakReference<MusicServicePresenter> mWeakReference;
 
     @Override
     public void handleMessage(Message msg) {
-        MusicService service = mWeakReference.get();
+        MusicServicePresenter service = mWeakReference.get();
         if (service != null && service.mPlaybackManager.getPlayback() != null) {
             if (service.mPlaybackManager.getPlayback().isPlaying()) {
                 return;
             }
             service.stopSelf();
         }
+    }
+
+    public void setPresenter(MusicServicePresenter musicServicePresenter) {
+        mWeakReference = new WeakReference<MusicServicePresenter>(musicServicePresenter);
     }
 }

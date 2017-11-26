@@ -68,7 +68,7 @@ class MusicServiceModule(private val musicService: MusicService) {
     }
 
     @Provides
-    fun provideDelayedStopHandler() = DelayedStopHandler(musicService)
+    fun provideDelayedStopHandler() = DelayedStopHandler()
 
     @Provides
     fun provideMusicServicePresenter(mSession: MediaSessionCompat, mPlaybackManager: PlaybackManager,
