@@ -10,6 +10,7 @@ import com.squareup.leakcanary.LeakCanary
 import io.realm.Realm
 import javax.inject.Inject
 
+
 class App : MultiDexApplication(), ServiceConnection {
     private var serviceIsBound: Boolean = false
     var applicationComponent: ApplicationComponent? = null
@@ -26,6 +27,10 @@ class App : MultiDexApplication(), ServiceConnection {
         applicationComponent = DaggerApplicationComponent.builder().appModule(AppModule(this))
                 .imageLoaderModule(ImageLoaderModule(this)).build()
         applicationComponent?.inject(this)
+//        val config = RealmConfiguration.Builder()
+//                .name("app.realm")
+//                .modules(Realm.getDefaultModule(), DataRealmLibraryModule())
+//                .build()
         startService()
     }
 

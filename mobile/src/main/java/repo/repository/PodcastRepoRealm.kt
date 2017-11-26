@@ -1,6 +1,8 @@
 package repo.repository
 
 import io.realm.Realm
+import io.realm.RealmConfiguration
+import pojos.DataRealmLibraryModule
 import pojos.Episode
 import pojos.Podcast
 import pojos.PodcastRealm
@@ -11,6 +13,11 @@ import utils.RealmUtlis
 class PodcastRepoRealm(
         private val reposServices: RepoServices
 ) : PodcastRepo {
+
+    val config = RealmConfiguration.Builder()
+            .name("app.realm")
+            .modules(Realm.getDefaultModule(), DataRealmLibraryModule())
+            .build()
 
     private val TAG = "PodcastRepoRealm"
 
@@ -57,7 +64,7 @@ class PodcastRepoRealm(
 
     override fun getIfSubscribed(podcast: Podcast?): Observable<Boolean> {
         subject = BehaviorSubject.create<Boolean>()
-        Realm.getDefaultInstance().use { realm ->
+        Realm.getInstance(config).use { realm ->
             realm.where(PodcastRealm::class.java)
                     .equalTo("trackId", podcast?.trackId)
                     .findFirstAsync()
