@@ -35,7 +35,6 @@ import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.NotificationCompat;
 
-import com.example.android.uamp.ui.MusicPlayerActivity;
 import com.example.android.uamp.utils.LogHelper;
 import com.example.android.uamp.utils.ResourceHelper;
 
@@ -202,14 +201,16 @@ public class MediaNotificationManager extends BroadcastReceiver {
     }
 
     private PendingIntent createContentIntent(MediaDescriptionCompat description) {
-        Intent openUI = new Intent(mService, MusicPlayerActivity.class);
-        openUI.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        openUI.putExtra(MusicPlayerActivity.EXTRA_START_FULLSCREEN, true);
-        if (description != null) {
-            openUI.putExtra(MusicPlayerActivity.EXTRA_CURRENT_MEDIA_DESCRIPTION, description);
-        }
-        return PendingIntent.getActivity(mService, REQUEST_CODE, openUI,
-                PendingIntent.FLAG_CANCEL_CURRENT);
+        //TODO
+//        Intent openUI = new Intent(mService, MusicPlayerActivity.class);
+//        openUI.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//        openUI.putExtra(MusicPlayerActivity.EXTRA_START_FULLSCREEN, true);
+//        if (description != null) {
+//            openUI.putExtra(MusicPlayerActivity.EXTRA_CURRENT_MEDIA_DESCRIPTION, description);
+//        }
+//        return PendingIntent.getActivity(mService, REQUEST_CODE, openUI,
+//                PendingIntent.FLAG_CANCEL_CURRENT);
+        throw new UnsupportedOperationException();
     }
 
     private final MediaControllerCompat.Callback mCb = new MediaControllerCompat.Callback() {
@@ -306,7 +307,7 @@ public class MediaNotificationManager extends BroadcastReceiver {
                 .setSmallIcon(R.drawable.ic_notification)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setUsesChronometer(true)
-                .setContentIntent(createContentIntent(description))
+                //.setContentIntent(createContentIntent(description))
                 .setContentTitle(description.getTitle())
                 .setContentText(description.getSubtitle())
                 .setLargeIcon(art);

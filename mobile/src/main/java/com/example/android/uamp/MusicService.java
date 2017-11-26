@@ -42,7 +42,7 @@ import com.example.android.uamp.playback.LocalPlayback;
 import com.example.android.uamp.playback.Playback;
 import com.example.android.uamp.playback.PlaybackManager;
 import com.example.android.uamp.playback.QueueManager;
-import com.example.android.uamp.ui.NowPlayingActivity;
+
 import com.example.android.uamp.utils.CarHelper;
 import com.example.android.uamp.utils.LogHelper;
 import com.example.android.uamp.utils.QueueHelper;
@@ -206,10 +206,11 @@ public class MusicService extends MediaBrowserServiceCompat implements
                 MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
 
         Context context = getApplicationContext();
-        Intent intent = new Intent(context, NowPlayingActivity.class);
-        PendingIntent pi = PendingIntent.getActivity(context, 99 /*request code*/,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        mSession.setSessionActivity(pi);
+        //TODO
+        //Intent intent = new Intent(context, NowPlayingActivity.class);
+//        PendingIntent pi = PendingIntent.getActivity(context, 99 /*request code*/,
+//                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//        mSession.setSessionActivity(pi);
 
         mSessionExtras = new Bundle();
         CarHelper.setSlotReservationFlags(mSessionExtras, true, true, true);
