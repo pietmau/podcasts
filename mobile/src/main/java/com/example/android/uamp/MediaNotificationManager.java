@@ -168,8 +168,8 @@ public class MediaNotificationManager extends BroadcastReceiver {
                 break;
             case ACTION_STOP_CASTING:
                 Intent i = new Intent(context, MusicService.class);
-                i.setAction(MusicService.ACTION_CMD);
-                i.putExtra(MusicService.CMD_NAME, MusicService.CMD_STOP_CASTING);
+                i.setAction(Constants.ACTION_CMD);
+                i.putExtra(Constants.CMD_NAME, Constants.CMD_STOP_CASTING);
                 mService.startService(i);
                 break;
             default:
@@ -313,7 +313,7 @@ public class MediaNotificationManager extends BroadcastReceiver {
                 .setLargeIcon(art);
 
         if (mController != null && mController.getExtras() != null) {
-            String castName = mController.getExtras().getString(MusicService.EXTRA_CONNECTED_CAST);
+            String castName = mController.getExtras().getString(Constants.EXTRA_CONNECTED_CAST);
             if (castName != null) {
                 String castInfo = mService.getResources()
                         .getString(R.string.casting_to_device, castName);

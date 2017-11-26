@@ -16,6 +16,8 @@ import javax.inject.Singleton
 @Singleton
 @Module
 class MusicServiceModule(private val musicService: MusicService) {
+    private val TAG: String = "MusicServiceModule"
+
     val context = musicService.applicationContext
 
     @Singleton
@@ -65,5 +67,11 @@ class MusicServiceModule(private val musicService: MusicService) {
         return manager!!
     }
 
+    @Provides
+    fun provideDelayedStopHandler() = DelayedStopHandler(musicService)
+
+    @Provides
+    fun provideMusicServicePresenter(mSession: MediaSessionCompat, mPlaybackManager: PlaybackManager,
+                                     mDelayedStopHandler: DelayedStopHandler) = MusicServicePresenter(mSession, mPlaybackManager, mDelayedStopHandler)
 
 }

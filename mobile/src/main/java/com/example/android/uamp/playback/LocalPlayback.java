@@ -26,6 +26,7 @@ import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.text.TextUtils;
 
+import com.example.android.uamp.Constants;
 import com.example.android.uamp.MusicService;
 import com.example.android.uamp.model.MusicProvider;
 import com.example.android.uamp.model.MusicProviderSource;
@@ -98,8 +99,8 @@ public final class LocalPlayback implements Playback {
                         LogHelper.d(TAG, "Headphones disconnected.");
                         if (isPlaying()) {
                             Intent i = new Intent(context, MusicService.class);
-                            i.setAction(MusicService.ACTION_CMD);
-                            i.putExtra(MusicService.CMD_NAME, MusicService.CMD_PAUSE);
+                            i.setAction(Constants.ACTION_CMD);
+                            i.putExtra(Constants.CMD_NAME, Constants.CMD_PAUSE);
                             mContext.startService(i);
                         }
                     }
