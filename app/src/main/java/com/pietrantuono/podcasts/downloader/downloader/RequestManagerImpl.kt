@@ -1,10 +1,11 @@
 package com.pietrantuono.podcasts.downloader.downloader
 
 import android.webkit.URLUtil
-import com.pietrantuono.podcasts.apis.Episode
-import com.pietrantuono.podcasts.repository.EpisodesRepository
+
 import com.tonyodev.fetch.request.Request
 import com.tonyodev.fetch.request.RequestInfo
+import models.pojos.Episode
+import repo.repository.EpisodesRepository
 import javax.inject.Inject
 
 

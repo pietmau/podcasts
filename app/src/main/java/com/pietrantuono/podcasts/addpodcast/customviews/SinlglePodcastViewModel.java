@@ -2,11 +2,12 @@ package com.pietrantuono.podcasts.addpodcast.customviews;
 
 
 import com.pietrantuono.podcasts.R;
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import models.pojos.Podcast;
 
 public class SinlglePodcastViewModel {
     private ResourcesProvider resourcesProvider;

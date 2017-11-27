@@ -6,11 +6,12 @@ import android.view.View
 import com.pietrantuono.podcasts.BR
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsAdapter.OnItemClickedClickedListener
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
+
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.ImageLoadingListenerWithPalette
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
 import com.pietrantuono.podcasts.databinding.FindPodcastItemBinding
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
+import models.pojos.Podcast
 
 class PodcastHolder(itemView: View, private val resources: ResourcesProvider,
                     private val loader: SimpleImageLoader) : RecyclerView.ViewHolder(itemView) {

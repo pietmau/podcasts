@@ -1,13 +1,14 @@
 package com.pietrantuono.podcasts.fullscreenplay.model
 
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
-import com.pietrantuono.podcasts.apis.Episode
-import com.pietrantuono.podcasts.repository.EpisodesRepository
+import models.pojos.Episode
+
 import rx.Observable
 import rx.Observer
 import rx.Scheduler
 import rx.Subscription
 import java.util.concurrent.TimeUnit
+import repo.repository.EpisodesRepository
 
 
 class FullscreenModelImpl(private val repo: EpisodesRepository, private val manithreadScheduler: Scheduler)

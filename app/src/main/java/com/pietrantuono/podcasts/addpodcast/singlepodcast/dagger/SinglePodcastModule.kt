@@ -11,9 +11,9 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.BitmapColorExtrac
 import com.pietrantuono.podcasts.apis.SinglePodcastApi
 import com.pietrantuono.podcasts.downloader.downloader.Downloader
 import com.pietrantuono.podcasts.main.view.TransitionsHelper
-import com.pietrantuono.podcasts.repository.repository.PodcastRepo
 import dagger.Module
 import dagger.Provides
+import repo.repository.PodcastRepo
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 

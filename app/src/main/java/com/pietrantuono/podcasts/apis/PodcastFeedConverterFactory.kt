@@ -20,7 +20,7 @@ internal class PodcastFeedConverterFactory(private val crashlyticsWrapper: Crash
         return Converter<ResponseBody, PodcastFeed> { value ->
             try {
                 parseFeed(input.build(XmlReader(value.byteStream())))
-            } catch (e: Exception) {
+            } catch (e: Throwable) {
                 crashlyticsWrapper.logException(e)
                 throw IOException(e)
             }

@@ -6,7 +6,8 @@ import android.text.Html
 import android.view.View
 import com.pietrantuono.podcasts.Constants
 import com.pietrantuono.podcasts.R
-import com.pietrantuono.podcasts.apis.Episode
+import models.pojos.Episode
+
 import java.text.SimpleDateFormat
 
 @SuppressLint("ParcelCreator")

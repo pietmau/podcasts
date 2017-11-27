@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts.fullscreenplay
 
-import com.pietrantuono.podcasts.apis.Episode
+import models.pojos.Episode
+
 
 interface FullscreenPlayView {
     fun startTransitionPostponed()

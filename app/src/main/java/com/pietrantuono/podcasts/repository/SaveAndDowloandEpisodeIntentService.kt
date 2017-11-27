@@ -3,13 +3,14 @@ package com.pietrantuono.podcasts.repository
 import android.app.IntentService
 import android.content.Intent
 import com.pietrantuono.podcasts.CrashlyticsWrapper
-import com.pietrantuono.podcasts.apis.Episode
+
 import com.pietrantuono.podcasts.apis.SinglePodcastApi
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.downloader.downloader.Downloader
-import com.pietrantuono.podcasts.providers.PodcastRealm
 import io.realm.Realm
+import models.pojos.Episode
+import models.pojos.PodcastRealm
 import javax.inject.Inject
 
 class SaveAndDowloandEpisodeIntentService : IntentService("SaveAndDowloandEpisodeIntentService") {

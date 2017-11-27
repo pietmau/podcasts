@@ -1,10 +1,10 @@
 package com.pietrantuono.podcasts.downloader.service
 
-import com.pietrantuono.podcasts.interfaces.RealmEpisode
-import com.pietrantuono.podcasts.providers.PodcastRealm
-import com.pietrantuono.podcasts.repository.EpisodesRepository
-import com.pietrantuono.podcasts.repository.repository.PodcastRepo
 import com.tonyodev.fetch.request.RequestInfo
+import models.pojos.PodcastRealm
+import models.pojos.RealmEpisode
+import repo.repository.EpisodesRepository
+import repo.repository.PodcastRepo
 
 
 class CompletedDownloadsManager(

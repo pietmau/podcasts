@@ -68,6 +68,7 @@
     <string name="app_not_supported_messagge">This app is not supported anymore by the developer. Now it will terminate, apologies for the inconvenience</string>
     <string name="please_upgrade_message">Please upgrade the application via Google Play. This instance will now terminate, apologies for the inconvenience</string>
     <string name="please_upgrade__title">Upgrade needed</string>
+    <string name="find">Find</string>
 
 
 </resources>

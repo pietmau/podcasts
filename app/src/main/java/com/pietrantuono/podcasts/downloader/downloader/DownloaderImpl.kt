@@ -1,8 +1,7 @@
 package com.pietrantuono.podcasts.downloader.downloader
 
 import android.content.Context
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
-import com.pietrantuono.podcasts.apis.Episode
+
 import com.pietrantuono.podcasts.downloader.service.DownloaderService.Companion.COMMAND_DELETE_ALL_EPISODES
 import com.pietrantuono.podcasts.downloader.service.DownloaderService.Companion.COMMAND_DELETE_EPISODE
 import com.pietrantuono.podcasts.downloader.service.DownloaderService.Companion.COMMAND_DOWNLOAD_ALL_EPISODES
@@ -11,6 +10,8 @@ import com.pietrantuono.podcasts.downloader.service.DownloaderService.Companion.
 import com.pietrantuono.podcasts.downloader.service.DownloaderService.Companion.EXTRA_DOWNLOAD_REQUEST_ID_LIST
 import com.pietrantuono.podcasts.downloader.service.DownloaderService.Companion.EXTRA_TRACK
 import com.pietrantuono.podcasts.downloader.service.DownloaderService.Companion.EXTRA_TRACK_LIST
+import models.pojos.Episode
+import models.pojos.Podcast
 
 class DownloaderImpl(context: Context) : SimpleDownloader(context) {
 

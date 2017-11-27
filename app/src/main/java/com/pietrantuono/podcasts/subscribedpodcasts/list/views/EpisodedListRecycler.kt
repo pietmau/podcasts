@@ -8,9 +8,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.widget.ImageView
-import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.subscribedpodcasts.list.di.SingleSubscribedModule
+import models.pojos.Episode
 import javax.inject.Inject
 
 class EpisodedListRecycler : RecyclerView {

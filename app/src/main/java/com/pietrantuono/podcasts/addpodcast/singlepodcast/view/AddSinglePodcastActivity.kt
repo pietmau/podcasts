@@ -8,12 +8,12 @@ import android.view.MenuItem
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.EpisodesRecycler
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.dagger.SinglePodcastModule
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SinglePodcastPresenter
-import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.App
+import models.pojos.Episode
+import models.pojos.Podcast
 import javax.inject.Inject
 
 class AddSinglePodcastActivity : AbstractBaseDetailActivty(), SinglePodcastView {

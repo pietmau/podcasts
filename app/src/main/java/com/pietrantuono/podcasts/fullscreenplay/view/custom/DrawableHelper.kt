@@ -10,7 +10,7 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.ColorForBackgroundAndText
-import com.pietrantuono.podcasts.apis.Episode
+import models.pojos.Episode
 
 class DrawableHelper(private val resources: Resources) {
     private var colorForBackgroundAndText: ColorForBackgroundAndText? = null

@@ -7,10 +7,10 @@ import com.pietrantuono.podcasts.downloadfragment.model.DownloadFragmentModel
 import com.pietrantuono.podcasts.downloadfragment.model.DownloadFragmentModelImpl
 import com.pietrantuono.podcasts.downloadfragment.presenter.DownloadFragmentPresenter
 import com.pietrantuono.podcasts.downloadfragment.presenter.MessageCreator
-import com.pietrantuono.podcasts.repository.EpisodesRepository
-import com.pietrantuono.podcasts.repository.repository.PodcastRepo
 import dagger.Module
 import dagger.Provides
+import repo.repository.EpisodesRepository
+import repo.repository.PodcastRepo
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 

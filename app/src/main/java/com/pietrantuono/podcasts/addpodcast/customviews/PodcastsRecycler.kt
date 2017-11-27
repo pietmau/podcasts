@@ -8,8 +8,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
+
 import com.pietrantuono.podcasts.application.App
+import models.pojos.Podcast
 
 import javax.inject.Inject
 

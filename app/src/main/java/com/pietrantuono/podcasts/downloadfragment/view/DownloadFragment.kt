@@ -9,8 +9,7 @@ import android.view.ViewGroup
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
-import com.pietrantuono.podcasts.apis.Episode
+
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.downloadfragment.di.DownloadFragmentModule
 import com.pietrantuono.podcasts.downloadfragment.presenter.DownloadFragmentPresenter
@@ -20,6 +19,8 @@ import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
 import org.jetbrains.anko.noButton
 import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.yesButton
+import models.pojos.Episode
+import models.pojos.Podcast
 import javax.inject.Inject
 
 

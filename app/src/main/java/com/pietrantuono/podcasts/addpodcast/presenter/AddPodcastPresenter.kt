@@ -7,10 +7,10 @@ import com.pietrantuono.podcasts.GenericPresenter
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsAdapter
 import com.pietrantuono.podcasts.addpodcast.model.AddPodcastsModel
 import com.pietrantuono.podcasts.addpodcast.model.SearchResult
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastFragmentMemento
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastView
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
+import models.pojos.Podcast
 import rx.Observer
 
 class AddPodcastPresenter(

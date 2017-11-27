@@ -1,9 +1,10 @@
 package com.pietrantuono.podcasts.downloadfragment.view.custom
 
 import com.pietrantuono.podcasts.R
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
+
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
+import models.pojos.Podcast
 
 class DownloadedPodcast(
         val podcast: Podcast,

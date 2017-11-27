@@ -16,9 +16,9 @@ import com.pietrantuono.podcasts.fullscreenplay.model.FullscreenModel
 import com.pietrantuono.podcasts.fullscreenplay.model.FullscreenModelImpl
 import com.pietrantuono.podcasts.fullscreenplay.presenter.FullscreenPresenter
 import com.pietrantuono.podcasts.main.view.TransitionsHelper
-import com.pietrantuono.podcasts.repository.EpisodesRepository
 import dagger.Module
 import dagger.Provides
+import repo.repository.EpisodesRepository
 import rx.android.schedulers.AndroidSchedulers
 import java.util.concurrent.Executors
 

@@ -1,15 +1,14 @@
 package com.pietrantuono.podcasts.downloadfragment.model
-
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
-import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedEpisode
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
-import com.pietrantuono.podcasts.providers.PodcastRealm
-import com.pietrantuono.podcasts.repository.EpisodesRepository
-import com.pietrantuono.podcasts.repository.repository.PodcastRepo
 import io.realm.Realm
+import models.pojos.Episode
+import models.pojos.Podcast
+import models.pojos.PodcastRealm
+import repo.repository.EpisodesRepository
+import repo.repository.PodcastRepo
 import rx.Observable
 import rx.Observer
 import rx.Scheduler

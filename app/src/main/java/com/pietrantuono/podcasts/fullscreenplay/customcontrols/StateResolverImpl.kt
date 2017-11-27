@@ -2,7 +2,8 @@ package com.pietrantuono.podcasts.fullscreenplay.customcontrols
 
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import com.pietrantuono.podcasts.apis.Episode
+import models.pojos.Episode
+
 
 class StateResolver {
     private var episode: Episode? = null

@@ -19,8 +19,7 @@ import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule
 import com.pietrantuono.podcasts.main.dagger.MainModule
 import com.pietrantuono.podcasts.main.dagger.TransitionsModule
 import com.pietrantuono.podcasts.media.MediaModule
-import com.pietrantuono.podcasts.player.player.service.di.ServiceComponent
-import com.pietrantuono.podcasts.player.player.service.di.ServiceModule
+
 import com.pietrantuono.podcasts.repository.RepositoryModule
 import com.pietrantuono.podcasts.repository.SaveAndDowloandEpisodeIntentService
 import com.pietrantuono.podcasts.settings.di.SettingsFragmentComponent
@@ -59,8 +58,6 @@ interface ApplicationComponent {
     fun simpleImageLoader(): SimpleImageLoader
 
     fun with(fullscreenModule: FullscreenModule): FullscreenSubComponent
-
-    fun with(serviceModule: ServiceModule): ServiceComponent
 
     fun with(serviceModule: DownloadFragmentModule): DownloadFragmentComponent
 

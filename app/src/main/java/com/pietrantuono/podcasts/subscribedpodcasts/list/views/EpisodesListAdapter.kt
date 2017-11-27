@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.customviews.EpisodesListHolder
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
-import com.pietrantuono.podcasts.apis.Episode
+import models.pojos.Episode
 import java.util.*
 
 class EpisodesListAdapter(private val resourcesProvider: ResourcesProvider) : RecyclerView.Adapter<EpisodesListHolder>() {

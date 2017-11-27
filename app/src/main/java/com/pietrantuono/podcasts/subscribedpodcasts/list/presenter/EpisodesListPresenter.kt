@@ -1,19 +1,18 @@
 package com.pietrantuono.podcasts.subscribedpodcasts.list.presenter
 
-
 import android.arch.lifecycle.ViewModel
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.ImageView
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
-import com.pietrantuono.podcasts.apis.Episode
 import com.pietrantuono.podcasts.subscribedpodcasts.list.menu.EpisodesListMenuProvider
 import com.pietrantuono.podcasts.subscribedpodcasts.list.menu.EpisodesListMenuProviderImpl
 import com.pietrantuono.podcasts.subscribedpodcasts.list.model.EpisodesListModel
 import com.pietrantuono.podcasts.subscribedpodcasts.list.views.EpisodedListRecycler
 import com.pietrantuono.podcasts.subscribedpodcasts.list.views.EpisodesListView
+import models.pojos.Episode
+import models.pojos.Podcast
 
 class EpisodesListPresenter(private val model: EpisodesListModel, private val menuProvider: EpisodesListMenuProviderImpl,
                             private val apiLevelChecker: ApiLevelChecker)

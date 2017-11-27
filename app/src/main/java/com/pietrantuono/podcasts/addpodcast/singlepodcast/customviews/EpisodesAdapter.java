@@ -6,11 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.pietrantuono.podcasts.R;
-import com.pietrantuono.podcasts.apis.Episode;
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import models.pojos.Episode;
 
 public class EpisodesAdapter extends RecyclerView.Adapter<EpisodeHolder> {
     private final List<Episode> items;
