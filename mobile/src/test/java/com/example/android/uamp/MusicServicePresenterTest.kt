@@ -4,7 +4,7 @@ import android.app.Service.START_STICKY
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.media.session.MediaSessionCompat
-import com.example.android.uamp.playback.PlaybackManager
+import player.playback.PlaybackManager
 import junit.framework.Assert.fail
 import org.junit.Assert
 import org.junit.Before
@@ -16,6 +16,10 @@ import org.mockito.Matchers.isNull
 import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.runners.MockitoJUnitRunner
+import player.Constants
+import player.CustomMediaService
+import player.DelayedStopHandler
+import player.MusicServicePresenter
 
 @RunWith(MockitoJUnitRunner::class)
 class MusicServicePresenterTest {

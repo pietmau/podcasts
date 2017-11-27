@@ -76,10 +76,12 @@ class MainActivity : AbstractPlaybackControlsActivity(), MainView {
 
     override fun navigateToAddPodcast() {
         AddPodcastFragment.navigateTo(fragmentManager)
+        setTitle(R.string.find)
     }
 
     override fun navigateToSubscribedPodcasts() {
         SubscribedPodcastFragment.navigateTo(fragmentManager)
+        setTitle(R.string.app_name)
     }
 
     override fun navigateToSettings() {
@@ -88,10 +90,12 @@ class MainActivity : AbstractPlaybackControlsActivity(), MainView {
             frag = SettingsFragment()
         }
         fragmentManager.beginTransaction()?.replace(R.id.fragmentContainer, frag, SettingsFragment.TAG)?.commit()
+        setTitle(R.string.settings)
     }
 
     override fun navigateToDownloads() {
         DownloadFragment.navigateToDownloads(fragmentManager)
+        setTitle(R.string.downloads)
     }
 
     override fun startKillSwitchActivity(title: Int, messagge: Int) {

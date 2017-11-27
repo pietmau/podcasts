@@ -4,6 +4,7 @@ import android.content.Context
 import com.pietrantuono.podcasts.downloader.service.CompletedDownloadsManager
 import com.pietrantuono.podcasts.downloader.service.DownloaderService
 import com.tonyodev.fetch.Fetch
+import com.tonyodev.fetch.exception.NotUsableException
 import com.tonyodev.fetch.listener.FetchListener
 import com.tonyodev.fetch.request.RequestInfo
 
@@ -57,7 +58,10 @@ class FetcherImpl(
 
     override fun shutDown() {
         callback = null
-        fetch.shutDown()
+        try {
+            fetch.shutDown()
+        } catch (exception: NotUsableException) {
+        }
     }
 
     override fun onDownloadCompleted(id: Long, downloadedBytes: Long) {

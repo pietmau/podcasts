@@ -11,7 +11,7 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.format.DateUtils
 import android.widget.SeekBar
-import com.example.android.uamp.MusicService
+import player.MusicService
 
 import com.pietrantuono.podcasts.application.DebugLogger
 import models.pojos.Episode
