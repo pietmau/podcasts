@@ -23,14 +23,12 @@ import android.support.v4.media.MediaBrowserCompat.MediaItem;
 import android.support.v4.media.MediaBrowserServiceCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 
-import com.example.android.uamp.DaggerMusicServiceComponent;
-
-import player.playback.PlaybackManager;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import player.playback.PlaybackManager;
 
 import static player.utils.MediaIDHelper.MEDIA_ID_EMPTY_ROOT;
 
