@@ -10,7 +10,7 @@ class EpisodesRepositoryRealm(private val cache: EpisodeCache) : EpisodesReposit
 
 
     val DOWNLOAD_REQUEST_ID = "downloadRequestId"
-    private val LINK = "link"
+    private val URI = "uri"
     private val ENCLOSURE_URL = "syndEnclosures.url"
 
     override fun setEpisodeNotDownloadedSync(id: Long) {
@@ -46,17 +46,6 @@ class EpisodesRepositoryRealm(private val cache: EpisodeCache) : EpisodesReposit
                         .findFirst()
             }
 
-    override fun getEpisodeByUrlAsync(url: String): Observable<out Episode> =
-            Realm.getDefaultInstance().use { realm ->
-                realm.where(RealmEpisode::class.java)
-                        .equalTo(LINK, url)
-                        .findFirstAsync()//TODO dio can
-                        .asObservable<RealmEpisode>()
-                        .filter { it.isLoaded && it.isValid }
-                        .filter { it != null }
-                        .map { realm.copyFromRealm(it) }
-            }
-
     /** To be used from another Thread or from a service in another process . */
     override fun saveEpisodeSync(episode: RealmEpisode) {
         Realm.getDefaultInstance().use { realm ->
@@ -67,23 +56,23 @@ class EpisodesRepositoryRealm(private val cache: EpisodeCache) : EpisodesReposit
     }
 
     /** To be used from another Thread or from a service in another process . */
-    override fun getEpisodeByUrlSync(url: String?): Episode? = url?.let { url ->
-        cache.getEpisodeByUrls(url) ?: Realm.getDefaultInstance().use { realm ->
+    override fun getEpisodeByUriSync(uri: String?): Episode? = uri?.let { uri ->
+        cache.getEpisodeByUrls(uri) ?: Realm.getDefaultInstance().use { realm ->
             realm.where(RealmEpisode::class.java)
-                    .equalTo(LINK, url)
+                    .equalTo(URI, uri)
                     .findFirst()
                     ?.also { reamlEpisode ->
                         val episode = realm.copyFromRealm(reamlEpisode)
-                        cache.cacheEpisodeByUrls(url, episode)
+                        cache.cacheEpisodeByUrls(uri, episode)
                     }
         }
     }
 
 
-    override fun getEpisodeByUrlAsObservable(url: String): Observable<out Episode> =
+    override fun getEpisodeByUriAsObservable(uri: String): Observable<out Episode> =
             Realm.getDefaultInstance().use { realm ->
                 realm.where(RealmEpisode::class.java)
-                        .equalTo(LINK, url)
+                        .equalTo(URI, uri)
                         .findFirst()
                         .asObservable<RealmEpisode>()
                         .filter { it != null }

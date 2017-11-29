@@ -9,7 +9,7 @@ import com.tonyodev.fetch.request.RequestInfo
 import models.pojos.Episode
 import javax.inject.Inject
 
-class DownloadNotificationCreator
+class DownloadNotificationCreator//TODO Delete
 @Inject constructor(private val context: Context) {
 
     companion object {

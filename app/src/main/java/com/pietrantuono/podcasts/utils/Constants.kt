@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 const val STARTED_WITH_TRANSITION = "with_transition"
 const val SINGLE_PODCAST_TRACK_ID: String = "track_id"
 const val EPISODE_LINK: String = "episode_link"
+const val EPISODE_URI: String = "episode_uri"
 const val ARTWORK: String = "artwork"
 const val BACKGROUND_COLOR: String = "background_color"
 const val STARTED_FROM_NOTIFCATION: String = "from_notification"

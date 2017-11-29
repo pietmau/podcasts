@@ -2,13 +2,12 @@ package com.pietrantuono.podcasts.fullscreenplay.model
 
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
 import models.pojos.Episode
-
+import repo.repository.EpisodesRepository
 import rx.Observable
 import rx.Observer
 import rx.Scheduler
 import rx.Subscription
 import java.util.concurrent.TimeUnit
-import repo.repository.EpisodesRepository
 
 
 class FullscreenModelImpl(private val repo: EpisodesRepository, private val manithreadScheduler: Scheduler)
@@ -17,10 +16,10 @@ class FullscreenModelImpl(private val repo: EpisodesRepository, private val mani
     private var subscription: Subscription? = null
     override var episode: Episode? = null
 
-    override fun getEpisodeByUrlAsync(url: String?) {
-        url ?: return
+    override fun getEpisodeByUriAsync(uri: String?) {
+        uri ?: return
         cached = repo
-                .getEpisodeByUrlAsObservable(url)
+                .getEpisodeByUriAsObservable(uri)
                 .cache()
         subscribe(object : SimpleObserver<Episode>() {
             override fun onNext(feed: Episode?) {

@@ -58,15 +58,6 @@ class DownloadFragmentModelImpl(
 
     fun toDownloadedEpisode(episode: Episode): DownloadedEpisode = DownloadedEpisode(episode, resources)
 
-    override fun getEpisodeTitleAsync(observer: Observer<String?>, link: String?) {
-        link?.let {
-            episodesRepository.getEpisodeByUrlAsync(it)
-                    .map { episode -> episode?.title }
-                    .filter { it != null }
-                    .observeOn(mainThreadScheduler)
-                    .subscribe(observer)
-        }
-    }
 
     override fun getPodcastTitleAsync(observer: Observer<String?>, trackId: Int?) {
         trackId?.let {

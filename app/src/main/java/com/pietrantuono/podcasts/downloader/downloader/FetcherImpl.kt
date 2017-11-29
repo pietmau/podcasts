@@ -10,7 +10,7 @@ import com.tonyodev.fetch.request.RequestInfo
 
 class FetcherImpl(
         context: Context,
-        private val fetcherModel: FetcherModel,
+        private val fetcherModel: FetcherModelImpl,
         private val requestManager: RequestManager,
         private var completedDownloadsManager: CompletedDownloadsManager) : Fetcher, FetchListener {
 
@@ -39,9 +39,9 @@ class FetcherImpl(
 
     override fun getRequestById(id: Long) = requestManager.getRequestById(id) ?: fetch[id]
 
-    override fun download(url: String): Pair<Long, RequestInfo?>? {
-        if (!alreadyDowloanded(url)) {
-            requestManager.createRequestForDownload(url)?.let { request ->
+    override fun download(uri: String): Pair<Long, RequestInfo?>? {
+        if (!alreadyDowloanded(uri)) {
+            requestManager.createRequestForDownload(uri)?.let { request ->
                 val pair = fetch.enqueueRequest(request)
                 requestManager.cacheRequest(pair)
                 return pair
@@ -50,7 +50,13 @@ class FetcherImpl(
         return null
     }
 
-    private fun alreadyDowloanded(url: String) = fetch.alreadyDownloaded(url) || fetcherModel.episodeIsDownloadedSync(url)
+    private fun alreadyDowloanded(uri: String): Boolean {
+        val link = fetcherModel.getEpisodeSync(uri)?.link
+        if (link == null) {
+            return false
+        }
+        return fetch.alreadyDownloaded(link) || fetcherModel.episodeIsDownloadedSync(uri)
+    }
 
     override fun stopDownload(requestInfo: RequestInfo) {
         fetch.removeRequest(requestInfo.id)
