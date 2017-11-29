@@ -18,9 +18,9 @@ class DownloadedPodcast(
     val trackId = podcast.trackId
 
     val downloadedCountText: String
-        get() = " " + downloadedCount.toString() + " " + resources.getString(R.string.downloadedLowercase) + " "
+        get() = " " + downloadedCount.toString() + "/" + total + " " + resources.getString(R.string.downloadedLowercase) + " "
     val notDownloadedCountText: String
-        get() = " " + notDownloadedCount.toString() + " " + resources.getString(R.string.not_downlaoded) + " "
+        get() = " " + notDownloadedCount.toString() + "/" + total + " " + resources.getString(R.string.not_downlaoded) + " "
 
     val totalNumberofEpisodes: String
         get() = (podcast.episodes?.count() ?: 0).toString() + " " + resources.getString(R.string.episodes) + ": "

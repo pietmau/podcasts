@@ -1,4 +1,4 @@
-package com.pietrantuono.podcasts.player.player
+package com.pietrantuono.podcasts.addpodcast.singlepodcast.view.custom
 
 import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.ExoPlayer

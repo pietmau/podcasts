@@ -6,7 +6,6 @@ import android.util.AttributeSet
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.ui.PlaybackControlView
 import com.pietrantuono.podcasts.application.App
-import com.pietrantuono.podcasts.player.player.SimpleEventListener
 
 
 class SimpleControlView(context: Context?, attrs: AttributeSet?) : PlaybackControlView(context, attrs) {
