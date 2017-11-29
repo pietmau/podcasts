@@ -68,7 +68,6 @@ class EpisodesRepositoryRealm(private val cache: EpisodeCache) : EpisodesReposit
         }
     }
 
-
     override fun getEpisodeByUriAsObservable(uri: String): Observable<out Episode> =
             Realm.getDefaultInstance().use { realm ->
                 realm.where(RealmEpisode::class.java)

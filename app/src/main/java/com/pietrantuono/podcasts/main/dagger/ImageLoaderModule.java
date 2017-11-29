@@ -39,7 +39,7 @@ public class ImageLoaderModule {
     }
 
     @Provides
-    EpisodesAdapter provideEpisodesAdapter(SimpleImageLoader imageLoader, ResourcesProvider resourcesProvider) {
+    EpisodesAdapter provideEpisodesAdapter(ResourcesProvider resourcesProvider) {
         return new EpisodesAdapter(resourcesProvider);
     }
 
