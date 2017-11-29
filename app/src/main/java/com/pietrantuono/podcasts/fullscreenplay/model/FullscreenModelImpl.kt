@@ -16,10 +16,10 @@ class FullscreenModelImpl(private val repo: EpisodesRepository, private val mani
     private var subscription: Subscription? = null
     override var episode: Episode? = null
 
-    override fun getEpisodeByUriAsync(uri: String?) {
-        uri ?: return
+    override fun getEpisodeByTitleAsync(title: String?) {
+        title ?: return
         cached = repo
-                .getEpisodeByUriAsObservable(uri)
+                .getEpisodeByTitleAsObservable(title)
                 .cache()
         subscribe(object : SimpleObserver<Episode>() {
             override fun onNext(feed: Episode?) {

@@ -7,10 +7,8 @@ import models.pojos.RealmEpisode
 import rx.Observable
 
 class EpisodesRepositoryRealm(private val cache: EpisodeCache) : EpisodesRepository {
-
-
     val DOWNLOAD_REQUEST_ID = "downloadRequestId"
-    private val URI = "uri"
+    private val TITLE = "title"
     private val ENCLOSURE_URL = "syndEnclosures.url"
 
     override fun setEpisodeNotDownloadedSync(id: Long) {
@@ -56,22 +54,22 @@ class EpisodesRepositoryRealm(private val cache: EpisodeCache) : EpisodesReposit
     }
 
     /** To be used from another Thread or from a service in another process . */
-    override fun getEpisodeByUriSync(uri: String?): Episode? = uri?.let { uri ->
-        cache.getEpisodeByUrls(uri) ?: Realm.getDefaultInstance().use { realm ->
+    override fun getEpisodeByTitleSync(title: String?): Episode? = title?.let { title ->
+        cache.getEpisodeByUrls(title) ?: Realm.getDefaultInstance().use { realm ->
             realm.where(RealmEpisode::class.java)
-                    .equalTo(URI, uri)
+                    .equalTo(TITLE, title)
                     .findFirst()
                     ?.also { reamlEpisode ->
                         val episode = realm.copyFromRealm(reamlEpisode)
-                        cache.cacheEpisodeByUrls(uri, episode)
+                        cache.cacheEpisodeByUrls(title, episode)
                     }
         }
     }
 
-    override fun getEpisodeByUriAsObservable(uri: String): Observable<out Episode> =
+    override fun getEpisodeByTitleAsObservable(title: String): Observable<out Episode> =
             Realm.getDefaultInstance().use { realm ->
                 realm.where(RealmEpisode::class.java)
-                        .equalTo(URI, uri)
+                        .equalTo(TITLE, title)
                         .findFirst()
                         .asObservable<RealmEpisode>()
                         .filter { it != null }

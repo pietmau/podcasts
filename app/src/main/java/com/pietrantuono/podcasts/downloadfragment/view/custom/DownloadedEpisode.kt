@@ -16,7 +16,6 @@ class DownloadedEpisode(
     val link = episode.link
     val downloaded = episode.downloaded
     val fileSizeInKb = episode.fileSizeInBytes /(1024)
-    val uri = episode.uri
 
     val downloadedAsText: String?
         get() = if (downloaded) {

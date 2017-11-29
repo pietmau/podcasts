@@ -4,7 +4,7 @@ import com.tonyodev.fetch.request.RequestInfo
 
 interface Fetcher {
     fun getRequestById(id: Long): RequestInfo?
-    fun download(uri: String): Pair<Long, RequestInfo?>?
+    fun download(title: String): Pair<Long, RequestInfo?>?
     fun stopDownload(requestInfo: RequestInfo)
     fun shutDown()
     fun onDownloadCompleted(requestInfo: Long, downloadedBytes: Long)

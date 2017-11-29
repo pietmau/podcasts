@@ -17,7 +17,6 @@ class ROMEPodcastEpisodeBuilder {
     private var description: String? = null
     private var syndEnclosures: List<SyndEnclosure>? = null
     private var link: String? = null
-    private var uri: String? = null
 
     fun setDuration(duration: String?): ROMEPodcastEpisodeBuilder {
         this.duration = duration
@@ -79,13 +78,8 @@ class ROMEPodcastEpisodeBuilder {
         return this
     }
 
-    fun setUri(uri: String?): ROMEPodcastEpisodeBuilder {
-        this.uri = uri
-        return this
-    }
-
     fun createROMEPodcastEpisode(): RealmEpisode {
-        return RealmEpisode(duration, author, isExplicit, imageUrl, keywords, subtitle, summary, pubDate, title, description, syndEnclosures, link, uri)
+        return RealmEpisode(duration, author, isExplicit, imageUrl, keywords, subtitle, summary, pubDate, title, description, syndEnclosures, link)
     }
 
 }

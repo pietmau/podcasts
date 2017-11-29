@@ -39,9 +39,9 @@ class FetcherImpl(
 
     override fun getRequestById(id: Long) = requestManager.getRequestById(id) ?: fetch[id]
 
-    override fun download(uri: String): Pair<Long, RequestInfo?>? {
-        if (!alreadyDowloanded(uri)) {
-            requestManager.createRequestForDownload(uri)?.let { request ->
+    override fun download(title: String): Pair<Long, RequestInfo?>? {
+        if (!alreadyDowloanded(title)) {
+            requestManager.createRequestForDownload(title)?.let { request ->
                 val pair = fetch.enqueueRequest(request)
                 requestManager.cacheRequest(pair)
                 return pair
@@ -50,12 +50,12 @@ class FetcherImpl(
         return null
     }
 
-    private fun alreadyDowloanded(uri: String): Boolean {
-        val link = fetcherModel.getEpisodeSync(uri)?.link
+    private fun alreadyDowloanded(title: String): Boolean {
+        val link = fetcherModel.getEpisodeSync(title)?.link
         if (link == null) {
             return false
         }
-        return fetch.alreadyDownloaded(link) || fetcherModel.episodeIsDownloadedSync(uri)
+        return fetch.alreadyDownloaded(link) || fetcherModel.episodeIsDownloadedSync(title)
     }
 
     override fun stopDownload(requestInfo: RequestInfo) {

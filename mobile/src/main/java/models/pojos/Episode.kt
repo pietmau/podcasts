@@ -41,6 +41,4 @@ interface Episode : Parcelable {
     var fileSizeInBytes: Long
 
     var downloadRequestId: Long
-
-    var uri: String?
 }

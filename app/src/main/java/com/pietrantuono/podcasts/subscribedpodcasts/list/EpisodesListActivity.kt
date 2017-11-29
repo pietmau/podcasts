@@ -80,7 +80,7 @@ class EpisodesListActivity : AbstractBaseDetailActivty(), EpisodesListView {
 
     private fun getIntent(episode: Episode): Intent {
         val intent = Intent(this@EpisodesListActivity, FullscreenPlayActivity::class.java)
-        intent.putExtra(EPISODE_URI, episode.uri)
+        intent.putExtra(EPISODE_TITLE, episode.title)
         intent.putExtra(ARTWORK, episode.imageUrl)
         colorExtractor.backgroundColor?.let { intent.putExtra(BACKGROUND_COLOR, it) }
         return intent

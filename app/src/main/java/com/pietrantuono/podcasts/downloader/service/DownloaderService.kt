@@ -76,17 +76,17 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
     }
 
     private fun enqueueEpisodes(list: List<String>) {
-        for (uri in list) {
+        for (title in list) {
             if (!thereIsEnoughSpace(0)) {
-                notifySpaceUnavailable(uri)
+                notifySpaceUnavailable(title)
                 break
             }
-            getAndEnqueueSingleEpisode(uri)
+            getAndEnqueueSingleEpisode(title)
         }
     }
 
-    private fun getAndEnqueueSingleEpisode(uri: String) {
-        internalDownloader.download(uri)
+    private fun getAndEnqueueSingleEpisode(title: String) {
+        internalDownloader.download(title)
     }
 
     override fun onUpdate(info: RequestInfo, progress: Int, fileSize: Long) {
@@ -113,8 +113,8 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
 
     internal fun shouldDownload() = networkDiskAndPreferenceManager.shouldDownload
 
-    private fun notifySpaceUnavailable(uri: String) {
-        notificator.notifySpaceUnavailable(uri)
+    private fun notifySpaceUnavailable(title: String) {
+        notificator.notifySpaceUnavailable(title)
     }
 
     override fun onDestroy() {

@@ -32,8 +32,8 @@ class TransportControlsWrapper(context: Context) {
     }
 
     fun playFromMediaId(episode: Episode?) {
-        if (episode != null && !episode.uri.isNullOrBlank()) {
-            transportControls?.playFromMediaId(episode.uri, null)
+        if (episode != null && !episode.title.isNullOrBlank()) {
+            transportControls?.playFromMediaId(episode.title, null)
         }
     }
 }
