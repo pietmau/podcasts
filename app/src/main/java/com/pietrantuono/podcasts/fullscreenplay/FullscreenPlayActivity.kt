@@ -7,14 +7,13 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.AbstractBaseDetailActivty
-
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.fullscreenplay.customcontrols.CustomControlsImpl
 import com.pietrantuono.podcasts.fullscreenplay.di.FullscreenModule
 import com.pietrantuono.podcasts.fullscreenplay.presenter.FullscreenPresenter
 import com.pietrantuono.podcasts.fullscreenplay.view.custom.EpisodeView
 import com.pietrantuono.podcasts.utils.ARTWORK
-import com.pietrantuono.podcasts.utils.EPISODE_LINK
+import com.pietrantuono.podcasts.utils.EPISODE_TITLE
 import models.pojos.Episode
 import javax.inject.Inject
 
@@ -37,7 +36,7 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
         initViews()
         loadImage(intent?.getStringExtra(ARTWORK))
         presenter.bindView(this)
-        presenter.onCreate(this, this, intent?.getStringExtra(EPISODE_LINK), savedInstanceState != null)
+        presenter.onCreate(this, this, intent?.getStringExtra(EPISODE_TITLE), savedInstanceState != null)
         overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_top)
     }
 

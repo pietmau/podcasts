@@ -23,7 +23,6 @@ open class RealmEpisode : RealmObject, Episode {
             }
         }
     override var played: Boolean = false
-    @PrimaryKey
     override var link: String? = null
     override var downloaded: Boolean = false
     @Ignore
@@ -37,6 +36,7 @@ open class RealmEpisode : RealmObject, Episode {
     override var subtitle: String? = null
     override var summary: String? = null
     override var pubDate: Date? = null
+    @PrimaryKey
     override var title: String? = null
     override var description: String? = null
     private var syndEnclosures: RealmList<SimpleEnclosure>? = null
@@ -134,12 +134,12 @@ open class RealmEpisode : RealmObject, Episode {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is RealmEpisode) return false
-        if (link != other.link) return false
+        if (title != other.title) return false
         return true
     }
 
     override fun hashCode(): Int {
-        return link?.hashCode() ?: 0
+        return title?.hashCode() ?: 0
     }
 
     companion object CREATOR : Parcelable.Creator<RealmEpisode> {

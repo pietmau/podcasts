@@ -9,18 +9,17 @@ import android.view.ViewGroup
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
-
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.downloadfragment.di.DownloadFragmentModule
 import com.pietrantuono.podcasts.downloadfragment.presenter.DownloadFragmentPresenter
 import com.pietrantuono.podcasts.downloadfragment.presenter.MessageCreator
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadRecycler
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
+import models.pojos.Episode
+import models.pojos.Podcast
 import org.jetbrains.anko.noButton
 import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.yesButton
-import models.pojos.Episode
-import models.pojos.Podcast
 import javax.inject.Inject
 
 
@@ -63,9 +62,9 @@ class DownloadFragment : Fragment(), DownloadView {
         recycler.setData(list.toMutableList())
     }
 
-    override fun confirmDownloadEpisode(message: MessageCreator.AlertMessage, link: String) {
+    override fun confirmDownloadEpisode(message: MessageCreator.AlertMessage, title: String) {
         alert(message.message, message.title) {
-            yesButton { presenter.onConfirmDownloadEpisode(link) }
+            yesButton { presenter.onConfirmDownloadEpisode(title) }
             noButton { }
         }.show()
     }

@@ -15,15 +15,15 @@ import models.pojos.Podcast
 
 class DownloaderImpl(context: Context) : SimpleDownloader(context) {
 
-    override fun downloadEpisodeFromLink(link: String) {
+    override fun downloadEpisodeFromLink(title: String) {
         val intent = getIntent(COMMAND_DOWNLOAD_EPISODE)
-        intent.putExtra(EXTRA_TRACK, link)
+        intent.putExtra(EXTRA_TRACK, title)
         startService(intent)
     }
 
     override fun downloadIfAppropriate(podcast: Podcast?) {
         podcast?.episodes?.
-                map { it.link }?.
+                map { it.title }?.
                 filterNotNull()?.
                 toList()?.let {
             downloadAllInternal(ArrayList(it))

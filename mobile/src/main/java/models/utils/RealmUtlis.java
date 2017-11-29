@@ -1,16 +1,12 @@
 package models.utils;
 
-import com.rometools.rome.feed.synd.SyndEnclosure;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.RealmList;
-import models.pojos.Episode;
 import models.pojos.Podcast;
 import models.pojos.PodcastRealm;
 import models.pojos.RealmString;
-import models.pojos.SimpleEnclosure;
 
 public class RealmUtlis {
 
@@ -69,11 +65,4 @@ public class RealmUtlis {
         return singlePodcastRealm;
     }
 
-    private static RealmList<SimpleEnclosure> getEnclosures(Episode episode) {
-        RealmList<SimpleEnclosure> simpleEnclosures = new RealmList<>();
-        for (SyndEnclosure syndEnclosure : episode.getEnclosures()) {
-            ((RealmList) simpleEnclosures).add(new SimpleEnclosure(syndEnclosure));
-        }
-        return simpleEnclosures;
-    }
 }

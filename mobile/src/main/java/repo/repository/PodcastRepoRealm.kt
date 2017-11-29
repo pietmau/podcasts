@@ -6,9 +6,9 @@ import models.pojos.DataRealmLibraryModule
 import models.pojos.Episode
 import models.pojos.Podcast
 import models.pojos.PodcastRealm
+import models.utils.RealmUtlis
 import rx.Observable
 import rx.subjects.BehaviorSubject
-import models.utils.RealmUtlis
 
 class PodcastRepoRealm(
         private val reposServices: RepoServices
@@ -33,7 +33,7 @@ class PodcastRepoRealm(
     override fun getPodcastByEpisodeSync(episode: Episode): Podcast? {
         return Realm.getDefaultInstance().use {
             var result = it?.where(PodcastRealm::class.java)?.
-                    equalTo("episodes.link", episode.link)?.
+                    equalTo("episodes.link", episode.title)?.
                     findFirst()
             result = it.copyFromRealm(result)
             result

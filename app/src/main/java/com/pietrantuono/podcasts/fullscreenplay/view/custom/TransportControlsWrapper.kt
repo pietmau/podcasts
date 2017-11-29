@@ -4,8 +4,8 @@ import android.content.ComponentName
 import android.content.Context
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.session.MediaControllerCompat
-import player.MusicService
 import models.pojos.Episode
+import player.MusicService
 
 
 class TransportControlsWrapper(context: Context) {
@@ -32,8 +32,8 @@ class TransportControlsWrapper(context: Context) {
     }
 
     fun playFromMediaId(episode: Episode?) {
-        if (episode != null && !episode.link.isNullOrBlank()) {
-            transportControls?.playFromMediaId(episode.link, null)
+        if (episode != null && !episode.title.isNullOrBlank()) {
+            transportControls?.playFromMediaId(episode.title, null)
         }
     }
 }

@@ -7,9 +7,8 @@ import rx.Observable
 
 
 interface EpisodesRepository {
-    fun getEpisodeByUrlSync(url: String?): Episode?
-    fun getEpisodeByUrlAsync(url: String): Observable<out Episode>
-    fun getEpisodeByUrlAsObservable(url: String): Observable<out Episode?>
+    fun getEpisodeByTitleSync(url: String?): Episode?
+    fun getEpisodeByTitleAsObservable(url: String): Observable<out Episode?>
     fun getEpisodeByEnclosureUrlSync(url: String?): Episode?
     fun saveEpisodeSync(episode: RealmEpisode)
     fun setEpisodeNotDownloadedSync(id: Long)

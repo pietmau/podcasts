@@ -23,8 +23,8 @@ class RequestManagerImpl
     override fun getRequestById(id: Long): RequestInfo? = requests[id]
 
     /**  Called by the downloader service, in its own process  */
-    override fun createRequestForDownload(url: String): Request? {
-        val episode = repository.getEpisodeByUrlSync(url)
+    override fun createRequestForDownload(title: String): Request? {
+        val episode = repository.getEpisodeByTitleSync(title)
         return getRequest(episode)
     }
 
@@ -46,14 +46,14 @@ class RequestManagerImpl
         return Request(url, dir, filname)
     }
 
-    override fun createRequestForDeletion(episode: Episode): Request? {
-        val link = episode.link
-        val path = episode.filePathIncludingFileName
-        if (link == null || path == null) {
-            return null
-        }
-        return Request(link, path)
-    }
+//    override fun createRequestForDeletion(episode: Episode): Request? {
+//        val link = episode.link
+//        val path = episode.filePathIncludingFileName
+//        if (link == null || path == null) {
+//            return null
+//        }
+//        return Request(link, path)
+//    }
 
 }
 

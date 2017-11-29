@@ -2,7 +2,6 @@ package com.pietrantuono.podcasts.downloader.service
 
 import android.content.Intent
 import com.pietrantuono.podcasts.application.App
-import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.downloader.downloader.Fetcher
 import com.tonyodev.fetch.request.RequestInfo
 import javax.inject.Inject
@@ -27,7 +26,6 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
 
     @Inject lateinit var internalDownloader: Fetcher
     @Inject lateinit var notificator: DownloadNotificator
-    @Inject lateinit var debugLogger: DebugLogger
     @Inject lateinit var networkDiskAndPreferenceManager: NetworkDiskAndPreferenceManager
 
     override fun onCreate() {
@@ -78,17 +76,17 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
     }
 
     private fun enqueueEpisodes(list: List<String>) {
-        for (url in list) {
+        for (title in list) {
             if (!thereIsEnoughSpace(0)) {
-                notifySpaceUnavailable(url)
+                notifySpaceUnavailable(title)
                 break
             }
-            getAndEnqueueSingleEpisode(url)
+            getAndEnqueueSingleEpisode(title)
         }
     }
 
-    private fun getAndEnqueueSingleEpisode(url: String) {
-        internalDownloader.download(url)
+    private fun getAndEnqueueSingleEpisode(title: String) {
+        internalDownloader.download(title)
     }
 
     override fun onUpdate(info: RequestInfo, progress: Int, fileSize: Long) {
@@ -115,8 +113,8 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
 
     internal fun shouldDownload() = networkDiskAndPreferenceManager.shouldDownload
 
-    private fun notifySpaceUnavailable(url: String) {
-        notificator.notifySpaceUnavailable(url)
+    private fun notifySpaceUnavailable(title: String) {
+        notificator.notifySpaceUnavailable(title)
     }
 
     override fun onDestroy() {
