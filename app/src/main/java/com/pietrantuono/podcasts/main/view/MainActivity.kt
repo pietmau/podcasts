@@ -81,7 +81,7 @@ class MainActivity : AbstractPlaybackControlsActivity(), MainView {
 
     override fun navigateToSubscribedPodcasts() {
         SubscribedPodcastFragment.navigateTo(fragmentManager)
-        setTitle(R.string.app_name)
+        setTitle(R.string.subscribed_podcasts)
     }
 
     override fun navigateToSettings() {

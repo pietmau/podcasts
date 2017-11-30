@@ -6,6 +6,7 @@ import android.os.Parcelable
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
 import models.pojos.Episode
+import java.text.NumberFormat
 
 
 class DownloadedEpisode(
@@ -15,7 +16,7 @@ class DownloadedEpisode(
     val title = episode.title
     val link = episode.link
     val downloaded = episode.downloaded
-    val fileSizeInKb = episode.fileSizeInBytes /(1024)
+    val fileSizeInKb = NumberFormat.getInstance().format(episode.fileSizeInBytes /(1024));
 
     val downloadedAsText: String?
         get() = if (downloaded) {

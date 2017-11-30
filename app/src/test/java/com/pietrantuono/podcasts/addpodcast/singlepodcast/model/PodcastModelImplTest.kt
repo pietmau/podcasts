@@ -1,8 +1,8 @@
 package com.pietrantuono.podcasts.addpodcast.singlepodcast.model
 
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.apis.PodcastFeed
 import com.pietrantuono.podcasts.apis.SinglePodcastApi
+import models.pojos.Podcast
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -11,6 +11,7 @@ import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnitRunner
+import repo.repository.PodcastRepo
 import rx.Observable
 import rx.observers.TestObserver
 import rx.schedulers.Schedulers

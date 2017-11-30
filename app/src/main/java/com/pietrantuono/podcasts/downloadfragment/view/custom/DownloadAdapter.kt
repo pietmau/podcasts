@@ -4,14 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.pietrantuono.podcasts.databinding.DownloadEpisodeItemBinding
 import com.pietrantuono.podcasts.databinding.DownloadGroupItemBinding
-import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
 import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
 
 class DownloadAdapter(
         data: MutableList<DownloadedPodcast>,
-        var callback: Callback?,
-        val imageLoader: SimpleImageLoader) : ExpandableRecyclerViewAdapter<PodcastDowloadHolder, EpisodeDownloadHolder>(data) {
+        var callback: Callback?) : ExpandableRecyclerViewAdapter<PodcastDowloadHolder, EpisodeDownloadHolder>(data) {
 
     override fun onCreateChildViewHolder(parent: ViewGroup?, viewType: Int): EpisodeDownloadHolder {
         val inflater = LayoutInflater.from(parent?.context)
@@ -30,7 +28,7 @@ class DownloadAdapter(
     override fun onCreateGroupViewHolder(parent: ViewGroup?, viewType: Int): PodcastDowloadHolder {
         val inflater = LayoutInflater.from(parent?.context)
         val binding = DownloadGroupItemBinding.inflate(inflater, parent, false);
-        return PodcastDowloadHolder(binding, imageLoader)
+        return PodcastDowloadHolder(binding)
     }
 
     interface Callback {

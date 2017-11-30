@@ -16,6 +16,7 @@ class DownloadedPodcast(
     val notDownloadedCount: Int
     val total = podcast.episodes?.count()
     val trackId = podcast.trackId
+    val image = podcast.artworkUrl30
 
     val downloadedCountText: String
         get() = " " + downloadedCount.toString() + "/" + total + " " + resources.getString(R.string.downloadedLowercase) + " "
