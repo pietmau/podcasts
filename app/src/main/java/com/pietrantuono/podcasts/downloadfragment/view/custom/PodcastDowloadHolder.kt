@@ -6,11 +6,14 @@ import android.view.MenuItem
 import android.view.View
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.databinding.DownloadGroupItemBinding
+import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
 import com.thoughtbot.expandablerecyclerview.viewholders.GroupViewHolder
 
 
-class PodcastDowloadHolder(private val binding: DownloadGroupItemBinding) : GroupViewHolder(binding.root) {
+class PodcastDowloadHolder(
+        private val binding: DownloadGroupItemBinding,
+        private val loader: SimpleImageLoader) : GroupViewHolder(binding.root) {
     private var callback: DownloadAdapter.Callback? = null
 
     fun bind(group: ExpandableGroup<*>?, callback: DownloadAdapter.Callback?) {
@@ -23,6 +26,7 @@ class PodcastDowloadHolder(private val binding: DownloadGroupItemBinding) : Grou
             downloadEpisodes()
         }
         binding.overflow.setOnClickListener { view -> showPopup(view) }
+
     }
 
     private fun downloadEpisodes() {
