@@ -18,7 +18,7 @@ class EpisodesRepositoryRealm(private val cache: EpisodeCache) : EpisodesReposit
                 val episode = it.where(RealmEpisode::class.java)
                         .equalTo(DOWNLOAD_REQUEST_ID, id)
                         .findFirst()
-                episode.downloaded = false
+                episode?.downloaded = false
             }
         }
     }

@@ -15,9 +15,9 @@ import models.pojos.Episode
 import player.MusicService
 
 
-class CustomControlsPresenter(
+class CustomControlsPresenter( // TODO refactor this!!!
         private val context: Context,
-        private val stateResolver: StateResolver,
+        private val stateResolver: StateResolver,//TODO I dont like this one!!!!!!!!!!
         private val executorService: SimpleExecutor,
         private val downloadOrStreamManager: DownloadOrStreamManager
 ) : SeekBar.OnSeekBarChangeListener, MediaControllerCompat.Callback() {

@@ -19,6 +19,7 @@ import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule
 import com.pietrantuono.podcasts.main.dagger.MainModule
 import com.pietrantuono.podcasts.main.dagger.TransitionsModule
 import com.pietrantuono.podcasts.media.MediaModule
+import com.pietrantuono.podcasts.player.PlayerModule
 
 import com.pietrantuono.podcasts.repository.RepositoryModule
 import com.pietrantuono.podcasts.repository.SaveAndDowloandEpisodeIntentService
@@ -34,7 +35,7 @@ import javax.inject.Singleton
 @Component(modules = arrayOf(AppModule::class, ApiLevelCheckerlModule::class,
         SearchModelsModule::class, ImageLoaderModule::class, TransitionsModule::class,
         MediaModule::class, RepositoryModule::class, ApiModule::class, SettingsModule::class,
-        PlayerModule::class, DownloadModule::class))
+        PlayerModule::class, DownloadModule::class, PlayerModule::class))
 interface ApplicationComponent {
 
     fun inject(app: App)
