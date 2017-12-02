@@ -27,9 +27,9 @@ class DownloadedEpisode(
 
     val icon: Drawable?
         get() = if (downloaded) {
-            resources?.getDrawable(R.drawable.ic_cloud_done_white_24dp)
+            resources?.getDrawable(R.drawable.ic_check_white_24dp)
         } else {
-            resources?.getDrawable(R.drawable.ic_cloud_download_white_24dp)
+            resources?.getDrawable(R.drawable.ic_file_download_white_24dp)
         }
 
     constructor(parcel: Parcel) : this(parcel.readParcelable<Episode>(Episode::class.java.classLoader) as Episode, null) {
