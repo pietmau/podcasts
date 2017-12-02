@@ -11,6 +11,7 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.format.DateUtils
 import android.widget.SeekBar
+import com.pietrantuono.podcasts.downloader.downloader.Downloader
 import models.pojos.Episode
 import player.MusicService
 
@@ -19,7 +20,7 @@ class CustomControlsPresenter( // TODO refactor this!!!
         private val context: Context,
         private val stateResolver: StateResolver,//TODO I dont like this one!!!!!!!!!!
         private val executorService: SimpleExecutor,
-        private val downloadOrStreamManager: DownloadOrStreamManager
+        private val downloader: Downloader
 ) : SeekBar.OnSeekBarChangeListener, MediaControllerCompat.Callback() {
 
     private var episode: Episode? = null
@@ -119,7 +120,10 @@ class CustomControlsPresenter( // TODO refactor this!!!
             stateResolver.onPausePlayClicked(this)
             return
         }
-        downloadOrStreamManager.onPlayClicked(episode, view)
+        episode?.uri?.let {
+            downloader.downloadAndPlayFromUri(it)
+            view?.snack(episode?.title + " will be downloaded and added to the playlist")
+        }
     }
 
     fun play() {

@@ -9,8 +9,8 @@ import android.support.v4.app.FragmentActivity
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.BitmapColorExtractor
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
 import com.pietrantuono.podcasts.application.DebugLogger
+import com.pietrantuono.podcasts.downloader.downloader.Downloader
 import com.pietrantuono.podcasts.fullscreenplay.customcontrols.CustomControlsPresenter
-import com.pietrantuono.podcasts.fullscreenplay.customcontrols.DownloadOrStreamManager
 import com.pietrantuono.podcasts.fullscreenplay.customcontrols.SimpleExecutor
 import com.pietrantuono.podcasts.fullscreenplay.customcontrols.StateResolver
 import com.pietrantuono.podcasts.fullscreenplay.model.FullscreenModel
@@ -47,8 +47,8 @@ class FullscreenModule(private val activity: FragmentActivity) {
     }
 
     @Provides
-    fun provideCustomControlsPresenter(context: Context, resolver: StateResolver, logger: DebugLogger, executor: SimpleExecutor, downloadOrStreamManager: DownloadOrStreamManager) =
-            CustomControlsPresenter(context, resolver, executor, downloadOrStreamManager)
+    fun provideCustomControlsPresenter(context: Context, resolver: StateResolver, logger: DebugLogger, executor: SimpleExecutor, downloader: Downloader) =
+            CustomControlsPresenter(context, resolver, executor, downloader)
 
     @Provides
     fun provideExecutor() = SimpleExecutor(Executors.newSingleThreadScheduledExecutor(), Handler())

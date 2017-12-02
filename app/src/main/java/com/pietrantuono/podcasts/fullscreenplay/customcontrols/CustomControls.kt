@@ -13,4 +13,5 @@ interface CustomControls {
     fun updateMediaDescription(description: MediaDescriptionCompat)
     fun updateDuration(toInt: Int)
     fun setProgress(progress: Int)
+    fun snack(message: String)
 }
