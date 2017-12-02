@@ -3,12 +3,14 @@ package com.pietrantuono.podcasts.downloader.service
 import android.content.Intent
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.downloader.downloader.Fetcher
+import com.pietrantuono.podcasts.player.SimplePlayer
 import com.tonyodev.fetch.request.RequestInfo
 import javax.inject.Inject
 
 class DownloaderService() : SimpleService(), Fetcher.Callback {
     @Inject lateinit var dowloaderDelter: DowloaderDeleter
     @Inject lateinit var notificator: DownloadNotificator
+    @Inject lateinit var simplePlayer: SimplePlayer
 
     override fun onCreate() {
         super.onCreate()
@@ -55,7 +57,7 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
 
     override fun onDownloadCompleted(requestInfo: RequestInfo) {
         notificator.broadcastOnDownloadCompleted(requestInfo)
-        stopForeground(false)
+        stopForeground(false)//TODO fix this!
     }
 
     private fun stopDownloadAndNotifyUser(requestInfo: RequestInfo) {

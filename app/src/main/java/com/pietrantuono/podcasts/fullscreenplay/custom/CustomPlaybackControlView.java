@@ -152,7 +152,7 @@ public class CustomPlaybackControlView extends FrameLayout {
     }
 
     /**
-     * Dispatches operations to the player.
+     * Dispatches operations to the simplePlayer.
      * <p>
      * Implementations may choose to suppress (e.g. prevent playback from resuming if audio focus is
      * denied) or modify (e.g. change the seek position to prevent a user from seeking past a
@@ -163,7 +163,7 @@ public class CustomPlaybackControlView extends FrameLayout {
         /**
          * Dispatches a {@link ExoPlayer#setPlayWhenReady(boolean)} operation.
          *
-         * @param player        The player to which the operation should be dispatched.
+         * @param player        The simplePlayer to which the operation should be dispatched.
          * @param playWhenReady Whether playback should proceed when ready.
          * @return True if the operation was dispatched. False if suppressed.
          */
@@ -172,7 +172,7 @@ public class CustomPlaybackControlView extends FrameLayout {
         /**
          * Dispatches a {@link ExoPlayer#seekTo(int, long)} operation.
          *
-         * @param player      The player to which the operation should be dispatched.
+         * @param player      The simplePlayer to which the operation should be dispatched.
          * @param windowIndex The index of the window.
          * @param positionMs  The seek position in the specified window, or {@link C#TIME_UNSET} to seek
          *                    to the window's default position.
@@ -183,7 +183,7 @@ public class CustomPlaybackControlView extends FrameLayout {
     }
 
     /**
-     * Default {@link ControlDispatcher} that dispatches operations to the player without
+     * Default {@link ControlDispatcher} that dispatches operations to the simplePlayer without
      * modification.
      */
     public static final ControlDispatcher DEFAULT_CONTROL_DISPATCHER = new ControlDispatcher() {
@@ -332,7 +332,7 @@ public class CustomPlaybackControlView extends FrameLayout {
     }
 
     /**
-     * Returns the player currently being controlled by this view, or null if no player is set.
+     * Returns the simplePlayer currently being controlled by this view, or null if no simplePlayer is set.
      */
     public ExoPlayer getPlayer() {
         return player;
@@ -526,7 +526,7 @@ public class CustomPlaybackControlView extends FrameLayout {
             enablePrevious = windowIndex > 0 || isSeekable || !window.isDynamic;
             enableNext = (windowIndex < timeline.getWindowCount() - 1) || window.isDynamic;
             if (timeline.getPeriod(player.getCurrentPeriodIndex(), period).isAd) {
-                // Always hide player controls during ads.
+                // Always hide simplePlayer controls during ads.
                 hide();
             }
         }

@@ -91,7 +91,7 @@ class SinglePodcastPresenter(
     }
 
     fun onListenToAllPressed() {
-        //player?.playFeed(creator.createSourceFromFeed(podcastFeed))
+        //simplePlayer?.playFeed(creator.createSourceFromFeed(podcastFeed))
     }
 
     fun onOptionsItemSelected(itemId: Int): Boolean {

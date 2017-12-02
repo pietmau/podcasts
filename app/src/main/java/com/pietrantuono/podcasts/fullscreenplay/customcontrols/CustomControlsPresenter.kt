@@ -15,7 +15,7 @@ import models.pojos.Episode
 import player.MusicService
 
 
-class CustomControlsPresenter(
+class CustomControlsPresenter( // TODO refactor this!!!
         private val context: Context,
         private val stateResolver: StateResolver,
         private val executorService: SimpleExecutor,
