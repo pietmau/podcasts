@@ -36,7 +36,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/item_margin"
             android:visibility="@{viewModel.downloadIconShouldbeVisible}"
-            app:srcCompat="@drawable/ic_cloud_done_white_24dp"
+            app:srcCompat="@drawable/ic_check_white_24dp"
             />
 
         <TextView

@@ -26,9 +26,9 @@ class DrawableHelper(private val resources: Resources) {
             return null
         }
         if (episode?.downloaded == true) {
-            return R.drawable.ic_cloud_done_white_24dp
+            return R.drawable.ic_check_white_24dp
         } else {
-            return R.drawable.ic_cloud_download_white_24dp
+            return R.drawable.ic_file_download_white_24dp
         }
     }
 
