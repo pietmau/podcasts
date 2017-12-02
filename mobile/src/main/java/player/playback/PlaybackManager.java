@@ -25,16 +25,17 @@ import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 
 import com.example.android.uamp.R;
+
 import player.model.MusicProvider;
 import player.utils.LogHelper;
 import player.utils.MediaIDHelper;
 import player.utils.WearHelper;
 
 public class PlaybackManager implements Playback.Callback {
-
+    public static String CUSTOM_ACTION_ADD_TO_QUEUE = "custom_action_add_to_queue";
+    public static String EXTRA_EPISODE_URI = "episode_uri";
     private static final String TAG = LogHelper.makeLogTag(PlaybackManager.class);
     private static final String CUSTOM_ACTION_THUMBS_UP = "com.example.android.uamp.THUMBS_UP";
-
     private MusicProvider mMusicProvider;
     private QueueManager mQueueManager;
     private Resources mResources;
@@ -169,10 +170,10 @@ public class PlaybackManager implements Playback.Callback {
     private long getAvailableActions() {
         long actions =
                 PlaybackStateCompat.ACTION_PLAY_PAUSE |
-                PlaybackStateCompat.ACTION_PLAY_FROM_MEDIA_ID |
-                PlaybackStateCompat.ACTION_PLAY_FROM_SEARCH |
-                PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS |
-                PlaybackStateCompat.ACTION_SKIP_TO_NEXT;
+                        PlaybackStateCompat.ACTION_PLAY_FROM_MEDIA_ID |
+                        PlaybackStateCompat.ACTION_PLAY_FROM_SEARCH |
+                        PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS |
+                        PlaybackStateCompat.ACTION_SKIP_TO_NEXT;
         if (mPlayback.isPlaying()) {
             actions |= PlaybackStateCompat.ACTION_PAUSE;
         } else {
@@ -336,8 +337,18 @@ public class PlaybackManager implements Playback.Callback {
                 // playback state needs to be updated because the "Favorite" icon on the
                 // custom action will change to reflect the new favorite state.
                 updatePlaybackState(null);
-            } else {
-                LogHelper.e(TAG, "Unsupported action: ", action);
+                return;
+            }
+            if (CUSTOM_ACTION_ADD_TO_QUEUE.equals(action)) {
+                if (extras == null) {
+                    return;
+                }
+                String uri = extras.getString(EXTRA_EPISODE_URI);
+                if (uri == null) {
+                    return;
+                }
+                mQueueManager.addToQueue(uri);
+                handlePlayRequest();
             }
         }
 

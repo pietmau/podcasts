@@ -91,7 +91,7 @@ class SinglePodcastPresenter(
     }
 
     fun onListenToAllPressed() {
-        //simplePlayer?.playFeed(creator.createSourceFromFeed(podcastFeed))
+        //enqueuer?.playFeed(creator.createSourceFromFeed(podcastFeed))
     }
 
     fun onOptionsItemSelected(itemId: Int): Boolean {

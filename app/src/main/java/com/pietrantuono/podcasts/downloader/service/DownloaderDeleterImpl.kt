@@ -25,7 +25,7 @@ class DownloaderDeleterImpl(
     }
 
     override fun downloadEpisode(intent: Intent) {
-        if (!shouldDownload()) {
+        if (shouldDownload()) {
             intent.getStringExtra(EXTRA_TRACK)?.let {
                 getAndEnqueueSingleEpisode(it)
             }
