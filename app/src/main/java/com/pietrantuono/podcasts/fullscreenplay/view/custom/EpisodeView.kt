@@ -19,10 +19,8 @@ class EpisodeView : RelativeLayout {
     private val colorHelper: ColorHelper = ColorHelper()
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        binding = DataBindingUtil
-                .inflate(context
-                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater,
-                        R.layout.episode_view, this@EpisodeView, true)
+        binding = DataBindingUtil.inflate(context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater,
+                R.layout.episode_view, this@EpisodeView, true)
         drawableHelper = DrawableHelper(context.resources)
     }
 
