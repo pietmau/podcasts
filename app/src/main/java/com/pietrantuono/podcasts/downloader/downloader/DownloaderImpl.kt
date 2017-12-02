@@ -2,16 +2,7 @@ package com.pietrantuono.podcasts.downloader.downloader
 
 import android.content.Context
 import android.content.Intent
-
-import com.pietrantuono.podcasts.downloader.service.DownloaderService.Companion.COMMAND_DELETE_ALL_EPISODES
-import com.pietrantuono.podcasts.downloader.service.DownloaderService.Companion.COMMAND_DELETE_EPISODE
-import com.pietrantuono.podcasts.downloader.service.DownloaderService.Companion.COMMAND_DOWNLOAD_ALL_EPISODES
-import com.pietrantuono.podcasts.downloader.service.DownloaderService.Companion.COMMAND_DOWNLOAD_EPISODE
-import com.pietrantuono.podcasts.downloader.service.DownloaderService.Companion.EXTRA_DOWNLOAD_REQUEST_ID
-import com.pietrantuono.podcasts.downloader.service.DownloaderService.Companion.EXTRA_DOWNLOAD_REQUEST_ID_LIST
-import com.pietrantuono.podcasts.downloader.service.DownloaderService.Companion.EXTRA_TRACK
-import com.pietrantuono.podcasts.downloader.service.DownloaderService.Companion.EXTRA_TRACK_LIST
-import com.pietrantuono.podcasts.downloader.service.DownloaderService.Companion.PLAY_WHEN_READY
+import com.pietrantuono.podcasts.downloader.service.*
 import models.pojos.Episode
 import models.pojos.Podcast
 

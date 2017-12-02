@@ -48,7 +48,7 @@
         </activity>
 
         <service
-            android:name=".player.player.service.MusicService"
+            android:name="player.MusicService"
             android:exported="false"
             tools:replace="android:exported">
             <intent-filter>

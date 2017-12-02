@@ -7,22 +7,6 @@ import com.tonyodev.fetch.request.RequestInfo
 import javax.inject.Inject
 
 class DownloaderService() : SimpleService(), Fetcher.Callback {
-
-    companion object {
-        const val COMMAND_DOWNLOAD_EPISODE: String = "download_episode"
-        const val COMMAND_DOWNLOAD_ALL_EPISODES: String = "download_all_episodes"
-        const val COMMAND_DELETE_EPISODE: String = "delete_episode"
-        const val COMMAND_DELETE_ALL_EPISODES: String = "delete_episode_all_episodes"
-        const val EXTRA_COMMAND: String = "command"
-        const val EXTRA_TRACK: String = "track_id"
-        const val PLAY_WHEN_READY: String = "play_when_ready"
-        const val EXTRA_TRACK_LIST: String = "track_list"
-        const val EXTRA_DOWNLOAD_REQUEST_ID: String = "download_request_id"
-        const val EXTRA_DOWNLOAD_REQUEST_ID_LIST: String = "download_request_id_list"
-        const val DOWNLOAD_COMPLETED: Int = 100
-        const val TAG = "DownloaderService"
-    }
-
     @Inject lateinit var internalDownloader: Fetcher
     @Inject lateinit var notificator: DownloadNotificator
     @Inject lateinit var networkDiskAndPreferenceManager: NetworkDiskAndPreferenceManager
@@ -62,22 +46,21 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
 
     private fun downloadEpisode(intent: Intent) {
         if (!shouldDownload()) {
-            return
+            intent.getStringExtra(EXTRA_TRACK)?.let {
+                getAndEnqueueSingleEpisode(it) }
         }
-        intent.getStringExtra(EXTRA_TRACK)?.let { getAndEnqueueSingleEpisode(it) }
     }
 
     private fun downloadAllEpisodes(intent: Intent) {
-        if (!shouldDownload()) {
-            return
+        if (shouldDownload()) {
+            intent.getStringArrayListExtra(EXTRA_TRACK_LIST)?.let { enqueueEpisodes(it) }
         }
-        intent.getStringArrayListExtra(EXTRA_TRACK_LIST)?.let { enqueueEpisodes(it) }
     }
 
     private fun enqueueEpisodes(list: List<String>) {
         for (uri in list) {
             if (!thereIsEnoughSpace(0)) {
-                notifySpaceUnavailable(uri)
+                notificator.notifySpaceUnavailable(uri)
                 break
             }
             getAndEnqueueSingleEpisode(uri)
@@ -92,9 +75,9 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
         notificator.broadcastUpdate(info, progress, fileSize)
         if (thereIsEnoughSpace(fileSize)) {
             notificator.notifyProgress(this@DownloaderService, info, progress)
-        } else {
-            stopDownloadAndNotifyUser(info)
+            return
         }
+        stopDownloadAndNotifyUser(info)
     }
 
     override fun onDownloadCompleted(requestInfo: RequestInfo) {
@@ -111,10 +94,6 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
     internal fun thereIsEnoughSpace(fileSize: Long) = networkDiskAndPreferenceManager.thereIsEnoughSpace(fileSize)
 
     internal fun shouldDownload() = networkDiskAndPreferenceManager.shouldDownload
-
-    private fun notifySpaceUnavailable(title: String) {
-        notificator.notifySpaceUnavailable(title)
-    }
 
     override fun onDestroy() {
         shutDownDownloader()
