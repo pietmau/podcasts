@@ -46,14 +46,5 @@ class RequestManagerImpl
         return Request(url, dir, filname)
     }
 
-//    override fun createRequestForDeletion(episode: Episode): Request? {
-//        val link = episode.link
-//        val path = episode.filePathIncludingFileName
-//        if (link == null || path == null) {
-//            return null
-//        }
-//        return Request(link, path)
-//    }
-
 }
 
