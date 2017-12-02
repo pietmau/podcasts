@@ -23,7 +23,7 @@ class DownloaderImpl(context: Context) : SimpleDownloader(context) {
 
     override fun downloadIfAppropriate(podcast: Podcast?) {
         podcast?.episodes?.
-                map { it.title }?.
+                map { it.uri }?.
                 filterNotNull()?.
                 toList()?.let {
             downloadAllInternal(ArrayList(it))

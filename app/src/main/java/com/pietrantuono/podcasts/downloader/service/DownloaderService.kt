@@ -74,17 +74,17 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
     }
 
     private fun enqueueEpisodes(list: List<String>) {
-        for (title in list) {
+        for (uri in list) {
             if (!thereIsEnoughSpace(0)) {
-                notifySpaceUnavailable(title)
+                notifySpaceUnavailable(uri)
                 break
             }
-            getAndEnqueueSingleEpisode(title)
+            getAndEnqueueSingleEpisode(uri)
         }
     }
 
-    private fun getAndEnqueueSingleEpisode(title: String) {
-        internalDownloader.download(title)
+    private fun getAndEnqueueSingleEpisode(uri: String) {
+        internalDownloader.download(uri)
     }
 
     override fun onUpdate(info: RequestInfo, progress: Int, fileSize: Long) {

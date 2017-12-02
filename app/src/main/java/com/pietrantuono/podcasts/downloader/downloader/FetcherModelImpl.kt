@@ -8,8 +8,8 @@ import javax.inject.Inject
 class FetcherModelImpl @Inject constructor(
         private var episodesRepo: EpisodesRepository) {
 
-    fun episodeIsDownloadedSync(title: String): Boolean {
-        val episode = episodesRepo.getEpisodeByTitleSync(title)
+    fun episodeIsDownloadedSync(uri: String): Boolean {
+        val episode = episodesRepo.getEpisodeByUriSync(uri)
         return episode != null && episode.downloaded
     }
 
@@ -17,6 +17,6 @@ class FetcherModelImpl @Inject constructor(
         episodesRepo.setEpisodeNotDownloadedSync(id)
     }
 
-    fun getEpisodeSync(titl: String): Episode? = episodesRepo.getEpisodeByTitleSync(titl)
+    fun getEpisodeSync(uri: String): Episode? = episodesRepo.getEpisodeByUriSync(uri)
 
 }

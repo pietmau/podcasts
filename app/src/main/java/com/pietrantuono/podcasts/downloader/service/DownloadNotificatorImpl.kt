@@ -43,7 +43,7 @@ class DownloadNotificatorImpl(
     }
 
     override fun notifySpaceUnavailable(title: String) {
-        repo.getEpisodeByTitleSync(title)?.let {
+        repo.getEpisodeByUriSync(title)?.let {
             val noSpaceNotification = notificationCreator.getNoSpaceNotification(it)
             debugger.debug(TAG, "notify")
             notifManager.notify(GENERIC_NOTIFICATION, noSpaceNotification)
