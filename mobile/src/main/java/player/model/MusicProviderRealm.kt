@@ -9,11 +9,12 @@ import models.pojos.Episode
 import player.model.MusicProvider
 import player.model.MusicProviderImpl
 import player.model.MusicProviderSource
+import player.model.SourceExtractor
 import repo.repository.EpisodeCacheImpl
 import repo.repository.EpisodesRepository
 import repo.repository.EpisodesRepositoryRealm
 
-class MusicProviderRealm : MusicProvider {
+class MusicProviderRealm(private val extractor: SourceExtractor) : MusicProvider {
     private var episodesRepository: EpisodesRepository
 
     init {
@@ -89,11 +90,6 @@ class MusicProviderRealm : MusicProvider {
     }
 
     fun getSource(episode: Episode): String? {
-        val enclosures = episode.enclosures
-        if (enclosures != null && enclosures.size > 0) {
-            return enclosures[0].url
-        } else {
-            return null
-        }
+        return extractor.getSource(episode)
     }
 }

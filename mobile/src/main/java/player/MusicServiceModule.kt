@@ -3,27 +3,30 @@ package player
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import com.example.android.uamp.R
-import player.model.MusicProvider
 import com.example.android.uamp.model.MusicProviderRealm
+import dagger.Module
+import dagger.Provides
+import player.model.MusicProvider
+import player.model.SourceExtractor
+import player.model.SourceExtractorImpl
 import player.playback.LocalPlayback
 import player.playback.Playback
 import player.playback.PlaybackManager
 import player.playback.QueueManager
 import player.utils.QueueHelper
-import dagger.Module
-import dagger.Provides
 import javax.inject.Singleton
 
 @Singleton
 @Module
 class MusicServiceModule(private val musicService: MusicService) {
-    private val TAG: String = "MusicServiceModule"
-
     val context = musicService.applicationContext
 
     @Singleton
     @Provides
-    fun providesMusicProvider(): MusicProvider = MusicProviderRealm()
+    fun providesMusicProvider(sourceExtractor: SourceExtractor): MusicProvider = MusicProviderRealm(sourceExtractor)
+
+    @Provides
+    fun providesSourceExtractor(): SourceExtractor = SourceExtractorImpl()
 
     @Provides
     fun providesPackageValidator() = PackageValidator(context)
