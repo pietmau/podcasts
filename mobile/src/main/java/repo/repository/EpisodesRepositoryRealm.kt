@@ -76,7 +76,7 @@ class EpisodesRepositoryRealm(private val cache: EpisodeCache) : EpisodesReposit
                         .filter { it != null }
                         .map { it as RealmEpisode }
                         .filter { it.isLoaded && it.isValid }
-                        .map { realm.copyFromRealm(it) }
+                        //.map { realm.copyFromRealm(it) }
             }
 
     /** To be used from another Thread or from a service in another process . */

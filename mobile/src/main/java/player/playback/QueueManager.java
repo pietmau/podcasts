@@ -144,6 +144,7 @@ public class QueueManager {
     public void addToQueue(String uri) {
         List<MediaSessionCompat.QueueItem> newQueue = queueHelper.getPlayingQueue(uri, mMusicProvider);
         mPlayingQueue = newQueue;
+        updateMetadata();
     }
 
     public MediaSessionCompat.QueueItem getCurrentMusic() {
