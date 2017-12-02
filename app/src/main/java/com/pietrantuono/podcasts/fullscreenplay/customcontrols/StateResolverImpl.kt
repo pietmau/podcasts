@@ -92,14 +92,14 @@ class StateResolver {
     private fun startNewPodcast() {
         val transportControls = supportMediaController?.transportControls
         transportControls?.stop()
-        transportControls?.playFromMediaId(episode?.title, null)
+        transportControls?.playFromMediaId(episode?.uri, null)
     }
 
     fun isPlayingCurrentEpisode(): Boolean {
-        if (episode == null || episode?.title == null || currentlyPlayingMediaId == null) {
+        if (episode == null || episode?.uri == null || currentlyPlayingMediaId == null) {
             return false
         }
-        return episode?.title.equals(currentlyPlayingMediaId, true)
+        return episode?.uri.equals(currentlyPlayingMediaId, true)
     }
 
     fun setEpisode(episode: Episode?) {

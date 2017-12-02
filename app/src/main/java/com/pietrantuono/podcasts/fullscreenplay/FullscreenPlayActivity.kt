@@ -13,14 +13,11 @@ import com.pietrantuono.podcasts.fullscreenplay.di.FullscreenModule
 import com.pietrantuono.podcasts.fullscreenplay.presenter.FullscreenPresenter
 import com.pietrantuono.podcasts.fullscreenplay.view.custom.EpisodeView
 import com.pietrantuono.podcasts.utils.ARTWORK
-import com.pietrantuono.podcasts.utils.EPISODE_TITLE
+import com.pietrantuono.podcasts.utils.EPISODE_URI
 import models.pojos.Episode
 import javax.inject.Inject
 
 class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
-    companion object {
-        val EXTRA_CURRENT_MEDIA_DESCRIPTION = "media_description"
-    }
     @Inject lateinit var presenter: FullscreenPresenter
     @BindView(R.id.control) lateinit var controlView: CustomControlsImpl
     @BindView(R.id.episodeView) lateinit var episodeView: EpisodeView
@@ -36,7 +33,7 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
         initViews()
         loadImage(intent?.getStringExtra(ARTWORK))
         presenter.bindView(this)
-        presenter.onCreate(this, this, intent?.getStringExtra(EPISODE_TITLE), savedInstanceState != null)
+        presenter.onCreate(this, this, intent?.getStringExtra(EPISODE_URI), savedInstanceState != null)
         overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_top)
     }
 

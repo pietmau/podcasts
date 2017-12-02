@@ -33,7 +33,7 @@ class PodcastRepoRealm(
     override fun getPodcastByEpisodeSync(episode: Episode): Podcast? {
         return Realm.getDefaultInstance().use {
             var result = it?.where(PodcastRealm::class.java)?.
-                    equalTo("episodes.link", episode.title)?.
+                    equalTo("episodes.link", episode.uri)?.
                     findFirst()
             result = it.copyFromRealm(result)
             result

@@ -45,7 +45,7 @@ class MusicProviderRealm : MusicProvider {
     }
 
     override fun getMusic(musicId: String?): MediaMetadataCompat? {
-        val episode = episodesRepository.getEpisodeByTitleSync(musicId)
+        val episode = episodesRepository.getEpisodeByUriSync(musicId)
         if (episode == null) {
             return null
         }
@@ -78,7 +78,7 @@ class MusicProviderRealm : MusicProvider {
 
     private fun mediaMetadataCompatFromEpisode(episode: Episode): MediaMetadataCompat {
         val builder = MediaMetadataCompat.Builder()
-        builder.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, episode.title)
+        builder.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, episode.uri)
         builder.putString(MusicProviderSource.CUSTOM_METADATA_TRACK_SOURCE, getSource(episode))
         builder.putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, episode.imageUrl)
         builder.putString(MediaMetadataCompat.METADATA_KEY_ARTIST, episode.author)

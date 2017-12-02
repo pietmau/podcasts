@@ -38,6 +38,7 @@ class PodcastEpisodeParser @Inject constructor(private val imageParser: ImagePar
     private fun parseSyndEntry(syndEntry: SyndEntry?, romePodcastEpisodeBuilder: ROMEPodcastEpisodeBuilder): ROMEPodcastEpisodeBuilder {
         romePodcastEpisodeBuilder.setPubDate(syndEntry?.publishedDate)
                 .setDescription(syndEntry?.description?.value).setTitle(syndEntry?.title)
+                .setUri(syndEntry?.uri)
                 .setEnclosures(syndEntry?.enclosures)
         romePodcastEpisodeBuilder.setLink(getLink(syndEntry))
         return romePodcastEpisodeBuilder

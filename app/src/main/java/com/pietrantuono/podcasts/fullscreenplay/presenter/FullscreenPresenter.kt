@@ -22,9 +22,9 @@ class FullscreenPresenter(
         this.view = fullscreenPlayActivity
     }
 
-    fun onCreate(context: Context, view: FullscreenPlayView, title: String?, fromSavedState: Boolean) {
+    fun onCreate(context: Context, view: FullscreenPlayView, uri: String?, fromSavedState: Boolean) {
         if (!fromSavedState) {
-            model.getEpisodeByTitleAsync(title)
+            model.getEpisodeByUriAsync(uri)
         }
         mediaBrowserWrapper = TransportControlsWrapper(context)
     }

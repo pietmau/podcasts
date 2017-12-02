@@ -36,7 +36,6 @@ open class RealmEpisode : RealmObject, Episode {
     override var subtitle: String? = null
     override var summary: String? = null
     override var pubDate: Date? = null
-    @PrimaryKey
     override var title: String? = null
     override var description: String? = null
     private var syndEnclosures: RealmList<SimpleEnclosure>? = null
@@ -46,6 +45,8 @@ open class RealmEpisode : RealmObject, Episode {
     override var filePathIncludingFileName: String? = null
     override var fileSizeInBytes: Long = 0
     override var downloadRequestId: Long = -1
+    @PrimaryKey
+    override var uri: String? = null
 
     constructor(parcel: Parcel) {
         link = parcel.readString()
@@ -60,6 +61,7 @@ open class RealmEpisode : RealmObject, Episode {
         description = parcel.readString()
         fileSizeInBytes = parcel.readLong()
         downloadRequestId = parcel.readLong()
+        uri = parcel.readString()
     }
 
     constructor()
@@ -67,7 +69,7 @@ open class RealmEpisode : RealmObject, Episode {
     constructor(duration: String?, author: String?, isExplicit: Boolean?, imageUrl: String?,
                 keywords: List<String>?, subtitle: String?, summary: String?, pubDate: Date?,
                 title: String?, description: String?, syndEnclosures: List<SyndEnclosure>?,
-                link: String?) {
+                link: String?, uri: String?) {
         this.duration = duration
         this.author = author
         this.isExplicit = isExplicit
@@ -80,6 +82,7 @@ open class RealmEpisode : RealmObject, Episode {
         this.description = description
         this.syndEnclosures = parseEnclosures(syndEnclosures)
         this.link = link
+        this.uri = uri
     }
 
     private fun returnKeywords(): List<String> {
@@ -125,6 +128,7 @@ open class RealmEpisode : RealmObject, Episode {
         parcel.writeString(description)
         parcel.writeLong(fileSizeInBytes)
         parcel.writeLong(downloadRequestId)
+        parcel.writeString(uri)
     }
 
     override fun describeContents(): Int {
@@ -134,12 +138,12 @@ open class RealmEpisode : RealmObject, Episode {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is RealmEpisode) return false
-        if (title != other.title) return false
+        if (uri != other.uri) return false
         return true
     }
 
     override fun hashCode(): Int {
-        return title?.hashCode() ?: 0
+        return uri?.hashCode() ?: 0
     }
 
     companion object CREATOR : Parcelable.Creator<RealmEpisode> {
