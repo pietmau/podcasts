@@ -11,7 +11,7 @@ import android.widget.SeekBar
 import player.MusicService
 
 class MediaBrowserCompatWrapper(private val context: Context) {
-    private lateinit var callback: MediaControllerCompat.Callback
+    var callback: MediaControllerCompat.Callback? = null
     var mediaBrowser: MediaBrowserCompat? = null
     var supportMediaController: MediaControllerCompat? = null
 
@@ -72,7 +72,9 @@ class MediaBrowserCompatWrapper(private val context: Context) {
 
     fun onStop() {
         mediaBrowser?.disconnect()
-        supportMediaController?.unregisterCallback(callback)
+        if (callback != null) {
+            supportMediaController?.unregisterCallback(callback)
+        }
     }
 
 }

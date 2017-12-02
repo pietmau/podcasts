@@ -7,7 +7,6 @@ import android.view.View
 import com.pietrantuono.podcasts.Constants
 import com.pietrantuono.podcasts.R
 import models.pojos.Episode
-
 import java.text.SimpleDateFormat
 
 @SuppressLint("ParcelCreator")
@@ -15,9 +14,6 @@ class EpisodeViewModel(episode: Episode, private val resourcesProvider: Resource
 
     val visibilityOfFooter: Int
         get() = if (visibilityOfType == View.VISIBLE || visibilityOfDuration == View.VISIBLE) View.VISIBLE else View.GONE
-
-    val downloadIconShouldbeVisible: Int
-        get() = if (downloaded) View.VISIBLE else View.GONE
 
     val visibilityOfType: Int
         get() = if (mediaTypeText == null) View.GONE else View.VISIBLE
@@ -36,6 +32,14 @@ class EpisodeViewModel(episode: Episode, private val resourcesProvider: Resource
 
     val visibilityOfAuthor: Int
         get() = if (author.isNullOrBlank()) View.GONE else View.VISIBLE
+
+    val dowloadedDrawable: Drawable
+        get() = if (downloaded) {
+            resourcesProvider.getDrawable(R.drawable.ic_check_white_24dp)
+        } else {
+            resourcesProvider.getDrawable(R.drawable.ic_file_download_white_24dp)
+        }
+
 
     private fun getImageResouce(type: String): Drawable? =
             when {

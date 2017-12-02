@@ -29,13 +29,14 @@
             android:maxLines="2"
             android:text="@{viewModel.date}"/>
 
-        <ImageView
+        <TextView
+            android:drawableRight="@{viewModel.dowloadedDrawable}"
             android:id="@+id/image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/item_margin"
-            android:visibility="@{viewModel.downloadIconShouldbeVisible}"
+            android:text="@{viewModel.dowloadedText}"
             app:srcCompat="@drawable/ic_check_white_24dp"
             />
 
