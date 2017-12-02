@@ -11,19 +11,18 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.format.DateUtils
 import android.widget.SeekBar
-import player.MusicService
-
-import com.pietrantuono.podcasts.application.DebugLogger
 import models.pojos.Episode
+import player.MusicService
 
 
 class CustomControlsPresenter(
         private val context: Context,
         private val stateResolver: StateResolver,
-        private val debugLogger: DebugLogger,
-        private val executorService: SimpleExecutor)
-    : SeekBar.OnSeekBarChangeListener, MediaControllerCompat.Callback() {
+        private val executorService: SimpleExecutor,
+        private val downloadOrStreamManager: DownloadOrStreamManager
+) : SeekBar.OnSeekBarChangeListener, MediaControllerCompat.Callback() {
 
+    private var episode: Episode? = null
     private var view: CustomControls? = null
     private var transportControls: MediaControllerCompat.TransportControls? = null
     private var mediaBrowser: MediaBrowserCompat? = null
@@ -111,11 +110,16 @@ class CustomControlsPresenter(
     }
 
     fun setEpisode(episode: Episode?) {
+        this.episode = episode
         stateResolver.setEpisode(episode)
     }
 
     fun onPlayClicked() {
-        stateResolver.onPausePlayClicked(this)
+        if (episode?.downloaded == true) {
+            stateResolver.onPausePlayClicked(this)
+            return
+        }
+        downloadOrStreamManager.onPlayClicked(episode, view)
     }
 
     fun play() {

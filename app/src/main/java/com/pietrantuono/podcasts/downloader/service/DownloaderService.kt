@@ -15,6 +15,7 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
         const val COMMAND_DELETE_ALL_EPISODES: String = "delete_episode_all_episodes"
         const val EXTRA_COMMAND: String = "command"
         const val EXTRA_TRACK: String = "track_id"
+        const val PLAY_WHEN_READY: String = "play_when_ready"
         const val EXTRA_TRACK_LIST: String = "track_list"
         const val EXTRA_DOWNLOAD_REQUEST_ID: String = "download_request_id"
         const val EXTRA_DOWNLOAD_REQUEST_ID_LIST: String = "download_request_id_list"

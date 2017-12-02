@@ -51,11 +51,11 @@ class FetcherImpl(
     }
 
     private fun alreadyDowloanded(uri: String): Boolean {
-        val link = fetcherModel.getEpisodeSync(uri)?.link
-        if (link == null) {
+        val uri = fetcherModel.getEpisodeSync(uri)?.uri
+        if (uri == null) {
             return false
         }
-        return fetch.alreadyDownloaded(link) || fetcherModel.episodeIsDownloadedSync(uri)
+        return fetch.alreadyDownloaded(uri) || fetcherModel.episodeIsDownloadedSync(uri)
     }
 
     override fun stopDownload(requestInfo: RequestInfo) {

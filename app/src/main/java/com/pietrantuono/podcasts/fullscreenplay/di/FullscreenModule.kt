@@ -47,7 +47,7 @@ class FullscreenModule(private val activity: FragmentActivity) {
 
     @Provides
     fun provideCustomControlsPresenter(context: Context, resolver: StateResolver, logger: DebugLogger, executor: SimpleExecutor) =
-            CustomControlsPresenter(context, resolver, logger, executor)
+            CustomControlsPresenter(context, resolver, executor)
 
     @Provides
     fun provideExecutor() = SimpleExecutor(Executors.newSingleThreadScheduledExecutor(), Handler())
