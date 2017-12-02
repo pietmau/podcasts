@@ -2,6 +2,7 @@ package com.pietrantuono.podcasts.fullscreenplay.customcontrols
 
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.support.v4.media.session.PlaybackStateCompat.*
 import models.pojos.Episode
 
 
@@ -13,36 +14,18 @@ class StateResolver {
 
     fun updatePlaybackState(state: PlaybackStateCompat, presenter: CustomControlsPresenter) {
         when (state.state) {
-            PlaybackStateCompat.STATE_PLAYING -> {
-                onStatePlaying(presenter)
-            }
-            PlaybackStateCompat.STATE_PAUSED -> {
-                onStatePaused(presenter)
-            }
-            PlaybackStateCompat.STATE_NONE, PlaybackStateCompat.STATE_STOPPED -> {
-                onStateNone(presenter)
-            }
-            PlaybackStateCompat.STATE_BUFFERING -> {
-                onStateBuffering(presenter)
-            }
-            PlaybackStateCompat.STATE_ERROR -> {
-                onError(presenter, state)
-            }
+            STATE_PLAYING -> onStatePlaying(presenter)
+            STATE_PAUSED -> onStatePaused(presenter)
+            STATE_NONE, STATE_STOPPED -> presenter?.onStateNone()
+            STATE_BUFFERING -> onStateBuffering(presenter)
+            STATE_ERROR -> presenter.onError(state)
         }
-    }
-
-    private fun onError(presenter: CustomControlsPresenter, state: PlaybackStateCompat) {
-        presenter.onError(state)
     }
 
     private fun onStateBuffering(presenter: CustomControlsPresenter) {
         if (isPlayingCurrentEpisode()) {
             presenter?.onStateBuffering()
         }
-    }
-
-    private fun onStateNone(presenter: CustomControlsPresenter) {
-        presenter?.onStateNone()
     }
 
     private fun onStatePaused(presenter: CustomControlsPresenter) {
@@ -60,15 +43,9 @@ class StateResolver {
     fun onPausePlayClicked(presenter: CustomControlsPresenter) {
         supportMediaController?.playbackState?.let {
             when (it.state) {
-                PlaybackStateCompat.STATE_PLAYING, PlaybackStateCompat.STATE_BUFFERING -> {
-                    onPauseClicked(presenter)
-                }
-                PlaybackStateCompat.STATE_PAUSED, PlaybackStateCompat.STATE_STOPPED -> {
-                    onPlayClicked(presenter)
-                }
-                PlaybackStateCompat.STATE_NONE -> {
-                    onPlayClicked(presenter)
-                }
+                STATE_PLAYING, STATE_BUFFERING -> onPauseClicked(presenter)
+                STATE_PAUSED, STATE_STOPPED -> onPlayClicked(presenter)
+                STATE_NONE -> onPlayClicked(presenter)
             }
         }
     }
@@ -76,27 +53,26 @@ class StateResolver {
     private fun onPlayClicked(presenter: CustomControlsPresenter) {
         if (isPlayingCurrentEpisode()) {
             presenter.play()
-        } else {
-            startNewPodcast()
+            return
         }
+        startNewPodcast()
     }
 
     private fun onPauseClicked(presenter: CustomControlsPresenter) {
         if (isPlayingCurrentEpisode()) {
             presenter.pause()
-        } else {
-            startNewPodcast()
+            return
         }
+        startNewPodcast()
     }
 
     private fun startNewPodcast() {
-        val transportControls = supportMediaController?.transportControls
-        transportControls?.stop()
-        transportControls?.playFromMediaId(episode?.uri, null)
+        supportMediaController?.transportControls?.stop()
+        supportMediaController?.transportControls?.playFromMediaId(episode?.uri, null)
     }
 
     fun isPlayingCurrentEpisode(): Boolean {
-        if (episode == null || episode?.uri == null || currentlyPlayingMediaId == null) {
+        if (episode?.uri == null || currentlyPlayingMediaId == null) {
             return false
         }
         return episode?.uri.equals(currentlyPlayingMediaId, true)

@@ -9,23 +9,23 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.support.v4.media.session.PlaybackStateCompat.STATE_BUFFERING
+import android.support.v4.media.session.PlaybackStateCompat.STATE_PLAYING
 import android.text.format.DateUtils
 import android.widget.SeekBar
 import com.pietrantuono.podcasts.downloader.downloader.Downloader
 import models.pojos.Episode
 import player.MusicService
 
-
-class CustomControlsPresenter( // TODO refactor this!!!
+class CustomControlsPresenter(
         private val context: Context,
-        private val stateResolver: StateResolver,//TODO I dont like this one!!!!!!!!!!
+        private val stateResolver: StateResolver,
         private val executorService: SimpleExecutor,
         private val downloader: Downloader
 ) : SeekBar.OnSeekBarChangeListener, MediaControllerCompat.Callback() {
 
     private var episode: Episode? = null
     private var view: CustomControls? = null
-    private var transportControls: MediaControllerCompat.TransportControls? = null
     private var mediaBrowser: MediaBrowserCompat? = null
     private var supportMediaController: MediaControllerCompat? = null
     private var lastPlaybackState: PlaybackStateCompat? = null
@@ -45,14 +45,13 @@ class CustomControlsPresenter( // TODO refactor this!!!
     @Throws(RemoteException::class)
     private fun connectToSession(token: MediaSessionCompat.Token?) {
         supportMediaController = MediaControllerCompat(context, token)
-        transportControls = supportMediaController?.transportControls
         stateResolver.setMediaController(supportMediaController!!)
         supportMediaController?.registerCallback(this)
         val state = supportMediaController?.playbackState
         onPlaybackStateChanged(state)
         onMetadataChanged(supportMediaController?.metadata)
         updateProgress()
-        if (state?.state == PlaybackStateCompat.STATE_PLAYING || state?.state == PlaybackStateCompat.STATE_BUFFERING) {
+        if (state?.state == STATE_PLAYING || state?.state == STATE_BUFFERING) {
             scheduleSeekbarUpdate()
         }
     }
@@ -68,7 +67,7 @@ class CustomControlsPresenter( // TODO refactor this!!!
         }
         lastPlaybackState?.let {
             var currentPosition = it.position
-            if (it.state == PlaybackStateCompat.STATE_PLAYING) {
+            if (it.state == STATE_PLAYING) {
                 currentPosition += ((SystemClock.elapsedRealtime() - it.lastPositionUpdateTime).toInt() * it.playbackSpeed).toLong()
             }
             view?.setProgress(currentPosition.toInt())
@@ -127,21 +126,21 @@ class CustomControlsPresenter( // TODO refactor this!!!
     }
 
     fun play() {
-        transportControls?.play()
+        supportMediaController?.transportControls?.play()
         scheduleSeekbarUpdate()
     }
 
     fun pause() {
-        transportControls?.pause()
+        supportMediaController?.transportControls?.pause()
         stopSeekbarUpdate()
     }
 
     fun skipToNext() {
-        transportControls?.skipToNext()
+        supportMediaController?.transportControls?.skipToNext()
     }
 
     fun skipToPrevious() {
-        transportControls?.skipToPrevious()
+        supportMediaController?.transportControls?.skipToPrevious()
     }
 
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -153,7 +152,7 @@ class CustomControlsPresenter( // TODO refactor this!!!
     }
 
     override fun onStopTrackingTouch(seekBar: SeekBar?) {
-        transportControls?.seekTo(seekBar!!.progress.toLong())
+        supportMediaController?.transportControls?.seekTo(seekBar!!.progress.toLong())
         scheduleSeekbarUpdate()
     }
 
@@ -167,12 +166,9 @@ class CustomControlsPresenter( // TODO refactor this!!!
     }
 
     override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
-        if (!stateResolver.isPlayingCurrentEpisode()) {
-            return
-        }
-        metadata?.let {
-            it.description?.let { view?.updateMediaDescription(it) }
-            view?.updateDuration(it.getLong(MediaMetadataCompat.METADATA_KEY_DURATION).toInt())
+        if (stateResolver.isPlayingCurrentEpisode() && metadata != null) {
+            metadata.description?.let { view?.updateMediaDescription(it) }
+            view?.updateDuration(metadata.getLong(MediaMetadataCompat.METADATA_KEY_DURATION).toInt())
         }
     }
 
