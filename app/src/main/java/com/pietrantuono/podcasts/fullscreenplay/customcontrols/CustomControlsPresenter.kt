@@ -1,58 +1,41 @@
 package com.pietrantuono.podcasts.fullscreenplay.customcontrols
 
-import android.content.ComponentName
-import android.content.Context
 import android.os.RemoteException
-import android.os.SystemClock
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import android.text.format.DateUtils
 import android.widget.SeekBar
 import com.pietrantuono.podcasts.downloader.downloader.Downloader
 import models.pojos.Episode
-import player.MusicService
 
-
-class CustomControlsPresenter( // TODO refactor this!!!
-        private val context: Context,
-        private val stateResolver: StateResolver,//TODO I dont like this one!!!!!!!!!!
+class CustomControlsPresenter(
+        private val stateResolver: StateResolver,
         private val executorService: SimpleExecutor,
-        private val downloader: Downloader
+        private val downloader: Downloader,
+        private val viewUpdater: ViewUpdater,
+        private val mediaBrowserCompatWrapper: MediaBrowserCompatWrapper
 ) : SeekBar.OnSeekBarChangeListener, MediaControllerCompat.Callback() {
 
-    private var episode: Episode? = null
-    private var view: CustomControls? = null
-    private var transportControls: MediaControllerCompat.TransportControls? = null
-    private var mediaBrowser: MediaBrowserCompat? = null
-    private var supportMediaController: MediaControllerCompat? = null
     private var lastPlaybackState: PlaybackStateCompat? = null
 
     fun bindView(customControls: CustomControls) {
-        this.view = customControls
-        mediaBrowser = MediaBrowserCompat(context, ComponentName(context, MusicService::class.java), object : MediaBrowserCompat.ConnectionCallback() {
+        viewUpdater.view = customControls
+        mediaBrowserCompatWrapper.init(object : MediaBrowserCompat.ConnectionCallback() {
             override fun onConnected() {
-                try {
-                    connectToSession(mediaBrowser?.sessionToken)
-                } catch (e: RemoteException) {
-                }
             }
-        }, null)
+        })
     }
 
     @Throws(RemoteException::class)
     private fun connectToSession(token: MediaSessionCompat.Token?) {
-        supportMediaController = MediaControllerCompat(context, token)
-        transportControls = supportMediaController?.transportControls
-        stateResolver.setMediaController(supportMediaController!!)
-        supportMediaController?.registerCallback(this)
-        val state = supportMediaController?.playbackState
-        onPlaybackStateChanged(state)
-        onMetadataChanged(supportMediaController?.metadata)
+        stateResolver.setMediaController(mediaBrowserCompatWrapper.supportMediaController!!)
+        mediaBrowserCompatWrapper.registerCallback(this)
+        onPlaybackStateChanged(mediaBrowserCompatWrapper?.playbackState)
+        onMetadataChanged(mediaBrowserCompatWrapper?.metadata)
         updateProgress()
-        if (state?.state == PlaybackStateCompat.STATE_PLAYING || state?.state == PlaybackStateCompat.STATE_BUFFERING) {
+        if (mediaBrowserCompatWrapper.isPlayingOrBuffering()) {
             scheduleSeekbarUpdate()
         }
     }
@@ -63,15 +46,8 @@ class CustomControlsPresenter( // TODO refactor this!!!
     }
 
     fun updateProgress() {
-        if (!stateResolver.isPlayingCurrentEpisode()) {
-            return
-        }
-        lastPlaybackState?.let {
-            var currentPosition = it.position
-            if (it.state == PlaybackStateCompat.STATE_PLAYING) {
-                currentPosition += ((SystemClock.elapsedRealtime() - it.lastPositionUpdateTime).toInt() * it.playbackSpeed).toLong()
-            }
-            view?.setProgress(currentPosition.toInt())
+        if (stateResolver.isPlayingCurrentEpisode()) {
+            viewUpdater.setProgress(lastPlaybackState)
         }
     }
 
@@ -81,71 +57,68 @@ class CustomControlsPresenter( // TODO refactor this!!!
 
     override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
         lastPlaybackState = state
-        state?.let {
-            stateResolver.updatePlaybackState(it, this)
-        }
+        stateResolver.updatePlaybackState(state, this)
     }
 
     fun onError(state: PlaybackStateCompat) {
-        view?.onError(state)
+        viewUpdater.onError(state)
     }
 
     fun onStateBuffering() {
-        view?.onStateBuffering()
+        viewUpdater.onStateBuffering()
         stopSeekbarUpdate()
     }
 
     fun onStatePaused() {
-        view?.onStatePaused()
+        viewUpdater.onStatePaused()
         stopSeekbarUpdate()
     }
 
     fun onStateNone() {
-        view?.onStateNone()
+        viewUpdater.onStateNone()
         stopSeekbarUpdate()
     }
 
     fun onStatePlaying() {
-        view?.onStatePlaying()
+        viewUpdater.onStatePlaying()
         scheduleSeekbarUpdate()
     }
 
     fun setEpisode(episode: Episode?) {
-        this.episode = episode
-        stateResolver.setEpisode(episode)
+        stateResolver.episode = episode
     }
 
     fun onPlayClicked() {
-        if (episode?.downloaded == true) {
+        if (stateResolver.willHandleClick()) {
             stateResolver.onPausePlayClicked(this)
             return
         }
-        episode?.uri?.let {
+        stateResolver.episode?.uri?.let {
             downloader.downloadAndPlayFromUri(it)
-            view?.snack(episode?.title + " will be downloaded and added to the playlist")
+            viewUpdater.snack(stateResolver.episode?.title)
         }
     }
 
     fun play() {
-        transportControls?.play()
+        mediaBrowserCompatWrapper.play()
         scheduleSeekbarUpdate()
     }
 
     fun pause() {
-        transportControls?.pause()
+        mediaBrowserCompatWrapper.pause()
         stopSeekbarUpdate()
     }
 
     fun skipToNext() {
-        transportControls?.skipToNext()
+        mediaBrowserCompatWrapper.skipToNext()
     }
 
     fun skipToPrevious() {
-        transportControls?.skipToPrevious()
+        mediaBrowserCompatWrapper.skipToPrevious()
     }
 
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-        view?.setStartText(DateUtils.formatElapsedTime((progress / 1000).toLong()))
+        viewUpdater.setStartText(progress)
     }
 
     override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -153,26 +126,21 @@ class CustomControlsPresenter( // TODO refactor this!!!
     }
 
     override fun onStopTrackingTouch(seekBar: SeekBar?) {
-        transportControls?.seekTo(seekBar!!.progress.toLong())
+        mediaBrowserCompatWrapper.onStopTrackingTouch(seekBar)
         scheduleSeekbarUpdate()
     }
 
     fun onStart() {
-        mediaBrowser?.connect()
+        mediaBrowserCompatWrapper.onStart()
     }
 
     fun onStop() {
-        mediaBrowser?.disconnect()
-        supportMediaController?.unregisterCallback(this)
+        mediaBrowserCompatWrapper.onStop()
     }
 
     override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
-        if (!stateResolver.isPlayingCurrentEpisode()) {
-            return
-        }
-        metadata?.let {
-            it.description?.let { view?.updateMediaDescription(it) }
-            view?.updateDuration(it.getLong(MediaMetadataCompat.METADATA_KEY_DURATION).toInt())
+        if (stateResolver.isPlayingCurrentEpisode()) {
+            viewUpdater.onMetadataChanged(metadata)
         }
     }
 
@@ -180,5 +148,6 @@ class CustomControlsPresenter( // TODO refactor this!!!
         stopSeekbarUpdate()
         executorService.shutdown()
     }
+
 }
 
