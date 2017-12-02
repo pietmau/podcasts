@@ -23,8 +23,8 @@ class RequestManagerImpl
     override fun getRequestById(id: Long): RequestInfo? = requests[id]
 
     /**  Called by the downloader service, in its own process  */
-    override fun createRequestForDownload(title: String): Request? {
-        val episode = repository.getEpisodeByUriSync(title)
+    override fun createRequestForDownload(uri: String): Request? {
+        val episode = repository.getEpisodeByUriSync(uri)
         return getRequest(episode)
     }
 

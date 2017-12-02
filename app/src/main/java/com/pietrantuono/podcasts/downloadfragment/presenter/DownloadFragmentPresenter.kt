@@ -70,7 +70,7 @@ class DownloadFragmentPresenter(
     }
 
     fun onConfirmDownloadEpisode(title: String) {
-        downloader.downloadEpisodeFromLink(title)
+        downloader.downloadEpisodeFromUri(title)
     }
 
     fun onConfirmDownloadAllEpisodes(podcast: Podcast) {

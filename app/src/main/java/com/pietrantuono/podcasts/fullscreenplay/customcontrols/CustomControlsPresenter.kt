@@ -11,19 +11,19 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.format.DateUtils
 import android.widget.SeekBar
+import com.pietrantuono.podcasts.downloader.downloader.Downloader
+import models.pojos.Episode
 import player.MusicService
 
-import com.pietrantuono.podcasts.application.DebugLogger
-import models.pojos.Episode
 
-
-class CustomControlsPresenter(
+class CustomControlsPresenter( // TODO refactor this!!!
         private val context: Context,
-        private val stateResolver: StateResolver,
-        private val debugLogger: DebugLogger,
-        private val executorService: SimpleExecutor)
-    : SeekBar.OnSeekBarChangeListener, MediaControllerCompat.Callback() {
+        private val stateResolver: StateResolver,//TODO I dont like this one!!!!!!!!!!
+        private val executorService: SimpleExecutor,
+        private val downloader: Downloader
+) : SeekBar.OnSeekBarChangeListener, MediaControllerCompat.Callback() {
 
+    private var episode: Episode? = null
     private var view: CustomControls? = null
     private var transportControls: MediaControllerCompat.TransportControls? = null
     private var mediaBrowser: MediaBrowserCompat? = null
@@ -111,11 +111,19 @@ class CustomControlsPresenter(
     }
 
     fun setEpisode(episode: Episode?) {
+        this.episode = episode
         stateResolver.setEpisode(episode)
     }
 
     fun onPlayClicked() {
-        stateResolver.onPausePlayClicked(this)
+        if (episode?.downloaded == true) {
+            stateResolver.onPausePlayClicked(this)
+            return
+        }
+        episode?.uri?.let {
+            downloader.downloadAndPlayFromUri(it)
+            view?.snack(episode?.title + " will be downloaded and added to the playlist")
+        }
     }
 
     fun play() {

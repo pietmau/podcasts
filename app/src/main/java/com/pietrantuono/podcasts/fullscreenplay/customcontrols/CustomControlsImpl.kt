@@ -2,6 +2,7 @@ package com.pietrantuono.podcasts.fullscreenplay.customcontrols
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.support.design.widget.Snackbar
 import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.ColorUtils
@@ -122,6 +123,10 @@ class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout
 
     override fun setProgress(progress: Int) {
         seekbar.progress = progress
+    }
+
+    override fun snack(message: String) {
+        Snackbar.make(container,message,Snackbar.LENGTH_LONG).show()
     }
 
     fun setColors(colorForBackgroundAndText: ColorForBackgroundAndText?) {

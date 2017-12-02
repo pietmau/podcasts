@@ -3,6 +3,7 @@ package com.pietrantuono.podcasts.downloader.downloader
 import android.content.Context
 import android.content.Intent
 import com.pietrantuono.podcasts.downloader.service.DownloaderService
+import com.pietrantuono.podcasts.downloader.service.EXTRA_COMMAND
 
 
 abstract class SimpleDownloader(private val context: Context) :Downloader {
@@ -13,7 +14,7 @@ abstract class SimpleDownloader(private val context: Context) :Downloader {
 
     internal fun getIntent(command: String): Intent {
         val intent = Intent(context, DownloaderService::class.java)
-        intent.putExtra(DownloaderService.EXTRA_COMMAND, command)
+        intent.putExtra(EXTRA_COMMAND, command)
         return intent
     }
 

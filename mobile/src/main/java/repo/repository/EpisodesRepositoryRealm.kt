@@ -18,7 +18,7 @@ class EpisodesRepositoryRealm(private val cache: EpisodeCache) : EpisodesReposit
                 val episode = it.where(RealmEpisode::class.java)
                         .equalTo(DOWNLOAD_REQUEST_ID, id)
                         .findFirst()
-                episode.downloaded = false
+                episode?.downloaded = false
             }
         }
     }
@@ -76,7 +76,6 @@ class EpisodesRepositoryRealm(private val cache: EpisodeCache) : EpisodesReposit
                         .filter { it != null }
                         .map { it as RealmEpisode }
                         .filter { it.isLoaded && it.isValid }
-                        .map { realm.copyFromRealm(it) }
             }
 
     /** To be used from another Thread or from a service in another process . */

@@ -23,17 +23,18 @@ import android.support.annotation.NonNull;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 
-import player.AlbumArtCache;
 import com.example.android.uamp.R;
-import player.model.MusicProvider;
-import player.utils.LogHelper;
-import player.utils.MediaIDHelper;
-import player.utils.QueueHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import player.AlbumArtCache;
+import player.model.MusicProvider;
+import player.utils.LogHelper;
+import player.utils.MediaIDHelper;
+import player.utils.QueueHelper;
 
 /**
  * Simple data provider for queues. Keeps track of a current queue and a current index in the
@@ -133,9 +134,16 @@ public class QueueManager {
 
     public void setQueueFromMusic(String mediaId) {
         LogHelper.d(TAG, "setQueueFromMusic", mediaId);
-        String queueTitle = "Diocan ";
+        String queueTitle = "";
         setCurrentQueue(queueTitle,
                 queueHelper.getPlayingQueue(mediaId, mMusicProvider), mediaId);
+        updateMetadata();
+    }
+
+
+    public void addToQueue(String uri) {
+        List<MediaSessionCompat.QueueItem> newQueue = queueHelper.getPlayingQueue(uri, mMusicProvider);
+        mPlayingQueue = newQueue;
         updateMetadata();
     }
 
@@ -206,6 +214,7 @@ public class QueueManager {
             });
         }
     }
+
 
     public interface MetadataUpdateListener {
         void onMetadataChanged(MediaMetadataCompat metadata);

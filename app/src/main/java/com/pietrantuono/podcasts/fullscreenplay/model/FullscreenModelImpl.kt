@@ -12,15 +12,13 @@ import java.util.concurrent.TimeUnit
 
 class FullscreenModelImpl(private val repo: EpisodesRepository, private val manithreadScheduler: Scheduler)
     : FullscreenModel {
-    private var cached: Observable<out Episode>? = null
     private var subscription: Subscription? = null
     override var episode: Episode? = null
+    lateinit var observable: Observable<out Episode?>
 
     override fun getEpisodeByUriAsync(uri: String?) {
         uri ?: return
-        cached = repo
-                .getEpisodeByUriAsObservable(uri)
-                .cache()
+        observable = repo.getEpisodeByUriAsObservable(uri)
         subscribe(object : SimpleObserver<Episode>() {
             override fun onNext(feed: Episode?) {
                 this@FullscreenModelImpl.episode = feed
@@ -28,8 +26,8 @@ class FullscreenModelImpl(private val repo: EpisodesRepository, private val mani
         })
     }
 
-    override fun subscribe(observer: Observer<in Episode>) {
-        subscription = cached
+    override fun subscribe(observer: Observer<in Episode?>) {
+        subscription = observable
                 ?.take(1)
                 ?.timeout(1, TimeUnit.SECONDS)
                 ?.observeOn(manithreadScheduler)

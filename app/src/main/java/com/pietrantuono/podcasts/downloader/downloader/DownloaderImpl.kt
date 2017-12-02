@@ -1,23 +1,27 @@
 package com.pietrantuono.podcasts.downloader.downloader
 
 import android.content.Context
-
-import com.pietrantuono.podcasts.downloader.service.DownloaderService.Companion.COMMAND_DELETE_ALL_EPISODES
-import com.pietrantuono.podcasts.downloader.service.DownloaderService.Companion.COMMAND_DELETE_EPISODE
-import com.pietrantuono.podcasts.downloader.service.DownloaderService.Companion.COMMAND_DOWNLOAD_ALL_EPISODES
-import com.pietrantuono.podcasts.downloader.service.DownloaderService.Companion.COMMAND_DOWNLOAD_EPISODE
-import com.pietrantuono.podcasts.downloader.service.DownloaderService.Companion.EXTRA_DOWNLOAD_REQUEST_ID
-import com.pietrantuono.podcasts.downloader.service.DownloaderService.Companion.EXTRA_DOWNLOAD_REQUEST_ID_LIST
-import com.pietrantuono.podcasts.downloader.service.DownloaderService.Companion.EXTRA_TRACK
-import com.pietrantuono.podcasts.downloader.service.DownloaderService.Companion.EXTRA_TRACK_LIST
+import android.content.Intent
+import com.pietrantuono.podcasts.downloader.service.*
 import models.pojos.Episode
 import models.pojos.Podcast
 
 class DownloaderImpl(context: Context) : SimpleDownloader(context) {
 
-    override fun downloadEpisodeFromLink(title: String) {
+    override fun downloadEpisodeFromUri(uri: String) {
+        val intent = getIntentWitUri(uri)
+        startService(intent)
+    }
+
+    private fun getIntentWitUri(uri: String): Intent {
         val intent = getIntent(COMMAND_DOWNLOAD_EPISODE)
-        intent.putExtra(EXTRA_TRACK, title)
+        intent.putExtra(EXTRA_TRACK, uri)
+        return intent
+    }
+
+    override fun downloadAndPlayFromUri(uri: String) {
+        val intent = getIntentWitUri(uri)
+        intent.putExtra(PLAY_WHEN_READY, true)
         startService(intent)
     }
 
@@ -60,7 +64,7 @@ class DownloaderImpl(context: Context) : SimpleDownloader(context) {
             return tracks
         }
         for (episode in episodes) {
-            episode.link?.let { tracks.add(it) }
+            episode.uri?.let { tracks.add(it) }
         }
         return tracks
     }
@@ -70,5 +74,6 @@ class DownloaderImpl(context: Context) : SimpleDownloader(context) {
         intent.putStringArrayListExtra(EXTRA_TRACK_LIST, tracks)
         startService(intent)
     }
+
 
 }

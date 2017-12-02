@@ -2,7 +2,7 @@ package com.pietrantuono.podcasts.downloader.downloader
 
 import android.content.Context
 import com.pietrantuono.podcasts.downloader.service.CompletedDownloadsManager
-import com.pietrantuono.podcasts.downloader.service.DownloaderService
+import com.pietrantuono.podcasts.downloader.service.DOWNLOAD_COMPLETED
 import com.tonyodev.fetch.Fetch
 import com.tonyodev.fetch.exception.NotUsableException
 import com.tonyodev.fetch.listener.FetchListener
@@ -32,7 +32,7 @@ class FetcherImpl(
         getRequestById(id)?.let {
             callback?.onUpdate(it, progress, fileSize)
         }
-        if (progress >= DownloaderService.DOWNLOAD_COMPLETED) {
+        if (progress >= DOWNLOAD_COMPLETED) {
             onDownloadCompleted(id, downloadedBytes)
         }
     }
@@ -51,11 +51,11 @@ class FetcherImpl(
     }
 
     private fun alreadyDowloanded(uri: String): Boolean {
-        val link = fetcherModel.getEpisodeSync(uri)?.link
-        if (link == null) {
+        val uri = fetcherModel.getEpisodeSync(uri)?.uri
+        if (uri == null) {
             return false
         }
-        return fetch.alreadyDownloaded(link) || fetcherModel.episodeIsDownloadedSync(uri)
+        return fetch.alreadyDownloaded(uri) || fetcherModel.episodeIsDownloadedSync(uri)
     }
 
     override fun stopDownload(requestInfo: RequestInfo) {

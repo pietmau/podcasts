@@ -49,14 +49,18 @@ class DownloadModule() {
 
     @Provides
     @Named(SLACK_IN_BYTES)
-    fun provideSlackInBytes(): Int = 1 * 1024 * 1024
+    fun provideSlackInBytes(): Int = 2 * 1024 * 1024
 
     @Provides
     fun provideNetworkDetector(preferencesManager: PreferencesManager, provider: DirectoryProvider, context: Context)
             = NetworkDiskAndPreferenceManager(context, preferencesManager, provider)
 
     @Provides
-    fun provideDownloadManager(episodeRepo: EpisodesRepository, podcastRepo: PodcastRepo)
-            = CompletedDownloadsManager(episodeRepo, podcastRepo)
+    fun provideDownloadManager(episodeRepo: EpisodesRepository, podcastRepo: PodcastRepo) = CompletedDownloadsManager(episodeRepo, podcastRepo)
+
+    @Provides
+    fun provideDownloaerDeleter(fetcer: Fetcher, notificator: DownloadNotificator, networkDiskAndPreferenceManager: NetworkDiskAndPreferenceManager): DowloaderDeleter
+            = DownloaderDeleterImpl(fetcer, notificator, networkDiskAndPreferenceManager)
+    
 }
 
