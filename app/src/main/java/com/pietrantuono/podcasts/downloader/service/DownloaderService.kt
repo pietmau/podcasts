@@ -58,7 +58,9 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
     override fun onDownloadCompleted(requestInfo: RequestInfo) {
         notificator.broadcastOnDownloadCompleted(requestInfo)
         enqueuer.addToQueueIfAppropriate(requestInfo)
-        stopForeground(false)//TODO fix this!
+        if (dowloaderDelter.allDownlaodsAreCompleted) {
+            stopForeground(false)
+        }
     }
 
     private fun stopDownloadAndNotifyUser(requestInfo: RequestInfo) {

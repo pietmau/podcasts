@@ -14,6 +14,9 @@ class FetcherImpl(
         private val requestManager: RequestManager,
         private var completedDownloadsManager: CompletedDownloadsManager) : Fetcher, FetchListener {
 
+    override val allDownlaodsAreCompleted: Boolean
+        get() = fetch.get().count() <= 0
+
     private val fetch: Fetch
 
     private var callback: Fetcher.Callback? = null

@@ -73,7 +73,7 @@
                     android:id="@+id/downloaded"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_check_white_24dp"
+                    android:drawableLeft="@drawable/ic_check_white_16dp"
                     android:text="@{podcast.downloadedCountText}"
                     android:textAppearance="?android:textAppearanceSmall"/>
 
@@ -81,7 +81,7 @@
                     android:id="@+id/not_downloaded"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_file_download_white_24dp"
+                    android:drawableLeft="@drawable/ic_file_download_white_16dp"
                     android:text="@{podcast.notDownloadedCountText}"
                     android:textAppearance="?android:textAppearanceSmall"/>
             </LinearLayout>

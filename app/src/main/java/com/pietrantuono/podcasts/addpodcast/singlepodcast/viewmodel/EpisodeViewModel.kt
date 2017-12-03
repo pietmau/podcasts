@@ -35,9 +35,9 @@ class EpisodeViewModel(episode: Episode, private val resourcesProvider: Resource
 
     val dowloadedDrawable: Drawable
         get() = if (downloaded) {
-            resourcesProvider.getDrawable(R.drawable.ic_check_white_24dp)
+            resourcesProvider.getDrawable(R.drawable.ic_check_white_16dp)
         } else {
-            resourcesProvider.getDrawable(R.drawable.ic_file_download_white_24dp)
+            resourcesProvider.getDrawable(R.drawable.ic_file_download_white_16dp)
         }
 
 

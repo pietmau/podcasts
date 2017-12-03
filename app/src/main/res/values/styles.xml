@@ -39,6 +39,10 @@
         <item name="android:textSize">@dimen/NormalTextSize</item>
     </style>
 
+    <style name="Small">
+        <item name="android:textSize">@dimen/SmallTextSize</item>
+    </style>
+
     <style name="Big">
         <item name="android:textSize">@dimen/BigTextSize</item>
     </style>

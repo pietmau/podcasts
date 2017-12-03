@@ -14,6 +14,7 @@
     <dimen name="BiggerTextSize">15sp</dimen>
     <dimen name="BigTextSize">14sp</dimen>
     <dimen name="NormalTextSize">12dp</dimen>
+    <dimen name="SmallTextSize">10dp</dimen>
     <dimen name="very_small_margin">4dp</dimen>
     <dimen name="item_image_size">100dp</dimen>
     <dimen name="item_progress_size">80dp</dimen>

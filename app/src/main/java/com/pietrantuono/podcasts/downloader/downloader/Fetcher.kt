@@ -16,5 +16,7 @@ interface Fetcher {
         fun onUpdate(requestInfo: RequestInfo, progress: Int, fileSize: Long)
     }
 
+    val allDownlaodsAreCompleted: Boolean
+
 
 }
