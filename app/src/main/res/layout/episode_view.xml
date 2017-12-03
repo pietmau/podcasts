@@ -15,7 +15,7 @@
         android:layout_margin="10dp">
 
         <RelativeLayout
-            android:background="@drawable/episode_bacground"
+            android:background="@drawable/episode_background"
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
