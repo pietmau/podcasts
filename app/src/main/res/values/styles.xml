@@ -48,7 +48,7 @@
     </style>
 
     <style name="EpisodeView">
-        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
     <style name="EpisodeViewTitle" parent="EpisodeView">

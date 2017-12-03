@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable
 import android.support.design.widget.Snackbar
 import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
-import android.support.v4.graphics.ColorUtils
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.format.DateUtils
@@ -16,11 +15,9 @@ import android.widget.*
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.ColorForBackgroundAndText
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.fullscreenplay.custom.ColorizedPlaybackControlView
 import com.pietrantuono.podcasts.fullscreenplay.di.FullscreenModule
-import com.pietrantuono.podcasts.fullscreenplay.view.custom.DrawableHelper
 import models.pojos.Episode
 import javax.inject.Inject
 
@@ -127,14 +124,6 @@ class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout
 
     override fun snack(message: String) {
         Snackbar.make(container,message,Snackbar.LENGTH_LONG).show()
-    }
-
-    fun setColors(colorForBackgroundAndText: ColorForBackgroundAndText?) {
-        colorForBackgroundAndText?.backgroundColor?.let {
-            val color = ColorUtils.setAlphaComponent(it, ((DrawableHelper.TRANSPARENCY / 100) * 255).toInt())
-            setBackgroundColor(color)
-        }
-
     }
 }
 
