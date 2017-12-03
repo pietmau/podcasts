@@ -2,6 +2,7 @@ package com.pietrantuono.podcasts.downloader.service
 
 import android.content.Intent
 import com.pietrantuono.podcasts.downloader.downloader.Fetcher
+import com.tonyodev.fetch.request.RequestInfo
 
 class DownloaderDeleterImpl(
         private val fetcher: Fetcher,
@@ -27,12 +28,13 @@ class DownloaderDeleterImpl(
         }
     }
 
-    override fun downloadEpisode(intent: Intent) {
+    override fun downloadEpisode(intent: Intent): Pair<Long, RequestInfo?>? {
         if (shouldDownload()) {
             intent.getStringExtra(EXTRA_TRACK)?.let {
-                getAndEnqueueSingleEpisode(it)
+                return getAndEnqueueSingleEpisode(it)
             }
         }
+        return null
     }
 
     override fun addCallback(callback: Fetcher.Callback) {
@@ -44,8 +46,8 @@ class DownloaderDeleterImpl(
         notificator.broadcastDeleteEpisode(id)
     }
 
-    private fun getAndEnqueueSingleEpisode(uri: String) {
-        fetcher.download(uri)
+    private fun getAndEnqueueSingleEpisode(uri: String): Pair<Long, RequestInfo?>? {
+        return fetcher.download(uri)
     }
 
     private fun enqueueEpisodes(list: List<String>) {
@@ -60,5 +62,5 @@ class DownloaderDeleterImpl(
 
     internal fun shouldDownload() = networkDiskAndPreferenceManager.shouldDownload
 
-    override fun thereIsEnoughDiskSpace(fileSize: Long)= networkDiskAndPreferenceManager.thereIsEnoughSpace(fileSize)
+    override fun thereIsEnoughDiskSpace(fileSize: Long) = networkDiskAndPreferenceManager.thereIsEnoughSpace(fileSize)
 }

@@ -81,6 +81,9 @@ class FetcherImpl(
     }
 
     override fun deleteEpisode(id: Long) {
+        if (!fetch.isValid) {
+            return
+        }
         fetch.remove(id)
         fetcherModel.setEpisodeNotDownloaded(id)
     }

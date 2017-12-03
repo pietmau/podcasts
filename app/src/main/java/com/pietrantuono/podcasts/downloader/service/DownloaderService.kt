@@ -39,7 +39,8 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
     }
 
     private fun downloadEpisode(intent: Intent) {
-        dowloaderDelter.downloadEpisode(intent)
+        val requestInfo = dowloaderDelter.downloadEpisode(intent)?.second
+        enqueuer.storeRequestIfAppropriate(requestInfo, intent.getBooleanExtra(PLAY_WHEN_READY,false))
     }
 
     private fun downloadAllEpisodes(intent: Intent) {
