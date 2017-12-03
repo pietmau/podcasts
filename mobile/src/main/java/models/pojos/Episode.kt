@@ -43,4 +43,6 @@ interface Episode : Parcelable {
     var downloadRequestId: Long
 
     var uri: String?
+
+    var deleted: Boolean
 }

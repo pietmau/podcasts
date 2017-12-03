@@ -7,6 +7,7 @@ import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.downloader.downloader.*
 import com.pietrantuono.podcasts.downloader.service.*
 import com.pietrantuono.podcasts.settings.PreferencesManager
+import com.tonyodev.fetch.Fetch
 import dagger.Module
 import dagger.Provides
 import repo.repository.EpisodesRepository
@@ -19,16 +20,27 @@ private const val SLACK_IN_BYTES = "slack_in_bytes"
 @Singleton
 @Module
 class DownloadModule() {
+    private var fetch: Fetch? = null
 
     @Singleton
     @Provides
-    fun provideFetcher(provider: DirectoryProvider, fetcherModel: FetcherModelImpl, manager: RequestManager, completemanager: CompletedDownloadsManager, context: Context): Fetcher {
-        return FetcherImpl(context, fetcherModel, manager, completemanager)
+    fun provideFetcher(provider: DirectoryProvider, fetcherModel: FetcherModelImpl, manager: RequestManager, completemanager: CompletedDownloadsManager, context: Context, fetch: Fetch): Fetcher {
+        return FetcherImpl(context, fetch, fetcherModel, manager, completemanager)
+    }
+
+    @Singleton
+    @Provides
+    fun provideFetch(context: Context): Fetch {
+        if (fetch == null) {
+            fetch = Fetch.newInstance(context)
+            fetch?.setConcurrentDownloadsLimit(1)
+        }
+        return fetch!!
     }
 
     @Provides
     fun provideNotificator(repo: EpisodesRepository, logger: DebugLogger, context: Context, creator: DownloadNotificationCreator, communicator: Communicator): DownloadNotificator =
-            DownloadNotificatorImpl(repo, logger, creator, communicator)
+            DownloadNotificatorImpl(repo, creator, communicator)
 
     @Provides
     fun provideRequestGenerator(provider: DirectoryProvider, repository: EpisodesRepository): RequestManager {
@@ -61,6 +73,6 @@ class DownloadModule() {
     @Provides
     fun provideDownloaerDeleter(fetcer: Fetcher, notificator: DownloadNotificator, networkDiskAndPreferenceManager: NetworkDiskAndPreferenceManager): DowloaderDeleter
             = DownloaderDeleterImpl(fetcer, notificator, networkDiskAndPreferenceManager)
-    
+
 }
 

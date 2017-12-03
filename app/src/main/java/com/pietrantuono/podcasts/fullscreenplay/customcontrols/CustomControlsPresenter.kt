@@ -24,6 +24,7 @@ class CustomControlsPresenter(
         viewUpdater.view = customControls
         mediaBrowserCompatWrapper.init(object : MediaBrowserCompat.ConnectionCallback() {
             override fun onConnected() {
+                connectToSession(mediaBrowserCompatWrapper.token)
             }
         })
     }

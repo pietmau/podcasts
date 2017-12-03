@@ -10,20 +10,14 @@ import com.tonyodev.fetch.request.RequestInfo
 
 class FetcherImpl(
         context: Context,
+        private val fetch: Fetch,
         private val fetcherModel: FetcherModelImpl,
         private val requestManager: RequestManager,
         private var completedDownloadsManager: CompletedDownloadsManager) : Fetcher, FetchListener {
 
-    override val allDownlaodsAreCompleted: Boolean
-        get() = fetch.get().count() <= 0
-
-    private val fetch: Fetch
-
     private var callback: Fetcher.Callback? = null
 
     init {
-        fetch = Fetch.newInstance(context)
-        fetch.setConcurrentDownloadsLimit(1)
         fetch.addFetchListener(this)
     }
 
@@ -33,7 +27,7 @@ class FetcherImpl(
 
     override fun onUpdate(id: Long, status: Int, progress: Int, downloadedBytes: Long, fileSize: Long, error: Int) {
         getRequestById(id)?.let {
-            callback?.onUpdate(it, progress, fileSize)
+            callback?.onUpdate(it, status, progress, fileSize)
         }
         if (progress >= DOWNLOAD_COMPLETED) {
             onDownloadCompleted(id, downloadedBytes)
@@ -85,7 +79,7 @@ class FetcherImpl(
             return
         }
         fetch.remove(id)
-        fetcherModel.setEpisodeNotDownloaded(id)
+        fetcherModel.setEpisodeDeletedAndNotDownloaded(id)
     }
 }
 

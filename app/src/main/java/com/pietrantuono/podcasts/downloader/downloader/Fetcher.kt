@@ -13,10 +13,6 @@ interface Fetcher {
 
     interface Callback {
         fun onDownloadCompleted(it: RequestInfo)
-        fun onUpdate(requestInfo: RequestInfo, progress: Int, fileSize: Long)
+        fun onUpdate(requestInfo: RequestInfo, status: Int, progress: Int, fileSize: Long)
     }
-
-    val allDownlaodsAreCompleted: Boolean
-
-
 }

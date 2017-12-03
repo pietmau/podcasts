@@ -13,8 +13,8 @@ class FetcherModelImpl @Inject constructor(
         return episode != null && episode.downloaded
     }
 
-    fun setEpisodeNotDownloaded(id: Long) {
-        episodesRepo.setEpisodeNotDownloadedSync(id)
+    fun setEpisodeDeletedAndNotDownloaded(id: Long) {
+        episodesRepo.setEpisodeDeletedAndNotDowloaded(id)
     }
 
     fun getEpisodeSync(uri: String): Episode? = episodesRepo.getEpisodeByUriSync(uri)

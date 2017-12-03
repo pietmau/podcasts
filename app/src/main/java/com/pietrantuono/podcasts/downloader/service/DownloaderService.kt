@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts.downloader.service
 
 import android.content.Intent
+import android.os.Handler
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.downloader.downloader.Fetcher
 import com.pietrantuono.podcasts.player.Enqueuer
@@ -8,9 +9,12 @@ import com.tonyodev.fetch.request.RequestInfo
 import javax.inject.Inject
 
 class DownloaderService() : SimpleService(), Fetcher.Callback {
+    private val DELAY_IN_SECONDS = 30L
+
     @Inject lateinit var dowloaderDelter: DowloaderDeleter
     @Inject lateinit var notificator: DownloadNotificator
     @Inject lateinit var enqueuer: Enqueuer
+    private val handler = Handler()
 
     override fun onCreate() {
         super.onCreate()
@@ -40,17 +44,18 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
 
     private fun downloadEpisode(intent: Intent) {
         val requestInfo = dowloaderDelter.downloadEpisode(intent)?.second
-        enqueuer.storeRequestIfAppropriate(requestInfo, intent.getBooleanExtra(PLAY_WHEN_READY,false))
+        enqueuer.storeRequestIfAppropriate(requestInfo, intent.getBooleanExtra(PLAY_WHEN_READY, false))
     }
 
     private fun downloadAllEpisodes(intent: Intent) {
         dowloaderDelter.downloadAllEpisodes(intent)
     }
 
-    override fun onUpdate(info: RequestInfo, progress: Int, fileSize: Long) {
+    override fun onUpdate(info: RequestInfo, staus: Int, progress: Int, fileSize: Long) {
+        handler.removeCallbacksAndMessages(null)
         notificator.broadcastUpdate(info, progress, fileSize)
         if (dowloaderDelter.thereIsEnoughDiskSpace(fileSize)) {
-            notificator.notifyProgress(this@DownloaderService, info, progress)
+            notificator.notifyStatus(this@DownloaderService, info, staus, progress)
             return
         }
         stopDownloadAndNotifyUser(info)
@@ -59,14 +64,15 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
     override fun onDownloadCompleted(requestInfo: RequestInfo) {
         notificator.broadcastOnDownloadCompleted(requestInfo)
         enqueuer.addToQueueIfAppropriate(requestInfo)
-        if (dowloaderDelter.allDownlaodsAreCompleted) {
+        handler.postDelayed({
             stopForeground(false)
-        }
+        }, DELAY_IN_SECONDS * 1000)
     }
 
     private fun stopDownloadAndNotifyUser(requestInfo: RequestInfo) {
-        notificator.notifySpaceUnavailable(requestInfo)
         dowloaderDelter.shutDown()
+        stopForeground(true)
+        notificator.notifySpaceUnavailable(requestInfo)
         stopSelf()
     }
 

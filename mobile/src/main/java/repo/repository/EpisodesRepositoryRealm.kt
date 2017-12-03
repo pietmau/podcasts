@@ -12,13 +12,14 @@ class EpisodesRepositoryRealm(private val cache: EpisodeCache) : EpisodesReposit
     private val URI = "uri"
     private val ENCLOSURE_URL = "syndEnclosures.url"
 
-    override fun setEpisodeNotDownloadedSync(id: Long) {
+    override fun setEpisodeDeletedAndNotDowloaded(id: Long) {
         Realm.getDefaultInstance().use { realm ->
             realm.executeTransaction {
                 val episode = it.where(RealmEpisode::class.java)
                         .equalTo(DOWNLOAD_REQUEST_ID, id)
                         .findFirst()
                 episode?.downloaded = false
+                episode?.deleted = true
             }
         }
     }
@@ -74,7 +75,6 @@ class EpisodesRepositoryRealm(private val cache: EpisodeCache) : EpisodesReposit
                         .findFirstAsync()
                         .asObservable<RealmEpisode>()
                         .filter { it != null }
-                        .map { it as RealmEpisode }
                         .filter { it.isLoaded && it.isValid }
             }
 

@@ -16,4 +16,8 @@ class CommunicatorImpl(
     override fun notify(id: Int, notification: Notification?) {
         notificatiopnManager.notify(id, notification)
     }
+
+    override fun removeNotification(id: Int) {
+        notificatiopnManager.cancel(id)
+    }
 }

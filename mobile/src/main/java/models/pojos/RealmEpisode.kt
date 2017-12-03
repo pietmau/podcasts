@@ -47,6 +47,7 @@ open class RealmEpisode : RealmObject, Episode {
     override var downloadRequestId: Long = -1
     @PrimaryKey
     override var uri: String? = null
+    override var deleted: Boolean = false
 
     constructor(parcel: Parcel) {
         link = parcel.readString()
