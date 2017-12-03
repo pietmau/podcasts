@@ -15,6 +15,7 @@
         android:layout_margin="10dp">
 
         <RelativeLayout
+            android:background="@drawable/episode_bacground"
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -36,6 +37,7 @@
                     android:orientation="horizontal">
 
                     <ImageView
+                        android:src="@{viewModel.dowloadedDrawable}"
                         android:id="@+id/dowloaded_image"
                         android:layout_width="@dimen/images_size"
                         android:layout_height="@dimen/images_size"

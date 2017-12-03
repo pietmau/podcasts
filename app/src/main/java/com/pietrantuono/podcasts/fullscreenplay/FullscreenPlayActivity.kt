@@ -59,11 +59,6 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
         controlView.setEpisode(episode)
     }
 
-    override fun onColorExtractionCompleted() {
-        episodeView.setColors(colorExtractor.colorForBackgroundAndText)
-        controlView.setColors(colorExtractor.colorForBackgroundAndText)
-    }
-
     override fun getImageUrl(): String? = null
 
     override fun onBackPressed() {
