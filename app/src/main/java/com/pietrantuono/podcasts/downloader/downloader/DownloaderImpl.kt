@@ -2,11 +2,15 @@ package com.pietrantuono.podcasts.downloader.downloader
 
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.getIntent
 import com.pietrantuono.podcasts.downloader.service.*
+import com.pietrantuono.podcasts.settings.PreferencesManager
 import models.pojos.Episode
 import models.pojos.Podcast
 
-class DownloaderImpl(context: Context) : SimpleDownloader(context) {
+class DownloaderImpl(
+        context: Context,
+        private val preferencesManager: PreferencesManager) : SimpleDownloader(context) {
 
     override fun downloadEpisodeFromUri(uri: String) {
         val intent = getIntentWitUri(uri)
@@ -26,6 +30,9 @@ class DownloaderImpl(context: Context) : SimpleDownloader(context) {
     }
 
     override fun downloadIfAppropriate(podcast: Podcast?) {
+        if (!preferencesManager.downloadAutomatically) {
+            return
+        }
         podcast?.episodes?.
                 map { it.uri }?.
                 filterNotNull()?.

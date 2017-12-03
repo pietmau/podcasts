@@ -32,7 +32,6 @@
         <TextView
             android:layout_alignParentRight="true"
             android:drawableRight="@{viewModel.dowloadedDrawable}"
-            android:layout_toLeftOf="@+id/dowloand_icon"
             android:id="@+id/image"
             style="@style/Small"
             android:layout_width="wrap_content"

@@ -17,13 +17,16 @@ class PreferencesManagerImpl(
     }
 
     override val saveOnSdCard: Boolean
-        get() = sharedPref.getBoolean(resourcesProvider.getString(R.string.external_storage), false)
+        get() = sharedPref.getBoolean(resourcesProvider.getString(R.string.external_storage), true)
 
     override val listenOnMobileNetwork: Boolean
         get() = !sharedPref.getBoolean(resourcesProvider.getString(R.string.listen_wifi), false)
 
     override val downloadOnMobileNetwork: Boolean
         get() = !sharedPref.getBoolean(resourcesProvider.getString(R.string.download_wifi), false)
+
+    override val downloadAutomatically: Boolean
+        get() = sharedPref.getBoolean(resourcesProvider.getString(R.string.auto_download), true)
 
     override fun registerListener(listener: (sharedPreferences: SharedPreferences, key: String) -> Unit) {
         sharedPref.registerOnSharedPreferenceChangeListener(listener)

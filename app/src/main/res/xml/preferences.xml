@@ -2,21 +2,34 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <SwitchPreferenceCompat
+        android:defaultValue="true"
         android:key="@string/listen_wifi"
-        android:title="@string/listen_wifi_title"
         android:summary="@string/listen_wifi_title_summary"
-        android:defaultValue="true" />
+        android:title="@string/listen_wifi_title"/>
 
-    <SwitchPreferenceCompat
-        android:key="@string/download_wifi"
-        android:title="@string/download_wifi_title"
-        android:summary="@string/download_wifi_title_summary"
-        android:defaultValue="true" />
+    <PreferenceCategory
+        android:key="pref_dowwloand_settings"
+        android:title="@string/download">
 
-    <SwitchPreferenceCompat
-        android:key="@string/external_storage"
-        android:title="@string/external_storage_title"
-        android:defaultValue="true" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="@string/download_wifi"
+            android:summary="@string/download_wifi_title_summary"
+            android:title="@string/download_wifi_title"/>
 
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="@string/external_storage"
+            android:title="@string/external_storage_title"/>
+
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="@string/auto_download"
+            android:title="@string/auto_download_title"
+            android:summary="@string/auto_download_summary"
+            />
+
+    </PreferenceCategory>
 
 </PreferenceScreen>
