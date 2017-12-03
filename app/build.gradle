@@ -58,9 +58,22 @@ android {
     }
     dexOptions {
         jumboMode true
+        incremental true
     }
     lintOptions {
         abortOnError false
+    }
+
+    flavorDimensions "stage"
+
+    productFlavors {
+        dev {
+            dimension "stage"
+            resConfigs "en", "xxhdpi"
+        }
+        prod {
+            dimension "stage"
+        }
     }
 }
 
