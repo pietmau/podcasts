@@ -8,7 +8,6 @@ import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.BitmapColorExtractor
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
-import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
 import com.pietrantuono.podcasts.downloader.downloader.Downloader
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
 import com.pietrantuono.podcasts.main.view.TransitionsHelper
@@ -52,13 +51,11 @@ class SingleSubscribedModule(private val activity: AppCompatActivity) {
     }
 
     @Provides
-    fun provideViewModelProviderFactory(checker: ApiLevelChecker,
-                                        model: EpisodesListModel,
-                                        menuProvider: EpisodesListMenuProviderImpl
+    fun provideViewModelProviderFactory(model: EpisodesListModel, menuProvider: EpisodesListMenuProviderImpl
     ): ViewModelProvider.Factory {
         return object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>?): T {
-                return EpisodesListPresenter(model, menuProvider, checker) as T
+                return EpisodesListPresenter(model, menuProvider) as T
             }
         }
     }

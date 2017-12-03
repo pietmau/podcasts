@@ -12,6 +12,7 @@ import java.util.*
 class EpisodesListAdapter(private val resourcesProvider: ResourcesProvider) : RecyclerView.Adapter<EpisodesListHolder>() {
     private val items: MutableList<Episode>
     var onItemClickListener: EpisodedListRecycler.OnItemClickListener? = null
+    private val onDownloadImageClickListener: EpisodedListRecycler.OnDownloadClickListener? = null
 
     init {
         items = ArrayList<Episode>()
@@ -23,7 +24,7 @@ class EpisodesListAdapter(private val resourcesProvider: ResourcesProvider) : Re
     }
 
     override fun onBindViewHolder(holder: EpisodesListHolder, position: Int) {
-        holder.bind(items[position], onItemClickListener, position)
+        holder.bind(items[position], onItemClickListener, onDownloadImageClickListener, position)
     }
 
     override fun getItemCount(): Int {

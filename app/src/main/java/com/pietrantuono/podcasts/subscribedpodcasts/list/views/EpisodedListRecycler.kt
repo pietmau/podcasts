@@ -62,4 +62,8 @@ class EpisodedListRecycler : RecyclerView {
     interface OnItemClickListener {
         fun onItemClicked(episode: Episode, image: ImageView, position: Int)
     }
+
+    interface OnDownloadClickListener {
+        fun onDownloadClicked(episode: Episode)
+    }
 }

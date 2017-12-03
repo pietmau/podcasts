@@ -19,12 +19,16 @@ class EpisodesListHolder(itemView: View, private val resourcesProvider: Resource
         dataBinding = DataBindingUtil.bind<ViewDataBinding>(itemView) as EpisodeItemBinding
     }
 
-    fun bind(episode: Episode, onItemClickListener: EpisodedListRecycler.OnItemClickListener?, position: Int) {
+    fun bind(episode: Episode, onItemClickListener: EpisodedListRecycler.OnItemClickListener?,
+             onDownloadImageClickListener: EpisodedListRecycler.OnDownloadClickListener?, position: Int) {
         val podcastEpisodeViewModel = EpisodeViewModel(episode, resourcesProvider)
         dataBinding.setVariable(BR.viewModel, podcastEpisodeViewModel)
         dataBinding.executePendingBindings()
         dataBinding.root.setOnClickListener {
-            onItemClickListener?.let { it.onItemClicked(episode, dataBinding.imageLayout!!.singlePodcastImage, position) }
+            onItemClickListener?.onItemClicked(episode, dataBinding.imageLayout!!.singlePodcastImage, position)
+        }
+        dataBinding.content?.image?.setOnClickListener {
+            onDownloadImageClickListener?.onDownloadClicked(episode)
         }
     }
 }
