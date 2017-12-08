@@ -86,6 +86,7 @@ class MusicProviderRealm(private val extractor: SourceExtractor) : MusicProvider
         episode?.durationInMills?.let { builder.putLong(MediaMetadataCompat.METADATA_KEY_DURATION, it) }
         builder.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, episode.link)
         builder.putString(MediaMetadataCompat.METADATA_KEY_TITLE, episode.title)
+        builder.putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON_URI, episode.imageUrl)
         return builder.build()
     }
 

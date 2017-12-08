@@ -12,5 +12,6 @@ interface PodcastRepo {
     fun getIfSubscribed(podcast: Podcast?): Observable<Boolean>
     fun subscribeUnsubscribeToPodcast(podcast: Podcast?)
     fun getPodcastByEpisodeSync(episode: Episode): Podcast?
-    fun savePodcastSync(podcast: PodcastRealm)
+    fun savePodcastSync(podcast: PodcastRealm?)
+    fun getPodcastByIdSync(trackId: Int): Podcast?
 }

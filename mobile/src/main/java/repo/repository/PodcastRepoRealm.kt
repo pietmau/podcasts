@@ -13,6 +13,13 @@ import rx.subjects.BehaviorSubject
 class PodcastRepoRealm(
         private val reposServices: RepoServices
 ) : PodcastRepo {
+    override fun getPodcastByIdSync(trackId: Int): Podcast? {
+        return Realm.getDefaultInstance().use { realm ->
+            realm.copyFromRealm(realm.where(PodcastRealm::class.java)
+                    .equalTo("trackId", trackId)
+                    .findFirst())
+        }
+    }
 
     val config = RealmConfiguration.Builder()
             .name("app.realm")
@@ -22,7 +29,7 @@ class PodcastRepoRealm(
     private val TAG = "PodcastRepoRealm"
 
     /** To be used from another Thread or from a service in another process . */
-    override fun savePodcastSync(podcast: PodcastRealm) {
+    override fun savePodcastSync(podcast: PodcastRealm?) {
         Realm.getDefaultInstance().use { realm ->
             realm.executeTransaction {
                 it.copyToRealmOrUpdate(podcast)
