@@ -141,8 +141,10 @@ class CustomControlsPresenter(
 
     override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
         if (stateResolver.isPlayingCurrentEpisode()) {
-            viewUpdater.onMetadataChanged(metadata)
+            viewUpdater.onCurrentEpisodeMetadataChanged(metadata)
+            return
         }
+        viewUpdater.onStatePaused()
     }
 
     fun onDestroy() {

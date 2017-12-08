@@ -3,11 +3,12 @@ package player.utils;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 
-import player.model.MusicProvider;
-
 import java.util.List;
+
+import player.model.MusicProvider;
 
 public interface QueueHelper {
     List<MediaSessionCompat.QueueItem> getPlayingQueue(String mediaId,
@@ -31,4 +32,6 @@ public interface QueueHelper {
 
     boolean isQueueItemPlaying(Context context,
                                MediaSessionCompat.QueueItem queueItem);
+
+    List<MediaBrowserCompat.MediaItem> getPlaylist();
 }

@@ -21,10 +21,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
+import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 
 import com.example.android.uamp.R;
+
+import java.util.List;
 
 import player.model.MusicProvider;
 import player.utils.LogHelper;
@@ -256,6 +259,10 @@ public class PlaybackManager implements Playback.Callback {
             default:
                 LogHelper.d(TAG, "Default called. Old state is ", oldState);
         }
+    }
+
+    public List<MediaBrowserCompat.MediaItem> getPlaylist() {
+        return mQueueManager.getPlaylist();
     }
 
 

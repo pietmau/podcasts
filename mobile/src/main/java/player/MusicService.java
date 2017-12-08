@@ -22,7 +22,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.media.MediaBrowserCompat.MediaItem;
 import android.support.v4.media.MediaBrowserServiceCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-import java.util.ArrayList;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -62,7 +62,7 @@ public class MusicService extends MediaBrowserServiceCompat implements CustomMed
     @Override
     public void onLoadChildren(@NonNull final String parentMediaId,
                                @NonNull final Result<List<MediaItem>> result) {
-        result.sendResult(new ArrayList<MediaItem>());
+        result.sendResult(musicServicePresenter.getPlaylist());
     }
 
     @Override

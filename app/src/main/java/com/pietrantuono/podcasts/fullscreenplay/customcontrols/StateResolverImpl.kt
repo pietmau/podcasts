@@ -16,10 +16,18 @@ class StateResolver {
         when (state?.state) {
             STATE_PLAYING -> onStatePlaying(presenter)
             STATE_PAUSED -> onStatePaused(presenter)
-            STATE_NONE, STATE_STOPPED -> presenter?.onStateNone()
+            STATE_NONE, STATE_STOPPED -> onStateNone(presenter)
             STATE_BUFFERING -> onStateBuffering(presenter)
-            STATE_ERROR -> presenter.onError(state)
+            STATE_ERROR -> onError(presenter, state)
         }
+    }
+
+    private fun onError(presenter: CustomControlsPresenter, state: PlaybackStateCompat) {
+        presenter.onError(state)
+    }
+
+    private fun onStateNone(presenter: CustomControlsPresenter) {
+        presenter?.onStateNone()
     }
 
     private fun onStateBuffering(presenter: CustomControlsPresenter) {
@@ -83,5 +91,4 @@ class StateResolver {
     }
 
     fun willHandleClick(): Boolean = episode?.downloaded == true
-
 }

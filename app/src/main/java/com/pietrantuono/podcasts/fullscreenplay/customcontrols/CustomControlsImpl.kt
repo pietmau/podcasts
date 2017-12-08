@@ -102,13 +102,17 @@ class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout
     override fun onStateNone() {
         loading.visibility = View.INVISIBLE
         playPause.visibility = View.VISIBLE
-        playPause.setImageDrawable(playDrawable)
+        setPlayDrawable()
     }
 
     override fun onStatePaused() {
         controllers.visibility = View.VISIBLE
         loading.visibility = View.INVISIBLE
         playPause.visibility = View.VISIBLE
+        setPlayDrawable()
+    }
+
+    private fun setPlayDrawable() {
         playPause.setImageDrawable(playDrawable)
     }
 

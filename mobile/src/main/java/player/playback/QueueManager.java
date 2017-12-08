@@ -20,6 +20,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 
@@ -213,6 +214,10 @@ public class QueueManager {
                 }
             });
         }
+    }
+
+    public List<MediaBrowserCompat.MediaItem> getPlaylist() {
+        return queueHelper.getPlaylist();
     }
 
 

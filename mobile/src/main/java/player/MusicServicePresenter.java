@@ -4,8 +4,11 @@ package player;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.RemoteException;
+import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+
+import java.util.List;
 
 import player.playback.PlaybackManager;
 
@@ -89,5 +92,9 @@ public class MusicServicePresenter {
 
     public void stopSelf() {
         service.stopSelf();
+    }
+
+    public List<MediaBrowserCompat.MediaItem> getPlaylist() {
+        return mPlaybackManager.getPlaylist();
     }
 }

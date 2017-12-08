@@ -46,10 +46,8 @@ class ViewUpdater(
         view?.setStartText(DateUtils.formatElapsedTime((progress / 1000).toLong()))
     }
 
-    fun onMetadataChanged(metadata: MediaMetadataCompat?) {
-        if (metadata == null) {
-            return
-        }
+    fun onCurrentEpisodeMetadataChanged(metadata: MediaMetadataCompat?) {
+        metadata?:return
         metadata.description?.let {
             view?.updateMediaDescription(it)
         }

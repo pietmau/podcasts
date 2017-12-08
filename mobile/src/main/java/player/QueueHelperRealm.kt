@@ -3,6 +3,8 @@ package player
 
 import android.content.Context
 import android.os.Bundle
+import android.support.v4.media.MediaBrowserCompat
+import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.MediaSessionCompat
 import player.model.MusicProvider
 import player.utils.QueueHelper
@@ -59,4 +61,11 @@ internal class QueueHelperRealm : QueueHelper {
     override fun isQueueItemPlaying(context: Context, queueItem: MediaSessionCompat.QueueItem): Boolean {
         return false
     }
+
+
+    override fun getPlaylist(): MutableList<out MediaBrowserCompat.MediaItem> {
+        return mutableListOf<SuperMediaItem>()
+    }
 }
+
+class SuperMediaItem(ff: MediaDescriptionCompat) : MediaBrowserCompat.MediaItem(ff, 0) {}

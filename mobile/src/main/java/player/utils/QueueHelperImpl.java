@@ -19,16 +19,17 @@ package player.utils;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.text.TextUtils;
 
-import player.VoiceSearchParams;
-import player.model.MusicProvider;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import player.VoiceSearchParams;
+import player.model.MusicProvider;
 
 import static player.utils.MediaIDHelper.MEDIA_ID_MUSICS_BY_GENRE;
 import static player.utils.MediaIDHelper.MEDIA_ID_MUSICS_BY_SEARCH;
@@ -251,5 +252,10 @@ public class QueueHelperImpl implements QueueHelper {
             }
         }
         return false;
+    }
+
+    @Override
+    public List<MediaBrowserCompat.MediaItem> getPlaylist() {
+        return null;
     }
 }
