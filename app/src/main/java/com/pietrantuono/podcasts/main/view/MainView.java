@@ -13,4 +13,6 @@ public interface MainView {
     void finish();
 
     void startKillSwitchActivity(int title, int messagge);
+
+    void navigateToPlaylist();
 }

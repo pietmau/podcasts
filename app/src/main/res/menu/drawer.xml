@@ -17,5 +17,9 @@
             android:id="@+id/downloads"
             android:icon="@drawable/ic_file_download_white_24dp"
             android:title="@string/downloads" />
+        <item
+            android:id="@+id/playlist"
+            android:icon="@drawable/ic_audiotrack_black_24dp"
+            android:title="@string/playlist" />
     </group>
 </menu>

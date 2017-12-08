@@ -43,5 +43,9 @@ class MainPresenter(private val killSwich: KillSwitch) : GenericPresenter {
         view?.navigateToDownloads()
     }
 
+    fun onPlaylistSelected() {
+        view?.navigateToPlaylist()
+    }
+
 }
 

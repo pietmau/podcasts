@@ -9,4 +9,5 @@ interface GenericPresenter {
 
     fun onResume()
 
+
 }

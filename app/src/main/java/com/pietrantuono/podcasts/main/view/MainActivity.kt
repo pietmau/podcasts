@@ -19,12 +19,14 @@ import com.pietrantuono.podcasts.main.customviews.SimpleNavView
 import com.pietrantuono.podcasts.main.dagger.MainModule
 import com.pietrantuono.podcasts.main.killswitchactivity.KillSwitchActivity
 import com.pietrantuono.podcasts.main.presenter.MainPresenter
+import com.pietrantuono.podcasts.playlist.view.PlaylistFragment
 import com.pietrantuono.podcasts.settings.fragment.SettingsFragment
 import com.pietrantuono.podcasts.subscribedpodcasts.view.SubscribedPodcastFragment
 import io.fabric.sdk.android.Fabric
 import javax.inject.Inject
 
 class MainActivity : AbstractPlaybackControlsActivity(), MainView {
+
     @Inject lateinit var mainPresenter: MainPresenter
     @Inject lateinit var transitions: TransitionsHelper
     @BindView(R.id.drawer) lateinit var drawerLayoutWithToggle: DrawerLayoutWithToggle
@@ -96,6 +98,11 @@ class MainActivity : AbstractPlaybackControlsActivity(), MainView {
     override fun navigateToDownloads() {
         DownloadFragment.navigateToDownloads(fragmentManager)
         setTitle(R.string.downloads)
+    }
+
+    override fun navigateToPlaylist() {
+        PlaylistFragment.navigateToPlaylist(fragmentManager)
+        setTitle(R.string.playlist)
     }
 
     override fun startKillSwitchActivity(title: Int, messagge: Int) {

@@ -33,6 +33,7 @@ class SimpleNavView : NavigationView {
                 R.id.subscribed -> listener?.onSubscribeSelected()
                 R.id.settings -> listener?.onSettingsSelected()
                 R.id.downloads -> listener?.onDownloadsSelected()
+                R.id.playlist -> listener?.onPlaylistSelected()
             }
             true
         }

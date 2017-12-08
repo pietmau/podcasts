@@ -74,6 +74,7 @@
     <string name="auto_download_title">Auto download</string>
     <string name="auto_download_summary">Download when subscribed</string>
     <string name="auto_download">auto_download</string>
+    <string name="playlist">Playlist</string>
 
 
 </resources>
