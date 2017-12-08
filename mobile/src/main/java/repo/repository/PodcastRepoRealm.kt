@@ -11,7 +11,7 @@ import rx.Observable
 import rx.subjects.BehaviorSubject
 
 class PodcastRepoRealm(
-        private val reposServices: RepoServices
+        private val reposServices: RepoServices?
 ) : PodcastRepo {
     override fun getPodcastByIdSync(trackId: Int): Podcast? {
         return Realm.getDefaultInstance().use { realm ->
@@ -40,9 +40,11 @@ class PodcastRepoRealm(
     override fun getPodcastByEpisodeSync(episode: Episode): Podcast? {
         return Realm.getDefaultInstance().use {
             var result = it?.where(PodcastRealm::class.java)?.
-                    equalTo("episodes.link", episode.uri)?.
+                    equalTo("episodes.uri", episode.uri)?.
                     findFirst()
-            result = it.copyFromRealm(result)
+            if (result != null) {
+                result = it.copyFromRealm(result)
+            }
             result
         }
     }
@@ -63,7 +65,7 @@ class PodcastRepoRealm(
             }
         }, object : Realm.Transaction.OnSuccess {
             override fun onSuccess() {
-                reposServices.getAndDowloadEpisodes(singlePodcast, singlePodcast?.isPodcastSubscribed)
+                reposServices?.getAndDowloadEpisodes(singlePodcast, singlePodcast?.isPodcastSubscribed)
                 subject?.onNext(singlePodcast?.isPodcastSubscribed)
             }
         })

@@ -10,15 +10,15 @@ import player.model.MusicProvider
 import player.model.MusicProviderImpl
 import player.model.MusicProviderSource
 import player.model.SourceExtractor
-import repo.repository.EpisodeCacheImpl
-import repo.repository.EpisodesRepository
-import repo.repository.EpisodesRepositoryRealm
+import repo.repository.*
 
 class MusicProviderRealm(private val extractor: SourceExtractor) : MusicProvider {
     private var episodesRepository: EpisodesRepository
+    private var podcastRepo: PodcastRepo
 
     init {
         episodesRepository = EpisodesRepositoryRealm(EpisodeCacheImpl())
+        podcastRepo = PodcastRepoRealm(null)
     }
 
     override fun getGenres(): Iterable<String>? {
@@ -99,7 +99,22 @@ class MusicProviderRealm(private val extractor: SourceExtractor) : MusicProvider
         if (!episode.imageUrl.isNullOrEmpty()) {
             return episode.imageUrl
         }
-        return episode.imageUrl
+
+        val podcast = podcastRepo.getPodcastByEpisodeSync(episode) ?: return null
+
+        if (podcast.artworkUrl600 != null) {
+            return podcast.artworkUrl600
+        }
+        if (podcast.artworkUrl100 != null) {
+            return podcast.artworkUrl100
+        }
+        if (podcast.artworkUrl60 != null) {
+            return podcast.artworkUrl60
+        }
+        if (podcast.artworkUrl30 != null) {
+            return podcast.artworkUrl30
+        }
+        return null
     }
 
     fun getSource(episode: Episode): String? {
