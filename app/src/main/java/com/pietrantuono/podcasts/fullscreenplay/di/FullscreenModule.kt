@@ -57,8 +57,6 @@ class FullscreenModule(private val activity: FragmentActivity) {
     @Provides
     fun provideCalculator() = PositionCalculator()
 
-    @Provides
-    fun provideMediaBrowserCompatWrapper(context: Context) = MediaBrowserCompatWrapper(context)
 }
 
 class FullscreenPresenterFactory(private val model: FullscreenModel

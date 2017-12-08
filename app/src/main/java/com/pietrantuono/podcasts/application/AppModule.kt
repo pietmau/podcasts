@@ -8,6 +8,7 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.pietrantuono.podcasts.downloader.downloader.Downloader
 import com.pietrantuono.podcasts.downloader.downloader.DownloaderImpl
 import com.pietrantuono.podcasts.downloader.downloader.Fetcher
+import com.pietrantuono.podcasts.fullscreenplay.customcontrols.MediaBrowserCompatWrapper
 import com.pietrantuono.podcasts.settings.PreferencesManager
 import dagger.Module
 import dagger.Provides
@@ -32,6 +33,10 @@ class AppModule(private val context: Context) {
 
     @Provides
     fun provideDownloader(repo: EpisodesRepository, fetcher: Fetcher, preferencesManager: PreferencesManager): Downloader = DownloaderImpl(context, preferencesManager)
+
+
+    @Provides
+    fun provideMediaBrowserCompatWrapper(context: Context) = MediaBrowserCompatWrapper(context)
 
 }
 

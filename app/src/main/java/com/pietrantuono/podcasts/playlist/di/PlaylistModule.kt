@@ -1,5 +1,6 @@
 package com.pietrantuono.podcasts.playlist.di
 
+import com.pietrantuono.podcasts.fullscreenplay.customcontrols.MediaBrowserCompatWrapper
 import com.pietrantuono.podcasts.playlist.presenter.PlaylistPresenter
 import dagger.Module
 import dagger.Provides
@@ -8,5 +9,5 @@ import dagger.Provides
 class PlaylistModule {
 
     @Provides
-    fun providePresenter() = PlaylistPresenter()
+    fun providePresenter(wrapper: MediaBrowserCompatWrapper) = PlaylistPresenter(wrapper)
 }
