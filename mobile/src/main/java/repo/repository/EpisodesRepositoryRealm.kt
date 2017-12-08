@@ -73,10 +73,6 @@ class EpisodesRepositoryRealm(private val cache: EpisodeCache) : EpisodesReposit
             realm.where(RealmEpisode::class.java)
                     .equalTo(URI, uri)
                     .findFirst()
-                    ?.also { reamlEpisode ->
-                        val episode = realm.copyFromRealm(reamlEpisode)
-                        cache.cacheEpisodeByUrls(uri, episode)
-                    }
         }
     }
 

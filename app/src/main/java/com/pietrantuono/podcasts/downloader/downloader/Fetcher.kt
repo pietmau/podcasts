@@ -14,5 +14,6 @@ interface Fetcher {
     interface Callback {
         fun onDownloadCompleted(it: RequestInfo)
         fun onUpdate(requestInfo: RequestInfo, status: Int, progress: Int, fileSize: Long)
+        fun onRemoved(requestInfo: RequestInfo, id: Long)
     }
 }

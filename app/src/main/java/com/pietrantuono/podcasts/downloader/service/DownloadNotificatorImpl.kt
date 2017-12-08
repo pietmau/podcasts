@@ -12,14 +12,12 @@ class DownloadNotificatorImpl(
         private val notifManager: Communicator
 ) : DownloadNotificator {
 
-    val STATUS_REMOVED = 905
     val DOWNLOAD_COMPLETED: Int = 100
-    private val TAG: String? = "DownloadNotificatorImpl"
     private val GENERIC_NOTIFICATION = 1
 
     override fun notifyStatus(service: Service, requestInfo: RequestInfo?, status: Int, progress: Int) {
         val url = requestInfo?.url
-        url ?: return //TODO nice!!
+        url ?: return
         repo.getEpisodeByEnclosureUrlSync(url)?.let {
             notifyDependingOnTheStatus(requestInfo, service, it, status, progress)
         }
@@ -27,7 +25,7 @@ class DownloadNotificatorImpl(
 
 
     private fun notifyDependingOnTheStatus(requestInfo: RequestInfo, service: Service, episode: Episode, status: Int, progress: Int) {
-        if (status != STATUS_REMOVED) {
+        if (status == STATUS_DOWNLOADING) {
             service.startForeground(requestInfo.id.toInt(), getNotification(episode, progress))
             return
         }

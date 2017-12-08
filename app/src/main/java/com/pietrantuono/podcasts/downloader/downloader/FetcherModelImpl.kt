@@ -20,7 +20,9 @@ class FetcherModelImpl @Inject constructor(
     fun getEpisodeSync(uri: String): Episode? = episodesRepo.getEpisodeByUriSync(uri)
 
     fun saveRequestId(uri: String, requestId: Long) {
-        episodesRepo.saveRequestId(uri, requestId)
+        if (requestId >= 0) {
+            episodesRepo.saveRequestId(uri, requestId)
+        }
     }
 
 }

@@ -14,9 +14,8 @@ class DownloaderDeleterImpl(
     }
 
     override fun deleteAllEpisodes(intent: Intent) {
-        (intent.getSerializableExtra(EXTRA_DOWNLOAD_REQUEST_ID_LIST) as? ArrayList<Long>)?.forEach {
-            deleteEpisode(it)
-        }
+        val ids = intent.getSerializableExtra(EXTRA_DOWNLOAD_REQUEST_ID_LIST) as? ArrayList<Long>
+        ids?.filter { it >= 0 }?.forEach { deleteEpisode(it) }
     }
 
     override fun downloadAllEpisodes(intent: Intent) {

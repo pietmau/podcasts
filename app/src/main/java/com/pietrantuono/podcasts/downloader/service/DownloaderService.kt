@@ -9,6 +9,7 @@ import com.tonyodev.fetch.request.RequestInfo
 import javax.inject.Inject
 
 class DownloaderService() : SimpleService(), Fetcher.Callback {
+
     private val DELAY_IN_SECONDS = 30L
     @Inject lateinit var dowloaderDelter: DowloaderDeleter
     @Inject lateinit var notificator: DownloadNotificator
@@ -72,6 +73,10 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
         stopForeground(true)
         notificator.notifySpaceUnavailable(requestInfo)
         stopSelf()
+    }
+
+    override fun onRemoved(requestInfo: RequestInfo, id: Long) {
+
     }
 
     override fun onDestroy() {
