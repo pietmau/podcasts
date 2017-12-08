@@ -13,4 +13,5 @@ interface DowloaderDeleter {
     fun deleteAllEpisodes(intent: Intent)
     fun shutDown()
     fun thereIsEnoughDiskSpace(fileSize: Long): Boolean
+    val allDone: Boolean
 }

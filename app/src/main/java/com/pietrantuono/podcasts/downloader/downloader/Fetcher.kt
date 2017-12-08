@@ -3,6 +3,8 @@ package com.pietrantuono.podcasts.downloader.downloader
 import com.tonyodev.fetch.request.RequestInfo
 
 interface Fetcher {
+    val allDone: Boolean
+
     fun getRequestById(id: Long): RequestInfo?
     fun download(title: String): Pair<Long, RequestInfo?>?
     fun stopDownload(requestInfo: RequestInfo)

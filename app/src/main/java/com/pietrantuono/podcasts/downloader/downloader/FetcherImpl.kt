@@ -2,6 +2,7 @@ package com.pietrantuono.podcasts.downloader.downloader
 
 import com.pietrantuono.podcasts.downloader.service.CompletedDownloadsManager
 import com.pietrantuono.podcasts.downloader.service.DOWNLOAD_COMPLETED
+import com.pietrantuono.podcasts.downloader.service.STATUS_DOWNLOADING
 import com.pietrantuono.podcasts.downloader.service.STATUS_REMOVED
 import com.tonyodev.fetch.Fetch
 import com.tonyodev.fetch.exception.NotUsableException
@@ -13,6 +14,10 @@ class FetcherImpl(
         private val fetcherModel: FetcherModelImpl,
         private val requestManager: RequestManager,
         private var completedDownloadsManager: CompletedDownloadsManager) : Fetcher, FetchListener {
+    override val allDone: Boolean
+        get() = checkIfDone()
+
+    private fun checkIfDone(): Boolean = fetch.get().filter { it.status == STATUS_DOWNLOADING }.count() > 0
 
     private var callback: Fetcher.Callback? = null
 
@@ -34,6 +39,7 @@ class FetcherImpl(
         if (status == STATUS_REMOVED) {
             getRequestById(id)?.let {
                 callback?.onRemoved(it, id)
+                val requests = fetch.get()
             }
         }
     }

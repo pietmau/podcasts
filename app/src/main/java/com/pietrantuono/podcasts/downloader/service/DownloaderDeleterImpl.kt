@@ -8,6 +8,8 @@ class DownloaderDeleterImpl(
         private val fetcher: Fetcher,
         private var notificator: DownloadNotificator,
         private var networkDiskAndPreferenceManager: NetworkDiskAndPreferenceManager) : DowloaderDeleter {
+    override val allDone: Boolean
+        get() = fetcher.allDone
 
     override fun shutDown() {
         fetcher.shutDown()

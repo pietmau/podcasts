@@ -27,10 +27,9 @@ class DownloadModule() {
         return FetcherImpl(fetch, fetcherModel, manager, completemanager)
     }
 
-    @Singleton
     @Provides
     fun provideFetch(context: Context): Fetch {
-        if (fetch == null) {
+        if (fetch == null || fetch?.isValid != true) {
             fetch = Fetch.newInstance(context)
             fetch?.setConcurrentDownloadsLimit(1)
         }
