@@ -14,3 +14,4 @@ const val DOWNLOAD_COMPLETED: Int = 100
 const val TAG = "DownloaderService"
 const val STATUS_REMOVED = 905
 const val STATUS_DOWNLOADING = 901
+const val STATUS_QUEUED = 900

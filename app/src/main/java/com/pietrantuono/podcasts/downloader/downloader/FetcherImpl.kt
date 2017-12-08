@@ -1,9 +1,7 @@
 package com.pietrantuono.podcasts.downloader.downloader
 
-import com.pietrantuono.podcasts.downloader.service.CompletedDownloadsManager
-import com.pietrantuono.podcasts.downloader.service.DOWNLOAD_COMPLETED
-import com.pietrantuono.podcasts.downloader.service.STATUS_DOWNLOADING
-import com.pietrantuono.podcasts.downloader.service.STATUS_REMOVED
+import com.pietrantuono.podcasts.application.DebugLogger
+import com.pietrantuono.podcasts.downloader.service.*
 import com.tonyodev.fetch.Fetch
 import com.tonyodev.fetch.exception.NotUsableException
 import com.tonyodev.fetch.listener.FetchListener
@@ -13,11 +11,23 @@ class FetcherImpl(
         private val fetch: Fetch,
         private val fetcherModel: FetcherModelImpl,
         private val requestManager: RequestManager,
-        private var completedDownloadsManager: CompletedDownloadsManager) : Fetcher, FetchListener {
+        private var completedDownloadsManager: CompletedDownloadsManager,
+        private var debugLogger: DebugLogger
+) : Fetcher, FetchListener {
     override val allDone: Boolean
         get() = checkIfDone()
 
-    private fun checkIfDone(): Boolean = fetch.get().filter { it.status == STATUS_DOWNLOADING }.count() > 0
+    private fun checkIfDone(): Boolean = fetch.get().filter { isDowloadingOrQueued(it) }.count() <= 0
+
+    private fun isDowloadingOrQueued(it: RequestInfo): Boolean {
+        if (it.status == STATUS_DOWNLOADING) {
+            return true
+        }
+        if (it.status == STATUS_QUEUED) {
+            return true
+        }
+        return false
+    }
 
     private var callback: Fetcher.Callback? = null
 
@@ -39,7 +49,6 @@ class FetcherImpl(
         if (status == STATUS_REMOVED) {
             getRequestById(id)?.let {
                 callback?.onRemoved(it, id)
-                val requests = fetch.get()
             }
         }
     }
@@ -51,6 +60,7 @@ class FetcherImpl(
     }
 
     private fun updateCallback(id: Long, status: Int, progress: Int, fileSize: Long) {
+        debugLogger.debug("FetcherImpl", "onUpdate " + status + " " + progress)
         getRequestById(id)?.let {
             callback?.onUpdate(it, status, progress, fileSize)
         }

@@ -2,6 +2,7 @@ package com.pietrantuono.podcasts.downloader.service
 
 import android.content.Intent
 import com.pietrantuono.podcasts.application.App
+import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.downloader.downloader.Fetcher
 import com.pietrantuono.podcasts.player.Enqueuer
 import com.tonyodev.fetch.request.RequestInfo
@@ -11,6 +12,7 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
     @Inject lateinit var dowloaderDelter: DowloaderDeleter
     @Inject lateinit var notificator: DownloadNotificator
     @Inject lateinit var enqueuer: Enqueuer
+    @Inject lateinit var debugLogger: DebugLogger
 
     override fun onCreate() {
         super.onCreate()
@@ -48,6 +50,7 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
     }
 
     override fun onUpdate(info: RequestInfo, staus: Int, progress: Int, fileSize: Long) {
+        debugLogger.debug("DownloaderService", "onUpdate " + staus + " " + progress)
         notificator.broadcastUpdate(info, progress, fileSize)
         notificator.notifyStatus(this@DownloaderService, info, staus, progress)
         if (!dowloaderDelter.thereIsEnoughDiskSpace(fileSize)) {
@@ -64,12 +67,10 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
     private fun checkIfDone() {
         if (dowloaderDelter.allDone) {
             stopForeground(true)
-            stopSelf()
         }
     }
 
     private fun stopDownloadAndNotifyUser(requestInfo: RequestInfo) {
-        dowloaderDelter.shutDown()
         stopForeground(true)
         notificator.notifySpaceUnavailable(requestInfo)
         stopSelf()
@@ -77,10 +78,6 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
 
     override fun onRemoved(requestInfo: RequestInfo, id: Long) {
         checkIfDone()
-    }
-
-    override fun onDestroy() {
-        dowloaderDelter.shutDown()
     }
 
 }
