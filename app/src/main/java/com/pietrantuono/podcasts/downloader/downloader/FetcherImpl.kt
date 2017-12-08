@@ -1,6 +1,5 @@
 package com.pietrantuono.podcasts.downloader.downloader
 
-import android.content.Context
 import com.pietrantuono.podcasts.downloader.service.CompletedDownloadsManager
 import com.pietrantuono.podcasts.downloader.service.DOWNLOAD_COMPLETED
 import com.tonyodev.fetch.Fetch
@@ -9,11 +8,11 @@ import com.tonyodev.fetch.listener.FetchListener
 import com.tonyodev.fetch.request.RequestInfo
 
 class FetcherImpl(
-        context: Context,
         private val fetch: Fetch,
         private val fetcherModel: FetcherModelImpl,
         private val requestManager: RequestManager,
         private var completedDownloadsManager: CompletedDownloadsManager) : Fetcher, FetchListener {
+
 
     private var callback: Fetcher.Callback? = null
 
@@ -26,11 +25,19 @@ class FetcherImpl(
     }
 
     override fun onUpdate(id: Long, status: Int, progress: Int, downloadedBytes: Long, fileSize: Long, error: Int) {
-        getRequestById(id)?.let {
-            callback?.onUpdate(it, status, progress, fileSize)
-        }
+        updateCallback(id, status, progress, fileSize)
+        checkIfCompleted(progress, id, downloadedBytes)
+    }
+
+    private fun checkIfCompleted(progress: Int, id: Long, downloadedBytes: Long) {
         if (progress >= DOWNLOAD_COMPLETED) {
             onDownloadCompleted(id, downloadedBytes)
+        }
+    }
+
+    private fun updateCallback(id: Long, status: Int, progress: Int, fileSize: Long) {
+        getRequestById(id)?.let {
+            callback?.onUpdate(it, status, progress, fileSize)
         }
     }
 
@@ -50,10 +57,6 @@ class FetcherImpl(
     }
 
     private fun alreadyDowloanded(uri: String): Boolean {
-        val uri = fetcherModel.getEpisodeSync(uri)?.uri
-        if (uri == null) {
-            return false
-        }
         return fetch.alreadyDownloaded(uri) || fetcherModel.episodeIsDownloadedSync(uri)
     }
 

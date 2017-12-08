@@ -32,7 +32,7 @@ class DownloadNotificatorImpl(
             return
         }
         if (status == STATUS_REMOVED) {
-            notifManager.removeNotification(requestInfo.id.toInt())
+            removeNotification(requestInfo.id)
             return
         }
 
@@ -56,6 +56,10 @@ class DownloadNotificatorImpl(
         repo.getEpisodeByUriSync(title)?.let {
             notifManager.notify(GENERIC_NOTIFICATION, notificationCreator.getNoSpaceNotification(it))
         }
+    }
+
+    override fun removeNotification(id: Long) {
+        notifManager.removeNotification(id.toInt())
     }
 
     override fun broadcastUpdate(info: RequestInfo, progress: Int, fileSize: Long) {

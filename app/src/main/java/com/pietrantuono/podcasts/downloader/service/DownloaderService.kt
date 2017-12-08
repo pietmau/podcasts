@@ -10,7 +10,6 @@ import javax.inject.Inject
 
 class DownloaderService() : SimpleService(), Fetcher.Callback {
     private val DELAY_IN_SECONDS = 30L
-
     @Inject lateinit var dowloaderDelter: DowloaderDeleter
     @Inject lateinit var notificator: DownloadNotificator
     @Inject lateinit var enqueuer: Enqueuer
@@ -54,11 +53,10 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
     override fun onUpdate(info: RequestInfo, staus: Int, progress: Int, fileSize: Long) {
         handler.removeCallbacksAndMessages(null)
         notificator.broadcastUpdate(info, progress, fileSize)
-        if (dowloaderDelter.thereIsEnoughDiskSpace(fileSize)) {
-            notificator.notifyStatus(this@DownloaderService, info, staus, progress)
-            return
+        notificator.notifyStatus(this@DownloaderService, info, staus, progress)
+        if (!dowloaderDelter.thereIsEnoughDiskSpace(fileSize)) {
+            stopDownloadAndNotifyUser(info)
         }
-        stopDownloadAndNotifyUser(info)
     }
 
     override fun onDownloadCompleted(requestInfo: RequestInfo) {

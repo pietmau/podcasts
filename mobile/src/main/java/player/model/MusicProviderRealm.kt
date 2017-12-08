@@ -5,7 +5,6 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
-import android.support.v4.view.MotionEventCompat.getSource
 import models.pojos.Episode
 import player.model.MusicProvider
 import player.model.MusicProviderImpl
@@ -100,6 +99,7 @@ class MusicProviderRealm(private val extractor: SourceExtractor) : MusicProvider
         if (!episode.imageUrl.isNullOrEmpty()) {
             return episode.imageUrl
         }
+        return episode.imageUrl
     }
 
     fun getSource(episode: Episode): String? {

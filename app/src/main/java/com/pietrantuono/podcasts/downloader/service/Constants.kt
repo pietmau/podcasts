@@ -12,3 +12,4 @@ const val EXTRA_DOWNLOAD_REQUEST_ID: String = "download_request_id"
 const val EXTRA_DOWNLOAD_REQUEST_ID_LIST: String = "download_request_id_list"
 const val DOWNLOAD_COMPLETED: Int = 100
 const val TAG = "DownloaderService"
+const val STATUS_REMOVED = 905

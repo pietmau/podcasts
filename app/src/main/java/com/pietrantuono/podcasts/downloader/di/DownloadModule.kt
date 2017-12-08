@@ -3,7 +3,6 @@ package com.pietrantuono.podcasts.downloader.di
 import android.app.NotificationManager
 import android.content.Context
 import android.support.v4.content.LocalBroadcastManager
-import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.downloader.downloader.*
 import com.pietrantuono.podcasts.downloader.service.*
 import com.pietrantuono.podcasts.settings.PreferencesManager
@@ -24,8 +23,8 @@ class DownloadModule() {
 
     @Singleton
     @Provides
-    fun provideFetcher(provider: DirectoryProvider, fetcherModel: FetcherModelImpl, manager: RequestManager, completemanager: CompletedDownloadsManager, context: Context, fetch: Fetch): Fetcher {
-        return FetcherImpl(context, fetch, fetcherModel, manager, completemanager)
+    fun provideFetcher(fetcherModel: FetcherModelImpl, manager: RequestManager, completemanager: CompletedDownloadsManager, fetch: Fetch): Fetcher {
+        return FetcherImpl(fetch, fetcherModel, manager, completemanager)
     }
 
     @Singleton
@@ -39,7 +38,7 @@ class DownloadModule() {
     }
 
     @Provides
-    fun provideNotificator(repo: EpisodesRepository, logger: DebugLogger, context: Context, creator: DownloadNotificationCreator, communicator: Communicator): DownloadNotificator =
+    fun provideNotificator(repo: EpisodesRepository, creator: DownloadNotificationCreator, communicator: Communicator): DownloadNotificator =
             DownloadNotificatorImpl(repo, creator, communicator)
 
     @Provides
