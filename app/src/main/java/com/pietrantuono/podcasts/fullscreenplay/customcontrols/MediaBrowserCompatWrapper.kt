@@ -16,12 +16,24 @@ class MediaBrowserCompatWrapper(private val context: Context) {
     var mediaBrowser: MediaBrowserCompat? = null
     var supportMediaController: MediaControllerCompat? = null
 
-    fun init(connectionCallback: MediaBrowserCompat.ConnectionCallback) {
+    val playbackState: PlaybackStateCompat?
+        get() = supportMediaController?.playbackState
+    val metadata: MediaMetadataCompat?
+        get() = supportMediaController?.metadata
+    val state: Int?
+        get() = supportMediaController?.playbackState?.state
+    val token: MediaSessionCompat.Token?
+        get() = mediaBrowser?.sessionToken
+
+    fun init(connectionCallback: MediaBrowserCompat.ConnectionCallback, mediaControllerCompatCallback: MediaControllerCompat.Callback) {
         mediaBrowser = MediaBrowserCompat(context, ComponentName(context, MusicService::class.java), object : MediaBrowserCompat.ConnectionCallback() {
             override fun onConnected() {
                 try {
                     this@MediaBrowserCompatWrapper.onConnected()
                     connectionCallback.onConnected()
+                    registerCallback(mediaControllerCompatCallback)
+                    mediaControllerCompatCallback.onPlaybackStateChanged(playbackState)
+                    mediaControllerCompatCallback.onMetadataChanged(metadata)
                 } catch (e: RemoteException) {
                 }
             }
@@ -33,17 +45,10 @@ class MediaBrowserCompatWrapper(private val context: Context) {
         supportMediaController = MediaControllerCompat(context, mediaBrowser?.sessionToken)
     }
 
-    fun registerCallback(callback: MediaControllerCompat.Callback) {
+    private fun registerCallback(callback: MediaControllerCompat.Callback) {
         this.callback = callback
         supportMediaController?.registerCallback(callback)
     }
-
-    val playbackState: PlaybackStateCompat?
-        get() = supportMediaController?.playbackState
-    val metadata: MediaMetadataCompat?
-        get() = supportMediaController?.metadata
-    val state: Int?
-        get() = supportMediaController?.playbackState?.state
 
     fun isPlayingOrBuffering(): Boolean = state == PlaybackStateCompat.STATE_PLAYING || state == PlaybackStateCompat.STATE_BUFFERING
 
@@ -73,12 +78,15 @@ class MediaBrowserCompatWrapper(private val context: Context) {
 
     fun onStop() {
         mediaBrowser?.disconnect()
-        if (callback != null) {
-            supportMediaController?.unregisterCallback(callback)
-        }
+        callback ?: return
+        supportMediaController?.unregisterCallback(callback)
     }
 
-    val token: MediaSessionCompat.Token?
-        get() = mediaBrowser?.sessionToken
+    fun stop() {
+        supportMediaController?.transportControls?.stop()
+    }
 
+    fun playFromMediaId(uri: String?) {
+        supportMediaController?.transportControls?.playFromMediaId(uri, null)
+    }
 }

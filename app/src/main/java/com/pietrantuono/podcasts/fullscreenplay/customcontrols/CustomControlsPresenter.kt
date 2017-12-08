@@ -26,15 +26,12 @@ class CustomControlsPresenter(
             override fun onConnected() {
                 connectToSession(mediaBrowserCompatWrapper.token)
             }
-        })
+        }, this)
     }
 
     @Throws(RemoteException::class)
     private fun connectToSession(token: MediaSessionCompat.Token?) {
-        stateResolver.setMediaController(mediaBrowserCompatWrapper.supportMediaController!!)
-        mediaBrowserCompatWrapper.registerCallback(this)
-        onPlaybackStateChanged(mediaBrowserCompatWrapper?.playbackState)
-        onMetadataChanged(mediaBrowserCompatWrapper?.metadata)
+        stateResolver.callback = this
         updateProgress()
         if (mediaBrowserCompatWrapper.isPlayingOrBuffering()) {
             scheduleSeekbarUpdate()
@@ -58,7 +55,7 @@ class CustomControlsPresenter(
 
     override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
         lastPlaybackState = state
-        stateResolver.updatePlaybackState(state, this)
+        stateResolver.updatePlaybackState(state)
     }
 
     fun onError(state: PlaybackStateCompat) {
@@ -91,7 +88,7 @@ class CustomControlsPresenter(
 
     fun onPlayClicked() {
         if (stateResolver.willHandleClick()) {
-            stateResolver.onPausePlayClicked(this)
+            stateResolver.onPausePlayClicked()
             return
         }
         stateResolver.episode?.uri?.let {
@@ -150,6 +147,20 @@ class CustomControlsPresenter(
     fun onDestroy() {
         stopSeekbarUpdate()
         executorService.shutdown()
+    }
+
+    fun startNewPodcast(uri: String?) {
+        mediaBrowserCompatWrapper?.stop()
+        mediaBrowserCompatWrapper?.playFromMediaId(uri)
+
+    }
+
+    fun getPlaybackState(): PlaybackStateCompat? {
+        return mediaBrowserCompatWrapper?.playbackState
+    }
+
+    fun getCurrentlyPlayingMediaId(): String? {
+        return mediaBrowserCompatWrapper?.metadata?.getString(android.support.v4.media.MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
     }
 
 }

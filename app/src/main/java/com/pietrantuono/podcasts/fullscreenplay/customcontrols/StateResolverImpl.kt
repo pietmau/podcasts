@@ -1,6 +1,5 @@
 package com.pietrantuono.podcasts.fullscreenplay.customcontrols
 
-import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v4.media.session.PlaybackStateCompat.*
 import models.pojos.Episode
@@ -8,86 +7,80 @@ import models.pojos.Episode
 
 class StateResolver {
     var episode: Episode? = null
-    private val currentlyPlayingMediaId
-        get() = supportMediaController?.metadata?.getString(android.support.v4.media.MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
-    private var supportMediaController: MediaControllerCompat? = null
+    var callback: CustomControlsPresenter? = null
 
-    fun updatePlaybackState(state: PlaybackStateCompat?, presenter: CustomControlsPresenter) {
+    fun updatePlaybackState(state: PlaybackStateCompat?) {
         when (state?.state) {
-            STATE_PLAYING -> onStatePlaying(presenter)
-            STATE_PAUSED -> onStatePaused(presenter)
-            STATE_NONE, STATE_STOPPED -> onStateNone(presenter)
-            STATE_BUFFERING -> onStateBuffering(presenter)
-            STATE_ERROR -> onError(presenter, state)
+            STATE_PLAYING -> onStatePlaying()
+            STATE_PAUSED -> onStatePaused()
+            STATE_NONE, STATE_STOPPED -> onStateNone()
+            STATE_BUFFERING -> onStateBuffering()
+            STATE_ERROR -> onError(state)
         }
     }
 
-    private fun onError(presenter: CustomControlsPresenter, state: PlaybackStateCompat) {
-        presenter.onError(state)
+    private fun onError(state: PlaybackStateCompat) {
+        callback?.onError(state)
     }
 
-    private fun onStateNone(presenter: CustomControlsPresenter) {
-        presenter?.onStateNone()
+    private fun onStateNone() {
+        callback?.onStateNone()
     }
 
-    private fun onStateBuffering(presenter: CustomControlsPresenter) {
+    private fun onStateBuffering() {
         if (isPlayingCurrentEpisode()) {
-            presenter?.onStateBuffering()
+            callback?.onStateBuffering()
         }
     }
 
-    private fun onStatePaused(presenter: CustomControlsPresenter) {
+    private fun onStatePaused() {
         if (isPlayingCurrentEpisode()) {
-            presenter?.onStatePaused()
+            callback?.onStatePaused()
         }
     }
 
-    private fun onStatePlaying(presenter: CustomControlsPresenter) {
+    private fun onStatePlaying() {
         if (isPlayingCurrentEpisode()) {
-            presenter?.onStatePlaying()
+            callback?.onStatePlaying()
         }
     }
 
-    fun onPausePlayClicked(presenter: CustomControlsPresenter) {
-        supportMediaController?.playbackState?.let {
+    fun onPausePlayClicked() {
+        callback?.getPlaybackState()?.let {
             when (it.state) {
-                STATE_PLAYING, STATE_BUFFERING -> onPauseClicked(presenter)
-                STATE_PAUSED, STATE_STOPPED -> onPlayClicked(presenter)
-                STATE_NONE -> onPlayClicked(presenter)
+                STATE_PLAYING, STATE_BUFFERING -> onPauseClicked()
+                STATE_PAUSED, STATE_STOPPED -> onPlayClicked()
+                STATE_NONE -> onPlayClicked()
             }
         }
     }
 
-    private fun onPlayClicked(presenter: CustomControlsPresenter) {
+    private fun onPlayClicked() {
         if (isPlayingCurrentEpisode()) {
-            presenter.play()
+            callback?.play()
             return
         }
         startNewPodcast()
     }
 
-    private fun onPauseClicked(presenter: CustomControlsPresenter) {
+    private fun onPauseClicked() {
         if (isPlayingCurrentEpisode()) {
-            presenter.pause()
+            callback?.pause()
             return
         }
         startNewPodcast()
     }
 
     private fun startNewPodcast() {
-        supportMediaController?.transportControls?.stop()
-        supportMediaController?.transportControls?.playFromMediaId(episode?.uri, null)
+        callback?.startNewPodcast(episode?.uri)
     }
 
     fun isPlayingCurrentEpisode(): Boolean {
+        val currentlyPlayingMediaId = callback?.getCurrentlyPlayingMediaId()
         if (episode?.uri == null || currentlyPlayingMediaId == null) {
             return false
         }
         return episode?.uri.equals(currentlyPlayingMediaId, true)
-    }
-
-    fun setMediaController(supportMediaController: MediaControllerCompat) {
-        this.supportMediaController = supportMediaController
     }
 
     fun willHandleClick(): Boolean = episode?.downloaded == true
