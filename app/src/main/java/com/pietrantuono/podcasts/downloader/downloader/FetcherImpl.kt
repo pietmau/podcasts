@@ -40,6 +40,8 @@ class FetcherImpl(
         if (!alreadyDowloanded(uri)) {
             requestManager.createRequestForDownload(uri)?.let { request ->
                 val pair = fetch.enqueueRequest(request)
+                val requestId = pair.first
+                fetcherModel.saveRequestId(uri, requestId)
                 requestManager.cacheRequest(pair)
                 return pair
             }

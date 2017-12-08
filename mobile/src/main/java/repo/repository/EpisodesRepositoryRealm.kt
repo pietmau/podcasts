@@ -7,6 +7,7 @@ import models.pojos.RealmEpisode
 import rx.Observable
 
 class EpisodesRepositoryRealm(private val cache: EpisodeCache) : EpisodesRepository {
+
     val DOWNLOAD_REQUEST_ID = "downloadRequestId"
     private val TITLE = "title"
     private val URI = "uri"
@@ -20,6 +21,17 @@ class EpisodesRepositoryRealm(private val cache: EpisodeCache) : EpisodesReposit
                         .findFirst()
                 episode?.downloaded = false
                 episode?.deleted = true
+            }
+        }
+    }
+
+    override fun saveRequestId(uri: String, requestId: Long) {
+        Realm.getDefaultInstance().use { realm ->
+            realm.executeTransaction {
+                val episode = it.where(RealmEpisode::class.java)
+                        .equalTo(URI, uri)
+                        .findFirst()
+                episode?.downloadRequestId = requestId
             }
         }
     }

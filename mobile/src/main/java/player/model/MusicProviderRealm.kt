@@ -5,6 +5,7 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
+import android.support.v4.view.MotionEventCompat.getSource
 import models.pojos.Episode
 import player.model.MusicProvider
 import player.model.MusicProviderImpl
@@ -81,13 +82,24 @@ class MusicProviderRealm(private val extractor: SourceExtractor) : MusicProvider
         val builder = MediaMetadataCompat.Builder()
         builder.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, episode.uri)
         builder.putString(MusicProviderSource.CUSTOM_METADATA_TRACK_SOURCE, getSource(episode))
-        builder.putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, episode.imageUrl)
+        builder.putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, getImageUrl(episode))
         builder.putString(MediaMetadataCompat.METADATA_KEY_ARTIST, episode.author)
         episode?.durationInMills?.let { builder.putLong(MediaMetadataCompat.METADATA_KEY_DURATION, it) }
         builder.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, episode.link)
         builder.putString(MediaMetadataCompat.METADATA_KEY_TITLE, episode.title)
-        builder.putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON_URI, episode.imageUrl)
+        setImageUrl(builder, episode)
         return builder.build()
+    }
+
+    private fun setImageUrl(builder: MediaMetadataCompat.Builder, episode: Episode) {
+        val imageUrl = getImageUrl(episode)
+        builder.putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON_URI, imageUrl)
+    }
+
+    private fun getImageUrl(episode: Episode): String? {
+        if (!episode.imageUrl.isNullOrEmpty()) {
+            return episode.imageUrl
+        }
     }
 
     fun getSource(episode: Episode): String? {

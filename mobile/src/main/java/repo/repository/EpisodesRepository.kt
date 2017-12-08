@@ -14,4 +14,5 @@ interface EpisodesRepository {
     fun setEpisodeDeletedAndNotDowloaded(id: Long)
     fun getEpisodeByDownloadIdSync(id: Long): Episode?
     fun onDownloadCompleted(requestInfo: RequestInfo, downloadedBytes: Long)
+    fun saveRequestId(uri: String, requestId: Long)
 }
