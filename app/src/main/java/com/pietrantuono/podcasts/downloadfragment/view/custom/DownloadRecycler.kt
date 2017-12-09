@@ -4,7 +4,6 @@ import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
-import models.pojos.Episode
 
 class DownloadRecycler(context: Context, attrs: AttributeSet) : RecyclerView(context, attrs) {
 
@@ -19,7 +18,7 @@ class DownloadRecycler(context: Context, attrs: AttributeSet) : RecyclerView(con
         adapter = DownloadAdapter(data, callback)
     }
 
-    fun updateItem(i: Int, j: Int, episode: Episode) {
+    fun updateItem(i: Int, j: Int, episode: DownloadedEpisode) {
         (adapter as DownloadAdapter).updateItem(i,j,episode)
     }
 

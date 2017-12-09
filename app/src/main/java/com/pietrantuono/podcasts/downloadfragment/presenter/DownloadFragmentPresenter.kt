@@ -7,8 +7,6 @@ import com.pietrantuono.podcasts.downloadfragment.view.DownloadView
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadAdapter
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedEpisode
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
-import models.pojos.Episode
-import models.pojos.Podcast
 
 
 class DownloadFragmentPresenter(
@@ -76,16 +74,6 @@ class DownloadFragmentPresenter(
         view?.setPodcasts(copy)
     }
 
-    private fun makeCopy(feed: List<DownloadedPodcast?>?): List<DownloadedPodcast?>? {
-//        val realm = Realm.getDefaultInstance()
-//        val copy = feed
-//                .map { downloadedPodcast ->
-//                    val podcast = realm.copyFromRealm(downloadedPodcast.podcast as PodcastRealm)
-//                    DownloadedPodcast(podcast, downloadedPodcast.title, downloadedPodcast.items, downloadedPodcast.resources)
-//                }
-        return feed
-    }
-
     fun unbind() {
         model.unsubscribe()
     }
@@ -102,7 +90,7 @@ class DownloadFragmentPresenter(
             return
         }
         val message = messageCreator.confirmDownloadAllEpisodes(downloadedPodcast.title)
-        view?.confirmDownloadAllEpisodes(message, downloadedPodcast.items)
+        view?.confirmDownloadAllEpisodes(message, downloadedPodcast)
     }
 
     override fun deleteEpisode(downloadedEpisode: DownloadedEpisode?) {
@@ -110,7 +98,7 @@ class DownloadFragmentPresenter(
             return
         }
         val message = messageCreator.confirmDeleteEpisode(downloadedEpisode.title)
-        view?.confirmDeleteEpisode(message, downloadedEpisode.episode)
+        view?.confirmDeleteEpisode(message, downloadedEpisode)
     }
 
     override fun deleteAllEpisodes(podcast: DownloadedPodcast?) {
@@ -125,15 +113,15 @@ class DownloadFragmentPresenter(
         downloader.downloadEpisodeFromUri(uri)
     }
 
-    fun onConfirmDownloadAllEpisodes(podcast: Podcast) {
+    fun onConfirmDownloadAllEpisodes(podcast: DownloadedPodcast?) {
         downloader.downloadIfAppropriate(podcast)
     }
 
-    fun onConfirmDeleteEpisode(episode: Episode) {
+    fun onConfirmDeleteEpisode(episode: DownloadedEpisode?) {
         downloader.deleteEpisode(episode)
     }
 
-    fun onConfirmDeleteAllEpisodes(podcast: Podcast) {
+    fun onConfirmDeleteAllEpisodes(podcast: DownloadedPodcast?) {
         downloader.deleteAllEpisodes(podcast)
     }
 }

@@ -52,9 +52,7 @@ class DownloadFragmentModelImpl(
         compositeSubscription.add(subscription)
     }
 
-    private fun makeEpisodes(podcast: Podcast): List<DownloadedEpisode>? = podcast.episodes?.map { toDownloadedEpisode(it) }
-
-    fun toDownloadedEpisode(episode: Episode): DownloadedEpisode = DownloadedEpisode(episode, resources)
+    fun toDownloadedEpisode(episode: Episode): DownloadedEpisode = DownloadedEpisode.fromEpisode(episode, resources)
 
     override fun getPodcastTitleAsync(observer: Observer<String?>, trackId: Int?) {
         trackId?.let {
@@ -66,8 +64,8 @@ class DownloadFragmentModelImpl(
         }
     }
 
-    fun toDownloaded(podcast: Podcast): DownloadedPodcast {
-        return DownloadedPodcast.fromPodcast(podcast, podcast.trackName, makeEpisodes(podcast), resources)
-    }
+    fun toDownloaded(podcast: Podcast): DownloadedPodcast = DownloadedPodcast.fromPodcast(podcast, podcast.trackName, makeEpisodes(podcast), resources)
+
+    private fun makeEpisodes(podcast: Podcast): List<DownloadedEpisode>? = podcast.episodes?.map { toDownloadedEpisode(it) }
 
 }

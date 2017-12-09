@@ -6,7 +6,6 @@ import com.pietrantuono.podcasts.databinding.DownloadEpisodeItemBinding
 import com.pietrantuono.podcasts.databinding.DownloadGroupItemBinding
 import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
-import models.pojos.Episode
 
 class DownloadAdapter(
         var data: MutableList<DownloadedPodcast>,
@@ -32,9 +31,9 @@ class DownloadAdapter(
         return PodcastDowloadHolder(binding)
     }
 
-    fun updateItem(i: Int, j: Int, episode: Episode) {
+    fun updateItem(i: Int, j: Int, episode: DownloadedEpisode) {
         val old = data[i].items[j]
-        val new = DownloadedEpisode(episode, old.resources)
+        val new = episode
         data[i].items.set(j, new)
         notifyItemChanged(i + 1 + j)
     }

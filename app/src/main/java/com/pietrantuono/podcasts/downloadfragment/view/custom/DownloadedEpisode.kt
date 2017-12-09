@@ -8,16 +8,14 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesPro
 import models.pojos.Episode
 import java.text.NumberFormat
 
-
 class DownloadedEpisode(
-        val episode: Episode,
-        val resources: ResourcesProvider?) : Parcelable {
-
-    val title = episode.title
-    val link = episode.link
-    val downloaded = episode.downloaded
-    val fileSizeInKb = NumberFormat.getInstance().format(episode.fileSizeInBytes /(1024));
-    val uri = episode.uri
+        val title: String?,
+        val link: String?,
+        val downloaded: Boolean,
+        val fileSizeInKb: String?,
+        val uri: String?,
+        val resources: ResourcesProvider?,
+        val downloadRequestId: Long) : Parcelable {
 
     val downloadedAsText: String?
         get() = if (downloaded) {
@@ -33,25 +31,40 @@ class DownloadedEpisode(
             resources?.getDrawable(R.drawable.ic_file_download_white_24dp)
         }
 
-    constructor(parcel: Parcel) : this(parcel.readParcelable<Episode>(Episode::class.java.classLoader) as Episode, null) {
-        throw UnsupportedOperationException("Not supported")
+    constructor(parcel: Parcel) : this(
+            parcel.readString(),
+            parcel.readString(),
+            parcel.readByte() != 0.toByte(),
+            parcel.readString(),
+            parcel.readString(),
+            TODO("resources"), 0) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        throw UnsupportedOperationException("Not supported")
+        throw UnsupportedOperationException()
     }
 
     override fun describeContents(): Int {
-        throw UnsupportedOperationException("Not supported")
+        throw UnsupportedOperationException()
     }
 
     companion object CREATOR : Parcelable.Creator<DownloadedEpisode> {
         override fun createFromParcel(parcel: Parcel): DownloadedEpisode {
-            throw UnsupportedOperationException("Not supported")
+            return DownloadedEpisode(parcel)
         }
 
         override fun newArray(size: Int): Array<DownloadedEpisode?> {
-            throw UnsupportedOperationException("Not supported")
+            return arrayOfNulls(size)
+        }
+
+        fun fromEpisode(episode: Episode, resources: ResourcesProvider?): DownloadedEpisode {
+            val title = episode.title
+            val link = episode.link
+            val dowloanded = episode.downloaded
+            val sizeinkb = NumberFormat.getInstance().format(episode.fileSizeInBytes / (1024));
+            val uri = episode.uri
+            val downloadRequestId = episode.downloadRequestId
+            return DownloadedEpisode(title, link, dowloanded, sizeinkb, uri, resources, downloadRequestId)
         }
     }
 

@@ -2,11 +2,11 @@ package com.pietrantuono.podcasts.downloader.downloader
 
 import android.content.Context
 import android.content.Intent
-import android.content.Intent.getIntent
 import com.pietrantuono.podcasts.downloader.service.*
+import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedEpisode
+import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
 import com.pietrantuono.podcasts.settings.PreferencesManager
 import models.pojos.Episode
-import models.pojos.Podcast
 
 class DownloaderImpl(
         context: Context,
@@ -29,11 +29,11 @@ class DownloaderImpl(
         startService(intent)
     }
 
-    override fun downloadIfAppropriate(podcast: Podcast?) {
+    override fun downloadIfAppropriate(podcast: DownloadedPodcast?) {
         if (!preferencesManager.downloadAutomatically) {
             return
         }
-        podcast?.episodes?.
+        podcast?.items?.
                 map { it.uri }?.
                 filterNotNull()?.
                 toList()?.let {
@@ -41,9 +41,9 @@ class DownloaderImpl(
         }
     }
 
-    override fun deleteEpisode(episode: Episode) {
+    override fun deleteEpisode(episode: DownloadedEpisode?) {
         val intent = getIntent(COMMAND_DELETE_EPISODE)
-        intent.putExtra(EXTRA_DOWNLOAD_REQUEST_ID, episode.downloadRequestId)
+        intent.putExtra(EXTRA_DOWNLOAD_REQUEST_ID, episode?.downloadRequestId)
         startService(intent)
     }
 
@@ -52,7 +52,7 @@ class DownloaderImpl(
         downloadAllInternal(tracks)
     }
 
-    override fun deleteAllEpisodes(podcast: Podcast) {
+    override fun deleteAllEpisodes(podcast: DownloadedPodcast?) {
         val intent = getIntent(COMMAND_DELETE_ALL_EPISODES)
         intent.putExtra(EXTRA_DOWNLOAD_REQUEST_ID_LIST, getIds(podcast.episodes))
         startService(intent)

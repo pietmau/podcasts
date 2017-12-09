@@ -16,7 +16,6 @@ import com.pietrantuono.podcasts.downloadfragment.presenter.MessageCreator
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadRecycler
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedEpisode
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
-import models.pojos.Episode
 import org.jetbrains.anko.noButton
 import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.yesButton
@@ -73,14 +72,14 @@ class DownloadFragment : Fragment(), DownloadView {
         }.show()
     }
 
-    override fun confirmDownloadAllEpisodes(message: MessageCreator.AlertMessage, podcast: MutableList<DownloadedEpisode>) {
+    override fun confirmDownloadAllEpisodes(message: MessageCreator.AlertMessage, podcast: DownloadedPodcast?) {
         alert(message.message, message.title) {
             yesButton { presenter.onConfirmDownloadAllEpisodes(podcast) }
             noButton { }
         }.show()
     }
 
-    override fun confirmDeleteEpisode(message: MessageCreator.AlertMessage, episode: Episode) {
+    override fun confirmDeleteEpisode(message: MessageCreator.AlertMessage, episode: DownloadedEpisode?) {
         alert(message.message, message.title) {
             yesButton { presenter.onConfirmDeleteEpisode(episode) }
             noButton { }
