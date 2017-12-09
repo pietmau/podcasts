@@ -30,7 +30,7 @@ class EpisodedListRecycler : RecyclerView {
     }
 
     fun setItems(episodes: List<Episode>) {
-        adapter!!.setItems(episodes)
+        adapter?.setItems(episodes)
     }
 
     private fun init() {

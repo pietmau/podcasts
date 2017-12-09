@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:background="@android:color/holo_purple"
-              android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:background="@android:color/holo_purple"
+              android:orientation="vertical">
 
-    <com.pietrantuono.podcasts.playlist.view.custom.MediaItemRecycler
+    <com.pietrantuono.podcasts.subscribedpodcasts.list.views.EpisodedListRecycler
         android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </com.pietrantuono.podcasts.playlist.view.custom.MediaItemRecycler>
+    </com.pietrantuono.podcasts.subscribedpodcasts.list.views.EpisodedListRecycler>
 
 </LinearLayout>
