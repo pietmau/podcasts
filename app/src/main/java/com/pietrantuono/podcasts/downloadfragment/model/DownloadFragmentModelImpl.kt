@@ -3,10 +3,8 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesPro
 import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedEpisode
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
-import io.realm.Realm
 import models.pojos.Episode
 import models.pojos.Podcast
-import models.pojos.PodcastRealm
 import repo.repository.EpisodesRepository
 import repo.repository.PodcastRepo
 import rx.Observable
@@ -35,19 +33,11 @@ class DownloadFragmentModelImpl(
     override fun subscribe(observer: Observer<List<DownloadedPodcast>?>) {
         val subscription =
                 observable
-                        .subscribeOn(mainThreadScheduler)
-                        .observeOn(workerScheduler)
-                        .map {
-                            Realm.getDefaultInstance().use {
-                                it.copyFromRealm(it.where(PodcastRealm::class.java).equalTo("podcastSubscribed", true).findAll())
-                            }
-                        }
                         .flatMap { list ->
                             Observable.from(list)
                                     .map { toDownloadedPodcast(it) }
                                     .toList()
                         }
-                        .observeOn(mainThreadScheduler)
                         .subscribe(observer)
         compositeSubscription.add(subscription)
     }

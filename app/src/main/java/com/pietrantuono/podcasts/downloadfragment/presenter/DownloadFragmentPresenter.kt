@@ -17,6 +17,7 @@ class DownloadFragmentPresenter(
         private val downloader: Downloader
 ) : DownloadAdapter.Callback {
     private var view: DownloadView? = null
+    private var feed: List<DownloadedPodcast>? = null
 
     fun bindView(view: DownloadView) {
         this.view = view
@@ -26,11 +27,18 @@ class DownloadFragmentPresenter(
         model.subscribe(object : SimpleObserver<List<DownloadedPodcast>>() {
             override fun onNext(feed: List<DownloadedPodcast>?) {
                 if (feed != null && !feed.isEmpty()) {
-                    view?.setPodcasts(feed)
+                    onDataReceived(feed)
                 }
-                model.unsubscribe()
             }
         })
+    }
+
+
+    private fun onDataReceived(feed: List<DownloadedPodcast>) {
+        if (this.feed == null || this.feed?.isEmpty() == true) {
+            this.feed = feed
+            view?.setPodcasts(feed)
+        }
     }
 
     fun unbind() {
