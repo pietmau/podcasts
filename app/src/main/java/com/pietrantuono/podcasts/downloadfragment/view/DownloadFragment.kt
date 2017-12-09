@@ -14,9 +14,8 @@ import com.pietrantuono.podcasts.downloadfragment.di.DownloadFragmentModule
 import com.pietrantuono.podcasts.downloadfragment.presenter.DownloadFragmentPresenter
 import com.pietrantuono.podcasts.downloadfragment.presenter.MessageCreator
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadRecycler
+import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedEpisode
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
-import models.pojos.Episode
-import models.pojos.Podcast
 import org.jetbrains.anko.noButton
 import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.yesButton
@@ -62,6 +61,10 @@ class DownloadFragment : Fragment(), DownloadView {
         recycler.setData(list.toMutableList())
     }
 
+    override fun updateItem(i: Int, j: Int, episode: DownloadedEpisode) {
+        recycler.updateItem(i, j, episode)
+    }
+
     override fun confirmDownloadEpisode(message: MessageCreator.AlertMessage, uri: String) {
         alert(message.message, message.title) {
             yesButton { presenter.onConfirmDownloadEpisode(uri) }
@@ -69,21 +72,21 @@ class DownloadFragment : Fragment(), DownloadView {
         }.show()
     }
 
-    override fun confirmDownloadAllEpisodes(message: MessageCreator.AlertMessage, podcast: Podcast) {
+    override fun confirmDownloadAllEpisodes(message: MessageCreator.AlertMessage, podcast: DownloadedPodcast?) {
         alert(message.message, message.title) {
             yesButton { presenter.onConfirmDownloadAllEpisodes(podcast) }
             noButton { }
         }.show()
     }
 
-    override fun confirmDeleteEpisode(message: MessageCreator.AlertMessage, episode: Episode) {
+    override fun confirmDeleteEpisode(message: MessageCreator.AlertMessage, episode: DownloadedEpisode?) {
         alert(message.message, message.title) {
             yesButton { presenter.onConfirmDeleteEpisode(episode) }
             noButton { }
         }.show()
     }
 
-    override fun confirmDeleteAllEpisodes(message: MessageCreator.AlertMessage, podcast: Podcast) {
+    override fun confirmDeleteAllEpisodes(message: MessageCreator.AlertMessage, podcast: DownloadedPodcast?) {
         alert(message.message, message.title) {
             yesButton { presenter.onConfirmDeleteAllEpisodes(podcast) }
             noButton { }

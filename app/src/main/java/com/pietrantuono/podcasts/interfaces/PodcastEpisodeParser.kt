@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 class PodcastEpisodeParser @Inject constructor(private val imageParser: ImageParser) {
 
-    fun parseFeed(feed: SyndFeed): List<Episode> {
+    fun parseFeed(feed: SyndFeed): MutableList<Episode> {
         val episodes = ArrayList<Episode>()
         for (entry in feed.entries) {
             episodes.add(parseEntry(entry))

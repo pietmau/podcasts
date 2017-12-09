@@ -599,17 +599,6 @@ public class PodcastRealm extends RealmObject implements Podcast {
         return new ArrayList<Episode>(episodes);
     }
 
-    @Override
-    public void setEpisodes(@Nullable List<? extends Episode> list) {
-        if (list == null) {
-            return;
-        }
-        episodes.clear();
-        for (Episode episode : list) {
-            ((RealmList)episodes).add((RealmEpisode) episode);
-        }
-    }
-
     @Nullable
     @Override
     public Integer getNumberOfEpisodesDowloaded() {
@@ -619,5 +608,16 @@ public class PodcastRealm extends RealmObject implements Podcast {
     @Override
     public void setNumberOfEpisodesDowloaded(@Nullable Integer integer) {
         this.numberOfEpisodesDowloaded = integer;
+    }
+
+    @Override
+    public void setEpisodes(@Nullable List<Episode> list) {
+        if (list == null) {
+            return;
+        }
+        episodes.clear();
+        for (Episode episode : list) {
+            ((RealmList)episodes).add((RealmEpisode) episode);
+        }
     }
 }

@@ -8,7 +8,7 @@ import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
 
 class DownloadAdapter(
-        data: MutableList<DownloadedPodcast>,
+        var data: MutableList<DownloadedPodcast>,
         var callback: Callback?) : ExpandableRecyclerViewAdapter<PodcastDowloadHolder, EpisodeDownloadHolder>(data) {
 
     override fun onCreateChildViewHolder(parent: ViewGroup?, viewType: Int): EpisodeDownloadHolder {
@@ -31,6 +31,13 @@ class DownloadAdapter(
         return PodcastDowloadHolder(binding)
     }
 
+    fun updateItem(i: Int, j: Int, episode: DownloadedEpisode) {
+        val old = data[i].items[j]
+        val new = episode
+        data[i].items.set(j, new)
+        notifyItemChanged(i + 1 + j)
+    }
+
     interface Callback {
         fun downloadEpisode(link: DownloadedEpisode?)
 
@@ -40,5 +47,7 @@ class DownloadAdapter(
 
         fun deleteAllEpisodes(trackId: DownloadedPodcast?)
     }
+
+
 }
 

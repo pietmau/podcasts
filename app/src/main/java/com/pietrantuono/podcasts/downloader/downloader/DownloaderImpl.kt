@@ -2,8 +2,9 @@ package com.pietrantuono.podcasts.downloader.downloader
 
 import android.content.Context
 import android.content.Intent
-import android.content.Intent.getIntent
 import com.pietrantuono.podcasts.downloader.service.*
+import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedEpisode
+import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
 import com.pietrantuono.podcasts.settings.PreferencesManager
 import models.pojos.Episode
 import models.pojos.Podcast
@@ -29,6 +30,18 @@ class DownloaderImpl(
         startService(intent)
     }
 
+    override fun downloadIfAppropriate(podcast: DownloadedPodcast?) {
+        if (!preferencesManager.downloadAutomatically) {
+            return
+        }
+        podcast?.items?.
+                map { it.uri }?.
+                filterNotNull()?.
+                toList()?.let {
+            downloadAllInternal(ArrayList(it))
+        }
+    }
+
     override fun downloadIfAppropriate(podcast: Podcast?) {
         if (!preferencesManager.downloadAutomatically) {
             return
@@ -41,7 +54,8 @@ class DownloaderImpl(
         }
     }
 
-    override fun deleteEpisode(episode: Episode) {
+    override fun deleteEpisode(episode: DownloadedEpisode?) {
+        episode ?: return
         val intent = getIntent(COMMAND_DELETE_EPISODE)
         intent.putExtra(EXTRA_DOWNLOAD_REQUEST_ID, episode.downloadRequestId)
         startService(intent)
@@ -52,13 +66,13 @@ class DownloaderImpl(
         downloadAllInternal(tracks)
     }
 
-    override fun deleteAllEpisodes(podcast: Podcast) {
+    override fun deleteAllEpisodes(podcast: DownloadedPodcast?) {
         val intent = getIntent(COMMAND_DELETE_ALL_EPISODES)
-        intent.putExtra(EXTRA_DOWNLOAD_REQUEST_ID_LIST, getIds(podcast.episodes))
+        intent.putExtra(EXTRA_DOWNLOAD_REQUEST_ID_LIST, getIds(podcast?.items))
         startService(intent)
     }
 
-    private fun getIds(episodesList: List<Episode>?): ArrayList<Long> {
+    private fun getIds(episodesList: MutableList<DownloadedEpisode>?): ArrayList<Long> {
         if (episodesList == null) {
             return ArrayList(emptyList())
         }

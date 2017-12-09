@@ -18,6 +18,10 @@ class DownloadRecycler(context: Context, attrs: AttributeSet) : RecyclerView(con
         adapter = DownloadAdapter(data, callback)
     }
 
+    fun updateItem(i: Int, j: Int, episode: DownloadedEpisode) {
+        (adapter as DownloadAdapter).updateItem(i,j,episode)
+    }
+
 
 }
 

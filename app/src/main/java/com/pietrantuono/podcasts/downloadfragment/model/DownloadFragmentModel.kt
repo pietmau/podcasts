@@ -5,6 +5,6 @@ import rx.Observer
 
 interface DownloadFragmentModel {
     fun unsubscribe()
-    fun subscribe(observer: Observer<List<DownloadedPodcast>?>)
+    fun subscribe(observer: Observer<List<DownloadedPodcast>>)
     fun getPodcastTitleAsync(simpleObserver: Observer<String?>, trackId: Int?)
 }

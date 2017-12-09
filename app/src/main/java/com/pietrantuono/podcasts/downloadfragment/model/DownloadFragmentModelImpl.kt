@@ -1,12 +1,11 @@
 package com.pietrantuono.podcasts.downloadfragment.model
+
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
 import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedEpisode
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
-import io.realm.Realm
 import models.pojos.Episode
 import models.pojos.Podcast
-import models.pojos.PodcastRealm
 import repo.repository.EpisodesRepository
 import repo.repository.PodcastRepo
 import rx.Observable
@@ -32,32 +31,28 @@ class DownloadFragmentModelImpl(
 
     private val observable: Observable<List<Podcast>> by lazy { podcastRepo.getSubscribedPodcasts() }
 
-    override fun subscribe(observer: Observer<List<DownloadedPodcast>?>) {
+    override fun subscribe(observer: Observer<List<DownloadedPodcast>>) {
         val subscription =
-                observable
-                        .subscribeOn(mainThreadScheduler)
-                        .observeOn(workerScheduler)
-                        .map {
-                            Realm.getDefaultInstance().use {
-                                it.copyFromRealm(it.where(PodcastRealm::class.java).equalTo("podcastSubscribed", true).findAll())
-                            }
+                podcastRepo
+                        .getSubscribedPodcastsAsObservable()
+                        .doOnNext {
+                            it
                         }
                         .flatMap { list ->
                             Observable.from(list)
-                                    .map { toDownloadedPodcast(it) }
+                                    .map { toDownloaded(it) }
                                     .toList()
                         }
+                        .doOnNext {
+                            it
+                        }
+                        .subscribeOn(workerScheduler)
                         .observeOn(mainThreadScheduler)
                         .subscribe(observer)
         compositeSubscription.add(subscription)
     }
 
-    private fun toDownloadedPodcast(podcast: Podcast): DownloadedPodcast = DownloadedPodcast(podcast, podcast.trackName, makeEpisodes(podcast), resources)
-
-    private fun makeEpisodes(podcast: Podcast): List<DownloadedEpisode>? = podcast.episodes?.map { toDownloadedEpisode(it) }
-
-    fun toDownloadedEpisode(episode: Episode): DownloadedEpisode = DownloadedEpisode(episode, resources)
-
+    fun toDownloadedEpisode(episode: Episode): DownloadedEpisode = DownloadedEpisode.fromEpisode(episode, resources)
 
     override fun getPodcastTitleAsync(observer: Observer<String?>, trackId: Int?) {
         trackId?.let {
@@ -68,5 +63,9 @@ class DownloadFragmentModelImpl(
                     .subscribe(observer)
         }
     }
+
+    fun toDownloaded(podcast: Podcast): DownloadedPodcast = DownloadedPodcast.fromPodcast(podcast, podcast.trackName, makeEpisodes(podcast), resources)
+
+    private fun makeEpisodes(podcast: Podcast): List<DownloadedEpisode>? = podcast.episodes?.map { toDownloadedEpisode(it) }
 
 }
