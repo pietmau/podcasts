@@ -7,7 +7,6 @@ import rx.Observable
 import rx.Observer
 import rx.Scheduler
 import rx.Subscription
-import java.util.concurrent.TimeUnit
 
 
 class FullscreenModelImpl(private val repo: EpisodesRepository, private val manithreadScheduler: Scheduler)
@@ -28,8 +27,6 @@ class FullscreenModelImpl(private val repo: EpisodesRepository, private val mani
 
     override fun subscribe(observer: Observer<in Episode?>) {
         subscription = observable
-                ?.take(1)
-                ?.timeout(1, TimeUnit.SECONDS)
                 ?.observeOn(manithreadScheduler)
                 ?.subscribe(observer)
     }
