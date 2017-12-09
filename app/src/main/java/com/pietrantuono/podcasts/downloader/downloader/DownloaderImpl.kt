@@ -7,6 +7,7 @@ import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedEpisode
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
 import com.pietrantuono.podcasts.settings.PreferencesManager
 import models.pojos.Episode
+import models.pojos.Podcast
 
 class DownloaderImpl(
         context: Context,
@@ -41,9 +42,22 @@ class DownloaderImpl(
         }
     }
 
+    override fun downloadIfAppropriate(podcast: Podcast?) {
+        if (!preferencesManager.downloadAutomatically) {
+            return
+        }
+        podcast?.episodes?.
+                map { it.uri }?.
+                filterNotNull()?.
+                toList()?.let {
+            downloadAllInternal(ArrayList(it))
+        }
+    }
+
     override fun deleteEpisode(episode: DownloadedEpisode?) {
+        episode ?: return
         val intent = getIntent(COMMAND_DELETE_EPISODE)
-        intent.putExtra(EXTRA_DOWNLOAD_REQUEST_ID, episode?.downloadRequestId)
+        intent.putExtra(EXTRA_DOWNLOAD_REQUEST_ID, episode.downloadRequestId)
         startService(intent)
     }
 
@@ -54,11 +68,11 @@ class DownloaderImpl(
 
     override fun deleteAllEpisodes(podcast: DownloadedPodcast?) {
         val intent = getIntent(COMMAND_DELETE_ALL_EPISODES)
-        intent.putExtra(EXTRA_DOWNLOAD_REQUEST_ID_LIST, getIds(podcast.episodes))
+        intent.putExtra(EXTRA_DOWNLOAD_REQUEST_ID_LIST, getIds(podcast?.items))
         startService(intent)
     }
 
-    private fun getIds(episodesList: List<Episode>?): ArrayList<Long> {
+    private fun getIds(episodesList: MutableList<DownloadedEpisode>?): ArrayList<Long> {
         if (episodesList == null) {
             return ArrayList(emptyList())
         }
