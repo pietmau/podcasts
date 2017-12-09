@@ -67,7 +67,7 @@ interface Podcast : Parcelable {
 
     var genres: List<String>?
 
-    var episodes: List<Episode>?
+    var episodes: MutableList<Episode>?
 
     var isPodcastSubscribed: Boolean
 

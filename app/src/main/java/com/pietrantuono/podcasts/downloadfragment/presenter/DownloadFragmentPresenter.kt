@@ -7,8 +7,10 @@ import com.pietrantuono.podcasts.downloadfragment.view.DownloadView
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadAdapter
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedEpisode
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
+import io.realm.Realm
 import models.pojos.Episode
 import models.pojos.Podcast
+import models.pojos.PodcastRealm
 
 
 class DownloadFragmentPresenter(
@@ -17,7 +19,7 @@ class DownloadFragmentPresenter(
         private val downloader: Downloader
 ) : DownloadAdapter.Callback {
     private var view: DownloadView? = null
-    private var feed: List<DownloadedPodcast>? = null
+    private var feed: MutableList<DownloadedPodcast> = mutableListOf()
 
     fun bindView(view: DownloadView) {
         this.view = view
@@ -36,9 +38,54 @@ class DownloadFragmentPresenter(
 
     private fun onDataReceived(feed: List<DownloadedPodcast>) {
         if (this.feed == null || this.feed?.isEmpty() == true) {
-            this.feed = feed
-            view?.setPodcasts(feed)
+            onNewData(feed)
+            return
         }
+        onDataUpdate(feed)
+    }
+
+    fun onDataUpdate(feed: List<DownloadedPodcast>) {
+        val copy = makeCopy(feed)
+        if (copy.size != feed.size) {
+            return
+        }
+        iterateOverFeeds(copy)
+    }
+
+    private fun iterateOverFeeds(copy: List<DownloadedPodcast>) {
+        for (i in feed.indices) {
+            val feedEpisodes = feed[i].podcast.episodes
+            val copyEpisodes = copy[i].podcast.episodes
+            if (copyEpisodes == null || feedEpisodes == null || copyEpisodes.size != feedEpisodes.size) {
+                return
+            }
+            iterateOverEpisodes(feedEpisodes, i, copyEpisodes)
+        }
+    }
+
+    private fun iterateOverEpisodes(feedEpisodes: List<Episode>, i: Int, copyEpisodes: List<Episode>) {
+        for (j in feedEpisodes.indices) {
+            if (feedEpisodes[j].downloaded != copyEpisodes[j].downloaded) {
+                feed?.get(i)?.podcast?.episodes?.set(j,copyEpisodes[j])
+            }
+        }
+    }
+
+    private fun onNewData(feed: List<DownloadedPodcast>) {
+        val copy = makeCopy(feed)
+        this.feed.clear()
+        this.feed.addAll(copy)
+        view?.setPodcasts(copy)
+    }
+
+    private fun makeCopy(feed: List<DownloadedPodcast>): List<DownloadedPodcast> {
+        val realm = Realm.getDefaultInstance()
+        val copy = feed
+                .map { downloadedPodcast ->
+                    val podcast = realm.copyFromRealm(downloadedPodcast.podcast as PodcastRealm)
+                    DownloadedPodcast(podcast, downloadedPodcast.title, downloadedPodcast.items,downloadedPodcast.resources)
+                }
+        return copy
     }
 
     fun unbind() {

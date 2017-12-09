@@ -7,10 +7,10 @@ import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
 import models.pojos.Podcast
 
 class DownloadedPodcast(
-        val podcast: Podcast,
+        var podcast: Podcast,
         title: String?,
         items: List<DownloadedEpisode>?,
-        private val resources: ResourcesProvider) : ExpandableGroup<DownloadedEpisode>(title, items) {
+        val resources: ResourcesProvider) : ExpandableGroup<DownloadedEpisode>(title, items) {
 
     val downloadedCount: Int
     val notDownloadedCount: Int
