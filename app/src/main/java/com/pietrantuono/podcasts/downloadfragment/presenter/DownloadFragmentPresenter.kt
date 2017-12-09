@@ -8,70 +8,29 @@ import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadAdapter
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedEpisode
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
 
-
 class DownloadFragmentPresenter(
         private val model: DownloadFragmentModel,
         private val messageCreator: MessageCreator,
-        private val downloader: Downloader
+        private val downloader: Downloader,
+        private val dataChecker: DataChecker
 ) : DownloadAdapter.Callback {
     private var view: DownloadView? = null
-    private var feed: MutableList<DownloadedPodcast> = mutableListOf()
 
     fun bindView(view: DownloadView) {
         this.view = view
+        this.dataChecker.presenter = this
     }
 
     fun bind() {
         model.subscribe(object : SimpleObserver<List<DownloadedPodcast>>() {
             override fun onNext(feed: List<DownloadedPodcast>) {
-                if (feed != null && !feed.isEmpty()) {
-                    onDataReceived(feed)
-                }
+                dataChecker.onDataReceived(feed)
             }
         })
     }
 
-    private fun onDataReceived(feed: List<DownloadedPodcast>) {
-        if (this.feed == null || this.feed?.isEmpty() == true) {
-            onNewData(feed)
-            return
-        }
-        onDataUpdate(feed)
-    }
-
-    fun onDataUpdate(feed: List<DownloadedPodcast>?) {
-        val copy = feed
-        if (copy == null || copy?.size != this.feed.size) {
-            return
-        }
-        iterateOverFeeds(copy)
-    }
-
-    private fun iterateOverFeeds(copy: List<DownloadedPodcast>) {
-        for (i in feed.indices) {
-            val feedEpisodes = feed[i].items
-            val copyEpisodes = copy[i].items
-            if (copyEpisodes == null || feedEpisodes == null || copyEpisodes.size != feedEpisodes.size) {
-                return
-            }
-            iterateOverEpisodes(feedEpisodes, i, copyEpisodes)
-        }
-    }
-
-    private fun iterateOverEpisodes(feedEpisodes: MutableList<DownloadedEpisode>, i: Int, copyEpisodes: MutableList<DownloadedEpisode>) {
-        for (j in feedEpisodes.indices) {
-            if (feedEpisodes[j].downloaded != copyEpisodes[j].downloaded) {
-                view?.updateItem(i, j, copyEpisodes[j])
-                feed?.get(i)?.items?.set(j, copyEpisodes[j])
-            }
-        }
-    }
-
-    private fun onNewData(feed: List<DownloadedPodcast>) {
-        val copy = feed
-        this.feed.clear()
-        this.feed.addAll(copy)
-        view?.setPodcasts(copy)
+    fun onNewData(feed: List<DownloadedPodcast>) {
+        view?.setPodcasts(feed)
     }
 
     fun unbind() {
@@ -124,5 +83,10 @@ class DownloadFragmentPresenter(
     fun onConfirmDeleteAllEpisodes(podcast: DownloadedPodcast?) {
         downloader.deleteAllEpisodes(podcast)
     }
+
+    fun updateEpisode(i: Int, j: Int, downloadedEpisode: DownloadedEpisode) {
+        view?.updateItem(i, j, downloadedEpisode)
+    }
+
 }
 

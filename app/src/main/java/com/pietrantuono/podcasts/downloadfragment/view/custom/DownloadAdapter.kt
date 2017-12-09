@@ -32,9 +32,7 @@ class DownloadAdapter(
     }
 
     fun updateItem(i: Int, j: Int, episode: DownloadedEpisode) {
-        val old = data[i].items[j]
-        val new = episode
-        data[i].items.set(j, new)
+        data[i].items.set(j, episode)
         notifyItemChanged(i + 1 + j)
     }
 

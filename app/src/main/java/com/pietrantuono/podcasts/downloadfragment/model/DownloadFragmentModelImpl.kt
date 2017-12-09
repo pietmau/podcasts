@@ -29,8 +29,6 @@ class DownloadFragmentModelImpl(
         compositeSubscription.unsubscribe()
     }
 
-    private val observable: Observable<List<Podcast>> by lazy { podcastRepo.getSubscribedPodcasts() }
-
     override fun subscribe(observer: Observer<List<DownloadedPodcast>>) {
         val subscription =
                 podcastRepo
