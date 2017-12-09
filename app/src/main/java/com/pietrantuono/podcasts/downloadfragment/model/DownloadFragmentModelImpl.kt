@@ -35,18 +35,11 @@ class DownloadFragmentModelImpl(
         val subscription =
                 podcastRepo
                         .getSubscribedPodcastsAsObservable()
-                        .doOnNext {
-                            it
-                        }
                         .flatMap { list ->
                             Observable.from(list)
                                     .map { toDownloaded(it) }
                                     .toList()
                         }
-                        .doOnNext {
-                            it
-                        }
-                        .subscribeOn(workerScheduler)
                         .observeOn(mainThreadScheduler)
                         .subscribe(observer)
         compositeSubscription.add(subscription)

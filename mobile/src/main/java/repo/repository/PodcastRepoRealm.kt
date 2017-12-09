@@ -98,18 +98,14 @@ class PodcastRepoRealm(
     }
 
     override fun getSubscribedPodcastsAsObservable(): Observable<List<Podcast>> {
-        val just = Observable.fromCallable {
-            val findAllAsync = Realm.getDefaultInstance().where(PodcastRealm::class.java)
+        return Realm.getDefaultInstance().use { realm ->
+            realm.where(PodcastRealm::class.java)
                     .equalTo("podcastSubscribed", true)
-                    .findAll()
-            val z = findAllAsync
-                    //.filter { it.isLoaded && it.isValid }
-                    .map { it as Podcast }
-            z
+                    .findAllAsync()
+                    .asObservable()
+                    .map { it as List<Podcast> }
         }
-        return just
     }
-
 
     override fun getPodcastByIdAsync(trackId: Int): Observable<out Podcast> {
         return Realm.getDefaultInstance().use { realm ->
