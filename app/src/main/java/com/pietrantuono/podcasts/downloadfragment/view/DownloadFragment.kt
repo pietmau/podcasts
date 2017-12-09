@@ -62,6 +62,10 @@ class DownloadFragment : Fragment(), DownloadView {
         recycler.setData(list.toMutableList())
     }
 
+    override fun updateItem(i: Int, j: Int, episode: Episode) {
+        recycler.updateItem(i, j, episode)
+    }
+
     override fun confirmDownloadEpisode(message: MessageCreator.AlertMessage, uri: String) {
         alert(message.message, message.title) {
             yesButton { presenter.onConfirmDownloadEpisode(uri) }

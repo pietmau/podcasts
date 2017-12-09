@@ -11,7 +11,7 @@ import java.text.NumberFormat
 
 class DownloadedEpisode(
         val episode: Episode,
-        private val resources: ResourcesProvider?) : Parcelable {
+        val resources: ResourcesProvider?) : Parcelable {
 
     val title = episode.title
     val link = episode.link

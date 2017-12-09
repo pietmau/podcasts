@@ -4,6 +4,6 @@ import models.pojos.Episode
 
 interface PodcastFeed {
 
-    val episodes: List<Episode>
+    val episodes: MutableList<Episode>
 
 }

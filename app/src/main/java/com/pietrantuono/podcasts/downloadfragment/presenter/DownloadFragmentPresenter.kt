@@ -35,7 +35,6 @@ class DownloadFragmentPresenter(
         })
     }
 
-
     private fun onDataReceived(feed: List<DownloadedPodcast>) {
         if (this.feed == null || this.feed?.isEmpty() == true) {
             onNewData(feed)
@@ -66,7 +65,8 @@ class DownloadFragmentPresenter(
     private fun iterateOverEpisodes(feedEpisodes: List<Episode>, i: Int, copyEpisodes: List<Episode>) {
         for (j in feedEpisodes.indices) {
             if (feedEpisodes[j].downloaded != copyEpisodes[j].downloaded) {
-                feed?.get(i)?.podcast?.episodes?.set(j,copyEpisodes[j])
+                view?.updateItem(i, j, copyEpisodes[j])
+                feed?.get(i)?.podcast?.episodes?.set(j, copyEpisodes[j])
             }
         }
     }
@@ -83,7 +83,7 @@ class DownloadFragmentPresenter(
         val copy = feed
                 .map { downloadedPodcast ->
                     val podcast = realm.copyFromRealm(downloadedPodcast.podcast as PodcastRealm)
-                    DownloadedPodcast(podcast, downloadedPodcast.title, downloadedPodcast.items,downloadedPodcast.resources)
+                    DownloadedPodcast(podcast, downloadedPodcast.title, downloadedPodcast.items, downloadedPodcast.resources)
                 }
         return copy
     }

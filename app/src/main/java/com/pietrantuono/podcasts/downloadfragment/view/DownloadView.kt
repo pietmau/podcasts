@@ -12,4 +12,5 @@ interface DownloadView {
     fun confirmDownloadAllEpisodes(message: MessageCreator.AlertMessage, trackId: Podcast)
     fun confirmDeleteEpisode(episode: MessageCreator.AlertMessage, link: Episode)
     fun confirmDeleteAllEpisodes(episodes: MessageCreator.AlertMessage, podcast: Podcast)
+    fun updateItem(i: Int, j: Int, episode: Episode)
 }

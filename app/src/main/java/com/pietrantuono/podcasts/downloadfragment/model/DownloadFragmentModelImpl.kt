@@ -1,4 +1,5 @@
 package com.pietrantuono.podcasts.downloadfragment.model
+
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
 import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedEpisode
@@ -32,12 +33,15 @@ class DownloadFragmentModelImpl(
 
     override fun subscribe(observer: Observer<List<DownloadedPodcast>?>) {
         val subscription =
-                observable
+                podcastRepo
+                        .getDiocan()
                         .flatMap { list ->
                             Observable.from(list)
                                     .map { toDownloadedPodcast(it) }
                                     .toList()
                         }
+                        .subscribeOn(workerScheduler)
+                        .observeOn(mainThreadScheduler)
                         .subscribe(observer)
         compositeSubscription.add(subscription)
     }

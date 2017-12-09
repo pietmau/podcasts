@@ -37,7 +37,7 @@ class SaveAndDowloandEpisodeIntentService : IntentService("SaveAndDowloandEpisod
         downloader.downloadIfAppropriate(podcast)
     }
 
-    private fun getEpisodes(intent: Intent): List<Episode>? {
+    private fun getEpisodes(intent: Intent): MutableList<Episode>? {
         logger.debug(TAG, "getEpisodes")
         val url = intent.getStringExtra(URL)
         if (url.isNullOrBlank()) {
