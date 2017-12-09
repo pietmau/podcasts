@@ -4,7 +4,6 @@ import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import com.pietrantuono.podcasts.R.string.episodes
 import com.pietrantuono.podcasts.fullscreenplay.customcontrols.MediaBrowserCompatWrapper
 import com.pietrantuono.podcasts.playlist.view.PlayListView
 import models.pojos.Episode
@@ -38,11 +37,11 @@ class PlaylistPresenter(
             val episode = createEpidoe(item)
             episodes.add(episode)
         }
-        view?.onPlaylistRetrieved(episodes)
+        //view?.onPlaylistRetrieved(episodes)
     }
 
     private fun createEpidoe(item: MediaBrowserCompat.MediaItem): Episode {
-
+        throw UnsupportedOperationException()
     }
 
     fun unbind() {
