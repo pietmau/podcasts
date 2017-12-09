@@ -4,7 +4,6 @@ package player
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
-import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.MediaSessionCompat
 import player.model.MusicProvider
 import player.utils.QueueHelper
@@ -62,10 +61,15 @@ internal class QueueHelperRealm : QueueHelper {
         return false
     }
 
-
     override fun getPlaylist(): MutableList<out MediaBrowserCompat.MediaItem> {
-        return mutableListOf<SuperMediaItem>()
+        val result = mutableListOf<MediaBrowserCompat.MediaItem>()
+        for (queueItem in playingQueue) {
+            result.add(createItem(queueItem))
+        }
+        return result
+    }
+
+    private fun createItem(queueItem: MediaSessionCompat.QueueItem): MediaBrowserCompat.MediaItem {
+        return MediaBrowserCompat.MediaItem(queueItem.description, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE)
     }
 }
-
-class SuperMediaItem(ff: MediaDescriptionCompat) : MediaBrowserCompat.MediaItem(ff, 0) {}

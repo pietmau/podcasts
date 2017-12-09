@@ -256,6 +256,6 @@ public class QueueHelperImpl implements QueueHelper {
 
     @Override
     public List<MediaBrowserCompat.MediaItem> getPlaylist() {
-        return null;
+        throw new UnsupportedOperationException("Not supported here!");
     }
 }

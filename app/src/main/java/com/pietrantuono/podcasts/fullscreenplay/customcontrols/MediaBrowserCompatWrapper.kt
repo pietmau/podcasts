@@ -9,7 +9,7 @@ import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.widget.SeekBar
-import com.pietrantuono.podcasts.playlist.presenter.PlaylistPresenter
+import com.pietrantuono.podcasts.playlist.presenter.SubscriptionCallback
 import player.MusicService
 
 class MediaBrowserCompatWrapper(private val context: Context) {
@@ -97,7 +97,7 @@ class MediaBrowserCompatWrapper(private val context: Context) {
         mediaBrowser?.subscribe(ANY_TEXT, subscriptionCallback)
     }
 
-    fun unsubscribe(subscriptionCallback: PlaylistPresenter.SubscriptionCallback) {
+    fun unsubscribe(subscriptionCallback: SubscriptionCallback) {
         mediaBrowser?.unsubscribe(ANY_TEXT,subscriptionCallback)
     }
 
