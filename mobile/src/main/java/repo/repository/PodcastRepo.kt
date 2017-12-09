@@ -14,5 +14,5 @@ interface PodcastRepo {
     fun getPodcastByEpisodeSync(episode: Episode): Podcast?
     fun savePodcastSync(podcast: PodcastRealm?)
     fun getPodcastByIdSync(trackId: Int): Podcast?
-    fun getDiocan(): Observable<List<Podcast>>
+    fun getSubscribedPodcastsAsObservable(): Observable<List<Podcast>>
 }

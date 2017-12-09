@@ -31,14 +31,20 @@ class DownloadFragmentModelImpl(
 
     private val observable: Observable<List<Podcast>> by lazy { podcastRepo.getSubscribedPodcasts() }
 
-    override fun subscribe(observer: Observer<List<DownloadedPodcast>?>) {
+    override fun subscribe(observer: Observer<List<DownloadedPodcast>>) {
         val subscription =
                 podcastRepo
-                        .getDiocan()
+                        .getSubscribedPodcastsAsObservable()
+                        .doOnNext {
+                            it
+                        }
                         .flatMap { list ->
                             Observable.from(list)
-                                    .map { toDownloadedPodcast(it) }
+                                    .map { toDownloaded(it) }
                                     .toList()
+                        }
+                        .doOnNext {
+                            it
                         }
                         .subscribeOn(workerScheduler)
                         .observeOn(mainThreadScheduler)
@@ -46,12 +52,9 @@ class DownloadFragmentModelImpl(
         compositeSubscription.add(subscription)
     }
 
-    fun toDownloadedPodcast(podcast: Podcast): DownloadedPodcast = DownloadedPodcast(podcast, podcast.trackName, makeEpisodes(podcast), resources)
-
     private fun makeEpisodes(podcast: Podcast): List<DownloadedEpisode>? = podcast.episodes?.map { toDownloadedEpisode(it) }
 
     fun toDownloadedEpisode(episode: Episode): DownloadedEpisode = DownloadedEpisode(episode, resources)
-
 
     override fun getPodcastTitleAsync(observer: Observer<String?>, trackId: Int?) {
         trackId?.let {
@@ -61,6 +64,10 @@ class DownloadFragmentModelImpl(
                     .observeOn(mainThreadScheduler)
                     .subscribe(observer)
         }
+    }
+
+    fun toDownloaded(podcast: Podcast): DownloadedPodcast {
+        return DownloadedPodcast.fromPodcast(podcast, podcast.trackName, makeEpisodes(podcast), resources)
     }
 
 }

@@ -97,7 +97,7 @@ class PodcastRepoRealm(
         }
     }
 
-    override fun getDiocan(): Observable<List<Podcast>> {
+    override fun getSubscribedPodcastsAsObservable(): Observable<List<Podcast>> {
         val just = Observable.fromCallable {
             val findAllAsync = Realm.getDefaultInstance().where(PodcastRealm::class.java)
                     .equalTo("podcastSubscribed", true)

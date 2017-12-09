@@ -7,10 +7,8 @@ import com.pietrantuono.podcasts.downloadfragment.view.DownloadView
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadAdapter
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedEpisode
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
-import io.realm.Realm
 import models.pojos.Episode
 import models.pojos.Podcast
-import models.pojos.PodcastRealm
 
 
 class DownloadFragmentPresenter(
@@ -27,7 +25,7 @@ class DownloadFragmentPresenter(
 
     fun bind() {
         model.subscribe(object : SimpleObserver<List<DownloadedPodcast>>() {
-            override fun onNext(feed: List<DownloadedPodcast>?) {
+            override fun onNext(feed: List<DownloadedPodcast>) {
                 if (feed != null && !feed.isEmpty()) {
                     onDataReceived(feed)
                 }
@@ -43,9 +41,9 @@ class DownloadFragmentPresenter(
         onDataUpdate(feed)
     }
 
-    fun onDataUpdate(feed: List<DownloadedPodcast>) {
-        val copy = makeCopy(feed)
-        if (copy.size != feed.size) {
+    fun onDataUpdate(feed: List<DownloadedPodcast>?) {
+        val copy = feed
+        if (copy == null || copy?.size != this.feed.size) {
             return
         }
         iterateOverFeeds(copy)
@@ -53,8 +51,8 @@ class DownloadFragmentPresenter(
 
     private fun iterateOverFeeds(copy: List<DownloadedPodcast>) {
         for (i in feed.indices) {
-            val feedEpisodes = feed[i].podcast.episodes
-            val copyEpisodes = copy[i].podcast.episodes
+            val feedEpisodes = feed[i].items
+            val copyEpisodes = copy[i].items
             if (copyEpisodes == null || feedEpisodes == null || copyEpisodes.size != feedEpisodes.size) {
                 return
             }
@@ -62,30 +60,30 @@ class DownloadFragmentPresenter(
         }
     }
 
-    private fun iterateOverEpisodes(feedEpisodes: List<Episode>, i: Int, copyEpisodes: List<Episode>) {
+    private fun iterateOverEpisodes(feedEpisodes: MutableList<DownloadedEpisode>, i: Int, copyEpisodes: MutableList<DownloadedEpisode>) {
         for (j in feedEpisodes.indices) {
             if (feedEpisodes[j].downloaded != copyEpisodes[j].downloaded) {
                 view?.updateItem(i, j, copyEpisodes[j])
-                feed?.get(i)?.podcast?.episodes?.set(j, copyEpisodes[j])
+                feed?.get(i)?.items?.set(j, copyEpisodes[j])
             }
         }
     }
 
     private fun onNewData(feed: List<DownloadedPodcast>) {
-        val copy = makeCopy(feed)
+        val copy = feed
         this.feed.clear()
         this.feed.addAll(copy)
         view?.setPodcasts(copy)
     }
 
-    private fun makeCopy(feed: List<DownloadedPodcast>): List<DownloadedPodcast> {
-        val realm = Realm.getDefaultInstance()
-        val copy = feed
-                .map { downloadedPodcast ->
-                    val podcast = realm.copyFromRealm(downloadedPodcast.podcast as PodcastRealm)
-                    DownloadedPodcast(podcast, downloadedPodcast.title, downloadedPodcast.items, downloadedPodcast.resources)
-                }
-        return copy
+    private fun makeCopy(feed: List<DownloadedPodcast?>?): List<DownloadedPodcast?>? {
+//        val realm = Realm.getDefaultInstance()
+//        val copy = feed
+//                .map { downloadedPodcast ->
+//                    val podcast = realm.copyFromRealm(downloadedPodcast.podcast as PodcastRealm)
+//                    DownloadedPodcast(podcast, downloadedPodcast.title, downloadedPodcast.items, downloadedPodcast.resources)
+//                }
+        return feed
     }
 
     fun unbind() {
@@ -104,7 +102,7 @@ class DownloadFragmentPresenter(
             return
         }
         val message = messageCreator.confirmDownloadAllEpisodes(downloadedPodcast.title)
-        view?.confirmDownloadAllEpisodes(message, downloadedPodcast.podcast)
+        view?.confirmDownloadAllEpisodes(message, downloadedPodcast.items)
     }
 
     override fun deleteEpisode(downloadedEpisode: DownloadedEpisode?) {
@@ -120,7 +118,7 @@ class DownloadFragmentPresenter(
             return
         }
         val message = messageCreator.confirmDeleteAllEpisode(podcast.title)
-        view?.confirmDeleteAllEpisodes(message, podcast.podcast)
+        view?.confirmDeleteAllEpisodes(message, podcast)
     }
 
     fun onConfirmDownloadEpisode(uri: String) {
