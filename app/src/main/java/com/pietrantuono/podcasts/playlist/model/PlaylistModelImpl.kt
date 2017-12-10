@@ -11,12 +11,7 @@ import rx.subscriptions.CompositeSubscription
 
 class PlaylistModelImpl(
         private val repo: EpisodesRepository) : PlaylistModel {
-
     private val compositeSubscription = CompositeSubscription()
-
-    companion object {
-        const val URI: String = "uri"
-    }
 
     override fun mapItems(playlist: MutableList<MediaBrowserCompat.MediaItem>, observer: Observer<Episode>) {
         val subscription = Observable
@@ -24,7 +19,7 @@ class PlaylistModelImpl(
                 .flatMapIterable {
                     playlist.filter { it.description?.mediaId != null }
                             .map {
-                                repo.getUnmanagedEsodeByUriAsObservable(it.description.mediaId!!)
+                                repo.getEpisodeByUriAsObservable(it.description.mediaId!!)
                                         .map { it as RealmEpisode }
                             }
                 }

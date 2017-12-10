@@ -9,7 +9,6 @@ import rx.Observable
 class EpisodesRepositoryRealm(private val cache: EpisodeCache) : EpisodesRepository {
 
     val DOWNLOAD_REQUEST_ID = "downloadRequestId"
-    private val TITLE = "title"
     private val URI = "uri"
     private val ENCLOSURE_URL = "syndEnclosures.url"
 
@@ -76,17 +75,7 @@ class EpisodesRepositoryRealm(private val cache: EpisodeCache) : EpisodesReposit
         }
     }
 
-    override fun getRealmManagedEpisodeByUriAsObservable(uri: String): Observable<out Episode> =
-            Realm.getDefaultInstance().use { realm ->
-                realm.where(RealmEpisode::class.java)
-                        .equalTo(URI, uri)
-                        .findFirstAsync()
-                        .asObservable<RealmEpisode>()
-                        .filter { it != null }
-                        .filter { it.isLoaded && it.isValid }
-            }
-
-    override fun getUnmanagedEsodeByUriAsObservable(uri: String): Observable<out Episode> =
+    override fun getEpisodeByUriAsObservable(uri: String): Observable<out Episode> =
             Realm.getDefaultInstance().use { realm ->
                 realm.where(RealmEpisode::class.java)
                         .equalTo(URI, uri)
