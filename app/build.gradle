@@ -36,7 +36,7 @@ android {
             proguardFile 'proguard-files/mockito.pro'
             proguardFile 'proguard-files/rxjava.pro'
             proguardFile 'proguard-files/retrofit.pro'
-            testCoverageEnabled = true
+            testCoverageEnabled = false
         }
     }
 

@@ -8,7 +8,7 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesPro
 import models.pojos.Episode
 import java.text.NumberFormat
 
-class DownloadedEpisode(
+data class DownloadedEpisode(
         val title: String?,
         val link: String?,
         val downloaded: Boolean,

@@ -33,8 +33,33 @@ class DownloadAdapter(
 
     fun updateItem(i: Int, j: Int, episode: DownloadedEpisode) {
         data[i].items.set(j, episode)
-        notifyItemChanged(i + 1 + j)
+        val position = computeItemPosition(i, j)
+        notifyItemChanged(position)
     }
+
+    fun updatePodcast(i: Int, newPodcast: DownloadedPodcast) {
+        data.set(i, newPodcast)
+        val position = computePodcastPosition(i)
+        notifyItemChanged(position)
+    }
+
+    private fun computeItemPosition(i: Int, j: Int): Int {
+        val podcastPosition = computePodcastPosition(i)
+        return podcastPosition + j + 1
+    }
+
+    private fun computePodcastPosition(i: Int): Int {
+        var position = 0
+        for (k in data.indices) {
+            if (i == k) {
+                break
+            }
+            position += data[k].items.count()
+        }
+        position += i
+        return position
+    }
+
 
     interface Callback {
         fun downloadEpisode(link: DownloadedEpisode?)

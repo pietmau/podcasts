@@ -33,4 +33,31 @@ class DownloadedPodcast(
         get() = " " + downloadedCount.toString() + "/" + total + " " + resources.getString(R.string.downloadedLowercase) + " "
     val notDownloadedCountText: String
         get() = " " + notDownloadedCount.toString() + "/" + total + " " + resources.getString(R.string.not_downlaoded) + " "
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is DownloadedPodcast) return false
+        if (total != other.total) return false
+        if (trackId != other.trackId) return false
+        if (image != other.image) return false
+        if (totalNumberofEpisodes != other.totalNumberofEpisodes) return false
+        if (downloadedCount != other.downloadedCount) return false
+        if (notDownloadedCount != other.notDownloadedCount) return false
+        if (resources != other.resources) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = total ?: 0
+        result = 31 * result + (trackId ?: 0)
+        result = 31 * result + (image?.hashCode() ?: 0)
+        result = 31 * result + totalNumberofEpisodes.hashCode()
+        result = 31 * result + downloadedCount
+        result = 31 * result + notDownloadedCount
+        result = 31 * result + resources.hashCode()
+        return result
+    }
+
+
 }
