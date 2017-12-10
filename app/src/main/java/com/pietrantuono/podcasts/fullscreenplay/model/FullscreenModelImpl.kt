@@ -17,7 +17,7 @@ class FullscreenModelImpl(private val repo: EpisodesRepository, private val mani
 
     override fun getEpisodeByUriAsync(uri: String?) {
         uri ?: return
-        observable = repo.getEpisodeByUriAsObservable(uri)
+        observable = repo.getRealmManagedEpisodeByUriAsObservable(uri)
         subscribe(object : SimpleObserver<Episode>() {
             override fun onNext(feed: Episode?) {
                 this@FullscreenModelImpl.episode = feed

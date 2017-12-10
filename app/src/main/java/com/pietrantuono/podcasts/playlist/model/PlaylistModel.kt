@@ -5,6 +5,7 @@ import models.pojos.Episode
 import rx.Observer
 
 interface PlaylistModel {
-    fun mapItems(playlist: MutableList<MediaBrowserCompat.MediaItem>, observable: Observer<List<Episode>>)
+    fun mapItems(playlist: MutableList<MediaBrowserCompat.MediaItem>, observer: Observer<Episode>)
 
+    fun unsubscribe()
 }

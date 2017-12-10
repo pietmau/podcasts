@@ -4,11 +4,11 @@ import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
 import com.pietrantuono.podcasts.fullscreenplay.customcontrols.MediaBrowserCompatWrapper
 import com.pietrantuono.podcasts.playlist.model.PlaylistModel
 import com.pietrantuono.podcasts.playlist.view.PlayListView
 import models.pojos.Episode
-import rx.Observer
 
 
 class PlaylistPresenter(
@@ -17,8 +17,7 @@ class PlaylistPresenter(
 ) : MediaControllerCompat.Callback() {
 
     private var view: PlayListView? = null
-
-    private val subscriptionCallback = SubscriptionCallback()
+    private val mediaSubscriptionCallback = SubscriptionCallback()
 
     fun bind(view: PlayListView) {
         this.view = view
@@ -35,29 +34,16 @@ class PlaylistPresenter(
     }
 
     private fun onPlaylistRetrieved(playlist: MutableList<MediaBrowserCompat.MediaItem>) {
-        playlistModel.mapItems(playlist, object :Observer<List<Episode>>{
-            override fun onCompleted() {
-
-            }
-
-            override fun onError(e: Throwable?) {
-
-            }
-
-            override fun onNext(t: List<Episode>?) {
+        playlistModel.mapItems(playlist, object : SimpleObserver<Episode>() {
+            override fun onNext(episode: Episode) {
 
             }
         })
-        //view?.onPlaylistRetrieved(episodes)
-    }
-
-    private fun createEpidoe(item: MediaBrowserCompat.MediaItem): Episode {
-        throw UnsupportedOperationException()
     }
 
     fun unbind() {
         mediaBrowserCompatWrapper.onStop()
-        mediaBrowserCompatWrapper?.unsubscribe(subscriptionCallback)
+        mediaBrowserCompatWrapper?.unsubscribe(mediaSubscriptionCallback)
         mediaBrowserCompatWrapper?.unregisterCallback()
     }
 
