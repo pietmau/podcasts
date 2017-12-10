@@ -1,5 +1,6 @@
 package repo.repository
 
+import android.util.Log
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import models.pojos.DataRealmLibraryModule
@@ -98,14 +99,29 @@ class PodcastRepoRealm(
     }
 
     override fun getSubscribedPodcastsAsObservable(): Observable<List<Podcast>> {
+        Log.d("DIOCAN ", "--------------ENTRA IN SUB--------------")
         return Realm.getDefaultInstance().use { realm ->
+            Log.d("DIOCAN ", "0 " + System.currentTimeMillis())
             realm.where(PodcastRealm::class.java)
                     .equalTo("podcastSubscribed", true)
                     .findAllAsync()
                     .asObservable()
+                    .doOnNext { Log.d("DIOCAN ", "1 " + System.currentTimeMillis()) }
                     .map { it as List<Podcast> }
+                    .doOnNext { Log.d("DIOCAN ", "2 " + System.currentTimeMillis()) }
         }
     }
+
+    override fun getSubscedPodcasts(): List<PodcastRealm> {
+        Log.d("DIOCAN ", "--------------ENTRA IN SUB--------------")
+        return Realm.getDefaultInstance().use { realm ->
+            Log.d("DIOCAN ", "0 " + System.currentTimeMillis())
+            realm.where(PodcastRealm::class.java)
+                    .equalTo("podcastSubscribed", true)
+                    .findAllAsync().toList()
+        }
+    }
+
 
     override fun getPodcastByIdAsync(trackId: Int): Observable<out Podcast> {
         return Realm.getDefaultInstance().use { realm ->
