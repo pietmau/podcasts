@@ -1,8 +1,8 @@
 package com.pietrantuono.podcasts.playlist.view
 
-import android.support.v4.media.MediaBrowserCompat
+import models.pojos.Episode
 
 interface PlayListView {
-    fun onPlaylistRetrieved(playlist: MutableList<MediaBrowserCompat.MediaItem>)
+    fun onPlaylistRetrieved(playlist: List<Episode>)
 
 }

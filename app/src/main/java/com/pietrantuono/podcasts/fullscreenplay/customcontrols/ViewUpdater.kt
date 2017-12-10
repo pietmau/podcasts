@@ -39,7 +39,7 @@ class ViewUpdater(
     }
 
     fun snack(message: String?) {
-        view?.snack(message + context.getString(R.string.will_be_downloaded))
+        view?.snack(message +" "+ context.getString(R.string.will_be_downloaded))
     }
 
     fun setStartText(progress: Int) {

@@ -70,7 +70,7 @@
     <string name="please_upgrade__title">Upgrade needed</string>
     <string name="find">Find</string>
     <string name="subscribed_podcasts">Subscribed podcasts</string>
-    <string name="will_be_downloaded">&#032;will be downloaded and added to the playlist</string>
+    <string name="will_be_downloaded">will be downloaded and added to the playlist</string>
     <string name="auto_download_title">Auto download</string>
     <string name="auto_download_summary">Download when subscribed</string>
     <string name="auto_download">auto_download</string>

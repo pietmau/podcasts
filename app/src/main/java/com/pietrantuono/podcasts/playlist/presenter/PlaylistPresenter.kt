@@ -5,13 +5,16 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import com.pietrantuono.podcasts.fullscreenplay.customcontrols.MediaBrowserCompatWrapper
+import com.pietrantuono.podcasts.playlist.model.PlaylistModel
 import com.pietrantuono.podcasts.playlist.view.PlayListView
 import models.pojos.Episode
+import rx.Observer
 
 
 class PlaylistPresenter(
-        private var mediaBrowserCompatWrapper: MediaBrowserCompatWrapper)
-    : MediaControllerCompat.Callback() {
+        private var mediaBrowserCompatWrapper: MediaBrowserCompatWrapper,
+        private var playlistModel: PlaylistModel
+) : MediaControllerCompat.Callback() {
 
     private var view: PlayListView? = null
 
@@ -32,11 +35,19 @@ class PlaylistPresenter(
     }
 
     private fun onPlaylistRetrieved(playlist: MutableList<MediaBrowserCompat.MediaItem>) {
-        val episodes = mutableListOf<Episode>()
-        for (item in playlist) {
-            val episode = createEpidoe(item)
-            episodes.add(episode)
-        }
+        playlistModel.mapItems(playlist, object :Observer<List<Episode>>{
+            override fun onCompleted() {
+
+            }
+
+            override fun onError(e: Throwable?) {
+
+            }
+
+            override fun onNext(t: List<Episode>?) {
+
+            }
+        })
         //view?.onPlaylistRetrieved(episodes)
     }
 

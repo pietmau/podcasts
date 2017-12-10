@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 
 class MediaItemAdapter(context: Context) : RecyclerView.Adapter<MediaItemHolder>() {
+
     override fun onBindViewHolder(holder: MediaItemHolder?, position: Int) {
         TODO("not implemented")
     }
@@ -16,5 +17,6 @@ class MediaItemAdapter(context: Context) : RecyclerView.Adapter<MediaItemHolder>
     override fun getItemCount(): Int {
         TODO("not implemented")
     }
+
 
 }

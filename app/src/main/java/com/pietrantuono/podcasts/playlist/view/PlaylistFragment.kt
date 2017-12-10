@@ -3,7 +3,6 @@ package com.pietrantuono.podcasts.playlist.view
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.support.v4.media.MediaBrowserCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +10,8 @@ import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.playlist.di.PlaylistModule
 import com.pietrantuono.podcasts.playlist.presenter.PlaylistPresenter
+import models.pojos.Episode
 import javax.inject.Inject
-
 
 class PlaylistFragment : Fragment(), PlayListView {
     @Inject lateinit var presenter: PlaylistPresenter
@@ -35,7 +34,7 @@ class PlaylistFragment : Fragment(), PlayListView {
         (activity.applicationContext as? App)?.applicationComponent?.with(PlaylistModule())?.inject(this)
     }
 
-    override fun onPlaylistRetrieved(playlist: MutableList<MediaBrowserCompat.MediaItem>) {
+    override fun onPlaylistRetrieved(playlist: List<Episode>) {
 
     }
 
