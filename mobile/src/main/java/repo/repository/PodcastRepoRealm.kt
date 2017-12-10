@@ -91,9 +91,7 @@ class PodcastRepoRealm(
                     .equalTo("podcastSubscribed", true)
                     .findAllAsync()
                     .asObservable()
-                    //.filter { it.isLoaded && it.isValid }
                     .map { it as List<Podcast> }
-            //.cache()
         }
     }
 
@@ -103,6 +101,7 @@ class PodcastRepoRealm(
                     .equalTo("podcastSubscribed", true)
                     .findAllAsync()
                     .asObservable()
+                    .map { realm.copyFromRealm(it) }
                     .map { it as List<Podcast> }
         }
     }
