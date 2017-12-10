@@ -88,5 +88,9 @@ class DownloadFragmentPresenter(
         view?.updateItem(i, j, downloadedEpisode)
     }
 
+    fun updatePodcast(i: Int, newPodcast: DownloadedPodcast) {
+        view?.updatePodcast(i, newPodcast)
+    }
+
 }
 

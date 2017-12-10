@@ -19,7 +19,11 @@ class DownloadRecycler(context: Context, attrs: AttributeSet) : RecyclerView(con
     }
 
     fun updateItem(i: Int, j: Int, episode: DownloadedEpisode) {
-        (adapter as DownloadAdapter).updateItem(i,j,episode)
+        (adapter as DownloadAdapter).updateItem(i, j, episode)
+    }
+
+    fun updatePodcast(i: Int, newPodcast: DownloadedPodcast) {
+        (adapter as DownloadAdapter).updatePodcast(i, newPodcast)
     }
 
 

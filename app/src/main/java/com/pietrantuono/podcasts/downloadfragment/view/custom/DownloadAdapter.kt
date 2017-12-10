@@ -33,7 +33,14 @@ class DownloadAdapter(
 
     fun updateItem(i: Int, j: Int, episode: DownloadedEpisode) {
         data[i].items.set(j, episode)
-        notifyItemChanged(i + 1 + j)
+        val index = expandableList.getFlattenedChildIndex(i, j)
+        notifyItemChanged(index)
+    }
+
+    fun updatePodcast(i: Int, newPodcast: DownloadedPodcast) {
+        data.set(i, newPodcast)
+        val index = expandableList.getFlattenedGroupIndex(i)
+        notifyItemChanged(index)
     }
 
     interface Callback {
