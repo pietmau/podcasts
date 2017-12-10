@@ -35,7 +35,7 @@ class DownloadNotificationCreator//TODO Delete
                     .Builder(context)
                     .setContentTitle(context.getString(R.string.downloading))
                     .setContentText(getTitle(episode))
-                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setSmallIcon(android.R.drawable.stat_sys_download)
                     .setProgress(DOWNLOAD_COMPLETED, progress, false)
                     .build()
 
