@@ -29,13 +29,7 @@ class RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideEpisodesRepository(realm: Realm, cache: EpisodeCache): EpisodesRepository {
-        return EpisodesRepositoryRealm(cache)
-    }
-
-    @Singleton
-    @Provides
-    fun provideCache(): EpisodeCache = EpisodeCacheImpl()
+    fun provideEpisodesRepository(): EpisodesRepository = EpisodesRepositoryRealm()
 
 }
 

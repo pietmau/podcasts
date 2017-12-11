@@ -6,7 +6,7 @@ import models.pojos.Episode
 import models.pojos.RealmEpisode
 import rx.Observable
 
-class EpisodesRepositoryRealm(private val cache: EpisodeCache) : EpisodesRepository {
+class EpisodesRepositoryRealm() : EpisodesRepository {
 
     val DOWNLOAD_REQUEST_ID = "downloadRequestId"
     private val URI = "uri"
@@ -68,7 +68,7 @@ class EpisodesRepositoryRealm(private val cache: EpisodeCache) : EpisodesReposit
 
     /** To be used from another Thread or from a service in another process . */
     override fun getEpisodeByUriSync(uri: String?): Episode? = uri?.let { uri ->
-        cache.getEpisodeByUrls(uri) ?: Realm.getDefaultInstance().use { realm ->
+        Realm.getDefaultInstance().use { realm ->
             realm.where(RealmEpisode::class.java)
                     .equalTo(URI, uri)
                     .findFirst()
@@ -88,13 +88,12 @@ class EpisodesRepositoryRealm(private val cache: EpisodeCache) : EpisodesReposit
 
     /** To be used from another Thread or from a service in another process . */
     override fun getEpisodeByEnclosureUrlSync(url: String?): Episode? = url?.let { url ->
-        cache.getEpisodesByEnclosureUrl(url) ?: Realm.getDefaultInstance().use { realm ->
+        Realm.getDefaultInstance().use { realm ->
             realm.where(RealmEpisode::class.java)
                     .contains(ENCLOSURE_URL, url)
                     .findFirst()
                     ?.also { reamlEpisode ->
                         val episode = realm.copyFromRealm(reamlEpisode)
-                        cache.cacheEpisodeByEnclosureUrl(url, episode)
                     }
         }
     }

@@ -10,14 +10,17 @@ import player.model.MusicProvider
 import player.model.MusicProviderImpl
 import player.model.MusicProviderSource
 import player.model.SourceExtractor
-import repo.repository.*
+import repo.repository.EpisodesRepository
+import repo.repository.EpisodesRepositoryRealm
+import repo.repository.PodcastRepo
+import repo.repository.PodcastRepoRealm
 
 class MusicProviderRealm(private val extractor: SourceExtractor) : MusicProvider {
     private var episodesRepository: EpisodesRepository
     private var podcastRepo: PodcastRepo
 
     init {
-        episodesRepository = EpisodesRepositoryRealm(EpisodeCacheImpl())
+        episodesRepository = EpisodesRepositoryRealm()
         podcastRepo = PodcastRepoRealm(null)
     }
 
