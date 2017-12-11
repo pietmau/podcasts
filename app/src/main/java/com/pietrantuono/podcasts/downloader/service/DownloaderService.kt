@@ -3,6 +3,7 @@ package com.pietrantuono.podcasts.downloader.service
 import android.content.Intent
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.application.DebugLogger
+import com.pietrantuono.podcasts.downloader.di.DownloadModule
 import com.pietrantuono.podcasts.downloader.downloader.Fetcher
 import com.pietrantuono.podcasts.player.Enqueuer
 import com.tonyodev.fetch.request.RequestInfo
@@ -16,7 +17,7 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
 
     override fun onCreate() {
         super.onCreate()
-        (application as App).applicationComponent?.with()?.inject(this)
+        (application as App).applicationComponent?.with(DownloadModule(this))?.inject(this)
         dowloaderDelter.addCallback(this@DownloaderService)
     }
 

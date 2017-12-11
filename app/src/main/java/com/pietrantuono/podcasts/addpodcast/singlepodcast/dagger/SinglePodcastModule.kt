@@ -9,7 +9,6 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastMod
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SinglePodcastPresenter
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.BitmapColorExtractor
 import com.pietrantuono.podcasts.apis.SinglePodcastApi
-import com.pietrantuono.podcasts.downloader.downloader.Downloader
 import com.pietrantuono.podcasts.main.view.TransitionsHelper
 import dagger.Module
 import dagger.Provides
@@ -32,7 +31,7 @@ class SinglePodcastModule {
             ViewModelProviders.of(activity!!, factory).get(SinglePodcastPresenter::class.java)
 
     @Provides
-    fun provideSinglePodcastModel(api: SinglePodcastApi, repository: PodcastRepo, dowloader: Downloader): SinglePodcastModel =
+    fun provideSinglePodcastModel(api: SinglePodcastApi, repository: PodcastRepo): SinglePodcastModel =
             SinglePodcastModelImpl(api, repository, Schedulers.io(), AndroidSchedulers.mainThread())
 
     @Provides

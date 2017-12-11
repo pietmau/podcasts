@@ -22,7 +22,6 @@ import com.pietrantuono.podcasts.media.MediaModule
 import com.pietrantuono.podcasts.player.PlayerModule
 import com.pietrantuono.podcasts.playlist.di.PlaylistModule
 import com.pietrantuono.podcasts.playlist.di.PlaylistSubComponent
-
 import com.pietrantuono.podcasts.repository.RepositoryModule
 import com.pietrantuono.podcasts.repository.SaveAndDowloandEpisodeIntentService
 import com.pietrantuono.podcasts.settings.di.SettingsFragmentComponent
@@ -37,7 +36,7 @@ import javax.inject.Singleton
 @Component(modules = arrayOf(AppModule::class, ApiLevelCheckerlModule::class,
         SearchModelsModule::class, ImageLoaderModule::class, TransitionsModule::class,
         MediaModule::class, RepositoryModule::class, ApiModule::class, SettingsModule::class,
-        PlayerModule::class, DownloadModule::class, PlayerModule::class))
+        PlayerModule::class, PlayerModule::class))
 interface ApplicationComponent {
 
     fun inject(app: App)
@@ -54,7 +53,7 @@ interface ApplicationComponent {
 
     fun with(mainModule: SingleSubscribedModule): SingleSubscribedComponent
 
-    fun with(): DownloadSubComponent
+    fun with(downloadModule: DownloadModule): DownloadSubComponent
 
     fun simpleExoPlayer(): SimpleExoPlayer?
 

@@ -6,6 +6,7 @@ import com.pietrantuono.podcasts.CrashlyticsWrapper
 import com.pietrantuono.podcasts.apis.SinglePodcastApi
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.application.DebugLogger
+import com.pietrantuono.podcasts.downloader.di.DownloadModule
 import com.pietrantuono.podcasts.downloader.downloader.Downloader
 import models.pojos.Episode
 import models.pojos.Podcast
@@ -28,7 +29,7 @@ class SaveAndDowloandEpisodeIntentService : IntentService("SaveAndDowloandEpisod
 
     override fun onHandleIntent(intent: Intent?) {
         intent ?: return
-        (application as App).applicationComponent?.with()?.inject(this)
+        (application as App).applicationComponent?.with(DownloadModule(this))?.inject(this)
         logger.debug(TAG, "onHandleIntent")
         var podcast: Podcast? = getPodcast(intent) ?: return
         val episodes = getEpisodes(intent) ?: return

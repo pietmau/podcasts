@@ -13,23 +13,22 @@ import dagger.Provides
 import repo.repository.EpisodesRepository
 import repo.repository.PodcastRepo
 import javax.inject.Named
-import javax.inject.Singleton
 
-private const val SLACK_IN_BYTES = "slack_in_bytes"
+const val SLACK_IN_BYTES = "slack_in_bytes"
 
-@Singleton
+@DownloadScope
 @Module
-class DownloadModule() {
+class DownloadModule(private val context: Context) {
     private var fetch: Fetch? = null
 
-    @Singleton
+    @DownloadScope
     @Provides
     fun provideFetcher(fetcherModel: FetcherModelImpl, manager: RequestManager, completemanager: CompletedDownloadsManager, fetch: Fetch, debuglogger: DebugLogger): Fetcher {
         return FetcherImpl(fetch, fetcherModel, manager, completemanager, debuglogger)
     }
 
     @Provides
-    fun provideFetch(context: Context): Fetch {
+    fun provideFetch(): Fetch {
         if (fetch == null || fetch?.isValid != true) {
             fetch = Fetch.newInstance(context)
             fetch?.setConcurrentDownloadsLimit(1)
@@ -47,14 +46,14 @@ class DownloadModule() {
     }
 
     @Provides
-    fun provideCommunicator(context: Context): Communicator {
+    fun provideCommunicator(): Communicator {
         val notifmanager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val localBrodcastManager = LocalBroadcastManager.getInstance(context)
         return CommunicatorImpl(notifmanager, localBrodcastManager)
     }
 
     @Provides
-    fun provideDirectoryProvider(preferences: PreferencesManager, @Named(SLACK_IN_BYTES) slack: Int, context: Context): DirectoryProvider {
+    fun provideDirectoryProvider(preferences: PreferencesManager, @Named(SLACK_IN_BYTES) slack: Int): DirectoryProvider {
         return DirectoryProviderImpl(context, preferences, slack)
     }
 
@@ -63,7 +62,7 @@ class DownloadModule() {
     fun provideSlackInBytes(): Int = 2 * 1024 * 1024
 
     @Provides
-    fun provideNetworkDetector(preferencesManager: PreferencesManager, provider: DirectoryProvider, context: Context)
+    fun provideNetworkDetector(preferencesManager: PreferencesManager, provider: DirectoryProvider)
             = NetworkDiskAndPreferenceManager(context, preferencesManager, provider)
 
     @Provides
@@ -72,6 +71,7 @@ class DownloadModule() {
     @Provides
     fun provideDownloaerDeleter(fetcer: Fetcher, notificator: DownloadNotificator, networkDiskAndPreferenceManager: NetworkDiskAndPreferenceManager): DowloaderDeleter
             = DownloaderDeleterImpl(fetcer, notificator, networkDiskAndPreferenceManager)
+
 
 }
 
