@@ -4,6 +4,7 @@
         xmlns:lib="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.EpisodeViewModel"/>
