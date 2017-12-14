@@ -72,6 +72,10 @@ class EpisodesRepositoryRealm() : EpisodesRepository {
             realm.where(RealmEpisode::class.java)
                     .equalTo(URI, uri)
                     .findFirst()
+            if (episode != null) {
+                realm.copyFromRealm(episode)
+            }
+            episode
         }
     }
 

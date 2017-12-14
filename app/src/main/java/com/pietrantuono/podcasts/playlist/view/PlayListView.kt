@@ -4,5 +4,6 @@ import models.pojos.Episode
 
 interface PlayListView {
     fun onPlaylistRetrieved(playlist: List<Episode>)
+    fun onEpisodeRetrieved(episode: Episode)
 
 }

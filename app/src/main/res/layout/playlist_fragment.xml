@@ -5,10 +5,10 @@
               android:background="@android:color/holo_purple"
               android:orientation="vertical">
 
-    <com.pietrantuono.podcasts.subscribedpodcasts.list.views.EpisodedListRecycler
+    <com.pietrantuono.podcasts.playlist.view.custom.PlaylistRecycler
         android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </com.pietrantuono.podcasts.subscribedpodcasts.list.views.EpisodedListRecycler>
+    </com.pietrantuono.podcasts.playlist.view.custom.PlaylistRecycler>
 
 </LinearLayout>

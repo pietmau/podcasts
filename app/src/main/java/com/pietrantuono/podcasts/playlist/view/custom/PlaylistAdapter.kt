@@ -6,10 +6,8 @@ import android.view.ViewGroup
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
 import models.pojos.Episode
-import javax.inject.Inject
 
-class PlaylistAdapter() : RecyclerView.Adapter<PlaylistHolder>() {
-    @Inject lateinit var resources: ResourcesProvider
+class PlaylistAdapter(private val resources: ResourcesProvider) : RecyclerView.Adapter<PlaylistHolder>() {
     private val playlist = mutableListOf<Episode>()
 
     override fun onBindViewHolder(holder: PlaylistHolder?, position: Int) {

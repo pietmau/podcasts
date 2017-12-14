@@ -6,15 +6,19 @@ import android.support.v4.app.FragmentManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import butterknife.BindView
+import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.playlist.di.PlaylistModule
 import com.pietrantuono.podcasts.playlist.presenter.PlaylistPresenter
+import com.pietrantuono.podcasts.playlist.view.custom.PlaylistRecycler
 import models.pojos.Episode
 import javax.inject.Inject
 
 class PlaylistFragment : Fragment(), PlayListView {
     @Inject lateinit var presenter: PlaylistPresenter
+    @BindView(R.id.recycler) lateinit var recycler: PlaylistRecycler
 
     companion object {
         const val TAG = "PlaylistFragment"
@@ -26,6 +30,7 @@ class PlaylistFragment : Fragment(), PlayListView {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.playlist_fragment, container, false)
+        ButterKnife.bind(this, view!!)
         return view
     }
 
@@ -36,6 +41,10 @@ class PlaylistFragment : Fragment(), PlayListView {
 
     override fun onPlaylistRetrieved(playlist: List<Episode>) {
 
+    }
+
+    override fun onEpisodeRetrieved(episode: Episode) {
+        recycler.addEpisode(episode)
     }
 
     override fun onStart() {

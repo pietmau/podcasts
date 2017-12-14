@@ -36,7 +36,7 @@ class PlaylistPresenter(
     private fun onPlaylistRetrieved(playlist: MutableList<MediaBrowserCompat.MediaItem>) {
         playlistModel.mapItems(playlist, object : SimpleObserver<Episode>() {
             override fun onNext(episode: Episode) {
-
+            view?.onEpisodeRetrieved(episode)
             }
         })
     }
