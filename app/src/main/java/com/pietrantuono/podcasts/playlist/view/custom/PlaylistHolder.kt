@@ -8,7 +8,6 @@ import com.pietrantuono.podcasts.BR
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.EpisodeViewModel
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
 import com.pietrantuono.podcasts.databinding.PlaylistItemBinding
-import com.pietrantuono.podcasts.subscribedpodcasts.list.views.EpisodedListRecycler
 import models.pojos.Episode
 
 class PlaylistHolder(
@@ -21,8 +20,7 @@ class PlaylistHolder(
         dataBinding = DataBindingUtil.bind<ViewDataBinding>(itemView) as PlaylistItemBinding
     }
 
-    fun bind(episode: Episode, onItemClickListener: EpisodedListRecycler.OnItemClickListener?,
-             onDownloadImageClickListener: EpisodedListRecycler.OnDownloadClickListener?, position: Int) {
+    fun bind(episode: Episode) {
         val podcastEpisodeViewModel = EpisodeViewModel(episode, resourcesProvider)
         dataBinding.setVariable(BR.viewModel, podcastEpisodeViewModel)
         dataBinding.executePendingBindings()

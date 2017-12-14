@@ -69,11 +69,11 @@ class EpisodesRepositoryRealm() : EpisodesRepository {
     /** To be used from another Thread or from a service in another process . */
     override fun getEpisodeByUriSync(uri: String?): Episode? = uri?.let { uri ->
         Realm.getDefaultInstance().use { realm ->
-            realm.where(RealmEpisode::class.java)
+            var episode = realm.where(RealmEpisode::class.java)
                     .equalTo(URI, uri)
                     .findFirst()
             if (episode != null) {
-                realm.copyFromRealm(episode)
+                episode = realm.copyFromRealm(episode)
             }
             episode
         }

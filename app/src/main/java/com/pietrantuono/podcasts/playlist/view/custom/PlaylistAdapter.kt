@@ -11,7 +11,7 @@ class PlaylistAdapter(private val resources: ResourcesProvider) : RecyclerView.A
     private val playlist = mutableListOf<Episode>()
 
     override fun onBindViewHolder(holder: PlaylistHolder?, position: Int) {
-        //holder.bind(items[position], onItemClickListener, onDownloadImageClickListener, position)
+        holder?.bind(playlist[position])
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): PlaylistHolder {
