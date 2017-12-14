@@ -11,7 +11,7 @@ class PlaylistRecycler(context: Context, attrs: AttributeSet?) : RecyclerView(co
 
     init {
         layoutManager = LinearLayoutManager(context)
-        adapter = PlaylistAdapter()
+        //adapter = PlaylistAdapter()
     }
 
     fun addEpisode(episode: Episode) {
