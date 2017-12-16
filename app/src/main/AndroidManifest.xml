@@ -56,12 +56,15 @@
                 <action android:name="android.media.browse.MediaBrowserService"/>
             </intent-filter>
         </service>
+
         <service
+            android:process=":saveintentservice"
             android:name=".repository.SaveAndDowloandEpisodeIntentService"
             android:exported="false">
         </service>
 
         <service
+            android:process=":downloaderservice"
             android:name=".downloader.service.DownloaderService"
             android:exported="false">
         </service>
