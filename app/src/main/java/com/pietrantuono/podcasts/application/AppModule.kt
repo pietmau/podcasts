@@ -11,6 +11,8 @@ import com.pietrantuono.podcasts.fullscreenplay.customcontrols.MediaBrowserCompa
 import com.pietrantuono.podcasts.settings.PreferencesManager
 import dagger.Module
 import dagger.Provides
+import java.util.concurrent.Executor
+import java.util.concurrent.Executors
 import javax.inject.Singleton
 
 @Singleton
@@ -33,6 +35,11 @@ class AppModule(private val context: Context) {
     fun provideMediaBrowserCompatWrapper(context: Context) = MediaBrowserCompatWrapper(context)
 
     @Provides
-    fun provideDownloader(preferencesManager: PreferencesManager, context: Context): Downloader = DownloaderImpl(context, preferencesManager)
+    fun provideDownloader(preferencesManager: PreferencesManager, context: Context, executor: Executor): Downloader
+            = DownloaderImpl(context, preferencesManager, executor)
+
+    @Provides
+    fun provideExecutor(): Executor = Executors.newSingleThreadExecutor()
+
 }
 

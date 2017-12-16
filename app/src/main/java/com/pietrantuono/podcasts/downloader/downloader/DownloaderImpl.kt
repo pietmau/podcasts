@@ -8,10 +8,12 @@ import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
 import com.pietrantuono.podcasts.settings.PreferencesManager
 import models.pojos.Episode
 import models.pojos.Podcast
+import java.util.concurrent.Executor
 
 class DownloaderImpl(
         context: Context,
-        private val preferencesManager: PreferencesManager) : SimpleDownloader(context) {
+        private val preferencesManager: PreferencesManager,
+        private val executor: Executor) : SimpleDownloader(context) {
 
     override fun downloadEpisodeFromUri(uri: String) {
         val intent = getIntentWitUri(uri)
@@ -34,24 +36,28 @@ class DownloaderImpl(
         if (!preferencesManager.downloadAutomatically) {
             return
         }
-        podcast?.items?.
-                map { it.uri }?.
-                filterNotNull()?.
-                toList()?.let {
-            downloadAllInternal(ArrayList(it))
-        }
+        executor.execute(Runnable {
+            podcast?.items?.
+                    map { it.uri }?.
+                    filterNotNull()?.
+                    toList()?.let {
+                downloadAllInternal(ArrayList(it))
+            }
+        })
     }
 
     override fun downloadIfAppropriate(podcast: Podcast?) {
         if (!preferencesManager.downloadAutomatically) {
             return
         }
-        podcast?.episodes?.
-                map { it.uri }?.
-                filterNotNull()?.
-                toList()?.let {
-            downloadAllInternal(ArrayList(it))
-        }
+        executor.execute(Runnable {
+            podcast?.episodes?.
+                    map { it.uri }?.
+                    filterNotNull()?.
+                    toList()?.let {
+                downloadAllInternal(ArrayList(it))
+            }
+        })
     }
 
     override fun deleteEpisode(episode: DownloadedEpisode?) {
