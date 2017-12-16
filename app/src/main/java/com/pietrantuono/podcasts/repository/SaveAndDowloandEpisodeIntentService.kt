@@ -35,7 +35,6 @@ class SaveAndDowloandEpisodeIntentService : IntentService("SaveAndDowloandEpisod
         val episodes = getEpisodes(intent) ?: return
         podcast?.episodes = episodes
         repo.savePodcastSync(podcast as? PodcastRealm)
-        downloader.downloadIfAppropriate(podcast)
     }
 
     private fun getEpisodes(intent: Intent): MutableList<Episode>? {
