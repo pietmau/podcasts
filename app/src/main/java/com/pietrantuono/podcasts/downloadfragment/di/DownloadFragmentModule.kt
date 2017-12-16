@@ -19,8 +19,8 @@ import rx.schedulers.Schedulers
 class DownloadFragmentModule {
 
     @Provides
-    fun providePresenter(model: DownloadFragmentModel, messagesCreator: MessageCreator, dowloader: Downloader, checker: DataChecker)
-            = DownloadFragmentPresenter(model, messagesCreator, dowloader, checker)
+    fun providePresenter(model: DownloadFragmentModel, messagesCreator: MessageCreator, dowloader: Downloader, checker: DataChecker, logger: DebugLogger)
+            = DownloadFragmentPresenter(model, messagesCreator, dowloader, checker, logger)
 
     @Provides
     fun provideModel(repo: PodcastRepo, resources: ResourcesProvider, episodesRepository: EpisodesRepository, logger: DebugLogger): DownloadFragmentModel

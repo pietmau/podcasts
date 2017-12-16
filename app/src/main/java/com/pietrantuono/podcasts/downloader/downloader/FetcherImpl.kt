@@ -6,6 +6,7 @@ import com.tonyodev.fetch.Fetch
 import com.tonyodev.fetch.exception.NotUsableException
 import com.tonyodev.fetch.listener.FetchListener
 import com.tonyodev.fetch.request.RequestInfo
+import hugo.weaving.DebugLog
 
 class FetcherImpl(
         private val fetch: Fetch,
@@ -14,6 +15,9 @@ class FetcherImpl(
         private var completedDownloadsManager: CompletedDownloadsManager,
         private var debugLogger: DebugLogger
 ) : Fetcher, FetchListener {
+
+    val TAG = "FetcherImpl"
+
     override val allDone: Boolean
         get() = checkIfDone()
 
@@ -68,16 +72,21 @@ class FetcherImpl(
 
     override fun getRequestById(id: Long) = requestManager.getRequestById(id) ?: fetch[id]
 
+    @DebugLog
     override fun download(uri: String): Pair<Long, RequestInfo?>? {
+        val time = System.currentTimeMillis()
+        debugLogger.error(TAG, "download START")
         if (!alreadyDowloanded(uri)) {
             requestManager.createRequestForDownload(uri)?.let { request ->
                 val pair = fetch.enqueueRequest(request)
                 val requestId = pair.first
                 fetcherModel.saveRequestId(uri, requestId)
                 requestManager.cacheRequest(pair)
+                debugLogger.error(TAG, "download END  " + (System.currentTimeMillis() - time))
                 return pair
             }
         }
+        debugLogger.error(TAG, "download END  " + (System.currentTimeMillis() - time))
         return null
     }
 
@@ -104,6 +113,7 @@ class FetcherImpl(
         }
     }
 
+    @DebugLog
     override fun deleteEpisode(id: Long) {
         if (!fetch.isValid) {
             return

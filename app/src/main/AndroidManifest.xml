@@ -62,9 +62,17 @@
         </service>
 
         <service
+            android:process=":downloadservice"
             android:name=".downloader.service.DownloaderService"
             android:exported="false">
         </service>
+
+        <service
+            android:process=":downloadservice"
+            android:name="com.tonyodev.fetch.F"
+            android:exported="false">
+        </service>
+
 
         <meta-data
             android:name="io.fabric.ApiKey"

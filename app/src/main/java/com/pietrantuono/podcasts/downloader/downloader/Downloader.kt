@@ -7,7 +7,7 @@ import models.pojos.Podcast
 
 
 interface Downloader {
-    fun downloadIfAppropriate(podcast: DownloadedPodcast?)
+    fun downloadPodcast(podcast: DownloadedPodcast?)
     fun downloadEpisodeFromUri(uri: String)
     fun deleteEpisode(episode: DownloadedEpisode?)
     fun downLoadAllEpisodes(episodes: List<Episode>)

@@ -4,10 +4,12 @@ import android.content.Context
 import android.content.Intent
 import com.pietrantuono.podcasts.downloader.service.DownloaderService
 import com.pietrantuono.podcasts.downloader.service.EXTRA_COMMAND
+import hugo.weaving.DebugLog
 
 
 abstract class SimpleDownloader(private val context: Context) :Downloader {
 
+    @DebugLog
     internal fun startService(intent: Intent) {
         context.startService(intent)
     }

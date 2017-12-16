@@ -69,8 +69,8 @@ class DownloadModule(private val context: Context) {
     fun provideDownloadManager(episodeRepo: EpisodesRepository, podcastRepo: PodcastRepo) = CompletedDownloadsManager(episodeRepo, podcastRepo)
 
     @Provides
-    fun provideDownloaerDeleter(fetcer: Fetcher, notificator: DownloadNotificator, networkDiskAndPreferenceManager: NetworkDiskAndPreferenceManager): DowloaderDeleter
-            = DownloaderDeleterImpl(fetcer, notificator, networkDiskAndPreferenceManager)
+    fun provideDownloaerDeleter(fetcer: Fetcher, notificator: DownloadNotificator, networkDiskAndPreferenceManager: NetworkDiskAndPreferenceManager, logger: DebugLogger): DowloaderDeleter
+            = DownloaderDeleterImpl(fetcer, notificator, networkDiskAndPreferenceManager, logger)
 
 
 }

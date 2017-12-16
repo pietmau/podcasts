@@ -1,6 +1,7 @@
 package com.pietrantuono.podcasts.downloadfragment.presenter
 
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
+import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.downloader.downloader.Downloader
 import com.pietrantuono.podcasts.downloadfragment.model.DownloadFragmentModel
 import com.pietrantuono.podcasts.downloadfragment.view.DownloadView
@@ -12,9 +13,11 @@ class DownloadFragmentPresenter(
         private val model: DownloadFragmentModel,
         private val messageCreator: MessageCreator,
         private val downloader: Downloader,
-        private val dataChecker: DataChecker
+        private val dataChecker: DataChecker,
+        private val logger: DebugLogger
 ) : DownloadAdapter.Callback {
     private var view: DownloadView? = null
+    private val TAG: String? = "DownloadFragmentPresenter"
 
     fun bindView(view: DownloadView) {
         this.view = view
@@ -45,6 +48,7 @@ class DownloadFragmentPresenter(
     }
 
     override fun downloadAllEpisodes(downloadedPodcast: DownloadedPodcast?) {
+
         if (downloadedPodcast?.title == null || downloadedPodcast?.trackId == null) {
             return
         }
@@ -60,6 +64,7 @@ class DownloadFragmentPresenter(
         view?.confirmDeleteEpisode(message, downloadedEpisode)
     }
 
+
     override fun deleteAllEpisodes(podcast: DownloadedPodcast?) {
         if (podcast?.title == null || podcast?.trackId == null) {
             return
@@ -73,7 +78,10 @@ class DownloadFragmentPresenter(
     }
 
     fun onConfirmDownloadAllEpisodes(podcast: DownloadedPodcast?) {
-        downloader.downloadIfAppropriate(podcast)
+        val time = System.currentTimeMillis()
+        logger.error(TAG, "onConfirmDownloadAllEpisodes START")
+        downloader.downloadPodcast(podcast)
+        logger.error(TAG, "onConfirmDownloadAllEpisodes END  " + (System.currentTimeMillis() - time))
     }
 
     fun onConfirmDeleteEpisode(episode: DownloadedEpisode?) {

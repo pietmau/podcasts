@@ -35,8 +35,8 @@ class AppModule(private val context: Context) {
     fun provideMediaBrowserCompatWrapper(context: Context) = MediaBrowserCompatWrapper(context)
 
     @Provides
-    fun provideDownloader(preferencesManager: PreferencesManager, context: Context, executor: Executor): Downloader
-            = DownloaderImpl(context, preferencesManager, executor)
+    fun provideDownloader(preferencesManager: PreferencesManager, context: Context, executor: Executor, logger: DebugLogger): Downloader
+            = DownloaderImpl(context, preferencesManager, executor, logger)
 
     @Provides
     fun provideExecutor(): Executor = Executors.newSingleThreadExecutor()

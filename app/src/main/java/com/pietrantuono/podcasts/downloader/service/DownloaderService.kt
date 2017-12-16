@@ -7,6 +7,8 @@ import com.pietrantuono.podcasts.downloader.di.DownloadModule
 import com.pietrantuono.podcasts.downloader.downloader.Fetcher
 import com.pietrantuono.podcasts.player.Enqueuer
 import com.tonyodev.fetch.request.RequestInfo
+import hugo.weaving.DebugLog
+import java.util.concurrent.Executors
 import javax.inject.Inject
 
 class DownloaderService() : SimpleService(), Fetcher.Callback {
@@ -14,14 +16,21 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
     @Inject lateinit var notificator: DownloadNotificator
     @Inject lateinit var enqueuer: Enqueuer
     @Inject lateinit var debugLogger: DebugLogger
+    private val executor = Executors.newSingleThreadExecutor()
 
+    val TAG = "DownloaderService"
+
+    @DebugLog
     override fun onCreate() {
         super.onCreate()
         (application as App).applicationComponent?.with(DownloadModule(this))?.inject(this)
         dowloaderDelter.addCallback(this@DownloaderService)
     }
 
+    @DebugLog
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        val time = System.currentTimeMillis()
+        debugLogger.error(TAG, "onStartCommand START")
         intent?.getStringExtra(EXTRA_COMMAND)?.let {
             when (it) {
                 COMMAND_DOWNLOAD_ALL_EPISODES -> downloadAllEpisodes(intent)
@@ -30,6 +39,7 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
                 COMMAND_DELETE_EPISODE -> deleteEpisode(intent)
             }
         }
+        debugLogger.error(TAG, "onStartCommand END  " + (System.currentTimeMillis() - time))
         return START_STICKY
     }
 
@@ -37,21 +47,29 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
         dowloaderDelter.deleteEpisode(intent.getLongExtra(EXTRA_DOWNLOAD_REQUEST_ID, -1))
     }
 
+    @DebugLog
     private fun deleteAllEpisodes(intent: Intent) {
+        val time = System.currentTimeMillis()
+        debugLogger.error(TAG, "deleteAllEpisodes START")
         dowloaderDelter.deleteAllEpisodes(intent)
+        debugLogger.error(TAG, "deleteAllEpisodes END  " + (System.currentTimeMillis() - time))
     }
 
     private fun downloadEpisode(intent: Intent) {
+        val time = System.currentTimeMillis()
+        debugLogger.error(TAG, "downloadEpisode START")
         val requestInfo = dowloaderDelter.downloadEpisode(intent)?.second
         enqueuer.storeRequestIfAppropriate(requestInfo, intent.getBooleanExtra(PLAY_WHEN_READY, false))
+        debugLogger.error(TAG, "downloadEpisode END  " + (System.currentTimeMillis() - time))
     }
 
+    @DebugLog
     private fun downloadAllEpisodes(intent: Intent) {
-        dowloaderDelter.downloadAllEpisodes(intent)
+        executor.execute { dowloaderDelter.downloadAllEpisodes(intent) }
     }
 
     override fun onUpdate(info: RequestInfo, staus: Int, progress: Int, fileSize: Long) {
-        debugLogger.debug("DownloaderService", "onUpdate " + staus + " " + progress)
+        debugLogger.error("DownloaderService", "onUpdate " + staus + " " + progress)
         notificator.broadcastUpdate(info, progress, fileSize)
         notificator.notifyStatus(this@DownloaderService, info, staus, progress)
         if (!dowloaderDelter.thereIsEnoughDiskSpace(fileSize)) {

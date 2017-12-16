@@ -17,4 +17,10 @@ class DebugLogger @Inject constructor() {
     private fun shouldLog(): Boolean {
         return DEBUG.equals(BuildConfig.BUILD_TYPE, true)
     }
+
+    fun error(tag: String?, msg: String?) {
+        if (shouldLog()) {
+            Log.e(tag, msg)
+        }
+    }
 }
