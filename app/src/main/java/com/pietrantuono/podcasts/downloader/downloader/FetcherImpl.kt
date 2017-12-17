@@ -14,6 +14,7 @@ class FetcherImpl(
         private var completedDownloadsManager: CompletedDownloadsManager,
         private var debugLogger: DebugLogger
 ) : Fetcher, FetchListener {
+
     override val allDone: Boolean
         get() = checkIfDone()
 
@@ -109,7 +110,11 @@ class FetcherImpl(
             return
         }
         fetch.remove(id)
+    }
+
+    override fun setEpisodeDeletedAndNotDownloaded(id: Long) {
         fetcherModel.setEpisodeDeletedAndNotDownloaded(id)
     }
+
 }
 

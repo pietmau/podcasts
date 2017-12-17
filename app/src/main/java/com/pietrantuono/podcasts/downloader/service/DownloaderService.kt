@@ -50,13 +50,14 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
         dowloaderDelter.downloadAllEpisodes(intent)
     }
 
-    override fun onUpdate(info: RequestInfo, staus: Int, progress: Int, fileSize: Long) {
-        debugLogger.debug("DownloaderService", "onUpdate " + staus + " " + progress)
+    override fun onUpdate(info: RequestInfo, status: Int, progress: Int, fileSize: Long) {
+        debugLogger.debug("DownloaderService", "onUpdate " + status + " " + progress)
         notificator.broadcastUpdate(info, progress, fileSize)
-        notificator.notifyStatus(this@DownloaderService, info, staus, progress)
+        notificator.notifyStatus(this@DownloaderService, info, status, progress)
         if (!dowloaderDelter.thereIsEnoughDiskSpace(fileSize)) {
             stopDownloadAndNotifyUser(info)
         }
+        dowloaderDelter.ifRemovedDelete(info, status)
     }
 
     override fun onDownloadCompleted(requestInfo: RequestInfo) {

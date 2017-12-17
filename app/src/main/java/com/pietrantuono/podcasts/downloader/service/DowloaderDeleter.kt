@@ -14,4 +14,5 @@ interface DowloaderDeleter {
     fun shutDown()
     fun thereIsEnoughDiskSpace(fileSize: Long): Boolean
     val allDone: Boolean
+    fun ifRemovedDelete(info: RequestInfo, status: Int)
 }
