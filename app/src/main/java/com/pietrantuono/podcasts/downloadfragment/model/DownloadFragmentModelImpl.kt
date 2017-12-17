@@ -18,24 +18,29 @@ class DownloadFragmentModelImpl(
         private val logger: DebugLogger) : DownloadFragmentModel {
 
     private val compositeSubscription: CompositeSubscription = CompositeSubscription()
-
+    private val realm = Realm.getDefaultInstance()
     private var subject: PublishSubject<List<DownloadedPodcast>>? = null
+    private var getDownloadsTask: GetDownloadsTask? = null
 
     override fun unsubscribe() {
         subject = null
         compositeSubscription.unsubscribe()
+        getDownloadsTask?.removeCallback()
     }
+
 
     override fun subscribe(observer: Observer<List<DownloadedPodcast>>) {
         subject = PublishSubject.create<List<DownloadedPodcast>>()
         compositeSubscription.add(subject?.subscribe(observer))
-        Realm.getDefaultInstance().use { realm->
-            realm.where(PodcastRealm::class.java)
+        realm.where(PodcastRealm::class.java)
                 .equalTo("podcastSubscribed", true)
                 .findAllAsync()
                 .asObservable()
-                .subscribe { GetDownloadsTask(resources, subject).execute() }
-        }
+                .subscribe {
+                    getDownloadsTask = GetDownloadsTask(resources, subject)
+                    getDownloadsTask?.execute()
+                }
+
     }
 
     override fun getPodcastTitleAsync(observer: Observer<String?>, trackId: Int?) {

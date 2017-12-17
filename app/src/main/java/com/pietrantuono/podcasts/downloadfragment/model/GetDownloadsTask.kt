@@ -11,8 +11,8 @@ import models.pojos.PodcastRealm
 import rx.subjects.PublishSubject
 
 class GetDownloadsTask(
-        private val resources: ResourcesProvider,
-        private val subject: PublishSubject<List<DownloadedPodcast>>?)
+        private var resources: ResourcesProvider?,
+        private var subject: PublishSubject<List<DownloadedPodcast>>?)
     : AsyncTask<Void, List<DownloadedPodcast>, List<DownloadedPodcast>>() {
 
     override fun doInBackground(vararg p0: Void?): List<DownloadedPodcast> {
@@ -22,17 +22,28 @@ class GetDownloadsTask(
                     .findAll()
                     .toList()
                     .map { toDownloaded(it as Podcast) }
+                    .filter { it != null }
         }
-        return result
+        return result as List<DownloadedPodcast>
     }
 
     override fun onPostExecute(result: List<DownloadedPodcast>?) {
         subject?.onNext(result)
     }
 
-    fun toDownloaded(podcast: Podcast): DownloadedPodcast = DownloadedPodcast.fromPodcast(podcast, podcast.trackName, makeEpisodes(podcast), resources)
+    fun toDownloaded(podcast: Podcast): DownloadedPodcast? {
+        if (resources == null) {
+            return null
+        }
+        return DownloadedPodcast.fromPodcast(podcast, podcast.trackName, makeEpisodes(podcast), resources!!)
+    }
 
     private fun makeEpisodes(podcast: Podcast): List<DownloadedEpisode>? = podcast.episodes?.map { toDownloadedEpisode(it) }
 
     fun toDownloadedEpisode(episode: Episode): DownloadedEpisode = DownloadedEpisode.fromEpisode(episode, resources)
+
+    fun removeCallback() {
+        subject = null
+        resources = null
+    }
 }
