@@ -16,11 +16,13 @@ class GetDownloadsTask(
     : AsyncTask<Void, List<DownloadedPodcast>, List<DownloadedPodcast>>() {
 
     override fun doInBackground(vararg p0: Void?): List<DownloadedPodcast> {
-        val result = Realm.getDefaultInstance().where(PodcastRealm::class.java)
-                .equalTo("podcastSubscribed", true)
-                .findAll()
-                .toList()
-                .map { toDownloaded(it as Podcast) }
+        val result = Realm.getDefaultInstance().use { realm ->
+            realm.where(PodcastRealm::class.java)
+                    .equalTo("podcastSubscribed", true)
+                    .findAll()
+                    .toList()
+                    .map { toDownloaded(it as Podcast) }
+        }
         return result
     }
 

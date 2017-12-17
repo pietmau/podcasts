@@ -50,7 +50,7 @@ class EpisodesRepositoryRealm() : EpisodesRepository {
         }
     }
 
-    override fun getEpisodeByDownloadIdSync(id: Long): Episode =
+    override fun getEpisodeByDownloadIdSync(id: Long): Episode? =
             Realm.getDefaultInstance().use {
                 it.where(RealmEpisode::class.java)
                         .equalTo(DOWNLOAD_REQUEST_ID, id)

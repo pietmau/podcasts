@@ -29,12 +29,13 @@ class DownloadFragmentModelImpl(
     override fun subscribe(observer: Observer<List<DownloadedPodcast>>) {
         subject = PublishSubject.create<List<DownloadedPodcast>>()
         compositeSubscription.add(subject?.subscribe(observer))
-        Realm.getDefaultInstance()
-                .where(PodcastRealm::class.java)
+        Realm.getDefaultInstance().use { realm->
+            realm.where(PodcastRealm::class.java)
                 .equalTo("podcastSubscribed", true)
                 .findAllAsync()
                 .asObservable()
                 .subscribe { GetDownloadsTask(resources, subject).execute() }
+        }
     }
 
     override fun getPodcastTitleAsync(observer: Observer<String?>, trackId: Int?) {

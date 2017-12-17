@@ -13,7 +13,7 @@ class EpisodesListMenuProviderImpl(private val model: EpisodesListModel) :
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.dowload_all -> {
+            R.id.unsubscribe -> {
                 callback?.onDownLoadAllSelected()
             }
             android.R.id.home -> {
