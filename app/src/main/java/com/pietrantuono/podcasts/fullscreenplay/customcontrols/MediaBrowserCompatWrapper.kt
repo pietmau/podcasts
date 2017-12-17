@@ -97,10 +97,11 @@ class MediaBrowserCompatWrapper(private val context: Context) {
     }
 
     fun unsubscribe(subscriptionCallback: SubscriptionCallback) {
-        mediaBrowser?.unsubscribe(ANY_TEXT,subscriptionCallback)
+        mediaBrowser?.unsubscribe(ANY_TEXT, subscriptionCallback)
     }
 
-    fun unregisterCallback(){
+    fun unregisterCallback() {
         supportMediaController?.unregisterCallback(callback)
+        callback = null
     }
 }
