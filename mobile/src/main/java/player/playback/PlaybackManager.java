@@ -77,9 +77,6 @@ public class PlaybackManager implements Playback.Callback {
         }
     }
 
-    /**
-     * Handle a request to pause music
-     */
     public void handlePauseRequest() {
         LogHelper.d(TAG, "handlePauseRequest: mState=" + mPlayback.getState());
         if (mPlayback.isPlaying()) {
@@ -87,13 +84,6 @@ public class PlaybackManager implements Playback.Callback {
         }
     }
 
-    /**
-     * Handle a request to stop music
-     *
-     * @param withError Error message in case the stop has an unexpected cause. The error
-     *                  message will be set in the PlaybackState and will be visible to
-     *                  MediaController clients.
-     */
     public void handleStopRequest(String withError) {
         LogHelper.d(TAG, "handleStopRequest: mState=" + mPlayback.getState() + " error=", withError);
         mPlayback.stop(true);
@@ -101,44 +91,26 @@ public class PlaybackManager implements Playback.Callback {
         updatePlaybackState(withError);
     }
 
-
-    /**
-     * Update the current media player state, optionally showing an error message.
-     *
-     * @param error if not null, error message to present to the user.
-     */
     public void updatePlaybackState(String error) {
         LogHelper.d(TAG, "updatePlaybackState, playback state=" + mPlayback.getState());
         long position = PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN;
         if (mPlayback != null && mPlayback.isConnected()) {
             position = mPlayback.getCurrentStreamPosition();
         }
-
-        //noinspection ResourceType
         PlaybackStateCompat.Builder stateBuilder = new PlaybackStateCompat.Builder()
                 .setActions(getAvailableActions());
-
         setCustomAction(stateBuilder);
         int state = mPlayback.getState();
-
-        // If there is an error message, send it to the playback state:
         if (error != null) {
-            // Error states are really only supposed to be used for errors that cause playback to
-            // stop unexpectedly and persist until the user takes action to fix it.
             stateBuilder.setErrorMessage(error);
             state = PlaybackStateCompat.STATE_ERROR;
         }
-        //noinspection ResourceType
         stateBuilder.setState(state, position, 1.0f, SystemClock.elapsedRealtime());
-
-        // Set the activeQueueItemId if the current index is valid.
         MediaSessionCompat.QueueItem currentMusic = mQueueManager.getCurrentMusic();
         if (currentMusic != null) {
             stateBuilder.setActiveQueueItemId(currentMusic.getQueueId());
         }
-
         mServiceCallback.onPlaybackStateUpdated(stateBuilder.build());
-
         if (state == PlaybackStateCompat.STATE_PLAYING ||
                 state == PlaybackStateCompat.STATE_PAUSED) {
             mServiceCallback.onNotificationRequired();

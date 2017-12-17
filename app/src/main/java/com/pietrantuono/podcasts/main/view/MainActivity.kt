@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentManager
 import android.support.v7.widget.Toolbar
 import butterknife.BindView
 import butterknife.ButterKnife
-import com.crashlytics.android.Crashlytics
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.AbstractPlaybackControlsActivity
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastFragment
@@ -22,7 +21,6 @@ import com.pietrantuono.podcasts.main.presenter.MainPresenter
 import com.pietrantuono.podcasts.playlist.view.PlaylistFragment
 import com.pietrantuono.podcasts.settings.fragment.SettingsFragment
 import com.pietrantuono.podcasts.subscribedpodcasts.view.SubscribedPodcastFragment
-import io.fabric.sdk.android.Fabric
 import javax.inject.Inject
 
 class MainActivity : AbstractPlaybackControlsActivity(), MainView {
@@ -39,7 +37,6 @@ class MainActivity : AbstractPlaybackControlsActivity(), MainView {
     override fun onCreate(savedInstanceState: Bundle?) {
         initDependencies()
         super.onCreate(savedInstanceState)
-        Fabric.with(applicationContext, Crashlytics())
         setContentView(R.layout.activity_main)
         ButterKnife.bind(this@MainActivity)
         setUpViews()

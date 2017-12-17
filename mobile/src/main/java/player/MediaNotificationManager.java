@@ -40,38 +40,28 @@ import com.example.android.uamp.R;
 import player.utils.LogHelper;
 import player.utils.ResourceHelper;
 
-/**
- * Keeps track of a notification and updates it automatically for a given
- * MediaSession. Maintaining a visible notification (usually) guarantees that the music service
- * won't be killed during playback.
- */
 public class MediaNotificationManager extends BroadcastReceiver {
     private static final String TAG = LogHelper.makeLogTag(MediaNotificationManager.class);
-
     private static final int NOTIFICATION_ID = 412;
     private static final int REQUEST_CODE = 100;
-
     public static final String ACTION_PAUSE = "com.example.android.uamp.pause";
     public static final String ACTION_PLAY = "com.example.android.uamp.play";
     public static final String ACTION_PREV = "com.example.android.uamp.prev";
     public static final String ACTION_NEXT = "com.example.android.uamp.next";
+    public static final String ACTION_STOP = "com.example.android.uamp.stop";
     public static final String ACTION_STOP_CASTING = "com.example.android.uamp.stop_cast";
-
     private final MusicService mService;
     private MediaSessionCompat.Token mSessionToken;
     private MediaControllerCompat mController;
     private MediaControllerCompat.TransportControls mTransportControls;
-
     private PlaybackStateCompat mPlaybackState;
     private MediaMetadataCompat mMetadata;
-
     private final NotificationManagerCompat mNotificationManager;
-
     private final PendingIntent mPauseIntent;
     private final PendingIntent mPlayIntent;
     private final PendingIntent mPreviousIntent;
     private final PendingIntent mNextIntent;
-
+    private final PendingIntent mStopIntent;
     private final PendingIntent mStopCastIntent;
 
     private final int mNotificationColor;
@@ -99,17 +89,14 @@ public class MediaNotificationManager extends BroadcastReceiver {
         mStopCastIntent = PendingIntent.getBroadcast(mService, REQUEST_CODE,
                 new Intent(ACTION_STOP_CASTING).setPackage(pkg),
                 PendingIntent.FLAG_CANCEL_CURRENT);
+        mStopIntent = PendingIntent.getBroadcast(mService, REQUEST_CODE,
+                new Intent(ACTION_STOP).setPackage(pkg), PendingIntent.FLAG_CANCEL_CURRENT);
 
         // Cancel all notifications to handle the case where the Service was killed and
         // restarted by the system.
         mNotificationManager.cancelAll();
     }
 
-    /**
-     * Posts the notification and starts tracking the session to keep it
-     * updated. The notification will automatically be removed if the session is
-     * destroyed before {@link #stopNotification} is called.
-     */
     public void startNotification() {
         if (!mStarted) {
             mMetadata = mController.getMetadata();
@@ -125,6 +112,7 @@ public class MediaNotificationManager extends BroadcastReceiver {
                 filter.addAction(ACTION_PLAY);
                 filter.addAction(ACTION_PREV);
                 filter.addAction(ACTION_STOP_CASTING);
+                filter.addAction(ACTION_STOP);
                 mService.registerReceiver(this, filter);
 
                 mService.startForeground(NOTIFICATION_ID, notification);
@@ -168,6 +156,9 @@ public class MediaNotificationManager extends BroadcastReceiver {
             case ACTION_PREV:
                 mTransportControls.skipToPrevious();
                 break;
+            case ACTION_STOP:
+                mTransportControls.stop();
+                break;
             case ACTION_STOP_CASTING:
                 Intent i = new Intent(context, MusicService.class);
                 i.setAction(Constants.ACTION_CMD);
@@ -200,19 +191,6 @@ public class MediaNotificationManager extends BroadcastReceiver {
                 }
             }
         }
-    }
-
-    private PendingIntent createContentIntent(MediaDescriptionCompat description) {
-        //TODO
-//        Intent openUI = new Intent(mService, MusicPlayerActivity.class);
-//        openUI.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//        openUI.putExtra(MusicPlayerActivity.EXTRA_START_FULLSCREEN, true);
-//        if (description != null) {
-//            openUI.putExtra(MusicPlayerActivity.EXTRA_CURRENT_MEDIA_DESCRIPTION, description);
-//        }
-//        return PendingIntent.getActivity(mService, REQUEST_CODE, openUI,
-//                PendingIntent.FLAG_CANCEL_CURRENT);
-        throw new UnsupportedOperationException();
     }
 
     private final MediaControllerCompat.Callback mCb = new MediaControllerCompat.Callback() {
@@ -261,34 +239,25 @@ public class MediaNotificationManager extends BroadcastReceiver {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(mService);
         int playPauseButtonPosition = 0;
 
-        // If skip to previous action is enabled
         if ((mPlaybackState.getActions() & PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS) != 0) {
             notificationBuilder.addAction(R.drawable.ic_skip_previous_white_24dp,
                     mService.getString(R.string.label_previous), mPreviousIntent);
-
-            // If there is a "skip to previous" button, the play/pause button will
-            // be the second one. We need to keep track of it, because the MediaStyle notification
-            // requires to specify the index of the buttons (actions) that should be visible
-            // when in compact view.
             playPauseButtonPosition = 1;
         }
 
         addPlayPauseAction(notificationBuilder);
 
-        // If skip to next action is enabled
         if ((mPlaybackState.getActions() & PlaybackStateCompat.ACTION_SKIP_TO_NEXT) != 0) {
             notificationBuilder.addAction(R.drawable.ic_skip_next_white_24dp,
                     mService.getString(R.string.label_next), mNextIntent);
         }
+        addStopAction(notificationBuilder);
 
         MediaDescriptionCompat description = mMetadata.getDescription();
 
         String fetchArtUrl = null;
         Bitmap art = null;
         if (description.getIconUri() != null) {
-            // This sample assumes the iconUri will be a valid URL formatted String, but
-            // it can actually be any valid Android Uri formatted String.
-            // async fetch the album art icon
             String artUrl = description.getIconUri().toString();
             art = AlbumArtCache.getInstance().getBigImage(artUrl);
             if (art == null) {
@@ -330,6 +299,13 @@ public class MediaNotificationManager extends BroadcastReceiver {
         }
 
         return notificationBuilder.build();
+    }
+
+    private void addStopAction(NotificationCompat.Builder builder) {
+        String label = mService.getString(R.string.label_play);
+        int icon = R.drawable.ic_close_white_24dp;
+        PendingIntent intent = mStopIntent;
+        builder.addAction(new NotificationCompat.Action(icon, label, intent));
     }
 
     private void addPlayPauseAction(NotificationCompat.Builder builder) {
