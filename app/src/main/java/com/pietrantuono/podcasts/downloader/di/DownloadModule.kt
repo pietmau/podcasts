@@ -11,7 +11,6 @@ import com.tonyodev.fetch.Fetch
 import dagger.Module
 import dagger.Provides
 import repo.repository.EpisodesRepository
-import repo.repository.PodcastRepo
 import javax.inject.Named
 
 const val SLACK_IN_BYTES = "slack_in_bytes"
@@ -23,8 +22,8 @@ class DownloadModule(private val context: Context) {
 
     @DownloadScope
     @Provides
-    fun provideFetcher(fetcherModel: FetcherModelImpl, manager: RequestManager, completemanager: CompletedDownloadsManager, fetch: Fetch, debuglogger: DebugLogger): Fetcher {
-        return FetcherImpl(fetch, fetcherModel, manager, completemanager, debuglogger)
+    fun provideFetcher(fetcherModel: FetcherModelImpl, manager: RequestManager, fetch: Fetch, debuglogger: DebugLogger): Fetcher {
+        return FetcherImpl(fetch, fetcherModel, manager, debuglogger)
     }
 
     @Provides
@@ -64,9 +63,6 @@ class DownloadModule(private val context: Context) {
     @Provides
     fun provideNetworkDetector(preferencesManager: PreferencesManager, provider: DirectoryProvider)
             = NetworkDiskAndPreferenceManager(context, preferencesManager, provider)
-
-    @Provides
-    fun provideDownloadManager(episodeRepo: EpisodesRepository, podcastRepo: PodcastRepo) = CompletedDownloadsManager(episodeRepo, podcastRepo)
 
     @Provides
     fun provideDownloaerDeleter(fetcer: Fetcher, notificator: DownloadNotificator, networkDiskAndPreferenceManager: NetworkDiskAndPreferenceManager): DowloaderDeleter

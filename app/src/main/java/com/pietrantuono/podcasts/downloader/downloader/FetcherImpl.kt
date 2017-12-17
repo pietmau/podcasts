@@ -1,7 +1,10 @@
 package com.pietrantuono.podcasts.downloader.downloader
 
 import com.pietrantuono.podcasts.application.DebugLogger
-import com.pietrantuono.podcasts.downloader.service.*
+import com.pietrantuono.podcasts.downloader.service.DOWNLOAD_COMPLETED
+import com.pietrantuono.podcasts.downloader.service.STATUS_DOWNLOADING
+import com.pietrantuono.podcasts.downloader.service.STATUS_QUEUED
+import com.pietrantuono.podcasts.downloader.service.STATUS_REMOVED
 import com.tonyodev.fetch.Fetch
 import com.tonyodev.fetch.exception.NotUsableException
 import com.tonyodev.fetch.listener.FetchListener
@@ -11,7 +14,6 @@ class FetcherImpl(
         private val fetch: Fetch,
         private val fetcherModel: FetcherModelImpl,
         private val requestManager: RequestManager,
-        private var completedDownloadsManager: CompletedDownloadsManager,
         private var debugLogger: DebugLogger
 ) : Fetcher, FetchListener {
 
@@ -100,7 +102,7 @@ class FetcherImpl(
 
     override fun onDownloadCompleted(id: Long, downloadedBytes: Long) {
         getRequestById(id)?.let {
-            completedDownloadsManager.onDownloadCompleted(it, downloadedBytes)
+            fetcherModel.onDownloadCompleted(it, downloadedBytes)
             callback?.onDownloadCompleted(it)
         }
     }

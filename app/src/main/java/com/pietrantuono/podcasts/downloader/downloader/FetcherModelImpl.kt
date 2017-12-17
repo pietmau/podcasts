@@ -1,6 +1,6 @@
 package com.pietrantuono.podcasts.downloader.downloader
 
-import models.pojos.Episode
+import com.tonyodev.fetch.request.RequestInfo
 import repo.repository.EpisodesRepository
 import javax.inject.Inject
 
@@ -17,12 +17,14 @@ class FetcherModelImpl @Inject constructor(
         episodesRepo.setEpisodeDeletedAndNotDowloaded(id)
     }
 
-    fun getEpisodeSync(uri: String): Episode? = episodesRepo.getEpisodeByUriSync(uri)
-
     fun saveRequestId(uri: String, requestId: Long) {
         if (requestId >= 0) {
             episodesRepo.saveRequestId(uri, requestId)
         }
+    }
+
+    fun onDownloadCompleted(requestInfo: RequestInfo, downloadedBytes: Long) {
+        episodesRepo.onDownloadCompleted(requestInfo, downloadedBytes)
     }
 
 }

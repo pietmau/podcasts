@@ -9,8 +9,12 @@ class DownloaderDeleterImpl(
         private var notificator: DownloadNotificator,
         private var networkDiskAndPreferenceManager: NetworkDiskAndPreferenceManager) : DowloaderDeleter {
 
+    private val STATUS_REMOVED = 905
+
     override fun ifRemovedDelete(info: RequestInfo, status: Int) {
-        fetcher.setEpisodeDeletedAndNotDownloaded(info.id)
+        if (status == STATUS_REMOVED) {
+            fetcher.setEpisodeDeletedAndNotDownloaded(info.id)
+        }
     }
 
     override val allDone: Boolean
