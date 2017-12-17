@@ -84,5 +84,4 @@ public class MusicService extends MediaBrowserServiceCompat implements CustomMed
     public void onPlaybackStateUpdated(PlaybackStateCompat newState) {
         musicServicePresenter.onPlaybackStateUpdated(newState);
     }
-
 }

@@ -22,14 +22,6 @@
             android:key="@string/external_storage"
             android:title="@string/external_storage_title"/>
 
-        <SwitchPreferenceCompat
-            android:visible="false"
-            android:defaultValue="true"
-            android:key="@string/auto_download"
-            android:title="@string/auto_download_title"
-            android:summary="@string/auto_download_summary"
-            />
-
     </PreferenceCategory>
 
 </PreferenceScreen>

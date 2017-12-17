@@ -1,7 +1,6 @@
 package com.pietrantuono.podcasts.downloader.downloader
 
 import android.webkit.URLUtil
-
 import com.tonyodev.fetch.request.Request
 import com.tonyodev.fetch.request.RequestInfo
 import models.pojos.Episode

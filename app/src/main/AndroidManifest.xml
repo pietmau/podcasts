@@ -48,7 +48,6 @@
         </activity>
 
         <service
-            android:process=":musicservice"
             android:name="player.MusicService"
             android:exported="false"
             tools:replace="android:exported">

@@ -17,7 +17,6 @@
 package player.playback;
 
 import android.content.res.Resources;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
@@ -85,7 +84,6 @@ public class PlaybackManager implements Playback.Callback {
         LogHelper.d(TAG, "handlePauseRequest: mState=" + mPlayback.getState());
         if (mPlayback.isPlaying()) {
             mPlayback.pause();
-            mServiceCallback.onPlaybackStop();
         }
     }
 
@@ -261,6 +259,17 @@ public class PlaybackManager implements Playback.Callback {
         }
     }
 
+    /**
+     * Handle a request to play music
+     */
+    public void onNewItemEnqueued() {
+        MediaSessionCompat.QueueItem currentMusic = mQueueManager.getCurrentMusic();
+        if (currentMusic != null) {
+            mServiceCallback.onPlaybackStart();
+            mPlayback.play(currentMusic);
+        }
+    }
+
     public List<MediaBrowserCompat.MediaItem> getPlaylist() {
         return mQueueManager.getPlaylist();
     }
@@ -355,23 +364,10 @@ public class PlaybackManager implements Playback.Callback {
                     return;
                 }
                 mQueueManager.addToQueue(uri);
-                handlePlayRequest();
+                onNewItemEnqueued();
             }
         }
 
-        /**
-         * Handle free and contextual searches.
-         * <p/>
-         * All voice searches on Android Auto are sent to this method through a connected
-         * {@link android.support.v4.media.session.MediaControllerCompat}.
-         * <p/>
-         * Threads and async handling:
-         * Search, as a potentially slow operation, should run in another thread.
-         * <p/>
-         * Since this method runs on the main thread, most apps with non-trivial metadata
-         * should defer the actual search to another thread (for example, by using
-         * an {@link AsyncTask} as we do here).
-         **/
         @Override
         public void onPlayFromSearch(final String query, final Bundle extras) {
             LogHelper.d(TAG, "playFromSearch  query=", query, " extras=", extras);

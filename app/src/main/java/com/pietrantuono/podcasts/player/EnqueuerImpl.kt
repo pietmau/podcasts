@@ -36,11 +36,9 @@ class EnqueuerImpl(
     @Throws(RemoteException::class)
     private fun connectToSession(mediaBrowser: MediaBrowserCompat, uri: String) {
         val transportControls = MediaControllerCompat(context, mediaBrowser.sessionToken)?.transportControls
-        transportControls?.stop()
         val bundle = Bundle()
         bundle.putString(EXTRA_EPISODE_URI, uri)
         transportControls?.sendCustomAction(CUSTOM_ACTION_ADD_TO_QUEUE, bundle)
-        mediaBrowser?.disconnect()
     }
 
     override fun addToQueueIfAppropriate(requestInfo: RequestInfo) {

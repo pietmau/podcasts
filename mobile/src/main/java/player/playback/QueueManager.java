@@ -44,7 +44,6 @@ import player.utils.QueueHelper;
  */
 public class QueueManager {
     private static final String TAG = LogHelper.makeLogTag(QueueManager.class);
-
     private final MusicProvider mMusicProvider;
     private final MetadataUpdateListener mListener;
     private final Resources mResources;

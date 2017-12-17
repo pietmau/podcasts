@@ -80,7 +80,6 @@ class MediaBrowserCompatWrapper(private val context: Context) {
     }
 
     fun onStop() {
-        mediaBrowser?.disconnect()
         callback ?: return
         supportMediaController?.unregisterCallback(callback)
     }
