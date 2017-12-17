@@ -13,7 +13,6 @@ import dagger.Provides
 import repo.repository.EpisodesRepository
 import repo.repository.PodcastRepo
 import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 
 @Module
 class DownloadFragmentModule {
@@ -24,7 +23,7 @@ class DownloadFragmentModule {
 
     @Provides
     fun provideModel(repo: PodcastRepo, resources: ResourcesProvider, episodesRepository: EpisodesRepository, logger: DebugLogger): DownloadFragmentModel
-            = DownloadFragmentModelImpl(repo, episodesRepository, resources, AndroidSchedulers.mainThread(), Schedulers.io(), logger)
+            = DownloadFragmentModelImpl(repo, resources, AndroidSchedulers.mainThread(), logger)
 
     @Provides
     fun provideMessageCreator(resources: ResourcesProvider) = MessageCreator(resources)

@@ -1,6 +1,5 @@
 package repo.repository
 
-import android.util.Log
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import models.pojos.DataRealmLibraryModule
@@ -97,19 +96,15 @@ class PodcastRepoRealm(
     }
 
     override fun getSubscribedPodcastsAsObservable(): Observable<List<Podcast>> {
-        Log.e("DIOCAN", "getSubscribedPodcastsAsObservable ENTER " + System.currentTimeMillis())
         val result = Realm.getDefaultInstance().use { realm ->
             realm.where(PodcastRealm::class.java)
                     .equalTo("podcastSubscribed", true)
                     .findAllAsync()
                     .asObservable()
-                    .doOnNext { Log.e("DIOCAN", "asObservable  " + System.currentTimeMillis()) }
                     .map { realm.copyFromRealm(it) }
-                    .doOnNext { Log.e("DIOCAN", ".map { realm.copyFromRealm(it) }  " + System.currentTimeMillis()) }
                     .map { it as List<Podcast> }
-                    .doOnNext { Log.e("DIOCAN", ".map { it as List<Podcast> }  " + System.currentTimeMillis()) }
+
         }
-        Log.e("DIOCAN", "getSubscribedPodcastsAsObservable EXIT " + System.currentTimeMillis())
         return result
     }
 
