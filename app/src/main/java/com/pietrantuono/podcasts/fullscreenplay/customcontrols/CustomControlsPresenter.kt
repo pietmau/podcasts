@@ -134,6 +134,7 @@ class CustomControlsPresenter(
 
     fun onStop() {
         mediaBrowserCompatWrapper.onStop()
+        executorService.cancel(true)
     }
 
     override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
