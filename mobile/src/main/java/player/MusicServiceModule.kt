@@ -9,10 +9,7 @@ import dagger.Provides
 import player.model.MusicProvider
 import player.model.SourceExtractor
 import player.model.SourceExtractorImpl
-import player.playback.LocalPlayback
-import player.playback.Playback
-import player.playback.PlaybackManager
-import player.playback.QueueManager
+import player.playback.*
 import player.utils.QueueHelper
 import javax.inject.Singleton
 
@@ -46,7 +43,7 @@ class MusicServiceModule(private val musicService: MusicService) {
     @Singleton
     @Provides
     fun providesPlaybackManager(musicProvider: MusicProvider, playback: Playback, mMusicProvider:
-    MusicProvider, mSession: MediaSessionCompat, queueHelper: QueueHelper): PlaybackManager {
+    MusicProvider, mSession: MediaSessionCompat, queueHelper: QueueHelper, playbackStateUpdater: PlaybackStateUpdater): PlaybackManager {
         var manager: PlaybackManager? = null
         val queueManager = QueueManager(mMusicProvider, context.getResources(),
                 object : QueueManager.MetadataUpdateListener {
@@ -67,9 +64,14 @@ class MusicServiceModule(private val musicService: MusicService) {
                         mSession.setQueueTitle(title)
                     }
                 }, queueHelper)
-        manager = PlaybackManager(musicService, context.getResources(), musicProvider, queueManager, playback);
+        manager = PlaybackManager(musicService, musicProvider, queueManager, playback, playbackStateUpdater);
         return manager!!
     }
+
+    @Singleton
+    @Provides
+    fun providePlaybackStateUpdater(provider: MusicProvider, playback: Playback)
+            = PlaybackStateUpdater(provider, context.getResources(), playback, musicService)
 
     @Provides
     fun provideDelayedStopHandler() = DelayedStopHandler()

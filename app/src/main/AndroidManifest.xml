@@ -48,7 +48,6 @@
         </activity>
 
         <service
-            android:process=":musicservice"
             android:name="player.MusicService"
             android:exported="false"
             tools:replace="android:exported">
@@ -58,6 +57,7 @@
         </service>
 
         <service
+            android:process=":savepodcast"
             android:name=".repository.SaveAndDowloandEpisodeIntentService"
             android:exported="false">
         </service>
