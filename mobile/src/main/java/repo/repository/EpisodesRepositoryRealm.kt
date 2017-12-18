@@ -45,6 +45,7 @@ class EpisodesRepositoryRealm() : EpisodesRepository {
                     it.filePathIncludingFileName = requestInfo.filePath
                     it.fileSizeInBytes = downloadedBytes
                     it.downloadRequestId = requestInfo.id
+                    it.deleted = false
                 }
             }
         }

@@ -90,18 +90,11 @@ class SinglePodcastPresenter(
         return true;
     }
 
-    fun onListenToAllPressed() {
-        //enqueuer?.playFeed(creator.createSourceFromFeed(podcastFeed))
-    }
 
     fun onOptionsItemSelected(itemId: Int): Boolean {
         when (itemId) {
             android.R.id.home -> {
                 onBackPressed()
-                return true
-            }
-            R.id.listen_to_all -> {
-                onListenToAllPressed()
                 return true
             }
             R.id.subscribe_unsubscribe -> {

@@ -76,4 +76,8 @@ class EpisodesListPresenter(
     fun onCreate(fromSavedState: Boolean) {
         this.fromSavedState = fromSavedState
     }
+
+    fun onUnsubscribeSelected() {
+
+    }
 }

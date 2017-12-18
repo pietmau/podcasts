@@ -2,7 +2,6 @@ package com.pietrantuono.podcasts.addpodcast.singlepodcast.view
 
 
 import android.os.Bundle
-import android.support.design.widget.CoordinatorLayout
 import android.view.Menu
 import android.view.MenuItem
 import butterknife.BindView
@@ -26,7 +25,6 @@ class AddSinglePodcastActivity : AbstractBaseDetailActivty(), SinglePodcastView 
     }
 
     @BindView(R.id.recycler) lateinit var recyclerView: EpisodesRecycler
-    @BindView(R.id.coordinator) lateinit var coordinator: CoordinatorLayout
     @Inject lateinit var presenter: SinglePodcastPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -54,10 +54,10 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
         debugLogger.debug("DownloaderService", "onUpdate " + status + " " + progress)
         notificator.broadcastUpdate(info, progress, fileSize)
         notificator.notifyStatus(this@DownloaderService, info, status, progress)
+        dowloaderDelter.ifRemovedDelete(info, status)
         if (!dowloaderDelter.thereIsEnoughDiskSpace(fileSize)) {
             stopDownloadAndNotifyUser(info)
         }
-        dowloaderDelter.ifRemovedDelete(info, status)
     }
 
     override fun onDownloadCompleted(requestInfo: RequestInfo) {
