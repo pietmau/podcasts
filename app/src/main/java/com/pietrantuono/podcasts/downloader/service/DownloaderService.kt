@@ -14,6 +14,7 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
     @Inject lateinit var notificator: DownloadNotificator
     @Inject lateinit var enqueuer: Enqueuer
     @Inject lateinit var debugLogger: DebugLogger
+    private val TAG = "DownloaderService"
 
     override fun onCreate() {
         super.onCreate()
@@ -54,13 +55,13 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
         debugLogger.debug("DownloaderService", "onUpdate " + status + " " + progress)
         notificator.broadcastUpdate(info, progress, fileSize)
         notificator.notifyStatus(this@DownloaderService, info, status, progress)
-        dowloaderDelter.ifRemovedDelete(info, status)
         if (!dowloaderDelter.thereIsEnoughDiskSpace(fileSize)) {
             stopDownloadAndNotifyUser(info)
         }
     }
 
     override fun onDownloadCompleted(requestInfo: RequestInfo) {
+        debugLogger.debug("DownloaderService", "onDownloadCompleted ")
         notificator.broadcastOnDownloadCompleted(requestInfo)
         enqueuer.addToQueueIfAppropriate(requestInfo)
         checkIfDone()
@@ -82,5 +83,9 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
         checkIfDone()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        debugLogger.debug(TAG, "onDestroy")
+    }
 }
 

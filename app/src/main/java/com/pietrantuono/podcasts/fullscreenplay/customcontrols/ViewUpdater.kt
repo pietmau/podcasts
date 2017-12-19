@@ -9,7 +9,7 @@ import com.pietrantuono.podcasts.R
 class ViewUpdater(
         private val context: Context,
         private val positionCalculator: PositionCalculator) {
-    lateinit var view: CustomControls
+    var view: CustomControls? = null
 
     fun setProgress(playbackStateCompat: PlaybackStateCompat?) {
         if (playbackStateCompat == null) {
@@ -39,7 +39,7 @@ class ViewUpdater(
     }
 
     fun snack(message: String?) {
-        view?.snack(message +" "+ context.getString(R.string.will_be_downloaded))
+        view?.snack(message + " " + context.getString(R.string.will_be_downloaded))
     }
 
     fun setStartText(progress: Int) {
@@ -47,7 +47,7 @@ class ViewUpdater(
     }
 
     fun onCurrentEpisodeMetadataChanged(metadata: MediaMetadataCompat?) {
-        metadata?:return
+        metadata ?: return
         metadata.description?.let {
             view?.updateMediaDescription(it)
         }

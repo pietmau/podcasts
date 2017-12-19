@@ -11,7 +11,7 @@ class DownloaderDeleterImpl(
 
     private val STATUS_REMOVED = 905
 
-    override fun ifRemovedDelete(info: RequestInfo, status: Int) {
+    override fun delete(info: RequestInfo, status: Int) {
         if (status == STATUS_REMOVED) {
             fetcher.setEpisodeDeletedAndNotDownloaded(info.id)
         }

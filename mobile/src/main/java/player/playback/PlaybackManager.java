@@ -161,7 +161,7 @@ public class PlaybackManager implements Playback.Callback {
 
     public void onNewItemEnqueued(String uri) {
         int size = queueManager.getCurrentQueueSize();
-        if (size == 1) {
+        if (size <= 0) {
             playFromMediaId(uri, null);
             return;
         }

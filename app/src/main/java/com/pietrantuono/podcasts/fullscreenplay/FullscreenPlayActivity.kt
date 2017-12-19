@@ -32,7 +32,6 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
                 ?.inject(this@FullscreenPlayActivity)
         initViews()
         loadImage(intent?.getStringExtra(ARTWORK))
-        presenter.bindView(this)
         presenter.onCreate(this, this, intent?.getStringExtra(EPISODE_URI), savedInstanceState != null)
         overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_top)
     }
