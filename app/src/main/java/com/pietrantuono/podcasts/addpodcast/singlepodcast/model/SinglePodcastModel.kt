@@ -18,4 +18,6 @@ interface SinglePodcastModel {
     fun startModel(podcast: Podcast?)
 
     fun onSubscribeUnsubscribeToPodcastClicked()
+
+    fun saveFeed(podcastFeed: PodcastFeed?)
 }

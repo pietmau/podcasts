@@ -11,29 +11,30 @@ import com.pietrantuono.podcasts.downloader.downloader.Downloader
 import models.pojos.Episode
 
 class CustomControlsPresenter(
-        private val stateResolver: StateResolver,
+        private val configurationManager: StateResolver,
         private val executorService: SimpleExecutor,
         private val downloader: Downloader,
         private val viewUpdater: ViewUpdater,
-        private val mediaBrowserCompatWrapper: MediaBrowserCompatWrapper
+        private val mediaBrowser: MediaBrowserCompatWrapper
 ) : SeekBar.OnSeekBarChangeListener, MediaControllerCompat.Callback() {
 
-    private var lastPlaybackState: PlaybackStateCompat? = null
+    private var episode: Episode? = null
+    private var state: PlaybackStateCompat? = null
 
     fun bindView(customControls: CustomControls) {
         viewUpdater.view = customControls
-        mediaBrowserCompatWrapper.init(object : MediaBrowserCompat.ConnectionCallback() {
+        mediaBrowser.init(object : MediaBrowserCompat.ConnectionCallback() {
             override fun onConnected() {
-                connectToSession(mediaBrowserCompatWrapper.token)
+                connectToSession(mediaBrowser.token)
             }
         }, this)
     }
 
     @Throws(RemoteException::class)
     private fun connectToSession(token: MediaSessionCompat.Token?) {
-        stateResolver.callback = this
+        configurationManager.callback = this
         updateProgress()
-        if (mediaBrowserCompatWrapper.isPlayingOrBuffering()) {
+        if (mediaBrowser.isPlayingOrBuffering()) {
             scheduleSeekbarUpdate()
         }
     }
@@ -44,8 +45,8 @@ class CustomControlsPresenter(
     }
 
     fun updateProgress() {
-        if (stateResolver.isPlayingCurrentEpisode()) {
-            viewUpdater.setProgress(lastPlaybackState)
+        if (configurationManager.isPlayingCurrentEpisode()) {
+            viewUpdater.setProgress(state)
         }
     }
 
@@ -54,8 +55,8 @@ class CustomControlsPresenter(
     }
 
     override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
-        lastPlaybackState = state
-        stateResolver.updatePlaybackState(state)
+        this.state = state
+        configurationManager.updatePlaybackState(state)
     }
 
     fun onError(state: PlaybackStateCompat) {
@@ -83,36 +84,37 @@ class CustomControlsPresenter(
     }
 
     fun setEpisode(episode: Episode?) {
-        stateResolver.episode = episode
+        this.episode = episode
+        configurationManager.episode = episode
     }
 
     fun onPlayClicked() {
-        if (stateResolver.willHandleClick()) {
-            stateResolver.onPausePlayClicked()
+        if (configurationManager.willHandleClick()) {
+            configurationManager.onPausePlayClicked()
             return
         }
-        stateResolver.episode?.uri?.let {
+        episode?.uri?.let {
             downloader.downloadAndPlayFromUri(it)
-            viewUpdater.snack(stateResolver.episode?.title)
+            viewUpdater.snack(configurationManager.episode?.title)
         }
     }
 
     fun play() {
-        mediaBrowserCompatWrapper.play()
+        mediaBrowser.play()
         scheduleSeekbarUpdate()
     }
 
     fun pause() {
-        mediaBrowserCompatWrapper.pause()
+        mediaBrowser.pause()
         stopSeekbarUpdate()
     }
 
     fun skipToNext() {
-        mediaBrowserCompatWrapper.skipToNext()
+        mediaBrowser.skipToNext()
     }
 
     fun skipToPrevious() {
-        mediaBrowserCompatWrapper.skipToPrevious()
+        mediaBrowser.skipToPrevious()
     }
 
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -124,21 +126,21 @@ class CustomControlsPresenter(
     }
 
     override fun onStopTrackingTouch(seekBar: SeekBar?) {
-        mediaBrowserCompatWrapper.onStopTrackingTouch(seekBar)
+        mediaBrowser.onStopTrackingTouch(seekBar)
         scheduleSeekbarUpdate()
     }
 
     fun onStart() {
-        mediaBrowserCompatWrapper.onStart()
+        mediaBrowser.onStart()
     }
 
     fun onStop() {
-        mediaBrowserCompatWrapper.onStop()
+        mediaBrowser.onStop()
         executorService.cancel(true)
     }
 
     override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
-        if (stateResolver.isPlayingCurrentEpisode()) {
+        if (configurationManager.isPlayingCurrentEpisode()) {
             viewUpdater.onCurrentEpisodeMetadataChanged(metadata)
             return
         }
@@ -151,21 +153,25 @@ class CustomControlsPresenter(
     }
 
     fun startNewPodcast(uri: String?) {
-        mediaBrowserCompatWrapper?.stop()
-        mediaBrowserCompatWrapper?.playFromMediaId(uri)
+        mediaBrowser?.stop()
+        mediaBrowser?.playFromMediaId(uri)
 
     }
 
     fun getPlaybackState(): PlaybackStateCompat? {
-        return mediaBrowserCompatWrapper?.playbackState
+        return mediaBrowser?.playbackState
     }
 
     fun getCurrentlyPlayingMediaId(): String? {
-        return mediaBrowserCompatWrapper?.metadata?.getString(android.support.v4.media.MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
+        return mediaBrowser?.metadata?.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
     }
 
     fun unbindView() {
         viewUpdater.view = null
+    }
+
+    fun setConfiguration(config: CustomControls.Configuration) {
+        configurationManager.setConfiguration(config)
     }
 
 }

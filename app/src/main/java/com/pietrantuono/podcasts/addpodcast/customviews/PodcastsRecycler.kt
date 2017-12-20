@@ -18,7 +18,7 @@ class PodcastsRecycler(context: Context, attrs: AttributeSet?) : RecyclerView(co
     @Inject lateinit var adapter: PodcastsAdapter
 
     init {
-        (context.applicationContext as App).applicationComponent?.inject(this)
+        (context.applicationContext as App).appComponent?.inject(this)
         layoutManager = createLayoutManager()
         setAdapter(adapter)
     }

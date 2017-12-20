@@ -36,7 +36,7 @@ class PlaylistFragment : Fragment(), PlayListView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity.applicationContext as? App)?.applicationComponent?.with(PlaylistModule())?.inject(this)
+        (activity.applicationContext as? App)?.appComponent?.with(PlaylistModule())?.inject(this)
     }
 
     override fun onPlaylistRetrieved(playlist: List<Episode>) {

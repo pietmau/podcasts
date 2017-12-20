@@ -53,6 +53,7 @@ class SinglePodcastPresenter(
                     this@SinglePodcastPresenter.podcastFeed = podcastFeed
                     setEpisodes()
                 }
+                model.saveFeed(podcastFeed)
             }
         })
         model.subscribeToIsSubscribedToPodcast(observer)
@@ -76,8 +77,8 @@ class SinglePodcastPresenter(
     }
 
     private fun setEpisodes() {
-        podcastFeed?.let {
-            view?.setEpisodes(podcastFeed?.episodes)
+        podcastFeed?.episodes?.let {
+            view?.setEpisodes(it)
         }
     }
 

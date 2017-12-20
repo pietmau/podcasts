@@ -47,7 +47,7 @@ class MainActivity : AbstractPlaybackControlsActivity(), MainView {
     }
 
     private fun initDependencies() {
-        mainComponent = (applicationContext as App).applicationComponent?.with(MainModule())
+        mainComponent = (applicationContext as App).appComponent?.with(MainModule())
         mainComponent?.inject(this)
     }
 

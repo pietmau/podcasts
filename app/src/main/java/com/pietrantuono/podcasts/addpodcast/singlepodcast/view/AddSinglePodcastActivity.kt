@@ -1,22 +1,25 @@
 package com.pietrantuono.podcasts.addpodcast.singlepodcast.view
 
-
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.EpisodesAdapter
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.EpisodesRecycler
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.dagger.SinglePodcastModule
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SinglePodcastPresenter
 import com.pietrantuono.podcasts.application.App
+import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayActivity
+import com.pietrantuono.podcasts.utils.ARTWORK
+import com.pietrantuono.podcasts.utils.EPISODE_URI
 import models.pojos.Episode
 import models.pojos.Podcast
+import org.jetbrains.anko.intentFor
 import javax.inject.Inject
 
-class AddSinglePodcastActivity : AbstractBaseDetailActivty(), SinglePodcastView {
-    private var isSubscribed: Boolean? = false
+class AddSinglePodcastActivity : AbstractBaseDetailActivty(), SinglePodcastView, EpisodesAdapter.OnItemClickListener {
 
     companion object {
         val SINGLE_PODCAST_TRACK_ID = "single_podcast_track_id"
@@ -24,6 +27,7 @@ class AddSinglePodcastActivity : AbstractBaseDetailActivty(), SinglePodcastView 
         val TAG = "AddSinglePodcastActivity"
     }
 
+    private var isSubscribed: Boolean? = false
     @BindView(R.id.recycler) lateinit var recyclerView: EpisodesRecycler
     @Inject lateinit var presenter: SinglePodcastPresenter
 
@@ -36,7 +40,7 @@ class AddSinglePodcastActivity : AbstractBaseDetailActivty(), SinglePodcastView 
     }
 
     private fun inject() {
-        (applicationContext as App).applicationComponent?.with(SinglePodcastModule(this@AddSinglePodcastActivity))?.inject(this)
+        (applicationContext as App).appComponent?.with(SinglePodcastModule(this@AddSinglePodcastActivity))?.inject(this)
     }
 
     private fun initViews() {
@@ -45,6 +49,7 @@ class AddSinglePodcastActivity : AbstractBaseDetailActivty(), SinglePodcastView 
         setUpActionBar()
         initPlaybackControls()
         initProgress()
+        recyclerView.setOnItemClickListener(this)
     }
 
     private fun startPresenter(savedInstanceState: Bundle?) {
@@ -77,7 +82,7 @@ class AddSinglePodcastActivity : AbstractBaseDetailActivty(), SinglePodcastView 
         return presenter.onOptionsItemSelected(item.itemId)
     }
 
-    override fun setEpisodes(episodes: List<Episode>?) {
+    override fun setEpisodes(episodes: List<Episode>) {
         recyclerView.setItems(episodes)
     }
 
@@ -107,5 +112,9 @@ class AddSinglePodcastActivity : AbstractBaseDetailActivty(), SinglePodcastView 
 
     override fun exitWithSharedTrsnsition() {//TODO remove
         super.onBackPressed()
+    }
+
+    override fun onItemClick(episode: Episode) {
+        startActivity(intentFor<FullscreenPlayActivity>(EPISODE_URI to episode.uri, ARTWORK to episode.imageUrl))
     }
 }

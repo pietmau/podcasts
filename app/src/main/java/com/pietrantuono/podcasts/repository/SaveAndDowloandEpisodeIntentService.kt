@@ -29,7 +29,7 @@ class SaveAndDowloandEpisodeIntentService : IntentService("SaveAndDowloandEpisod
 
     override fun onHandleIntent(intent: Intent?) {
         intent ?: return
-        (application as App).applicationComponent?.with(DownloadModule(this))?.inject(this)
+        (application as App).appComponent?.with(DownloadModule(this))?.inject(this)
         logger.debug(TAG, "onHandleIntent")
         var podcast: Podcast? = getPodcast(intent) ?: return
         val episodes = getEpisodes(intent) ?: return

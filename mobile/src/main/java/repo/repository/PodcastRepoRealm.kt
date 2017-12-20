@@ -13,6 +13,7 @@ import rx.subjects.BehaviorSubject
 class PodcastRepoRealm(
         private val reposServices: RepoServices?
 ) : PodcastRepo {
+
     override fun getPodcastByIdSync(trackId: Int): Podcast? {
         return Realm.getDefaultInstance().use { realm ->
             realm.copyFromRealm(realm.where(PodcastRealm::class.java)
@@ -131,6 +132,15 @@ class PodcastRepoRealm(
                     .filter { it.isLoaded && it.isValid }
                     .map(realm::copyFromRealm)
                     .cache()
+        }
+    }
+
+    override fun savePodcastAndEpisodesAsync(podcast: Podcast, episodes: List<Episode>) {
+        var podcast: PodcastRealm = RealmUtlis.toSinglePodcastRealm(podcast)
+        podcast.isPodcastSubscribed = false
+        podcast.episodes = episodes
+        Realm.getDefaultInstance().use { realm ->
+            realm.executeTransactionAsync({ it?.copyToRealmOrUpdate(podcast) })
         }
     }
 }

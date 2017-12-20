@@ -34,7 +34,7 @@ class EpisodedListRecycler : RecyclerView {
     }
 
     private fun init() {
-        (context.applicationContext as App).applicationComponent!!
+        (context.applicationContext as App).appComponent!!
                 .with(SingleSubscribedModule(context as AppCompatActivity))
                 .inject(this)
         layoutManager = createLayoutManager()

@@ -12,12 +12,11 @@ interface SinglePodcastView {
 
     fun showProgress(show: Boolean)
 
-    fun setEpisodes(episodes: List<Episode>?)
+    fun setEpisodes(episodes: List<Episode>)
 
     fun exitWithSharedTrsnsition()
 
     fun exitWithoutSharedTransition()
 
     fun setSubscribedToPodcast(isSubscribed: Boolean?)
-
 }

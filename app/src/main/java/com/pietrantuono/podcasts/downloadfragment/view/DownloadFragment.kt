@@ -54,7 +54,7 @@ class DownloadFragment : Fragment(), DownloadView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity.applicationContext as? App)?.applicationComponent?.with(DownloadFragmentModule())?.inject(this)
+        (activity.applicationContext as? App)?.appComponent?.with(DownloadFragmentModule())?.inject(this)
     }
 
     override fun setPodcasts(list: List<DownloadedPodcast>) {

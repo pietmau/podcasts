@@ -16,7 +16,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.application.App
-import com.pietrantuono.podcasts.fullscreenplay.custom.ColorizedPlaybackControlView
+import com.pietrantuono.podcasts.fullscreenplay.custom.PlaybackControlView
 import com.pietrantuono.podcasts.fullscreenplay.di.FullscreenModule
 import models.pojos.Episode
 import javax.inject.Inject
@@ -36,13 +36,13 @@ class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout
     @BindView(R.id.progressBar1) lateinit var loading: ProgressBar
     @BindView(R.id.controllers) lateinit var controllers: View
     @BindView(R.id.container) lateinit var container: View
-    var callback: ColorizedPlaybackControlView.Callback? = null
+    var callback: PlaybackControlView.Callback? = null
     @Inject lateinit var presenter: CustomControlsPresenter
 
     init {
         (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(R.layout.custom_player, this)
         ButterKnife.bind(this)
-        (context.applicationContext as App).applicationComponent?.with(FullscreenModule(context as FragmentActivity))?.inject(this)
+        (context.applicationContext as App).appComponent?.with(FullscreenModule(context as FragmentActivity))?.inject(this)
         pauseDrawable = ContextCompat.getDrawable(context, R.drawable.uamp_ic_pause_white_48dp)
         playDrawable = ContextCompat.getDrawable(context, R.drawable.uamp_ic_play_arrow_white_48dp)
         skipNext.setOnClickListener {
@@ -128,7 +128,11 @@ class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout
     }
 
     override fun snack(message: String) {
-        Snackbar.make(container,message,Snackbar.LENGTH_LONG).show()
+        Snackbar.make(container, message, Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun setConfiguration(config: CustomControls.Configuration) {
+        presenter.setConfiguration(config)
     }
 }
 

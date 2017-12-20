@@ -8,6 +8,7 @@ import models.pojos.Episode
 class StateResolver {
     var episode: Episode? = null
     var callback: CustomControlsPresenter? = null
+    private var config: CustomControls.Configuration? = null
 
     fun updatePlaybackState(state: PlaybackStateCompat?) {
         when (state?.state) {
@@ -83,5 +84,14 @@ class StateResolver {
         return episode?.uri.equals(currentlyPlayingMediaId, true)
     }
 
-    fun willHandleClick(): Boolean = episode?.downloaded == true
+    fun willHandleClick(): Boolean =
+            if (episode?.downloaded == true) {
+                true
+            } else {
+                config?.shouldStreamAudio ?: false
+            }
+
+    fun setConfiguration(config: CustomControls.Configuration) {
+        this.config = config
+    }
 }
