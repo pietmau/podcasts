@@ -55,4 +55,11 @@ class SinglePodcastModelImpl(
         compositeSubscription.add(subscription)
     }
 
+    override fun saveFeed(podcastFeed: PodcastFeed?) {
+        podcast?.let { podcast ->
+            podcastFeed?.episodes?.let { episodes ->
+                repository.savePodcastAndEpisodesAsync(podcast, episodes)
+            }
+        }
+    }
 }

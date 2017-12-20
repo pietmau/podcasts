@@ -53,6 +53,7 @@ class SinglePodcastPresenter(
                     this@SinglePodcastPresenter.podcastFeed = podcastFeed
                     setEpisodes()
                 }
+                model.saveFeed(podcastFeed)
             }
         })
         model.subscribeToIsSubscribedToPodcast(observer)
