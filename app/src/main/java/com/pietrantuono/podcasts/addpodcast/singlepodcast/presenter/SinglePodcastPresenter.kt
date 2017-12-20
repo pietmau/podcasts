@@ -77,8 +77,8 @@ class SinglePodcastPresenter(
     }
 
     private fun setEpisodes() {
-        podcastFeed?.let {
-            view?.setEpisodes(podcastFeed?.episodes)
+        podcastFeed?.episodes?.let {
+            view?.setEpisodes(it)
         }
     }
 

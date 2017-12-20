@@ -17,9 +17,12 @@ class EpisodeHolder(itemView: View, private val resourcesProvider: ResourcesProv
         dataBinding = DataBindingUtil.bind<ViewDataBinding>(itemView)
     }
 
-    fun bind(episode: Episode) {
+    fun bind(episode: Episode, clickListener: EpisodesAdapter.OnItemClickListener?) {
         val podcastEpisodeViewModel = EpisodeViewModel(episode, resourcesProvider)
         dataBinding.setVariable(BR.viewModel, podcastEpisodeViewModel)
         dataBinding.executePendingBindings()
+        dataBinding.root.setOnClickListener{
+            clickListener?.onItemClick(episode)
+        }
     }
 }
