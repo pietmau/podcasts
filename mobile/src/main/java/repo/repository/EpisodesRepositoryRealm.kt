@@ -53,9 +53,13 @@ class EpisodesRepositoryRealm() : EpisodesRepository {
 
     override fun getEpisodeByDownloadIdSync(id: Long): Episode? =
             Realm.getDefaultInstance().use {
-                it.where(RealmEpisode::class.java)
+                var episode = it.where(RealmEpisode::class.java)
                         .equalTo(DOWNLOAD_REQUEST_ID, id)
                         .findFirst()
+                if (episode != null) {
+                    episode = it.copyFromRealm(episode)
+                }
+                episode
             }
 
     /** To be used from another Thread or from a service in another process . */
@@ -94,12 +98,13 @@ class EpisodesRepositoryRealm() : EpisodesRepository {
     /** To be used from another Thread or from a service in another process . */
     override fun getEpisodeByEnclosureUrlSync(url: String?): Episode? = url?.let { url ->
         Realm.getDefaultInstance().use { realm ->
-            realm.where(RealmEpisode::class.java)
+            var episode = realm.where(RealmEpisode::class.java)
                     .contains(ENCLOSURE_URL, url)
                     .findFirst()
-                    ?.also { reamlEpisode ->
-                        val episode = realm.copyFromRealm(reamlEpisode)
-                    }
+            if (episode != null) {
+                episode = realm.copyFromRealm(episode)
+            }
+            episode
         }
     }
 
