@@ -30,7 +30,7 @@ class EpisodesRecycler : RecyclerView {
     }
 
     private fun init() {
-        (context.applicationContext as App).applicationComponent?.inject(this)
+        (context.applicationContext as App).appComponent?.inject(this)
         layoutManager = createLayoutManager()
         setAdapter(adapter)
     }

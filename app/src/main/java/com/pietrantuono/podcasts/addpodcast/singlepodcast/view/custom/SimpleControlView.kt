@@ -26,7 +26,7 @@ class SimpleControlView(context: Context?, attrs: AttributeSet?) : PlaybackContr
     }
 
     fun setCallback() {
-        player = (((context as Activity).application as App).applicationComponent!!).simpleExoPlayer()
+        player = (((context as Activity).application as App).appComponent!!).simpleExoPlayer()
         listener.onPlayerStateChanged(player.playWhenReady, player.playbackState)
         player.addListener(listener)
     }

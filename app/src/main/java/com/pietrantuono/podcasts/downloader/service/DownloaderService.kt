@@ -18,7 +18,7 @@ class DownloaderService() : SimpleService(), Fetcher.Callback {
 
     override fun onCreate() {
         super.onCreate()
-        (application as App).applicationComponent?.with(DownloadModule(this))?.inject(this)
+        (application as App).appComponent?.with(DownloadModule(this))?.inject(this)
         dowloaderDelter.addCallback(this@DownloaderService)
     }
 

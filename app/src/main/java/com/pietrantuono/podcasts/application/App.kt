@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 class App : MultiDexApplication(), ServiceConnection {
     private var serviceIsBound: Boolean = false
-    var applicationComponent: ApplicationComponent? = null
+    var appComponent: ApplicationComponent? = null
     @Inject lateinit var logger: DebugLogger
 
     override fun onCreate() {
@@ -29,9 +29,9 @@ class App : MultiDexApplication(), ServiceConnection {
         Fabric.with(applicationContext, Crashlytics())
         LeakCanary.install(this);
         Realm.init(this)
-        applicationComponent = DaggerApplicationComponent.builder().appModule(AppModule(this))
+        appComponent = DaggerApplicationComponent.builder().appModule(AppModule(this))
                 .imageLoaderModule(ImageLoaderModule(this)).build()
-        applicationComponent?.inject(this)
+        appComponent?.inject(this)
         Realm.setDefaultConfiguration(RealmConfiguration.Builder()
                 .name("app.realm")
                 .modules(Realm.getDefaultModule(), DataRealmLibraryModule())

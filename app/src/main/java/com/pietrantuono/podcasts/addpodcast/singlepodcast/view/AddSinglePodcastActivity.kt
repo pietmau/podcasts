@@ -40,7 +40,7 @@ class AddSinglePodcastActivity : AbstractBaseDetailActivty(), SinglePodcastView,
     }
 
     private fun inject() {
-        (applicationContext as App).applicationComponent?.with(SinglePodcastModule(this@AddSinglePodcastActivity))?.inject(this)
+        (applicationContext as App).appComponent?.with(SinglePodcastModule(this@AddSinglePodcastActivity))?.inject(this)
     }
 
     private fun initViews() {

@@ -34,7 +34,7 @@ class EpisodesListActivity : AbstractBaseDetailActivty(), EpisodesListView {
     }
 
     private fun inject() {
-        (application as App).applicationComponent?.with(SingleSubscribedModule(this@EpisodesListActivity))?.inject(this@EpisodesListActivity)
+        (application as App).appComponent?.with(SingleSubscribedModule(this@EpisodesListActivity))?.inject(this@EpisodesListActivity)
     }
 
     private fun initViews() {

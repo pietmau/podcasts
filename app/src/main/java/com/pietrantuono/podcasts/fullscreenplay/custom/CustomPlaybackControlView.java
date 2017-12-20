@@ -242,7 +242,7 @@ public class CustomPlaybackControlView extends FrameLayout {
     private long hideAtMs;
     private long[] adBreakTimesMs;
 
-    private ColorizedPlaybackControlView.Callback callback;
+    private PlaybackControlView.Callback callback;
 
 
     private final Runnable updateProgressAction = new Runnable() {
@@ -954,7 +954,7 @@ public class CustomPlaybackControlView extends FrameLayout {
 
     }
 
-    public void setCallback(@NotNull ColorizedPlaybackControlView.Callback callback) {
+    public void setCallback(@NotNull PlaybackControlView.Callback callback) {
         this.callback = callback;
     }
 }

@@ -1,5 +1,6 @@
 package com.pietrantuono.podcasts.fullscreenplay
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.view.View
@@ -8,6 +9,7 @@ import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.AbstractBaseDetailActivty
 import com.pietrantuono.podcasts.application.App
+import com.pietrantuono.podcasts.fullscreenplay.customcontrols.CustomControls
 import com.pietrantuono.podcasts.fullscreenplay.customcontrols.CustomControlsImpl
 import com.pietrantuono.podcasts.fullscreenplay.di.FullscreenModule
 import com.pietrantuono.podcasts.fullscreenplay.presenter.FullscreenPresenter
@@ -22,36 +24,60 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
     @BindView(R.id.control) lateinit var controlView: CustomControlsImpl
     @BindView(R.id.episodeView) lateinit var episodeView: EpisodeView
     @BindView(R.id.root) lateinit var root: View
+    private val URI: String? = "uri"
+    private val SHOULD_STREAM_AUDIO: String? = "download"
+    private var uri: String? = null
+    private var shouldStreamAudio = false
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreate(savedState: Bundle?) {
+        super.onCreate(savedState)
         setContentView(R.layout.full_screen_player_activity)
         (application as App)
-                .applicationComponent
+                .appComponent
                 ?.with(FullscreenModule(this))
                 ?.inject(this@FullscreenPlayActivity)
         initViews()
-        loadImage(intent?.getStringExtra(ARTWORK))
-        presenter.onCreate(this, this, intent?.getStringExtra(EPISODE_URI), savedInstanceState != null)
+        uri = getUri(intent, savedState)
+        shouldStreamAudio = getShouldDownloadFlag(intent, savedState)
+        presenter.onCreate(this, uri)
         overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_top)
     }
+
+    private fun getShouldDownloadFlag(intent: Intent?, savedState: Bundle?): Boolean =
+            if (savedState != null) {
+                savedState.getBoolean(SHOULD_STREAM_AUDIO)
+            } else {
+                intent?.getBooleanExtra(SHOULD_STREAM_AUDIO, false) ?: false
+            }
+
+    private fun getUri(intent: Intent, savedState: Bundle?): String?
+            = savedState?.getString(URI) ?: intent?.getStringExtra(EPISODE_URI)
 
     private fun initViews() {
         ButterKnife.bind(this@FullscreenPlayActivity)
         controlView.callback = presenter
+        loadImage(intent?.getStringExtra(ARTWORK))
     }
 
     override fun onStart() {
         super.onStart()
         presenter.bindView(this)
-        presenter.onStart()
+        controlView.setConfiguration(getConfiguration())
         controlView.onStart()
     }
+
+    private fun getConfiguration(): CustomControls.Configuration = CustomControls.Configuration(shouldStreamAudio)
 
     override fun onStop() {
         super.onStop()
         presenter.onStop()
         controlView.onStop()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        outState?.putString(URI, uri)
+        outState?.putBoolean(SHOULD_STREAM_AUDIO, shouldStreamAudio)
+        super.onSaveInstanceState(outState)
     }
 
     override fun setEpisode(episode: Episode?) {

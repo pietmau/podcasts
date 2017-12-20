@@ -20,7 +20,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsView {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.preferences)
-        (activity.application as? App)?.applicationComponent?.with(SettingsFragmentModule())?.inject(this)
+        (activity.application as? App)?.appComponent?.with(SettingsFragmentModule())?.inject(this)
         presenter.bindView(this)
     }
 
