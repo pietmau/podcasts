@@ -1,7 +1,6 @@
 package com.pietrantuono.podcasts.addpodcast.singlepodcast.view
 
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -14,8 +13,12 @@ import com.pietrantuono.podcasts.subscribedpodcasts.list.di.SingleSubscribedModu
 import com.pietrantuono.podcasts.subscribedpodcasts.list.presenter.EpisodesListPresenter
 import com.pietrantuono.podcasts.subscribedpodcasts.list.views.EpisodedListRecycler
 import com.pietrantuono.podcasts.subscribedpodcasts.list.views.EpisodesListView
-import com.pietrantuono.podcasts.utils.*
+import com.pietrantuono.podcasts.utils.ARTWORK
+import com.pietrantuono.podcasts.utils.EPISODE_URI
+import com.pietrantuono.podcasts.utils.SINGLE_PODCAST_TRACK_ID
+import com.pietrantuono.podcasts.utils.STARTED_WITH_TRANSITION
 import models.pojos.Episode
+import org.jetbrains.anko.intentFor
 import javax.inject.Inject
 
 class EpisodesListActivity : AbstractBaseDetailActivty(), EpisodesListView {
@@ -27,7 +30,7 @@ class EpisodesListActivity : AbstractBaseDetailActivty(), EpisodesListView {
         inject()
         initViews()
         loadImage()
-        presenter.onCreate(savedInstanceState!=null)
+        presenter.onCreate(savedInstanceState != null)
     }
 
     private fun inject() {
@@ -75,15 +78,7 @@ class EpisodesListActivity : AbstractBaseDetailActivty(), EpisodesListView {
     }
 
     override fun startDetailActivityWithoutTransition(episode: Episode) {
-        startActivity(getIntent(episode))
-    }
-
-    private fun getIntent(episode: Episode): Intent {
-        val intent = Intent(this@EpisodesListActivity, FullscreenPlayActivity::class.java)
-        intent.putExtra(EPISODE_URI, episode.uri)
-        intent.putExtra(ARTWORK, episode.imageUrl)
-        colorExtractor.backgroundColor?.let { intent.putExtra(BACKGROUND_COLOR, it) }
-        return intent
+        startActivity(intentFor<FullscreenPlayActivity>(EPISODE_URI to episode.uri, ARTWORK to episode.imageUrl))
     }
 
     override fun isPartiallyHidden(position: Int): Boolean {

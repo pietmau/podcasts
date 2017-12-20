@@ -9,7 +9,6 @@ import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.custom.SimpleProgressBar
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
 import com.pietrantuono.podcasts.main.view.TransitionsHelper
-import com.pietrantuono.podcasts.utils.BACKGROUND_COLOR
 import com.pietrantuono.podcasts.utils.isInValidState
 import javax.inject.Inject
 
@@ -95,7 +94,5 @@ abstract class AbstractBaseDetailActivty : AbstractPlaybackControlsActivity(), B
     protected fun setToolbarColor(backgroundColor: Int) {
         toolbar?.setBackgroundColor(backgroundColor)
     }
-
-    fun getBackgroundColor() = intent?.getIntExtra(BACKGROUND_COLOR, resources.getColor(R.color.colorPrimary)) ?: resources.getColor(R.color.colorPrimary)
 
 }
