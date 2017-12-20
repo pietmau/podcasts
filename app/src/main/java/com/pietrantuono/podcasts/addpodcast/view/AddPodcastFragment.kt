@@ -78,7 +78,12 @@ class AddPodcastFragment : Fragment(), AddPodcastView {
         podcastsRecycler.setListeners(addPodcastPresenter)
         searchView.setOnQueryTextListener(object : SimpleOnQueryTextListener() {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                return addPodcastPresenter.onQueryTextSubmit(query)
+                hideKeyboard()
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return addPodcastPresenter.onQueryTextSubmit(newText)
             }
         })
         return view
