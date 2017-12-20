@@ -16,5 +16,5 @@ interface CustomControls {
     fun snack(message: String)
     fun setConfiguration(config: Configuration)
 
-    class Configuration(val shouldNotDownload: Boolean)
+    class Configuration(val shouldStreamAudio: Boolean)
 }

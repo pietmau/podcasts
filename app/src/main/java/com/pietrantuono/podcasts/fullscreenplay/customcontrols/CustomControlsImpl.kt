@@ -128,7 +128,11 @@ class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout
     }
 
     override fun snack(message: String) {
-        Snackbar.make(container,message,Snackbar.LENGTH_LONG).show()
+        Snackbar.make(container, message, Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun setConfiguration(config: CustomControls.Configuration) {
+        presenter.setConfiguration(config)
     }
 }
 

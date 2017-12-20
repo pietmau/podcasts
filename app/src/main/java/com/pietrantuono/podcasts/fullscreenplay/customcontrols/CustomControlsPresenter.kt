@@ -11,7 +11,7 @@ import com.pietrantuono.podcasts.downloader.downloader.Downloader
 import models.pojos.Episode
 
 class CustomControlsPresenter(
-        private val stateResolver: StateResolver,
+        private val configurationManager: StateResolver,
         private val executorService: SimpleExecutor,
         private val downloader: Downloader,
         private val viewUpdater: ViewUpdater,
@@ -32,7 +32,7 @@ class CustomControlsPresenter(
 
     @Throws(RemoteException::class)
     private fun connectToSession(token: MediaSessionCompat.Token?) {
-        stateResolver.callback = this
+        configurationManager.callback = this
         updateProgress()
         if (mediaBrowser.isPlayingOrBuffering()) {
             scheduleSeekbarUpdate()
@@ -45,7 +45,7 @@ class CustomControlsPresenter(
     }
 
     fun updateProgress() {
-        if (stateResolver.isPlayingCurrentEpisode()) {
+        if (configurationManager.isPlayingCurrentEpisode()) {
             viewUpdater.setProgress(state)
         }
     }
@@ -56,7 +56,7 @@ class CustomControlsPresenter(
 
     override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
         this.state = state
-        stateResolver.updatePlaybackState(state)
+        configurationManager.updatePlaybackState(state)
     }
 
     fun onError(state: PlaybackStateCompat) {
@@ -85,17 +85,17 @@ class CustomControlsPresenter(
 
     fun setEpisode(episode: Episode?) {
         this.episode = episode
-        stateResolver.episode = episode
+        configurationManager.episode = episode
     }
 
     fun onPlayClicked() {
-        if (stateResolver.willHandleClick()) {
-            stateResolver.onPausePlayClicked()
+        if (configurationManager.willHandleClick()) {
+            configurationManager.onPausePlayClicked()
             return
         }
         episode?.uri?.let {
             downloader.downloadAndPlayFromUri(it)
-            viewUpdater.snack(stateResolver.episode?.title)
+            viewUpdater.snack(configurationManager.episode?.title)
         }
     }
 
@@ -140,7 +140,7 @@ class CustomControlsPresenter(
     }
 
     override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
-        if (stateResolver.isPlayingCurrentEpisode()) {
+        if (configurationManager.isPlayingCurrentEpisode()) {
             viewUpdater.onCurrentEpisodeMetadataChanged(metadata)
             return
         }
@@ -168,6 +168,10 @@ class CustomControlsPresenter(
 
     fun unbindView() {
         viewUpdater.view = null
+    }
+
+    fun setConfiguration(config: CustomControls.Configuration) {
+        configurationManager.setConfiguration(config)
     }
 
 }

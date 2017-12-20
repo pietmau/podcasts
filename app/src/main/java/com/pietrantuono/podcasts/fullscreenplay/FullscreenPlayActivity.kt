@@ -27,7 +27,7 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
     private val URI: String? = "uri"
     private val SHOULD_STREAM_AUDIO: String? = "download"
     private var uri: String? = null
-    private var shouldStreamAudio = false
+    private var shouldStream = false
 
     override fun onCreate(savedState: Bundle?) {
         super.onCreate(savedState)
@@ -38,12 +38,12 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
                 ?.inject(this@FullscreenPlayActivity)
         initViews()
         uri = getUri(intent, savedState)
-        shouldStreamAudio = getShouldDownloadFlag(intent, savedState)
+        shouldStream = getShouldStream(intent, savedState)
         presenter.onCreate(this, uri)
         overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_top)
     }
 
-    private fun getShouldDownloadFlag(intent: Intent?, savedState: Bundle?): Boolean =
+    private fun getShouldStream(intent: Intent?, savedState: Bundle?): Boolean =
             if (savedState != null) {
                 savedState.getBoolean(SHOULD_STREAM_AUDIO)
             } else {
@@ -66,7 +66,7 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
         controlView.onStart()
     }
 
-    private fun getConfiguration(): CustomControls.Configuration = CustomControls.Configuration(shouldStreamAudio)
+    private fun getConfiguration(): CustomControls.Configuration = CustomControls.Configuration(shouldStream)
 
     override fun onStop() {
         super.onStop()
@@ -76,7 +76,7 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
 
     override fun onSaveInstanceState(outState: Bundle?) {
         outState?.putString(URI, uri)
-        outState?.putBoolean(SHOULD_STREAM_AUDIO, shouldStreamAudio)
+        outState?.putBoolean(SHOULD_STREAM_AUDIO, shouldStream)
         super.onSaveInstanceState(outState)
     }
 
