@@ -10,7 +10,6 @@ import com.pietrantuono.podcasts.fullscreenplay.model.FullscreenModel
 import com.pietrantuono.podcasts.fullscreenplay.view.custom.TransportControlsWrapper
 import models.pojos.Episode
 
-
 class FullscreenPresenter(
         private val model: FullscreenModel)
     : ViewModel(), ColorizedPlaybackControlView.Callback {
@@ -44,7 +43,6 @@ class FullscreenPresenter(
 
     fun onStop() {
         mediaBrowserWrapper?.onStop()
-        view = null
         model.unSubscribe()
     }
 

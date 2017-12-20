@@ -43,6 +43,7 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
 
     override fun onStart() {
         super.onStart()
+        presenter.bindView(this)
         presenter.onStart()
         controlView.onStart()
     }

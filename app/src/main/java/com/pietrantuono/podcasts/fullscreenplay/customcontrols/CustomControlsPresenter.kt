@@ -164,5 +164,9 @@ class CustomControlsPresenter(
         return mediaBrowserCompatWrapper?.metadata?.getString(android.support.v4.media.MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
     }
 
+    fun unbindView() {
+        viewUpdater.view = null
+    }
+
 }
 

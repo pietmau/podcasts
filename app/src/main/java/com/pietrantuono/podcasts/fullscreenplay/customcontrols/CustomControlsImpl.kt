@@ -55,15 +55,16 @@ class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout
             presenter.onPlayClicked()
         }
         seekbar.setOnSeekBarChangeListener(presenter)
-        presenter.bindView(this)
     }
 
     fun onStart() {
+        presenter.bindView(this)
         presenter.onStart()
     }
 
     fun onStop() {
         presenter.onStop()
+        presenter.unbindView()
     }
 
     fun onDestroy() {
