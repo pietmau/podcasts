@@ -48,6 +48,7 @@
         </activity>
 
         <service
+            android:process=":musicplayer"
             android:name="player.MusicService"
             android:exported="false"
             tools:replace="android:exported">
@@ -63,6 +64,7 @@
         </service>
 
         <service
+            android:process=":download"
             android:name=".downloader.service.DownloaderService"
             android:exported="false">
         </service>

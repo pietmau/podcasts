@@ -32,11 +32,23 @@
 
     </LinearLayout>
 
-    <com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler
-        android:layout_below="@+id/header"
-        android:id="@+id/search_results"
+    <ViewAnimator
+        android:id="@+id/switcher"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler>
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header">
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/nothning_to_see"/>
+
+        <com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler
+            android:id="@+id/search_results"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+        </com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler>
+
+    </ViewAnimator>
 </RelativeLayout>

@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ViewAnimator
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
@@ -35,6 +36,7 @@ class AddPodcastFragment : Fragment(), AddPodcastView {
     @BindView(R.id.search_view) lateinit var searchView: SearchView
     @BindView(R.id.search_results) lateinit var podcastsRecycler: PodcastsRecycler
     @BindView(R.id.progress) lateinit var progressBar: CustomProgressBar
+    @BindView(R.id.switcher) lateinit var viewAnimator: ViewAnimator
 
     companion object {
         private val TAG = AddPodcastFragment::class.java.simpleName
@@ -89,13 +91,21 @@ class AddPodcastFragment : Fragment(), AddPodcastView {
         return view
     }
 
+    override fun setEmpty(empty: Boolean) {
+        if (empty) {
+            viewAnimator.displayedChild = 0
+            return
+        }
+        viewAnimator.displayedChild = 1
+    }
+
     @DebugLog
     override fun onSaveInstanceState(outState: Bundle?) {
         addPodcastPresenter.onSaveInstanceState(AddPodcastFragmentMemento(outState))
     }
 
     @DebugLog
-    override fun onError(e: Throwable) {
+    override fun onError(throwable: Throwable) {
     }
 
     @DebugLog

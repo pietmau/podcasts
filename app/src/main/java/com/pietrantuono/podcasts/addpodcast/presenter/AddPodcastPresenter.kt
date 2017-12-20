@@ -39,17 +39,32 @@ class AddPodcastPresenter(
             override fun onNext(result: SearchResult) {
                 if (addPodcastView != null && result != cachedResult) {
                     cachedResult = result
-                    addPodcastView!!.updateSearchResults(cachedResult!!.list)
+                    updateSearchResults(result)
+                    return
                 }
             }
         }
     }
 
+    private fun updateSearchResults(result: SearchResult) {
+        addPodcastView?.updateSearchResults(result.list)
+        val shouldBeEmpty = shouldBeEmpty(result)
+        addPodcastView?.setEmpty(shouldBeEmpty)
+    }
+
+    private fun shouldBeEmpty(result: SearchResult): Boolean {
+        if (result.list == null) {
+            return true
+        }
+        return result.list.isEmpty()
+    }
+
     fun bindView(addPodcastView: AddPodcastView, memento: AddPodcastFragmentMemento) {
         this.addPodcastView = addPodcastView
+        addPodcastView.setEmpty(true)
         addPodcastView.showProgressBar(memento.isProgressShowing)
-        if (cachedResult != null) {
-            addPodcastView.updateSearchResults(cachedResult!!.list)
+        cachedResult?.let {
+            updateSearchResults(it)
         }
     }
 
@@ -76,22 +91,22 @@ class AddPodcastPresenter(
     }
 
     fun onSaveInstanceState(memento: AddPodcastFragmentMemento) {
-        memento.isProgressShowing = addPodcastView!!.isProgressShowing
+        memento.isProgressShowing = addPodcastView?.isProgressShowing() ?: false
     }
 
     private fun showProgressBar(show: Boolean) {
         if (addPodcastView != null) {
-            addPodcastView!!.showProgressBar(show)
+            addPodcastView?.showProgressBar(show)
         }
     }
 
     override fun onSubscribeClicked(podcast: Podcast) {}
 
     override fun onItemClicked(podcast: Podcast, imageView: ImageView, position: Int, titleContainer: LinearLayout) {
-        if (apiLevelChecker.isLollipopOrHigher && !addPodcastView!!.isPartiallyHidden(position)) {
-            addPodcastView!!.startDetailActivityWithTransition(podcast, imageView, titleContainer)
+        if (apiLevelChecker.isLollipopOrHigher && addPodcastView?.isPartiallyHidden(position) == false) {
+            addPodcastView?.startDetailActivityWithTransition(podcast, imageView, titleContainer)
         } else {
-            addPodcastView!!.startDetailActivityWithoutTransition(podcast)
+            addPodcastView?.startDetailActivityWithoutTransition(podcast)
         }
     }
 
