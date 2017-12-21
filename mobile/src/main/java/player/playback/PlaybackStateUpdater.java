@@ -13,9 +13,6 @@ import player.model.MusicProvider;
 import player.utils.MediaIDHelper;
 import player.utils.WearHelper;
 
-import static player.playback.PlaybackManager.CUSTOM_ACTION_THUMBS_UP;
-
-
 public class PlaybackStateUpdater {
     private final MusicProvider musicProvider;
     private final Resources resources;
@@ -73,7 +70,7 @@ public class PlaybackStateUpdater {
         Bundle customActionExtras = new Bundle();
         WearHelper.setShowCustomActionOnWear(customActionExtras, true);
         stateBuilder.addCustomAction(new PlaybackStateCompat.CustomAction.Builder(
-                CUSTOM_ACTION_THUMBS_UP, resources.getString(R.string.favorite), favoriteIcon)
+                CustomActionResolver.CUSTOM_ACTION_THUMBS_UP, resources.getString(R.string.favorite), favoriteIcon)
                 .setExtras(customActionExtras)
                 .build());
     }

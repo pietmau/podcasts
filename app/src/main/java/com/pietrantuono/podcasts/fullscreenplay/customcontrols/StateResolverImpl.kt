@@ -5,7 +5,7 @@ import android.support.v4.media.session.PlaybackStateCompat.*
 import models.pojos.Episode
 
 
-class StateResolver {
+class StausManager {
     var episode: Episode? = null
     var callback: CustomControlsPresenter? = null
     private var config: CustomControls.Configuration? = null
@@ -47,11 +47,19 @@ class StateResolver {
     }
 
     fun onPausePlayClicked() {
-        callback?.getPlaybackState()?.let {
-            when (it.state) {
-                STATE_PLAYING, STATE_BUFFERING -> onPauseClicked()
-                STATE_PAUSED, STATE_STOPPED -> onPlayClicked()
-                STATE_NONE -> onPlayClicked()
+        if (dontNeedToDownload()) {
+            callback?.getPlaybackState()?.state?.let {
+                when (it) {
+                    STATE_PLAYING, STATE_BUFFERING -> onPauseClicked()
+                    STATE_PAUSED, STATE_STOPPED -> onPlayClicked()
+                    STATE_NONE -> onPlayClicked()
+                }
+            }
+        } else {
+            episode?.uri?.let {
+                callback?.sendCustomActionDownloadAndPlay(it)
+                //downloader.downloadAndPlayFromUri(it)
+                //viewUpdater.snack(configurationManager.episode?.title)
             }
         }
     }
@@ -84,7 +92,7 @@ class StateResolver {
         return episode?.uri.equals(currentlyPlayingMediaId, true)
     }
 
-    fun willHandleClick(): Boolean =
+    fun dontNeedToDownload(): Boolean =
             if (episode?.downloaded == true) {
                 true
             } else {

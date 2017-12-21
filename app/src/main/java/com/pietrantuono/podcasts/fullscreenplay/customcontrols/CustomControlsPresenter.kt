@@ -7,13 +7,11 @@ import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.widget.SeekBar
-import com.pietrantuono.podcasts.downloader.downloader.Downloader
 import models.pojos.Episode
 
 class CustomControlsPresenter(
-        private val configurationManager: StateResolver,
+        private val stausManager: StausManager,
         private val executorService: SimpleExecutor,
-        private val downloader: Downloader,
         private val viewUpdater: ViewUpdater,
         private val mediaBrowser: MediaBrowserCompatWrapper
 ) : SeekBar.OnSeekBarChangeListener, MediaControllerCompat.Callback() {
@@ -32,7 +30,7 @@ class CustomControlsPresenter(
 
     @Throws(RemoteException::class)
     private fun connectToSession(token: MediaSessionCompat.Token?) {
-        configurationManager.callback = this
+        stausManager.callback = this
         updateProgress()
         if (mediaBrowser.isPlayingOrBuffering()) {
             scheduleSeekbarUpdate()
@@ -45,7 +43,7 @@ class CustomControlsPresenter(
     }
 
     fun updateProgress() {
-        if (configurationManager.isPlayingCurrentEpisode()) {
+        if (stausManager.isPlayingCurrentEpisode()) {
             viewUpdater.setProgress(state)
         }
     }
@@ -56,7 +54,7 @@ class CustomControlsPresenter(
 
     override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
         this.state = state
-        configurationManager.updatePlaybackState(state)
+        stausManager.updatePlaybackState(state)
     }
 
     fun onError(state: PlaybackStateCompat) {
@@ -85,17 +83,16 @@ class CustomControlsPresenter(
 
     fun setEpisode(episode: Episode?) {
         this.episode = episode
-        configurationManager.episode = episode
+        stausManager.episode = episode
     }
 
     fun onPlayClicked() {
-        if (configurationManager.willHandleClick()) {
-            configurationManager.onPausePlayClicked()
+        if (stausManager.dontNeedToDownload()) {
+            stausManager.onPausePlayClicked()
             return
         }
         episode?.uri?.let {
-            downloader.downloadAndPlayFromUri(it)
-            viewUpdater.snack(configurationManager.episode?.title)
+            sendCustomActionDownloadAndPlay(it)
         }
     }
 
@@ -140,7 +137,7 @@ class CustomControlsPresenter(
     }
 
     override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
-        if (configurationManager.isPlayingCurrentEpisode()) {
+        if (stausManager.isPlayingCurrentEpisode()) {
             viewUpdater.onCurrentEpisodeMetadataChanged(metadata)
             return
         }
@@ -171,7 +168,14 @@ class CustomControlsPresenter(
     }
 
     fun setConfiguration(config: CustomControls.Configuration) {
-        configurationManager.setConfiguration(config)
+        stausManager.setConfiguration(config)
+    }
+
+    fun sendCustomActionDownloadAndPlay(uri: String) {
+        TODO("implement me!!!!")
+        //mediaBrowser.sendCustomAction()
+        //downloader.downloadAndPlayFromUri(it)
+        //viewUpdater.snack(stausManager.episode?.title)
     }
 
 }

@@ -24,34 +24,31 @@ import android.support.v4.media.session.PlaybackStateCompat;
 
 import java.util.List;
 
-import player.model.MusicProvider;
 import player.utils.LogHelper;
-import player.utils.MediaIDHelper;
 
 public class PlaybackManager implements Playback.Callback {
-    public static String CUSTOM_ACTION_ADD_TO_QUEUE = "custom_action_add_to_queue";
-    public static String EXTRA_EPISODE_URI = "episode_uri";
+    public static final String EXTRA_EPISODE_URI = "episode_uri";
     private static final String TAG = LogHelper.makeLogTag(PlaybackManager.class);
-    static final String CUSTOM_ACTION_THUMBS_UP = "com.example.android.uamp.THUMBS_UP";
-    private final MusicProvider musicProvider;
+
     private final QueueManager queueManager;
+    private final CustomActionResolver customActionResolver;
     private Playback playback;
     private final PlaybackServiceCallback serviceCallback;
     private final MediaSessionCallback mMediaSessionCallback;
     private final PlaybackStateUpdater playbackStateUpdater;
 
     public PlaybackManager(PlaybackServiceCallback serviceCallback,
-                           MusicProvider musicProvider,
                            QueueManager queueManager,
                            Playback playback,
-                           PlaybackStateUpdater playbackStateUpdater) {
-        this.musicProvider = musicProvider;
+                           PlaybackStateUpdater playbackStateUpdater,
+                           CustomActionResolver customActionResolver) {
         this.serviceCallback = serviceCallback;
         this.queueManager = queueManager;
         this.playbackStateUpdater = playbackStateUpdater;
         mMediaSessionCallback = new MediaSessionCallback();
         this.playback = playback;
         this.playback.setCallback(this);
+        this.customActionResolver = customActionResolver;
     }
 
     public Playback getPlayback() {
@@ -115,80 +112,30 @@ public class PlaybackManager implements Playback.Callback {
         queueManager.setQueueFromMusic(mediaId);
     }
 
-
-    /**
-     * Switch to a different Playback instance, maintaining all playback state, if possible.
-     *
-     * @param playback switch to this playback
-     */
     public void switchToPlayback(Playback playback, boolean resumePlaying) {
-        if (playback == null) {
-            throw new IllegalArgumentException("Playback cannot be null");
-        }
-        // Suspends current state.
-        int oldState = this.playback.getState();
-        long pos = this.playback.getCurrentStreamPosition();
-        String currentMediaId = this.playback.getCurrentMediaId();
-        this.playback.stop(false);
-        playback.setCallback(this);
-        playback.setCurrentMediaId(currentMediaId);
-        playback.seekTo(pos < 0 ? 0 : pos);
-        playback.start();
-        // Swaps instance.
-        this.playback = playback;
-        switch (oldState) {
-            case PlaybackStateCompat.STATE_BUFFERING:
-            case PlaybackStateCompat.STATE_CONNECTING:
-            case PlaybackStateCompat.STATE_PAUSED:
-                this.playback.pause();
-                break;
-            case PlaybackStateCompat.STATE_PLAYING:
-                MediaSessionCompat.QueueItem currentMusic = queueManager.getCurrentMusic();
-                if (resumePlaying && currentMusic != null) {
-                    this.playback.play(currentMusic);
-                } else if (!resumePlaying) {
-                    this.playback.pause();
-                } else {
-                    this.playback.stop(true);
-                }
-                break;
-            case PlaybackStateCompat.STATE_NONE:
-                break;
-            default:
-                LogHelper.d(TAG, "Default called. Old state is ", oldState);
-        }
+        throw new UnsupportedOperationException("Unsupported");
     }
 
     public void onNewItemEnqueued(String uri) {
-        int size = queueManager.getCurrentQueueSize();
-        if (size <= 0) {
+        if (queueManager.getCurrentQueueSize() <= 0) {
             playFromMediaId(uri, null);
             return;
         }
         queueManager.addToQueue(uri);
-        int state = playback.getState();
-        if (state == PlaybackStateCompat.STATE_STOPPED) {
+        if (shouldSkipToNext(playback.getState())) {
             skipToNext();
             return;
         }
-        if (state == PlaybackStateCompat.STATE_PAUSED) {
-            skipToNext();
-            return;
-        }
-        if (state == PlaybackStateCompat.STATE_NONE) {
-            skipToNext();
-            return;
-        }
-        if (state == PlaybackStateCompat.STATE_ERROR) {
-            skipToNext();
-            return;
-        }
+    }
+
+    private boolean shouldSkipToNext(int state) {
+        return (state == PlaybackStateCompat.STATE_STOPPED || state == PlaybackStateCompat.STATE_PAUSED
+                || state == PlaybackStateCompat.STATE_NONE || state == PlaybackStateCompat.STATE_ERROR);
     }
 
     public List<MediaBrowserCompat.MediaItem> getPlaylist() {
         return queueManager.getPlaylist();
     }
-
 
     private class MediaSessionCallback extends MediaSessionCompat.Callback {
         @Override
@@ -247,26 +194,7 @@ public class PlaybackManager implements Playback.Callback {
 
         @Override
         public void onCustomAction(@NonNull String action, Bundle extras) {
-            if (CUSTOM_ACTION_THUMBS_UP.equals(action)) {
-                LogHelper.i(TAG, "onCustomAction: favorite for current track");
-                MediaSessionCompat.QueueItem currentMusic = queueManager.getCurrentMusic();
-                if (currentMusic != null) {
-                    String mediaId = currentMusic.getDescription().getMediaId();
-                    if (mediaId != null) {
-                        String musicId = MediaIDHelper.extractMusicIDFromMediaID(mediaId);
-                        musicProvider.setFavorite(musicId, !musicProvider.isFavorite(musicId));
-                    }
-                }
-                updatePlaybackState(null);
-                return;
-            }
-            if (CUSTOM_ACTION_ADD_TO_QUEUE.equals(action)) {
-                if (extras == null || extras.getString(EXTRA_EPISODE_URI) == null) {
-                    return;
-                }
-                String uri = extras.getString(EXTRA_EPISODE_URI);
-                onNewItemEnqueued(uri);
-            }
+            customActionResolver.onCustomAction(action, extras, PlaybackManager.this);
         }
 
         @Override
@@ -283,7 +211,7 @@ public class PlaybackManager implements Playback.Callback {
         }
     }
 
-    private void playFromMediaId(String mediaId, Bundle extras) {
+    void playFromMediaId(String mediaId, Bundle extras) {
         LogHelper.d(TAG, "playFromMediaId mediaId:", mediaId, "  extras=", extras);
         queueManager.setQueueFromMusic(mediaId);
         handlePlayRequest();
