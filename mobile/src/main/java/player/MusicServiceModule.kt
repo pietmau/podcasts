@@ -75,8 +75,12 @@ class MusicServiceModule(private val musicService: MusicService) {
     fun provideDelayedStopHandler(playback: Playback) = DelayedStopHandler(playback)
 
     @Provides
-    fun provideMusicServicePresenter(mSession: MediaSessionCompat, mPlaybackManager: PlaybackManager, mDelayedStopHandler: DelayedStopHandler) = MusicServicePresenter(mSession, mPlaybackManager, mDelayedStopHandler)
+    fun provideMusicServicePresenter(mSession: MediaSessionCompat, mPlaybackManager: PlaybackManager, mDelayedStopHandler: DelayedStopHandler, otherActions: OtherActions)
+            = MusicServicePresenter(mSession, mPlaybackManager, mDelayedStopHandler, otherActions)
 
     @Provides
     fun provideCustomActionResolver() = CustomActionResolver()
+
+    @Provides
+    fun provideOtherActions() = OtherActions()
 }

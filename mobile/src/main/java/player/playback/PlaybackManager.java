@@ -30,7 +30,6 @@ import player.utils.LogHelper;
 
 public class PlaybackManager extends MediaSessionCompat.Callback implements Playback.Callback {
     private static final String TAG = LogHelper.makeLogTag(PlaybackManager.class);
-
     private final QueueManager queueManager;
     private final CustomActionResolver customActionResolver;
     private Playback playback;

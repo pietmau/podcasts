@@ -1,5 +1,6 @@
 package com.pietrantuono.podcasts.fullscreenplay.customcontrols
 
+import android.os.Bundle
 import android.os.RemoteException
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
@@ -8,9 +9,11 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.widget.SeekBar
 import models.pojos.Episode
+import player.playback.CustomActionResolver.Companion.CUSTOM_ACTION_DOWNLOAD_AND_ADD_TO_QUEUE
+import player.playback.CustomActionResolver.Companion.EXTRA_EPISODE_URI
 
 class CustomControlsPresenter(
-        private val stausManager: StausManager,
+        private val stausManager: StatusManager,
         private val executorService: SimpleExecutor,
         private val viewUpdater: ViewUpdater,
         private val mediaBrowser: MediaBrowserCompatWrapper
@@ -87,13 +90,7 @@ class CustomControlsPresenter(
     }
 
     fun onPlayClicked() {
-        if (stausManager.dontNeedToDownload()) {
-            stausManager.onPausePlayClicked()
-            return
-        }
-        episode?.uri?.let {
-            sendCustomActionDownloadAndPlay(it)
-        }
+        stausManager.onPausePlayClicked()
     }
 
     fun play() {
@@ -152,7 +149,6 @@ class CustomControlsPresenter(
     fun startNewPodcast(uri: String?) {
         mediaBrowser?.stop()
         mediaBrowser?.playFromMediaId(uri)
-
     }
 
     fun getPlaybackState(): PlaybackStateCompat? {
@@ -172,10 +168,10 @@ class CustomControlsPresenter(
     }
 
     fun sendCustomActionDownloadAndPlay(uri: String) {
-        TODO("implement me!!!!")
-        //mediaBrowser.sendCustomAction()
-        //downloader.downloadAndPlayFromUri(it)
-        //viewUpdater.snack(stausManager.episode?.title)
+        val bundle = Bundle()
+        bundle.putString(EXTRA_EPISODE_URI, uri)
+        mediaBrowser.sendCustomAction(CUSTOM_ACTION_DOWNLOAD_AND_ADD_TO_QUEUE, bundle, null)
+        viewUpdater.snack(stausManager.episode?.title)
     }
 
 }

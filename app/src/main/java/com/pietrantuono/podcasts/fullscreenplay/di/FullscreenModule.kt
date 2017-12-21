@@ -42,14 +42,14 @@ class FullscreenModule(private val activity: FragmentActivity) {
     }
 
     @Provides
-    fun provideCustomControlsPresenter(resolver: StausManager, executor: SimpleExecutor, downloader: Downloader, updater: ViewUpdater, wrapper: MediaBrowserCompatWrapper) =
+    fun provideCustomControlsPresenter(resolver: StatusManager, executor: SimpleExecutor, downloader: Downloader, updater: ViewUpdater, wrapper: MediaBrowserCompatWrapper) =
             CustomControlsPresenter(resolver, executor, updater, wrapper)
 
     @Provides
     fun provideExecutor() = SimpleExecutor(Executors.newSingleThreadScheduledExecutor(), Handler())
 
     @Provides
-    fun provideStateResolver() = StausManager()
+    fun provideStateResolver() = StatusManager()
 
     @Provides
     fun provideViewUpdater(context: Context, calculator: PositionCalculator) = ViewUpdater(context, calculator)

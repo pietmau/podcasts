@@ -5,7 +5,7 @@ import android.support.v4.media.session.PlaybackStateCompat.*
 import models.pojos.Episode
 
 
-class StausManager {
+class StatusManager {
     var episode: Episode? = null
     var callback: CustomControlsPresenter? = null
     private var config: CustomControls.Configuration? = null
@@ -58,8 +58,6 @@ class StausManager {
         } else {
             episode?.uri?.let {
                 callback?.sendCustomActionDownloadAndPlay(it)
-                //downloader.downloadAndPlayFromUri(it)
-                //viewUpdater.snack(configurationManager.episode?.title)
             }
         }
     }
