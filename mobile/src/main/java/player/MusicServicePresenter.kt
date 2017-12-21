@@ -13,7 +13,9 @@ import player.playback.PlaybackManager
 class MusicServicePresenter(
         private val mSession: MediaSessionCompat,
         private val mPlaybackManager: PlaybackManager,
-        private val mDelayedStopHandler: DelayedStopHandler) {
+        private val mDelayedStopHandler: DelayedStopHandler,
+        private val otherActions: OtherActions
+        ) {
 
     init {
         this.mDelayedStopHandler.setPresenter(this)
@@ -88,6 +90,7 @@ class MusicServicePresenter(
     }
 
     fun downloadAndAddToQueue(uri: String) {
-
+        otherActions.downloadAndAddToQueue(uri, service)
     }
+
 }
