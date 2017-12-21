@@ -48,7 +48,6 @@
         </activity>
 
         <service
-            android:process=":musicplayer"
             android:name="player.MusicService"
             android:exported="false"
             tools:replace="android:exported">
@@ -64,10 +63,19 @@
         </service>
 
         <service
-            android:process=":download"
+
             android:name=".downloader.service.DownloaderService"
             android:exported="false">
         </service>
+
+        <receiver
+            android:name=".downloader.service.CustomActionReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.pppp.podcasts.download_and_enqueue"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </receiver>
 
         <meta-data
             android:name="io.fabric.ApiKey"

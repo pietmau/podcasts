@@ -2,6 +2,7 @@ package com.pietrantuono.podcasts.fullscreenplay.customcontrols
 
 import android.content.ComponentName
 import android.content.Context
+import android.os.Bundle
 import android.os.RemoteException
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
@@ -103,5 +104,9 @@ class MediaBrowserCompatWrapper(private val context: Context) {
     fun unregisterCallback() {
         supportMediaController?.unregisterCallback(callback)
         callback = null
+    }
+
+    fun sendCustomAction(action: String, extra: Bundle?, callback: MediaBrowserCompat.CustomActionCallback?) {
+        supportMediaController?.transportControls?.sendCustomAction(action, extra)
     }
 }

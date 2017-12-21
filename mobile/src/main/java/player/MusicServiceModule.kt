@@ -42,8 +42,7 @@ class MusicServiceModule(private val musicService: MusicService) {
 
     @Singleton
     @Provides
-    fun providesPlaybackManager(musicProvider: MusicProvider, playback: Playback, mMusicProvider:
-    MusicProvider, mSession: MediaSessionCompat, queueHelper: QueueHelper, playbackStateUpdater: PlaybackStateUpdater): PlaybackManager {
+    fun providesPlaybackManager(playback: Playback, mMusicProvider: MusicProvider, mSession: MediaSessionCompat, queueHelper: QueueHelper, playbackStateUpdater: PlaybackStateUpdater, customActionResolver: CustomActionResolver): PlaybackManager {
         var manager: PlaybackManager? = null
         val queueManager = QueueManager(mMusicProvider, context.getResources(),
                 object : QueueManager.MetadataUpdateListener {
@@ -64,20 +63,24 @@ class MusicServiceModule(private val musicService: MusicService) {
                         mSession.setQueueTitle(title)
                     }
                 }, queueHelper)
-        manager = PlaybackManager(musicService, musicProvider, queueManager, playback, playbackStateUpdater);
+        manager = PlaybackManager(musicService, queueManager, playback, playbackStateUpdater, customActionResolver);
         return manager!!
     }
 
     @Singleton
     @Provides
-    fun providePlaybackStateUpdater(provider: MusicProvider, playback: Playback)
-            = PlaybackStateUpdater(provider, context.getResources(), playback, musicService)
+    fun providePlaybackStateUpdater(provider: MusicProvider, playback: Playback) = PlaybackStateUpdater(provider, context.getResources(), playback, musicService)
 
     @Provides
-    fun provideDelayedStopHandler() = DelayedStopHandler()
+    fun provideDelayedStopHandler(playback: Playback) = DelayedStopHandler(playback)
 
     @Provides
-    fun provideMusicServicePresenter(mSession: MediaSessionCompat, mPlaybackManager: PlaybackManager,
-                                     mDelayedStopHandler: DelayedStopHandler) = MusicServicePresenter(mSession, mPlaybackManager, mDelayedStopHandler)
+    fun provideMusicServicePresenter(mSession: MediaSessionCompat, mPlaybackManager: PlaybackManager, mDelayedStopHandler: DelayedStopHandler, otherActions: OtherActions)
+            = MusicServicePresenter(mSession, mPlaybackManager, mDelayedStopHandler, otherActions)
 
+    @Provides
+    fun provideCustomActionResolver() = CustomActionResolver()
+
+    @Provides
+    fun provideOtherActions() = OtherActions()
 }

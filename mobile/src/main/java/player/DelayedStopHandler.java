@@ -6,14 +6,24 @@ import android.os.Message;
 
 import java.lang.ref.WeakReference;
 
+import player.playback.Playback;
+
 public class DelayedStopHandler extends Handler {
-    private WeakReference<MusicServicePresenter> mWeakReference;
+    private static final int STOP_DELAY = 30000;
+    private WeakReference<MusicServicePresenter> presenterWeakReference;
+    private WeakReference<Playback> playbackWeakReference;
+
+    public DelayedStopHandler(Playback playback) {
+        super();
+        playbackWeakReference = new WeakReference<Playback>(playback);
+    }
 
     @Override
     public void handleMessage(Message msg) {
-        MusicServicePresenter service = mWeakReference.get();
-        if (service != null && service.mPlaybackManager.getPlayback() != null) {
-            if (service.mPlaybackManager.getPlayback().isPlaying()) {
+        MusicServicePresenter service = presenterWeakReference.get();
+        Playback playback = playbackWeakReference.get();
+        if (service != null && playback != null) {
+            if (playback.isPlaying()) {
                 return;
             }
             service.stopSelf();
@@ -21,6 +31,12 @@ public class DelayedStopHandler extends Handler {
     }
 
     public void setPresenter(MusicServicePresenter musicServicePresenter) {
-        mWeakReference = new WeakReference<MusicServicePresenter>(musicServicePresenter);
+        presenterWeakReference = new WeakReference<MusicServicePresenter>(musicServicePresenter);
+    }
+
+    public void removeCallbacksAndMessagesAndSendEmptyMessage() {
+        removeCallbacksAndMessages(null);
+        sendEmptyMessageDelayed(0, STOP_DELAY);
+
     }
 }
