@@ -17,10 +17,10 @@ public class PlaybackStateUpdater {
     private final MusicProvider musicProvider;
     private final Resources resources;
     private final Playback playback;
-    private final PlaybackManager.PlaybackServiceCallback serviceCallback;
+    private final PlaybackServiceCallback serviceCallback;
 
     public PlaybackStateUpdater(MusicProvider musicProvider, Resources resources, Playback playback,
-                                PlaybackManager.PlaybackServiceCallback serviceCallback) {
+                                PlaybackServiceCallback serviceCallback) {
         this.musicProvider = musicProvider;
         this.resources = resources;
         this.playback = playback;

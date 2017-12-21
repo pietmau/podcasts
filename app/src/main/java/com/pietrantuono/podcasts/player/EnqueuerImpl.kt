@@ -9,7 +9,7 @@ import android.support.v4.media.session.MediaControllerCompat
 import com.tonyodev.fetch.request.RequestInfo
 import player.MusicService
 import player.playback.CustomActionResolver.Companion.CUSTOM_ACTION_ADD_TO_QUEUE
-import player.playback.PlaybackManager.EXTRA_EPISODE_URI
+import player.playback.CustomActionResolver.Companion.EXTRA_EPISODE_URI
 import repo.repository.EpisodesRepository
 import java.util.concurrent.CopyOnWriteArraySet
 

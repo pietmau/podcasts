@@ -23,16 +23,18 @@ import android.support.v4.media.MediaBrowserCompat.MediaItem;
 import android.support.v4.media.MediaBrowserServiceCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 import javax.inject.Inject;
 
-import player.playback.PlaybackManager;
+import player.playback.PlaybackServiceCallback;
 
 import static player.utils.MediaIDHelper.MEDIA_ID_EMPTY_ROOT;
 
 public class MusicService extends MediaBrowserServiceCompat implements CustomMediaService,
-        PlaybackManager.PlaybackServiceCallback {
+        PlaybackServiceCallback {
     @Inject MusicServicePresenter musicServicePresenter;
 
     @Override
@@ -83,5 +85,10 @@ public class MusicService extends MediaBrowserServiceCompat implements CustomMed
     @Override
     public void onPlaybackStateUpdated(PlaybackStateCompat newState) {
         musicServicePresenter.onPlaybackStateUpdated(newState);
+    }
+
+    @Override
+    public void downloadAndAddToQueue(@NotNull String uri) {
+        musicServicePresenter.downloadAndAddToQueue(uri);
     }
 }
