@@ -17,7 +17,7 @@ class PlaylistModelImpl(
         val subscription = Observable
                 .just(0)
                 .flatMapIterable {
-                    playlist.filter { it.description?.mediaId != null }
+                    playlist.filter { it.description.mediaId != null }
                             .map {
                                 repo.getEpisodeByUriAsObservable(it.description.mediaId!!)
                                         .map { it as RealmEpisode }

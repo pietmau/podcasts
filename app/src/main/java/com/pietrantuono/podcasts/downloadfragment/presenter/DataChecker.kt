@@ -19,7 +19,7 @@ class DataChecker {
     }
 
     fun onDataUpdate(feed: List<DownloadedPodcast>?) {
-        if (feed == null || feed?.size != this.currentFeed.size) {
+        if (feed == null || feed.size != this.currentFeed.size) {
             return
         }
         iterateOverFeeds(feed)
@@ -37,7 +37,7 @@ class DataChecker {
     private fun checkPodcasts(currentPodcast: DownloadedPodcast, newPodcast: DownloadedPodcast, i: Int) {
         if (currentPodcast != newPodcast) {
             presenter?.updatePodcast(i, newPodcast)
-            currentFeed?.set(i, newPodcast)
+            currentFeed.set(i, newPodcast)
         }
     }
 
@@ -50,7 +50,7 @@ class DataChecker {
         for (j in currentEpisodes.indices) {
             if (currentEpisodes[j].downloaded != newEpisodes[j].downloaded) {
                 presenter?.updateEpisode(i, j, newEpisodes[j])
-                currentFeed?.get(i)?.items?.set(j, newEpisodes[j])
+                currentFeed.get(i).items?.set(j, newEpisodes[j])
             }
         }
     }
@@ -61,6 +61,6 @@ class DataChecker {
         presenter?.onNewData(feed)
     }
 
-    fun thereIsNoPreviousData(): Boolean = this.currentFeed == null || this.currentFeed?.isEmpty() == true
+    fun thereIsNoPreviousData(): Boolean = this.currentFeed == null || this.currentFeed.isEmpty() == true
 
 }

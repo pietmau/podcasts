@@ -21,7 +21,7 @@ class SinglePodcastModelImpl(
 
     override fun startModel(podcast: Podcast?) {
         this.podcast = podcast
-        if (podcast != null && podcast.feedUrl != null) {
+        if (podcast?.feedUrl != null) {
             getFeed(podcast.feedUrl!!)
         }
     }

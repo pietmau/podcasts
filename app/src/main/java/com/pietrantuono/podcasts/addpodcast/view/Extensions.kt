@@ -12,7 +12,7 @@ fun Activity.hideKeyboard() {
     if (view == null) {
         view = View(this)
     }
-    imm!!.hideSoftInputFromWindow(view!!.windowToken, 0)
+    imm.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
 fun Fragment.hideKeyboard() {
@@ -21,5 +21,5 @@ fun Fragment.hideKeyboard() {
     if (view == null) {
         view = View(this.activity)
     }
-    imm!!.hideSoftInputFromWindow(view!!.windowToken, 0)
+    imm.hideSoftInputFromWindow(view.windowToken, 0)
 }

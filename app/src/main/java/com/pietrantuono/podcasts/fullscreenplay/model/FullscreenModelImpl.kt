@@ -26,8 +26,7 @@ class FullscreenModelImpl(private val repo: EpisodesRepository, private val mani
     }
 
     override fun subscribe(observer: Observer<in Episode?>) {
-        val subscription = observable
-                ?.observeOn(manithreadScheduler)
+        val subscription = observable.observeOn(manithreadScheduler)
                 ?.subscribe(observer)
         compositeSubscription?.add(subscription)
     }

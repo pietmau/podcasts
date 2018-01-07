@@ -70,7 +70,7 @@ class EpisodesListActivity : AbstractBaseDetailActivty(), EpisodesListView {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        return presenter.onPrepareOptionsMenu(menu!!)
+        return presenter.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

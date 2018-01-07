@@ -91,7 +91,7 @@ class AddPodcastPresenter(
     }
 
     fun onSaveInstanceState(memento: AddPodcastFragmentMemento) {
-        memento.isProgressShowing = addPodcastView?.isProgressShowing() ?: false
+        memento.isProgressShowing = addPodcastView?.isProgressShowing() == true
     }
 
     private fun showProgressBar(show: Boolean) {

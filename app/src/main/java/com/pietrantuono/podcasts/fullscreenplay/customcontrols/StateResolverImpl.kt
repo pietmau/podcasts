@@ -94,7 +94,7 @@ class StatusManager {
             if (episode?.downloaded == true) {
                 true
             } else {
-                config?.shouldStreamAudio ?: false
+                config?.shouldStreamAudio == true
             }
 
     fun setConfiguration(config: CustomControls.Configuration) {

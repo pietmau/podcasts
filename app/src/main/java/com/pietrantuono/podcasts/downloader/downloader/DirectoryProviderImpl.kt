@@ -25,7 +25,7 @@ class DirectoryProviderImpl(
         }
     }
 
-    private fun getInternalStorageDir() = context.getFilesDir().absolutePath
+    private fun getInternalStorageDir() = context.filesDir.absolutePath
 
     override fun thereIsEnoughSpace(fileSize: Long): Boolean = getUsableSpace() - SLACK_IN_BYTES > fileSize
 
@@ -33,9 +33,7 @@ class DirectoryProviderImpl(
 
     private fun externalStorageIsAvailable(): Boolean {
         val state = Environment.getExternalStorageState()
-        return if (Environment.MEDIA_MOUNTED.equals(state)) {
-            true
-        } else false
+        return Environment.MEDIA_MOUNTED.equals(state)
     }
 
     fun getExternalStorageDir(): String? = context.getExternalFilesDir(null)?.absolutePath

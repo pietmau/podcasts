@@ -25,7 +25,7 @@ class FullscreenModule(private val activity: FragmentActivity) {
 
     @Provides
     fun provideFullscreenPresenter(model: FullscreenModel, factory: FullscreenPresenterFactory): FullscreenPresenter {
-        return ViewModelProviders.of(activity, factory).get(FullscreenPresenter::class.java);
+        return ViewModelProviders.of(activity, factory).get(FullscreenPresenter::class.java)
     }
 
     @Provides

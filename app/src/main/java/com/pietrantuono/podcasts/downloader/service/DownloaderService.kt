@@ -9,7 +9,7 @@ import com.pietrantuono.podcasts.player.Enqueuer
 import com.tonyodev.fetch.request.RequestInfo
 import javax.inject.Inject
 
-class DownloaderService() : SimpleService(), Fetcher.Callback {
+class DownloaderService : SimpleService(), Fetcher.Callback {
     @Inject lateinit var dowloaderDelter: DowloaderDeleter
     @Inject lateinit var notificator: DownloadNotificator
     @Inject lateinit var enqueuer: Enqueuer

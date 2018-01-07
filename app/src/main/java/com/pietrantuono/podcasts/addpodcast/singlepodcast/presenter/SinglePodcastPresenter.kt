@@ -88,7 +88,7 @@ class SinglePodcastPresenter(
         } else {
             view?.exitWithoutSharedTransition()
         }
-        return true;
+        return true
     }
 
 

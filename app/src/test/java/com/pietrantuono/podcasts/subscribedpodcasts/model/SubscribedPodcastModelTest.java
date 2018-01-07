@@ -1,6 +1,5 @@
 package com.pietrantuono.podcasts.subscribedpodcasts.model;
 
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +11,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
+import models.pojos.Podcast;
+import repo.repository.PodcastRepo;
 import rx.Observable;
 import rx.observers.TestObserver;
 

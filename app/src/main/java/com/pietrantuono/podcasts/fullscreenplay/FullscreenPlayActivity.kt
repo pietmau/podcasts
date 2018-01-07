@@ -46,9 +46,9 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
         overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_top)
     }
 
-    private fun getShouldStream(intent: Intent?, savedState: Bundle?) = savedState?.getBoolean(SHOULD_STREAM_AUDIO) ?: (intent?.getBooleanExtra(SHOULD_STREAM_AUDIO, false) ?: false)
+    private fun getShouldStream(intent: Intent?, savedState: Bundle?) = savedState?.getBoolean(SHOULD_STREAM_AUDIO) ?: (intent?.getBooleanExtra(SHOULD_STREAM_AUDIO, false) == true)
 
-    private fun getUri(intent: Intent, savedState: Bundle?): String? = savedState?.getString(URI) ?: intent?.getStringExtra(EPISODE_URI)
+    private fun getUri(intent: Intent, savedState: Bundle?): String? = savedState?.getString(URI) ?: intent.getStringExtra(EPISODE_URI)
 
     private fun initViews() {
         ButterKnife.bind(this@FullscreenPlayActivity)

@@ -39,13 +39,13 @@ class DownloadFragmentPresenter(
 
     override fun downloadEpisode(downloadedEpisode: DownloadedEpisode?) {
         downloadedEpisode?.uri ?: return
-        downloadedEpisode?.title ?: return
+        downloadedEpisode.title ?: return
         val message = messageCreator.confirmDownloadEpisode(downloadedEpisode.title)
         view?.confirmDownloadEpisode(message, downloadedEpisode.uri)
     }
 
     override fun downloadAllEpisodes(downloadedPodcast: DownloadedPodcast?) {
-        if (downloadedPodcast?.title == null || downloadedPodcast?.trackId == null) {
+        if (downloadedPodcast?.title == null || downloadedPodcast.trackId == null) {
             return
         }
         val message = messageCreator.confirmDownloadAllEpisodes(downloadedPodcast.title)
@@ -53,7 +53,7 @@ class DownloadFragmentPresenter(
     }
 
     override fun deleteEpisode(downloadedEpisode: DownloadedEpisode?) {
-        if (downloadedEpisode?.title == null || downloadedEpisode?.link == null) {
+        if (downloadedEpisode?.title == null || downloadedEpisode.link == null) {
             return
         }
         val message = messageCreator.confirmDeleteEpisode(downloadedEpisode.title)
@@ -61,7 +61,7 @@ class DownloadFragmentPresenter(
     }
 
     override fun deleteAllEpisodes(podcast: DownloadedPodcast?) {
-        if (podcast?.title == null || podcast?.trackId == null) {
+        if (podcast?.title == null || podcast.trackId == null) {
             return
         }
         val message = messageCreator.confirmDeleteAllEpisode(podcast.title)

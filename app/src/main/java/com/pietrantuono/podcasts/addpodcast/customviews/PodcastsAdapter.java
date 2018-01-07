@@ -22,7 +22,7 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> {
     private final List<Podcast> publishedItems;
     private final SimpleImageLoader imageLoader;
     @NonNull private OnItemClickedClickedListener onItemClickedClickedListener;
-    @NonNull private ResourcesProvider resolver;
+    @NonNull private final ResourcesProvider resolver;
 
     public PodcastsAdapter(@NonNull SimpleImageLoader imageLoader, @NonNull ResourcesProvider resolver) {
         this.imageLoader = imageLoader;
@@ -53,7 +53,7 @@ public class PodcastsAdapter extends RecyclerView.Adapter<PodcastHolder> {
         setPublishedItems(items);
     }
 
-    public void setPublishedItems(List<Podcast> items) {
+    private void setPublishedItems(List<Podcast> items) {
         publishedItems.clear();
         publishedItems.addAll(items);
         notifyDataSetChanged();

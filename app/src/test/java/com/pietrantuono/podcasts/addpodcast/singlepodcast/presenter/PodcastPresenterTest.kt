@@ -6,10 +6,10 @@ import com.nhaarman.mockito_kotlin.argumentCaptor
 import com.nhaarman.mockito_kotlin.isA
 import com.pietrantuono.podcasts.CrashlyticsWrapper
 import com.pietrantuono.podcasts.R
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastModel
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.SinglePodcastView
 import com.pietrantuono.podcasts.apis.PodcastFeed
+import models.pojos.Podcast
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

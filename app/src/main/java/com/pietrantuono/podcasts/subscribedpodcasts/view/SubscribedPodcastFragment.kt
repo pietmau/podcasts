@@ -78,8 +78,8 @@ class SubscribedPodcastFragment : Fragment(), SubscribedPodcastView {
 
     private fun getDetailActivityIntent(podcast: Podcast): Intent {
         val intent = Intent(activity, EpisodesListActivity::class.java)
-        intent.putExtra(SINGLE_PODCAST_TRACK_ID, podcast?.trackId)
-        intent.putExtra(ARTWORK, podcast?.artworkUrl600)
+        intent.putExtra(SINGLE_PODCAST_TRACK_ID, podcast.trackId)
+        intent.putExtra(ARTWORK, podcast.artworkUrl600)
         return intent
     }
 
