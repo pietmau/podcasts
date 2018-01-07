@@ -7,11 +7,14 @@ import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
 import models.pojos.Episode
 
-class PlaylistAdapter(private val resources: ResourcesProvider) : RecyclerView.Adapter<PlaylistHolder>() {
+class PlaylistAdapter(
+        private val resources: ResourcesProvider,
+        private val callback: ((Episode) -> Unit)?)
+    : RecyclerView.Adapter<PlaylistHolder>() {
     private val playlist = mutableListOf<Episode>()
 
     override fun onBindViewHolder(holder: PlaylistHolder?, position: Int) {
-        holder?.bind(playlist[position])
+        holder?.bind(playlist[position], callback)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): PlaylistHolder {
@@ -26,6 +29,4 @@ class PlaylistAdapter(private val resources: ResourcesProvider) : RecyclerView.A
         playlist.add(episode)
         notifyItemInserted(playlist.size - 1)
     }
-
-
 }

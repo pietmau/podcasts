@@ -9,14 +9,21 @@ import models.pojos.Episode
 
 
 class PlaylistRecycler(context: Context, attrs: AttributeSet?) : RecyclerView(context, attrs) {
+    var callback: ((Episode) -> Unit)? = null
+        set(value) {
+            adapter = PlaylistAdapter(ResourcesProvider(context), value)
+        }
 
     init {
         layoutManager = LinearLayoutManager(context)
-        adapter = PlaylistAdapter(ResourcesProvider(context))
     }
 
     fun addEpisode(episode: Episode) {
         (adapter as PlaylistAdapter).addEpisode(episode)
+    }
+
+    interface OnItemClickListener {
+        fun onItemClicked(episode: Episode)
     }
 
 }

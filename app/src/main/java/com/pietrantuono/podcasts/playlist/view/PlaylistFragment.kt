@@ -10,10 +10,14 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.application.App
+import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayActivity
 import com.pietrantuono.podcasts.playlist.di.PlaylistModule
 import com.pietrantuono.podcasts.playlist.presenter.PlaylistPresenter
 import com.pietrantuono.podcasts.playlist.view.custom.PlaylistRecycler
+import com.pietrantuono.podcasts.utils.ARTWORK
+import com.pietrantuono.podcasts.utils.EPISODE_URI
 import models.pojos.Episode
+import org.jetbrains.anko.intentFor
 import javax.inject.Inject
 
 class PlaylistFragment : Fragment(), PlayListView {
@@ -31,6 +35,9 @@ class PlaylistFragment : Fragment(), PlayListView {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.playlist_fragment, container, false)
         ButterKnife.bind(this, view!!)
+        recycler.callback = { episode ->
+            activity.startActivity(activity.intentFor<FullscreenPlayActivity>(EPISODE_URI to episode.uri, ARTWORK to episode.imageUrl, FullscreenPlayActivity.SHOULD_STREAM_AUDIO to true))
+        }
         return view
     }
 

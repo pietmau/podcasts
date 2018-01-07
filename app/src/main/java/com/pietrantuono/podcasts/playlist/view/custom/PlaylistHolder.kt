@@ -20,16 +20,13 @@ class PlaylistHolder(
         dataBinding = DataBindingUtil.bind<ViewDataBinding>(itemView) as PlaylistItemBinding
     }
 
-    fun bind(episode: Episode) {
+    fun bind(episode: Episode, onItemClickListener: ((Episode) -> Unit)?) {
         val podcastEpisodeViewModel = EpisodeViewModel(episode, resourcesProvider)
         dataBinding.setVariable(BR.viewModel, podcastEpisodeViewModel)
         dataBinding.executePendingBindings()
-//        dataBinding.root.setOnClickListener {
-//            onItemClickListener?.onItemClicked(episode, dataBinding.imageLayout!!.singlePodcastImage, position)
-//        }
-//        dataBinding.content?.image?.setOnClickListener {
-//            onDownloadImageClickListener?.onDownloadClicked(episode)
-//        }
+        dataBinding.root.setOnClickListener {
+            onItemClickListener?.invoke(episode)
+        }
     }
 
 }
