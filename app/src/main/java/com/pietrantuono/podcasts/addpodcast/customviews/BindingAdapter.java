@@ -5,7 +5,7 @@ import android.widget.ImageView;
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader;
 
 public class BindingAdapter {
-    private static SimpleImageLoader simpleImageLoader = new SimpleImageLoader();
+    private static final SimpleImageLoader simpleImageLoader = new SimpleImageLoader();
     /**
      * This needs to be static https://developer.android.com/reference/android/databinding/BindingAdapter.html
      */

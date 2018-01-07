@@ -167,7 +167,7 @@ public class CustomPlaybackControlView extends FrameLayout {
          * @param playWhenReady Whether playback should proceed when ready.
          * @return True if the operation was dispatched. False if suppressed.
          */
-        boolean dispatchSetPlayWhenReady(ExoPlayer player, boolean playWhenReady);
+        void dispatchSetPlayWhenReady(ExoPlayer player, boolean playWhenReady);
 
         /**
          * Dispatches a {@link ExoPlayer#seekTo(int, long)} operation.
@@ -186,12 +186,11 @@ public class CustomPlaybackControlView extends FrameLayout {
      * Default {@link ControlDispatcher} that dispatches operations to the enqueuer without
      * modification.
      */
-    public static final ControlDispatcher DEFAULT_CONTROL_DISPATCHER = new ControlDispatcher() {
+    private static final ControlDispatcher DEFAULT_CONTROL_DISPATCHER = new ControlDispatcher() {
 
         @Override
-        public boolean dispatchSetPlayWhenReady(ExoPlayer player, boolean playWhenReady) {
+        public void dispatchSetPlayWhenReady(ExoPlayer player, boolean playWhenReady) {
             player.setPlayWhenReady(playWhenReady);
-            return true;
         }
 
         @Override
@@ -202,14 +201,14 @@ public class CustomPlaybackControlView extends FrameLayout {
 
     };
 
-    public static final int DEFAULT_FAST_FORWARD_MS = 15000;
-    public static final int DEFAULT_REWIND_MS = 5000;
-    public static final int DEFAULT_SHOW_TIMEOUT_MS = 5000;
+    private static final int DEFAULT_FAST_FORWARD_MS = 15000;
+    private static final int DEFAULT_REWIND_MS = 5000;
+    private static final int DEFAULT_SHOW_TIMEOUT_MS = 5000;
 
     /**
      * The maximum number of windows that can be shown in a multi-window time bar.
      */
-    public static final int MAX_WINDOWS_FOR_MULTI_WINDOW_TIME_BAR = 100;
+    private static final int MAX_WINDOWS_FOR_MULTI_WINDOW_TIME_BAR = 100;
 
     private static final long MAX_POSITION_FOR_SEEK_TO_PREVIOUS = 3000;
 
@@ -454,7 +453,7 @@ public class CustomPlaybackControlView extends FrameLayout {
     /**
      * Hides the controller.
      */
-    public void hide() {
+    private void hide() {
         if (isVisible()) {
             setVisibility(GONE);
             if (visibilityListener != null) {
@@ -469,7 +468,7 @@ public class CustomPlaybackControlView extends FrameLayout {
     /**
      * Returns whether the controller is currently visible.
      */
-    public boolean isVisible() {
+    private boolean isVisible() {
         return getVisibility() == VISIBLE;
     }
 
@@ -797,7 +796,7 @@ public class CustomPlaybackControlView extends FrameLayout {
      * @param event A key event.
      * @return Whether the key event was handled.
      */
-    public boolean dispatchMediaKeyEvent(KeyEvent event) {
+    private boolean dispatchMediaKeyEvent(KeyEvent event) {
         int keyCode = event.getKeyCode();
         if (player == null || !isHandledMediaKey(keyCode)) {
             return false;

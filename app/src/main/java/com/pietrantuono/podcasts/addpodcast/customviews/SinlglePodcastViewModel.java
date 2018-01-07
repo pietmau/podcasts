@@ -10,7 +10,7 @@ import java.util.Date;
 import models.pojos.Podcast;
 
 public class SinlglePodcastViewModel {
-    private ResourcesProvider resourcesProvider;
+    private final ResourcesProvider resourcesProvider;
     private final Podcast podcast;
 
     public SinlglePodcastViewModel(Podcast podcast, ResourcesProvider resourcesProvider) {
