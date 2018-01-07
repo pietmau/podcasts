@@ -37,8 +37,8 @@ class PodcastDowloadHolder(private val binding: DownloadGroupItemBinding) : Grou
     private fun showPopup(view: View?) {
         view?.let {
             PopupMenu(it.context, it).apply {
-                setOnMenuItemClickListener { menuItem -> onMenuItemClicked(menuItem) };
-                getMenuInflater().inflate(R.menu.downloaded_podcast_popup, menu)
+                setOnMenuItemClickListener { menuItem -> onMenuItemClicked(menuItem) }
+                menuInflater.inflate(R.menu.downloaded_podcast_popup, menu)
                 removeUnusedItem(menu)
                 show()
             }

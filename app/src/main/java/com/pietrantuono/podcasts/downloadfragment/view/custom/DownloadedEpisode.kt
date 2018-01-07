@@ -37,8 +37,7 @@ data class DownloadedEpisode(
             parcel.readByte() != 0.toByte(),
             parcel.readString(),
             parcel.readString(),
-            TODO("resources"), 0) {
-    }
+            TODO("resources"), 0)
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         throw UnsupportedOperationException()
@@ -61,7 +60,7 @@ data class DownloadedEpisode(
             val title = episode.title
             val link = episode.link
             val dowloanded = episode.downloaded
-            val sizeinkb = NumberFormat.getInstance().format(episode.fileSizeInBytes / (1024));
+            val sizeinkb = NumberFormat.getInstance().format(episode.fileSizeInBytes / (1024))
             val uri = episode.uri
             val downloadRequestId = episode.downloadRequestId
             return DownloadedEpisode(title, link, dowloanded, sizeinkb, uri, resources, downloadRequestId)

@@ -22,12 +22,12 @@ class App : MultiDexApplication(), ServiceConnection {
 
     override fun onCreate() {
         super.onCreate()
-        Stetho.initializeWithDefaults(this);
+        Stetho.initializeWithDefaults(this)
         if (LeakCanary.isInAnalyzerProcess(this)) {
-            return;
+            return
         }
         Fabric.with(applicationContext, Crashlytics())
-        LeakCanary.install(this);
+        LeakCanary.install(this)
         Realm.init(this)
         appComponent = DaggerApplicationComponent.builder().appModule(AppModule(this))
                 .imageLoaderModule(ImageLoaderModule(this)).build()

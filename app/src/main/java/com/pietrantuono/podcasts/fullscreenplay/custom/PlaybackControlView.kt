@@ -20,10 +20,6 @@ class PlaybackControlView : CustomPlaybackControlView {
         player = null
     }
 
-    override fun setCallback(callback: Callback) {
-        super.setCallback(callback)
-    }
-
     interface Callback {
         fun onPlayClicked()
         fun onPlayerError(errorMessage: CharSequence?)

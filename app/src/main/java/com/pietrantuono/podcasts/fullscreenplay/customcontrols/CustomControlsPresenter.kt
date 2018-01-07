@@ -147,16 +147,16 @@ class CustomControlsPresenter(
     }
 
     fun startNewPodcast(uri: String?) {
-        mediaBrowser?.stop()
-        mediaBrowser?.playFromMediaId(uri)
+        mediaBrowser.stop()
+        mediaBrowser.playFromMediaId(uri)
     }
 
     fun getPlaybackState(): PlaybackStateCompat? {
-        return mediaBrowser?.playbackState
+        return mediaBrowser.playbackState
     }
 
     fun getCurrentlyPlayingMediaId(): String? {
-        return mediaBrowser?.metadata?.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
+        return mediaBrowser.metadata?.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
     }
 
     fun unbindView() {

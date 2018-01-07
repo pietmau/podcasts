@@ -43,8 +43,8 @@ class PlaylistPresenter(
 
     fun unbind() {
         mediaBrowserCompatWrapper.onStop()
-        mediaBrowserCompatWrapper?.unsubscribe(mediaSubscriptionCallback)
-        mediaBrowserCompatWrapper?.unregisterCallback()
+        mediaBrowserCompatWrapper.unsubscribe(mediaSubscriptionCallback)
+        mediaBrowserCompatWrapper.unregisterCallback()
     }
 
     override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {

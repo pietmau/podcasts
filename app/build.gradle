@@ -135,7 +135,7 @@ dependencies {
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
     compile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {
-        transitive = true;
+        transitive = true
     }
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.thoughtbot:expandablerecyclerview:1.3'

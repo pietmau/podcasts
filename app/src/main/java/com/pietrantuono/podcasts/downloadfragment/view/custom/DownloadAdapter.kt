@@ -13,7 +13,7 @@ class DownloadAdapter(
 
     override fun onCreateChildViewHolder(parent: ViewGroup?, viewType: Int): EpisodeDownloadHolder {
         val inflater = LayoutInflater.from(parent?.context)
-        val binding = DownloadEpisodeItemBinding.inflate(inflater, parent, false);
+        val binding = DownloadEpisodeItemBinding.inflate(inflater, parent, false)
         return EpisodeDownloadHolder(binding)
     }
 
@@ -27,7 +27,7 @@ class DownloadAdapter(
 
     override fun onCreateGroupViewHolder(parent: ViewGroup?, viewType: Int): PodcastDowloadHolder {
         val inflater = LayoutInflater.from(parent?.context)
-        val binding = DownloadGroupItemBinding.inflate(inflater, parent, false);
+        val binding = DownloadGroupItemBinding.inflate(inflater, parent, false)
         return PodcastDowloadHolder(binding)
     }
 

@@ -24,7 +24,7 @@ abstract class AbstractBaseDetailActivty : AbstractPlaybackControlsActivity(), B
     var title: String?
         get() = toolbar?.title?.toString()
         set(string) {
-            toolbar?.let { it.setTitle(string) }
+            toolbar?.let { it.title = string }
         }
 
     protected fun setUpActionBar() {
@@ -71,7 +71,7 @@ abstract class AbstractBaseDetailActivty : AbstractPlaybackControlsActivity(), B
     }
 
     override fun onColorExtractionCompleted() {
-        colorExtractor.backgroundColor?.let { getSupportActionBar()?.setBackgroundDrawable(ColorDrawable(it)); }
+        colorExtractor.backgroundColor?.let { supportActionBar?.setBackgroundDrawable(ColorDrawable(it)); }
         startTransitionPostponed()
     }
 

@@ -24,7 +24,7 @@ class SinglePodcastModule {
         this.activity = activity
     }
 
-    constructor() {}
+    constructor()
 
     @Provides
     fun provideSinglePodcastPresenter(factory: SinglePodcastPresenterFactory): SinglePodcastPresenter =

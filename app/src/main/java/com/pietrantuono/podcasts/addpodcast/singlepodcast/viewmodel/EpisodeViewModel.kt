@@ -66,7 +66,7 @@ class EpisodeViewModel(episode: Episode, private val resourcesProvider: Resource
 
     private fun fromHtml(text: String?): String? = text?.let {
         Html.fromHtml(text).toString().replace('\n', 32.toChar())
-                .replace(160.toChar(), 32.toChar()).replace(65532.toChar(), 32.toChar()).trim();
+                .replace(160.toChar(), 32.toChar()).replace(65532.toChar(), 32.toChar()).trim()
     } ?: null
 
 }

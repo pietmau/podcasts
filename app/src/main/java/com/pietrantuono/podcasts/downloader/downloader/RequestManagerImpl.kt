@@ -30,8 +30,8 @@ class RequestManagerImpl
     private fun getRequest(episode: Episode?): Request? {
         if (episode != null) {
             val enclosures = episode.enclosures
-            if (enclosures != null && !enclosures!!.isEmpty()) {
-                return enclosures!![0].url?.let {
+            if (enclosures != null && !enclosures.isEmpty()) {
+                return enclosures[0].url?.let {
                     makeRequest(it)
                 }
             }

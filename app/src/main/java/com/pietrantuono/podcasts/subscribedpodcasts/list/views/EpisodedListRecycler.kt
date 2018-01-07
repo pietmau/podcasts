@@ -30,7 +30,7 @@ class EpisodedListRecycler : RecyclerView {
     }
 
     fun setItems(episodes: List<Episode>) {
-        adapter?.setItems(episodes)
+        adapter.setItems(episodes)
     }
 
     private fun init() {
@@ -52,7 +52,7 @@ class EpisodedListRecycler : RecyclerView {
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
         onItemClickListener = listener
-        adapter!!.onItemClickListener = listener
+        adapter.onItemClickListener = listener
     }
 
     fun isPartiallyHidden(position: Int): Boolean {

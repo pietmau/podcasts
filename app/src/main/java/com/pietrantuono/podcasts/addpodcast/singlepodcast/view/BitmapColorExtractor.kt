@@ -52,11 +52,11 @@ class BitmapColorExtractor() : SimpleImageLoadingListener(), Parcelable {
     }
 
     private fun getMutedSwatch(palette: Palette): Palette.Swatch? {
-        return (palette?.darkMutedSwatch) ?: (palette?.mutedSwatch ?: palette?.lightMutedSwatch)
+        return (palette.darkMutedSwatch) ?: (palette.mutedSwatch ?: palette.lightMutedSwatch)
     }
 
     private fun getVibrantSwatch(palette: Palette): Palette.Swatch? {
-        return (palette?.vibrantSwatch) ?: (palette?.darkVibrantSwatch ?: palette?.lightMutedSwatch)
+        return (palette.vibrantSwatch) ?: (palette.darkVibrantSwatch ?: palette.lightMutedSwatch)
     }
 
     interface Callback {

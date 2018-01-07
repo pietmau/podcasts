@@ -13,7 +13,7 @@ class PreferencesManagerImpl(
         private val resourcesProvider: ResourcesProvider) : PreferencesManager {
 
     init {
-        PreferenceManager.setDefaultValues(context, R.xml.preferences, false);
+        PreferenceManager.setDefaultValues(context, R.xml.preferences, false)
     }
 
     override val saveOnSdCard: Boolean

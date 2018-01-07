@@ -20,8 +20,8 @@ class KillSwitchActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.kill_switch);
-        ButterKnife.bind(this);
+        setContentView(R.layout.kill_switch)
+        ButterKnife.bind(this)
         setFields()
     }
 
