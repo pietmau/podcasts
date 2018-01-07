@@ -1,6 +1,5 @@
 package com.pietrantuono.podcasts.subscribedpodcasts.presenter;
 
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast;
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker;
 import com.pietrantuono.podcasts.subscribedpodcasts.model.SubscribedPodcastModel;
 import com.pietrantuono.podcasts.subscribedpodcasts.view.SubscribedPodcastView;
@@ -17,6 +16,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
+import models.pojos.Podcast;
 import rx.Observer;
 
 import static org.mockito.ArgumentMatchers.isA;

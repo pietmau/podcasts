@@ -2,10 +2,10 @@ package com.pietrantuono.podcasts.addpodcast.presenter
 
 import com.pietrantuono.podcasts.addpodcast.model.AddPodcastsModel
 import com.pietrantuono.podcasts.addpodcast.model.SearchResult
-import com.pietrantuono.podcasts.addpodcast.model.pojos.Podcast
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastFragmentMemento
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastView
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
+import models.pojos.Podcast
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -115,7 +115,7 @@ class AddPodcastPresenterTest {
         /*
         * WHEN
         */
-        `when`(view.isProgressShowing).thenReturn(true)
+        `when`(view.isProgressShowing()).thenReturn(true)
         addPodcastPresenter.onSaveInstanceState(memento)
         /*
         * THEN
