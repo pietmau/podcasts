@@ -12,6 +12,7 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.dagger.SinglePodcastMo
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SinglePodcastPresenter
 import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayActivity
+import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayActivity.Companion.SHOULD_STREAM_AUDIO
 import com.pietrantuono.podcasts.utils.ARTWORK
 import com.pietrantuono.podcasts.utils.EPISODE_URI
 import models.pojos.Episode
@@ -115,6 +116,6 @@ class AddSinglePodcastActivity : AbstractBaseDetailActivty(), SinglePodcastView,
     }
 
     override fun onItemClick(episode: Episode) {
-        startActivity(intentFor<FullscreenPlayActivity>(EPISODE_URI to episode.uri, ARTWORK to episode.imageUrl))
+        startActivity(intentFor<FullscreenPlayActivity>(EPISODE_URI to episode.uri, ARTWORK to episode.imageUrl, SHOULD_STREAM_AUDIO to true))
     }
 }

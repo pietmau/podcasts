@@ -20,12 +20,15 @@ import models.pojos.Episode
 import javax.inject.Inject
 
 class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
+    companion object {
+        const val SHOULD_STREAM_AUDIO = "should_stream"
+    }
+
     @Inject lateinit var presenter: FullscreenPresenter
     @BindView(R.id.control) lateinit var controlView: CustomControlsImpl
     @BindView(R.id.episodeView) lateinit var episodeView: EpisodeView
     @BindView(R.id.root) lateinit var root: View
     private val URI: String? = "uri"
-    private val SHOULD_STREAM_AUDIO: String? = "download"
     private var uri: String? = null
     private var shouldStream = false
 
@@ -43,15 +46,9 @@ class FullscreenPlayActivity : AbstractBaseDetailActivty(), FullscreenPlayView {
         overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_top)
     }
 
-    private fun getShouldStream(intent: Intent?, savedState: Bundle?): Boolean =
-            if (savedState != null) {
-                savedState.getBoolean(SHOULD_STREAM_AUDIO)
-            } else {
-                intent?.getBooleanExtra(SHOULD_STREAM_AUDIO, false) ?: false
-            }
+    private fun getShouldStream(intent: Intent?, savedState: Bundle?) = savedState?.getBoolean(SHOULD_STREAM_AUDIO) ?: (intent?.getBooleanExtra(SHOULD_STREAM_AUDIO, false) ?: false)
 
-    private fun getUri(intent: Intent, savedState: Bundle?): String?
-            = savedState?.getString(URI) ?: intent?.getStringExtra(EPISODE_URI)
+    private fun getUri(intent: Intent, savedState: Bundle?): String? = savedState?.getString(URI) ?: intent?.getStringExtra(EPISODE_URI)
 
     private fun initViews() {
         ButterKnife.bind(this@FullscreenPlayActivity)
