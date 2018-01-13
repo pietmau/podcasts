@@ -6,13 +6,17 @@ import com.pietrantuono.podcasts.GenericPresenter
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastModel
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.SinglePodcastView
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
 import com.pietrantuono.podcasts.apis.PodcastFeed
 import models.pojos.Podcast
 import rx.Observer
+import java.util.concurrent.TimeoutException
 
 class SinglePodcastPresenter(
         private val model: SinglePodcastModel,
-        private val crashlyticsWrapper: CrashlyticsWrapper) : GenericPresenter, ViewModel() {
+        private val crashlyticsWrapper: CrashlyticsWrapper,
+        private val resources: ResourcesProvider
+) : GenericPresenter, ViewModel() {
     private var view: SinglePodcastView? = null
     private var podcastFeed: PodcastFeed? = null
     private var startedWithTransition: Boolean? = false
@@ -38,25 +42,43 @@ class SinglePodcastPresenter(
     }
 
     override fun onResume() {
+        view?.showProgress(true)
         model.subscribeToFeed(object : Observer<PodcastFeed> {
             override fun onCompleted() {
-                view?.showProgress(false)
+                this@SinglePodcastPresenter.onCompleted()
             }
 
             override fun onError(throwable: Throwable?) {
-                crashlyticsWrapper.logException(throwable)
-                view?.showProgress(false)
+                this@SinglePodcastPresenter.onError(throwable)
             }
 
             override fun onNext(podcastFeed: PodcastFeed?) {
-                if (this@SinglePodcastPresenter.podcastFeed == null) {
-                    this@SinglePodcastPresenter.podcastFeed = podcastFeed
-                    setEpisodes()
-                }
-                model.saveFeed(podcastFeed)
+                this@SinglePodcastPresenter.onNext(podcastFeed)
             }
         })
         model.subscribeToIsSubscribedToPodcast(observer)
+    }
+
+    private fun onNext(podcastFeed: PodcastFeed?) {
+        if (this.podcastFeed == null) {
+            this.podcastFeed = podcastFeed
+            setEpisodes()
+        }
+        model.saveFeed(podcastFeed)
+    }
+
+    private fun onCompleted() {
+        view?.showProgress(false)
+        view?.enablePullToRefresh(false)
+    }
+
+    private fun onError(throwable: Throwable?) {
+        view?.showProgress(false)
+        if (throwable is TimeoutException) {
+            view?.onError(resources.getString(R.string.time_out))
+            return
+        }
+        view?.onError(throwable?.localizedMessage)
     }
 
     fun bindView(view: SinglePodcastView) {
@@ -77,6 +99,7 @@ class SinglePodcastPresenter(
     }
 
     private fun setEpisodes() {
+        view?.showProgress(false)
         podcastFeed?.episodes?.let {
             view?.setEpisodes(it)
         }
@@ -104,6 +127,11 @@ class SinglePodcastPresenter(
             }
         }
         return false
+    }
+
+    fun onRefresh() {
+
+
     }
 
 }

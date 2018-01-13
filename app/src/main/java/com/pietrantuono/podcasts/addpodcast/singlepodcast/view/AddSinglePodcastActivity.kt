@@ -2,6 +2,11 @@ package com.pietrantuono.podcasts.addpodcast.singlepodcast.view
 
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.support.design.widget.BaseTransientBottomBar.LENGTH_LONG
+import android.support.design.widget.CoordinatorLayout
+import android.support.design.widget.Snackbar
+import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
@@ -26,7 +31,7 @@ import models.pojos.Podcast
 import org.jetbrains.anko.intentFor
 import javax.inject.Inject
 
-open class AddSinglePodcastActivity : AbstractPlaybackControlsActivity(), BitmapColorExtractor.Callback,
+open class AddSinglePodcastActivity : AppCompatActivity(), BitmapColorExtractor.Callback,
         SinglePodcastView, EpisodesAdapter.OnItemClickListener {
 
     companion object {
@@ -35,15 +40,24 @@ open class AddSinglePodcastActivity : AbstractPlaybackControlsActivity(), Bitmap
         val TAG = "AddSinglePodcastActivity"
     }
 
-    private var toolbar: Toolbar? = null
+    override var title: String?
+        get() = toolbar.title?.toString()
+        set(string) {
+            toolbar.title = string
+        }
+
     private var isSubscribed: Boolean? = false
 
     @BindView(R.id.recycler) lateinit var recyclerView: EpisodesRecycler
     @BindView(R.id.main_image) lateinit var imageView: ImageView
+    @BindView(R.id.swipe_container) lateinit var swipeContainer: SwipeRefreshLayout
+    @BindView(R.id.coordinator) lateinit var coordinator: CoordinatorLayout
+    @BindView(R.id.toolbar) lateinit var toolbar: Toolbar
     @Inject lateinit var transitionsHelper: TransitionsHelper
     @Inject lateinit var colorExtractor: BitmapColorExtractor
     @Inject lateinit var imageLoader: SimpleImageLoader
     @Inject lateinit var presenter: SinglePodcastPresenter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,15 +75,15 @@ open class AddSinglePodcastActivity : AbstractPlaybackControlsActivity(), Bitmap
         setContentView(R.layout.add_single_podcast_activity)
         ButterKnife.bind(this@AddSinglePodcastActivity)
         setUpActionBar()
-        initPlaybackControls()
         recyclerView.setOnItemClickListener(this)
+        swipeContainer.setOnRefreshListener {
+            presenter.onRefresh()
+        }
     }
 
     private fun startPresenter(savedInstanceState: Bundle?) {
         presenter.bindView(this@AddSinglePodcastActivity)
-        presenter.startPresenter(intent?.getParcelableExtra<Podcast>(SINGLE_PODCAST_TRACK_ID),
-                intent?.getBooleanExtra(STARTED_WITH_TRANSITION, false),
-                savedInstanceState != null)
+        presenter.startPresenter(intent?.getParcelableExtra<Podcast>(SINGLE_PODCAST_TRACK_ID), intent?.getBooleanExtra(STARTED_WITH_TRANSITION, false), savedInstanceState != null)
     }
 
     fun getImageUrl(): String? {
@@ -108,32 +122,28 @@ open class AddSinglePodcastActivity : AbstractPlaybackControlsActivity(), Bitmap
         return true
     }
 
-    override fun exitWithoutSharedTransition() {}
+    override fun exitWithoutSharedTransition() {
+        finish()
+        overridePendingTransition(R.anim.pop_in, R.anim.pop_out)
+    }
 
-    override fun exitWithSharedTrsnsition() {}
+    override fun exitWithSharedTrsnsition() {
+        super.onBackPressed()
+    }
 
     override fun onItemClick(episode: Episode) {
         startActivity(intentFor<FullscreenPlayActivity>(EPISODE_URI to episode.uri, ARTWORK to episode.imageUrl, SHOULD_STREAM_AUDIO to true))
     }
 
     override fun showProgress(show: Boolean) {
-
+        swipeContainer.isRefreshing = show
     }
 
-    override var title: String?
-        get() = toolbar?.title?.toString()
-        set(string) {
-            toolbar?.let { it.title = string }
-        }
-
     protected fun setUpActionBar() {
-        toolbar = (findViewById(R.id.toolbar) as? Toolbar)
-        toolbar?.let {
-            setSupportActionBar(it)
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            supportActionBar?.setDisplayShowHomeEnabled(true)
-            supportActionBar?.title = null
-        }
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.title = null
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -142,8 +152,7 @@ open class AddSinglePodcastActivity : AbstractPlaybackControlsActivity(), Bitmap
     }
 
     fun loadImage() {
-        imageLoader.displayImage(getImageUrl(), imageView,
-                colorExtractor)
+        imageLoader.displayImage(getImageUrl(), imageView, colorExtractor)
     }
 
     override fun onStart() {
@@ -177,4 +186,12 @@ open class AddSinglePodcastActivity : AbstractPlaybackControlsActivity(), Bitmap
         }
     }
 
+    override fun onError(string: String?) {
+        string ?: return
+        Snackbar.make(coordinator, string, LENGTH_LONG).show()
+    }
+
+    override fun enablePullToRefresh(enable: Boolean) {
+        swipeContainer.isEnabled = enable
+    }
 }

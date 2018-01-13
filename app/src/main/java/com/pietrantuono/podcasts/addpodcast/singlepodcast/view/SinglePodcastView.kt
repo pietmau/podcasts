@@ -19,4 +19,8 @@ interface SinglePodcastView {
     fun exitWithoutSharedTransition()
 
     fun setSubscribedToPodcast(isSubscribed: Boolean?)
+
+    fun onError(string: String?)
+
+    fun enablePullToRefresh(enable: Boolean)
 }

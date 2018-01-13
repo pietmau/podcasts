@@ -45,7 +45,7 @@
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipeContainer"
+            android:id="@+id/swipe_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/subscribeunsubscribe"

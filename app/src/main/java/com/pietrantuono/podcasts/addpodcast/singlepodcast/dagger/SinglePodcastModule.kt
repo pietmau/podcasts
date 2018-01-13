@@ -8,6 +8,7 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastMod
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastModelImpl
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SinglePodcastPresenter
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.BitmapColorExtractor
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
 import com.pietrantuono.podcasts.apis.SinglePodcastApi
 import com.pietrantuono.podcasts.main.view.TransitionsHelper
 import dagger.Module
@@ -38,8 +39,8 @@ class SinglePodcastModule {
     fun provideTransitionImageLoadingListener(framework: TransitionsHelper) = BitmapColorExtractor()
 
     @Provides
-    fun provideSinglePodcastPresenterFactory(model: SinglePodcastModel, crashlyticsWrapper: CrashlyticsWrapper) =
-            SinglePodcastPresenterFactory(model, crashlyticsWrapper)
+    fun provideSinglePodcastPresenterFactory(model: SinglePodcastModel, crashlyticsWrapper: CrashlyticsWrapper, resources: ResourcesProvider) =
+            SinglePodcastPresenterFactory(model, crashlyticsWrapper, resources)
 
 }
 
