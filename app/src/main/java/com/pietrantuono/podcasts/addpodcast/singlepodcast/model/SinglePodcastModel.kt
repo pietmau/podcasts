@@ -9,7 +9,7 @@ import rx.Observer
 
 interface SinglePodcastModel {
 
-    fun subscribeToFeed(observer: Observer<PodcastFeed>)
+    fun subscribeToFeed(observer: Observer<PodcastFeed>, timeOutTime: Long)
 
     fun unsubscribe()
 

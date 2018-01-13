@@ -40,7 +40,7 @@ class PodcastPresenterTest {
         // WHEN
         presenter.onResume()
         // THEN
-        verify<SinglePodcastModel>(model).subscribeToFeed(isA<Observer<PodcastFeed>>())
+        verify<SinglePodcastModel>(model).subscribeToFeed(isA<Observer<PodcastFeed>>(), )
     }
 
     @Test

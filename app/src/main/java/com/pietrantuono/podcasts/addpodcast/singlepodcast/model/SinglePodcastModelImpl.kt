@@ -6,7 +6,6 @@ import com.pietrantuono.podcasts.apis.PodcastFeed
 import com.pietrantuono.podcasts.apis.SinglePodcastApi
 import models.pojos.Podcast
 import repo.repository.PodcastRepo
-import rx.Observable
 import rx.Observer
 import rx.Scheduler
 import rx.subscriptions.CompositeSubscription
@@ -14,12 +13,12 @@ import java.util.concurrent.TimeUnit
 
 class SinglePodcastModelImpl(
         private val singlePodcastApi: SinglePodcastApi,
-        private val repository: PodcastRepo, val io: Scheduler, val mainThread: Scheduler) : SinglePodcastModel {
+        private val repository: PodcastRepo,
+        private val ioScheduler: Scheduler,
+        private val mainThreadScheduler: Scheduler) : SinglePodcastModel {
 
-    private var podcastFeedObservable: Observable<PodcastFeed>? = null
     private var podcast: Podcast? = null
     private var compositeSubscription: CompositeSubscription = CompositeSubscription()
-    private var timeOutTime: Long = 4
 
     override fun startModel(podcast: Podcast?) {
         this.podcast = podcast
@@ -32,10 +31,13 @@ class SinglePodcastModelImpl(
         repository.subscribeUnsubscribeToPodcast(podcast)
     }
 
-    override fun subscribeToFeed(observer: Observer<PodcastFeed>) {
-        podcastFeedObservable?.let {
-            compositeSubscription.add(it.subscribe(observer))
-        }
+    override fun subscribeToFeed(observer: Observer<PodcastFeed>, timeOutTime: Long) {
+        compositeSubscription.add(singlePodcastApi.getFeed(podcast?.feedUrl)
+                .subscribeOn(ioScheduler)
+                .timeout(timeOutTime, TimeUnit.SECONDS)
+                .observeOn(mainThreadScheduler)
+                .cache()
+                .subscribe(observer))
     }
 
     override fun subscribeToIsSubscribedToPodcast(isSubscribedObserver: Observer<Boolean>) {
@@ -47,17 +49,14 @@ class SinglePodcastModelImpl(
     }
 
     private fun getFeed(url: String) {
-        podcastFeedObservable = singlePodcastApi.getFeed(url)
-                .subscribeOn(io)
-                .timeout(timeOutTime, TimeUnit.SECONDS)
-                .observeOn(mainThread)
+        compositeSubscription.add(singlePodcastApi.getFeed(url)
+                .subscribeOn(ioScheduler)
                 .cache()
-        val subscription = podcastFeedObservable!!.subscribe(object : SimpleObserver<PodcastFeed>() {
-            override fun onNext(feed: PodcastFeed?) {
-                podcast?.episodes = feed?.episodes
-            }
-        })
-        compositeSubscription.add(subscription)
+                .subscribe(object : SimpleObserver<PodcastFeed>() {
+                    override fun onNext(feed: PodcastFeed?) {
+                        podcast?.episodes = feed?.episodes
+                    }
+                }))
     }
 
     override fun saveFeed(podcastFeed: PodcastFeed?) {

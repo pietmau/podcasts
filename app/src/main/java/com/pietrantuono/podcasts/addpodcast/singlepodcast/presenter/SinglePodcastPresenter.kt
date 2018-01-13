@@ -22,13 +22,12 @@ class SinglePodcastPresenter(
     private var startedWithTransition: Boolean? = false
     private val observer: SimpleObserver<Boolean>
     private var fromSavedState: Boolean = false
+    private var timeOutTime: Long = 4
 
     init {
         observer = object : SimpleObserver<Boolean>() {
             override fun onNext(isSubscribedToPodcast: Boolean?) {
                 view?.setSubscribedToPodcast(isSubscribedToPodcast)
-                if (isSubscribedToPodcast == true) {
-                }
             }
         }
     }
@@ -42,6 +41,11 @@ class SinglePodcastPresenter(
     }
 
     override fun onResume() {
+        getFeed()
+        model.subscribeToIsSubscribedToPodcast(observer)
+    }
+
+    private fun getFeed() {
         view?.showProgress(true)
         model.subscribeToFeed(object : Observer<PodcastFeed> {
             override fun onCompleted() {
@@ -55,11 +59,11 @@ class SinglePodcastPresenter(
             override fun onNext(podcastFeed: PodcastFeed?) {
                 this@SinglePodcastPresenter.onNext(podcastFeed)
             }
-        })
-        model.subscribeToIsSubscribedToPodcast(observer)
+        }, timeOutTime)
     }
 
     private fun onNext(podcastFeed: PodcastFeed?) {
+        view?.showProgress(false)
         if (this.podcastFeed == null) {
             this.podcastFeed = podcastFeed
             setEpisodes()
@@ -99,7 +103,6 @@ class SinglePodcastPresenter(
     }
 
     private fun setEpisodes() {
-        view?.showProgress(false)
         podcastFeed?.episodes?.let {
             view?.setEpisodes(it)
         }
@@ -130,8 +133,8 @@ class SinglePodcastPresenter(
     }
 
     fun onRefresh() {
-
-
+        timeOutTime++
+        getFeed()
     }
 
 }
