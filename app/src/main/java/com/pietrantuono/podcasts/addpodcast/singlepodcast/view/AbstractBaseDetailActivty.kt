@@ -13,7 +13,7 @@ import com.pietrantuono.podcasts.utils.isInValidState
 import javax.inject.Inject
 
 
-abstract class AbstractBaseDetailActivty : AbstractPlaybackControlsActivity(), BitmapColorExtractor.Callback {
+open abstract class AbstractBaseDetailActivty() : AbstractPlaybackControlsActivity(), BitmapColorExtractor.Callback {
     var progressBar: SimpleProgressBar? = null
     var toolbar: Toolbar? = null
     @BindView(R.id.main_image) lateinit var imageView: ImageView
@@ -46,7 +46,7 @@ abstract class AbstractBaseDetailActivty : AbstractPlaybackControlsActivity(), B
         return true
     }
 
-    fun showProgress(show: Boolean) {
+    open fun showProgress(show: Boolean) {
         progressBar?.showProgress = show
     }
 
