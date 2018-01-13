@@ -10,6 +10,7 @@ import rx.Observable
 import rx.Observer
 import rx.Scheduler
 import rx.subscriptions.CompositeSubscription
+import java.util.concurrent.TimeUnit
 
 class SinglePodcastModelImpl(
         private val singlePodcastApi: SinglePodcastApi,
@@ -18,6 +19,7 @@ class SinglePodcastModelImpl(
     private var podcastFeedObservable: Observable<PodcastFeed>? = null
     private var podcast: Podcast? = null
     private var compositeSubscription: CompositeSubscription = CompositeSubscription()
+    private var timeOutTime: Long = 4
 
     override fun startModel(podcast: Podcast?) {
         this.podcast = podcast
@@ -45,8 +47,11 @@ class SinglePodcastModelImpl(
     }
 
     private fun getFeed(url: String) {
-        podcastFeedObservable = singlePodcastApi.getFeed(url).subscribeOn(io)
-                .observeOn(mainThread).cache()
+        podcastFeedObservable = singlePodcastApi.getFeed(url)
+                .subscribeOn(io)
+                .timeout(timeOutTime, TimeUnit.SECONDS)
+                .observeOn(mainThread)
+                .cache()
         val subscription = podcastFeedObservable!!.subscribe(object : SimpleObserver<PodcastFeed>() {
             override fun onNext(feed: PodcastFeed?) {
                 podcast?.episodes = feed?.episodes

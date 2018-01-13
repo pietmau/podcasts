@@ -42,23 +42,23 @@
 
             </android.support.design.widget.CollapsingToolbarLayout>
 
-            <com.pietrantuono.podcasts.addpodcast.singlepodcast.view.custom.SimpleProgressBar
-                android:id="@+id/progress"
-                style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/progress_heigth"
-                android:background="@color/activityBackgroundColor"
-                android:indeterminate="true"
-                android:visibility="visible"/>
         </android.support.design.widget.AppBarLayout>
 
-        <com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.EpisodesRecycler
-            android:id="@+id/recycler"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipeContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/subscribeunsubscribe"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.EpisodesRecycler
+                android:id="@+id/recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
     </android.support.design.widget.CoordinatorLayout>
 
 
