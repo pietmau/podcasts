@@ -21,6 +21,12 @@ import org.jetbrains.anko.intentFor
 import javax.inject.Inject
 
 class PlaylistFragment : Fragment(), PlayListView {
+
+    override var currentlyPlayingMediaId: String? = null
+        set(uri) {
+            recycler.currentlyPlayingMediaId = uri
+        }
+
     @Inject lateinit var presenter: PlaylistPresenter
     @BindView(R.id.recycler) lateinit var recycler: PlaylistRecycler
 
@@ -46,9 +52,7 @@ class PlaylistFragment : Fragment(), PlayListView {
         (activity.applicationContext as? App)?.appComponent?.with(PlaylistModule())?.inject(this)
     }
 
-    override fun onPlaylistRetrieved(playlist: List<Episode>) {
-
-    }
+    override fun onPlaylistRetrieved(playlist: List<Episode>) {}
 
     override fun onEpisodeRetrieved(episode: Episode) {
         recycler.addEpisode(episode)

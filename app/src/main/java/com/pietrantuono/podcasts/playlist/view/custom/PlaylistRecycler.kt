@@ -9,6 +9,12 @@ import models.pojos.Episode
 
 
 class PlaylistRecycler(context: Context, attrs: AttributeSet?) : RecyclerView(context, attrs) {
+    var currentlyPlayingMediaId: String? = null
+        set(uri) {
+            field = uri
+            (adapter as PlaylistAdapter).currentlyPlayingMediaId = uri
+        }
+
     var callback: ((Episode) -> Unit)? = null
         set(value) {
             adapter = PlaylistAdapter(ResourcesProvider(context), value)

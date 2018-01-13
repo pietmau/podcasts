@@ -13,8 +13,8 @@ import models.pojos.Episode
 
 class PlaylistPresenter(
         private var mediaBrowserCompatWrapper: MediaBrowserCompatWrapper,
-        private var playlistModel: PlaylistModel
-) : MediaControllerCompat.Callback() {
+        private var playlistModel: PlaylistModel)
+    : MediaControllerCompat.Callback() {
 
     private var view: PlayListView? = null
     private val mediaSubscriptionCallback = SubscriptionCallback()
@@ -36,7 +36,7 @@ class PlaylistPresenter(
     private fun onPlaylistRetrieved(playlist: MutableList<MediaBrowserCompat.MediaItem>) {
         playlistModel.mapItems(playlist, object : SimpleObserver<Episode>() {
             override fun onNext(episode: Episode) {
-            view?.onEpisodeRetrieved(episode)
+                view?.onEpisodeRetrieved(episode)
             }
         })
     }
@@ -52,7 +52,8 @@ class PlaylistPresenter(
     }
 
     override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
-
+        view?.currentlyPlayingMediaId = metadata?.description?.mediaId
     }
+
 
 }
