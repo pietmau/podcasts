@@ -1,7 +1,6 @@
 package com.pietrantuono.podcasts.addpodcast.singlepodcast.model
 
 
-
 import com.pietrantuono.podcasts.apis.PodcastFeed
 import models.pojos.Podcast
 
@@ -20,4 +19,6 @@ interface SinglePodcastModel {
     fun onSubscribeUnsubscribeToPodcastClicked()
 
     fun saveFeed(podcastFeed: PodcastFeed?)
+
+    var podcastFeed: PodcastFeed?
 }

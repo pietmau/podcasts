@@ -17,6 +17,7 @@ class SinglePodcastModelImpl(
         private val ioScheduler: Scheduler,
         private val mainThreadScheduler: Scheduler) : SinglePodcastModel {
 
+    override var podcastFeed: PodcastFeed? = null
     private var podcast: Podcast? = null
     private var compositeSubscription: CompositeSubscription = CompositeSubscription()
 

@@ -1,7 +1,6 @@
 package com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter
 
 import android.arch.lifecycle.ViewModel
-import com.pietrantuono.podcasts.CrashlyticsWrapper
 import com.pietrantuono.podcasts.GenericPresenter
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastModel
@@ -14,11 +13,9 @@ import java.util.concurrent.TimeoutException
 
 class SinglePodcastPresenter(
         private val model: SinglePodcastModel,
-        private val crashlyticsWrapper: CrashlyticsWrapper,
         private val resources: ResourcesProvider
 ) : GenericPresenter, ViewModel() {
     private var view: SinglePodcastView? = null
-    private var podcastFeed: PodcastFeed? = null
     private var startedWithTransition: Boolean? = false
     private val observer: SimpleObserver<Boolean>
     private var fromSavedState: Boolean = false
@@ -46,7 +43,10 @@ class SinglePodcastPresenter(
     }
 
     private fun getFeed() {
-        view?.showProgress(true)
+        if (model.podcastFeed != null) {
+            return
+        }
+        showProgress(true)
         model.subscribeToFeed(object : Observer<PodcastFeed> {
             override fun onCompleted() {
                 this@SinglePodcastPresenter.onCompleted()
@@ -63,26 +63,30 @@ class SinglePodcastPresenter(
     }
 
     private fun onNext(podcastFeed: PodcastFeed?) {
-        view?.showProgress(false)
-        if (this.podcastFeed == null) {
-            this.podcastFeed = podcastFeed
+        showProgress(false)
+        if (model.podcastFeed == null) {
+            model.podcastFeed = podcastFeed
             setEpisodes()
         }
         model.saveFeed(podcastFeed)
     }
 
     private fun onCompleted() {
-        view?.showProgress(false)
-        view?.enablePullToRefresh(false)
+        showProgress(false)
+        enablePullToRefresh(false)
     }
 
     private fun onError(throwable: Throwable?) {
-        view?.showProgress(false)
+        showProgress(false)
         if (throwable is TimeoutException) {
             view?.onError(resources.getString(R.string.time_out))
             return
         }
         view?.onError(throwable?.localizedMessage)
+    }
+
+    private fun showProgress(show: Boolean) {
+        view?.showProgress(show)
     }
 
     fun bindView(view: SinglePodcastView) {
@@ -103,10 +107,13 @@ class SinglePodcastPresenter(
     }
 
     private fun setEpisodes() {
-        podcastFeed?.episodes?.let {
+        model.podcastFeed?.episodes?.let {
             view?.setEpisodes(it)
+            onCompleted()
         }
     }
+
+    private fun enablePullToRefresh(enable: Boolean) = view?.enablePullToRefresh(enable)
 
     fun onBackPressed(): Boolean {
         if (startedWithTransition == true && !fromSavedState) {
