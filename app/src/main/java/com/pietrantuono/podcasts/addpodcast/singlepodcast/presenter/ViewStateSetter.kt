@@ -1,8 +1,8 @@
 package com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter
 
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastModel
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.AddSinglePodcastActivity
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.SinglePodcastView
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.State
 import java.util.concurrent.TimeoutException
 
 class ViewStateSetter(private val model: SinglePodcastModel) {
@@ -13,20 +13,20 @@ class ViewStateSetter(private val model: SinglePodcastModel) {
     }
 
     fun onGetFeed() {
-        view?.setState(AddSinglePodcastActivity.State.LOADING)
+        view?.setState(State.LOADING)
     }
 
     fun onCompleted() {
         if (model.hasEpisodes) {
-            view?.setState(AddSinglePodcastActivity.State.FULL)
+            view?.setState(State.FULL)
             return
         }
-        view?.setState(AddSinglePodcastActivity.State.EMPTY)
+        view?.setState(State.EMPTY)
 
     }
 
     fun onError(throwable: Throwable?) {
-        view?.setState(AddSinglePodcastActivity.State.ERROR)
+        view?.setState(State.ERROR)
         if (throwable is TimeoutException) {
             view?.onTimeout()
             return

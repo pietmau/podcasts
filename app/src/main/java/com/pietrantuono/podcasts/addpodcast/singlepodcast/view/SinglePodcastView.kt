@@ -22,5 +22,5 @@ interface SinglePodcastView {
 
     fun onTimeout()
 
-    fun setState(state: AddSinglePodcastActivity.State)
+    fun setState(state: State)
 }
