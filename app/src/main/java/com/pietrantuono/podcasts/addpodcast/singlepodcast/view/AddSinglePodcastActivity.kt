@@ -140,10 +140,6 @@ open class AddSinglePodcastActivity : AppCompatActivity(), BitmapColorExtractor.
         startActivity(intentFor<FullscreenPlayActivity>(EPISODE_URI to episode.uri, ARTWORK to episode.imageUrl, SHOULD_STREAM_AUDIO to true))
     }
 
-    override fun showProgress(show: Boolean) {
-        swipeContainer.isRefreshing = show
-    }
-
     protected fun setUpActionBar() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -205,7 +201,31 @@ open class AddSinglePodcastActivity : AppCompatActivity(), BitmapColorExtractor.
                 .show()
     }
 
-    override fun enablePullToRefresh(enable: Boolean) {
-        swipeContainer.isEnabled = enable
+    override fun setState(state: State) {
+        when (state) {
+            State.LOADING -> {
+                swipeContainer.isRefreshing = true
+                swipeContainer.isEnabled = true
+            }
+            State.FULL -> {
+                swipeContainer.isRefreshing = false
+                swipeContainer.isEnabled = false
+            }
+            State.EMPTY -> {
+                viewEmpty()
+            }
+            State.ERROR -> {
+                viewEmpty()
+            }
+        }
+    }
+
+    private fun viewEmpty() {
+        swipeContainer.isRefreshing = false
+        swipeContainer.isEnabled = true
+    }
+
+    enum class State {
+        LOADING, EMPTY, FULL, ERROR
     }
 }

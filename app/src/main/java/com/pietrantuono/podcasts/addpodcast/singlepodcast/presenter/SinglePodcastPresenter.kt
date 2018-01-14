@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModel
 import com.pietrantuono.podcasts.GenericPresenter
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastModel
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.AddSinglePodcastActivity
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.SinglePodcastView
 import com.pietrantuono.podcasts.apis.PodcastFeed
 import models.pojos.Podcast
@@ -39,7 +40,7 @@ class SinglePodcastPresenter(
         if (model.alreadyAttemptedToGetFeed) {
             return
         }
-        showProgress(true)
+        view?.setState(AddSinglePodcastActivity.State.LOADING)
         model.subscribeToFeed(object : Observer<PodcastFeed> {
             override fun onCompleted() {
                 this@SinglePodcastPresenter.onCompleted()
@@ -56,7 +57,6 @@ class SinglePodcastPresenter(
     }
 
     private fun onNext(podcastFeed: PodcastFeed?) {
-        showProgress(false)
         if (model.podcastFeed == null) {
             model.podcastFeed = podcastFeed
             setEpisodes()
@@ -66,24 +66,21 @@ class SinglePodcastPresenter(
 
     private fun onCompleted() {
         model.alreadyAttemptedToGetFeed = true
-        showProgress(false)
         if (model.hasEpisodes) {
-            view?.enablePullToRefresh(false)
+            view?.setState(AddSinglePodcastActivity.State.FULL)
+            return
         }
+        view?.setState(AddSinglePodcastActivity.State.EMPTY)
     }
 
     private fun onError(throwable: Throwable?) {
         model.alreadyAttemptedToGetFeed = true
-        showProgress(false)
+        view?.setState(AddSinglePodcastActivity.State.ERROR)
         if (throwable is TimeoutException) {
             view?.onTimeout()
             return
         }
         view?.onError(throwable?.localizedMessage)
-    }
-
-    private fun showProgress(show: Boolean) {
-        view?.showProgress(show)
     }
 
     fun bindView(view: SinglePodcastView) {
@@ -139,7 +136,6 @@ class SinglePodcastPresenter(
         timeOutTime++
         getFeed()
     }
-
 }
 
 
