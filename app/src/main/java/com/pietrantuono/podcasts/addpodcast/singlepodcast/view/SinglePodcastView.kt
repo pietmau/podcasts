@@ -10,8 +10,6 @@ interface SinglePodcastView {
 
     fun enterWithoutTransition()
 
-    fun showProgress(show: Boolean)
-
     fun setEpisodes(episodes: List<Episode>)
 
     fun exitWithSharedTrsnsition()
@@ -22,7 +20,7 @@ interface SinglePodcastView {
 
     fun onError(string: String?)
 
-    fun enablePullToRefresh(enable: Boolean)
-
     fun onTimeout()
+
+    fun setState(state: State)
 }

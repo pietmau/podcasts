@@ -8,10 +8,10 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.SinglePodcastView
 import com.pietrantuono.podcasts.apis.PodcastFeed
 import models.pojos.Podcast
 import rx.Observer
-import java.util.concurrent.TimeoutException
 
 class SinglePodcastPresenter(
-        private val model: SinglePodcastModel
+        private val model: SinglePodcastModel,
+        private val viewStateSetter: ViewStateSetter
 ) : GenericPresenter, ViewModel() {
     private var view: SinglePodcastView? = null
     private var startedWithTransition: Boolean? = false
@@ -20,6 +20,7 @@ class SinglePodcastPresenter(
 
     override fun onDestroy() {
         view = null
+        viewStateSetter.setView(null)
     }
 
     override fun onPause() {
@@ -39,7 +40,7 @@ class SinglePodcastPresenter(
         if (model.alreadyAttemptedToGetFeed) {
             return
         }
-        showProgress(true)
+        viewStateSetter.onGetFeed()
         model.subscribeToFeed(object : Observer<PodcastFeed> {
             override fun onCompleted() {
                 this@SinglePodcastPresenter.onCompleted()
@@ -56,7 +57,6 @@ class SinglePodcastPresenter(
     }
 
     private fun onNext(podcastFeed: PodcastFeed?) {
-        showProgress(false)
         if (model.podcastFeed == null) {
             model.podcastFeed = podcastFeed
             setEpisodes()
@@ -66,28 +66,17 @@ class SinglePodcastPresenter(
 
     private fun onCompleted() {
         model.alreadyAttemptedToGetFeed = true
-        showProgress(false)
-        if (model.hasEpisodes) {
-            view?.enablePullToRefresh(false)
-        }
+        viewStateSetter.onCompleted()
     }
 
     private fun onError(throwable: Throwable?) {
         model.alreadyAttemptedToGetFeed = true
-        showProgress(false)
-        if (throwable is TimeoutException) {
-            view?.onTimeout()
-            return
-        }
-        view?.onError(throwable?.localizedMessage)
-    }
-
-    private fun showProgress(show: Boolean) {
-        view?.showProgress(show)
+        viewStateSetter.onError(throwable)
     }
 
     fun bindView(view: SinglePodcastView) {
         this.view = view
+        viewStateSetter.setView(view)
         setEpisodes()
     }
 

@@ -11,9 +11,11 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
 import butterknife.BindView
 import butterknife.ButterKnife
+import butterknife.OnClick
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.EpisodesAdapter
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.EpisodesRecycler
@@ -38,7 +40,6 @@ open class AddSinglePodcastActivity : AppCompatActivity(), BitmapColorExtractor.
     companion object {
         val SINGLE_PODCAST_TRACK_ID = "single_podcast_track_id"
         val STARTED_WITH_TRANSITION = "with_transition"
-        val TAG = "AddSinglePodcastActivity"
     }
 
     override var title: String?
@@ -54,6 +55,7 @@ open class AddSinglePodcastActivity : AppCompatActivity(), BitmapColorExtractor.
     @BindView(R.id.swipe_container) lateinit var swipeContainer: SwipeRefreshLayout
     @BindView(R.id.coordinator) lateinit var coordinator: CoordinatorLayout
     @BindView(R.id.toolbar) lateinit var toolbar: Toolbar
+    @BindView(R.id.contaniner) lateinit var container: View
     @Inject lateinit var transitionsHelper: TransitionsHelper
     @Inject lateinit var colorExtractor: BitmapColorExtractor
     @Inject lateinit var imageLoader: SimpleImageLoader
@@ -82,7 +84,8 @@ open class AddSinglePodcastActivity : AppCompatActivity(), BitmapColorExtractor.
         }
     }
 
-    private fun onUsereRequestedRefresh() {
+    @OnClick(R.id.retry_button)
+    fun onUsereRequestedRefresh() {
         presenter.onUsereRequestedRefresh()
     }
 
@@ -138,10 +141,6 @@ open class AddSinglePodcastActivity : AppCompatActivity(), BitmapColorExtractor.
 
     override fun onItemClick(episode: Episode) {
         startActivity(intentFor<FullscreenPlayActivity>(EPISODE_URI to episode.uri, ARTWORK to episode.imageUrl, SHOULD_STREAM_AUDIO to true))
-    }
-
-    override fun showProgress(show: Boolean) {
-        swipeContainer.isRefreshing = show
     }
 
     protected fun setUpActionBar() {
@@ -205,7 +204,32 @@ open class AddSinglePodcastActivity : AppCompatActivity(), BitmapColorExtractor.
                 .show()
     }
 
-    override fun enablePullToRefresh(enable: Boolean) {
-        swipeContainer.isEnabled = enable
+    override fun setState(state: State) {
+        when (state) {
+            State.LOADING -> {
+                swipeContainer.isRefreshing = true
+                swipeContainer.isEnabled = true
+                container.visibility = View.GONE
+            }
+            State.FULL -> {
+                swipeContainer.isRefreshing = false
+                swipeContainer.isEnabled = false
+                container.visibility = View.GONE
+            }
+            State.EMPTY -> {
+                viewEmpty()
+                container.visibility = View.VISIBLE
+            }
+            State.ERROR -> {
+                viewEmpty()
+                container.visibility = View.VISIBLE
+            }
+        }
     }
+
+    private fun viewEmpty() {
+        swipeContainer.isRefreshing = false
+        swipeContainer.isEnabled = true
+    }
+
 }
