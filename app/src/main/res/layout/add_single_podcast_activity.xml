@@ -51,11 +51,17 @@
             android:layout_below="@+id/subscribeunsubscribe"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.EpisodesRecycler
-                android:id="@+id/recycler"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
+                android:layout_height="wrap_content">
+
+                <com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.EpisodesRecycler
+                    android:id="@+id/recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+            </FrameLayout>
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
