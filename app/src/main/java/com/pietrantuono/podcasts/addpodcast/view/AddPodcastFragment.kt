@@ -8,22 +8,22 @@ import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.util.Pair
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.SearchView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.ViewAnimator
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.SimpleOnQueryTextListener
-import com.pietrantuono.podcasts.addpodcast.customviews.CustomProgressBar
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler
 import com.pietrantuono.podcasts.addpodcast.dagger.AddPodcastModule
 import com.pietrantuono.podcasts.addpodcast.presenter.AddPodcastPresenter
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.AddSinglePodcastActivity
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.State
 import com.pietrantuono.podcasts.main.view.MainActivity
 import com.pietrantuono.podcasts.main.view.TransitionsHelper
 import hugo.weaving.DebugLog
@@ -31,16 +31,10 @@ import models.pojos.Podcast
 import javax.inject.Inject
 
 class AddPodcastFragment : Fragment(), AddPodcastView {
-    @Inject lateinit var addPodcastPresenter: AddPodcastPresenter
-    @Inject lateinit var transitions: TransitionsHelper
-    @BindView(R.id.search_view) lateinit var searchView: SearchView
-    @BindView(R.id.search_results) lateinit var podcastsRecycler: PodcastsRecycler
-    @BindView(R.id.progress) lateinit var progressBar: CustomProgressBar
-    @BindView(R.id.switcher) lateinit var viewAnimator: ViewAnimator
 
     companion object {
+        const val STATE = "view_state"
         private val TAG = AddPodcastFragment::class.java.simpleName
-
         fun navigateTo(fragmentManager: FragmentManager) {
             var frag = fragmentManager.findFragmentByTag(AddPodcastFragment.TAG) as? AddPodcastFragment
             if (frag == null) {
@@ -50,6 +44,15 @@ class AddPodcastFragment : Fragment(), AddPodcastView {
         }
     }
 
+    @Inject lateinit var presenter: AddPodcastPresenter
+    @Inject lateinit var transitions: TransitionsHelper
+    @BindView(R.id.search_view) lateinit var searchView: SearchView
+    @BindView(R.id.search_results) lateinit var podcastsRecycler: PodcastsRecycler
+    @BindView(R.id.swipe_container) lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    @BindView(R.id.contaniner) lateinit var contaniner: View
+
+    private var viewState: State = State.EMPTY
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity as MainActivity).mainComponent?.with(AddPodcastModule(activity))?.inject(this)
@@ -57,27 +60,27 @@ class AddPodcastFragment : Fragment(), AddPodcastView {
 
     override fun onResume() {
         super.onResume()
-        addPodcastPresenter.onResume()
+        presenter.onResume()
     }
 
     @DebugLog
     override fun onPause() {
         super.onPause()
-        addPodcastPresenter.onPause()
+        presenter.onPause()
     }
 
     @DebugLog
     override fun onDestroy() {
         super.onDestroy()
-        addPodcastPresenter.onDestroy()
+        presenter.onDestroy()
     }
 
     @DebugLog
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_add, container, false)
         view?.let { ButterKnife.bind(this, it) }
-        addPodcastPresenter.bindView(this@AddPodcastFragment, AddPodcastFragmentMemento(savedInstanceState))
-        podcastsRecycler.setListeners(addPodcastPresenter)
+        presenter.bindView(this@AddPodcastFragment, savedInstanceState)
+        podcastsRecycler.setListeners(presenter)
         searchView.setOnQueryTextListener(object : SimpleOnQueryTextListener() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 hideKeyboard()
@@ -85,23 +88,16 @@ class AddPodcastFragment : Fragment(), AddPodcastView {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                return addPodcastPresenter.onQueryTextSubmit(newText)
+                return presenter.onQueryTextSubmit(newText)
             }
         })
         return view
     }
 
-    override fun setEmpty(empty: Boolean) {
-        if (empty) {
-            viewAnimator.displayedChild = 0
-            return
-        }
-        viewAnimator.displayedChild = 1
-    }
-
     @DebugLog
     override fun onSaveInstanceState(outState: Bundle?) {
-        addPodcastPresenter.onSaveInstanceState(AddPodcastFragmentMemento(outState))
+        super.onSaveInstanceState(outState)
+        outState?.putSerializable(STATE, viewState)
     }
 
     @DebugLog
@@ -113,13 +109,6 @@ class AddPodcastFragment : Fragment(), AddPodcastView {
         podcastsRecycler.setItems(items)
     }
 
-    override fun showProgressBar(show: Boolean) {
-        progressBar.showProgressBar(show)
-    }
-
-    override fun isProgressShowing(): Boolean {
-        return progressBar.visibility == View.VISIBLE
-    }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     override fun startDetailActivityWithTransition(podcast: Podcast, imageView: ImageView, titleContainer: LinearLayout) {
@@ -142,5 +131,34 @@ class AddPodcastFragment : Fragment(), AddPodcastView {
 
     override fun isPartiallyHidden(position: Int): Boolean {
         return podcastsRecycler.isPartiallyHidden(position)
+    }
+
+    override fun setState(state: State) {
+        this.viewState = state
+        when (state) {
+            State.LOADING -> {
+                swipeRefreshLayout.isRefreshing = true
+                swipeRefreshLayout.isEnabled = true
+                contaniner.visibility = View.GONE
+            }
+            State.FULL -> {
+                swipeRefreshLayout.isRefreshing = false
+                swipeRefreshLayout.isEnabled = false
+                contaniner.visibility = View.GONE
+            }
+            State.EMPTY -> {
+                viewEmpty()
+                contaniner.visibility = View.VISIBLE
+            }
+            State.ERROR -> {
+                viewEmpty()
+                contaniner.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private fun viewEmpty() {
+        swipeRefreshLayout.isRefreshing = false
+        swipeRefreshLayout.isEnabled = true
     }
 }

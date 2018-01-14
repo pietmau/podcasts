@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     >
 
     <LinearLayout
@@ -21,34 +23,69 @@
             >
         </android.support.v7.widget.SearchView>
 
-        <com.pietrantuono.podcasts.addpodcast.customviews.CustomProgressBar
-            android:id="@+id/progress"
-            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/progress_heigth"
-            android:layout_below="@+id/search_view"
-            android:indeterminate="true"
-            android:visibility="visible"/>
-
     </LinearLayout>
 
-    <ViewAnimator
-        android:id="@+id/switcher"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/header">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <ImageView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/nothning_to_see"/>
+            android:layout_height="wrap_content">
 
-        <com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler
-            android:id="@+id/search_results"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-        </com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler>
+            <LinearLayout
+                android:id="@+id/contaniner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="50dp"
+                android:gravity="center"
+                android:orientation="vertical">
 
-    </ViewAnimator>
+                <LinearLayout
+                    android:id="@+id/sad_face_contanier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:srcCompat="@drawable/ic_sentiment_neutral_accent_24dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/nothing_to_see"
+                        android:textAppearance="?android:textAppearanceSmall"
+                        android:textColor="@color/colorAccent"/>
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/retry_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/retry"
+                    android:textColor="@color/colorAccent"/>
+            </LinearLayout>
+
+            <com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler
+                android:id="@+id/search_results"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+            </com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler>
+
+        </RelativeLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 </RelativeLayout>

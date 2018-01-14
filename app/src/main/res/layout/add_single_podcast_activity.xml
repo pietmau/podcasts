@@ -82,8 +82,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/nothing_to_see"
-                            android:textAllCaps="true"
-                            android:textAppearance="?android:textAppearanceMedium"
+                            android:textAppearance="?android:textAppearanceSmall"
                             android:textColor="@color/colorAccent"/>
 
                     </LinearLayout>
@@ -98,10 +97,10 @@
                 </LinearLayout>
 
                 <com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.EpisodesRecycler
+                    android:layout_alignParentTop="true"
                     android:id="@+id/recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
                     />
 
             </RelativeLayout>

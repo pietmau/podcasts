@@ -37,17 +37,9 @@ open abstract class AbstractBaseDetailActivty() : AbstractPlaybackControlsActivi
         }
     }
 
-    fun initProgress() {
-        progressBar = findViewById(R.id.progress) as SimpleProgressBar?
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.other_actions, menu)
         return true
-    }
-
-    open fun showProgress(show: Boolean) {
-        progressBar?.showProgress = show
     }
 
     fun loadImage() {

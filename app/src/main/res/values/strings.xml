@@ -77,7 +77,7 @@
     <string name="playlist">Playlist</string>
     <string name="time_out">Server took to long to respond</string>
     <string name="retry">RETRY</string>
-    <string name="nothing_to_see">Nothing to see here</string>
+    <string name="nothing_to_see">...nothing to see here...</string>
 
 
 </resources>

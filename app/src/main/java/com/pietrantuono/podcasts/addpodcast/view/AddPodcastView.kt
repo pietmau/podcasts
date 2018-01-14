@@ -4,18 +4,15 @@ import android.annotation.TargetApi
 import android.os.Build
 import android.widget.ImageView
 import android.widget.LinearLayout
+import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.State
 
 import models.pojos.Podcast
 
 interface AddPodcastView {
 
-    fun isProgressShowing(): Boolean
-
     fun onError(throwable: Throwable)
 
     fun updateSearchResults(items: List<Podcast>)
-
-    fun showProgressBar(show: Boolean)
 
     fun startDetailActivityWithTransition(podcast: Podcast, imageView: ImageView, titleContainer: LinearLayout)
 
@@ -24,6 +21,6 @@ interface AddPodcastView {
 
     fun isPartiallyHidden(imageView: Int): Boolean
 
-    fun setEmpty(empty: Boolean)
 
+    fun setState(state: State)
 }

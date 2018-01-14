@@ -232,4 +232,6 @@ open class AddSinglePodcastActivity : AppCompatActivity(), BitmapColorExtractor.
         swipeContainer.isEnabled = true
     }
 
+
+
 }
