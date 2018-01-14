@@ -4,15 +4,14 @@ import android.arch.lifecycle.ViewModel
 import com.pietrantuono.podcasts.GenericPresenter
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastModel
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.AddSinglePodcastActivity
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.SinglePodcastView
 import com.pietrantuono.podcasts.apis.PodcastFeed
 import models.pojos.Podcast
 import rx.Observer
-import java.util.concurrent.TimeoutException
 
 class SinglePodcastPresenter(
-        private val model: SinglePodcastModel
+        private val model: SinglePodcastModel,
+        private val viewStateSetter: ViewStateSetter
 ) : GenericPresenter, ViewModel() {
     private var view: SinglePodcastView? = null
     private var startedWithTransition: Boolean? = false
@@ -21,6 +20,7 @@ class SinglePodcastPresenter(
 
     override fun onDestroy() {
         view = null
+        viewStateSetter.setView(null)
     }
 
     override fun onPause() {
@@ -40,7 +40,7 @@ class SinglePodcastPresenter(
         if (model.alreadyAttemptedToGetFeed) {
             return
         }
-        view?.setState(AddSinglePodcastActivity.State.LOADING)
+        viewStateSetter.onGetFeed()
         model.subscribeToFeed(object : Observer<PodcastFeed> {
             override fun onCompleted() {
                 this@SinglePodcastPresenter.onCompleted()
@@ -66,25 +66,17 @@ class SinglePodcastPresenter(
 
     private fun onCompleted() {
         model.alreadyAttemptedToGetFeed = true
-        if (model.hasEpisodes) {
-            view?.setState(AddSinglePodcastActivity.State.FULL)
-            return
-        }
-        view?.setState(AddSinglePodcastActivity.State.EMPTY)
+        viewStateSetter.onCompleted()
     }
 
     private fun onError(throwable: Throwable?) {
         model.alreadyAttemptedToGetFeed = true
-        view?.setState(AddSinglePodcastActivity.State.ERROR)
-        if (throwable is TimeoutException) {
-            view?.onTimeout()
-            return
-        }
-        view?.onError(throwable?.localizedMessage)
+        viewStateSetter.onError(throwable)
     }
 
     fun bindView(view: SinglePodcastView) {
         this.view = view
+        viewStateSetter.setView(view)
         setEpisodes()
     }
 
@@ -136,6 +128,7 @@ class SinglePodcastPresenter(
         timeOutTime++
         getFeed()
     }
+
 }
 
 
