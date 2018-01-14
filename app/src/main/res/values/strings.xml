@@ -76,6 +76,7 @@
     <string name="auto_download">auto_download</string>
     <string name="playlist">Playlist</string>
     <string name="time_out">Server took to long to respond</string>
+    <string name="retry">RETRY</string>
 
 
 </resources>

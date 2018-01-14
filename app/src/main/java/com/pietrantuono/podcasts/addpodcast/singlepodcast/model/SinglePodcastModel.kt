@@ -21,4 +21,8 @@ interface SinglePodcastModel {
     fun saveFeed(podcastFeed: PodcastFeed?)
 
     var podcastFeed: PodcastFeed?
+
+    val hasEpisodes: Boolean
+
+    var alreadyAttemptedToGetFeed: Boolean
 }

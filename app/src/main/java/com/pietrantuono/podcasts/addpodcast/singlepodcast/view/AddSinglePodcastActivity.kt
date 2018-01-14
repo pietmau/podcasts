@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.design.widget.BaseTransientBottomBar.LENGTH_LONG
 import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.Snackbar
+import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -77,8 +78,12 @@ open class AddSinglePodcastActivity : AppCompatActivity(), BitmapColorExtractor.
         setUpActionBar()
         recyclerView.setOnItemClickListener(this)
         swipeContainer.setOnRefreshListener {
-            presenter.onRefresh()
+            onUsereRequestedRefresh()
         }
+    }
+
+    private fun onUsereRequestedRefresh() {
+        presenter.onUsereRequestedRefresh()
     }
 
     private fun startPresenter(savedInstanceState: Bundle?) {
@@ -189,6 +194,15 @@ open class AddSinglePodcastActivity : AppCompatActivity(), BitmapColorExtractor.
     override fun onError(string: String?) {
         string ?: return
         Snackbar.make(coordinator, string, LENGTH_LONG).show()
+    }
+
+    override fun onTimeout() {
+        Snackbar.make(coordinator, R.string.time_out, LENGTH_LONG)
+                .setAction(R.string.retry, {
+                    this@AddSinglePodcastActivity.onUsereRequestedRefresh()
+                })
+                .setActionTextColor(ContextCompat.getColor(this, R.color.colorAccent))
+                .show()
     }
 
     override fun enablePullToRefresh(enable: Boolean) {

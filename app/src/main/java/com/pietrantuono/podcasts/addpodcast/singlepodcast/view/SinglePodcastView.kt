@@ -23,4 +23,6 @@ interface SinglePodcastView {
     fun onError(string: String?)
 
     fun enablePullToRefresh(enable: Boolean)
+
+    fun onTimeout()
 }

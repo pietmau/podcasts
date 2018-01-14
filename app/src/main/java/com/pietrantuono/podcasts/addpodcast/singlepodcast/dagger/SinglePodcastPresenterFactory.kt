@@ -14,7 +14,7 @@ class SinglePodcastPresenterFactory(private val model: SinglePodcastModel,
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>?): T {
-        return SinglePodcastPresenter(model, resources) as T
+        return SinglePodcastPresenter(model) as T
     }
 
 }

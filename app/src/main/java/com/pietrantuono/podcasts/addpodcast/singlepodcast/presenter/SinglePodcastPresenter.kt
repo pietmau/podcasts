@@ -5,29 +5,18 @@ import com.pietrantuono.podcasts.GenericPresenter
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastModel
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.SinglePodcastView
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.viewmodel.ResourcesProvider
 import com.pietrantuono.podcasts.apis.PodcastFeed
 import models.pojos.Podcast
 import rx.Observer
 import java.util.concurrent.TimeoutException
 
 class SinglePodcastPresenter(
-        private val model: SinglePodcastModel,
-        private val resources: ResourcesProvider
+        private val model: SinglePodcastModel
 ) : GenericPresenter, ViewModel() {
     private var view: SinglePodcastView? = null
     private var startedWithTransition: Boolean? = false
-    private val observer: SimpleObserver<Boolean>
     private var fromSavedState: Boolean = false
     private var timeOutTime: Long = 4
-
-    init {
-        observer = object : SimpleObserver<Boolean>() {
-            override fun onNext(isSubscribedToPodcast: Boolean?) {
-                view?.setSubscribedToPodcast(isSubscribedToPodcast)
-            }
-        }
-    }
 
     override fun onDestroy() {
         view = null
@@ -39,11 +28,15 @@ class SinglePodcastPresenter(
 
     override fun onResume() {
         getFeed()
-        model.subscribeToIsSubscribedToPodcast(observer)
+        model.subscribeToIsSubscribedToPodcast(object : SimpleObserver<Boolean>() {
+            override fun onNext(isSubscribedToPodcast: Boolean?) {
+                view?.setSubscribedToPodcast(isSubscribedToPodcast)
+            }
+        })
     }
 
     private fun getFeed() {
-        if (model.podcastFeed != null) {
+        if (model.alreadyAttemptedToGetFeed) {
             return
         }
         showProgress(true)
@@ -72,14 +65,18 @@ class SinglePodcastPresenter(
     }
 
     private fun onCompleted() {
+        model.alreadyAttemptedToGetFeed = true
         showProgress(false)
-        enablePullToRefresh(false)
+        if (model.hasEpisodes) {
+            view?.enablePullToRefresh(false)
+        }
     }
 
     private fun onError(throwable: Throwable?) {
+        model.alreadyAttemptedToGetFeed = true
         showProgress(false)
         if (throwable is TimeoutException) {
-            view?.onError(resources.getString(R.string.time_out))
+            view?.onTimeout()
             return
         }
         view?.onError(throwable?.localizedMessage)
@@ -113,8 +110,6 @@ class SinglePodcastPresenter(
         }
     }
 
-    private fun enablePullToRefresh(enable: Boolean) = view?.enablePullToRefresh(enable)
-
     fun onBackPressed(): Boolean {
         if (startedWithTransition == true && !fromSavedState) {
             view?.exitWithSharedTrsnsition()
@@ -139,7 +134,8 @@ class SinglePodcastPresenter(
         return false
     }
 
-    fun onRefresh() {
+    fun onUsereRequestedRefresh() {
+        model.alreadyAttemptedToGetFeed = false
         timeOutTime++
         getFeed()
     }

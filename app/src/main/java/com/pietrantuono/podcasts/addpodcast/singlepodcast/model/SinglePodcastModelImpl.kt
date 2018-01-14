@@ -17,6 +17,10 @@ class SinglePodcastModelImpl(
         private val ioScheduler: Scheduler,
         private val mainThreadScheduler: Scheduler) : SinglePodcastModel {
 
+    override val hasEpisodes: Boolean
+        get() = podcastFeed?.episodes?.isEmpty() == false
+
+    override var alreadyAttemptedToGetFeed: Boolean = false
     override var podcastFeed: PodcastFeed? = null
     private var podcast: Podcast? = null
     private var compositeSubscription: CompositeSubscription = CompositeSubscription()
