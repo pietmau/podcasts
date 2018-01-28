@@ -33,7 +33,7 @@ class PlaylistFragment : Fragment(), PlayListView {
     companion object {
         const val TAG = "PlaylistFragment"
         fun navigateToPlaylist(fragmentManager: FragmentManager) {
-            var frag = fragmentManager.findFragmentByTag(TAG) ?: PlaylistFragment()
+            val frag = fragmentManager.findFragmentByTag(TAG) ?: PlaylistFragment()
             fragmentManager.beginTransaction()?.replace(R.id.fragmentContainer, frag, TAG)?.commit()
         }
     }
@@ -44,6 +44,7 @@ class PlaylistFragment : Fragment(), PlayListView {
         recycler.callback = { episode ->
             activity.startActivity(activity.intentFor<FullscreenPlayActivity>(EPISODE_URI to episode.uri, ARTWORK to episode.imageUrl, FullscreenPlayActivity.SHOULD_STREAM_AUDIO to true))
         }
+        activity.setTitle(R.string.playlist)
         return view
     }
 

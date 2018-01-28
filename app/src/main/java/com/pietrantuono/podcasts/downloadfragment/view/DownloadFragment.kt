@@ -29,7 +29,7 @@ class DownloadFragment : Fragment(), DownloadView {
     companion object {
         val TAG = "DownloadFragment"
         fun navigateToDownloads(fragmentManager: FragmentManager) {
-            var frag = fragmentManager.findFragmentByTag(TAG) ?: DownloadFragment()
+            val frag = fragmentManager.findFragmentByTag(TAG) ?: DownloadFragment()
             fragmentManager.beginTransaction()?.replace(R.id.fragmentContainer, frag, TAG)?.commit()
         }
     }
@@ -39,6 +39,7 @@ class DownloadFragment : Fragment(), DownloadView {
         ButterKnife.bind(this, view)
         presenter.bindView(this)
         recycler.callback = presenter
+        activity.setTitle(R.string.downloads)
         return view
     }
 

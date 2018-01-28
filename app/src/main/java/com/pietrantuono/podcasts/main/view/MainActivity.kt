@@ -2,7 +2,6 @@ package com.pietrantuono.podcasts.main.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v7.widget.Toolbar
 import butterknife.BindView
@@ -75,31 +74,22 @@ class MainActivity : AbstractPlaybackControlsActivity(), MainView {
 
     override fun navigateToAddPodcast() {
         AddPodcastFragment.navigateTo(fragmentManager)
-        setTitle(R.string.find)
     }
 
     override fun navigateToSubscribedPodcasts() {
         SubscribedPodcastFragment.navigateTo(fragmentManager)
-        setTitle(R.string.subscribed_podcasts)
     }
 
     override fun navigateToSettings() {
-        var frag: Fragment? = fragmentManager.findFragmentByTag(SettingsFragment.TAG)
-        if (frag == null) {
-            frag = SettingsFragment()
-        }
-        fragmentManager.beginTransaction()?.replace(R.id.fragmentContainer, frag, SettingsFragment.TAG)?.commit()
-        setTitle(R.string.settings)
+        SettingsFragment.navigateTo(fragmentManager)
     }
 
     override fun navigateToDownloads() {
         DownloadFragment.navigateToDownloads(fragmentManager)
-        setTitle(R.string.downloads)
     }
 
     override fun navigateToPlaylist() {
         PlaylistFragment.navigateToPlaylist(fragmentManager)
-        setTitle(R.string.playlist)
     }
 
     override fun startKillSwitchActivity(title: Int, messagge: Int) {

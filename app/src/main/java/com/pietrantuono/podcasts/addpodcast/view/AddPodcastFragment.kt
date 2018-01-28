@@ -38,10 +38,7 @@ class AddPodcastFragment : Fragment(), AddPodcastView {
         const val STATE = "view_state"
         private val TAG = AddPodcastFragment::class.java.simpleName
         fun navigateTo(fragmentManager: FragmentManager) {
-            var frag = fragmentManager.findFragmentByTag(AddPodcastFragment.TAG) as? AddPodcastFragment
-            if (frag == null) {
-                frag = AddPodcastFragment()
-            }
+            val frag = fragmentManager.findFragmentByTag(AddPodcastFragment.TAG) as? AddPodcastFragment?:AddPodcastFragment()
             fragmentManager.beginTransaction().replace(R.id.fragmentContainer, frag, AddPodcastFragment.TAG).commit()
         }
     }
@@ -93,6 +90,7 @@ class AddPodcastFragment : Fragment(), AddPodcastView {
             }
         })
         swipeRefreshLayout.setOnRefreshListener { refresh() }
+        activity.setTitle(R.string.find)
         return view
     }
 

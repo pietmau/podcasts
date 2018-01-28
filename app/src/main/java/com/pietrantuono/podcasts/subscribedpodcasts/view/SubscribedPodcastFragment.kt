@@ -41,6 +41,7 @@ class SubscribedPodcastFragment : Fragment(), SubscribedPodcastView {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.fragment_subscribed, container, false)
         ButterKnife.bind(this, view)
+        activity.setTitle(R.string.subscribed_podcasts)
         return view
     }
 
@@ -95,10 +96,7 @@ class SubscribedPodcastFragment : Fragment(), SubscribedPodcastView {
         private val TAG = SubscribedPodcastFragment::class.java.simpleName
 
         fun navigateTo(fragmentManager: FragmentManager) {
-            var frag: SubscribedPodcastFragment? = fragmentManager.findFragmentByTag(SubscribedPodcastFragment.TAG) as? SubscribedPodcastFragment
-            if (frag == null) {
-                frag = SubscribedPodcastFragment()
-            }
+            var frag = fragmentManager.findFragmentByTag(SubscribedPodcastFragment.TAG) ?: SubscribedPodcastFragment()
             fragmentManager.beginTransaction().replace(R.id.fragmentContainer, frag, SubscribedPodcastFragment.TAG).commit()
         }
     }
