@@ -25,67 +25,21 @@
 
     </LinearLayout>
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_container"
+    <com.pietrantuono.podcasts.errorloadingview.ErrorLoadingView
+        android:id="@+id/error_loading_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/header"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <!--<com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler-->
+            <!--android:id="@+id/search_results"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="@color/colorAccent"-->
+            <!--&gt;-->
+        <!--</com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler>-->
 
-            <LinearLayout
-                android:id="@+id/contaniner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="50dp"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:id="@+id/sad_face_contanier"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        app:srcCompat="@drawable/ic_sentiment_neutral_accent_24dp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/nothing_to_see"
-                        android:textAppearance="?android:textAppearanceSmall"
-                        android:textColor="@color/colorAccent"/>
-
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/retry_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/retry"
-                    android:textColor="@color/colorAccent"/>
-            </LinearLayout>
-
-            <com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler
-                android:id="@+id/search_results"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
-            </com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler>
-
-        </RelativeLayout>
-
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </com.pietrantuono.podcasts.errorloadingview.ErrorLoadingView>
 
 </RelativeLayout>

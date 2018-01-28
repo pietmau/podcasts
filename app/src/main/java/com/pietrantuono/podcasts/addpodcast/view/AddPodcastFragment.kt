@@ -8,12 +8,10 @@ import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.util.Pair
-import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.SearchView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import butterknife.BindView
@@ -26,6 +24,7 @@ import com.pietrantuono.podcasts.addpodcast.dagger.AddPodcastModule
 import com.pietrantuono.podcasts.addpodcast.presenter.AddPodcastPresenter
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.AddSinglePodcastActivity
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.State
+import com.pietrantuono.podcasts.errorloadingview.ErrorLoadingView
 import com.pietrantuono.podcasts.main.view.MainActivity
 import com.pietrantuono.podcasts.main.view.TransitionsHelper
 import hugo.weaving.DebugLog
@@ -38,7 +37,7 @@ class AddPodcastFragment : Fragment(), AddPodcastView {
         const val STATE = "view_state"
         private val TAG = AddPodcastFragment::class.java.simpleName
         fun navigateTo(fragmentManager: FragmentManager) {
-            val frag = fragmentManager.findFragmentByTag(AddPodcastFragment.TAG) as? AddPodcastFragment?:AddPodcastFragment()
+            val frag = fragmentManager.findFragmentByTag(AddPodcastFragment.TAG) as? AddPodcastFragment ?: AddPodcastFragment()
             fragmentManager.beginTransaction().replace(R.id.fragmentContainer, frag, AddPodcastFragment.TAG).commit()
         }
     }
@@ -46,10 +45,7 @@ class AddPodcastFragment : Fragment(), AddPodcastView {
     @Inject lateinit var presenter: AddPodcastPresenter
     @Inject lateinit var transitions: TransitionsHelper
     @BindView(R.id.search_view) lateinit var searchView: SearchView
-    @BindView(R.id.search_results) lateinit var podcastsRecycler: PodcastsRecycler
-    @BindView(R.id.swipe_container) lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    @BindView(R.id.contaniner) lateinit var contaniner: View
-    @BindView(R.id.retry_button) lateinit var retryButton: Button
+    @BindView(R.id.error_loading_view) lateinit var errorLoadingView: ErrorLoadingView<PodcastsRecycler>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,8 +73,8 @@ class AddPodcastFragment : Fragment(), AddPodcastView {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_add, container, false)
         view?.let { ButterKnife.bind(this, it) }
-        presenter.bindView(this@AddPodcastFragment, savedInstanceState)
-        podcastsRecycler.setListeners(presenter)
+        errorLoadingView.recycler = PodcastsRecycler(context)
+        errorLoadingView.recycler?.setListeners(presenter)
         searchView.setOnQueryTextListener(object : SimpleOnQueryTextListener() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 hideKeyboard()
@@ -89,8 +85,9 @@ class AddPodcastFragment : Fragment(), AddPodcastView {
                 return presenter.onQueryTextSubmit(newText)
             }
         })
-        swipeRefreshLayout.setOnRefreshListener { refresh() }
+        errorLoadingView.setOnRefreshListener { refresh() }
         activity.setTitle(R.string.find)
+        presenter.bindView(this@AddPodcastFragment, savedInstanceState)
         return view
     }
 
@@ -102,7 +99,7 @@ class AddPodcastFragment : Fragment(), AddPodcastView {
 
     @DebugLog
     override fun updateSearchResults(items: List<Podcast>) {
-        podcastsRecycler.setItems(items)
+        errorLoadingView.recycler?.setItems(items)
     }
 
 
@@ -126,43 +123,16 @@ class AddPodcastFragment : Fragment(), AddPodcastView {
     }
 
     override fun isPartiallyHidden(position: Int): Boolean {
-        return podcastsRecycler.isPartiallyHidden(position)
+        return errorLoadingView.recycler?.isPartiallyHidden(position) == true
     }
 
     override fun setState(state: State) {
-        when (state) {
-            State.LOADING -> {
-                podcastsRecycler.visibility = View.GONE
-                swipeRefreshLayout.isRefreshing = true
-                contaniner.visibility = View.GONE
-            }
-            State.FULL -> {
-                podcastsRecycler.visibility = View.VISIBLE
-                swipeRefreshLayout.isRefreshing = false
-                contaniner.visibility = View.GONE
-            }
-            State.EMPTY -> {
-                podcastsRecycler.visibility = View.GONE
-                swipeRefreshLayout.isRefreshing = false
-                contaniner.visibility = View.VISIBLE
-            }
-            State.ERROR -> {
-                podcastsRecycler.visibility = View.GONE
-                swipeRefreshLayout.isRefreshing = false
-                contaniner.visibility = View.VISIBLE
-            }
-        }
-        swipeRefreshLayout.isEnabled = presenter.thereIsAValidQuery()
-        if (presenter.thereIsAValidQuery()) {
-            retryButton.visibility = View.VISIBLE
-        } else {
-            retryButton.visibility = View.GONE
-        }
+        errorLoadingView.setState(state)
+        errorLoadingView.thereIsAValidQuery(presenter.thereIsAValidQuery())
     }
 
     @OnClick(R.id.retry_button)
     fun refresh() {
         presenter.refresh()
     }
-
 }

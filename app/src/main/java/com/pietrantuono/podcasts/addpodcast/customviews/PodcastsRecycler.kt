@@ -15,6 +15,9 @@ import models.pojos.Podcast
 import javax.inject.Inject
 
 class PodcastsRecycler(context: Context, attrs: AttributeSet?) : RecyclerView(context, attrs) {
+
+    constructor(context: Context) : this(context, null)
+
     @Inject lateinit var adapter: PodcastsAdapter
 
     init {
