@@ -13,10 +13,12 @@ import android.support.v7.widget.SearchView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import butterknife.BindView
 import butterknife.ButterKnife
+import butterknife.OnClick
 import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.SimpleOnQueryTextListener
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsRecycler
@@ -50,8 +52,7 @@ class AddPodcastFragment : Fragment(), AddPodcastView {
     @BindView(R.id.search_results) lateinit var podcastsRecycler: PodcastsRecycler
     @BindView(R.id.swipe_container) lateinit var swipeRefreshLayout: SwipeRefreshLayout
     @BindView(R.id.contaniner) lateinit var contaniner: View
-
-    private var viewState: State = State.EMPTY
+    @BindView(R.id.retry_button) lateinit var retryButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,17 +92,14 @@ class AddPodcastFragment : Fragment(), AddPodcastView {
                 return presenter.onQueryTextSubmit(newText)
             }
         })
+        swipeRefreshLayout.setOnRefreshListener { refresh() }
         return view
     }
 
     @DebugLog
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
-        outState?.putSerializable(STATE, viewState)
-    }
-
-    @DebugLog
-    override fun onError(throwable: Throwable) {
+        outState?.putSerializable(STATE, presenter.viewState)
     }
 
     @DebugLog
@@ -134,31 +132,39 @@ class AddPodcastFragment : Fragment(), AddPodcastView {
     }
 
     override fun setState(state: State) {
-        this.viewState = state
         when (state) {
             State.LOADING -> {
+                podcastsRecycler.visibility = View.GONE
                 swipeRefreshLayout.isRefreshing = true
-                swipeRefreshLayout.isEnabled = true
                 contaniner.visibility = View.GONE
             }
             State.FULL -> {
+                podcastsRecycler.visibility = View.VISIBLE
                 swipeRefreshLayout.isRefreshing = false
-                swipeRefreshLayout.isEnabled = false
                 contaniner.visibility = View.GONE
             }
             State.EMPTY -> {
-                viewEmpty()
+                podcastsRecycler.visibility = View.GONE
+                swipeRefreshLayout.isRefreshing = false
                 contaniner.visibility = View.VISIBLE
             }
             State.ERROR -> {
-                viewEmpty()
+                podcastsRecycler.visibility = View.GONE
+                swipeRefreshLayout.isRefreshing = false
                 contaniner.visibility = View.VISIBLE
             }
         }
+        swipeRefreshLayout.isEnabled = presenter.thereIsAValidQuery()
+        if (presenter.thereIsAValidQuery()) {
+            retryButton.visibility = View.VISIBLE
+        } else {
+            retryButton.visibility = View.GONE
+        }
     }
 
-    private fun viewEmpty() {
-        swipeRefreshLayout.isRefreshing = false
-        swipeRefreshLayout.isEnabled = true
+    @OnClick(R.id.retry_button)
+    fun refresh() {
+        presenter.refresh()
     }
+
 }

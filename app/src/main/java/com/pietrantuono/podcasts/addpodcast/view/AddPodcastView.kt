@@ -10,8 +10,6 @@ import models.pojos.Podcast
 
 interface AddPodcastView {
 
-    fun onError(throwable: Throwable)
-
     fun updateSearchResults(items: List<Podcast>)
 
     fun startDetailActivityWithTransition(podcast: Podcast, imageView: ImageView, titleContainer: LinearLayout)

@@ -21,25 +21,26 @@ class AddPodcastPresenter(
         private val apiLevelChecker: ApiLevelChecker)
     : ViewModel(), GenericPresenter, PodcastsAdapter.OnSunscribeClickedListener, PodcastsAdapter.OnItemClickedClickedListener {
 
-    companion object {
-        val TAG = AddPodcastPresenter::class.java.simpleName
-    }
-
     private val observer: Observer<SearchResult>
     private var view: AddPodcastView? = null
     private var cachedResult: SearchResult? = null
+    internal val viewState: State?
+        get() = model.viewState
 
     init {
         observer = object : SimpleObserver<SearchResult>() {
-
             override fun onError(throwable: Throwable) {
-                this@AddPodcastPresenter.onError(throwable)
+                onError()
             }
 
             override fun onNext(result: SearchResult) {
                 onSearchResultsAvailable(result)
             }
         }
+    }
+
+    private fun onError() {
+        setViewState(State.ERROR)
     }
 
     private fun onSearchResultsAvailable(result: SearchResult) {
@@ -50,23 +51,22 @@ class AddPodcastPresenter(
         setViewEmptyOrFull(result)
     }
 
-    private fun onError(throwable: Throwable) {
-        view?.onError(throwable)
-        view?.setState(State.ERROR)
-    }
-
     private fun updateSearchResults(result: SearchResult) {
         view?.updateSearchResults(result.list)
         setViewEmptyOrFull(result)
     }
 
     private fun setViewEmptyOrFull(result: SearchResult) {
-        val shouldBeEmpty = shouldBeEmpty(result)
-        if (shouldBeEmpty) {
-            view?.setState(State.EMPTY)
+        if (shouldBeEmpty(result)) {
+            setViewState(State.EMPTY)
             return
         }
-        view?.setState(State.FULL)
+        setViewState(State.FULL)
+    }
+
+    private fun setViewState(state: State) {
+        model.viewState = state
+        view?.setState(state)
     }
 
     private fun shouldBeEmpty(result: SearchResult): Boolean = result.list == null || result.list.isEmpty()
@@ -80,11 +80,11 @@ class AddPodcastPresenter(
     }
 
     private fun setSavedViewState(bundle: Bundle?) {
-        val state = bundle?.getSerializable(AddPodcastFragment.STATE) as? State
-        state?.let {
-            view?.setState(it)
-        }
+        val state = getViewState(bundle)
+        setViewState(state)
     }
+
+    private fun getViewState(bundle: Bundle?) = (bundle?.getSerializable(AddPodcastFragment.STATE) as? State) ?: State.EMPTY
 
     override fun onDestroy() {
         view = null
@@ -99,16 +99,11 @@ class AddPodcastPresenter(
     }
 
     fun onQueryTextSubmit(query: String?): Boolean {
-        launchQuery(query)
+        model.searchPodcasts(query)
         return true
     }
 
-    private fun launchQuery(query: String?) {
-        model.searchPodcasts(query)
-    }
-
     override fun onSubscribeClicked(podcast: Podcast) = throw UnsupportedOperationException()
-
 
     override fun onItemClicked(podcast: Podcast, imageView: ImageView, position: Int, titleContainer: LinearLayout) {
         if (apiLevelChecker.isLollipopOrHigher && view?.isPartiallyHidden(position) == false) {
@@ -116,5 +111,12 @@ class AddPodcastPresenter(
         } else {
             view?.startDetailActivityWithoutTransition(podcast)
         }
+    }
+
+    fun thereIsAValidQuery() = !model.query.isNullOrBlank()
+
+    fun refresh() {
+        setViewState(State.LOADING)
+        model.refresh()
     }
 }
