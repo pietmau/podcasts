@@ -6,7 +6,6 @@ import android.view.Menu
 import android.widget.ImageView
 import butterknife.BindView
 import com.pietrantuono.podcasts.R
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.custom.SimpleProgressBar
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
 import com.pietrantuono.podcasts.main.view.TransitionsHelper
 import com.pietrantuono.podcasts.utils.isInValidState
@@ -14,7 +13,6 @@ import javax.inject.Inject
 
 
 open abstract class AbstractBaseDetailActivty() : AbstractPlaybackControlsActivity(), BitmapColorExtractor.Callback {
-    var progressBar: SimpleProgressBar? = null
     var toolbar: Toolbar? = null
     @BindView(R.id.main_image) lateinit var imageView: ImageView
     @Inject lateinit var transitionsHelper: TransitionsHelper
