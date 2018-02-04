@@ -23,14 +23,14 @@ import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import com.example.android.uamp.R
+import models.pojos.Episode
 import player.AlbumArtCache
 import player.model.MusicProvider
-import player.utils.LogHelper
 import player.utils.MediaIDHelper
 import player.utils.QueueHelper
 import java.util.*
 
-class QueueManager(private val mMusicProvider: MusicProvider,
+class QueueManager(private val musicProvider: MusicProvider,
                    private val mResources: Resources,
                    private val mListener: MetadataUpdateListener,
                    private val queueHelper: QueueHelper
@@ -63,14 +63,12 @@ class QueueManager(private val mMusicProvider: MusicProvider,
     }
 
     fun setCurrentQueueItem(queueId: Long): Boolean {
-        // set the current index on queue from the queue Id:
         val index = queueHelper.getMusicIndexOnQueue(mPlayingQueue, queueId)
         setCurrentQueueIndex(index)
         return index >= 0
     }
 
     fun setCurrentQueueItem(mediaId: String): Boolean {
-        // set the current index on queue from the music Id:
         val index = queueHelper.getMusicIndexOnQueue(mPlayingQueue, mediaId)
         setCurrentQueueIndex(index)
         return index >= 0
@@ -79,15 +77,11 @@ class QueueManager(private val mMusicProvider: MusicProvider,
     fun skipQueuePosition(amount: Int): Boolean {
         var index = mCurrentIndex + amount
         if (index < 0) {
-            // skip backwards before the first song will keep you on the first song
             index = 0
         } else {
-            // skip forwards when in last song will cycle back to start of the queue
             index %= mPlayingQueue?.size ?: 0
         }
         if (!queueHelper.isIndexPlayable(index, mPlayingQueue)) {
-            LogHelper.e(TAG, "Cannot increment queue index by ", amount,
-                    ". Current=", mCurrentIndex, " queue length=", mPlayingQueue?.size)
             return false
         }
         mCurrentIndex = index
@@ -95,7 +89,7 @@ class QueueManager(private val mMusicProvider: MusicProvider,
     }
 
     fun setQueueFromSearch(query: String, extras: Bundle): Boolean {
-        val queue = queueHelper.getPlayingQueueFromSearch(query, extras, mMusicProvider)
+        val queue = queueHelper.getPlayingQueueFromSearch(query, extras, musicProvider)
         setCurrentQueue(mResources.getString(R.string.search_queue_title), queue)
         updateMetadata()
         return queue != null && !queue.isEmpty()
@@ -103,21 +97,19 @@ class QueueManager(private val mMusicProvider: MusicProvider,
 
     fun setRandomQueue() {
         setCurrentQueue(mResources.getString(R.string.random_queue_title),
-                queueHelper.getRandomQueue(mMusicProvider))
+                queueHelper.getRandomQueue(musicProvider))
         updateMetadata()
     }
 
     fun setQueueFromMusic(mediaId: String) {
-        LogHelper.d(TAG, "setQueueFromMusic", mediaId)
         val queueTitle = ""
-        setCurrentQueue(queueTitle,
-                queueHelper.getPlayingQueue(mediaId, mMusicProvider), mediaId)
+        setCurrentQueue(queueTitle, queueHelper.getPlayingQueue(mediaId, musicProvider), mediaId)
         updateMetadata()
     }
 
 
     fun addToQueue(uri: String) {
-        val newQueue = queueHelper.getPlayingQueue(uri, mMusicProvider)
+        val newQueue = queueHelper.getPlayingQueue(uri, musicProvider)
         mPlayingQueue = newQueue
         updateMetadata()
     }
@@ -139,35 +131,30 @@ class QueueManager(private val mMusicProvider: MusicProvider,
             mListener.onMetadataRetrieveError()
             return
         }
-        val musicId = currentMusic.description.mediaId
-        val metadata = mMusicProvider.getMusic(musicId) ?: throw IllegalArgumentException("Invalid musicId " + musicId)
-
-        mListener.onMetadataChanged(metadata)
-
-        // Set the proper album artwork on the media session, so it can be shown in the
-        // locked screen and in other places.
-        if (metadata.description.iconBitmap == null && metadata.description.iconUri != null) {
-            val albumUri = metadata.description.iconUri?.toString()
-            AlbumArtCache.getInstance().fetch(albumUri, object : AlbumArtCache.FetchListener() {
-                override fun onFetched(artUrl: String, bitmap: Bitmap, icon: Bitmap) {
-                    mMusicProvider.updateMusicArt(musicId, bitmap, icon)
-
-                    // If we are still playing the same music, notify the listeners:
-                    val mediaId = currentMusic?.description?.mediaId
-                    mediaId ?: return
-                    val currentPlayingId = MediaIDHelper.extractMusicIDFromMediaID(mediaId)
-                    if (musicId == currentPlayingId) {
-                        mListener.onMetadataChanged(mMusicProvider.getMusic(currentPlayingId))
-                    }
-                }
-            })
+        musicProvider.getMusic(currentMusic.description?.mediaId)?.let {
+            updateMedtadataInternal(it, currentMusic)
         }
     }
 
-    fun updateProgress(position: Long) {
-
+    private fun updateMedtadataInternal(mediaMetadataCompat: MediaMetadataCompat, currentMusic: MediaSessionCompat.QueueItem) {
+        mListener.onMetadataChanged(mediaMetadataCompat)
+        if (mediaMetadataCompat.description.iconBitmap == null && mediaMetadataCompat.description?.iconUri != null) {
+            updateArt(mediaMetadataCompat, currentMusic)
+        }
     }
 
+    private fun updateArt(mediaMetadataCompat: MediaMetadataCompat, currentMusic: MediaSessionCompat.QueueItem) {
+        AlbumArtCache.getInstance().fetch(mediaMetadataCompat.description?.iconUri?.toString(), object : AlbumArtCache.FetchListener() {
+            override fun onFetched(artUrl: String, bitmap: Bitmap, icon: Bitmap) {
+                musicProvider.updateMusicArt(mediaMetadataCompat.description?.mediaId, bitmap, icon)
+                val mediaId = currentMusic?.description?.mediaId ?: return
+                val currentPlayingId = MediaIDHelper.extractMusicIDFromMediaID(mediaId)
+                if (mediaId == currentPlayingId) {
+                    musicProvider.getMusic(currentPlayingId)?.let { mListener.onMetadataChanged(it) }
+                }
+            }
+        })
+    }
 
     interface MetadataUpdateListener {
         fun onMetadataChanged(metadata: MediaMetadataCompat)
@@ -177,9 +164,5 @@ class QueueManager(private val mMusicProvider: MusicProvider,
         fun onCurrentQueueIndexUpdated(queueIndex: Int)
 
         fun onQueueUpdated(title: String, newQueue: List<MediaSessionCompat.QueueItem>?)
-    }
-
-    companion object {
-        private val TAG = LogHelper.makeLogTag(QueueManager::class.java)
     }
 }

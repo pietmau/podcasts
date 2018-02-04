@@ -14,13 +14,15 @@
 * limitations under the License.
 */
 
-package player
+package com.pietrantuono.podcasts.musicservice
 
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat.MediaItem
 import android.support.v4.media.MediaBrowserServiceCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import com.pietrantuono.podcasts.application.App
+import player.CustomMediaService
 import player.playback.PlaybackServiceCallback
 import player.utils.MediaIDHelper.MEDIA_ID_EMPTY_ROOT
 import javax.inject.Inject
@@ -30,8 +32,8 @@ class MusicService : MediaBrowserServiceCompat(), CustomMediaService, PlaybackSe
 
     override fun onCreate() {
         super.onCreate()
-        DaggerMusicServiceComponent.builder().musicServiceModule(MusicServiceModule(this)).build().inject(this)
-        musicServicePresenter.setService(this)
+        (application as App).appComponent?.with(MusicServiceModule(this))?.inject(this)
+        musicServicePresenter.service = this
         musicServicePresenter.onCreate()
     }
 

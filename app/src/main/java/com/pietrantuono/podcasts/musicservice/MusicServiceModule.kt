@@ -14,16 +14,17 @@ import player.model.SourceExtractor
 import player.model.SourceExtractorImpl
 import player.playback.*
 import player.utils.QueueHelper
-import javax.inject.Singleton
+import repo.repository.EpisodesRepository
+import repo.repository.PodcastRepo
 
-@Singleton
+@MusicServiceScope
 @Module
 class MusicServiceModule(private val musicService: com.pietrantuono.podcasts.musicservice.MusicService) {
     val context = musicService.applicationContext
 
-    @Singleton
+    @MusicServiceScope
     @Provides
-    fun providesMusicProvider(sourceExtractor: SourceExtractor): MusicProvider = MusicProviderRealm(sourceExtractor)
+    fun providesMusicProvider(sourceExtractor: SourceExtractor, episodeRepo: EpisodesRepository, podcastRepo: PodcastRepo): MusicProvider = MusicProviderRealm(episodeRepo, podcastRepo, sourceExtractor)
 
     @Provides
     fun providesSourceExtractor(): SourceExtractor = SourceExtractorImpl()
@@ -31,19 +32,19 @@ class MusicServiceModule(private val musicService: com.pietrantuono.podcasts.mus
     @Provides
     fun providesPackageValidator() = PackageValidator(context)
 
-    @Singleton
+    @MusicServiceScope
     @Provides
     fun providesLocalPlayback(mMusicProvider: MusicProvider): Playback = LocalPlayback(context, mMusicProvider)
 
-    @Singleton
+    @MusicServiceScope
     @Provides
     fun providesQueueHelper(): QueueHelper = QueueHelperRealm()
 
-    @Singleton
+    @MusicServiceScope
     @Provides
     fun providesMediaSessionCompat() = MediaSessionCompat(context, "MusicService")
 
-    @Singleton
+    @MusicServiceScope
     @Provides
     fun providesPlaybackManager(playback: Playback, mMusicProvider: MusicProvider, mSession: MediaSessionCompat, queueHelper: QueueHelper, playbackStateUpdater: PlaybackStateUpdater, customActionResolver: CustomActionResolver): PlaybackManager {
         var manager: PlaybackManager? = null
@@ -70,7 +71,7 @@ class MusicServiceModule(private val musicService: com.pietrantuono.podcasts.mus
         return manager!!
     }
 
-    @Singleton
+    @MusicServiceScope
     @Provides
     fun providePlaybackStateUpdater(provider: MusicProvider, playback: Playback) = PlaybackStateUpdater(provider, context.getResources(), playback, musicService)
 

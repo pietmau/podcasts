@@ -11,25 +11,19 @@ import player.model.MusicProviderImpl
 import player.model.MusicProviderSource
 import player.model.SourceExtractor
 import repo.repository.EpisodesRepository
-import repo.repository.EpisodesRepositoryRealm
 import repo.repository.PodcastRepo
-import repo.repository.PodcastRepoRealm
 
-class MusicProviderRealm(private val extractor: SourceExtractor) : MusicProvider {
-    private var episodesRepository: EpisodesRepository
-    private var podcastRepo: PodcastRepo
+class MusicProviderRealm(
+        private val episodesRepository: EpisodesRepository,
+        private val podcastRepo: PodcastRepo,
+        private val extractor: SourceExtractor) : MusicProvider {
+
+    override val genres: Iterable<String>? = null
+    override val shuffledMusic: Iterable<MediaMetadataCompat>? = null
+    override val isInitialized: Boolean = false
 
     init {
-        episodesRepository = EpisodesRepositoryRealm()
-        podcastRepo = PodcastRepoRealm(null)
-    }
 
-    override fun getGenres(): Iterable<String>? {
-        return null
-    }
-
-    override fun getShuffledMusic(): Iterable<MediaMetadataCompat>? {
-        return null
     }
 
     override fun getMusicsByGenre(genre: String): Iterable<MediaMetadataCompat>? {
@@ -56,7 +50,7 @@ class MusicProviderRealm(private val extractor: SourceExtractor) : MusicProvider
         return mediaMetadataCompatFromEpisode(episode)
     }
 
-    override fun updateMusicArt(musicId: String, albumArt: Bitmap, icon: Bitmap) {
+    override fun updateMusicArt(musicId: String?, albumArt: Bitmap, icon: Bitmap) {
 
     }
 
@@ -64,9 +58,6 @@ class MusicProviderRealm(private val extractor: SourceExtractor) : MusicProvider
         throw UnsupportedOperationException()
     }
 
-    override fun isInitialized(): Boolean {
-        return false
-    }
 
     override fun isFavorite(musicId: String?): Boolean {
         return false

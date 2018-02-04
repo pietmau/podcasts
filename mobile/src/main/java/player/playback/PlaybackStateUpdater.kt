@@ -10,8 +10,11 @@ import player.model.MusicProvider
 import player.utils.MediaIDHelper
 import player.utils.WearHelper
 
-class PlaybackStateUpdater(private val musicProvider: MusicProvider, private val resources: Resources, private val playback: Playback?,
-                           private val serviceCallback: PlaybackServiceCallback) {
+class PlaybackStateUpdater(
+        private val musicProvider: MusicProvider,
+        private val resources: Resources,
+        private val playback: Playback?,
+        private val serviceCallback: PlaybackServiceCallback) {
 
     fun updatePlaybackState(error: String?, queueManager: QueueManager) {
         var position = PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN
@@ -39,7 +42,7 @@ class PlaybackStateUpdater(private val musicProvider: MusicProvider, private val
     }
 
     private fun updateProgress(position: Long, queueManager: QueueManager) {
-        queueManager.updateProgress(position)
+
     }
 
     private fun setCustomAction(stateBuilder: PlaybackStateCompat.Builder,

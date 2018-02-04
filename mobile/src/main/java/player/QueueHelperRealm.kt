@@ -14,7 +14,7 @@ class QueueHelperRealm : QueueHelper {
 
     override fun getPlayingQueue(mediaId: String, musicProvider: MusicProvider): List<MediaSessionCompat.QueueItem> {
         val metadataCompat = musicProvider.getMusic(mediaId)
-        val item = MediaSessionCompat.QueueItem(metadataCompat.description, (playingQueue.size + 1).toLong())
+        val item = MediaSessionCompat.QueueItem(metadataCompat?.description, (playingQueue.size + 1).toLong())
         playingQueue.add(item)
         return Collections.unmodifiableList<MediaSessionCompat.QueueItem>(playingQueue)
     }

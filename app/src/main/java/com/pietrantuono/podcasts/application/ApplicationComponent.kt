@@ -19,6 +19,8 @@ import com.pietrantuono.podcasts.main.dagger.ImageLoaderModule
 import com.pietrantuono.podcasts.main.dagger.MainModule
 import com.pietrantuono.podcasts.main.dagger.TransitionsModule
 import com.pietrantuono.podcasts.media.MediaModule
+import com.pietrantuono.podcasts.musicservice.MusicServiceComponent
+import com.pietrantuono.podcasts.musicservice.MusicServiceModule
 import com.pietrantuono.podcasts.player.PlayerModule
 import com.pietrantuono.podcasts.playlist.di.PlaylistModule
 import com.pietrantuono.podcasts.playlist.di.PlaylistSubComponent
@@ -66,4 +68,6 @@ interface ApplicationComponent {
     fun with(serviceModule: SettingsFragmentModule): SettingsFragmentComponent
 
     fun with(playlistModule: PlaylistModule): PlaylistSubComponent
+
+    fun with(musicServiceModule: MusicServiceModule): MusicServiceComponent
 }
