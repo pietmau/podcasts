@@ -15,6 +15,8 @@ interface CustomControls {
     fun setProgress(progress: Int)
     fun snack(message: String)
     fun setConfiguration(config: Configuration)
+    fun askUserRestartOrResume(title: String?)
 
     class Configuration(val shouldStreamAudio: Boolean)
+
 }

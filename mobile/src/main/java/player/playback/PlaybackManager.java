@@ -21,15 +21,10 @@ import android.support.annotation.NonNull;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-
 import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
-import player.utils.LogHelper;
-
 public class PlaybackManager extends MediaSessionCompat.Callback implements Playback.Callback {
-    private static final String TAG = LogHelper.makeLogTag(PlaybackManager.class);
     private final QueueManager queueManager;
     private final CustomActionResolver customActionResolver;
     private Playback playback;
@@ -50,7 +45,6 @@ public class PlaybackManager extends MediaSessionCompat.Callback implements Play
     }
 
     public void handlePlayRequest() {
-        LogHelper.d(TAG, "handlePlayRequest: mState=" + playback.getState());
         MediaSessionCompat.QueueItem currentMusic = queueManager.getCurrentMusic();
         if (currentMusic != null) {
             serviceCallback.onPlaybackStart();
@@ -59,14 +53,12 @@ public class PlaybackManager extends MediaSessionCompat.Callback implements Play
     }
 
     public void handlePauseRequest() {
-        LogHelper.d(TAG, "handlePauseRequest: mState=" + playback.getState());
         if (playback.isPlaying()) {
             playback.pause();
         }
     }
 
     public void handleStopRequest(String withError) {
-        LogHelper.d(TAG, "handleStopRequest: mState=" + playback.getState() + " error=", withError);
         playback.stop(true);
         serviceCallback.onPlaybackStop();
         updatePlaybackState(withError);
@@ -98,7 +90,6 @@ public class PlaybackManager extends MediaSessionCompat.Callback implements Play
 
     @Override
     public void setCurrentMediaId(String mediaId) {
-        LogHelper.d(TAG, "setCurrentMediaId", mediaId);
         queueManager.setQueueFromMusic(mediaId);
     }
 
@@ -130,7 +121,6 @@ public class PlaybackManager extends MediaSessionCompat.Callback implements Play
 
     @Override
     public void onPlay() {
-        LogHelper.d(TAG, "play");
         if (queueManager.getCurrentMusic() == null) {
             queueManager.setRandomQueue();
         }
@@ -139,14 +129,12 @@ public class PlaybackManager extends MediaSessionCompat.Callback implements Play
 
     @Override
     public void onSkipToQueueItem(long queueId) {
-        LogHelper.d(TAG, "OnSkipToQueueItem:" + queueId);
         queueManager.setCurrentQueueItem(queueId);
         queueManager.updateMetadata();
     }
 
     @Override
     public void onSeekTo(long position) {
-        LogHelper.d(TAG, "onSeekTo:", position);
         playback.seekTo((int) position);
     }
 
@@ -157,13 +145,11 @@ public class PlaybackManager extends MediaSessionCompat.Callback implements Play
 
     @Override
     public void onPause() {
-        LogHelper.d(TAG, "pause. current state=" + playback.getState());
         handlePauseRequest();
     }
 
     @Override
     public void onStop() {
-        LogHelper.d(TAG, "stop. current state=" + playback.getState());
         handleStopRequest(null);
     }
 
@@ -189,7 +175,6 @@ public class PlaybackManager extends MediaSessionCompat.Callback implements Play
 
     @Override
     public void onPlayFromSearch(final String query, final Bundle extras) {
-        LogHelper.d(TAG, "playFromSearch  query=", query, " extras=", extras);
         playback.setState(PlaybackStateCompat.STATE_CONNECTING);
         boolean successSearch = queueManager.setQueueFromSearch(query, extras);
         if (successSearch) {
@@ -201,13 +186,11 @@ public class PlaybackManager extends MediaSessionCompat.Callback implements Play
     }
 
     void playFromMediaId(String mediaId, Bundle extras) {
-        LogHelper.d(TAG, "playFromMediaId mediaId:", mediaId, "  extras=", extras);
         queueManager.setQueueFromMusic(mediaId);
         handlePlayRequest();
     }
 
     private void skipToNext() {
-        LogHelper.d(TAG, "skipToNext");
         if (queueManager.skipQueuePosition(1)) {
             handlePlayRequest();
         } else {

@@ -79,7 +79,7 @@ class StatusManager {
     }
 
     private fun startNewPodcast() {
-        callback?.startNewPodcast(episode?.uri)
+        callback?.startNewPodcast()
     }
 
     fun isPlayingCurrentEpisode(): Boolean {

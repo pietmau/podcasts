@@ -54,4 +54,8 @@ class ViewUpdater(
         view?.updateDuration(metadata.getLong(MediaMetadataCompat.METADATA_KEY_DURATION).toInt())
     }
 
+    fun askUserRestartOrResume(title: String?) {
+        view?.askUserRestartOrResume(title)
+    }
+
 }

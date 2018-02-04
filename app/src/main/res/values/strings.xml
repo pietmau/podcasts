@@ -78,6 +78,9 @@
     <string name="time_out">Server took to long to respond</string>
     <string name="retry">RETRY</string>
     <string name="nothing_to_see">...nothing to see here...</string>
+    <string name="restart_or_resume">Restart or resume?</string>
+    <string name="restart">Restart</string>
+    <string name="resume">Resume</string>
 
 
 </resources>

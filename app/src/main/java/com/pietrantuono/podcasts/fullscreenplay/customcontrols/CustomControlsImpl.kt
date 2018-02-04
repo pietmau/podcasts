@@ -1,5 +1,6 @@
 package com.pietrantuono.podcasts.fullscreenplay.customcontrols
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.support.design.widget.Snackbar
@@ -19,6 +20,8 @@ import com.pietrantuono.podcasts.application.App
 import com.pietrantuono.podcasts.fullscreenplay.custom.PlaybackControlView
 import com.pietrantuono.podcasts.fullscreenplay.di.FullscreenModule
 import models.pojos.Episode
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.appcompat.v7.Appcompat
 import javax.inject.Inject
 
 class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs), CustomControls {
@@ -133,6 +136,15 @@ class CustomControlsImpl(context: Context, attrs: AttributeSet) : RelativeLayout
 
     override fun setConfiguration(config: CustomControls.Configuration) {
         presenter.setConfiguration(config)
+    }
+
+    override fun askUserRestartOrResume(title: String?) {
+        context ?: return
+        val restartOr = context.resources.getString(R.string.restart_or_resume)
+        (context as? Activity)?.alert(Appcompat, restartOr, title) {
+            positiveButton(R.string.restart, { presenter.restart() })
+            negativeButton(R.string.resume, { presenter.resume() })
+        }
     }
 }
 

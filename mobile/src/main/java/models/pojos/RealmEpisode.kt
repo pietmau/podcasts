@@ -48,6 +48,7 @@ open class RealmEpisode : RealmObject, Episode {
     @PrimaryKey
     override var uri: String? = null
     override var deleted: Boolean = false
+    override var progress: Long = 0
 
     constructor(parcel: Parcel) {
         link = parcel.readString()
@@ -63,6 +64,8 @@ open class RealmEpisode : RealmObject, Episode {
         fileSizeInBytes = parcel.readLong()
         downloadRequestId = parcel.readLong()
         uri = parcel.readString()
+        deleted = parcel.readByte() != 0.toByte()
+        progress = parcel.readLong()
     }
 
     constructor()
@@ -70,7 +73,7 @@ open class RealmEpisode : RealmObject, Episode {
     constructor(duration: String?, author: String?, isExplicit: Boolean?, imageUrl: String?,
                 keywords: List<String>?, subtitle: String?, summary: String?, pubDate: Date?,
                 title: String?, description: String?, syndEnclosures: List<SyndEnclosure>?,
-                link: String?, uri: String?) {
+                link: String?, uri: String?, deleted: Boolean, progress: Long) {
         this.duration = duration
         this.author = author
         this.isExplicit = isExplicit
@@ -84,6 +87,8 @@ open class RealmEpisode : RealmObject, Episode {
         this.syndEnclosures = parseEnclosures(syndEnclosures)
         this.link = link
         this.uri = uri
+        this.deleted = deleted
+        this.progress = progress
     }
 
     private fun returnKeywords(): List<String> {
@@ -130,6 +135,8 @@ open class RealmEpisode : RealmObject, Episode {
         parcel.writeLong(fileSizeInBytes)
         parcel.writeLong(downloadRequestId)
         parcel.writeString(uri)
+        parcel.writeByte(if (deleted) 1 else 0)
+        parcel.writeLong(progress)
     }
 
     override fun describeContents(): Int {

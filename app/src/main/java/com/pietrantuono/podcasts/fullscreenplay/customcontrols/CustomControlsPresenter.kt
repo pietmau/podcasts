@@ -146,8 +146,18 @@ class CustomControlsPresenter(
         executorService.shutdown()
     }
 
-    fun startNewPodcast(uri: String?) {
-        mediaBrowser.stop()
+    fun startNewPodcast() {
+        episode?.let {
+            mediaBrowser.stop()
+            if (it.progress <= 0) {
+                playFromMediaId(it.uri)
+            } else {
+                viewUpdater.askUserRestartOrResume(it.title)
+            }
+        }
+    }
+
+    private fun playFromMediaId(uri: String?) {
         mediaBrowser.playFromMediaId(uri)
     }
 
@@ -172,6 +182,17 @@ class CustomControlsPresenter(
         bundle.putString(EXTRA_EPISODE_URI, uri)
         mediaBrowser.sendCustomAction(CUSTOM_ACTION_DOWNLOAD_AND_ADD_TO_QUEUE, bundle, null)
         viewUpdater.snack(stausManager.episode?.title)
+    }
+
+    fun restart() {
+        playFromMediaId(episode?.uri)
+    }
+
+    fun resume() {
+        episode?.let {
+            playFromMediaId(it.uri)
+            mediaBrowser.seekTo(it.progress)
+        }
     }
 
 }

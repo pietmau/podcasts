@@ -45,4 +45,6 @@ interface Episode : Parcelable {
     var uri: String?
 
     var deleted: Boolean
+
+    var progress: Long
 }

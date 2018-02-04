@@ -109,4 +109,8 @@ class MediaBrowserCompatWrapper(private val context: Context) {
     fun sendCustomAction(action: String, extra: Bundle?, callback: MediaBrowserCompat.CustomActionCallback?) {
         supportMediaController?.transportControls?.sendCustomAction(action, extra)
     }
+
+    fun seekTo(position: Long) {
+        supportMediaController?.transportControls?.seekTo(position)
+    }
 }

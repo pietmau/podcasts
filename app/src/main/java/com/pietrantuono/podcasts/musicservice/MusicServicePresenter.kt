@@ -17,16 +17,15 @@ class MusicServicePresenter(
         private val mDelayedStopHandler: DelayedStopHandler,
         private val otherActions: OtherActions
         ) {
-
-    init {
-        this.mDelayedStopHandler.setPresenter(this)
-    }
-
     private var service: CustomMediaService? = null
     private var mMediaNotificationManager: MediaNotificationManager? = null
 
     val playlist: List<MediaBrowserCompat.MediaItem>
         get() = mPlaybackManager.playlist
+
+    init {
+        this.mDelayedStopHandler.setPresenter(this)
+    }
 
     fun setService(service: CustomMediaService) {
         this.service = service
