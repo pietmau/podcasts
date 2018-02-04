@@ -4,11 +4,8 @@ package player.playback
 import android.content.res.Resources
 import android.os.Bundle
 import android.os.SystemClock
-import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-
 import com.example.android.uamp.R
-
 import player.model.MusicProvider
 import player.utils.MediaIDHelper
 import player.utils.WearHelper
@@ -41,17 +38,17 @@ class PlaybackStateUpdater(private val musicProvider: MusicProvider, private val
         updateProgress(position, queueManager)
     }
 
+    private fun updateProgress(position: Long, queueManager: QueueManager) {
+        queueManager.updateProgress(position)
+    }
+
     private fun setCustomAction(stateBuilder: PlaybackStateCompat.Builder,
                                 queueManager: QueueManager, musicProvider: MusicProvider,
                                 resources: Resources) {
         val currentMusic = queueManager.currentMusic ?: return
         val mediaId = currentMusic.description.mediaId ?: return
         val musicId = MediaIDHelper.extractMusicIDFromMediaID(mediaId)
-
-        val favoriteIcon = if (musicProvider.isFavorite(musicId))
-            R.drawable.ic_star_on
-        else
-            R.drawable.ic_star_off
+        val favoriteIcon = if (musicProvider.isFavorite(musicId)) R.drawable.ic_star_on else R.drawable.ic_star_off
         val customActionExtras = Bundle()
         WearHelper.setShowCustomActionOnWear(customActionExtras, true)
         stateBuilder.addCustomAction(PlaybackStateCompat.CustomAction.Builder(
@@ -66,7 +63,7 @@ class PlaybackStateUpdater(private val musicProvider: MusicProvider, private val
                 PlaybackStateCompat.ACTION_PLAY_FROM_SEARCH or
                 PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS or
                 PlaybackStateCompat.ACTION_SKIP_TO_NEXT
-        if (playback!!.isPlaying) {
+        if (playback?.isPlaying == true) {
             actions = actions or PlaybackStateCompat.ACTION_PAUSE
         } else {
             actions = actions or PlaybackStateCompat.ACTION_PLAY

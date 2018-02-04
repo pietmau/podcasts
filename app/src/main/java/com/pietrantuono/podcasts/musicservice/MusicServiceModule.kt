@@ -61,7 +61,7 @@ class MusicServiceModule(private val musicService: com.pietrantuono.podcasts.mus
                         manager?.handlePlayRequest()
                     }
 
-                    override fun onQueueUpdated(title: String, newQueue: List<MediaSessionCompat.QueueItem>) {
+                    override fun onQueueUpdated(title: String, newQueue: List<MediaSessionCompat.QueueItem>?) {
                         mSession.setQueue(newQueue)
                         mSession.setQueueTitle(title)
                     }
