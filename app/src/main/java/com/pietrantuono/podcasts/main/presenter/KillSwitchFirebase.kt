@@ -5,8 +5,8 @@ import com.google.firebase.database.DatabaseReference
 import com.kelvinapps.rxfirebase.RxFirebaseDatabase
 import com.pietrantuono.podcasts.BuildConfig
 import com.pietrantuono.podcasts.R
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
 import com.pietrantuono.podcasts.main.view.MainView
+import com.pietrantuono.podcasts.singlepodcast.presenter.SimpleObserver
 import rx.Scheduler
 
 

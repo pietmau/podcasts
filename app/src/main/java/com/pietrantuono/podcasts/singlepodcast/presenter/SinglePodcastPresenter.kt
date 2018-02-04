@@ -6,6 +6,7 @@ import com.pietrantuono.podcasts.R
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.model.SinglePodcastModel
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.SinglePodcastView
 import com.pietrantuono.podcasts.apis.PodcastFeed
+import com.pietrantuono.podcasts.singlepodcast.presenter.SimpleObserver
 import models.pojos.Podcast
 import rx.Observer
 

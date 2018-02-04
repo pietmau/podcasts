@@ -8,11 +8,11 @@ import com.pietrantuono.podcasts.GenericPresenter
 import com.pietrantuono.podcasts.addpodcast.customviews.PodcastsAdapter
 import com.pietrantuono.podcasts.addpodcast.model.AddPodcastsModel
 import com.pietrantuono.podcasts.addpodcast.model.SearchResult
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.view.State
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastFragment
 import com.pietrantuono.podcasts.addpodcast.view.AddPodcastView
 import com.pietrantuono.podcasts.addpodcast.view.ApiLevelChecker
+import com.pietrantuono.podcasts.singlepodcast.presenter.SimpleObserver
 import models.pojos.Podcast
 import rx.Observer
 
