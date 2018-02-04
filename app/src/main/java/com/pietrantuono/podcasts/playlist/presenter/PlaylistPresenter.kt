@@ -4,10 +4,10 @@ import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
 import com.pietrantuono.podcasts.fullscreenplay.customcontrols.MediaBrowserCompatWrapper
 import com.pietrantuono.podcasts.playlist.model.PlaylistModel
 import com.pietrantuono.podcasts.playlist.view.PlayListView
+import com.pietrantuono.podcasts.singlepodcast.presenter.SimpleObserver
 import models.pojos.Episode
 
 

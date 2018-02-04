@@ -1,6 +1,6 @@
 package com.pietrantuono.podcasts.fullscreenplay.model
 
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
+import com.pietrantuono.podcasts.singlepodcast.presenter.SimpleObserver
 import models.pojos.Episode
 import repo.repository.EpisodesRepository
 import rx.Observable

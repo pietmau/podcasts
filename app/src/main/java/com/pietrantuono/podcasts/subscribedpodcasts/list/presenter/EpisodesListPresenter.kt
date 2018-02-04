@@ -4,7 +4,8 @@ import android.arch.lifecycle.ViewModel
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.ImageView
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
+import com.pietrantuono.podcasts.singlepodcast.presenter.SimpleObserver
+
 import com.pietrantuono.podcasts.subscribedpodcasts.list.menu.EpisodesListMenuProvider
 import com.pietrantuono.podcasts.subscribedpodcasts.list.menu.EpisodesListMenuProviderImpl
 import com.pietrantuono.podcasts.subscribedpodcasts.list.model.EpisodesListModel

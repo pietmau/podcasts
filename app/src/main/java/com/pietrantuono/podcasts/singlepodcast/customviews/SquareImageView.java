@@ -1,4 +1,4 @@
-package com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews;
+package com.pietrantuono.podcasts.singlepodcast.customviews;
 
 
 import android.content.Context;

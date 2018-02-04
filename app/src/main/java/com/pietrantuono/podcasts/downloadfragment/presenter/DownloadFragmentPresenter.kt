@@ -1,12 +1,12 @@
 package com.pietrantuono.podcasts.downloadfragment.presenter
 
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
 import com.pietrantuono.podcasts.downloader.downloader.Downloader
 import com.pietrantuono.podcasts.downloadfragment.model.DownloadFragmentModel
 import com.pietrantuono.podcasts.downloadfragment.view.DownloadView
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadAdapter
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedEpisode
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
+import com.pietrantuono.podcasts.singlepodcast.presenter.SimpleObserver
 
 class DownloadFragmentPresenter(
         private val model: DownloadFragmentModel,

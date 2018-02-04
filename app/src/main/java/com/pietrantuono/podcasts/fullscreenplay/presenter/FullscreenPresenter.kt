@@ -2,11 +2,11 @@ package com.pietrantuono.podcasts.fullscreenplay.presenter
 
 import android.arch.lifecycle.ViewModel
 import android.content.Context
-import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SimpleObserver
 import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayView
 import com.pietrantuono.podcasts.fullscreenplay.custom.PlaybackControlView
 import com.pietrantuono.podcasts.fullscreenplay.model.FullscreenModel
 import com.pietrantuono.podcasts.fullscreenplay.view.custom.TransportControlsWrapper
+import com.pietrantuono.podcasts.singlepodcast.presenter.SimpleObserver
 import models.pojos.Episode
 
 class FullscreenPresenter(

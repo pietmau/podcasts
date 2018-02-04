@@ -1,4 +1,4 @@
-package com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter;
+package com.pietrantuono.podcasts.singlepodcast.presenter;
 
 import rx.Observer;
 
