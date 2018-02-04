@@ -21,7 +21,9 @@ import android.support.annotation.NonNull;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+
 import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class PlaybackManager extends MediaSessionCompat.Callback implements Playback.Callback {

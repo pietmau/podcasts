@@ -18,6 +18,8 @@ class ROMEPodcastEpisodeBuilder {
     private var syndEnclosures: List<SyndEnclosure>? = null
     private var link: String? = null
     private var uri: String? = null
+    private var deleted: Boolean = false
+    private var progress: Long = 0
 
     fun setDuration(duration: String?): ROMEPodcastEpisodeBuilder {
         this.duration = duration
@@ -84,8 +86,19 @@ class ROMEPodcastEpisodeBuilder {
         return this
     }
 
+    fun setDeleted(deleted: Boolean): ROMEPodcastEpisodeBuilder {
+        this.deleted = deleted
+        return this
+    }
+
+    fun setProgress(progress: Long): ROMEPodcastEpisodeBuilder {
+        this.progress = progress
+        return this
+    }
+
     fun createROMEPodcastEpisode(): RealmEpisode {
-        return RealmEpisode(duration, author, isExplicit, imageUrl, keywords, subtitle, summary, pubDate, title, description, syndEnclosures, link, uri)
+        return RealmEpisode(duration, author, isExplicit, imageUrl, keywords, subtitle, summary,
+                pubDate, title, description, syndEnclosures, link, uri, deleted, progress)
     }
 
 }

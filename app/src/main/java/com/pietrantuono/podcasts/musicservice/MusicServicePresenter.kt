@@ -16,7 +16,7 @@ class MusicServicePresenter(
         private val mPlaybackManager: PlaybackManager,
         private val mDelayedStopHandler: DelayedStopHandler,
         private val otherActions: OtherActions
-        ) {
+) {
     private var service: CustomMediaService? = null
     private var mMediaNotificationManager: MediaNotificationManager? = null
 
