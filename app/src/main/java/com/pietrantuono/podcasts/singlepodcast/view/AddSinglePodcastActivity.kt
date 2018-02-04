@@ -6,12 +6,10 @@ import android.support.design.widget.BaseTransientBottomBar.LENGTH_LONG
 import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
-import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.ImageView
 import butterknife.BindView
 import butterknife.ButterKnife
@@ -22,6 +20,7 @@ import com.pietrantuono.podcasts.addpodcast.singlepodcast.customviews.EpisodesRe
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.dagger.SinglePodcastModule
 import com.pietrantuono.podcasts.addpodcast.singlepodcast.presenter.SinglePodcastPresenter
 import com.pietrantuono.podcasts.application.App
+import com.pietrantuono.podcasts.errorloadingview.ErrorLoadingView
 import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayActivity
 import com.pietrantuono.podcasts.fullscreenplay.FullscreenPlayActivity.Companion.SHOULD_STREAM_AUDIO
 import com.pietrantuono.podcasts.imageloader.SimpleImageLoader
@@ -49,18 +48,14 @@ open class AddSinglePodcastActivity : AppCompatActivity(), BitmapColorExtractor.
         }
 
     private var isSubscribed: Boolean? = false
-
-    @BindView(R.id.recycler) lateinit var recyclerView: EpisodesRecycler
     @BindView(R.id.main_image) lateinit var imageView: ImageView
-    @BindView(R.id.swipe_container) lateinit var swipeContainer: SwipeRefreshLayout
+    @BindView(R.id.swipe_container) lateinit var errorLoadingView: ErrorLoadingView<EpisodesRecycler>
     @BindView(R.id.coordinator) lateinit var coordinator: CoordinatorLayout
     @BindView(R.id.toolbar) lateinit var toolbar: Toolbar
-    @BindView(R.id.contaniner) lateinit var container: View
     @Inject lateinit var transitionsHelper: TransitionsHelper
     @Inject lateinit var colorExtractor: BitmapColorExtractor
     @Inject lateinit var imageLoader: SimpleImageLoader
     @Inject lateinit var presenter: SinglePodcastPresenter
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,8 +73,9 @@ open class AddSinglePodcastActivity : AppCompatActivity(), BitmapColorExtractor.
         setContentView(R.layout.add_single_podcast_activity)
         ButterKnife.bind(this@AddSinglePodcastActivity)
         setUpActionBar()
-        recyclerView.setOnItemClickListener(this)
-        swipeContainer.setOnRefreshListener {
+        errorLoadingView.recycler = EpisodesRecycler(this)
+        errorLoadingView.recycler?.setOnItemClickListener(this)
+        errorLoadingView.setOnRefreshListener {
             onUsereRequestedRefresh()
         }
     }
@@ -108,7 +104,7 @@ open class AddSinglePodcastActivity : AppCompatActivity(), BitmapColorExtractor.
     }
 
     override fun setEpisodes(episodes: List<Episode>) {
-        recyclerView.setItems(episodes)
+        errorLoadingView.recycler?.setItems(episodes)
     }
 
     override fun onBackPressed() {
@@ -205,33 +201,7 @@ open class AddSinglePodcastActivity : AppCompatActivity(), BitmapColorExtractor.
     }
 
     override fun setState(state: State) {
-        when (state) {
-            State.LOADING -> {
-                swipeContainer.isRefreshing = true
-                swipeContainer.isEnabled = true
-                container.visibility = View.GONE
-            }
-            State.FULL -> {
-                swipeContainer.isRefreshing = false
-                swipeContainer.isEnabled = false
-                container.visibility = View.GONE
-            }
-            State.EMPTY -> {
-                viewEmpty()
-                container.visibility = View.VISIBLE
-            }
-            State.ERROR -> {
-                viewEmpty()
-                container.visibility = View.VISIBLE
-            }
-        }
+        errorLoadingView.setState(state)
     }
-
-    private fun viewEmpty() {
-        swipeContainer.isRefreshing = false
-        swipeContainer.isEnabled = true
-    }
-
-
 
 }
