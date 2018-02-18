@@ -30,162 +30,19 @@ import java.util.Arrays;
 import java.util.Formatter;
 import java.util.Locale;
 
-/**
- * A view for controlling {@link ExoPlayer} instances.
- * <p>
- * A PlaybackControlView can be customized by setting attributes (or calling corresponding methods),
- * overriding the view's layout file or by specifying a custom view layout file, as outlined below.
- * <p>
- * <h3>Attributes</h3>
- * The following attributes can be set on a PlaybackControlView when used in a layout XML file:
- * <p>
- * <ul>
- * <li><b>{@code show_timeout}</b> - The time between the last user interaction and the controls
- * being automatically hidden, in milliseconds. Use zero if the controls should not
- * automatically timeout.
- * <ul>
- * <li>Corresponding method: {@link #setShowTimeoutMs(int)}</li>
- * <li>Default: {@link #DEFAULT_SHOW_TIMEOUT_MS}</li>
- * </ul>
- * </li>
- * <li><b>{@code rewind_increment}</b> - The duration of the rewind applied when the user taps the
- * rewind button, in milliseconds. Use zero to disable the rewind button.
- * <ul>
- * <li>Corresponding method: {@link #setRewindIncrementMs(int)}</li>
- * <li>Default: {@link #DEFAULT_REWIND_MS}</li>
- * </ul>
- * </li>
- * <li><b>{@code fastforward_increment}</b> - Like {@code rewind_increment}, but for fast forward.
- * <ul>
- * <li>Corresponding method: {@link #setFastForwardIncrementMs(int)}</li>
- * <li>Default: {@link #DEFAULT_FAST_FORWARD_MS}</li>
- * </ul>
- * </li>
- * <li><b>{@code controller_layout_id}</b> - Specifies the id of the layout to be inflated. See
- * below for more details.
- * <ul>
- * <li>Corresponding method: None</li>
- * <li>Default: {@code R.id.exo_playback_control_view}</li>
- * </ul>
- * </li>
- * </ul>
- * <p>
- * <h3>Overriding the layout file</h3>
- * To customize the layout of PlaybackControlView throughout your app, or just for certain
- * configurations, you can define {@code exo_playback_control_view.xml} layout files in your
- * application {@code res/layout*} directories. These layouts will override the one provided by the
- * ExoPlayer library, and will be inflated for use by PlaybackControlView. The view identifies and
- * binds its children by looking for the following ids:
- * <p>
- * <ul>
- * <li><b>{@code exo_play}</b> - The play button.
- * <ul>
- * <li>Type: {@link View}</li>
- * </ul>
- * </li>
- * <li><b>{@code exo_pause}</b> - The pause button.
- * <ul>
- * <li>Type: {@link View}</li>
- * </ul>
- * </li>
- * <li><b>{@code exo_ffwd}</b> - The fast forward button.
- * <ul>
- * <li>Type: {@link View}</li>
- * </ul>
- * </li>
- * <li><b>{@code exo_rew}</b> - The rewind button.
- * <ul>
- * <li>Type: {@link View}</li>
- * </ul>
- * </li>
- * <li><b>{@code exo_prev}</b> - The previous track button.
- * <ul>
- * <li>Type: {@link View}</li>
- * </ul>
- * </li>
- * <li><b>{@code exo_next}</b> - The next track button.
- * <ul>
- * <li>Type: {@link View}</li>
- * </ul>
- * </li>
- * <li><b>{@code exo_position}</b> - Text view displaying the current playback position.
- * <ul>
- * <li>Type: {@link TextView}</li>
- * </ul>
- * </li>
- * <li><b>{@code exo_duration}</b> - Text view displaying the current media duration.
- * <ul>
- * <li>Type: {@link TextView}</li>
- * </ul>
- * </li>
- * <li><b>{@code exo_progress}</b> - Time bar that's updated during playback and allows seeking.
- * <ul>
- * <li>Type: {@link TimeBar}</li>
- * </ul>
- * </li>
- * </ul>
- * <p>
- * All child views are optional and so can be omitted if not required, however where defined they
- * must be of the expected type.
- * <p>
- * <h3>Specifying a custom layout file</h3>
- * Defining your own {@code exo_playback_control_view.xml} is useful to customize the layout of
- * PlaybackControlView throughout your application. It's also possible to customize the layout for a
- * single instance in a layout file. This is achieved by setting the {@code controller_layout_id}
- * attribute on a PlaybackControlView. This will cause the specified layout to be inflated instead
- * of {@code exo_playback_control_view.xml} for only the instance on which the attribute is set.
- */
 public class CustomPlaybackControlView extends FrameLayout {
-
-    /**
-     * Listener to be notified about changes of the visibility of the UI control.
-     */
     public interface VisibilityListener {
-
-        /**
-         * Called when the visibility changes.
-         *
-         * @param visibility The new visibility. Either {@link View#VISIBLE} or {@link View#GONE}.
-         */
         void onVisibilityChange(int visibility);
 
     }
 
-    /**
-     * Dispatches operations to the enqueuer.
-     * <p>
-     * Implementations may choose to suppress (e.g. prevent playback from resuming if audio focus is
-     * denied) or modify (e.g. change the seek position to prevent a user from seeking past a
-     * non-skippable advert) operations.
-     */
     public interface ControlDispatcher {
-
-        /**
-         * Dispatches a {@link ExoPlayer#setPlayWhenReady(boolean)} operation.
-         *
-         * @param player        The enqueuer to which the operation should be dispatched.
-         * @param playWhenReady Whether playback should proceed when ready.
-         * @return True if the operation was dispatched. False if suppressed.
-         */
         void dispatchSetPlayWhenReady(ExoPlayer player, boolean playWhenReady);
 
-        /**
-         * Dispatches a {@link ExoPlayer#seekTo(int, long)} operation.
-         *
-         * @param player      The enqueuer to which the operation should be dispatched.
-         * @param windowIndex The index of the window.
-         * @param positionMs  The seek position in the specified window, or {@link C#TIME_UNSET} to seek
-         *                    to the window's default position.
-         * @return True if the operation was dispatched. False if suppressed.
-         */
         boolean dispatchSeekTo(ExoPlayer player, int windowIndex, long positionMs);
 
     }
 
-    /**
-     * Default {@link ControlDispatcher} that dispatches operations to the enqueuer without
-     * modification.
-     */
     private static final ControlDispatcher DEFAULT_CONTROL_DISPATCHER = new ControlDispatcher() {
 
         @Override
@@ -204,14 +61,8 @@ public class CustomPlaybackControlView extends FrameLayout {
     private static final int DEFAULT_FAST_FORWARD_MS = 15000;
     private static final int DEFAULT_REWIND_MS = 5000;
     private static final int DEFAULT_SHOW_TIMEOUT_MS = 5000;
-
-    /**
-     * The maximum number of windows that can be shown in a multi-window time bar.
-     */
     private static final int MAX_WINDOWS_FOR_MULTI_WINDOW_TIME_BAR = 100;
-
     private static final long MAX_POSITION_FOR_SEEK_TO_PREVIOUS = 3000;
-
     private final ComponentListener componentListener;
     private final View previousButton;
     private final View nextButton;
@@ -330,18 +181,10 @@ public class CustomPlaybackControlView extends FrameLayout {
         }
     }
 
-    /**
-     * Returns the enqueuer currently being controlled by this view, or null if no enqueuer is set.
-     */
     public ExoPlayer getPlayer() {
         return player;
     }
 
-    /**
-     * Sets the {@link ExoPlayer} to control.
-     *
-     * @param player The {@code ExoPlayer} to control.
-     */
     public void setPlayer(ExoPlayer player) {
         if (this.player == player) {
             return;
@@ -356,87 +199,38 @@ public class CustomPlaybackControlView extends FrameLayout {
         updateAll();
     }
 
-    /**
-     * Sets whether the time bar should show all windows, as opposed to just the current one. If the
-     * timeline has a period with unknown duration or more than
-     * {@link #MAX_WINDOWS_FOR_MULTI_WINDOW_TIME_BAR} windows the time bar will fall back to showing a
-     * single window.
-     *
-     * @param showMultiWindowTimeBar Whether the time bar should show all windows.
-     */
     public void setShowMultiWindowTimeBar(boolean showMultiWindowTimeBar) {
         this.showMultiWindowTimeBar = showMultiWindowTimeBar;
         updateTimeBarMode();
     }
 
-    /**
-     * Sets the {@link VisibilityListener}.
-     *
-     * @param listener The listener to be notified about visibility changes.
-     */
     public void setVisibilityListener(VisibilityListener listener) {
         this.visibilityListener = listener;
     }
 
-    /**
-     * Sets the {@link ControlDispatcher}.
-     *
-     * @param controlDispatcher The {@link ControlDispatcher}, or null to use
-     *                          {@link #DEFAULT_CONTROL_DISPATCHER}.
-     */
     public void setControlDispatcher(ControlDispatcher controlDispatcher) {
         this.controlDispatcher = controlDispatcher == null ? DEFAULT_CONTROL_DISPATCHER
                 : controlDispatcher;
     }
 
-    /**
-     * Sets the rewind increment in milliseconds.
-     *
-     * @param rewindMs The rewind increment in milliseconds. A non-positive value will cause the
-     *                 rewind button to be disabled.
-     */
     public void setRewindIncrementMs(int rewindMs) {
         this.rewindMs = rewindMs;
         updateNavigation();
     }
 
-    /**
-     * Sets the fast forward increment in milliseconds.
-     *
-     * @param fastForwardMs The fast forward increment in milliseconds. A non-positive value will
-     *                      cause the fast forward button to be disabled.
-     */
     public void setFastForwardIncrementMs(int fastForwardMs) {
         this.fastForwardMs = fastForwardMs;
         updateNavigation();
     }
 
-    /**
-     * Returns the playback controls timeout. The playback controls are automatically hidden after
-     * this duration of time has elapsed without user input.
-     *
-     * @return The duration in milliseconds. A non-positive value indicates that the controls will
-     * remain visible indefinitely.
-     */
     public int getShowTimeoutMs() {
         return showTimeoutMs;
     }
 
-    /**
-     * Sets the playback controls timeout. The playback controls are automatically hidden after this
-     * duration of time has elapsed without user input.
-     *
-     * @param showTimeoutMs The duration in milliseconds. A non-positive value will cause the controls
-     *                      to remain visible indefinitely.
-     */
     public void setShowTimeoutMs(int showTimeoutMs) {
         this.showTimeoutMs = showTimeoutMs;
     }
 
-    /**
-     * Shows the playback controls. If {@link #getShowTimeoutMs()} is positive then the controls will
-     * be automatically hidden after this duration of time has elapsed without user input.
-     */
     public void show() {
         if (!isVisible()) {
             setVisibility(VISIBLE);
@@ -446,13 +240,9 @@ public class CustomPlaybackControlView extends FrameLayout {
             updateAll();
             requestPlayPauseFocus();
         }
-        // Call hideAfterTimeout even if already visible to reset the timeout.
         hideAfterTimeout();
     }
 
-    /**
-     * Hides the controller.
-     */
     private void hide() {
         if (isVisible()) {
             setVisibility(GONE);
@@ -465,9 +255,6 @@ public class CustomPlaybackControlView extends FrameLayout {
         }
     }
 
-    /**
-     * Returns whether the controller is currently visible.
-     */
     private boolean isVisible() {
         return getVisibility() == VISIBLE;
     }
@@ -715,8 +502,6 @@ public class CustomPlaybackControlView extends FrameLayout {
     private void seekTo(int windowIndex, long positionMs) {
         boolean dispatched = controlDispatcher.dispatchSeekTo(player, windowIndex, positionMs);
         if (!dispatched) {
-            // The seek wasn't dispatched. If the progress bar was dragged by the user to perform the
-            // seek then it'll now be in the wrong position. Trigger a progress update to snap it back.
             updateProgress();
         }
     }
@@ -789,13 +574,6 @@ public class CustomPlaybackControlView extends FrameLayout {
         return handled;
     }
 
-    /**
-     * Called to process media key events. Any {@link KeyEvent} can be passed but only media key
-     * events will be handled.
-     *
-     * @param event A key event.
-     * @return Whether the key event was handled.
-     */
     private boolean dispatchMediaKeyEvent(KeyEvent event) {
         int keyCode = event.getKeyCode();
         if (player == null || !isHandledMediaKey(keyCode)) {
@@ -843,13 +621,6 @@ public class CustomPlaybackControlView extends FrameLayout {
                 || keyCode == KeyEvent.KEYCODE_MEDIA_PREVIOUS;
     }
 
-    /**
-     * Returns whether the specified {@code timeline} can be shown on a multi-window time bar.
-     *
-     * @param timeline The {@link Timeline} to check.
-     * @param period   A scratch {@link Timeline.Period} instance.
-     * @return Whether the specified timeline can be shown on a multi-window time bar.
-     */
     private static boolean canShowMultiWindowTimeBar(Timeline timeline, Timeline.Period period) {
         if (timeline.getWindowCount() > MAX_WINDOWS_FOR_MULTI_WINDOW_TIME_BAR) {
             return false;
@@ -903,7 +674,6 @@ public class CustomPlaybackControlView extends FrameLayout {
 
         @Override
         public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
-            // Do nothing.
         }
 
         @Override
@@ -915,17 +685,14 @@ public class CustomPlaybackControlView extends FrameLayout {
 
         @Override
         public void onLoadingChanged(boolean isLoading) {
-            // Do nothing.
         }
 
         @Override
         public void onTracksChanged(TrackGroupArray tracks, TrackSelectionArray selections) {
-            // Do nothing.
         }
 
         @Override
         public void onPlayerError(ExoPlaybackException error) {
-            // Do nothing.
         }
 
         @Override
