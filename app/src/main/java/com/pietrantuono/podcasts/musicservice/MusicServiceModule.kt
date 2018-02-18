@@ -1,4 +1,4 @@
-package player
+package com.pietrantuono.podcasts.musicservice
 
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
@@ -6,6 +6,9 @@ import com.example.android.uamp.R
 import com.example.android.uamp.model.MusicProviderRealm
 import dagger.Module
 import dagger.Provides
+import player.OtherActions
+import player.PackageValidator
+import player.QueueHelperRealm
 import player.model.MusicProvider
 import player.model.SourceExtractor
 import player.model.SourceExtractorImpl
@@ -15,7 +18,7 @@ import javax.inject.Singleton
 
 @Singleton
 @Module
-class MusicServiceModule(private val musicService: MusicService) {
+class MusicServiceModule(private val musicService: com.pietrantuono.podcasts.musicservice.MusicService) {
     val context = musicService.applicationContext
 
     @Singleton

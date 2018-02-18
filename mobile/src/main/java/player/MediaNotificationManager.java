@@ -28,6 +28,7 @@ import android.graphics.Color;
 import android.os.RemoteException;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.media.MediaBrowserServiceCompat;
 import android.support.v4.media.MediaDescriptionCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaControllerCompat;
@@ -50,7 +51,7 @@ public class MediaNotificationManager extends BroadcastReceiver {
     public static final String ACTION_NEXT = "com.example.android.uamp.next";
     public static final String ACTION_STOP = "com.example.android.uamp.stop";
     public static final String ACTION_STOP_CASTING = "com.example.android.uamp.stop_cast";
-    private final MusicService mService;
+    private final MediaBrowserServiceCompat mService;
     private MediaSessionCompat.Token mSessionToken;
     private MediaControllerCompat mController;
     private MediaControllerCompat.TransportControls mTransportControls;
@@ -68,7 +69,7 @@ public class MediaNotificationManager extends BroadcastReceiver {
 
     private boolean mStarted = false;
 
-    public MediaNotificationManager(MusicService service) throws RemoteException {
+    public MediaNotificationManager(MediaBrowserServiceCompat service) throws RemoteException {
         mService = service;
         updateSessionToken();
 
@@ -160,11 +161,7 @@ public class MediaNotificationManager extends BroadcastReceiver {
                 mTransportControls.stop();
                 break;
             case ACTION_STOP_CASTING:
-                Intent i = new Intent(context, MusicService.class);
-                i.setAction(Constants.ACTION_CMD);
-                i.putExtra(Constants.CMD_NAME, Constants.CMD_STOP_CASTING);
-                mService.startService(i);
-                break;
+                throw new UnsupportedOperationException();
             default:
                 LogHelper.w(TAG, "Unknown intent ignored. Action=", action);
         }

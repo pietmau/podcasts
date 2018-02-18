@@ -1,4 +1,4 @@
-package player
+package com.pietrantuono.podcasts.musicservice
 
 
 import android.app.Service.START_STICKY
@@ -8,6 +8,7 @@ import android.os.RemoteException
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import player.*
 import player.playback.PlaybackManager
 
 class MusicServicePresenter(
@@ -68,7 +69,7 @@ class MusicServicePresenter(
     fun onPlayBackStart() {
         mSession.isActive = true
         mDelayedStopHandler.removeCallbacksAndMessages(null)
-        service?.startService(Intent(service?.applicationContext, MusicService::class.java))
+        service?.startService(Intent(service?.applicationContext, com.pietrantuono.podcasts.musicservice.MusicService::class.java))
     }
 
     fun onPlaybackStop() {

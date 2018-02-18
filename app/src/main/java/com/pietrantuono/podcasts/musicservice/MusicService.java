@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-package player;
+package com.pietrantuono.podcasts.musicservice;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,6 +29,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import player.CustomMediaService;
 import player.playback.PlaybackServiceCallback;
 
 import static player.utils.MediaIDHelper.MEDIA_ID_EMPTY_ROOT;
