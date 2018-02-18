@@ -4,7 +4,7 @@ import android.app.Notification
 import android.app.Service
 import com.tonyodev.fetch.request.RequestInfo
 import models.pojos.Episode
-import repo.repository.EpisodesRepository
+import repository.EpisodesRepository
 
 class DownloadNotificatorImpl(
         private val repo: EpisodesRepository,

@@ -18,7 +18,7 @@ import com.pietrantuono.podcasts.subscribedpodcasts.list.presenter.EpisodesListP
 import com.pietrantuono.podcasts.subscribedpodcasts.list.views.EpisodesListAdapter
 import dagger.Module
 import dagger.Provides
-import repo.repository.PodcastRepo
+import repository.PodcastRepo
 
 @Module
 class SingleSubscribedModule(private val activity: AppCompatActivity) {

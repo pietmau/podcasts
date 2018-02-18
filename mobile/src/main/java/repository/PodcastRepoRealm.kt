@@ -1,4 +1,4 @@
-package repo.repository
+package repository
 
 import io.realm.Realm
 import io.realm.RealmConfiguration

@@ -6,7 +6,7 @@ import com.pietrantuono.podcasts.playlist.model.PlaylistModelImpl
 import com.pietrantuono.podcasts.playlist.presenter.PlaylistPresenter
 import dagger.Module
 import dagger.Provides
-import repo.repository.EpisodesRepository
+import repository.EpisodesRepository
 
 @Module
 class PlaylistModule {

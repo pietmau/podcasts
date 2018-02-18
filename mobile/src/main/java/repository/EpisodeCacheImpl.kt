@@ -1,11 +1,10 @@
-package repo.repository
+package repository
 
 import models.pojos.Episode
 import models.pojos.RealmEpisode
-import repo.repository.EpisodeCache
 
 
-class EpisodeCacheImpl:EpisodeCache {
+class EpisodeCacheImpl: EpisodeCache {
     private val episodesUrlsMap: MutableMap<String, Episode> = mutableMapOf()
     private val episodesEnclosuresUrlMap: MutableMap<String, Episode> = mutableMapOf()
 

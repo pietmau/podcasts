@@ -3,7 +3,7 @@ package com.pietrantuono.podcasts.subscribedpodcasts.list.model
 import com.pietrantuono.podcasts.downloader.downloader.Downloader
 import com.pietrantuono.podcasts.singlepodcast.presenter.SimpleObserver
 import models.pojos.Podcast
-import repo.repository.PodcastRepo
+import repository.PodcastRepo
 import rx.Observer
 import rx.subscriptions.CompositeSubscription
 

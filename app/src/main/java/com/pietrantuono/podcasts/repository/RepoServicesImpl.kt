@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import com.pietrantuono.podcasts.application.DebugLogger
 import models.pojos.Podcast
-import repo.repository.RepoServices
+import repository.RepoServices
 
 class RepoServicesImpl(
         private val context: Context,

@@ -3,7 +3,7 @@ package com.pietrantuono.podcasts.player
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import repo.repository.EpisodesRepository
+import repository.EpisodesRepository
 import javax.inject.Singleton
 
 @Module

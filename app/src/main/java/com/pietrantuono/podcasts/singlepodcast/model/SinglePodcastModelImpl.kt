@@ -5,7 +5,7 @@ import com.pietrantuono.podcasts.apis.PodcastFeed
 import com.pietrantuono.podcasts.apis.SinglePodcastApi
 import com.pietrantuono.podcasts.singlepodcast.presenter.SimpleObserver
 import models.pojos.Podcast
-import repo.repository.PodcastRepo
+import repository.PodcastRepo
 import rx.Observer
 import rx.Scheduler
 import rx.subscriptions.CompositeSubscription

@@ -10,8 +10,8 @@ import com.pietrantuono.podcasts.downloadfragment.presenter.DownloadFragmentPres
 import com.pietrantuono.podcasts.downloadfragment.presenter.MessageCreator
 import dagger.Module
 import dagger.Provides
-import repo.repository.EpisodesRepository
-import repo.repository.PodcastRepo
+import repository.EpisodesRepository
+import repository.PodcastRepo
 import rx.android.schedulers.AndroidSchedulers
 
 @Module

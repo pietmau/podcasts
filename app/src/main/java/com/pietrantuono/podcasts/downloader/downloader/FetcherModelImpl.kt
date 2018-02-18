@@ -1,7 +1,7 @@
 package com.pietrantuono.podcasts.downloader.downloader
 
 import com.tonyodev.fetch.request.RequestInfo
-import repo.repository.EpisodesRepository
+import repository.EpisodesRepository
 import javax.inject.Inject
 
 

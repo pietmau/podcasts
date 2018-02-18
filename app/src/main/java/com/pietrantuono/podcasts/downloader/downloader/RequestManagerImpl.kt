@@ -4,7 +4,7 @@ import android.webkit.URLUtil
 import com.tonyodev.fetch.request.Request
 import com.tonyodev.fetch.request.RequestInfo
 import models.pojos.Episode
-import repo.repository.EpisodesRepository
+import repository.EpisodesRepository
 import javax.inject.Inject
 
 

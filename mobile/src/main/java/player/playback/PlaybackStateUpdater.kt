@@ -9,12 +9,15 @@ import com.example.android.uamp.R
 import player.model.MusicProvider
 import player.utils.MediaIDHelper
 import player.utils.WearHelper
+import repository.EpisodesRepository
 
 class PlaybackStateUpdater(
         private val musicProvider: MusicProvider,
         private val resources: Resources,
         private val playback: Playback?,
-        private val serviceCallback: PlaybackServiceCallback) {
+        private val serviceCallback: PlaybackServiceCallback,
+        private val repo: EpisodesRepository
+) {
 
     fun updatePlaybackState(error: String?, queueManager: QueueManager) {
         var position = PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN
@@ -42,7 +45,7 @@ class PlaybackStateUpdater(
     }
 
     private fun updateProgress(position: Long, queueManager: QueueManager) {
-
+        queueManager.currentMusicMediaId.let { id -> repo.updateEpisodeProgress(id, position) }
     }
 
     private fun setCustomAction(stateBuilder: PlaybackStateCompat.Builder,

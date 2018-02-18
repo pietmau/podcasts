@@ -5,7 +5,7 @@ import com.pietrantuono.podcasts.application.DebugLogger
 import com.pietrantuono.podcasts.downloadfragment.view.custom.DownloadedPodcast
 import io.realm.Realm
 import models.pojos.PodcastRealm
-import repo.repository.PodcastRepo
+import repository.PodcastRepo
 import rx.Observer
 import rx.Scheduler
 import rx.subjects.PublishSubject

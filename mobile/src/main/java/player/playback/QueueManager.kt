@@ -23,7 +23,6 @@ import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import com.example.android.uamp.R
-import models.pojos.Episode
 import player.AlbumArtCache
 import player.model.MusicProvider
 import player.utils.MediaIDHelper
@@ -37,6 +36,8 @@ class QueueManager(private val musicProvider: MusicProvider,
 ) {
     private var mPlayingQueue: List<MediaSessionCompat.QueueItem>? = null
     private var mCurrentIndex: Int = 0
+    internal val currentMusicMediaId
+        get() = currentMusic?.description?.mediaId
 
     val currentMusic: MediaSessionCompat.QueueItem?
         get() = if (!queueHelper.isIndexPlayable(mCurrentIndex, mPlayingQueue)) {
@@ -64,12 +65,6 @@ class QueueManager(private val musicProvider: MusicProvider,
 
     fun setCurrentQueueItem(queueId: Long): Boolean {
         val index = queueHelper.getMusicIndexOnQueue(mPlayingQueue, queueId)
-        setCurrentQueueIndex(index)
-        return index >= 0
-    }
-
-    fun setCurrentQueueItem(mediaId: String): Boolean {
-        val index = queueHelper.getMusicIndexOnQueue(mPlayingQueue, mediaId)
         setCurrentQueueIndex(index)
         return index >= 0
     }

@@ -1,4 +1,4 @@
-package repo.repository
+package repository
 
 import com.tonyodev.fetch.request.RequestInfo
 import io.realm.Realm
@@ -7,7 +7,6 @@ import models.pojos.RealmEpisode
 import rx.Observable
 
 class EpisodesRepositoryRealm() : EpisodesRepository {
-
     val DOWNLOAD_REQUEST_ID = "downloadRequestId"
     private val URI = "uri"
     private val ENCLOSURE_URL = "syndEnclosures.url"
@@ -108,4 +107,14 @@ class EpisodesRepositoryRealm() : EpisodesRepository {
         }
     }
 
+    override fun updateEpisodeProgress(id: String?, position: Long) {
+        Realm.getDefaultInstance().use { realm ->
+            realm.executeTransactionAsync {
+                val episode = it.where(RealmEpisode::class.java)
+                        .equalTo(URI, id)
+                        .findFirst()
+                episode?.progress = position
+            }
+        }
+    }
 }

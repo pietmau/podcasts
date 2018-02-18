@@ -10,7 +10,7 @@ import com.pietrantuono.podcasts.settings.PreferencesManager
 import com.tonyodev.fetch.Fetch
 import dagger.Module
 import dagger.Provides
-import repo.repository.EpisodesRepository
+import repository.EpisodesRepository
 import javax.inject.Named
 
 const val SLACK_IN_BYTES = "slack_in_bytes"

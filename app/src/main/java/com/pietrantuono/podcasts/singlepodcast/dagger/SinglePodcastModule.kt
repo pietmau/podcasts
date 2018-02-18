@@ -14,7 +14,7 @@ import com.pietrantuono.podcasts.apis.SinglePodcastApi
 import com.pietrantuono.podcasts.main.view.TransitionsHelper
 import dagger.Module
 import dagger.Provides
-import repo.repository.PodcastRepo
+import repository.PodcastRepo
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 

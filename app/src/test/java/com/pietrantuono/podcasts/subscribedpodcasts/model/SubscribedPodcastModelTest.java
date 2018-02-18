@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import models.pojos.Podcast;
-import repo.repository.PodcastRepo;
+import repository.PodcastRepo;
 import rx.Observable;
 import rx.observers.TestObserver;
 

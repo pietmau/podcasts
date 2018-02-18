@@ -2,7 +2,7 @@ package com.pietrantuono.podcasts.subscribedpodcasts.model
 
 
 import models.pojos.Podcast
-import repo.repository.PodcastRepo
+import repository.PodcastRepo
 import rx.Observable
 import rx.Observer
 import rx.Subscription

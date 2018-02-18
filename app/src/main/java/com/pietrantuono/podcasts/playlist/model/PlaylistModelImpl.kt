@@ -3,7 +3,7 @@ package com.pietrantuono.podcasts.playlist.model
 import android.support.v4.media.MediaBrowserCompat
 import models.pojos.Episode
 import models.pojos.RealmEpisode
-import repo.repository.EpisodesRepository
+import repository.EpisodesRepository
 import rx.Observable
 import rx.Observer
 import rx.subscriptions.CompositeSubscription

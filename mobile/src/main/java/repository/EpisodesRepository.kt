@@ -1,4 +1,4 @@
-package repo.repository
+package repository
 
 import com.tonyodev.fetch.request.RequestInfo
 import models.pojos.Episode
@@ -15,4 +15,5 @@ interface EpisodesRepository {
     fun getEpisodeByDownloadIdSync(id: Long): Episode?
     fun onDownloadCompleted(requestInfo: RequestInfo, downloadedBytes: Long)
     fun saveRequestId(uri: String, requestId: Long)
+    fun updateEpisodeProgress(id: String?, position: Long)
 }

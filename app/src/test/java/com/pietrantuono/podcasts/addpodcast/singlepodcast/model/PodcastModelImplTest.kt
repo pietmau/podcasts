@@ -11,7 +11,7 @@ import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnitRunner
-import repo.repository.PodcastRepo
+import repository.PodcastRepo
 import rx.Observable
 import rx.observers.TestObserver
 import rx.schedulers.Schedulers

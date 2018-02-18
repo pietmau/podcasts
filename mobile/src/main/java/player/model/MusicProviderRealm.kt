@@ -10,8 +10,8 @@ import player.model.MusicProvider
 import player.model.MusicProviderImpl
 import player.model.MusicProviderSource
 import player.model.SourceExtractor
-import repo.repository.EpisodesRepository
-import repo.repository.PodcastRepo
+import repository.EpisodesRepository
+import repository.PodcastRepo
 
 class MusicProviderRealm(
         private val episodesRepository: EpisodesRepository,

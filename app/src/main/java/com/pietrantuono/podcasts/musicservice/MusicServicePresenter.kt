@@ -8,32 +8,34 @@ import android.os.RemoteException
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import player.*
+import player.Constants
+import player.CustomMediaService
+import player.MediaNotificationManager
+import player.OtherActions
 import player.playback.PlaybackManager
 
 class MusicServicePresenter(
-        private val mSession: MediaSessionCompat,
-        private val mPlaybackManager: PlaybackManager,
-        private val mDelayedStopHandler: DelayedStopHandler,
+        private val session: MediaSessionCompat,
+        private val playbackManager: PlaybackManager,
+        private val delayedStopHandler: DelayedStopHandler,
         private val otherActions: OtherActions
 ) {
     internal var service: CustomMediaService? = null
     private var mMediaNotificationManager: MediaNotificationManager? = null
 
     val playlist: List<MediaBrowserCompat.MediaItem>
-        get() = mPlaybackManager.playlist
+        get() = playbackManager.playlist
 
     init {
-        this.mDelayedStopHandler.setPresenter(this)
+        this.delayedStopHandler.setPresenter(this)
     }
 
     fun onCreate() {
-        service?.setSessionToken(mSession.sessionToken)
-        mSession.setCallback(mPlaybackManager)
-        mSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
-        //TODO mSession.setSessionActivity(pi);
-        mSession.setExtras(Bundle())
-        mPlaybackManager.updatePlaybackState(null)
+        service?.setSessionToken(session.sessionToken)
+        session.setCallback(playbackManager)
+        session.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
+        session.setExtras(Bundle())
+        playbackManager.updatePlaybackState(null)
         try {
             mMediaNotificationManager = MediaNotificationManager(service as MusicService?)
         } catch (e: RemoteException) {
@@ -46,30 +48,30 @@ class MusicServicePresenter(
         if (startIntent != null) {
             if (Constants.ACTION_CMD == startIntent.action) {
                 if (Constants.CMD_PAUSE == startIntent.getStringExtra(Constants.CMD_NAME)) {
-                    mPlaybackManager.handlePauseRequest()
+                    playbackManager.handlePauseRequest()
                 }
             }
         }
-        mDelayedStopHandler.removeCallbacksAndMessagesAndSendEmptyMessage()
+        delayedStopHandler.removeCallbacksAndMessagesAndSendEmptyMessage()
         return START_STICKY
     }
 
     fun onDestroy() {
-        mPlaybackManager.handleStopRequest(null)
+        playbackManager.handleStopRequest(null)
         mMediaNotificationManager?.stopNotification()
-        mDelayedStopHandler.removeCallbacksAndMessages(null)
-        mSession.release()
+        delayedStopHandler.removeCallbacksAndMessages(null)
+        session.release()
     }
 
     fun onPlayBackStart() {
-        mSession.isActive = true
-        mDelayedStopHandler.removeCallbacksAndMessages(null)
+        session.isActive = true
+        delayedStopHandler.removeCallbacksAndMessages(null)
         service?.startService(Intent(service?.applicationContext, com.pietrantuono.podcasts.musicservice.MusicService::class.java))
     }
 
     fun onPlaybackStop() {
-        mSession.isActive = false
-        mDelayedStopHandler.removeCallbacksAndMessagesAndSendEmptyMessage()
+        session.isActive = false
+        delayedStopHandler.removeCallbacksAndMessagesAndSendEmptyMessage()
         service?.stopForeground(true)
     }
 
@@ -78,7 +80,7 @@ class MusicServicePresenter(
     }
 
     fun onPlaybackStateUpdated(newState: PlaybackStateCompat) {
-        mSession.setPlaybackState(newState)
+        session.setPlaybackState(newState)
     }
 
     fun stopSelf() {

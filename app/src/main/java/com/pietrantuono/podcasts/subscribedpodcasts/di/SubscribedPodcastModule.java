@@ -10,7 +10,7 @@ import com.pietrantuono.podcasts.subscribedpodcasts.presenter.SubscribedPodcastP
 
 import dagger.Module;
 import dagger.Provides;
-import repo.repository.PodcastRepo;
+import repository.PodcastRepo;
 
 @Module
 public class SubscribedPodcastModule {

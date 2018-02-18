@@ -1,4 +1,4 @@
-package repo.repository
+package repository
 
 import models.pojos.Episode
 import models.pojos.Podcast

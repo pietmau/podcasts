@@ -11,7 +11,7 @@ import com.pietrantuono.podcasts.downloader.downloader.Downloader
 import models.pojos.Episode
 import models.pojos.Podcast
 import models.pojos.PodcastRealm
-import repo.repository.PodcastRepo
+import repository.PodcastRepo
 import javax.inject.Inject
 
 class SaveAndDowloandEpisodeIntentService : IntentService("SaveAndDowloandEpisodeIntentService") {

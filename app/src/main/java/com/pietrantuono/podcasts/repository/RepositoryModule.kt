@@ -5,7 +5,7 @@ import com.pietrantuono.podcasts.application.DebugLogger
 import dagger.Module
 import dagger.Provides
 import io.realm.Realm
-import repo.repository.*
+import repository.*
 import javax.inject.Singleton
 
 @Singleton

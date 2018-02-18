@@ -14,8 +14,8 @@ import player.model.SourceExtractor
 import player.model.SourceExtractorImpl
 import player.playback.*
 import player.utils.QueueHelper
-import repo.repository.EpisodesRepository
-import repo.repository.PodcastRepo
+import repository.EpisodesRepository
+import repository.PodcastRepo
 
 @MusicServiceScope
 @Module
@@ -73,7 +73,7 @@ class MusicServiceModule(private val musicService: com.pietrantuono.podcasts.mus
 
     @MusicServiceScope
     @Provides
-    fun providePlaybackStateUpdater(provider: MusicProvider, playback: Playback) = PlaybackStateUpdater(provider, context.getResources(), playback, musicService)
+    fun providePlaybackStateUpdater(provider: MusicProvider, playback: Playback, repo: EpisodesRepository) = PlaybackStateUpdater(provider, context.getResources(), playback, musicService, repo)
 
     @Provides
     fun provideDelayedStopHandler(playback: Playback) = DelayedStopHandler(playback)

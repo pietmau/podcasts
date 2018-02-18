@@ -2,7 +2,7 @@ package com.pietrantuono.podcasts.fullscreenplay.model
 
 import com.pietrantuono.podcasts.singlepodcast.presenter.SimpleObserver
 import models.pojos.Episode
-import repo.repository.EpisodesRepository
+import repository.EpisodesRepository
 import rx.Observable
 import rx.Observer
 import rx.Scheduler
