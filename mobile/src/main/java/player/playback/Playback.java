@@ -15,7 +15,6 @@
  */
 package player.playback;
 
-import player.MusicService;
 
 import static android.support.v4.media.session.MediaSessionCompat.QueueItem;
 

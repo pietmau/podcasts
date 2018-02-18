@@ -5,7 +5,7 @@ import android.content.Context
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.session.MediaControllerCompat
 import models.pojos.Episode
-import player.MusicService
+import com.pietrantuono.podcasts.musicservice.MusicService
 
 
 class TransportControlsWrapper(context: Context) {

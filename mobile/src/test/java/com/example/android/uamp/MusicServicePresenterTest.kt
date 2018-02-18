@@ -17,7 +17,7 @@ import org.mockito.Mockito.*
 import org.mockito.runners.MockitoJUnitRunner
 import player.Constants
 import player.CustomMediaService
-import player.DelayedStopHandler
+import com.pietrantuono.podcasts.musicservice.DelayedStopHandler
 import player.MusicServicePresenter
 import player.playback.PlaybackManager
 
@@ -26,7 +26,7 @@ class MusicServicePresenterTest {
     private val STOP_DELAY = 30000
     @Mock lateinit var mSession: MediaSessionCompat
     @Mock lateinit var mPlaybackManager: PlaybackManager
-    @Mock lateinit var mDelayedStopHandler: DelayedStopHandler
+    @Mock lateinit var mDelayedStopHandler: com.pietrantuono.podcasts.musicservice.DelayedStopHandler
     @InjectMocks lateinit var presenter: MusicServicePresenter
     @Mock lateinit var service: CustomMediaService
 

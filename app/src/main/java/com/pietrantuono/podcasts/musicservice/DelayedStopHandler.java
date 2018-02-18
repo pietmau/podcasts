@@ -1,4 +1,4 @@
-package player;
+package com.pietrantuono.podcasts.musicservice;
 
 
 import android.os.Handler;

@@ -9,7 +9,7 @@ import player.model.MusicProvider
 import player.utils.QueueHelper
 import java.util.*
 
-internal class QueueHelperRealm : QueueHelper {
+class QueueHelperRealm : QueueHelper {
     private val playingQueue = ArrayList<MediaSessionCompat.QueueItem>()
 
     override fun getPlayingQueue(mediaId: String, musicProvider: MusicProvider): List<MediaSessionCompat.QueueItem> {

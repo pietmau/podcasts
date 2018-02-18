@@ -20,8 +20,6 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
-import player.MusicService;
-
 public class CarHelper {
     private static final String TAG = LogHelper.makeLogTag(CarHelper.class);
 

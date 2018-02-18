@@ -15,9 +15,7 @@
  */
 package player.playback;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.net.Uri;
@@ -26,11 +24,6 @@ import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.text.TextUtils;
 
-import player.Constants;
-import player.MusicService;
-import player.model.MusicProvider;
-import player.model.MusicProviderSource;
-import player.utils.LogHelper;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
@@ -48,6 +41,10 @@ import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+
+import player.model.MusicProvider;
+import player.model.MusicProviderSource;
+import player.utils.LogHelper;
 
 import static android.support.v4.media.session.MediaSessionCompat.QueueItem;
 
@@ -86,26 +83,10 @@ public final class LocalPlayback implements Playback {
     private final ExoPlayerEventListener mEventListener = new ExoPlayerEventListener();
 
     // Whether to return STATE_NONE or STATE_STOPPED when mExoPlayer is null;
-    private boolean mExoPlayerNullIsStopped =  false;
+    private boolean mExoPlayerNullIsStopped = false;
 
     private final IntentFilter mAudioNoisyIntentFilter =
             new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
-
-    private final BroadcastReceiver mAudioNoisyReceiver =
-            new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(intent.getAction())) {
-                        LogHelper.d(TAG, "Headphones disconnected.");
-                        if (isPlaying()) {
-                            Intent i = new Intent(context, MusicService.class);
-                            i.setAction(Constants.ACTION_CMD);
-                            i.putExtra(Constants.CMD_NAME, Constants.CMD_PAUSE);
-                            mContext.startService(i);
-                        }
-                    }
-                }
-            };
 
     public LocalPlayback(Context context, MusicProvider musicProvider) {
         Context applicationContext = context.getApplicationContext();
@@ -128,7 +109,6 @@ public final class LocalPlayback implements Playback {
     @Override
     public void stop(boolean notifyListeners) {
         giveUpAudioFocus();
-        unregisterAudioNoisyReceiver();
         releaseResources(true);
     }
 
@@ -184,7 +164,6 @@ public final class LocalPlayback implements Playback {
     public void play(QueueItem item) {
         mPlayOnFocusGain = true;
         tryToGetAudioFocus();
-        registerAudioNoisyReceiver();
         String mediaId = item.getDescription().getMediaId();
         boolean mediaHasChanged = !TextUtils.equals(mediaId, mCurrentMediaId);
         if (mediaHasChanged) {
@@ -242,14 +221,12 @@ public final class LocalPlayback implements Playback {
         }
         // While paused, retain the player instance, but give up audio focus.
         releaseResources(false);
-        unregisterAudioNoisyReceiver();
     }
 
     @Override
     public void seekTo(long position) {
         LogHelper.d(TAG, "seekTo called with ", position);
         if (mExoPlayer != null) {
-            registerAudioNoisyReceiver();
             mExoPlayer.seekTo(position);
         }
     }
@@ -304,8 +281,6 @@ public final class LocalPlayback implements Playback {
             // We don't have audio focus and can't duck, so we have to pause
             pause();
         } else {
-            registerAudioNoisyReceiver();
-
             if (mCurrentAudioFocusState == AUDIO_NO_FOCUS_CAN_DUCK) {
                 // We're permitted to play, but only if we 'duck', ie: play softly
                 mExoPlayer.setVolume(VOLUME_DUCK);
@@ -373,20 +348,6 @@ public final class LocalPlayback implements Playback {
 
         if (mWifiLock.isHeld()) {
             mWifiLock.release();
-        }
-    }
-
-    private void registerAudioNoisyReceiver() {
-        if (!mAudioNoisyReceiverRegistered) {
-            mContext.registerReceiver(mAudioNoisyReceiver, mAudioNoisyIntentFilter);
-            mAudioNoisyReceiverRegistered = true;
-        }
-    }
-
-    private void unregisterAudioNoisyReceiver() {
-        if (mAudioNoisyReceiverRegistered) {
-            mContext.unregisterReceiver(mAudioNoisyReceiver);
-            mAudioNoisyReceiverRegistered = false;
         }
     }
 
