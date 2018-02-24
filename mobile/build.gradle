@@ -19,6 +19,10 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 
+kapt {
+    generateStubs = false
+}
+
 android {
     compileSdkVersion 25
     buildToolsVersion '26.0.2'
@@ -46,6 +50,9 @@ android {
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            aaptOptions {
+                cruncherEnabled = false
+            }
         }
     }
 

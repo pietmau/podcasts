@@ -7,6 +7,9 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 
+kapt {
+    generateStubs = false
+}
 
 android {
     compileSdkVersion 25
@@ -35,6 +38,9 @@ android {
             proguardFile 'proguard-files/rxjava.pro'
             proguardFile 'proguard-files/retrofit.pro'
             testCoverageEnabled = false
+            aaptOptions {
+                cruncherEnabled = false
+            }
         }
     }
 
