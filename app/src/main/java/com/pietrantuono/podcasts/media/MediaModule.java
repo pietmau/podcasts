@@ -9,6 +9,8 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 
+import java.io.IOException;
+
 import javax.inject.Named;
 
 import dagger.Module;
@@ -33,7 +35,11 @@ public class MediaModule {
 
     @Provides
     ExtractorMediaSource.EventListener provideExtractorMediaSourceEventListener() {
-        return error -> {
+        return new ExtractorMediaSource.EventListener() {
+            @Override
+            public void onLoadError(IOException error) {
+
+            }
         };
     }
 

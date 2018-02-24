@@ -19,6 +19,10 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 
+kapt {
+    generateStubs = false
+}
+
 android {
     compileSdkVersion 25
     buildToolsVersion '26.0.2'
@@ -46,6 +50,10 @@ android {
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            aaptOptions {
+                cruncherEnabled = false
+            }
+            crunchPngs false
         }
     }
 
@@ -62,8 +70,10 @@ android {
     productFlavors {
         dev {
             dimension "stage"
+            minSdkVersion 21
             resConfigs "en", "xxhdpi"
         }
+
         prod {
             dimension "stage"
         }
@@ -115,7 +125,7 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-    kapt 'com.google.dagger:dagger-compiler:2.8'
-    compile 'com.google.dagger:dagger:2.8'
+    kapt 'com.google.dagger:dagger-compiler:2.14.1'
+    compile 'com.google.dagger:dagger:2.14.1'
 }
 

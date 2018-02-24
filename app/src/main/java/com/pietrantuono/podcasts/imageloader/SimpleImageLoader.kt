@@ -9,7 +9,7 @@ import com.pietrantuono.podcasts.R
 
 class SimpleImageLoader {
 
-    fun displayImage(url: String?, imageView: ImageView, podcastImageLoadingListener: ImageLoadingListener) {
+    fun displayImage(url: String?, imageView: ImageView?, podcastImageLoadingListener: ImageLoadingListener) {
         ImageLoader.getInstance().displayImage(url, imageView, options, podcastImageLoadingListener)
     }
 

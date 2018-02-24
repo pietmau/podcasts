@@ -13,7 +13,7 @@ import com.pietrantuono.podcasts.databinding.EpisodeViewBinding
 import models.pojos.Episode
 
 class EpisodeView : RelativeLayout {
-    private val binding: EpisodeViewBinding
+    private val binding: EpisodeViewBinding?
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         binding = DataBindingUtil.inflate(context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater,
@@ -22,21 +22,21 @@ class EpisodeView : RelativeLayout {
 
     fun setEpisode(episode: Episode?) {
         episode?.let {
-            binding.viewModel = EpisodeViewModel(it, ResourcesProvider(context))
+            binding?.viewModel = EpisodeViewModel(it, ResourcesProvider(context))
             decideWhatToShow(it)
         }
     }
 
     private fun decideWhatToShow(episode: Episode) {
         if (episode.summary == null) {
-            binding.summary.visibility = View.GONE
+            binding?.summary?.visibility = View.GONE
         }
         if (episode.description == null) {
-            binding.description.visibility = View.GONE
+            binding?.description?.visibility = View.GONE
         }
         if (episode.description != null && episode.summary != null) {
             if (episode.description.equals(episode.summary, true)) {
-                binding.description.visibility = View.GONE
+                binding?.description?.visibility = View.GONE
             }
         }
     }

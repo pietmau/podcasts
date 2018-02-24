@@ -1,20 +1,21 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
-apply plugin: 'me.tatarka.retrolambda'
 
 apply plugin: 'com.jakewharton.hugo'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
-apply plugin: 'jacoco'
 
+kapt {
+    generateStubs = false
+}
 
 android {
     compileSdkVersion 25
     defaultConfig {
         applicationId "com.pppp.podcasts"
-        minSdkVersion 17
+        minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -37,12 +38,27 @@ android {
             proguardFile 'proguard-files/rxjava.pro'
             proguardFile 'proguard-files/retrofit.pro'
             testCoverageEnabled = false
+            aaptOptions {
+                cruncherEnabled = false
+            }
+            ext.enableCrashlytics = false
+            ext.alwaysUpdateBuildId = false
+            crunchPngs false
         }
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+    flavorDimensions "stage"
+
+    productFlavors {
+        dev {
+            dimension "stage"
+            minSdkVersion 21
+            resConfigs "en", "xxhdpi"
+        }
+
+        prod {
+            dimension "stage"
+        }
     }
 
     packagingOptions {
@@ -63,18 +79,6 @@ android {
     lintOptions {
         abortOnError false
     }
-
-    flavorDimensions "stage"
-
-    productFlavors {
-        dev {
-            dimension "stage"
-            resConfigs "en", "xxhdpi"
-        }
-        prod {
-            dimension "stage"
-        }
-    }
 }
 
 configurations.all {
@@ -85,6 +89,7 @@ configurations.all {
         force 'com.google.android.gms:play-services-tasks:11.4.2'
         force 'com.google.android.gms:play-services-basement:11.4.2'
         force 'com.android.support:appcompat-v7:25.3.1'
+        force 'com.android.support:support-core-utils:25.4.0'
     }
 }
 
@@ -94,8 +99,6 @@ configurations {
 
 dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    //    compile 'com.rometools:rome:1.7.0'
-    //    compile 'com.rometools:rome-modules:1.7.0'
     kapt "com.android.databinding:compiler:3.0.0-alpha5"
     compile 'android.arch.lifecycle:runtime:1.0.0-alpha5'
     compile 'android.arch.lifecycle:extensions:1.0.0-alpha5'
@@ -110,17 +113,13 @@ dependencies {
     compile 'com.android.support:palette-v7:25.4.0'
     compile 'com.android.support:design:25.4.0'
     compile 'com.android.support:preference-v7:25.4.0'
-    //compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    //    compile 'io.reactivex:rxandroid:1.2.1'
-    //    compile 'io.reactivex:rxjava:1.1.6'
     compile 'com.jakewharton:butterknife:8.4.0'
     compile 'com.android.support:support-v4:25.4.0'
     compile 'com.google.android.exoplayer:exoplayer:r2.4.3'
-    //compile 'com.tonyodev.fetch:fetch:1.1.3'
     testCompile 'junit:junit:4.12'
     testCompile 'com.nhaarman:mockito-kotlin-kt1.1:1.5.0'
-    kapt 'com.google.dagger:dagger-compiler:2.8'
-    compile 'com.google.dagger:dagger:2.8'
+    kapt 'com.google.dagger:dagger-compiler:2.14.1'
+    compile 'com.google.dagger:dagger:2.14.1'
     kapt 'com.jakewharton:butterknife-compiler:8.4.0'
     provided 'javax.annotation:jsr250-api:1.0'
     compile 'com.android.support:cardview-v7:25.4.0'
@@ -128,7 +127,6 @@ dependencies {
     compile 'javax.annotation:jsr250-api:1.0'
     compile 'io.reactivex:rxjava:1.1.6'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    //compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.retrofit2:retrofit-converters:2.1.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
@@ -137,15 +135,12 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {
         transitive = true
     }
-    compile 'com.android.support:multidex:1.0.1'
     compile 'com.thoughtbot:expandablerecyclerview:1.3'
     compile 'org.jetbrains.anko:anko:0.10.2'
     compile 'com.facebook.stetho:stetho:1.5.0'
     compile 'com.google.firebase:firebase-database:11.4.2'
     compile 'com.kelvinapps:rxfirebase:0.0.15'
-
     api project(path: ':mobile')
-
     ktlint "com.github.shyiko:ktlint:0.14.0"
 }
 
