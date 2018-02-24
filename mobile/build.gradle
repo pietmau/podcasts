@@ -53,6 +53,7 @@ android {
             aaptOptions {
                 cruncherEnabled = false
             }
+            crunchPngs false
         }
     }
 
@@ -62,6 +63,20 @@ android {
 
     dexOptions {
         incremental true
+    }
+
+    flavorDimensions "stage"
+
+    productFlavors {
+        dev {
+            dimension "stage"
+            minSdkVersion 21
+            resConfigs "en", "xxhdpi"
+        }
+
+        prod {
+            dimension "stage"
+        }
     }
 }
 
