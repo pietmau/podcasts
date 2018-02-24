@@ -41,9 +41,24 @@ android {
             aaptOptions {
                 cruncherEnabled = false
             }
+            ext.enableCrashlytics = false
+            crunchPngs false
         }
     }
 
+    flavorDimensions "stage"
+
+    productFlavors {
+        dev {
+            dimension "stage"
+            minSdkVersion 21
+            resConfigs "en", "xxhdpi"
+        }
+
+        prod {
+            dimension "stage"
+        }
+    }
 
     packagingOptions {
         exclude 'rome-utils-1.7.0.jar'
