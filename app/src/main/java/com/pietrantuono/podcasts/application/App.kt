@@ -1,9 +1,9 @@
 package com.pietrantuono.podcasts.application
 
+import android.app.Application
 import android.content.ComponentName
 import android.content.ServiceConnection
 import android.os.IBinder
-import android.support.multidex.MultiDexApplication
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.core.CrashlyticsCore
 import com.facebook.stetho.Stetho
@@ -16,7 +16,7 @@ import io.realm.RealmConfiguration
 import models.pojos.DataRealmLibraryModule
 import javax.inject.Inject
 
-class App : MultiDexApplication(), ServiceConnection {
+class App : Application(), ServiceConnection {
     private var serviceIsBound: Boolean = false
     var appComponent: ApplicationComponent? = null
     @Inject lateinit var logger: DebugLogger
