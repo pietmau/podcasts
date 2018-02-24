@@ -63,18 +63,6 @@ android {
     lintOptions {
         abortOnError false
     }
-
-    flavorDimensions "stage"
-
-    productFlavors {
-        dev {
-            dimension "stage"
-            resConfigs "en", "xxhdpi"
-        }
-        prod {
-            dimension "stage"
-        }
-    }
 }
 
 configurations.all {
