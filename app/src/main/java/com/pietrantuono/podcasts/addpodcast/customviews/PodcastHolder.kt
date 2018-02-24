@@ -15,7 +15,7 @@ import models.pojos.Podcast
 
 class PodcastHolder(itemView: View, private val resources: ResourcesProvider,
                     private val loader: SimpleImageLoader) : RecyclerView.ViewHolder(itemView) {
-    private val binding: FindPodcastItemBinding
+    private val binding: FindPodcastItemBinding?
 
     init {
         binding = DataBindingUtil.bind<FindPodcastItemBinding>(itemView)
@@ -24,20 +24,20 @@ class PodcastHolder(itemView: View, private val resources: ResourcesProvider,
     fun onBindViewHolder(podcast: Podcast, onItemClickedClickedListener:
     OnItemClickedClickedListener, position: Int) {
         val viewModel = SinlglePodcastViewModel(podcast, resources)
-        binding.setVariable(BR.sinlglePodcastViewModel, viewModel)
-        binding.executePendingBindings()
-        binding.titleContainer.setBackgroundColor(resources.getColor(R.color.colorPrimary))
+        binding?.setVariable(BR.sinlglePodcastViewModel, viewModel)
+        binding?.executePendingBindings()
+        binding?.titleContainer?.setBackgroundColor(resources.getColor(R.color.colorPrimary))
         setUpClickListener(podcast, position, onItemClickedClickedListener)
         loadImage()
     }
 
     private fun loadImage() {
         val listener = ImageLoadingListenerWithPalette(binding, resources)
-        loader.displayImage(binding.sinlglePodcastViewModel?.imageUrl, binding.podcastImage, listener)
+        loader.displayImage(binding?.sinlglePodcastViewModel?.imageUrl, binding?.podcastImage, listener)
     }
 
     private fun setUpClickListener(podcast: Podcast?, position: Int, listener: OnItemClickedClickedListener) {
-        binding.podcastImage.setOnClickListener {
+        binding?.podcastImage?.setOnClickListener {
             listener.onItemClicked(podcast, binding.podcastImage, position, binding.titleContainer)
         }
     }

@@ -11,7 +11,7 @@ import models.pojos.Episode
 
 
 class EpisodeHolder(itemView: View, private val resourcesProvider: ResourcesProvider) : RecyclerView.ViewHolder(itemView) {
-    private val dataBinding: ViewDataBinding
+    private val dataBinding: ViewDataBinding?
 
     init {
         dataBinding = DataBindingUtil.bind<ViewDataBinding>(itemView)
@@ -19,9 +19,9 @@ class EpisodeHolder(itemView: View, private val resourcesProvider: ResourcesProv
 
     fun bind(episode: Episode, clickListener: EpisodesAdapter.OnItemClickListener?) {
         val podcastEpisodeViewModel = EpisodeViewModel(episode, resourcesProvider)
-        dataBinding.setVariable(BR.viewModel, podcastEpisodeViewModel)
-        dataBinding.executePendingBindings()
-        dataBinding.root.setOnClickListener{
+        dataBinding?.setVariable(BR.viewModel, podcastEpisodeViewModel)
+        dataBinding?.executePendingBindings()
+        dataBinding?.root?.setOnClickListener{
             clickListener?.onItemClick(episode)
         }
     }
