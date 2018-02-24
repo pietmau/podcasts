@@ -23,8 +23,6 @@ buildscript {
 
         classpath 'io.fabric.tools:gradle:1.+'//TODO
 
-        classpath 'me.tatarka:gradle-retrolambda:3.2.4'
-
         // Kotlin
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
