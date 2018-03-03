@@ -10,13 +10,15 @@ class StatusManager {
     var callback: CustomControlsPresenter? = null
     private var config: CustomControls.Configuration? = null
 
-    fun updatePlaybackState(state: PlaybackStateCompat?) {
-        when (state?.state) {
-            STATE_PLAYING -> onStatePlaying()
-            STATE_PAUSED -> onStatePaused()
-            STATE_NONE, STATE_STOPPED -> onStateNone()
-            STATE_BUFFERING -> onStateBuffering()
-            STATE_ERROR -> onError(state)
+    fun updatePlaybackState(playbackStateCompat: PlaybackStateCompat?) {
+        if (isPlayingCurrentEpisode()) {
+            when (playbackStateCompat?.state) {
+                STATE_PLAYING -> onStatePlaying()
+                STATE_PAUSED -> onStatePaused()
+                STATE_BUFFERING -> onStateBuffering()
+                STATE_NONE, STATE_STOPPED -> onStateNone()
+                STATE_ERROR -> onError(playbackStateCompat)
+            }
         }
     }
 
@@ -47,35 +49,42 @@ class StatusManager {
     }
 
     fun onPausePlayClicked() {
-        if (dontNeedToDownload()) {
-            callback?.getPlaybackState()?.state?.let {
-                when (it) {
-                    STATE_PLAYING, STATE_BUFFERING -> onPauseClicked()
-                    STATE_PAUSED, STATE_STOPPED -> onPlayClicked()
-                    STATE_NONE -> onPlayClicked()
-                }
-            }
+        if (doNotNeedToDownload()) {
+            playPauseOrStartNew()
         } else {
-            episode?.uri?.let {
-                callback?.sendCustomActionDownloadAndPlay(it)
+            downloadAndPlay()
+        }
+    }
+
+    private fun playPauseOrStartNew() {
+        if (isPlayingCurrentEpisode()) {
+            playOrPause()
+        } else {
+            startNewPodcast()
+        }
+    }
+
+    private fun playOrPause() {
+        callback?.getPlaybackState()?.let {
+            when (it) {
+                STATE_PLAYING, STATE_BUFFERING -> pause()
+                STATE_PAUSED, STATE_STOPPED, STATE_NONE -> play()
             }
         }
     }
 
-    private fun onPlayClicked() {
-        if (isPlayingCurrentEpisode()) {
-            callback?.play()
-            return
+    private fun downloadAndPlay() {
+        episode?.uri?.let {
+            callback?.sendCustomActionDownloadAndPlay(it)
         }
-        startNewPodcast()
     }
 
-    private fun onPauseClicked() {
-        if (isPlayingCurrentEpisode()) {
-            callback?.pause()
-            return
-        }
-        startNewPodcast()
+    private fun play() {
+        callback?.play()
+    }
+
+    private fun pause() {
+        callback?.pause()
     }
 
     private fun startNewPodcast() {
@@ -90,7 +99,7 @@ class StatusManager {
         return episode?.uri.equals(currentlyPlayingMediaId, true)
     }
 
-    fun dontNeedToDownload(): Boolean =
+    fun doNotNeedToDownload(): Boolean =
             if (episode?.downloaded == true) {
                 true
             } else {

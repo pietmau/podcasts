@@ -160,8 +160,8 @@ class CustomControlsPresenter(
         mediaBrowser.playFromMediaId(uri)
     }
 
-    fun getPlaybackState(): PlaybackStateCompat? {
-        return mediaBrowser.playbackState
+    fun getPlaybackState(): Int? {
+        return mediaBrowser.playbackState?.state
     }
 
     fun getCurrentlyPlayingMediaId(): String? {
